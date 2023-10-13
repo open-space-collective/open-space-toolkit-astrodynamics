@@ -1,0 +1,180 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean}{}\doxysection{ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::Brouwer\+Lyddane\+Mean Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean}\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+
+
+Brouwer-\/\+Lyddane Mean Orbital Elements. Short and/or secular periodic variations are averaged.  
+
+
+
+
+{\ttfamily \#include $<$Brouwer\+Lyddane\+Mean.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::Brouwer\+Lyddane\+Mean\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.089552cm]{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a765d5c025c9a2746ca9b60a41b650fc6}{Brouwer\+Lyddane\+Mean}} (const Length \&a\+Semi\+Major\+Axis, const Real \&an\+Eccentricity, const Angle \&an\+Inclination, const Angle \&a\+Raan, const Angle \&an\+Aop, const Angle \&a\+Mean\+Anomaly)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a8f54461034f97c24b59d217062c55416}{get\+Mean\+Anomaly}} () const override
+\begin{DoxyCompactList}\small\item\em Get Mean anomaly. \end{DoxyCompactList}\item 
+virtual Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a471d6a3db39f22cc7507ab679238a7cf}{get\+True\+Anomaly}} () const override
+\begin{DoxyCompactList}\small\item\em Get True anomaly. \end{DoxyCompactList}\item 
+virtual Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ab8af6a9abeef92deda9b3f9a4d6d323f}{get\+Eccentric\+Anomaly}} () const override
+\begin{DoxyCompactList}\small\item\em Get Eccentric anomaly. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ac79f001e40f98db0df86e5234129753e}{get\+Cartesian\+State}} (const Derived \&a\+Gravitational\+Parameter, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\begin{DoxyCompactList}\small\item\em Get cartesian state. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a094c0cc86ce2e4304abadaf878d25681}{to\+C\+OE}} () const =0
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Vector6d \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a418decf3897242c7f4835578268fffbf}{Cartesian}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} \&a\+Cartesian\+State, const Derived \&a\+Gravitational\+Parameter, std\+::function$<$ Vector6d(const Vector6d \&)$>$ to\+C\+O\+E\+Vector)
+\begin{DoxyCompactList}\small\item\em Convert cartesian state to Vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Brouwer-\/\+Lyddane Mean Orbital Elements. Short and/or secular periodic variations are averaged. 
+
+\href{https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l}{\texttt{ https\+://space.\+stackexchange.\+com/questions/22151/whats-\/a-\/brouwer-\/lyddane-\/mean-\/semi-\/major-\/axis-\/or-\/any-\/other-\/for-\/an-\/orbit-\/in-\/a-\/l}} 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a765d5c025c9a2746ca9b60a41b650fc6}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a765d5c025c9a2746ca9b60a41b650fc6}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!BrouwerLyddaneMean@{BrouwerLyddaneMean}}
+\index{BrouwerLyddaneMean@{BrouwerLyddaneMean}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{BrouwerLyddaneMean()}{BrouwerLyddaneMean()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::\+Brouwer\+Lyddane\+Mean (\begin{DoxyParamCaption}\item[{const Length \&}]{a\+Semi\+Major\+Axis,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Angle \&}]{an\+Inclination,  }\item[{const Angle \&}]{a\+Raan,  }\item[{const Angle \&}]{an\+Aop,  }\item[{const Angle \&}]{a\+Mean\+Anomaly }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Semi\+Major\+Axis} & A semi-\/major axis \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Inclination} & An inclination \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Raan} & A raan \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Aop} & An aop \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Mean\+Anomaly} & A mean anomaly \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a418decf3897242c7f4835578268fffbf}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a418decf3897242c7f4835578268fffbf}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!Cartesian@{Cartesian}}
+\index{Cartesian@{Cartesian}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{Cartesian()}{Cartesian()}}
+{\footnotesize\ttfamily Vector6d ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::\+Cartesian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} \&}]{a\+Cartesian\+State,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{std\+::function$<$ Vector6d(const Vector6d \&)$>$}]{to\+C\+O\+E\+Vector }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Convert cartesian state to Vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Cartesian\+State} & A cartesian state \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter \\
+\hline
+\mbox{\texttt{ in}}  & {\em to\+C\+O\+E\+Vector} & A converting function \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ac79f001e40f98db0df86e5234129753e}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ac79f001e40f98db0df86e5234129753e}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!getCartesianState@{getCartesianState}}
+\index{getCartesianState@{getCartesianState}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{getCartesianState()}{getCartesianState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::get\+Cartesian\+State (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+
+
+Get cartesian state. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & A frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cartesian state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ab8af6a9abeef92deda9b3f9a4d6d323f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ab8af6a9abeef92deda9b3f9a4d6d323f}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!getEccentricAnomaly@{getEccentricAnomaly}}
+\index{getEccentricAnomaly@{getEccentricAnomaly}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{getEccentricAnomaly()}{getEccentricAnomaly()}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::get\+Eccentric\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get Eccentric anomaly. 
+
+\begin{DoxyReturn}{Returns}
+Eccentric anomaly 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a63227bc5369988d4dfa8e1e30fb994dd}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a8f54461034f97c24b59d217062c55416}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a8f54461034f97c24b59d217062c55416}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!getMeanAnomaly@{getMeanAnomaly}}
+\index{getMeanAnomaly@{getMeanAnomaly}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{getMeanAnomaly()}{getMeanAnomaly()}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::get\+Mean\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get Mean anomaly. 
+
+\begin{DoxyReturn}{Returns}
+Mean anomaly 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab82e0224409b81f27adf1f0943e7c838}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a471d6a3db39f22cc7507ab679238a7cf}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a471d6a3db39f22cc7507ab679238a7cf}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!getTrueAnomaly@{getTrueAnomaly}}
+\index{getTrueAnomaly@{getTrueAnomaly}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{getTrueAnomaly()}{getTrueAnomaly()}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::get\+True\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get True anomaly. 
+
+\begin{DoxyReturn}{Returns}
+True anomaly 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a291fe898d738de282115866339f6cb79}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a094c0cc86ce2e4304abadaf878d25681}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a094c0cc86ce2e4304abadaf878d25681}} 
+\index{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}!toCOE@{toCOE}}
+\index{toCOE@{toCOE}!ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean@{ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean}}
+\doxysubsubsection{\texorpdfstring{toCOE()}{toCOE()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+::to\+C\+OE (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_long_a8914dc021f0da447c7bf80e232235429}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+Long}}, and \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short_a211f5bd428ddea37fef7cd0e142c512b}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean\+Short}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\+Brouwer\+Lyddane\+Mean/\mbox{\hyperlink{_brouwer_lyddane_mean_8hpp}{Brouwer\+Lyddane\+Mean.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\+Brouwer\+Lyddane\+Mean/\mbox{\hyperlink{_brouwer_lyddane_mean_8cpp}{Brouwer\+Lyddane\+Mean.\+cpp}}\end{DoxyCompactItemize}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mathnumericalsolver_1219',['MathNumericalSolver',['../namespaceostk_1_1astro_1_1trajectory_1_1state.html#a46fc561b22920faa369a72e3714a50ed',1,'ostk::astro::trajectory::state']]]
+  ['framemanager_1288',['FrameManager',['../namespaceostk_1_1astro_1_1trajectory.html#ae7b072ea5480aba1e6b2dcbbb878d4e1',1,'ostk::astro::trajectory']]]
 ];

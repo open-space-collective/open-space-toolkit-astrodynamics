@@ -11,5 +11,6 @@ var dir_2297ca1089d47f29cc83c62b59047703 =
     [ "Propagator.cpp", "_propagator_8cpp.html", "_propagator_8cpp" ],
     [ "Segment.cpp", "_segment_8cpp.html", "_segment_8cpp" ],
     [ "Sequence.cpp", "_sequence_8cpp.html", "_sequence_8cpp" ],
-    [ "State.cpp", "_trajectory_2_state_8cpp.html", "_trajectory_2_state_8cpp" ]
+    [ "State.cpp", "_trajectory_2_state_8cpp.html", "_trajectory_2_state_8cpp" ],
+    [ "StateBuilder.cpp", "_state_builder_8cpp.html", "_state_builder_8cpp" ]
 ];

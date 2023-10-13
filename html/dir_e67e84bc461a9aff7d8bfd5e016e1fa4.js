@@ -1,5 +1,6 @@
 var dir_e67e84bc461a9aff7d8bfd5e016e1fa4 =
 [
+    [ "BrouwerLyddaneMean", "dir_65cf0ffa12a99a9ac85067d20d9de676.html", "dir_65cf0ffa12a99a9ac85067d20d9de676" ],
     [ "Kepler", "dir_78f738f89d4d9dd9b2bc0bce28b2a505.html", "dir_78f738f89d4d9dd9b2bc0bce28b2a505" ],
     [ "SGP4", "dir_bf72deb1ebca8aec77034d0a32a9e016.html", "dir_bf72deb1ebca8aec77034d0a32a9e016" ],
     [ "Kepler.hpp", "_kepler_8hpp.html", "_kepler_8hpp" ],

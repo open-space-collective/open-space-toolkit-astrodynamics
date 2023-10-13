@@ -9,6 +9,12 @@ Classical Orbital Elements (\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_
 
 {\ttfamily \#include $<$C\+O\+E.\+hpp$>$}
 
+Inheritance diagram for ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::C\+OE\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.089552cm]{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -24,65 +30,102 @@ enum \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kep
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94a3361420b1530eeff8345432804abbae9}{Element\+::\+Eccentric\+Anomaly}}
  \}
 \item 
+enum \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \{ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0faf827cf462f62848df37c5e1e94a4da74}{Anomaly\+Type\+::\+True}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0fa3d6c9ac08ada31c184094bbc67afe00d}{Anomaly\+Type\+::\+Mean}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0fab149e685f8c77dd4cbd5079601d78f4f}{Anomaly\+Type\+::\+Eccentric}}
+ \}
+\item 
 typedef Pair$<$ Position, Velocity $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{Cartesian\+State}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad978e3d9271251a8ded920e56f2862f8}{C\+OE}} (const Length \&a\+Semi\+Major\+Axis, const Real \&an\+Eccentricity, const Angle \&an\+Inclination, const Angle \&a\+Raan, const Angle \&an\+Aop, const Angle \&a\+True\+Anomaly)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a02a4cbc11da755b76c84cb89d191af12}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&a\+C\+OE) const
-\item 
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a072f00e44aa7f55d6433aa39c52f367e}{operator!=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&a\+C\+OE) const
-\item 
+\begin{DoxyCompactList}\small\item\em Not Equal to operator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a77c39d17b08185697c0e369de127053b}{is\+Defined}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Check if \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} is defined. \end{DoxyCompactList}\item 
 Length \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4ef3444242660722bd7b4d81df81e04f}{get\+Semi\+Major\+Axis}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Semi Major Axis. \end{DoxyCompactList}\item 
 Real \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aa560280115b92a228a6aa7a570870dcd}{get\+Eccentricity}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Eccentricity. \end{DoxyCompactList}\item 
 Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a898cdb82f58745f66529fc0888be1442}{get\+Inclination}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Inclination. \end{DoxyCompactList}\item 
 Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a76b2061390f51954a16579940c6a81c9}{get\+Raan}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Right ascenscion of the ascending node. \end{DoxyCompactList}\item 
 Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a046e29af64478c59cc37a60e62af0564}{get\+Aop}} () const
-\item 
-Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a291fe898d738de282115866339f6cb79}{get\+True\+Anomaly}} () const
-\item 
-Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab82e0224409b81f27adf1f0943e7c838}{get\+Mean\+Anomaly}} () const
-\item 
-Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a63227bc5369988d4dfa8e1e30fb994dd}{get\+Eccentric\+Anomaly}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Argument of periapsis. \end{DoxyCompactList}\item 
+virtual Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a291fe898d738de282115866339f6cb79}{get\+True\+Anomaly}} () const
+\begin{DoxyCompactList}\small\item\em Get True anomaly. \end{DoxyCompactList}\item 
+virtual Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab82e0224409b81f27adf1f0943e7c838}{get\+Mean\+Anomaly}} () const
+\begin{DoxyCompactList}\small\item\em Get Mean anomaly. \end{DoxyCompactList}\item 
+virtual Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a63227bc5369988d4dfa8e1e30fb994dd}{get\+Eccentric\+Anomaly}} () const
+\begin{DoxyCompactList}\small\item\em Get Eccentric anomaly. \end{DoxyCompactList}\item 
+Length \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a64ebfde270ce5dc39f1547f129ace1e7}{get\+Periapsis\+Radius}} () const
+\begin{DoxyCompactList}\small\item\em Get Periapsis radius. \end{DoxyCompactList}\item 
+Length \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac1c4361ac117fcf6a120624ad2754319}{get\+Apoapsis\+Radius}} () const
+\begin{DoxyCompactList}\small\item\em Get Apoapsis radius. \end{DoxyCompactList}\item 
 Derived \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aad38a937538991a69cc88d3ded204516}{get\+Mean\+Motion}} (const Derived \&a\+Gravitational\+Parameter) const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Mean motion. \end{DoxyCompactList}\item 
 Duration \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a57f28aed6d08617af88c0025bb7b6ccf}{get\+Orbital\+Period}} (const Derived \&a\+Gravitational\+Parameter) const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Orbital period. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3ebb7ead964fda0471f1342ef6701080}{get\+Cartesian\+State}} (const Derived \&a\+Gravitational\+Parameter, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
-\item 
+\begin{DoxyCompactList}\small\item\em Get Cartesian state. \end{DoxyCompactList}\item 
+Vector6d \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a78ec213363e8bdfbb7d66cbc471c5b64}{get\+S\+I\+Vector}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \&an\+Anomaly\+Type) const
+\begin{DoxyCompactList}\small\item\em Get vector of elements in SI units. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3a6d1f36f7caa0009c8dd653ed5ddd33}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Print \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a65869bb9f9417dde5e230bbd4ab52fac}{Undefined}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Construct an undefined \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}}. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a6fd98b5a37cd8143667c47418513fea5}{Cartesian}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} \&a\+Cartesian\+State, const Derived \&a\+Gravitational\+Parameter)
-\item 
+\begin{DoxyCompactList}\small\item\em Construct a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} from a cartesian state. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad2179a88244ded3ad19f1fa3efc8ac29}{From\+S\+I\+Vector}} (const Vector6d \&a\+C\+O\+E\+Vector, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \&an\+Anomaly\+Type)
+\begin{DoxyCompactList}\small\item\em Construct a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} from a vector. \end{DoxyCompactList}\item 
 static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a862d6d129ee8b17faa4b786ffec9e1f4}{Eccentric\+Anomaly\+From\+True\+Anomaly}} (const Angle \&a\+True\+Anomaly, const Real \&an\+Eccentricity)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert True anomaly to Eccentric anomaly. \end{DoxyCompactList}\item 
 static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a840b51ad645eee26060462d8ffff83af}{True\+Anomaly\+From\+Eccentric\+Anomaly}} (const Angle \&an\+Eccentric\+Anomaly, const Real \&an\+Eccentricity)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert Eccentric anomaly to True anomaly. \end{DoxyCompactList}\item 
 static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac45f3543991d1c81a0341e141713126f}{Mean\+Anomaly\+From\+Eccentric\+Anomaly}} (const Angle \&an\+Eccentric\+Anomaly, const Real \&an\+Eccentricity)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert Mean anomaly to Eccentric anomaly. \end{DoxyCompactList}\item 
 static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a03697221660ff4c30f4eb19ecdc89159}{Eccentric\+Anomaly\+From\+Mean\+Anomaly}} (const Angle \&a\+Mean\+Anomaly, const Real \&an\+Eccentricity, const Real \&a\+Tolerance)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert Eccentric anomaly to Mean anomaly. \end{DoxyCompactList}\item 
+static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1ed1f5655785c3588126d82190f76933}{True\+Anomaly\+From\+Mean\+Anomaly}} (const Angle \&a\+Mean\+Anomly, const Real \&an\+Eccentricity, const Real \&a\+Tolerance)
+\begin{DoxyCompactList}\small\item\em Convert Mean anomaly to True anomaly. \end{DoxyCompactList}\item 
 static String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a226fd03919cb117cc8180bcc8e677f3a}{String\+From\+Element}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&an\+Element)
 \begin{DoxyCompactList}\small\item\em Convert element to string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a83a14175137d40da476fd5c606f76bfd}{C\+OE}} (const Length \&a\+Semi\+Major\+Axis, const Real \&an\+Eccentricity, const Angle \&an\+Inclination, const Angle \&a\+Raan, const Angle \&an\+Aop, const Angle \&an\+Anomaly, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \&an\+Anomaly\+Type)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Length \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_acfebeb89693d778b3ff27da941ed4597}{semi\+Major\+Axis\+\_\+}}
+\item 
+Real \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab26b1f41201b5cfd5a7c3afc84aae257}{eccentricity\+\_\+}}
+\item 
+Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a228173562d31e942612b5fc8b89c6d91}{inclination\+\_\+}}
+\item 
+Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a9b63625b1f7fe150d5732d0f0e786859}{raan\+\_\+}}
+\item 
+Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aef80b781c56fefa26466a5bfbc64f0da}{aop\+\_\+}}
+\item 
+Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a40465f2522463aad87d7c01dcdd6e9d3}{anomaly\+\_\+}}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3b964f5f22dd42cbb8710b0723059b4b}{anomaly\+Type\+\_\+}}
+\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
 std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a32e0ab4a9a11b3315114f2932c58f68c}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&a\+C\+OE)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -100,6 +143,26 @@ Classical Orbital Elements (\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_
 
 
 \doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!AnomalyType@{AnomalyType}}
+\index{AnomalyType@{AnomalyType}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{AnomalyType}{AnomalyType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Anomaly\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{True@{True}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!True@{True}}}\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0faf827cf462f62848df37c5e1e94a4da74}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0faf827cf462f62848df37c5e1e94a4da74}} 
+True&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Mean@{Mean}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!Mean@{Mean}}}\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0fa3d6c9ac08ada31c184094bbc67afe00d}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0fa3d6c9ac08ada31c184094bbc67afe00d}} 
+Mean&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Eccentric@{Eccentric}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!Eccentric@{Eccentric}}}\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0fab149e685f8c77dd4cbd5079601d78f4f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0fab149e685f8c77dd4cbd5079601d78f4f}} 
+Eccentric&\\
+\hline
+
+\end{DoxyEnumFields}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!Element@{Element}}
 \index{Element@{Element}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
@@ -146,9 +209,55 @@ Eccentric\+Anomaly&\\
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad978e3d9271251a8ded920e56f2862f8}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad978e3d9271251a8ded920e56f2862f8}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!COE@{COE}}
 \index{COE@{COE}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
-\doxysubsubsection{\texorpdfstring{COE()}{COE()}}
+\doxysubsubsection{\texorpdfstring{COE()}{COE()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+C\+OE (\begin{DoxyParamCaption}\item[{const Length \&}]{a\+Semi\+Major\+Axis,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Angle \&}]{an\+Inclination,  }\item[{const Angle \&}]{a\+Raan,  }\item[{const Angle \&}]{an\+Aop,  }\item[{const Angle \&}]{a\+True\+Anomaly }\end{DoxyParamCaption})}
 
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Semi\+Major\+Axis} & A semi-\/major axis \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Inclination} & An inclination \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Raan} & A raan \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Aop} & An aop \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+True\+Anomaly} & A true anomaly \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a83a14175137d40da476fd5c606f76bfd}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a83a14175137d40da476fd5c606f76bfd}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!COE@{COE}}
+\index{COE@{COE}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{COE()}{COE()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+C\+OE (\begin{DoxyParamCaption}\item[{const Length \&}]{a\+Semi\+Major\+Axis,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Angle \&}]{an\+Inclination,  }\item[{const Angle \&}]{a\+Raan,  }\item[{const Angle \&}]{an\+Aop,  }\item[{const Angle \&}]{an\+Anomaly,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \&}]{an\+Anomaly\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Semi\+Major\+Axis} & A semi-\/major axis \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Inclination} & An inclination \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Raan} & A raan \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Aop} & An aop \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Anomaly} & An anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Anomaly\+Type} & An anomaly type \\
+\hline
+\end{DoxyParams}
 
 
 \doxysubsection{Member Function Documentation}
@@ -158,35 +267,144 @@ Eccentric\+Anomaly&\\
 \doxysubsubsection{\texorpdfstring{Cartesian()}{Cartesian()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Cartesian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} \&}]{a\+Cartesian\+State,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Construct a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} from a cartesian state. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Cartesian\+State} & A cartesian state \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a03697221660ff4c30f4eb19ecdc89159}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a03697221660ff4c30f4eb19ecdc89159}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!EccentricAnomalyFromMeanAnomaly@{EccentricAnomalyFromMeanAnomaly}}
 \index{EccentricAnomalyFromMeanAnomaly@{EccentricAnomalyFromMeanAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{EccentricAnomalyFromMeanAnomaly()}{EccentricAnomalyFromMeanAnomaly()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Eccentric\+Anomaly\+From\+Mean\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{a\+Mean\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Real \&}]{a\+Tolerance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Convert Eccentric anomaly to Mean anomaly. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Eccentric\+Anomaly} & An eccentric anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Tolerance} & a tolerance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Mean anomaly 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a862d6d129ee8b17faa4b786ffec9e1f4}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a862d6d129ee8b17faa4b786ffec9e1f4}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!EccentricAnomalyFromTrueAnomaly@{EccentricAnomalyFromTrueAnomaly}}
 \index{EccentricAnomalyFromTrueAnomaly@{EccentricAnomalyFromTrueAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{EccentricAnomalyFromTrueAnomaly()}{EccentricAnomalyFromTrueAnomaly()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Eccentric\+Anomaly\+From\+True\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{a\+True\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Convert True anomaly to Eccentric anomaly. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+True\+Anomaly} & A true anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eccentric anomaly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad2179a88244ded3ad19f1fa3efc8ac29}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad2179a88244ded3ad19f1fa3efc8ac29}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!FromSIVector@{FromSIVector}}
+\index{FromSIVector@{FromSIVector}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{FromSIVector()}{FromSIVector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+From\+S\+I\+Vector (\begin{DoxyParamCaption}\item[{const Vector6d \&}]{a\+C\+O\+E\+Vector,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \&}]{an\+Anomaly\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Construct a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} from a vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & A vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Anomaly\+Type} & An anomaly type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a046e29af64478c59cc37a60e62af0564}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a046e29af64478c59cc37a60e62af0564}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getAop@{getAop}}
 \index{getAop@{getAop}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getAop()}{getAop()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Aop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get Argument of periapsis. 
+
+\begin{DoxyReturn}{Returns}
+Argument of periapsis 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac1c4361ac117fcf6a120624ad2754319}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac1c4361ac117fcf6a120624ad2754319}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getApoapsisRadius@{getApoapsisRadius}}
+\index{getApoapsisRadius@{getApoapsisRadius}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{getApoapsisRadius()}{getApoapsisRadius()}}
+{\footnotesize\ttfamily Length ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Apoapsis\+Radius (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get Apoapsis radius. 
+
+\begin{DoxyReturn}{Returns}
+Apoapsis radius 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3ebb7ead964fda0471f1342ef6701080}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3ebb7ead964fda0471f1342ef6701080}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getCartesianState@{getCartesianState}}
 \index{getCartesianState@{getCartesianState}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getCartesianState()}{getCartesianState()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a410fdbf5aa25ed4651f1b7337c678edc}{C\+O\+E\+::\+Cartesian\+State}} ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Cartesian\+State (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
 
+
+
+Get Cartesian state. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & A frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cartesian state 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a63227bc5369988d4dfa8e1e30fb994dd}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a63227bc5369988d4dfa8e1e30fb994dd}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getEccentricAnomaly@{getEccentricAnomaly}}
 \index{getEccentricAnomaly@{getEccentricAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getEccentricAnomaly()}{getEccentricAnomaly()}}
-{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Eccentric\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Eccentric\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Get Eccentric anomaly. 
+
+\begin{DoxyReturn}{Returns}
+Eccentric anomaly 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_ab8af6a9abeef92deda9b3f9a4d6d323f}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aa560280115b92a228a6aa7a570870dcd}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aa560280115b92a228a6aa7a570870dcd}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getEccentricity@{getEccentricity}}
@@ -194,17 +412,42 @@ Eccentric\+Anomaly&\\
 \doxysubsubsection{\texorpdfstring{getEccentricity()}{getEccentricity()}}
 {\footnotesize\ttfamily Real ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Eccentricity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get Eccentricity. 
+
+\begin{DoxyReturn}{Returns}
+Eccentricity 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a898cdb82f58745f66529fc0888be1442}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a898cdb82f58745f66529fc0888be1442}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getInclination@{getInclination}}
 \index{getInclination@{getInclination}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getInclination()}{getInclination()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Inclination (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get Inclination. 
+
+\begin{DoxyReturn}{Returns}
+Inclination 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab82e0224409b81f27adf1f0943e7c838}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab82e0224409b81f27adf1f0943e7c838}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getMeanAnomaly@{getMeanAnomaly}}
 \index{getMeanAnomaly@{getMeanAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getMeanAnomaly()}{getMeanAnomaly()}}
-{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Mean\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Mean\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Get Mean anomaly. 
+
+\begin{DoxyReturn}{Returns}
+Mean anomaly 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a8f54461034f97c24b59d217062c55416}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aad38a937538991a69cc88d3ded204516}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aad38a937538991a69cc88d3ded204516}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getMeanMotion@{getMeanMotion}}
@@ -212,29 +455,109 @@ Eccentric\+Anomaly&\\
 \doxysubsubsection{\texorpdfstring{getMeanMotion()}{getMeanMotion()}}
 {\footnotesize\ttfamily Derived ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Mean\+Motion (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption}) const}
 
+
+
+Get Mean motion. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Mean motion 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a57f28aed6d08617af88c0025bb7b6ccf}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a57f28aed6d08617af88c0025bb7b6ccf}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getOrbitalPeriod@{getOrbitalPeriod}}
 \index{getOrbitalPeriod@{getOrbitalPeriod}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getOrbitalPeriod()}{getOrbitalPeriod()}}
 {\footnotesize\ttfamily Duration ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Orbital\+Period (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption}) const}
 
+
+
+Get Orbital period. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Orbital period 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a64ebfde270ce5dc39f1547f129ace1e7}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a64ebfde270ce5dc39f1547f129ace1e7}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getPeriapsisRadius@{getPeriapsisRadius}}
+\index{getPeriapsisRadius@{getPeriapsisRadius}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{getPeriapsisRadius()}{getPeriapsisRadius()}}
+{\footnotesize\ttfamily Length ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Periapsis\+Radius (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get Periapsis radius. 
+
+\begin{DoxyReturn}{Returns}
+Periapsis radius 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a76b2061390f51954a16579940c6a81c9}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a76b2061390f51954a16579940c6a81c9}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getRaan@{getRaan}}
 \index{getRaan@{getRaan}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getRaan()}{getRaan()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Raan (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get Right ascenscion of the ascending node. 
+
+\begin{DoxyReturn}{Returns}
+Right ascenscion of the ascending node 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4ef3444242660722bd7b4d81df81e04f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4ef3444242660722bd7b4d81df81e04f}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getSemiMajorAxis@{getSemiMajorAxis}}
 \index{getSemiMajorAxis@{getSemiMajorAxis}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getSemiMajorAxis()}{getSemiMajorAxis()}}
 {\footnotesize\ttfamily Length ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Semi\+Major\+Axis (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get Semi Major Axis. 
+
+\begin{DoxyReturn}{Returns}
+Semi Major Axis 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a78ec213363e8bdfbb7d66cbc471c5b64}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a78ec213363e8bdfbb7d66cbc471c5b64}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getSIVector@{getSIVector}}
+\index{getSIVector@{getSIVector}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{getSIVector()}{getSIVector()}}
+{\footnotesize\ttfamily Vector6d ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+S\+I\+Vector (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} \&}]{an\+Anomaly\+Type }\end{DoxyParamCaption}) const}
+
+
+
+Get vector of elements in SI units. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Anomaly\+Type} & An anomaly type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a291fe898d738de282115866339f6cb79}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a291fe898d738de282115866339f6cb79}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!getTrueAnomaly@{getTrueAnomaly}}
 \index{getTrueAnomaly@{getTrueAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{getTrueAnomaly()}{getTrueAnomaly()}}
-{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+True\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+True\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Get True anomaly. 
+
+\begin{DoxyReturn}{Returns}
+True anomaly 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_a471d6a3db39f22cc7507ab679238a7cf}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::blm\+::\+Brouwer\+Lyddane\+Mean}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a77c39d17b08185697c0e369de127053b}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a77c39d17b08185697c0e369de127053b}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!isDefined@{isDefined}}
@@ -242,30 +565,86 @@ Eccentric\+Anomaly&\\
 \doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
 {\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Check if \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} is defined 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac45f3543991d1c81a0341e141713126f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac45f3543991d1c81a0341e141713126f}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!MeanAnomalyFromEccentricAnomaly@{MeanAnomalyFromEccentricAnomaly}}
 \index{MeanAnomalyFromEccentricAnomaly@{MeanAnomalyFromEccentricAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{MeanAnomalyFromEccentricAnomaly()}{MeanAnomalyFromEccentricAnomaly()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Mean\+Anomaly\+From\+Eccentric\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{an\+Eccentric\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Convert Mean anomaly to Eccentric anomaly. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Mean\+Anomaly} & A mean anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eccentric anomaly 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a072f00e44aa7f55d6433aa39c52f367e}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a072f00e44aa7f55d6433aa39c52f367e}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!operator"!=@{operator"!=}}
 \index{operator"!=@{operator"!=}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
 {\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&}]{a\+C\+OE }\end{DoxyParamCaption}) const}
 
+
+
+Not Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+OE} & A set of \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if C\+O\+Es are not equal 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a02a4cbc11da755b76c84cb89d191af12}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a02a4cbc11da755b76c84cb89d191af12}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!operator==@{operator==}}
 \index{operator==@{operator==}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
 {\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&}]{a\+C\+OE }\end{DoxyParamCaption}) const}
 
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+OE} & A set of \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if C\+O\+Es are equal 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3a6d1f36f7caa0009c8dd653ed5ddd33}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3a6d1f36f7caa0009c8dd653ed5ddd33}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!print@{print}}
 \index{print@{print}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{print()}{print()}}
 {\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
 
+
+
+Print \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a226fd03919cb117cc8180bcc8e677f3a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a226fd03919cb117cc8180bcc8e677f3a}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!StringFromElement@{StringFromElement}}
 \index{StringFromElement@{StringFromElement}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
@@ -290,6 +669,42 @@ String representing the element
 \doxysubsubsection{\texorpdfstring{TrueAnomalyFromEccentricAnomaly()}{TrueAnomalyFromEccentricAnomaly()}}
 {\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+True\+Anomaly\+From\+Eccentric\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{an\+Eccentric\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Convert Eccentric anomaly to True anomaly. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Eccentric\+Anomaly} & An eccentric anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True anomaly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1ed1f5655785c3588126d82190f76933}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1ed1f5655785c3588126d82190f76933}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!TrueAnomalyFromMeanAnomaly@{TrueAnomalyFromMeanAnomaly}}
+\index{TrueAnomalyFromMeanAnomaly@{TrueAnomalyFromMeanAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{TrueAnomalyFromMeanAnomaly()}{TrueAnomalyFromMeanAnomaly()}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+True\+Anomaly\+From\+Mean\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{a\+Mean\+Anomly,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Real \&}]{a\+Tolerance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Convert Mean anomaly to True anomaly. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Mean\+Anomaly} & A mean anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Tolerance} & a tolerance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True anomaly 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a65869bb9f9417dde5e230bbd4ab52fac}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a65869bb9f9417dde5e230bbd4ab52fac}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!Undefined@{Undefined}}
 \index{Undefined@{Undefined}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
@@ -298,12 +713,90 @@ String representing the element
 
 
 
+Construct an undefined \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}}. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad978e3d9271251a8ded920e56f2862f8}{COE}} coe = \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a65869bb9f9417dde5e230bbd4ab52fac}{COE::Undefined}}() ; \textcolor{comment}{// Undefined}}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Undefined coe 
+\end{DoxyReturn}
+
+
 \doxysubsection{Friends And Related Function Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a32e0ab4a9a11b3315114f2932c58f68c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a32e0ab4a9a11b3315114f2932c58f68c}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
 \doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
 {\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&}]{a\+C\+OE }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad978e3d9271251a8ded920e56f2862f8}{COE}}(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+C\+OE} & A set of \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a40465f2522463aad87d7c01dcdd6e9d3}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a40465f2522463aad87d7c01dcdd6e9d3}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!anomaly\_@{anomaly\_}}
+\index{anomaly\_@{anomaly\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{anomaly\_}{anomaly\_}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::anomaly\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3b964f5f22dd42cbb8710b0723059b4b}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a3b964f5f22dd42cbb8710b0723059b4b}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!anomalyType\_@{anomalyType\_}}
+\index{anomalyType\_@{anomalyType\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{anomalyType\_}{anomalyType\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a4bdb6ef15f4fbb6c68b261be07c55b0f}{Anomaly\+Type}} ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::anomaly\+Type\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aef80b781c56fefa26466a5bfbc64f0da}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aef80b781c56fefa26466a5bfbc64f0da}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!aop\_@{aop\_}}
+\index{aop\_@{aop\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{aop\_}{aop\_}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::aop\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab26b1f41201b5cfd5a7c3afc84aae257}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab26b1f41201b5cfd5a7c3afc84aae257}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!eccentricity\_@{eccentricity\_}}
+\index{eccentricity\_@{eccentricity\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{eccentricity\_}{eccentricity\_}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::eccentricity\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a228173562d31e942612b5fc8b89c6d91}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a228173562d31e942612b5fc8b89c6d91}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!inclination\_@{inclination\_}}
+\index{inclination\_@{inclination\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{inclination\_}{inclination\_}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::inclination\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a9b63625b1f7fe150d5732d0f0e786859}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a9b63625b1f7fe150d5732d0f0e786859}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!raan\_@{raan\_}}
+\index{raan\_@{raan\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{raan\_}{raan\_}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::raan\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_acfebeb89693d778b3ff27da941ed4597}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_acfebeb89693d778b3ff27da941ed4597}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!semiMajorAxis\_@{semiMajorAxis\_}}
+\index{semiMajorAxis\_@{semiMajorAxis\_}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{semiMajorAxis\_}{semiMajorAxis\_}}
+{\footnotesize\ttfamily Length ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::semi\+Major\+Axis\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 

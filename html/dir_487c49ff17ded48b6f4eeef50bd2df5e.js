@@ -31,5 +31,8 @@ var dir_487c49ff17ded48b6f4eeef50bd2df5e =
     ] ],
     [ "State.hpp", "_trajectory_2_state_8hpp.html", [
       [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ]
+    ] ],
+    [ "StateBuilder.hpp", "_state_builder_8hpp.html", [
+      [ "StateBuilder", "classostk_1_1astro_1_1trajectory_1_1_state_builder.html", "classostk_1_1astro_1_1trajectory_1_1_state_builder" ]
     ] ]
 ];

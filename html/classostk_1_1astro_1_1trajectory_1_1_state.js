@@ -1,7 +1,9 @@
 var classostk_1_1astro_1_1trajectory_1_1_state =
 [
     [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#abbaa96f2d2b7f388eb073daab94202b3", null ],
+    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#a9774b1ddfacd2707986066f5f0650368", null ],
     [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#a8628aceae903c9492f0fb269888434b0", null ],
+    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#ac8657234876a3e043bcdfa7f88470e77", null ],
     [ "accessCoordinates", "classostk_1_1astro_1_1trajectory_1_1_state.html#ae5823b96deced6c95a02eb35b56c396f", null ],
     [ "accessCoordinatesBroker", "classostk_1_1astro_1_1trajectory_1_1_state.html#af7aeabb36f72d0a2a9911176d4fe4f7f", null ],
     [ "accessFrame", "classostk_1_1astro_1_1trajectory_1_1_state.html#a2490cdc545c5bb4d23bd14e8eb267f9e", null ],
@@ -20,6 +22,7 @@ var classostk_1_1astro_1_1trajectory_1_1_state =
     [ "operator!=", "classostk_1_1astro_1_1trajectory_1_1_state.html#a53ac2b13092bc7777efa14362fec4c46", null ],
     [ "operator+", "classostk_1_1astro_1_1trajectory_1_1_state.html#a8d8ff34816c5e4895f9274fc06dbb799", null ],
     [ "operator-", "classostk_1_1astro_1_1trajectory_1_1_state.html#abd0979467d66ca07b86d5405255d26ed", null ],
+    [ "operator=", "classostk_1_1astro_1_1trajectory_1_1_state.html#ac4281382f859c517dd6233f341cdac66", null ],
     [ "operator==", "classostk_1_1astro_1_1trajectory_1_1_state.html#acd68798b63a7e3a89e61b4b668d8dbb0", null ],
     [ "print", "classostk_1_1astro_1_1trajectory_1_1_state.html#a0072b543bbac1abe5e94609c74491b5d", null ],
     [ "operator<<", "classostk_1_1astro_1_1trajectory_1_1_state.html#abba03f039f2534d691a1dc28426e8b89", null ]

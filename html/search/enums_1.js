@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['element_1221',['Element',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]]
+  ['criterion_1291',['Criterion',['../classostk_1_1astro_1_1eventcondition_1_1_angular_condition.html#a9dbebc22b37e4050303374d7a0867a4a',1,'ostk::astro::eventcondition::AngularCondition::Criterion()'],['../classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#add85672374b2a981e6a1ec27321fa3e4',1,'ostk::astro::eventcondition::RealCondition::Criterion()']]]
 ];

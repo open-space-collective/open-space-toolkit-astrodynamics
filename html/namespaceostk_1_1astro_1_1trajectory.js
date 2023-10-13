@@ -11,5 +11,6 @@ var namespaceostk_1_1astro_1_1trajectory =
     [ "Propagator", "classostk_1_1astro_1_1trajectory_1_1_propagator.html", "classostk_1_1astro_1_1trajectory_1_1_propagator" ],
     [ "Segment", "classostk_1_1astro_1_1trajectory_1_1_segment.html", "classostk_1_1astro_1_1trajectory_1_1_segment" ],
     [ "Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html", "classostk_1_1astro_1_1trajectory_1_1_sequence" ],
-    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ]
+    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ],
+    [ "StateBuilder", "classostk_1_1astro_1_1trajectory_1_1_state_builder.html", "classostk_1_1astro_1_1trajectory_1_1_state_builder" ]
 ];

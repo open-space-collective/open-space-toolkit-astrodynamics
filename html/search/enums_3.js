@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['interpolationtype_1223',['InterpolationType',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77',1,'ostk::astro::trajectory::models::Tabulated']]]
+  ['frametype_1293',['FrameType',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7',1,'ostk::astro::trajectory::Orbit']]]
 ];

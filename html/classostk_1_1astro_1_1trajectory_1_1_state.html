@@ -98,11 +98,20 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1_s
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abbaa96f2d2b7f388eb073daab94202b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#abbaa96f2d2b7f388eb073daab94202b3">State</a> (const Instant &amp;anInstant, const VectorXd &amp;aCoordinates, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr)</td></tr>
-<tr class="memdesc:abbaa96f2d2b7f388eb073daab94202b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#abbaa96f2d2b7f388eb073daab94202b3">More...</a><br /></td></tr>
+<tr class="memdesc:abbaa96f2d2b7f388eb073daab94202b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with a pre-defined Coordinates Broker.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#abbaa96f2d2b7f388eb073daab94202b3">More...</a><br /></td></tr>
 <tr class="separator:abbaa96f2d2b7f388eb073daab94202b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9774b1ddfacd2707986066f5f0650368"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a9774b1ddfacd2707986066f5f0650368">State</a> (const Instant &amp;anInstant, const VectorXd &amp;aCoordinates, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt; &amp;aCoordinatesSubsetsArray)</td></tr>
+<tr class="memdesc:a9774b1ddfacd2707986066f5f0650368"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. This constructor makes a new Coordinates Broker under the hood for every <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a>. When possible, users should prefer passing in an existing Coordinates Broker or using a <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state_builder.html" title="Factory class to generate States with common reference frame and coordinates subsets.">StateBuilder</a> to reduce memory footprint when constructing many states.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#a9774b1ddfacd2707986066f5f0650368">More...</a><br /></td></tr>
+<tr class="separator:a9774b1ddfacd2707986066f5f0650368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8628aceae903c9492f0fb269888434b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a8628aceae903c9492f0fb269888434b0">State</a> (const Instant &amp;anInstant, const Position &amp;aPosition, const Velocity &amp;aVelocity)</td></tr>
-<tr class="memdesc:a8628aceae903c9492f0fb269888434b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#a8628aceae903c9492f0fb269888434b0">More...</a><br /></td></tr>
+<tr class="memdesc:a8628aceae903c9492f0fb269888434b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility constructor for Position/Velocity only.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#a8628aceae903c9492f0fb269888434b0">More...</a><br /></td></tr>
 <tr class="separator:a8628aceae903c9492f0fb269888434b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8657234876a3e043bcdfa7f88470e77"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#ac8657234876a3e043bcdfa7f88470e77">State</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
+<tr class="memdesc:ac8657234876a3e043bcdfa7f88470e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#ac8657234876a3e043bcdfa7f88470e77">More...</a><br /></td></tr>
+<tr class="separator:ac8657234876a3e043bcdfa7f88470e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4281382f859c517dd6233f341cdac66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#ac4281382f859c517dd6233f341cdac66">operator=</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
+<tr class="memdesc:ac4281382f859c517dd6233f341cdac66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assignment operator.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#ac4281382f859c517dd6233f341cdac66">More...</a><br /></td></tr>
+<tr class="separator:ac4281382f859c517dd6233f341cdac66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd68798b63a7e3a89e61b4b668d8dbb0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#acd68798b63a7e3a89e61b4b668d8dbb0">operator==</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState) const</td></tr>
 <tr class="memdesc:acd68798b63a7e3a89e61b4b668d8dbb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality operator.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#acd68798b63a7e3a89e61b4b668d8dbb0">More...</a><br /></td></tr>
 <tr class="separator:acd68798b63a7e3a89e61b4b668d8dbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,7 +189,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p><a class="el" href="classostk_1_1astro_1_1_trajectory.html" title="Path followed by an object through space as a function of time.">Trajectory</a> <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abbaa96f2d2b7f388eb073daab94202b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbaa96f2d2b7f388eb073daab94202b3">&#9670;&nbsp;</a></span>State() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abbaa96f2d2b7f388eb073daab94202b3">&#9670;&nbsp;</a></span>State() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,11 +226,11 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor. </p>
+<p>Constructor with a pre-defined Coordinates Broker. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinates</td><td>The {cartesian-position, cartesian-velocity} coordinates at the instant in International System of Units </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinates</td><td>The coordinates at the instant in International System of Units </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>The reference frame in which the coordinates are referenced to and resolved in </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesBrokerSPtr</td><td>The coordinates broker associated to the coordinates </td></tr>
   </table>
@@ -230,8 +239,59 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a9774b1ddfacd2707986066f5f0650368"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9774b1ddfacd2707986066f5f0650368">&#9670;&nbsp;</a></span>State() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ostk::astro::trajectory::State::State </td>
+          <td>(</td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>aCoordinates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Shared&lt; const Frame &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aFrameSPtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>aCoordinatesSubsetsArray</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. This constructor makes a new Coordinates Broker under the hood for every <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a>. When possible, users should prefer passing in an existing Coordinates Broker or using a <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state_builder.html" title="Factory class to generate States with common reference frame and coordinates subsets.">StateBuilder</a> to reduce memory footprint when constructing many states. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinates</td><td>The coordinates at the instant in International System of Units </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>The reference frame in which the coordinates are referenced to and resolved in </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesSubsetsArray</td><td>The coordinates subsets associated to the coordinates </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a8628aceae903c9492f0fb269888434b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8628aceae903c9492f0fb269888434b0">&#9670;&nbsp;</a></span>State() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8628aceae903c9492f0fb269888434b0">&#9670;&nbsp;</a></span>State() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -262,12 +322,38 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor. </p>
+<p>Utility constructor for Position/Velocity only. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aPosition</td><td>The cartesian position at the instant in International System of Units </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aVelocity</td><td>The cartesian velocity at the instant in International System of Units </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac8657234876a3e043bcdfa7f88470e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8657234876a3e043bcdfa7f88470e77">&#9670;&nbsp;</a></span>State() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ostk::astro::trajectory::State::State </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>aState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -674,6 +760,33 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The difference between the two States </dd></dl>
+
+</div>
+</div>
+<a id="ac4281382f859c517dd6233f341cdac66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4281382f859c517dd6233f341cdac66">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp; ostk::astro::trajectory::State::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>aState</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy-assignment operator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>The <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> to copy </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The modified <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> </dd></dl>
 
 </div>
 </div>

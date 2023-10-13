@@ -1,10 +1,20 @@
 var searchData=
 [
-  ['ballisticcoefficient_46',['ballisticCoefficient',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#a7e024d88ff6426d0d5d7cfc386f69379',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
-  ['barycentricrational_47',['BarycentricRational',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77a98cf9ba70112c998166a82b6f289bb9f',1,'ostk::astro::trajectory::models::Tabulated']]],
-  ['bisection_48',['bisection',['../classostk_1_1astro_1_1_root_solver.html#a5c67cb0f8e94778f9492f420a16733be',1,'ostk::astro::RootSolver']]],
-  ['booleancondition_49',['BooleanCondition',['../classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html',1,'ostk::astro::eventcondition::BooleanCondition'],['../classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html#acefd575baf5a8f259fc5df45b23f81c1',1,'ostk::astro::eventcondition::BooleanCondition::BooleanCondition()']]],
-  ['booleancondition_2ecpp_50',['BooleanCondition.cpp',['../_boolean_condition_8cpp.html',1,'']]],
-  ['booleancondition_2ehpp_51',['BooleanCondition.hpp',['../_boolean_condition_8hpp.html',1,'']]],
-  ['bracketandsolve_52',['bracketAndSolve',['../classostk_1_1astro_1_1_root_solver.html#a585799cd7e2b297b9f1a98417ff0c1f7',1,'ostk::astro::RootSolver']]]
+  ['ballisticcoefficient_50',['ballisticCoefficient',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#a7e024d88ff6426d0d5d7cfc386f69379',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
+  ['barycentricrational_51',['BarycentricRational',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77a98cf9ba70112c998166a82b6f289bb9f',1,'ostk::astro::trajectory::models::Tabulated']]],
+  ['bisection_52',['bisection',['../classostk_1_1astro_1_1_root_solver.html#a5c67cb0f8e94778f9492f420a16733be',1,'ostk::astro::RootSolver']]],
+  ['booleancondition_53',['BooleanCondition',['../classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html',1,'ostk::astro::eventcondition::BooleanCondition'],['../classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html#acefd575baf5a8f259fc5df45b23f81c1',1,'ostk::astro::eventcondition::BooleanCondition::BooleanCondition()']]],
+  ['booleancondition_2ecpp_54',['BooleanCondition.cpp',['../_boolean_condition_8cpp.html',1,'']]],
+  ['booleancondition_2ehpp_55',['BooleanCondition.hpp',['../_boolean_condition_8hpp.html',1,'']]],
+  ['bracketandsolve_56',['bracketAndSolve',['../classostk_1_1astro_1_1_root_solver.html#a585799cd7e2b297b9f1a98417ff0c1f7',1,'ostk::astro::RootSolver']]],
+  ['brouwerlyddanemean_57',['BrouwerLyddaneMean',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean.html',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean.html#a765d5c025c9a2746ca9b60a41b650fc6',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean::BrouwerLyddaneMean()']]],
+  ['brouwerlyddanemean_2ecpp_58',['BrouwerLyddaneMean.cpp',['../_brouwer_lyddane_mean_8cpp.html',1,'']]],
+  ['brouwerlyddanemean_2ehpp_59',['BrouwerLyddaneMean.hpp',['../_brouwer_lyddane_mean_8hpp.html',1,'']]],
+  ['brouwerlyddanemeanlong_60',['BrouwerLyddaneMeanLong',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_long.html',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_long.html#aa616bbbdae4c57ef74a390cd8209b49f',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong::BrouwerLyddaneMeanLong()']]],
+  ['brouwerlyddanemeanlong_2ecpp_61',['BrouwerLyddaneMeanLong.cpp',['../_brouwer_lyddane_mean_long_8cpp.html',1,'']]],
+  ['brouwerlyddanemeanlong_2ehpp_62',['BrouwerLyddaneMeanLong.hpp',['../_brouwer_lyddane_mean_long_8hpp.html',1,'']]],
+  ['brouwerlyddanemeanshort_63',['BrouwerLyddaneMeanShort',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short.html',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short.html#a8072527ba1f688a6715f4cbcd5ee2a23',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort::BrouwerLyddaneMeanShort()']]],
+  ['brouwerlyddanemeanshort_2ecpp_64',['BrouwerLyddaneMeanShort.cpp',['../_brouwer_lyddane_mean_short_8cpp.html',1,'']]],
+  ['brouwerlyddanemeanshort_2ehpp_65',['BrouwerLyddaneMeanShort.hpp',['../_brouwer_lyddane_mean_short_8hpp.html',1,'']]],
+  ['build_66',['build',['../classostk_1_1astro_1_1trajectory_1_1_state_builder.html#a92447e2878550d3f1be85e339842dcde',1,'ostk::astro::trajectory::StateBuilder']]]
 ];
