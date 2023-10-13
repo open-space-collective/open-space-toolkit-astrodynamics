@@ -91,7 +91,7 @@ class State
 
     /// @brief                  Copy-assignment operator
     ///
-    /// @param                  [in] aState The State to compare to
+    /// @param                  [in] aState The State to copy
     /// @return                 The modified State
 
     State& operator=(const State& aState);

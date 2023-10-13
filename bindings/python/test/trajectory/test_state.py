@@ -105,7 +105,7 @@ class TestState:
         assert isinstance(state, State)
         assert state.is_defined()
 
-    def test_custom_class_generator(
+    def test_custom_state_class_generator(
         self,
         instant: Instant,
         position: Position,
