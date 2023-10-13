@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1697146388171,
+  "lastUpdate": 1697230825321,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -324,6 +324,60 @@ window.BENCHMARK_DATA = {
             "value": 4601207011.299999,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4600515240.000003 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "kyle.ray.cochran@gmail.com",
+            "name": "kyle-cochran",
+            "username": "kyle-cochran"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2200a55656e853199125c7fa701f345a698dffef",
+          "message": "feat: Python class meta-programming for State construction (#244)\n\n* feat: add StateTemplateType emitter in Python to create custom State types\r\n\r\n* test: add copy constructor tests\r\n\r\n* feat: add non-default copy-assignment operator\r\n\r\n* style: formatting\r\n\r\n* Update bindings/python/test/trajectory/test_state.py\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\r\n\r\n* test: fix old naming in python test and address 1 MR comment\r\n\r\n---------\r\n\r\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>",
+          "timestamp": "2023-10-13T13:23:03-07:00",
+          "tree_id": "92d7efde5a18d1aa14f7ffdbc349199590f6e1ca",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/2200a55656e853199125c7fa701f345a698dffef"
+        },
+        "date": 1697230823938,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 1007014359.0000101,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1006624650 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1979210368.6000075,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1978145700.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 6332316508.900004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6330253680.000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 6274377916.300016,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6273570029.999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 6166116204.1,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6165362310.000003 ns\nthreads: 1"
           }
         ]
       }
