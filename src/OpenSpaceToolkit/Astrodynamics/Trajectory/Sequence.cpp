@@ -113,6 +113,10 @@ Sequence::Sequence(
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::fatal);
     }
+    else
+    {
+        throw ostk::core::error::runtime::Wrong("Verbose level");
+    }
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence)
@@ -173,19 +177,19 @@ Sequence::Solution Sequence::solve(const State& aState) const
     {
         for (const Segment& segment : segments_)
         {
-            BOOST_LOG_TRIVIAL(debug) << String::Format("Solving Segment [{}]: ", i) << segment << std::endl;
+            BOOST_LOG_TRIVIAL(debug) << String::Format("Solving Segment [{}] {}:\n", segment.getName(), i)
+                                     << *segment.getEventCondition() << "\n"
+                                     << String::Format("Start Instant: {}", initialState.accessInstant().toString())
+                                     << std::endl;
 
             Segment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
 
-            BOOST_LOG_TRIVIAL(debug) << "Segment Solved: " << segmentSolution.name << std::endl;
             BOOST_LOG_TRIVIAL(debug) << String::Format(
-                                            "Propagation duration: {}",
-                                            (segmentSolution.states.accessLast().accessInstant() -
-                                             segmentSolution.states.accessFirst().accessInstant())
-                                                .toString()
+                                            "Segment solved - End Instant: {}",
+                                            segmentSolution.states.accessLast().accessInstant().toString()
                                         )
                                      << std::endl;
 

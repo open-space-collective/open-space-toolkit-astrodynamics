@@ -81,7 +81,7 @@ class Sequence
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const Duration& maximumPropagationDuration = Duration::Days(7.0),
-        const Integer& verbose = 5
+        const Integer& verbose = 1
     );
 
     /// @brief                  Output stream operator.
