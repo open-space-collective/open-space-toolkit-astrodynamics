@@ -41,6 +41,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("frame"),
             arg("coordinates_subsets")
         )
+        .def(init<const State&>(), arg("state"))
 
         .def(self == self)
         .def(self != self)

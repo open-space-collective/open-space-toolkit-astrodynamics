@@ -104,6 +104,52 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 
         EXPECT_ANY_THROW(State state(instant, position, velocity););
     }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
+
+        State state(instant, coordinates, Frame::GCRF(), brokerSPtr);
+
+        EXPECT_NO_THROW(State anotherState(state));
+
+        const State anotherState(state);
+
+        EXPECT_EQ(state, anotherState);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, CopyAssignmentOperator)
+{
+    // Create a state
+    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    VectorXd coordinates(6);
+    coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+    const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
+        CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+    );
+    State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
+
+    // Copy the state
+    State anotherState = State::Undefined();
+
+    // Check that the two states are no longer equal
+    EXPECT_NE(aState, anotherState);
+
+    anotherState = aState;
+
+    // Check that the two states are equal
+    EXPECT_EQ(aState, anotherState);
+
+    // Modify the original state
+    aState = State::Undefined();
+
+    // Check that the two states are no longer equal
+    EXPECT_NE(aState, anotherState);
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)

@@ -105,6 +105,38 @@ class TestState:
         assert isinstance(state, State)
         assert state.is_defined()
 
+    def test_custom_state_class_generator(
+        self,
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+        frame: Frame,
+    ):
+        state = State(
+            instant,
+            np.append(position.get_coordinates(), velocity.get_coordinates()),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        MySuperFunState: type = State.template(
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        custom_state: MySuperFunState = MySuperFunState(
+            instant,
+            np.append(position.get_coordinates(), velocity.get_coordinates()),
+        )
+
+        assert custom_state is not None
+        assert isinstance(custom_state, MySuperFunState)
+        assert isinstance(state, State)
+        assert custom_state.is_defined()
+
+        assert custom_state == state
+        assert custom_state is not state
+
     def test_comparators(self, state: State):
         assert (state == state) is True
         assert (state != state) is False

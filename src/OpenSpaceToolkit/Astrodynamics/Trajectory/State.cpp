@@ -84,6 +84,26 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
 }
 
+State::State(const State& aState)
+    : instant_(aState.instant_),
+      coordinates_(aState.coordinates_),
+      frameSPtr_(aState.frameSPtr_),
+      coordinatesBrokerSPtr_(aState.coordinatesBrokerSPtr_)
+{
+}
+
+State& State::operator=(const State& aState)
+{
+    if (this != &aState)
+    {
+        instant_ = aState.instant_;
+        coordinates_ = aState.coordinates_;
+        frameSPtr_ = aState.frameSPtr_;
+        coordinatesBrokerSPtr_ = aState.coordinatesBrokerSPtr_;
+    }
+    return *this;
+}
+
 bool State::operator==(const State& aState) const
 {
     if ((!this->isDefined()) || (!aState.isDefined()))

@@ -83,6 +83,19 @@ class State
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
+    /// @brief                  Copy constructor.
+    ///
+    /// @param                  [in] aState An existing State
+
+    State(const State& aState);
+
+    /// @brief                  Copy-assignment operator
+    ///
+    /// @param                  [in] aState The State to copy
+    /// @return                 The modified State
+
+    State& operator=(const State& aState);
+
     /// @brief                  Equality operator.
     ///
     /// @param                  [in] aState The State to compare to
