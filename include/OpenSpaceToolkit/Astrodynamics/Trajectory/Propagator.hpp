@@ -32,6 +32,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -55,6 +56,7 @@ using ostk::physics::time::Instant;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
@@ -228,6 +230,7 @@ class Propagator
 
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    StateBuilder stateBuilder_;
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
