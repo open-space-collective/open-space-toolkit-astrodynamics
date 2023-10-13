@@ -18,4 +18,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models(pybind11::mo
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(models);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(models);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(models);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLyddaneMean(models);
 }
