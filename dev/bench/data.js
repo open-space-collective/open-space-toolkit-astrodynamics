@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1697230825321,
+  "lastUpdate": 1697235166732,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -378,6 +378,60 @@ window.BENCHMARK_DATA = {
             "value": 6166116204.1,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 6165362310.000003 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "81096046a935bf2e19542361516ae3d61d8661a3",
+          "message": "feat: add Brouwer-Lyddane Mean Long and Mean Short elements (#240)\n\n* wip:\r\n\r\n* feat: get it working\r\n\r\n* feat: working cut\r\n\r\n* feat: Add BrouwerLyddaneMeanShort + tests\r\n\r\n* feat: add tests for apo/periapsis calculation\r\n\r\n* feat: more tests\r\n\r\n* feat: address feedback\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* feat: start bindings and add docstrings (#242)\r\n\r\n* feat: add python bindings\r\n\r\n* docs: add docstring cpp\r\n\r\n* feat: finish tests, docstrings and bindings\r\n\r\n---------\r\n\r\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>\r\n\r\n* refactor: move some stuff around\r\n\r\n* chore: cleanup\r\n\r\n---------\r\n\r\nCo-authored-by: Vishwa Shah <vishwa@loftorbital.com>\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\nCo-authored-by: Remy Derollez <43561754+Derollez@users.noreply.github.com>",
+          "timestamp": "2023-10-13T21:34:21Z",
+          "tree_id": "c4c6a0b29d5879ce9769e20d722642ba1ed18d24",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/81096046a935bf2e19542361516ae3d61d8661a3"
+        },
+        "date": 1697235165988,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 747630532.2000086,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 747379360.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1663713614.1999917,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1661071510.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4130769487.7999945,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4126641240.0000014 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4127020338.6000047,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4126721610.0000014 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4129969508.4000006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4128631700.000004 ns\nthreads: 1"
           }
         ]
       }
