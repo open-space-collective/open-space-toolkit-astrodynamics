@@ -154,8 +154,9 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         )
     );
 
-    const StateBuilder outputStateBuilder(aState);
-    return outputStateBuilder.expand(solverOutputState.inFrame(aState.getFrame()), aState);
+    const StateBuilder outputStateBuilder = {aState};
+
+    return outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState);
 }
 
 NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
@@ -178,9 +179,10 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
         anEventCondition
     );
 
-    const StateBuilder outputStateBuilder(aState);
+    const StateBuilder outputStateBuilder = {aState};
 
-    conditionSolution.state = outputStateBuilder.expand(conditionSolution.state.inFrame(aState.getFrame()), aState);
+    conditionSolution.state = outputStateBuilder.expand(conditionSolution.state.inFrame(aState.accessFrame()), aState);
+
     return conditionSolution;
 }
 
@@ -258,14 +260,12 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
     }
 
-    const Array<State> solverOutputStates = backwardPropagatedStates + forwardPropagatedStates;
-
     Array<State> outputStates;
     outputStates.reserve(solverOutputStates.getSize());
 
-    for (const State& solverOutputState : solverOutputStates)
+    for (const State& solverOutputState : backwardPropagatedStates + forwardPropagatedStates)
     {
-        outputStates.add(outputStateBuilder.expand(solverOutputState.inFrame(aState.getFrame()), aState));
+        outputStates.add(outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState));
     }
 
     return outputStates;
