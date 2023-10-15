@@ -2537,7 +2537,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 0
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2552,7 +2552,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 1: Start date in 2021
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2021-05-13T12:34:13.345_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2021-05-13T12-34-13.345_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2567,7 +2567,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 2: QSW LOF
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_QSW_0.0_1.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_QSW_0.0_1.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::QSW(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({0.0, 1.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2582,7 +2582,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 3: TNW LOF
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_TNW_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_TNW_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::TNW(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2597,7 +2597,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 4: LVLH LOF
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_"
             "0.0_30.0.csv",                                 // Scenario validation data file path
             LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
@@ -2612,7 +2612,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 5: VVLH LOF
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VVLH_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VVLH_1.0_0.0_"
             "0.0_30.0.csv",                                 // Scenario validation data file path
             LocalOrbitalFrameFactory::VVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
@@ -2627,7 +2627,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 6: Increase spacecraft mass to 1000kg
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_1015.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2642,7 +2642,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 7: Increase maneuver duration to 4h
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_VNC_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_14400.0_VNC_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2657,7 +2657,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 8: Increase spacecraft mass to 1000kg and LVLH
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_LVLH_1.0_0."
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_1015.0_0.1_1500.0_3600.0_LVLH_1.0_0."
             "0_0.0_30.0.csv",                               // Scenario validation data file path
             LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
@@ -2672,7 +2672,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 9: Increase maneuver duration to 4h and LVLH
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_LVLH_1.0_0."
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_14400.0_LVLH_1.0_0."
             "0_0.0_30.0.csv",                               // Scenario validation data file path
             LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
@@ -2687,7 +2687,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 10: Increase thrust to 10N
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_10.0_1500.0_3600.0_VNC_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_10.0_1500.0_3600.0_VNC_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2702,7 +2702,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 11: Equatorial orbit
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0."
+            "Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0."
             "0_30.0.csv",                                  // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -2717,7 +2717,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 12: Thrust Vector on +Z and Equatorial
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_0.0_0.0_1."
+            "Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_0.0_0.0_1."
             "0_30.0.csv",                                  // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({0.0, 0.0, 1.0}),                     // Thrust direction in Local Orbital Frame
@@ -2732,7 +2732,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 13: Higher altitude orbit (~1000km)
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_7500000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "Orekit_ConstantThrustThruster_7500000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
             "0.0_30.0.csv",                                // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3081,7 +3081,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 0
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3098,7 +3098,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 1: Start date in 2021
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2021-12-23T11:23:21.235_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2021-12-23T11-23-21.235_115.0_0.1_1500.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3115,7 +3115,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 2: QSW LOF
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_QSW_0.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_QSW_0.0_"
             "1.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::QSW(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({0.0, 1.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3132,7 +3132,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 3: Increase spacecraft mass to 1000kg
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_VNC_1."
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_1015.0_0.1_1500.0_3600.0_VNC_1."
             "0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",  // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),   // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
@@ -3149,7 +3149,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 4: Increase maneuver duration to 2h
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_7200.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_7200.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3166,7 +3166,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 5: Increase maneuver duration to 4h
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_VNC_1."
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_14400.0_VNC_1."
             "0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",  // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),   // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
@@ -3183,7 +3183,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 6: Increase thrust to 1N, lowering specific impulse to 150.0
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_1.0_150.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_1.0_150.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3200,7 +3200,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 7: Equatorial orbit
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_0.0_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3217,7 +3217,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 8: Increase spacecraft cross section
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_25.0_2.1_TRUE.csv",  // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3234,7 +3234,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 9: Increase spacecraft drag coefficient and cross section
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_4.2_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
@@ -3251,7 +3251,7 @@ INSTANTIATE_TEST_SUITE_P(
         // Test Case 10: Higher initial altitude (~800 km) and increase cross section
         std::make_tuple(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-            "Orekit_ConstantThrustThruster_Drag_7300000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "Orekit_ConstantThrustThruster_Drag_7300000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
             "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",   // Scenario validation data file path
             LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
             Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
