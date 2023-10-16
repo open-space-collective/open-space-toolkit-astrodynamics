@@ -13,7 +13,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
@@ -58,7 +57,6 @@ using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::Sequence;
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
@@ -119,6 +117,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         defaultMaximumPropagationDuration_,
     };
 };
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_getStates)
+{
+    {
+        Sequence::Solution sequenceSolution = {{}, true};
+        EXPECT_THROW(sequenceSolution.getStates(), ostk::core::error::RuntimeError);
+    }
+}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
 {
@@ -218,11 +224,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
-        const LocalOrbitalFrameDirection lofDirection = {
-            {1.0, 0.0, 0.0},
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
-        };
-
         defaultSequence_.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
                 RealCondition::Criterion::AnyCrossing,
@@ -230,7 +231,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-            std::make_shared<ConstantThrust>(SatelliteSystem::Default(), lofDirection)
+            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(SatelliteSystem::Default()))
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
@@ -246,7 +247,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
             solution.segmentSolutions.getSize() == defaultSequence_.getSegments().getSize() * defaultRepetitionCount_
         );
 
-        Size statesSize = 0;
+        Size statesSize = 1;
         for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
         {
             EXPECT_TRUE(segmentSolution.states.getSize() > 0);
@@ -254,10 +255,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
             const Real targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
             EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, Real::TwoPi()), 1e-6);
 
-            statesSize += segmentSolution.states.getSize();
+            statesSize += segmentSolution.states.getSize() - 1;
         }
 
-        EXPECT_TRUE(solution.getStates().getSize() == statesSize);
+        EXPECT_EQ(solution.getStates().getSize(), statesSize);
     }
 
     {
@@ -272,7 +273,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         const Sequence::Solution solution = sequence.solve(defaultState_);
 
         EXPECT_FALSE(solution.executionIsComplete);
-        EXPECT_TRUE(solution.segmentSolutions.getSize() == 1);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
     }
 }
@@ -311,11 +312,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<AtmosphericDrag>(earthSPtr),
     };
 
-    const LocalOrbitalFrameDirection lofDirection = {
-        {1.0, 0.0, 0.0},
-        LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
-    };
-
     Sequence sequence = {
         Array<Segment>::Empty(),
         defaultRepetitionCount_,
@@ -338,7 +334,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             Length::Kilometers(7000.0),
             EarthGravitationalModel::EGM2008.gravitationalParameter_
         )),
-        std::make_shared<ConstantThrust>(satelliteSystem, lofDirection)
+        std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
     );
 
     const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
@@ -362,6 +358,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     const Sequence::Solution solution = sequence.solve(state);
 
     EXPECT_TRUE(solution.segmentSolutions.getSize() == 2 * defaultRepetitionCount_);
+
+    EXPECT_EQ(solution.accessStartInstant(), Instant::J2000());
+    EXPECT_EQ(solution.accessEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
+
+    EXPECT_DOUBLE_EQ(solution.getInitialMass().inKilograms(), mass + 100.0);
+    EXPECT_DOUBLE_EQ(
+        solution.getFinalMass().inKilograms(),
+        solution.segmentSolutions.accessLast().states.accessLast().accessCoordinates()[6]
+    );
+
+    EXPECT_DOUBLE_EQ(
+        solution.computeDeltaMass().inKilograms(),
+        solution.getInitialMass().inKilograms() - solution.getFinalMass().inKilograms()
+    );
+    EXPECT_NEAR(
+        solution.computeDeltaV(3000.0),
+        3000.0 * EarthGravitationalModel::gravityConstant *
+            std::log(solution.getInitialMass().inKilograms() / solution.getFinalMass().inKilograms()),
+        1e-3
+    );
+
+    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)

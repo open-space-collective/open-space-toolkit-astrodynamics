@@ -17,11 +17,13 @@ from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics.thruster import ConstantThrust
-from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
-from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.event_condition import InstantCondition
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
 
 
 @pytest.fixture
@@ -31,14 +33,25 @@ def environment() -> Environment:
 
 @pytest.fixture
 def state() -> State:
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([7500000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second(
-        [0.0, 5335.865450622126, 5335.865450622126], frame
-    )
-
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    return State(instant, position, velocity)
+    coordinates: list[float] = [
+        7500000.0,
+        0.0,
+        0.0,
+        0.0,
+        5335.865450622126,
+        5335.865450622126,
+        300.0,
+    ]
+    frame: Frame = Frame.GCRF()
+    coordinates_broker: CoordinatesBroker = CoordinatesBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+        ]
+    )
+    return State(instant, coordinates, frame, coordinates_broker)
 
 
 @pytest.fixture
@@ -87,19 +100,26 @@ def coast_duration_segment(
     instant_condition: InstantCondition,
     dynamics: list,
     numerical_solver: NumericalSolver,
-):
+) -> Segment:
     return Segment.coast(name, instant_condition, dynamics, numerical_solver)
 
 
 @pytest.fixture
-def thruster_dynamics() -> ConstantThrust:
-    return ConstantThrust(
-        satellite_system=SatelliteSystem.default(),
-        thrust_direction=LocalOrbitalFrameDirection(
-            vector=[1.0, 0.0, 0.0],
-            local_orbital_frame_factory=LocalOrbitalFrameFactory.VNC(Frame.GCRF()),
-        ),
+def maneuver_segment(
+    name: str,
+    instant_condition: InstantCondition,
+    dynamics: list,
+    numerical_solver: NumericalSolver,
+    thruster_dynamics: ConstantThrust,
+) -> Segment:
+    return Segment.maneuver(
+        name, instant_condition, thruster_dynamics, dynamics, numerical_solver
     )
+
+
+@pytest.fixture
+def thruster_dynamics() -> ConstantThrust:
+    return ConstantThrust.intrack(satellite_system=SatelliteSystem.default())
 
 
 class TestSegment:
@@ -163,9 +183,9 @@ class TestSegment:
         self,
         state: State,
         end_instant: Instant,
-        coast_duration_segment: Segment,
+        maneuver_segment: Segment,
     ):
-        solution = coast_duration_segment.solve(state)
+        solution = maneuver_segment.solve(state)
 
         assert (
             pytest.approx(
@@ -174,5 +194,18 @@ class TestSegment:
             )
             == 0.0
         )
+
+        assert solution.name is not None
+        assert solution.dynamics is not None
         assert len(solution.states) > 0
-        assert solution.condition_is_satisfied
+        assert solution.condition_is_satisfied is True
+        assert solution.segment_type is not None
+
+        assert solution.access_start_instant() is not None
+        assert solution.access_end_instant() is not None
+
+        assert solution.get_initial_mass() is not None
+        assert solution.get_final_mass() is not None
+
+        assert solution.compute_delta_mass() is not None
+        assert solution.compute_delta_v(1500.0) is not None

@@ -22,6 +22,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .def_readonly("dynamics", &Segment::Solution::dynamics)
         .def_readonly("states", &Segment::Solution::states)
         .def_readonly("condition_is_satisfied", &Segment::Solution::conditionIsSatisfied)
+        .def_readonly("segment_type", &Segment::Solution::segmentType)
+
+        .def("access_start_instant", &Segment::Solution::accessStartInstant)
+        .def("access_end_instant", &Segment::Solution::accessEndInstant)
+
+        .def("get_initial_mass", &Segment::Solution::getInitialMass)
+        .def("get_final_mass", &Segment::Solution::getFinalMass)
+
+        .def("compute_delta_mass", &Segment::Solution::computeDeltaMass)
+        .def("compute_delta_v", &Segment::Solution::computeDeltaV, arg("specific_impulse"))
 
         ;
 

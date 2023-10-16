@@ -376,5 +376,15 @@ class TestSequence:
 
         assert len(solution.segment_solutions) == len(segments)
 
-        assert solution.get_states() is not None
         assert solution.execution_is_complete
+
+        assert solution.access_start_instant() is not None
+        assert solution.access_end_instant() is not None
+
+        assert solution.get_states() is not None
+        assert solution.get_initial_mass() is not None
+        assert solution.get_final_mass() is not None
+        assert solution.get_propagation_duration() is not None
+
+        assert solution.compute_delta_mass() is not None
+        assert solution.compute_delta_v(1500.0) is not None

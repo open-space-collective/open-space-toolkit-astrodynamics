@@ -8,6 +8,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -23,6 +24,7 @@ using namespace boost::numeric::odeint;
 using ostk::physics::time::Duration;
 
 using ostk::astro::RootSolver;
+using ostk::astro::trajectory::StateBuilder;
 
 typedef runge_kutta_dopri5<NumericalSolver::StateVector> dense_stepper_type_5;
 
@@ -101,7 +103,9 @@ State NumericalSolver::integrateTime(
     const State& aState, const Instant& anEndTime, const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    observedStates_.clear();
+    observedStates_ = {aState};
+
+    const StateBuilder stateBuilder = {aState};
 
     const NumericalSolver::Solution solution = MathNumericalSolver::integrateDuration(
         aState.accessCoordinates(), (anEndTime - aState.accessInstant()).inSeconds(), aSystemOfEquations
@@ -109,20 +113,10 @@ State NumericalSolver::integrateTime(
 
     for (const auto& state : MathNumericalSolver::getObservedStateVectors())
     {
-        observedStates_.add({
-            aState.accessInstant() + Duration::Seconds(state.second),
-            state.first,
-            aState.accessFrame(),
-            aState.accessCoordinatesBroker(),
-        });
+        observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
     }
 
-    return {
-        aState.accessInstant() + Duration::Seconds(solution.second),
-        solution.first,
-        aState.accessFrame(),
-        aState.accessCoordinatesBroker(),
-    };
+    return stateBuilder.build(aState.accessInstant() + Duration::Seconds(solution.second), solution.first);
 }
 
 NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
@@ -139,18 +133,15 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         );
     }
 
-    observedStates_.clear();
+    observedStates_ = {aState};
+
+    const StateBuilder stateBuilder = {aState};
 
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
 
-    const auto createState = [&aState](const VectorXd& aStateVector, const double& aTime) -> State
+    const auto createState = [&stateBuilder, &aState](const VectorXd& aStateVector, const double& aTime) -> State
     {
-        return {
-            aState.accessInstant() + Duration::Seconds(aTime),
-            aStateVector,
-            aState.accessFrame(),
-            aState.accessCoordinatesBroker(),
-        };
+        return stateBuilder.build(aState.accessInstant() + Duration::Seconds(aTime), aStateVector);
     };
 
     if (aDurationInSeconds.isZero())
@@ -163,8 +154,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
-    NumericalSolver::StateVector aStateVector = aState.accessCoordinates();
-
     // Ensure that the time step is the correct sign
     const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
@@ -173,7 +162,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
 
     // initialize stepper
     double currentTime = 0.0;
-    stepper.initialize(aStateVector, currentTime, signedTimeStep);
+    stepper.initialize(aState.accessCoordinates(), currentTime, signedTimeStep);
 
     // do first step
     double previousTime;
