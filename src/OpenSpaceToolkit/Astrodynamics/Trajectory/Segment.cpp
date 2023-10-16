@@ -64,11 +64,6 @@ Mass Segment::Solution::getInitialMass() const
     return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
 }
 
-Duration Segment::Solution::getPropagationDuration() const
-{
-    return accessEndInstant() - accessStartInstant();
-}
-
 Mass Segment::Solution::getFinalMass() const
 {
     if (states.isEmpty())
@@ -77,6 +72,11 @@ Mass Segment::Solution::getFinalMass() const
     }
 
     return Mass::Kilograms(states.accessLast().extractCoordinates(CoordinatesSubset::Mass())[0]);
+}
+
+Duration Segment::Solution::getPropagationDuration() const
+{
+    return accessEndInstant() - accessStartInstant();
 }
 
 Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
