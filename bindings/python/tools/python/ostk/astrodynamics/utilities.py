@@ -1,6 +1,8 @@
 # Apache License 2.0
 
-from .OpenSpaceToolkitAstrodynamicsPy import *
+import numpy as np
+
+import pandas as pd
 
 from ostk.physics import Environment
 from ostk.physics.time import Scale
@@ -10,9 +12,13 @@ from ostk.physics.time import Interval
 from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
+
+from ostk.astrodynamics import converters
+from .OpenSpaceToolkitAstrodynamicsPy import *
 
 
 def lla_from_state(state: trajectory.State) -> list:
@@ -149,3 +155,44 @@ def convert_state(instant: Instant, state: trajectory.State) -> list:
         float(lla.get_longitude().in_degrees()),
         float(lla.get_altitude().in_meters()),
     ]
+
+
+def generate_states_from_dataframe(
+    dataframe: pd.DataFrame,
+    time_column: str,
+    position_columns: list[str],
+    velocity_columns: list[str],
+    reference_frame: Frame,
+    has_timestamp_as_index: bool,
+) -> list[trajectory.State]:
+    """
+    Generate a list of OSTk States from a Pandas DataFrame.
+
+    Args:
+        dataframe (pd.DataFrame): Pandas DataFrame containing the orbit data.
+        time_column (str): Name of the column containing the time data in [UTC].
+        position_columns (list[str]): List of column names containing the position data in [m].
+        velocity_columns (list[str]): List of column names containing the velocity data in [m/s].
+        reference_frame (Frame): Reference frame.
+        has_timestamp_as_index (bool): Whether the timestamp for each data point is being used as the DataFrame's index.
+
+    Returns:
+        list[State]: List of OSTk States.
+    """
+
+    def _get_ostk_state(row: pd.Series) -> trajectory.State:
+        return trajectory.State(
+            instant=converters.coerce_to_instant(
+                row.name if has_timestamp_as_index else getattr(row, time_column),
+            ),
+            position=Position.meters(
+                np.array([getattr(row, column) for column in position_columns]),
+                reference_frame,
+            ),
+            velocity=Velocity.meters_per_second(
+                np.array([getattr(row, column) for column in velocity_columns]),
+                reference_frame,
+            ),
+        )
+
+    return dataframe.apply(_get_ostk_state, axis=1).tolist()
