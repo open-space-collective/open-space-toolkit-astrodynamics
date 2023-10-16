@@ -126,6 +126,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_getS
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        const Segment::Solution segmentSolution = {
+            "A Segment", {}, {defaultState_, defaultState_}, true, Segment::Type::Coast
+        };
+
+        Sequence::Solution sequenceSolution = {{segmentSolution}, true};
+        EXPECT_NO_THROW(sequenceSolution.print(std::cout, true));
+        EXPECT_NO_THROW(sequenceSolution.print(std::cout, false));
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
 {
     {

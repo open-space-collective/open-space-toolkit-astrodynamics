@@ -74,6 +74,10 @@ class Segment
 
         Real computeDeltaV(const Real& aSpecificImpulse) const;
         Mass computeDeltaMass() const;
+
+        void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+        friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
     };
 
     /// @brief                  Output stream operator

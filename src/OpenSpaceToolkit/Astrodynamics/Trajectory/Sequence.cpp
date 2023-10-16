@@ -75,6 +75,57 @@ Real Sequence::Solution::computeDeltaV(const Real& aSpecificImpulse) const
     return deltaV;
 }
 
+void Sequence::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Header(anOutputStream, "Sequence Solution");
+    }
+
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Execution is complete: " << (executionIsComplete ? "True" : "False");
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Segment Solutions");
+
+    bool hasManeuver = false;
+    for (const auto& segmentSolution : segmentSolutions)
+    {
+        segmentSolution.print(anOutputStream, false);
+
+        if (segmentSolution.segmentType == Segment::Type::Maneuver)
+        {
+            hasManeuver = true;
+        }
+
+        ostk::core::utils::Print::Separator(anOutputStream);
+    }
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Summary");
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Start Instant: " << accessStartInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End Instant: " << accessEndInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Propagation Duration: " << getPropagationDuration().toString();
+
+    if (hasManeuver)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Initial Mass: " << getInitialMass().toString();
+        ostk::core::utils::Print::Line(anOutputStream) << "Final Mass: " << getFinalMass().toString();
+        ostk::core::utils::Print::Line(anOutputStream) << "Total Mass consumed: " << computeDeltaMass().toString();
+    }
+
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Footer(anOutputStream);
+    }
+}
+
+std::ostream& operator<<(std::ostream& anOutputStream, const Sequence::Solution& aSolution)
+{
+    aSolution.print(anOutputStream);
+
+    return anOutputStream;
+}
+
 Sequence::Sequence(
     const Array<Segment>& aSegmentArray,
     const Size& aRepetitionCount,
@@ -177,26 +228,21 @@ Sequence::Solution Sequence::solve(const State& aState) const
     {
         for (const Segment& segment : segments_)
         {
-            BOOST_LOG_TRIVIAL(debug) << String::Format("Solving Segment [{}] {}:\n", segment.getName(), i)
-                                     << *segment.getEventCondition() << "\n"
-                                     << String::Format("Start Instant: {}", initialState.accessInstant().toString())
-                                     << std::endl;
+            BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
             Segment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
 
-            BOOST_LOG_TRIVIAL(debug) << String::Format(
-                                            "Segment solved - End Instant: {}",
-                                            segmentSolution.states.accessLast().accessInstant().toString()
-                                        )
-                                     << std::endl;
+            BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
 
             segmentSolutions.add(segmentSolution);
 
             if (!segmentSolution.conditionIsSatisfied)
             {
+                BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
+
                 return {segmentSolutions, false};
             }
 
@@ -215,11 +261,26 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     ostk::core::utils::Print::Separator(anOutputStream, "Segments");
-    ostk::core::utils::Print::Line(anOutputStream) << segments_;
+    Index iter = 0;
+    for (const auto& segment : segments_)
+    {
+        ostk::core::utils::Print::Separator(anOutputStream, String::Format("Segment {}", iter));
+        segment.print(anOutputStream, false);
+        ostk::core::utils::Print::Separator(anOutputStream);
+
+        ++iter;
+    }
+    ostk::core::utils::Print::Line(anOutputStream);
+
     ostk::core::utils::Print::Separator(anOutputStream, "Default Numerical Solver");
-    ostk::core::utils::Print::Line(anOutputStream) << numericalSolver_;
+    numericalSolver_.print(anOutputStream, false);
+
     ostk::core::utils::Print::Separator(anOutputStream, "Common Dynamics");
-    ostk::core::utils::Print::Line(anOutputStream) << dynamics_;
+    for (const auto& dynamics : dynamics_)
+    {
+        dynamics->print(anOutputStream, false);
+    }
+
     ostk::core::utils::Print::Line(anOutputStream)
         << "Maximum Propagation Duration:" << maximumPropagationDuration_.toString();
 

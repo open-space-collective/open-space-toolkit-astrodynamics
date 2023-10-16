@@ -52,6 +52,10 @@ class Sequence
 
         Mass computeDeltaMass() const;
         Real computeDeltaV(const Real& aSpecificImpulse) const;
+
+        void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+        friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
     };
 
     /// @brief                  Constructor
