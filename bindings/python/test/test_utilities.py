@@ -1,25 +1,21 @@
 # Apache License 2.0
 
+import pandas as pd
+
 import pytest
 
-import ostk.physics as physics
-import ostk.astrodynamics as astrodynamics
-from ostk.astrodynamics import utilities
+from ostk.physics import Environment
+from ostk.physics.time import Instant
+from ostk.physics.time import Interval
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate.spherical import LLA
 
-Length = physics.units.Length
-Angle = physics.units.Angle
-DateTime = physics.time.DateTime
-Scale = physics.time.Scale
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-LLA = physics.coordinate.spherical.LLA
-AER = physics.coordinate.spherical.AER
-Environment = physics.Environment
-Trajectory = astrodynamics.Trajectory
-State = astrodynamics.flight.profile.State
+from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.trajectory import State
+
+from ostk.astrodynamics import utilities
 
 
 class TestUtilities:
@@ -99,3 +95,46 @@ class TestUtilities:
         assert isinstance(output[0], str)
         for i in range(1, 11):
             assert isinstance(output[i], float)
+
+    def test_generate_states_from_dataframe_timestamp_index(
+        self,
+        sample_gps_telemetry_timestamp_index_df: pd.DataFrame,
+        sample_gps_telemetry_column_names: list[str],
+    ) -> None:
+        states: list[State] = utilities.generate_states_from_dataframe(
+            dataframe=sample_gps_telemetry_timestamp_index_df,
+            position_columns=sample_gps_telemetry_column_names[1:4],
+            velocity_columns=sample_gps_telemetry_column_names[4:7],
+            reference_frame=Frame.ITRF(),
+        )
+
+        assert states is not None
+        assert isinstance(states, list)
+        assert len(states) == len(sample_gps_telemetry_timestamp_index_df)
+        for state in states:
+            assert isinstance(state, State)
+            assert isinstance(state.get_instant(), Instant)
+            assert isinstance(state.get_position(), Position)
+            assert isinstance(state.get_velocity(), Velocity)
+
+    def test_generate_states_from_dataframe_no_timestamp_index(
+        self,
+        sample_gps_telemetry_no_timestamp_index_df: pd.DataFrame,
+        sample_gps_telemetry_column_names: list[str],
+    ) -> None:
+        states: list[State] = utilities.generate_states_from_dataframe(
+            dataframe=sample_gps_telemetry_no_timestamp_index_df,
+            position_columns=sample_gps_telemetry_column_names[1:4],
+            velocity_columns=sample_gps_telemetry_column_names[4:7],
+            reference_frame=Frame.ITRF(),
+            time_column_if_needed=sample_gps_telemetry_column_names[0],
+        )
+
+        assert states is not None
+        assert isinstance(states, list)
+        assert len(states) == len(sample_gps_telemetry_no_timestamp_index_df)
+        for state in states:
+            assert isinstance(state, State)
+            assert isinstance(state.get_instant(), Instant)
+            assert isinstance(state.get_position(), Position)
+            assert isinstance(state.get_velocity(), Velocity)
