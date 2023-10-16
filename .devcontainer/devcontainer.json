@@ -37,6 +37,7 @@
             "extensions": [
                 "ms-vscode.cpptools",
                 "ms-python.python",
+                "ms-python.black-formatter",
                 "mhutchie.git-graph",
                 "ms-vscode.cpptools-extension-pack"
             ]
