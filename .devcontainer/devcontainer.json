@@ -27,6 +27,9 @@
                         "path": "/bin/bash",
                         "icon": "terminal-bash"
                     }
+                },
+                "python.analysis.diagnosticSeverityOverrides": {
+                    "reportMissingModuleSource": "none"
                 }
             },
             "extensions": [
