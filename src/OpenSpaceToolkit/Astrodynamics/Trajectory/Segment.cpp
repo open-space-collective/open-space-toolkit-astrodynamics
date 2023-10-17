@@ -48,7 +48,7 @@ const Instant& Segment::Solution::accessEndInstant() const
 {
     if (states.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("States are empty.");
+        throw ostk::core::error::RuntimeError("No solution available.");
     }
 
     return states.accessLast().accessInstant();
@@ -58,7 +58,7 @@ Mass Segment::Solution::getInitialMass() const
 {
     if (states.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("States are empty.");
+        throw ostk::core::error::RuntimeError("No solution available.");
     }
 
     return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
@@ -68,7 +68,7 @@ Mass Segment::Solution::getFinalMass() const
 {
     if (states.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("States are empty.");
+        throw ostk::core::error::RuntimeError("No solution available.");
     }
 
     return Mass::Kilograms(states.accessLast().extractCoordinates(CoordinatesSubset::Mass())[0]);
