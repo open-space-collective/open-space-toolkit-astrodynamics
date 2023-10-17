@@ -18,6 +18,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
     class_<Segment::Solution>(aModule, "SegmentSolution")
 
+        .def("__str__", &(shiftToString<Segment::Solution>))
+        .def("__repr__", &(shiftToString<Segment::Solution>))
+
         .def_readonly("name", &Segment::Solution::name)
         .def_readonly("dynamics", &Segment::Solution::dynamics)
         .def_readonly("states", &Segment::Solution::states)

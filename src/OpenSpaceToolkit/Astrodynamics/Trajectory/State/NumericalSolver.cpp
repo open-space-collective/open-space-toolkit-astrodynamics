@@ -164,7 +164,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     // initialize stepper
     double currentTime = 0.0;
     stepper.initialize(aState.accessCoordinates(), currentTime, signedTimeStep);
-    observeState(aState);
 
     // do first step
     double previousTime;
