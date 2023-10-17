@@ -836,8 +836,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_),
     };
 
-    const State finalState = defaultPropagator_.calculateStateAt(state, state.getInstant() +
-    Duration::Minutes(60.0));
+    const State finalState = defaultPropagator_.calculateStateAt(state, state.getInstant() + Duration::Minutes(60.0));
 
     VectorXd expectedCoordinates(6);
     expectedCoordinates << -5172890.413848375000, -4716058.194055955000, 0000000.000000000000, 05083.946625786208,
@@ -929,12 +928,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -955,9 +952,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1042,9 +1038,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1110,12 +1105,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1146,9 +1139,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1189,12 +1181,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1327,12 +1317,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1363,9 +1351,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1406,12 +1393,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1442,9 +1427,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1485,12 +1469,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1624,12 +1606,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1660,9 +1640,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1703,12 +1682,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1817,12 +1794,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1855,9 +1830,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1901,12 +1875,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -1938,9 +1910,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -1984,12 +1955,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
 
@@ -2021,9 +1990,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -2043,8 +2011,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-PropAccuracy_Drag_Constant_Exponential_500km)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_Exponential_500km)
 {
     // Earth with Exponential atmospheric drag compared against OREKit
     {
@@ -2111,9 +2078,8 @@ PropAccuracy_Drag_Constant_Exponential_500km)
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -2134,8 +2100,7 @@ PropAccuracy_Drag_Constant_Exponential_500km)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-PropAccuracy_Drag_Constant_Exponential_320km)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_Exponential_320km)
 {
     // Earth with Exponential atmospheric drag compared against OREKit
     {
@@ -2200,9 +2165,9 @@ PropAccuracy_Drag_Constant_Exponential_320km)
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm(); ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
             ASSERT_GT(4e-3, positionErrorGCRF);  // TBI: Investigate wrt 500km case
@@ -2325,9 +2290,8 @@ TEST_F(
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -2455,9 +2419,8 @@ TEST_F(
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() -
-            referencePositionArrayGCRF[i]).norm(); const double velocityErrorGCRF = (velocityGCRF.accessCoordinates()
-            - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
@@ -2481,7 +2444,7 @@ TEST_F(
 }
 
 // TBI: Specific class for parameterized tests on thruster dynamics, could inherit from base fixture for common
-inputs
+
 // error: 'testing::Test' is an ambiguous base
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     : public ::testing::TestWithParam<
@@ -2564,8 +2527,7 @@ TEST_P(
     const Real specificImpulseReal = std::get<5>(parameters);
 
     // Reference data setup
-    const Table referenceData = Table::Load(File::Path(Path::Parse(referenceDataFileName)), Table::Format::CSV,
-    true);
+    const Table referenceData = Table::Load(File::Path(Path::Parse(referenceDataFileName)), Table::Format::CSV, true);
 
     // Initialize reference data arrays
     Array<Instant> instantArray = Array<Instant>::Empty();
@@ -2643,8 +2605,7 @@ TEST_P(
     };
 
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     SatelliteSystem satelliteSystem = {
@@ -2696,8 +2657,7 @@ TEST_P(
         const VectorXd maneuverContributionGCRF =
             thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
         const VectorXd centralBodyGravityContributionGCRF =
-            centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(),
-            gcrfSPtr_);
+            centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(), gcrfSPtr_);
         const VectorXd totalAccelerationGCRF =
             maneuverContributionGCRF.segment(0, 3) + centralBodyGravityContributionGCRF;
 
@@ -2781,20 +2741,20 @@ TEST_P(
         // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] -
         // referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
         // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] <<
-        "m/s^2"
+        // "m/s^2"
         // << std::endl; std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] -
         // referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
         // error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2"
-        <<
+        // <<
         // std::endl; std::cout << "Maneuver acceleration error LOF Y is: " << maneuverContributionLOF[1] -
         // referenceManeuverAccelerationArrayLOF[i][1] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
         // error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2"
-        <<
+        // <<
         // std::endl; std::cout << "Maneuver acceleration error GCRF is: " <<
-        maneuverAccelerationContributionErrorGCRF
+        // maneuverAccelerationContributionErrorGCRF
         // << "m/s^2" << std::endl; // Do it in percentage std::cout << "Maneuver acceleration error LOF is: " <<
         // maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl; std::cout << "Total acceleration
-        (central
+        // (central
         // body + maneuver) error GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl; std::cout <<
         // "Central body acceleration contribution error GCRF is: " <<
         // centralBodyGravityAccelerationContributionErrorGCRF << "m/s^2" << std::endl;
@@ -2874,7 +2834,7 @@ INSTANTIATE_TEST_SUITE_P(
             "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_"
             "0.0_30.0.csv",                                 // Scenario validation data file path
             LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust
-            direction Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             100.0,                                          // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
             1500.0,                                         // Specific impulse [s]
@@ -2888,8 +2848,8 @@ INSTANTIATE_TEST_SUITE_P(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
             "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VVLH_1.0_0.0_"
             "0.0_30.0.csv",                                 // Scenario validation data file path
-            LocalOrbitalFrameFactory::VVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust
-            direction Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            LocalOrbitalFrameFactory::VVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             100.0,                                          // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
             1500.0,                                         // Specific impulse [s]
@@ -2933,8 +2893,8 @@ INSTANTIATE_TEST_SUITE_P(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
             "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_LVLH_1.0_0."
             "0_0.0_30.0.csv",                               // Scenario validation data file path
-            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust
-            direction Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             1000.0,                                         // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
             1500.0,                                         // Specific impulse [s]
@@ -2948,8 +2908,8 @@ INSTANTIATE_TEST_SUITE_P(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
             "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_LVLH_1.0_0."
             "0_0.0_30.0.csv",                               // Scenario validation data file path
-            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust
-            direction Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             100.0,                                          // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
             1500.0,                                         // Specific impulse [s]
@@ -3110,8 +3070,7 @@ TEST_P(
     const Real dragCoefficientReal = std::get<7>(parameters);
 
     // Reference data setup
-    const Table referenceData = Table::Load(File::Path(Path::Parse(referenceDataFileName)), Table::Format::CSV,
-    true);
+    const Table referenceData = Table::Load(File::Path(Path::Parse(referenceDataFileName)), Table::Format::CSV, true);
 
     // Initialize reference data arrays
     Array<Instant> instantArray = Array<Instant>::Empty();
@@ -3201,8 +3160,7 @@ TEST_P(
     };
 
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     SatelliteSystem satelliteSystem = {
@@ -3256,8 +3214,7 @@ TEST_P(
         const VectorXd maneuverContributionGCRF =
             thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
         const VectorXd centralBodyGravityContributionGCRF =
-            centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(),
-            gcrfSPtr_);
+            centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(), gcrfSPtr_);
         const VectorXd dragContributionGCRF = atmosphericDragSPtr->computeContribution(
             instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_
         );  // Remove mass from state for drag, not anymore
@@ -3337,7 +3294,7 @@ TEST_P(
         // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] -
         // referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
         // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] <<
-        "m/s^2"
+        // "m/s^2"
         // << std::endl; std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] -
         // referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
         // error GCRF is: " << maneuverAccelerationContributionErrorGCRF << "m/s^2" << std::endl;  // Do it in
@@ -3347,7 +3304,7 @@ TEST_P(
         // std::endl;  // Do it in percentage std::cout << "Total acceleration (centralbody + maneuver + drag) error
         // GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl;
         // std::cout.setf(std::ios::fixed,std::ios::floatfield); std::cout <<
-        "**************************************"
+        // "**************************************"
         // << std::endl;
     }
 }
@@ -3413,8 +3370,8 @@ INSTANTIATE_TEST_SUITE_P(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
             "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_VNC_1."
             "0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),   // Local Orbital Frame Factory to express thrust
-            direction Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),   // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             1000.0,                                         // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
             1500.0,                                         // Specific impulse [s]
@@ -3447,8 +3404,8 @@ INSTANTIATE_TEST_SUITE_P(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
             "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_VNC_1."
             "0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1_TRUE.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),   // Local Orbital Frame Factory to express thrust
-            direction Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),   // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             100.0,                                          // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
             1500.0,                                         // Specific impulse [s]
@@ -3548,8 +3505,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 /* Propagation Interval validation test */
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-PropAccuracy_TwoBody_IntervalSelfComparison)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_IntervalSelfComparison)
 {
     // Test that calculateStatesAt returns the same answer if states are requested at short or long intervals
     {
@@ -3623,8 +3579,7 @@ PropAccuracy_TwoBody_IntervalSelfComparison)
         }
     }
 
-    // Test that calculateStateAt returns the almost the same answer if states are requested at short or long
-    intervals
+    // Test that calculateStateAt returns the almost the same answer if states are requested at short or long intervals
     {
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -3739,9 +3694,8 @@ TEST_F(
             const Position position78 = propagatedStateArray78[i].getPosition();
             const Velocity velocity78 = propagatedStateArray78[i].getVelocity();
 
-            const double positionErrorGCRF = (position54.accessCoordinates() -
-            position78.accessCoordinates()).norm(); const double velocityErrorGCRF = (velocity54.accessCoordinates()
-            - velocity78.accessCoordinates()).norm();
+            const double positionErrorGCRF = (position54.accessCoordinates() - position78.accessCoordinates()).norm();
+            const double velocityErrorGCRF = (velocity54.accessCoordinates() - velocity78.accessCoordinates()).norm();
 
             ASSERT_GT(5e-7, positionErrorGCRF);
             ASSERT_GT(5e-10, velocityErrorGCRF);
@@ -3826,8 +3780,7 @@ INSTANTIATE_TEST_SUITE_P(
         Duration::Days(7),
         "NRLMSISE Past Data limit pass"
     )
-                    // [TBI]: This test case fails sporadically because the actual data files are never updated based
-                    on
+                    // [TBI]: This test case fails sporadically because the actual data files are never updated based on
                     // age, meaning they can get stale.
 
                     // std::make_tuple(

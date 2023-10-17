@@ -33,8 +33,7 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
 
 Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
-    : stateBuilder_(Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_),
-      dynamicsContexts_(),
+    : dynamicsContexts_(),
       numericalSolver_(aNumericalSolver)
 {
     for (const Shared<Dynamics>& aDynamicsSPtr : aDynamicsArray)
@@ -144,7 +143,9 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const State solverInputState = this->stateBuilder_.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
+
+    const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
     const State solverOutputState = numericalSolver_.integrateTime(
         solverInputState,
@@ -170,7 +171,9 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     const Instant startInstant = aState.getInstant();
 
-    const State solverInputState = this->stateBuilder_.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
+
+    const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
     NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
         solverInputState,
@@ -211,7 +214,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
-    const State solverInputState = this->stateBuilder_.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
+
+    const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
     const Instant startInstant = solverInputState.accessInstant();
 
@@ -261,7 +266,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     Array<State> outputStates;
-    outputStates.reserve(solverOutputStates.getSize());
+    outputStates.reserve(backwardPropagatedStates.getSize() + forwardPropagatedStates.getSize());
 
     for (const State& solverOutputState : backwardPropagatedStates + forwardPropagatedStates)
     {

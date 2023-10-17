@@ -230,7 +230,6 @@ class Propagator
 
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
-    StateBuilder stateBuilder_;
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
