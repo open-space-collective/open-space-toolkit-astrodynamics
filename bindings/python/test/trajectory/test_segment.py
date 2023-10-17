@@ -204,10 +204,7 @@ class TestSegment:
 
         assert solution.get_initial_mass() is not None
         assert solution.get_final_mass() is not None
-
-<<<<<<< HEAD
         assert solution.get_propagation_duration() is not None
-=======
->>>>>>> feat: add metadata for segment and sequence solutions
+
         assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
