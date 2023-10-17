@@ -59,6 +59,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         .def("expand", &StateBuilder::expand, arg("state"), arg("default_state"))
 
         .def("get_coordinates_subsets", &StateBuilder::getCoordinatesSubsets)
+        .def("access_coordinates_broker", &StateBuilder::accessCoordinatesBroker)
         .def("get_frame", &StateBuilder::getFrame)
 
         .def_static("undefined", &StateBuilder::Undefined)
