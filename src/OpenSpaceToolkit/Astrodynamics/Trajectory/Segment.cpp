@@ -1,7 +1,10 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
@@ -11,20 +14,129 @@ namespace trajectory
 {
 
 using ostk::physics::time::Duration;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::trajectory::Propagator;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 Segment::Solution::Solution(
     const String& aName,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Array<State>& aStates,
-    const bool& aConditionIsSatisfied
+    const bool& aConditionIsSatisfied,
+    const Segment::Type& aSegmentType
 )
     : name(aName),
       dynamics(aDynamicsArray),
       states(aStates),
-      conditionIsSatisfied(aConditionIsSatisfied)
+      conditionIsSatisfied(aConditionIsSatisfied),
+      segmentType(aSegmentType)
 {
+}
+
+const Instant& Segment::Solution::accessStartInstant() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return states.accessFirst().accessInstant();
+}
+
+const Instant& Segment::Solution::accessEndInstant() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return states.accessLast().accessInstant();
+}
+
+Mass Segment::Solution::getInitialMass() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
+}
+
+Mass Segment::Solution::getFinalMass() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return Mass::Kilograms(states.accessLast().extractCoordinates(CoordinatesSubset::Mass())[0]);
+}
+
+Duration Segment::Solution::getPropagationDuration() const
+{
+    return accessEndInstant() - accessStartInstant();
+}
+
+Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
+{
+    // TBM: This is only valid for constant thrust, constant Isp
+    if (segmentType != Segment::Type::Maneuver)
+    {
+        return 0.0;
+    }
+
+    return aSpecificImpulse * EarthGravitationalModel::gravityConstant *
+           std::log(getInitialMass().inKilograms() / getFinalMass().inKilograms());
+}
+
+Mass Segment::Solution::computeDeltaMass() const
+{
+    if (segmentType != Segment::Type::Maneuver)
+    {
+        return Mass::Kilograms(0.0);
+    }
+
+    return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Header(anOutputStream, "Segment Solution");
+    }
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name;
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Condition satisfied:" << (conditionIsSatisfied ? "True" : "False");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Segment type:" << (segmentType == Segment::Type::Coast ? "Coast" : "Maneuver");
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << accessStartInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << accessEndInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Propagation duration:" << (accessEndInstant() - accessStartInstant()).toString();
+
+    if (segmentType == Segment::Type::Maneuver)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Initial mass:" << getInitialMass().toString();
+        ostk::core::utils::Print::Line(anOutputStream) << "Final mass:" << getFinalMass().toString();
+        ostk::core::utils::Print::Line(anOutputStream) << "Total mass consumed:" << computeDeltaMass().toString();
+    }
+
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Footer(anOutputStream);
+    }
+}
+
+std::ostream& operator<<(std::ostream& anOutputStream, const Segment::Solution& aSolution)
+{
+    aSolution.print(anOutputStream);
+
+    return anOutputStream;
 }
 
 Segment::Segment(
@@ -58,7 +170,7 @@ Segment::Segment(
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Segment& aSegment)
 {
-    aSegment.print(anOutputStream, false);
+    aSegment.print(anOutputStream);
 
     return anOutputStream;
 }
@@ -110,16 +222,16 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
         dynamics_,
     };
 
-    const Instant startInstant = aState.getInstant();
-
-    const NumericalSolver::ConditionSolution conditionSolution =
-        propagator.calculateStateToCondition(aState, startInstant + maximumPropagationDuration, *eventCondition_);
+    const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+        aState, aState.accessInstant() + maximumPropagationDuration, *eventCondition_
+    );
 
     return {
         name_,
         dynamics_,
         propagator.accessNumericalSolver().accessObservedStates(),
         conditionSolution.conditionIsSatisfied,
+        type_,
     };
 }
 
@@ -131,14 +243,20 @@ void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    eventCondition_->print(anOutputStream, true);
+    ostk::core::utils::Print::Line(anOutputStream) << "Type:" << (type_ == Segment::Type::Coast ? "Coast" : "Maneuver");
+    ostk::core::utils::Print::Separator(anOutputStream, "Event Condition");
+    eventCondition_->print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream);
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Dynamics");
     for (const auto& dynamics : dynamics_)
     {
-        dynamics->print(anOutputStream, true);
+        dynamics->print(anOutputStream, false);
     }
     ostk::core::utils::Print::Line(anOutputStream);
-    ostk::core::utils::Print::Line(anOutputStream) << numericalSolver_;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Numerical Solver");
+    numericalSolver_.print(anOutputStream, false);
 
     if (displayDecorator)
     {

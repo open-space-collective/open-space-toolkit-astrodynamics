@@ -24,7 +24,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         .def_readonly("segment_solutions", &Sequence::Solution::segmentSolutions)
         .def_readonly("execution_is_complete", &Sequence::Solution::executionIsComplete)
 
+        .def("access_start_instant", &Sequence::Solution::accessStartInstant)
+        .def("access_end_instant", &Sequence::Solution::accessEndInstant)
+
         .def("get_states", &Sequence::Solution::getStates)
+        .def("get_initial_mass", &Sequence::Solution::getInitialMass)
+        .def("get_final_mass", &Sequence::Solution::getFinalMass)
+        .def("get_propagation_duration", &Sequence::Solution::getPropagationDuration)
+
+        .def("compute_delta_mass", &Sequence::Solution::computeDeltaMass)
+        .def("compute_delta_v", &Sequence::Solution::computeDeltaV, arg("specific_impulse"))
 
         ;
 
@@ -37,12 +46,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     const Size&,
                     const NumericalSolver&,
                     const Array<Shared<Dynamics>>&,
-                    const Duration&>(),
+                    const Duration&,
+                    const Size&>(),
                 arg("segments") = Array<Segment>::Empty(),
                 arg("repetition_count") = 1,
                 arg("numerical_solver") = NumericalSolver::DefaultConditional(),
                 arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("maximum_propagation_duration") = Duration::Days(30.0)
+                arg("maximum_propagation_duration") = Duration::Days(30.0),
+                arg("verbosity") = 1
             )
 
             .def("__str__", &(shiftToString<Sequence>))

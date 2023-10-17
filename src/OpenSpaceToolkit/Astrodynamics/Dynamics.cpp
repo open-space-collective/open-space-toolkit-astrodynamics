@@ -134,7 +134,7 @@ void Dynamics::applyContribution(
 )
 {
     Index offset = 0;
-    for (Pair<Index, Size> pair : writeInfo)
+    for (const Pair<Index, Size>& pair : writeInfo)
     {
         const Index subsetOffset = pair.first;
         const Size subsetSize = pair.second;

@@ -37,6 +37,16 @@ using MathNumericalSolver = ostk::math::solvers::NumericalSolver;
 class NumericalSolver : public MathNumericalSolver
 {
    public:
+    /// @brief                  Structure to hold the condition solution.
+
+    struct ConditionSolution
+    {
+        State state;                  ///< Final state after integration.
+        bool conditionIsSatisfied;    ///< Whether the condition is met.
+        Size iterationCount;          ///< Number of iterations performed.
+        bool rootSolverHasConverged;  ///< Whether the root solver has converged.
+    };
+
     /// @brief                  Constructor
     ///
     /// @code
@@ -62,16 +72,6 @@ class NumericalSolver : public MathNumericalSolver
         const Real& anAbsoluteTolerance,
         const RootSolver& aRootSolver = RootSolver::Default()
     );
-
-    /// @brief                  Structure to hold the condition solution.
-
-    struct ConditionSolution
-    {
-        State state;                  ///< Final state after integration.
-        bool conditionIsSatisfied;    ///< Whether the condition is met.
-        Size iterationCount;          ///< Number of iterations performed.
-        bool rootSolverHasConverged;  ///< Whether the root solver has converged.
-    };
 
     /// @brief                  Access observed states
     ///
@@ -155,9 +155,26 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief                  Default conditional
     ///
-    /// @return                 A default conditional numerical solver
+    /// @param                  [in] stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
+    /// @return                 A default conditional numerical solver.
 
-    static NumericalSolver DefaultConditional();
+    static NumericalSolver DefaultConditional(const std::function<void(const State&)>& stateLogger = nullptr);
+
+    /// @brief Create a conditional numerical solver.
+    ///
+    /// @param                  [in] aTimeStep The initial time step to use.
+    /// @param                  [in] aRelativeTolerance The relative tolerance to use.
+    /// @param                  [in] anAbsoluteTolerance The absolute tolerance to use.
+    /// @param                  [in] stateLogger A function that takes a `State` object and logs.
+    ///
+    /// @return                 A conditional numerical solver.
+
+    static NumericalSolver Conditional(
+        const Real& aTimeStep,
+        const Real& aRelativeTolerance,
+        const Real& anAbsoluteTolerance,
+        const std::function<void(const State&)>& stateLogger
+    );
 
     /// Delete undesired methods from parent
 
@@ -194,6 +211,37 @@ class NumericalSolver : public MathNumericalSolver
    private:
     RootSolver rootSolver_;
     Array<State> observedStates_;
+    std::function<void(const State&)> stateLogger_;
+
+    /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep,
+    ///                         aRelativeTolerance, anAbsoluteTolerance };
+    /// @endcode
+    ///
+    /// @param                  [in] aLogType An enum indicating the amount of verbosity wanted to be logged during
+    ///                         numerical integration
+    /// @param                  [in] aStepperType An enum indicating the type of numerical stepper used to perform
+    ///                         integration
+    /// @param                  [in] aTimeStep A number indicating the initial guess time step the numerical solver will
+    ///                         take
+    /// @param                  [in] aRelativeTolerance A number indicating the relative integration tolerance
+    /// @param                  [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
+    /// @param                  [in] aRootSolver A root solver to be used to solve the event condition
+    /// @param                  [in] stateLogger A function that takes a `State` object and logs
+
+    NumericalSolver(
+        const NumericalSolver::LogType& aLogType,
+        const NumericalSolver::StepperType& aStepperType,
+        const Real& aTimeStep,
+        const Real& aRelativeTolerance,
+        const Real& anAbsoluteTolerance,
+        const RootSolver& aRootSolver,
+        const std::function<void(const State&)>& stateLogger
+    );
+
+    void observeState(const State& aState);
 };
 
 }  // namespace state

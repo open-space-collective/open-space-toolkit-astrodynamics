@@ -29,6 +29,7 @@ using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::units::Mass;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::NumericalSolver;
@@ -54,13 +55,29 @@ class Segment
             const String& aName,
             const Array<Shared<Dynamics>>& aDynamicsArray,
             const Array<State>& aStates,
-            const bool& aConditionIsSatisfied
+            const bool& aConditionIsSatisfied,
+            const Segment::Type& aSegmentType
         );
 
         String name;                       /// Name of the segment.
         Array<Shared<Dynamics>> dynamics;  /// List of dynamics used.
         Array<State> states;               /// Array of states for the segment.
         bool conditionIsSatisfied;         /// True if the event condition is satisfied.
+        Segment::Type segmentType;         /// Type of segment.
+
+        const Instant& accessStartInstant() const;
+        const Instant& accessEndInstant() const;
+
+        Mass getInitialMass() const;
+        Mass getFinalMass() const;
+        Duration getPropagationDuration() const;
+
+        Real computeDeltaV(const Real& aSpecificImpulse) const;
+        Mass computeDeltaMass() const;
+
+        void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+        friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
     };
 
     /// @brief                  Output stream operator

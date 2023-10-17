@@ -137,7 +137,8 @@ void ConstantThrust::print(std::ostream& anOutputStream, bool displayDecorator) 
     Dynamics::print(anOutputStream, false);
 
     ostk::core::utils::Print::Separator(anOutputStream, "Satellite System");
-    this->getSatelliteSystem().print(anOutputStream, false);
+    ostk::core::utils::Print::Line(anOutputStream) << "Mass:" << this->getSatelliteSystem().getMass().toString();
+    this->getSatelliteSystem().getPropulsionSystem().print(anOutputStream, false);
 
     ostk::core::utils::Print::Separator(anOutputStream, "Thrust Direction");
     localOrbitalFrameDirection_.print(anOutputStream, false);
@@ -149,11 +150,15 @@ ConstantThrust ConstantThrust::Intrack(
     const SatelliteSystem& aSatelliteSystem, const bool& velocityDirection, const Shared<const Frame>& aFrameSPtr
 )
 {
-    const Vector3d direction = velocityDirection ? 1.0 * Vector3d::UnitX() : -1.0 * Vector3d::UnitX();
+    const Vector3d direction = (velocityDirection ? Vector3d {1.0, 0.0, 0.0} : Vector3d {-1.0, 0.0, 0.0});
     const LocalOrbitalFrameDirection localOrbitalFrameDirection =
         LocalOrbitalFrameDirection(direction, LocalOrbitalFrameFactory::VNC(aFrameSPtr));
 
-    return ConstantThrust(aSatelliteSystem, localOrbitalFrameDirection, "Intrack");
+    return ConstantThrust(
+        aSatelliteSystem,
+        localOrbitalFrameDirection,
+        String::Format("Intrack - {}", velocityDirection ? "Positive" : "Negative")
+    );
 }
 
 }  // namespace thruster
