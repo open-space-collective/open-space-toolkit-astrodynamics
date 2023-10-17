@@ -225,7 +225,8 @@ Benchmarks are pushed to the [GitHub pages](https://open-space-collective.github
 | ----------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Pybind11    | `2.10.1`  | BSD-3-Clause       | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)                                                                           |
 | ordered-map | `0.6.0`   | MIT                | [github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)                                                                     |
-| Eigen       | `3.3.7`   | MPL2               | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
+| {fmt}       | `5.2.0`   | BSD-2-Clause       | [github.com/fmtlib/fmt](https://github.com/fmtlib/fmt)                                                                                     |
+| Eigen       | `3.4.0`   | MPL2               | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
 | SGP4        | `6a448b4` | Apache License 2.0 | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
 | NLopt       | `2.5.0`   | LGPL               | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
 | benchmark   | `1.8.2`   | Apache License 2.0 | [github.com/google/benchmark](https://github.com/google/benchmark)                                                                             |
