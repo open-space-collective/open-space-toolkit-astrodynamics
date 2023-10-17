@@ -38,7 +38,7 @@ const Instant& Segment::Solution::accessStartInstant() const
 {
     if (states.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("States are empty.");
+        throw ostk::core::error::RuntimeError("No solution available.");
     }
 
     return states.accessFirst().accessInstant();
