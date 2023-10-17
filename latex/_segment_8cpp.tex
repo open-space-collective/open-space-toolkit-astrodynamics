@@ -1,7 +1,9 @@
 \hypertarget{_segment_8cpp}{}\doxysection{src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Segment.cpp File Reference}
 \label{_segment_8cpp}\index{src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp@{src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp}}
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Environment/\+Gravitational/\+Earth.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Propagator.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Segment.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\+Coordinates\+Subset.\+hpp$>$}\newline
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -11,8 +13,15 @@
 \item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory}{ostk\+::astro\+::trajectory}}
 \end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_afda3c9270779749cae5d6a3a967d7564}{ostk\+::astro\+::trajectory\+::\+Earth\+Gravitational\+Model}} = ostk\+::physics\+::environment\+::gravitational\+::\+Earth
+\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a6e88ddc263235b654d26ed19701e34e1}{ostk\+::astro\+::trajectory\+::operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const Segment\+::\+Solution \&a\+Solution)
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a59bebb823f66be1052f4f1e3078fd9c2}{ostk\+::astro\+::trajectory\+::operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const Segment \&a\+Segment)
 \end{DoxyCompactItemize}

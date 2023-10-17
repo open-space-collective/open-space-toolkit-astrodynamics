@@ -1,7 +1,7 @@
 var classostk_1_1astro_1_1trajectory_1_1_sequence =
 [
     [ "Solution", "structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution.html", "structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution" ],
-    [ "Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html#abd56231bad438acf327d9f0b9930c2f6", null ],
+    [ "Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html#a0f1bff59b1027fcc67e72deaf643891c", null ],
     [ "addCoastSegment", "classostk_1_1astro_1_1trajectory_1_1_sequence.html#a5ccde70df95c29e47cb70e1f2fa2a9d0", null ],
     [ "addManeuverSegment", "classostk_1_1astro_1_1trajectory_1_1_sequence.html#ab6a7e40bf334faf78967fff729e4730c", null ],
     [ "addSegment", "classostk_1_1astro_1_1trajectory_1_1_sequence.html#ae046ef43cc04dbc0587b7048ad70eddd", null ],

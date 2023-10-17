@@ -7,7 +7,23 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a918865a08e92e82544e390e81e16f053}{Solution}} (const String \&a\+Name, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array, const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+States, const bool \&a\+Condition\+Is\+Satisfied)
+\mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad95e22cec62e36f4c89d68ce25320599}{Solution}} (const String \&a\+Name, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array, const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+States, const bool \&a\+Condition\+Is\+Satisfied, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment_a5889e20c1d83004b7b2bd77602ae9c2f}{Segment\+::\+Type}} \&a\+Segment\+Type)
+\item 
+const Instant \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4ba4fc26ecc269d19c45635ef9a12ea3}{access\+Start\+Instant}} () const
+\begin{DoxyCompactList}\small\item\em Type of segment. \end{DoxyCompactList}\item 
+const Instant \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aac24d3daad0746e310a5463be89782c6}{access\+End\+Instant}} () const
+\item 
+Mass \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a19ce5cf2de1256666d5f252dfa720947}{get\+Initial\+Mass}} () const
+\item 
+Mass \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad3b03495aace95722394f490e22f7ea8}{get\+Final\+Mass}} () const
+\item 
+Duration \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_adb6430c603a6693a94ada60e63953956}{get\+Propagation\+Duration}} () const
+\item 
+Real \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_af105a18a6705eba38a8da9101f58a253}{compute\+DeltaV}} (const Real \&a\+Specific\+Impulse) const
+\item 
+Mass \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a76458d29b4c6a74c9bd4c633c16e41c4}{compute\+Delta\+Mass}} () const
+\item 
+void \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a9729dd1994f7692972abf07fa25b7a44}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -19,15 +35,86 @@ Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} 
 Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a2f9de7f970a194c241e2eeeda3517a45}{states}}
 \begin{DoxyCompactList}\small\item\em List of dynamics used. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aaa7dceeff8352cdf6639244b47498357}{condition\+Is\+Satisfied}}
-\begin{DoxyCompactList}\small\item\em Array of states for the segment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Array of states for the segment. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment_a5889e20c1d83004b7b2bd77602ae9c2f}{Segment\+::\+Type}} \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a09ecf11f445cfb682fc7edc141c65b28}{segment\+Type}}
+\begin{DoxyCompactList}\small\item\em True if the event condition is satisfied. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aca78b91909896a040a271510c450caee}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}} \&a\+Solution)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a918865a08e92e82544e390e81e16f053}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a918865a08e92e82544e390e81e16f053}} 
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad95e22cec62e36f4c89d68ce25320599}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad95e22cec62e36f4c89d68ce25320599}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!Solution@{Solution}}
 \index{Solution@{Solution}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{Solution()}{Solution()}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::\+Solution (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array,  }\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&}]{a\+States,  }\item[{const bool \&}]{a\+Condition\+Is\+Satisfied }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::\+Solution (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array,  }\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&}]{a\+States,  }\item[{const bool \&}]{a\+Condition\+Is\+Satisfied,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment_a5889e20c1d83004b7b2bd77602ae9c2f}{Segment\+::\+Type}} \&}]{a\+Segment\+Type }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aac24d3daad0746e310a5463be89782c6}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aac24d3daad0746e310a5463be89782c6}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!accessEndInstant@{accessEndInstant}}
+\index{accessEndInstant@{accessEndInstant}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{accessEndInstant()}{accessEndInstant()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::access\+End\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4ba4fc26ecc269d19c45635ef9a12ea3}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4ba4fc26ecc269d19c45635ef9a12ea3}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!accessStartInstant@{accessStartInstant}}
+\index{accessStartInstant@{accessStartInstant}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{accessStartInstant()}{accessStartInstant()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::access\+Start\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Type of segment. 
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a76458d29b4c6a74c9bd4c633c16e41c4}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a76458d29b4c6a74c9bd4c633c16e41c4}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!computeDeltaMass@{computeDeltaMass}}
+\index{computeDeltaMass@{computeDeltaMass}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{computeDeltaMass()}{computeDeltaMass()}}
+{\footnotesize\ttfamily Mass ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::compute\+Delta\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_af105a18a6705eba38a8da9101f58a253}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_af105a18a6705eba38a8da9101f58a253}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!computeDeltaV@{computeDeltaV}}
+\index{computeDeltaV@{computeDeltaV}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{computeDeltaV()}{computeDeltaV()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::compute\+DeltaV (\begin{DoxyParamCaption}\item[{const Real \&}]{a\+Specific\+Impulse }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad3b03495aace95722394f490e22f7ea8}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad3b03495aace95722394f490e22f7ea8}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getFinalMass@{getFinalMass}}
+\index{getFinalMass@{getFinalMass}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{getFinalMass()}{getFinalMass()}}
+{\footnotesize\ttfamily Mass ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Final\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a19ce5cf2de1256666d5f252dfa720947}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a19ce5cf2de1256666d5f252dfa720947}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getInitialMass@{getInitialMass}}
+\index{getInitialMass@{getInitialMass}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{getInitialMass()}{getInitialMass()}}
+{\footnotesize\ttfamily Mass ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Initial\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_adb6430c603a6693a94ada60e63953956}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_adb6430c603a6693a94ada60e63953956}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getPropagationDuration@{getPropagationDuration}}
+\index{getPropagationDuration@{getPropagationDuration}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{getPropagationDuration()}{getPropagationDuration()}}
+{\footnotesize\ttfamily Duration ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Propagation\+Duration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a9729dd1994f7692972abf07fa25b7a44}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a9729dd1994f7692972abf07fa25b7a44}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!print@{print}}
+\index{print@{print}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aca78b91909896a040a271510c450caee}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aca78b91909896a040a271510c450caee}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}} \&}]{a\+Solution }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
 
 
@@ -57,6 +144,16 @@ Name of the segment.
 \index{name@{name}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{name}{name}}
 {\footnotesize\ttfamily String ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::name}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a09ecf11f445cfb682fc7edc141c65b28}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a09ecf11f445cfb682fc7edc141c65b28}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!segmentType@{segmentType}}
+\index{segmentType@{segmentType}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{segmentType}{segmentType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment_a5889e20c1d83004b7b2bd77602ae9c2f}{Segment\+::\+Type}} ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::segment\+Type}
+
+
+
+True if the event condition is satisfied. 
 
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a2f9de7f970a194c241e2eeeda3517a45}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a2f9de7f970a194c241e2eeeda3517a45}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!states@{states}}

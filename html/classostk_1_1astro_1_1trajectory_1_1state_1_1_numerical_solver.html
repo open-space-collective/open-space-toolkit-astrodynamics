@@ -152,9 +152,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8484b5f856c8686284f55a17c1557f34"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a8484b5f856c8686284f55a17c1557f34">Default</a> ()</td></tr>
 <tr class="memdesc:a8484b5f856c8686284f55a17c1557f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a8484b5f856c8686284f55a17c1557f34">More...</a><br /></td></tr>
 <tr class="separator:a8484b5f856c8686284f55a17c1557f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c9780b5f76d152ee95bbe72445b693b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a3c9780b5f76d152ee95bbe72445b693b">DefaultConditional</a> ()</td></tr>
-<tr class="memdesc:a3c9780b5f76d152ee95bbe72445b693b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default conditional.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a3c9780b5f76d152ee95bbe72445b693b">More...</a><br /></td></tr>
-<tr class="separator:a3c9780b5f76d152ee95bbe72445b693b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1686435e045ab321599c6912524d208a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a1686435e045ab321599c6912524d208a">DefaultConditional</a> (const std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt; &amp;stateLogger=nullptr)</td></tr>
+<tr class="memdesc:a1686435e045ab321599c6912524d208a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default conditional.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a1686435e045ab321599c6912524d208a">More...</a><br /></td></tr>
+<tr class="separator:a1686435e045ab321599c6912524d208a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33d2951730a0e0241264f85136341778"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a33d2951730a0e0241264f85136341778">Conditional</a> (const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt; &amp;stateLogger)</td></tr>
+<tr class="memdesc:a33d2951730a0e0241264f85136341778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a conditional numerical solver.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a33d2951730a0e0241264f85136341778">More...</a><br /></td></tr>
+<tr class="separator:a33d2951730a0e0241264f85136341778"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics Numerical Solver. </p>
@@ -273,6 +276,66 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a33d2951730a0e0241264f85136341778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33d2951730a0e0241264f85136341778">&#9670;&nbsp;</a></span>Conditional()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a> ostk::astro::trajectory::state::NumericalSolver::Conditional </td>
+          <td>(</td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aTimeStep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aRelativeTolerance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>anAbsoluteTolerance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>stateLogger</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a conditional numerical solver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeStep</td><td>The initial time step to use. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aRelativeTolerance</td><td>The relative tolerance to use. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anAbsoluteTolerance</td><td>The absolute tolerance to use. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stateLogger</td><td>A function that takes a <code><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a></code> object and logs.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A conditional numerical solver. </dd></dl>
+
+</div>
+</div>
 <a id="a8484b5f856c8686284f55a17c1557f34"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8484b5f856c8686284f55a17c1557f34">&#9670;&nbsp;</a></span>Default()</h2>
 
@@ -301,8 +364,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3c9780b5f76d152ee95bbe72445b693b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c9780b5f76d152ee95bbe72445b693b">&#9670;&nbsp;</a></span>DefaultConditional()</h2>
+<a id="a1686435e045ab321599c6912524d208a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1686435e045ab321599c6912524d208a">&#9670;&nbsp;</a></span>DefaultConditional()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,7 +376,8 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a> ostk::astro::trajectory::state::NumericalSolver::DefaultConditional </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>stateLogger</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -325,7 +389,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Default conditional. </p>
-<dl class="section return"><dt>Returns</dt><dd>A default conditional numerical solver </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">stateLogger</td><td>A function that takes a <code><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a></code> object and logs. Defaults to <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A default conditional numerical solver. </dd></dl>
 
 </div>
 </div>
@@ -754,7 +824,7 @@ Static Public Member Functions</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_html_af3766411fd7d0da4181c251a7c866255"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#af3766411fd7d0da4181c251a7c866255">ostk::astro::trajectory::state::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:29</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_html_af3766411fd7d0da4181c251a7c866255"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#af3766411fd7d0da4181c251a7c866255">ostk::astro::trajectory::state::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:31</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -56,8 +56,10 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_
 \begin{DoxyCompactList}\small\item\em Undefined. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a8484b5f856c8686284f55a17c1557f34}{Default}} ()
 \begin{DoxyCompactList}\small\item\em Default. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a3c9780b5f76d152ee95bbe72445b693b}{Default\+Conditional}} ()
-\begin{DoxyCompactList}\small\item\em Default conditional. \end{DoxyCompactList}\end{DoxyCompactItemize}
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a1686435e045ab321599c6912524d208a}{Default\+Conditional}} (const std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&state\+Logger=nullptr)
+\begin{DoxyCompactList}\small\item\em Default conditional. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a33d2951730a0e0241264f85136341778}{Conditional}} (const Real \&a\+Time\+Step, const Real \&a\+Relative\+Tolerance, const Real \&an\+Absolute\+Tolerance, const std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&state\+Logger)
+\begin{DoxyCompactList}\small\item\em Create a conditional numerical solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -124,6 +126,30 @@ Observed states
 \doxysubsubsection{\texorpdfstring{accessObservedStateVectors()}{accessObservedStateVectors()}}
 {\footnotesize\ttfamily const Array$<$Math\+Numerical\+Solver\+::\+Solution$>$\& ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver\+::access\+Observed\+State\+Vectors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [delete]}}
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a33d2951730a0e0241264f85136341778}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a33d2951730a0e0241264f85136341778}} 
+\index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}!Conditional@{Conditional}}
+\index{Conditional@{Conditional}!ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}}
+\doxysubsubsection{\texorpdfstring{Conditional()}{Conditional()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver\+::\+Conditional (\begin{DoxyParamCaption}\item[{const Real \&}]{a\+Time\+Step,  }\item[{const Real \&}]{a\+Relative\+Tolerance,  }\item[{const Real \&}]{an\+Absolute\+Tolerance,  }\item[{const std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&}]{state\+Logger }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Create a conditional numerical solver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Time\+Step} & The initial time step to use. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Relative\+Tolerance} & The relative tolerance to use. \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Absolute\+Tolerance} & The absolute tolerance to use. \\
+\hline
+\mbox{\texttt{ in}}  & {\em state\+Logger} & A function that takes a {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}} object and logs.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A conditional numerical solver. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a8484b5f856c8686284f55a17c1557f34}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a8484b5f856c8686284f55a17c1557f34}} 
 \index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}!Default@{Default}}
 \index{Default@{Default}!ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}}
@@ -137,18 +163,23 @@ Default.
 \begin{DoxyReturn}{Returns}
 A default numerical solver 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a3c9780b5f76d152ee95bbe72445b693b}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a3c9780b5f76d152ee95bbe72445b693b}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a1686435e045ab321599c6912524d208a}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a1686435e045ab321599c6912524d208a}} 
 \index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}!DefaultConditional@{DefaultConditional}}
 \index{DefaultConditional@{DefaultConditional}!ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}}
 \doxysubsubsection{\texorpdfstring{DefaultConditional()}{DefaultConditional()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver\+::\+Default\+Conditional (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver\+::\+Default\+Conditional (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&}]{state\+Logger = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
 Default conditional. 
 
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em state\+Logger} & A function that takes a {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}} object and logs. Defaults to {\ttfamily nullptr}. \\
+\hline
+\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A default conditional numerical solver 
+A default conditional numerical solver. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_abc7b65d3487049605e36d70e3b76dd4c}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_abc7b65d3487049605e36d70e3b76dd4c}} 
 \index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}!getObservedStates@{getObservedStates}}
