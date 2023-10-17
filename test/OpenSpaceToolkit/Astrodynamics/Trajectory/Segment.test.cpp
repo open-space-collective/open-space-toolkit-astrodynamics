@@ -133,7 +133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Access
             Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
 
         EXPECT_THROW(segmentSolution.accessStartInstant(), ostk::core::error::RuntimeError);
-        EXPECT_THROW(segmentSolution.accessStartInstant(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.accessEndInstant(), ostk::core::error::RuntimeError);
     }
 }
 
