@@ -4,7 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
@@ -21,7 +21,7 @@ namespace trajectory
 {
 
 using ostk::core::types::Real;
-using ostk::core::types::Integer;
+using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
 
 using ostk::physics::Environment;
