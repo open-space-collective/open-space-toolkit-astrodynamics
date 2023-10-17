@@ -106,7 +106,6 @@ def numerical_solver(
     initial_time_step: float,
     relative_tolerance: float,
     absolute_tolerance: float,
-    state_logger: callable,
 ) -> NumericalSolver:
     return NumericalSolver(
         log_type=log_type,
@@ -114,19 +113,12 @@ def numerical_solver(
         time_step=initial_time_step,
         relative_tolerance=relative_tolerance,
         absolute_tolerance=absolute_tolerance,
-        state_logger=state_logger,
     )
 
 
 @pytest.fixture
 def numerical_solver_conditional() -> NumericalSolver:
-    return NumericalSolver(
-        NumericalSolver.LogType.NoLog,
-        NumericalSolver.StepperType.RungeKuttaDopri5,
-        5.0,
-        1.0e-15,
-        1.0e-15,
-    )
+    return NumericalSolver.default_conditional()
 
 
 class TestNumericalSolver:
@@ -279,14 +271,21 @@ class TestNumericalSolver:
     def test_default(self):
         assert NumericalSolver.default() is not None
 
-    def test_default_conditional(self):
+    def test_default_conditional(self, state_logger):
         assert NumericalSolver.default_conditional() is not None
+        assert NumericalSolver.default_conditional(state_logger) is not None
 
     def test_undefined(self):
         assert NumericalSolver.undefined() is not None
         assert NumericalSolver.undefined().is_defined() is False
 
-    def test_conditional(self):
+    def test_conditional(
+        self,
+        initial_time_step: float,
+        relative_tolerance: float,
+        absolute_tolerance: float,
+        state_logger,
+    ):
         assert (
             NumericalSolver.conditional(
                 initial_time_step, relative_tolerance, absolute_tolerance, state_logger
