@@ -145,6 +145,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Getter
 
         EXPECT_THROW(segmentSolution.getInitialMass(), ostk::core::error::RuntimeError);
         EXPECT_THROW(segmentSolution.getFinalMass(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.getPropagationDuration(), ostk::core::error::RuntimeError);
     }
 
     {
@@ -154,6 +155,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Getter
 
         EXPECT_DOUBLE_EQ(200.0, segmentSolution.getInitialMass().inKilograms());
         EXPECT_DOUBLE_EQ(180.0, segmentSolution.getFinalMass().inKilograms());
+        EXPECT_DOUBLE_EQ(0.0, segmentSolution.getPropagationDuration().inSeconds());
     }
 }
 

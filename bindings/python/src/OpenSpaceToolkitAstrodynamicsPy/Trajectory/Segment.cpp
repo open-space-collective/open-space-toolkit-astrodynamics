@@ -29,6 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
         .def("get_initial_mass", &Segment::Solution::getInitialMass)
         .def("get_final_mass", &Segment::Solution::getFinalMass)
+        .def("get_propagation_duration", &Segment::Solution::getPropagationDuration)
 
         .def("compute_delta_mass", &Segment::Solution::computeDeltaMass)
         .def("compute_delta_v", &Segment::Solution::computeDeltaV, arg("specific_impulse"))
