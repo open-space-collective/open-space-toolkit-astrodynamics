@@ -38,7 +38,8 @@ NumericalSolver::NumericalSolver(
 )
     : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
       rootSolver_(aRootSolver),
-      observedStates_()
+      observedStates_(),
+      stateLogger_(nullptr)
 {
 }
 
@@ -163,13 +164,14 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     // initialize stepper
     double currentTime = 0.0;
     stepper.initialize(aState.accessCoordinates(), currentTime, signedTimeStep);
+    observeState(aState);
 
     // do first step
     double previousTime;
     std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
 
     State previousState = createState(stepper.current_state(), stepper.current_time());
-    observedStates_.add(previousState);
+    observeState(previousState);
 
     bool conditionSatisfied = false;
 
@@ -204,7 +206,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
             break;
         }
 
-        observedStates_.add(currentState);
+        observeState(currentState);
         previousState = currentState;
     }
 
@@ -255,7 +257,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
 
     stepper.calc_state(solutionTime, solutionStateVector);
     const State solutionState = createState(solutionStateVector, solutionTime);
-    observedStates_.add(solutionState);
+    observeState(solutionState);
 
     return {
         solutionState,
@@ -273,6 +275,8 @@ NumericalSolver NumericalSolver::Undefined()
         Real::Undefined(),
         Real::Undefined(),
         Real::Undefined(),
+        RootSolver::Default(),
+        nullptr,
     };
 }
 
@@ -285,19 +289,60 @@ NumericalSolver NumericalSolver::Default()
         1.0e-12,
         1.0e-12,
         RootSolver::Default(),
+        nullptr,
     };
 }
 
-NumericalSolver NumericalSolver::DefaultConditional()
+NumericalSolver NumericalSolver::DefaultConditional(const std::function<void(const State&)>& stateLogger)
 {
+    return NumericalSolver::Conditional(5.0, 1.0e-12, 1.0e-12, stateLogger);
+}
+
+NumericalSolver NumericalSolver::Conditional(
+    const Real& aTimeStep,
+    const Real& aRelativeTolerance,
+    const Real& anAbsoluteTolerance,
+    const std::function<void(const State&)>& stateLogger
+)
+{
+    const NumericalSolver::LogType logType =
+        stateLogger != nullptr ? NumericalSolver::LogType::LogAdaptive : NumericalSolver::LogType::NoLog;
+
     return {
-        NumericalSolver::LogType::NoLog,
+        logType,
         NumericalSolver::StepperType::RungeKuttaDopri5,
-        5.0,
-        1.0e-12,
-        1.0e-12,
+        aTimeStep,
+        aRelativeTolerance,
+        anAbsoluteTolerance,
         RootSolver::Default(),
+        stateLogger,
     };
+}
+
+NumericalSolver::NumericalSolver(
+    const NumericalSolver::LogType& aLogType,
+    const NumericalSolver::StepperType& aStepperType,
+    const Real& aTimeStep,
+    const Real& aRelativeTolerance,
+    const Real& anAbsoluteTolerance,
+    const RootSolver& aRootSolver,
+    const std::function<void(const State& aState)>& stateLogger
+)
+    : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
+      rootSolver_(aRootSolver),
+      observedStates_(),
+      stateLogger_(stateLogger)
+{
+}
+
+void NumericalSolver::observeState(const State& aState)
+{
+    observedStates_.add(aState);
+
+    if (stateLogger_ != nullptr && getLogType() != NumericalSolver::LogType::NoLog)
+    {
+        stateLogger_(aState);
+    }
 }
 
 }  // namespace state
