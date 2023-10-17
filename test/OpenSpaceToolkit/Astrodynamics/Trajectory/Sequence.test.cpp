@@ -143,6 +143,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Prin
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_StreamOperator)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        const Segment::Solution segmentSolution = {
+            "A Segment", {}, {defaultState_, defaultState_}, true, Segment::Type::Coast
+        };
+
+        EXPECT_NO_THROW(std::cout << segmentSolution << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
 {
     {
@@ -154,7 +169,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_));
+        {
+            EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_));
+        }
+
+        {
+            EXPECT_THROW(Sequence sequence(defaultSegments_, 0), ostk::core::error::runtime::Wrong);
+        }
     }
 
     {
@@ -175,6 +196,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
             defaultDynamics_,
             defaultMaximumPropagationDuration_
         ));
+    }
+
+    {
+        {
+            for (Size verbosity = 0; verbosity <= 5; ++verbosity)
+            {
+                EXPECT_NO_THROW(Sequence sequence(
+                    defaultSegments_,
+                    defaultRepetitionCount_,
+                    defaultNumericalSolver_,
+                    defaultDynamics_,
+                    defaultMaximumPropagationDuration_,
+                    verbosity
+                ));
+            }
+        }
+
+        {
+            EXPECT_THROW(
+                Sequence sequence(
+                    defaultSegments_,
+                    defaultRepetitionCount_,
+                    defaultNumericalSolver_,
+                    defaultDynamics_,
+                    defaultMaximumPropagationDuration_,
+                    6
+                ),
+                ostk::core::error::runtime::Wrong
+            );
+        }
     }
 }
 
@@ -401,9 +452,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
 {
-    testing::internal::CaptureStdout();
+    {
+        testing::internal::CaptureStdout();
 
-    EXPECT_NO_THROW(defaultSequence_.print(std::cout, true));
-    EXPECT_NO_THROW(defaultSequence_.print(std::cout, false));
-    EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+        EXPECT_NO_THROW(defaultSequence_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultSequence_.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
+    {
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+
+        const PropulsionSystem propulsionSystem = PropulsionSystem(1.0, 1500.0);
+
+        const SatelliteSystem satelliteSystem = {
+            Mass::Kilograms(100.0),
+            satelliteGeometry,
+            Matrix3d::Identity(),
+            500.0,
+            2.1,
+            propulsionSystem,
+        };
+
+        Sequence sequence = {
+            Array<Segment>::Empty(),
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_,
+        };
+
+        sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            RealCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            Length::Kilometers(6999.5),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        )));
+
+        sequence.addManeuverSegment(
+            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+                RealCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                Length::Kilometers(7000.0),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            )),
+            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
+        );
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(sequence.print(std::cout, true));
+        EXPECT_NO_THROW(sequence.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
 }

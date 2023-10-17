@@ -132,7 +132,7 @@ Sequence::Sequence(
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Duration& maximumPropagationDuration,
-    const Integer& verbose
+    const Size& verbosity
 )
     : segments_(aSegmentArray),
       repetitionCount_(aRepetitionCount),
@@ -140,33 +140,38 @@ Sequence::Sequence(
       dynamics_(aDynamicsArray),
       maximumPropagationDuration_(maximumPropagationDuration)
 {
-    if (verbose == 0)
+    if (verbosity == 5)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::trace);
     }
-    else if (verbose == 1)
+    else if (verbosity == 4)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::debug);
     }
-    else if (verbose == 2)
+    else if (verbosity == 3)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::info);
     }
-    else if (verbose == 3)
+    else if (verbosity == 2)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::warning);
     }
-    else if (verbose == 4)
+    else if (verbosity == 1)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::error);
     }
-    else if (verbose == 5)
+    else if (verbosity == 0)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::fatal);
     }
     else
     {
-        throw ostk::core::error::runtime::Wrong("Verbose level");
+        throw ostk::core::error::runtime::Wrong("verbosity level");
+    }
+
+    if (repetitionCount_ < 1)
+    {
+        throw ostk::core::error::runtime::Wrong("Repetition count");
     }
 }
 

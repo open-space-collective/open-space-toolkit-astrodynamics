@@ -77,7 +77,7 @@ class Sequence
     /// @param                  [in] aNumericalSolver A Numerical Solver. Defaults to Undefined.
     /// @param                  [in] aDynamicsArray An array of shared dynamics. Defaults to empty.
     /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 7.0 days.
-    /// @param                  [in] verbose Verbosity level for the solver. Defaults to 5.
+    /// @param                  [in] verbosity Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
 
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
@@ -85,7 +85,7 @@ class Sequence
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const Duration& maximumPropagationDuration = Duration::Days(7.0),
-        const Integer& verbose = 1
+        const Size& verbosity = 0
     );
 
     /// @brief                  Output stream operator.
