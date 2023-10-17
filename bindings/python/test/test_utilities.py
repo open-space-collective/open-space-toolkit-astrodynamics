@@ -113,6 +113,7 @@ class TestUtilities:
         assert states is not None
         assert isinstance(states, list)
         assert len(states) == len(sample_gps_telemetry)
+
         for state in states:
             assert isinstance(state, State)
             assert isinstance(state.get_instant(), Instant)
