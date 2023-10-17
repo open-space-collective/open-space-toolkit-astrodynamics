@@ -70,6 +70,7 @@ class Segment
 
         Mass getInitialMass() const;
         Mass getFinalMass() const;
+        Duration getPropagationDuration() const;
 
         Real computeDeltaV(const Real& aSpecificImpulse) const;
         Mass computeDeltaMass() const;

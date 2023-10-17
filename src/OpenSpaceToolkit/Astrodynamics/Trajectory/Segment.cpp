@@ -64,6 +64,11 @@ Mass Segment::Solution::getInitialMass() const
     return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
 }
 
+Duration Segment::Solution::getPropagationDuration() const
+{
+    return accessEndInstant() - accessStartInstant();
+}
+
 Mass Segment::Solution::getFinalMass() const
 {
     if (states.isEmpty())
