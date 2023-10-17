@@ -14,6 +14,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -21,6 +23,8 @@
 using ostk::core::ctnr::Array;
 using ostk::core::types::String;
 using ostk::core::types::Shared;
+
+using ostk::math::obj::VectorXd;
 
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
@@ -46,9 +50,24 @@ using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
+    void SetUp() override
+    {
+        VectorXd initialCoordinates(7);
+        initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+        initialStateWithMass_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinatesBrokerSPtr_};
+
+        VectorXd finalCoordinates(7);
+        finalCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 180.0;
+        finalStateWithMass_ = {Instant::J2000(), finalCoordinates, Frame::GCRF(), thrustCoordinatesBrokerSPtr_};
+    }
+
    protected:
     const State defaultState_ = {
         Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC),
@@ -79,9 +98,103 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::tes
     );
     const Segment defaultCoastSegment_ =
         Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_);
+
+    const Shared<CoordinatesBroker> thrustCoordinatesBrokerSPtr_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            CoordinatesSubset::Mass(),
+        }));
+
+    State initialStateWithMass_ = State::Undefined();
+    State finalStateWithMass_ = State::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Coast)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Constructor)
+{
+    {
+        EXPECT_NO_THROW(Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Accessors)
+{
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {defaultState_, defaultState_}, true, Segment::Type::Coast
+        );
+
+        EXPECT_NO_THROW(segmentSolution.accessStartInstant());
+        EXPECT_NO_THROW(segmentSolution.accessEndInstant());
+    }
+
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+
+        EXPECT_THROW(segmentSolution.accessStartInstant(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.accessEndInstant(), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Getters)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+
+        EXPECT_THROW(segmentSolution.getInitialMass(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.getFinalMass(), ostk::core::error::RuntimeError);
+    }
+
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Maneuver
+        );
+
+        EXPECT_DOUBLE_EQ(200.0, segmentSolution.getInitialMass().inKilograms());
+        EXPECT_DOUBLE_EQ(180.0, segmentSolution.getFinalMass().inKilograms());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ComputeDeltaMass)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+
+        EXPECT_DOUBLE_EQ(0.0, segmentSolution.computeDeltaMass().inKilograms());
+    }
+
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Maneuver
+        );
+
+        EXPECT_DOUBLE_EQ(20.0, segmentSolution.computeDeltaMass().inKilograms());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ComputeDeltaV)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+
+        EXPECT_DOUBLE_EQ(0.0, segmentSolution.computeDeltaV(1500.0));
+    }
+
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Maneuver
+        );
+
+        // 1500 * 9.80665 * ln(200 / 180) -> Rocket equation
+        EXPECT_DOUBLE_EQ(1549.850551313734, segmentSolution.computeDeltaV(1500.0));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Coast)
 {
     {
         EXPECT_NO_THROW(
@@ -111,7 +224,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Coast)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Maneuver)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
 {
     {
         EXPECT_NO_THROW(Segment::Maneuver(
@@ -120,47 +233,47 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Maneuver)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetName)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetName)
 {
     EXPECT_EQ(defaultName_, defaultCoastSegment_.getName());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetEventCondition)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetEventCondition)
 {
     EXPECT_TRUE(defaultCoastSegment_.getEventCondition() == defaultInstantCondition_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetDynamics)
 {
     EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getDynamics());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetNumericalSolver)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.getNumericalSolver());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetType)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetType)
 {
     EXPECT_EQ(Segment::Type::Coast, defaultCoastSegment_.getType());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, AccessEventCondition)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessEventCondition)
 {
     EXPECT_TRUE(defaultCoastSegment_.accessEventCondition() == defaultInstantCondition_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, AccessDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessDynamics)
 {
     EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.accessDynamics());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, AccessNumericalSolver)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.accessNumericalSolver());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StreamOperator)
 {
     {
         testing::internal::CaptureStdout();
@@ -171,7 +284,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, StreamOperat
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Solve)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
 {
     {
         const Segment::Solution solution = defaultCoastSegment_.solve(defaultState_);
@@ -200,7 +313,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Solve)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Print)
 {
     testing::internal::CaptureStdout();
 

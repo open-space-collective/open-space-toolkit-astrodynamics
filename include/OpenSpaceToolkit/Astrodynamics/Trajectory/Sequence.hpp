@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -18,9 +19,11 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::types::Real;
 using ostk::core::ctnr::Array;
 
 using ostk::physics::Environment;
+using ostk::physics::units::Mass;
 
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;
@@ -37,7 +40,16 @@ class Sequence
         Array<Segment::Solution> segmentSolutions;
         bool executionIsComplete;
 
+        const Instant& accessStartInstant() const;
+        const Instant& accessEndInstant() const;
+
         Array<State> getStates() const;
+        Mass getInitialMass() const;
+        Mass getFinalMass() const;
+        Duration getPropagationDuration() const;
+
+        Mass computeDeltaMass() const;
+        Real computeDeltaV(const Real& aSpecificImpulse) const;
     };
 
     /// @brief                  Constructor

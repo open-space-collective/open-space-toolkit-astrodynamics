@@ -1,7 +1,10 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
@@ -11,20 +14,86 @@ namespace trajectory
 {
 
 using ostk::physics::time::Duration;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::trajectory::Propagator;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 Segment::Solution::Solution(
     const String& aName,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Array<State>& aStates,
-    const bool& aConditionIsSatisfied
+    const bool& aConditionIsSatisfied,
+    const Segment::Type& aSegmentType
 )
     : name(aName),
       dynamics(aDynamicsArray),
       states(aStates),
-      conditionIsSatisfied(aConditionIsSatisfied)
+      conditionIsSatisfied(aConditionIsSatisfied),
+      segmentType(aSegmentType)
 {
+}
+
+const Instant& Segment::Solution::accessStartInstant() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return states.accessFirst().accessInstant();
+}
+
+const Instant& Segment::Solution::accessEndInstant() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return states.accessLast().accessInstant();
+}
+
+Mass Segment::Solution::getInitialMass() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
+}
+
+Mass Segment::Solution::getFinalMass() const
+{
+    if (states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return Mass::Kilograms(states.accessLast().extractCoordinates(CoordinatesSubset::Mass())[0]);
+}
+
+Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
+{
+    // TBM: This is only valid for constant thrust, constant Isp
+    if (segmentType != Segment::Type::Maneuver)
+    {
+        return 0.0;
+    }
+
+    return aSpecificImpulse * EarthGravitationalModel::gravityConstant *
+           std::log(getInitialMass().inKilograms() / getFinalMass().inKilograms());
+}
+
+Mass Segment::Solution::computeDeltaMass() const
+{
+    if (segmentType != Segment::Type::Maneuver)
+    {
+        return Mass::Kilograms(0.0);
+    }
+
+    return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
 Segment::Segment(
@@ -110,16 +179,16 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
         dynamics_,
     };
 
-    const Instant startInstant = aState.getInstant();
-
-    const NumericalSolver::ConditionSolution conditionSolution =
-        propagator.calculateStateToCondition(aState, startInstant + maximumPropagationDuration, *eventCondition_);
+    const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+        aState, aState.accessInstant() + maximumPropagationDuration, *eventCondition_
+    );
 
     return {
         name_,
         dynamics_,
         propagator.accessNumericalSolver().accessObservedStates(),
         conditionSolution.conditionIsSatisfied,
+        type_,
     };
 }
 
