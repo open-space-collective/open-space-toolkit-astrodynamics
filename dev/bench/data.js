@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1697565334449,
+  "lastUpdate": 1697572758822,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 4144807616.599996,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4144472429.9999976 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c7eb9fd9e31338599545ca87c211b29b523e57ab",
+          "message": "feat: add boost logging + logs for sequence and segments (and solutions) (#251)\n\n* feat: add metadata for segment and sequence solutions\r\n\r\n* wip:\r\n\r\n* feat: use boost log for logging Sequences\r\n\r\n* feat: improve printing everywhere and update logging\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* feat: address remaining feedback and add tests\r\n\r\n* feat: add metadata for segment and sequence solutions (#250)\r\n\r\n* feat: add metadata for segment and sequence solutions\r\n\r\n* chore: missed a spot\r\n\r\n* feat: fix test typo\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* chore: address remaining feedback\r\n\r\n* chore: missed a spot\r\n\r\n---------\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* chore: fix static library boost log\r\n\r\n---------\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>",
+          "timestamp": "2023-10-17T19:19:55Z",
+          "tree_id": "427136321279334f20411d0aa545d6b630a465e9",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/c7eb9fd9e31338599545ca87c211b29b523e57ab"
+        },
+        "date": 1697572757607,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 695408107.000003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 695124860 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1489790583.9999852,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1487403500 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4213757683.299997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4212578329.9999986 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4212757247.9000154,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4211964769.999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4212702299.3000135,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4211998859.999995 ns\nthreads: 1"
           }
         ]
       }
