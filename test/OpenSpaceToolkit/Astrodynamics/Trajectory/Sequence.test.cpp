@@ -25,6 +25,7 @@
 using ostk::core::ctnr::Array;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
+using ostk::core::types::Index;
 using ostk::core::types::Real;
 
 using ostk::math::geom::d3::objects::Composite;
@@ -430,11 +431,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     EXPECT_EQ(solution.accessStartInstant(), Instant::J2000());
     EXPECT_EQ(solution.accessEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
 
+    const Array<State> solutionStates = solution.getStates();
+
+    for (Index i = 1; i < solutionStates.getSize(); ++i)
+    {
+        EXPECT_TRUE(solutionStates[i].accessInstant() > solutionStates[i - 1].accessInstant());
+    }
     EXPECT_DOUBLE_EQ(solution.getInitialMass().inKilograms(), mass + 100.0);
     EXPECT_DOUBLE_EQ(
         solution.getFinalMass().inKilograms(),
         solution.segmentSolutions.accessLast().states.accessLast().accessCoordinates()[6]
     );
+    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
 
     EXPECT_DOUBLE_EQ(
         solution.computeDeltaMass().inKilograms(),
@@ -446,8 +454,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             std::log(solution.getInitialMass().inKilograms() / solution.getFinalMass().inKilograms()),
         1e-3
     );
-
-    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
