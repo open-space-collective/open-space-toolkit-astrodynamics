@@ -21,6 +21,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
     class_<Sequence::Solution>(aModule, "SequenceSolution")
 
+        .def("__str__", &(shiftToString<Sequence::Solution>))
+        .def("__repr__", &(shiftToString<Sequence::Solution>))
+
         .def_readonly("segment_solutions", &Sequence::Solution::segmentSolutions)
         .def_readonly("execution_is_complete", &Sequence::Solution::executionIsComplete)
 
