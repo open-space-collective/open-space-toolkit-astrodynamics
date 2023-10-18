@@ -9,6 +9,7 @@ from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.time import Duration
 from ostk.physics.time import Interval
+from ostk.physics.units import Angle, Length, Mass
 from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
@@ -68,6 +69,14 @@ def position_from_lla(lla: LLA) -> Position:
             EarthGravitationalModel.EGM2008.flattening,
         ),
         Frame.ITRF(),
+    )
+
+
+def parse_ground_station_lla(ground_station):
+    return LLA(
+        Angle.degrees(ground_station["latitude"]),
+        Angle.degrees(ground_station["longitude"]),
+        Length.meters(ground_station["altitude"]),
     )
 
 
@@ -197,3 +206,182 @@ def generate_states_from_dataframe(
         )
 
     return dataframe.apply(_get_ostk_state, axis=1).tolist()
+
+
+def generate_norm_wrt_reference_state(
+    truth_state: trajectory.State,
+    estimated_state: trajectory.State,
+) -> dict:
+    return {
+        "time": truth_state.get_instant().get_date_time(Scale.UTC),
+        "dr": np.linalg.norm(
+            (truth_state - estimated_state).get_position().get_coordinates()
+        ),
+    }
+
+
+def generate_norm_wrt_reference_state_df(
+    truth_state: trajectory.State,
+    estimated_state: trajectory.State,
+) -> dict:
+    # current_df = pd.DataFrame(
+    #     [
+    #         utilities.generate_norm_wrt_reference_state(truth_state, estimated_state)
+    #         for (truth_state, estimated_state) in zip(validation_states, current_states)
+    #     ]
+    # )
+    return {
+        "time": truth_state.get_instant().get_date_time(Scale.UTC),
+        "dr": np.linalg.norm(
+            (truth_state - estimated_state).get_position().get_coordinates()
+        ),
+    }
+
+
+def parse_ground_station_lla(ground_station):
+    return LLA(
+        Angle.degrees(ground_station["latitude"]),
+        Angle.degrees(ground_station["longitude"]),
+        Length.meters(ground_station["altitude"]),
+    )
+
+
+def compute_access_geometry(orbit, access, ground_station):
+    ground_station_position = utilities.position_from_lla(
+        parse_ground_station_lla(ground_station)
+    )
+
+    return [
+        compute_time_lla_aer_state(state, ground_station_position)
+        for state in orbit.get_states_at(
+            access.get_interval().generate_grid(Duration.seconds(1.0))
+        )
+    ]
+
+
+def get_max_elevation(df):
+    return df.loc[df["Elevation"].idxmax()]["Elevation"]
+
+
+def generate_orbit_df(orbit, interval, step):
+    if isinstance(interval, tuple):
+        interval = Interval.closed(
+            Instant.date_time(interval[0], Scale.UTC),
+            Instant.date_time(interval[1], Scale.UTC),
+        )
+
+    if isinstance(step, datetime.timedelta):
+        step = Duration.seconds(step.total_seconds())
+
+    orbit_data = [
+        convert_state(instant, orbit.get_state_at(instant))
+        for instant in interval.generate_grid(step)
+    ]
+
+    return pd.DataFrame(
+        orbit_data,
+        columns=[
+            "$Time^{UTC}$",
+            "$MJD^{UTC}$",
+            "$x_{x}^{ECI}$",
+            "$x_{y}^{ECI}$",
+            "$x_{z}^{ECI}$",
+            "$v_{x}^{ECI}$",
+            "$v_{y}^{ECI}$",
+            "$v_{z}^{ECI}$",
+            "$Latitude$",
+            "$Longitude$",
+            "$Altitude$",
+        ],
+    )
+
+
+def generate_accesses(analysis_interval, orbit, ground_stations, environment):
+    if isinstance(analysis_interval, tuple):
+        analysis_interval = Interval.closed(
+            Instant.date_time(analysis_interval[0], Scale.UTC),
+            Instant.date_time(analysis_interval[1], Scale.UTC),
+        )
+
+    accesses = []
+
+    for ground_station_name, ground_station in ground_stations.items():
+        # Groud station position
+        lla = parse_ground_station_lla(ground_station)
+        position = utilities.position_from_lla(lla)
+
+        # Access constraints
+        azimuth_range = RealInterval.closed(0.0, 360.0)  # [deg]
+        elevation_range = RealInterval.closed(
+            ground_station["min_elevation_angle"], 90.0
+        )  # [deg]
+        range_range = RealInterval.closed(0.0, 10000e3)  # [m]
+
+        # Access generator with Azimuth-Range-Elevation constraints
+        access_generator = AccessGenerator.aer_ranges(
+            azimuth_range, elevation_range, range_range, environment
+        )
+
+        # Generate Accesses
+        accesses += [
+            (ground_station_name, ground_station, access)
+            for access in access_generator.compute_accesses(
+                analysis_interval, Trajectory.position(position), orbit
+            )
+        ]
+
+    return accesses
+
+
+def generate_accesses_df(accesses):
+    df = pd.DataFrame(
+        [
+            {
+                "Ground Station": ground_station_name,
+                "Type": access.get_type().name,
+                "AOS (UTC)": access.get_acquisition_of_signal().get_date_time(
+                    Scale.UTC
+                ),
+                "TCA (UTC)": access.get_time_of_closest_approach().get_date_time(
+                    Scale.UTC
+                ),
+                "LOS (UTC)": access.get_loss_of_signal().get_date_time(Scale.UTC),
+                "Duration": datetime.timedelta(
+                    seconds=float(access.get_duration().in_seconds())
+                ),
+            }
+            for (ground_station_name, ground_station, access) in accesses
+        ]
+    )
+
+    df = df.sort_values(["AOS (UTC)", "LOS (UTC)"], ascending=True)
+
+    return df
+
+
+def generate_access_geometries_df(orbit, access, ground_station):
+    return pd.DataFrame(
+        compute_access_geometry(orbit, access, ground_station),
+        columns=[
+            "Time",
+            "Latitude",
+            "Longitude",
+            "Altitude",
+            "Azimuth",
+            "Elevation",
+            "Range",
+        ],
+    )
+
+
+def flatten(t):
+    return [item for sublist in t for item in sublist]
+
+
+def get_tle_index(tles, description):
+    try:
+        return next(
+            i for (i, tle) in enumerate(tles) if tle["description"] == description
+        )
+    except:
+        raise ValueError(f"Cannot find TLE with description [{description}].")
