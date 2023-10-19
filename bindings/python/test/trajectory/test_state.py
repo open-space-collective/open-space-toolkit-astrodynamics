@@ -157,6 +157,8 @@ class TestState:
         assert state.get_instant() == instant
         assert state.get_position() == position
         assert state.get_velocity() == velocity
+        assert state.has_subset(CartesianPosition.default())
+        assert state.has_subset(CartesianVelocity.default())
         assert state.get_frame() == frame
         assert (
             state.get_coordinates()
