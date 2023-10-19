@@ -204,6 +204,14 @@ class State
 
     const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
+    /// @brief                  Check if the State has a given coordinates subset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr the coordinates subset to be checked
+    ///
+    /// @return                 True if the coordinates subset is included in the State
+
+    bool hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
     /// @brief                  Extract the coordinates for a single subset.
     ///
     /// @param                  [in] aSubsetSPtr The subset to extract the coordinates for
