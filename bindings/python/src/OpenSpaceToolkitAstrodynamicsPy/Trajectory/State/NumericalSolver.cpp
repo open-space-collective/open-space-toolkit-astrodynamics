@@ -21,14 +21,52 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
     )>
         pythonSystemOfEquationsSignature;
 
-    class_<NumericalSolver::ConditionSolution>(aModule, "ConditionSolution")
+    class_<NumericalSolver::ConditionSolution>(
+        aModule,
+        "ConditionSolution",
+        R"doc(
+            The solution to an event condition.
 
-        .def_readonly("state", &NumericalSolver::ConditionSolution::state)
-        .def_readonly("condition_is_satisfied", &NumericalSolver::ConditionSolution::conditionIsSatisfied)
-        .def_readonly("iteration_count", &NumericalSolver::ConditionSolution::iterationCount)
-        .def_readonly("root_solver_has_converged", &NumericalSolver::ConditionSolution::rootSolverHasConverged)
+            Group:
+                astrodynamics
+        )doc"
+    )
+        .def_readonly(
+            "state",
+            &NumericalSolver::ConditionSolution::state,
+            R"doc(
+                The state of the trajectory.
 
-        ;
+                :rtype: State
+            )doc"
+        )
+        .def_readonly(
+            "condition_is_satisfied",
+            &NumericalSolver::ConditionSolution::conditionIsSatisfied,
+            R"doc(
+                Whether the event condition is satisfied.
+
+                :rtype: bool
+            )doc"
+        )
+        .def_readonly(
+            "iteration_count",
+            &NumericalSolver::ConditionSolution::iterationCount,
+            R"doc(
+                The number of iterations required to find the solution.
+
+                :rtype: int
+            )doc"
+        )
+        .def_readonly(
+            "root_solver_has_converged",
+            &NumericalSolver::ConditionSolution::rootSolverHasConverged,
+            R"doc(
+                Whether the root solver has converged.
+
+                :rtype: bool
+            )doc"
+        );
 
     {
         class_<NumericalSolver, MathNumericalSolver> numericalSolver(aModule, "NumericalSolver");
@@ -43,6 +81,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const Real&,
                     const Real&,
                     const RootSolver&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        log_type (NumericalSolver.LogType): The type of logging.
+                        stepper_type (NumericalSolver.StepperType): The type of stepper.
+                        time_step (float): The time step.
+                        relative_tolerance (float): The relative tolerance.
+                        absolute_tolerance (float): The absolute tolerance.
+                        root_solver (RootSolver, optional): The root solver. Defaults to RootSolver.Default().
+
+                )doc",
                 arg("log_type"),
                 arg("stepper_type"),
                 arg("time_step"),
@@ -57,17 +107,44 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             .def("__str__", &(shiftToString<NumericalSolver>))
             .def("__repr__", &(shiftToString<NumericalSolver>))
 
-            .def("is_defined", &NumericalSolver::isDefined)
+            .def(
+                "is_defined",
+                &NumericalSolver::isDefined,
+                R"doc(
+                    Check if the numerical solver is defined.
 
-            .def("get_observed_states", &NumericalSolver::getObservedStates)
-            .def("get_root_solver", &NumericalSolver::getRootSolver)
+                    Returns:
+                        is_defined (bool): True if the numerical solver is defined, False otherwise.
+                )doc"
+            )
+
+            .def(
+                "get_observed_states",
+                &NumericalSolver::getObservedStates,
+                R"doc(
+                    Get the observed states.
+
+                    Returns:
+                        observed_states (List)[State]: The observed states.
+                )doc"
+            )
+            .def(
+                "get_root_solver",
+                &NumericalSolver::getRootSolver,
+                R"doc(
+                    Get the root solver.
+
+                    Returns:
+                        root_solver (RootSolver): The root solver.
+                )doc"
+            )
 
             .def(
                 "integrate_time",
                 +[](NumericalSolver& aNumericalSolver,
                     const State& aState,
                     const Instant& anInstant,
-                    const object& aSystemOfEquationsObject)
+                    const object& aSystemOfEquationsObject) -> State
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
@@ -81,6 +158,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     return aNumericalSolver.integrateTime(aState, anInstant, systemOfEquations);
                 },
+                R"doc(
+                    Integrate the trajectory to a given instant.
+
+                    Args:
+                        state (State): The initial state of the trajectory.
+                        instant (Instant): The instant to integrate to.
+                        system_of_equations (callable): The system of equations.
+
+                    Returns:
+                       state (State): The state at the requested time.
+
+                )doc",
                 arg("state"),
                 arg("instant"),
                 arg("system_of_equations")
@@ -91,7 +180,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 +[](NumericalSolver& aNumericalSolver,
                     const State& aState,
                     const Array<Instant>& instants,
-                    const object& aSystemOfEquationsObject)
+                    const object& aSystemOfEquationsObject) -> Array<State>
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
@@ -105,6 +194,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     return aNumericalSolver.integrateTime(aState, instants, systemOfEquations);
                 },
+                R"doc(
+                    Integrate the trajectory to a set of instants.
+
+                    Args:
+                        state (State): The initial state of the trajectory.
+                        instants (List[Instant]): The instants to integrate to.
+                        system_of_equations (callable): The system of equations.
+
+                    Returns:
+                        states (List[State]): The states at the requested times.
+
+                )doc",
                 arg("state"),
                 arg("instants"),
                 arg("system_of_equations")
@@ -116,7 +217,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const State& aState,
                     const Instant& anInstant,
                     const object& aSystemOfEquationsObject,
-                    const EventCondition& anEventCondition)
+                    const EventCondition& anEventCondition) -> NumericalSolver::ConditionSolution
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
@@ -130,17 +231,65 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     return aNumericalSolver.integrateTime(aState, anInstant, systemOfEquations, anEventCondition);
                 },
+                R"doc(
+                    Integrate the trajectory to a given instant, with an event condition.
+
+                    Args:
+                        state (State): The initial state of the trajectory.
+                        instant (Instant): The instant to integrate to.
+                        system_of_equations (callable): The system of equations.
+                        event_condition (EventCondition): The event condition.
+
+                    Returns:
+                        solution (ConditionSolution): The solution to the event condition.
+
+                )doc",
                 arg("state"),
                 arg("instant"),
                 arg("system_of_equations"),
                 arg("event_condition")
             )
 
-            .def_static("default", &NumericalSolver::Default)
-            .def_static("undefined", &NumericalSolver::Undefined)
-            .def_static("default_conditional", &NumericalSolver::DefaultConditional, arg("state_logger") = nullptr)
-            .def_static("conditional", &NumericalSolver::Conditional)
+            .def_static("default", &NumericalSolver::Default, R"doc(
+                Return the default numerical solver.
 
-            ;
+                Returns:
+                    NumericalSolver: The default numerical solver.
+
+                Group:
+                    Static methods
+            )doc")
+            .def_static("undefined", &NumericalSolver::Undefined, R"doc(
+                Return an undefined numerical solver.
+
+                Returns:
+                    numerical_solver (NumericalSolver): The undefined numerical solver.
+
+                Group:
+                    Static methods
+            )doc")
+            .def_static(
+                "default_conditional", &NumericalSolver::DefaultConditional, arg("state_logger") = nullptr, R"doc(
+                Return the default conditional numerical solver.
+
+                Args:
+                    state_logger (StateLogger, optional): The state logger. Defaults to None.
+
+                Returns:
+                    numerical_solver (NumericalSolver): The default conditional numerical solver.
+
+                Group:
+                    Static methods
+            )doc"
+            )
+            .def_static("conditional", &NumericalSolver::Conditional, R"doc(
+                Return a conditional numerical solver.
+
+                Returns:
+                    numerical_solver (NumericalSolver): The conditional numerical solver.
+
+                Group:
+                    Static methods
+            )doc");
     }
 }

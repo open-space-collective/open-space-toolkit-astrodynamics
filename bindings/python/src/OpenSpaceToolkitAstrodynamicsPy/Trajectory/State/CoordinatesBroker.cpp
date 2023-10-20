@@ -15,27 +15,114 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
 
     class_<CoordinatesBroker, Shared<CoordinatesBroker>>(aModule, "CoordinatesBroker")
 
-        .def(init<>())
-        .def(init<const Array<Shared<const CoordinatesSubset>>&>(), arg("coordinates_subsets"))
+        .def(
+            init<>(),
+            R"doc(
+                Default constructor.
+            )doc"
+        )
+        .def(
+            init<const Array<Shared<const CoordinatesSubset>>&>(),
+            arg("coordinates_subsets"),
+            R"doc(
+                Create a broker for ther provided coordinate subsets.
+
+                Args:
+                    coordinates_subsets (List[CoordinatesSubset]): The list of coordinates subsets.
+
+            )doc"
+        )
 
         .def(self == self)
         .def(self != self)
 
-        .def("access_subsets", &CoordinatesBroker::accessSubsets)
-        .def("get_number_of_coordinates", &CoordinatesBroker::getNumberOfCoordinates)
-        .def("get_number_of_subsets", &CoordinatesBroker::getNumberOfSubsets)
-        .def("get_subsets", &CoordinatesBroker::getSubsets)
-        .def("add_subset", &CoordinatesBroker::addSubset, arg("coordinates_subset"))
+        .def(
+            "access_subsets",
+            &CoordinatesBroker::accessSubsets,
+            R"doc(
+                Access the list of coordinates subsets.
+
+                Returns:
+                    coordinate_subsets (List[CoordinatesSubset]): The list of coordinates subsets.
+
+            )doc"
+        )
+        .def(
+            "get_number_of_coordinates",
+            &CoordinatesBroker::getNumberOfCoordinates,
+            R"doc(
+                Get the total number of coordinates.
+
+                Returns:
+                    number_of_coordinates (int): The total number of coordinates.
+
+            )doc"
+        )
+        .def(
+            "get_number_of_subsets",
+            &CoordinatesBroker::getNumberOfSubsets,
+            R"doc(
+                Get the number of coordinates subsets.
+
+                Returns:
+                    number_of_subsets (int): The number of coordinates subsets.
+
+            )doc"
+        )
+        .def(
+            "get_subsets",
+            &CoordinatesBroker::getSubsets,
+            R"doc(
+                Get the list of coordinates subsets.
+
+                Returns:
+                    coordinates_subsets (List[CoordinatesSubset]): The list of coordinates subsets.
+
+            )doc"
+        )
+        .def(
+            "add_subset",
+            &CoordinatesBroker::addSubset,
+            R"doc(
+                Add a coordinates subset.
+
+                Args:
+                    coordinates_subset (CoordinatesSubset): The coordinates subset to add.
+
+            )doc",
+            arg("coordinates_subset")
+        )
         .def(
             "has_subset",
             overload_cast<const Shared<const CoordinatesSubset>&>(&CoordinatesBroker::hasSubset, const_),
-            arg("coordinates_subset")
+            arg("coordinates_subset"),
+            R"doc(
+                Check if the coordinates broker has a given coordinates subset.
+
+                Args:
+                    coordinates_subset (CoordinatesSubset): The coordinates subset to check.
+
+                Returns:
+                    has_subset (bool): True if the coordinates broker has the coordinates subset, False otherwise.
+
+            )doc"
         )
         .def(
             "extract_coordinates",
             overload_cast<const VectorXd&, const CoordinatesSubset&>(&CoordinatesBroker::extractCoordinates, const_),
             arg("coordinates"),
-            arg("coordinates_subset")
+            arg("coordinates_subset"),
+            R"doc(
+                Extract the coordinates of a subset from a full coordinates vector.
+
+                Args:
+                    coordinates (numpy.ndarray): The full coordinates vector.
+                    coordinates_subset (CoordinatesSubset): The coordinates subset.
+
+                Returns:
+                    coordinates (numpy.ndarray): The coordinates of the subset.
+
+            )doc"
         )
         .def(
             "extract_coordinates",
@@ -43,7 +130,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 &CoordinatesBroker::extractCoordinates, const_
             ),
             arg("coordinates"),
-            arg("coordinates_subset")
+            arg("coordinates_subset"),
+            R"doc(
+                Extract the coordinates of a subset from a full coordinates vector.
+
+                Args:
+                    coordinates (numpy.ndarray): The full coordinates vector.
+                    coordinates_subset (CoordinatesSubset): The coordinates subset.
+
+                Returns:
+                    coordinates (numpy.ndarray): The coordinates of the subset.
+
+            )doc"
         )
         .def(
             "extract_coordinates",
@@ -51,7 +149,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 &CoordinatesBroker::extractCoordinates, const_
             ),
             arg("coordinates"),
-            arg("coordinates_subsets")
+            arg("coordinates_subsets"),
+            R"doc(
+                Extract the coordinates of multiple subsets from a full coordinates vector.
+
+                Args:
+                    coordinates (numpy.ndarray): The full coordinates vector.
+                    coordinates_subsets (List[CoordinatesSubset]): The coordinates subsets.
+
+                Returns:
+                    coordinates (numpy.ndarray): The coordinates of the subsets.
+
+            )doc"
         )
 
         ;

@@ -14,31 +14,50 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
     pybind11::module& aModule
 )
 {
-    class_<CartesianVelocity, Shared<CartesianVelocity>, CoordinatesSubset>(aModule, "CartesianVelocity")
+    class_<CartesianVelocity, Shared<CartesianVelocity>, CoordinatesSubset>(
+        aModule,
+        "CartesianVelocity",
+        R"doc(
+            Cartesian velocity coordinates subset.
 
-        .def(init<const Shared<const CartesianPosition>&, const String&>(), arg("cartesian_position"), arg("name"))
+            Defined with respect to a reference frame and a Cartesian position.
+
+            Group:
+                CoordinatesSubsets
+        )doc"
+    )
 
         .def(
-            "add",
-            &CartesianVelocity::add,
-            arg("instant"),
-            arg("coordinates"),
-            arg("another_coordinates"),
-            arg("frame"),
-            arg("coordinates_broker")
+            init<const Shared<const CartesianPosition>&, const String&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    cartesian_position (CartesianPosition): The Cartesian position.
+                    name (str): The name of the subset.
+
+            )doc",
+            arg("cartesian_position"),
+            arg("name")
         )
-        .def(
-            "subtract",
-            &CartesianVelocity::subtract,
-            arg("instant"),
-            arg("coordinates"),
-            arg("another_coordinates"),
-            arg("frame"),
-            arg("coordinates_broker")
-        )
+
         .def(
             "in_frame",
             &CartesianVelocity::inFrame,
+            R"doc(
+                Convert a Cartesian velocity from one reference frame to another.
+
+                Args:
+                    instant (Instant): The instant of the conversion.
+                    coordinates (numpy.ndarray): The Cartesian velocity to convert.
+                    from_frame (str): The reference frame of the input Cartesian velocity.
+                    to_frame (str): The reference frame of the output Cartesian velocity.
+                    coordinates_broker (CoordinatesBroker): The coordinates broker.
+
+                Returns:
+                    coordinates (numpy.ndarray): The Cartesian velocity in the output reference frame.
+
+            )doc",
             arg("instant"),
             arg("coordinates"),
             arg("from_frame"),
@@ -46,7 +65,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
             arg("coordinates_broker")
         )
 
-        .def_static("default", &CartesianVelocity::Default)
+        .def_static(
+            "default",
+            &CartesianVelocity::Default,
+            R"doc(
+                Get the default Cartesian velocity subset.
+
+                Returns:
+                    cartesian_velocity (CartesianVelocity): The default Cartesian velocity subset.
+
+                Group:
+                    Static methods
+            )doc"
+        )
 
         ;
 }

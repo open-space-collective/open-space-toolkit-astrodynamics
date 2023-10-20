@@ -14,12 +14,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
     using ostk::astro::Access;
 
     {
-        class_<Access> access_class(aModule, "Access");
+        class_<Access> access_class(
+            aModule,
+            "Access",
+            R"docs(
+                Object-to-object visibility
+                
+                This class encapsulates the concept of visibility access between two trajectories.
+                
+                Group:
+                    astrodynamics
+            )docs"
+        );
 
         access_class
 
             .def(
                 init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
+                R"docs(
+                    Constructs an Access object.
+                    
+                    Args:
+                        type (Access.Type): Type of the access (Complete, Partial, Undefined)
+                        acquisition_of_signal (Instant): The instant when the signal is first acquired
+                        time_of_closest_approach (Instant): The time of closest approach between objects
+                        loss_of_signal (Instant): The instant when the signal is lost
+                        max_elevation (Angle): The maximum elevation angle during the access
+                )docs",
                 arg("type"),
                 arg("acquisition_of_signal"),
                 arg("time_of_closest_approach"),
@@ -33,28 +54,150 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             .def("__str__", &(shiftToString<Access>))
             .def("__repr__", &(shiftToString<Access>))
 
-            .def("is_defined", &Access::isDefined)
-            .def("is_complete", &Access::isComplete)
+            .def(
+                "is_defined",
+                &Access::isDefined,
+                R"docs(
+                    Check if the Access object is defined.
+                    
+                    Returns:
+                       is_defined (bool): True if defined, False otherwise.
+                 )docs"
+            )
 
-            .def("get_type", &Access::getType)
-            .def("get_acquisition_of_signal", &Access::getAcquisitionOfSignal)
-            .def("get_time_of_closest_approach", &Access::getTimeOfClosestApproach)
-            .def("get_loss_of_signal", &Access::getLossOfSignal)
-            .def("get_interval", &Access::getInterval)
-            .def("get_duration", &Access::getDuration)
-            .def("get_max_elevation", &Access::getMaxElevation)
+            .def(
+                "is_complete",
+                &Access::isComplete,
+                R"docs(
+                    Check if the access is complete.
+                    
+                    Returns:
+                        is_complete (bool): True if complete, False otherwise.
+                 )docs"
+            )
 
-            .def_static("undefined", &Access::Undefined)
+            .def(
+                "get_type",
+                &Access::getType,
+                R"docs(
+                    Get the type of the access.
 
-            .def_static("string_from_type", &Access::StringFromType, arg("type"))
+                    Returns:
+                        type (Access::Type): The type of the access.
+                )docs"
+            )
+
+            .def(
+                "get_acquisition_of_signal",
+                &Access::getAcquisitionOfSignal,
+                R"docs(
+                    Get the acquisition of signal of the access.
+
+                    Returns:
+                        acquisition_of_signal (Instant): The acquisition of signal of the access.
+                )docs"
+            )
+
+            .def(
+                "get_time_of_closest_approach",
+                &Access::getTimeOfClosestApproach,
+                R"docs(
+                    Get the time of closest approach of the access.
+
+                    Returns:
+                        time_of_closest_approach (Instant): The time of closest approach of the access.
+                )docs"
+            )
+
+            .def(
+                "get_loss_of_signal",
+                &Access::getLossOfSignal,
+                R"docs(
+                    Get the loss of signal of the access.
+
+                    Returns:
+                       loss_of_signal (Instant): The loss of signal of the access.
+                )docs"
+            )
+
+            .def(
+                "get_interval",
+                &Access::getInterval,
+                R"docs(
+                    Get the interval of the access.
+
+                    Returns:
+                       interval (Interval): The interval of the access.
+                )docs"
+            )
+
+            .def(
+                "get_duration",
+                &Access::getDuration,
+                R"docs(
+                    Get the duration of the access.
+
+                    Returns:
+                       duration (Duration): The duration of the access.
+                )docs"
+            )
+
+            .def(
+                "get_max_elevation",
+                &Access::getMaxElevation,
+                R"docs(
+                    Get the maximum elevation of the access.
+
+                    Returns:
+                      max_elevation (Angle): The maximum elevation of the access.
+                )docs"
+            )
+
+            .def_static(
+                "undefined",
+                &Access::Undefined,
+                R"docs(
+                    Creates an undefined Access object.
+                    
+                    Returns:
+                        access (Access): An undefined Access object.
+                    
+                    Group:
+                        Static methods
+                )docs"
+            )
+
+            .def_static(
+                "string_from_type",
+                &Access::StringFromType,
+                R"docs(
+                    Returns a string representation of the Access type.
+    
+                    Args:
+                        type (Access.Type): The type of the access.
+                    
+                    Returns:
+                        access_type (str): A string representation of the type.
+                    
+                    Group:
+                        Static methods
+                )docs",
+                arg("type")
+            )
 
             ;
 
-        enum_<Access::Type>(access_class, "Type")
+        enum_<Access::Type>(
+            access_class,
+            "Type",
+            R"docs(
+                Access type.
+            )docs"
+        )
 
-            .value("Undefined", Access::Type::Undefined)
-            .value("Complete", Access::Type::Complete)
-            .value("Partial", Access::Type::Partial)
+            .value("Undefined", Access::Type::Undefined, "Undefined")
+            .value("Complete", Access::Type::Complete, "Complete")
+            .value("Partial", Access::Type::Partial, "Partial")
 
             ;
     }

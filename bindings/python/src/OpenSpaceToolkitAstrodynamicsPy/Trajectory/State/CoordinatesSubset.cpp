@@ -85,20 +85,85 @@ class PyCoordinatesSubset : public CoordinatesSubset
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(pybind11::module& aModule)
 {
-    class_<CoordinatesSubset, PyCoordinatesSubset, Shared<CoordinatesSubset>>(aModule, "CoordinatesSubset")
+    class_<CoordinatesSubset, PyCoordinatesSubset, Shared<CoordinatesSubset>>(
+        aModule,
+        "CoordinatesSubset",
+        R"doc(
+            State coordinates subset. It contains information related to a particular group of coordinates. It does not
+            contain the coordinate values.
 
-        .def(init<const String&, const Size&>(), arg("name"), arg("size"))
+
+
+            Group:
+                State
+        )doc"
+    )
+
+        .def(
+            init<const String&, const Size&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    name (str): The name of the coordinates subset.
+                    size (int): The size of the coordinates subset.
+
+            )doc",
+            arg("name"),
+            arg("size")
+        )
 
         .def("__eq__", &CoordinatesSubset::operator==)
         .def("__ne__", &CoordinatesSubset::operator!=)
 
-        .def("get_id", &CoordinatesSubset::getId)
-        .def("get_name", &CoordinatesSubset::getName)
-        .def("get_size", &CoordinatesSubset::getSize)
+        .def(
+            "get_id",
+            &CoordinatesSubset::getId,
+            R"doc(
+                Get the identifier of the coordinates subset.
+
+                Returns:
+                    id (str): The identifier of the coordinates subset.
+            )doc"
+        )
+        .def(
+            "get_name",
+            &CoordinatesSubset::getName,
+            R"doc(
+                Get the name of the coordinates subset.
+
+                Returns:
+                    name (str): The name of the coordinates subset.
+            )doc"
+        )
+        .def(
+            "get_size",
+            &CoordinatesSubset::getSize,
+            R"doc(
+                Get the size of the coordinates subset.
+
+                Returns:
+                    size (int): The size of the coordinates subset.
+            )doc"
+        )
 
         .def(
             "add",
             &CoordinatesSubset::add,
+            R"doc(
+                Add the coordinates of another state to the coordinates of this state.
+
+                Args:
+                    instant (Instant): The instant of the state.
+                    coordinates (numpy.ndarray): The coordinates of this state.
+                    another_coordinates (numpy.ndarray): The coordinates of the other state.
+                    frame (Frame): The reference frame of the coordinates.
+                    coordinate_broker (CoordinatesBroker): The coordinates broker.
+
+                Returns:
+                    coordinates (numpy.ndarray): The sum of the coordinates.
+
+            )doc",
             arg("instant"),
             arg("coordinates"),
             arg("another_coordinates"),
@@ -108,6 +173,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
         .def(
             "subtract",
             &CoordinatesSubset::subtract,
+            R"doc(
+                Subtract the coordinates of another state from the coordinates of this state.
+
+                Args:
+                    instant (Instant): The instant of the state.
+                    coordinates (numpy.ndarray): The coordinates of this state.
+                    another_coordinates (numpy.ndarray): The coordinates of the other state.
+                    frame (Frame): The reference frame of the coordinates.
+                    coordinate_broker (CoordinatesBroker): The coordinates broker.
+
+                Returns:
+                    coordinates (numpy.ndarray): The difference of the coordinates.
+
+            )doc",
             arg("instant"),
             arg("coordinates"),
             arg("another_coordinates"),
@@ -117,6 +196,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
         .def(
             "in_frame",
             &CoordinatesSubset::inFrame,
+            R"doc(
+                Convert the coordinates of this state from one frame to another.
+
+                Args:
+                    instant (Instant): The instant of the state.
+                    coordinates (numpy.ndarray): The coordinates of this state.
+                    from_frame (Frame): The reference frame of the input coordinates.
+                    to_frame (Frame): The reference frame of the output coordinates.
+                    coordinate_broker (CoordinatesBroker): The coordinates broker.
+
+                Returns:
+                    coordinates (numpy.ndarray): The coordinates in the output frame.
+
+            )doc",
             arg("instant"),
             arg("coordinates"),
             arg("from_frame"),
@@ -124,9 +217,45 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
             arg("coordinate_broker")
         )
 
-        .def_static("mass", &CoordinatesSubset::Mass)
-        .def_static("surface_area", &CoordinatesSubset::SurfaceArea)
-        .def_static("drag_coefficient", &CoordinatesSubset::DragCoefficient)
+        .def_static(
+            "mass",
+            &CoordinatesSubset::Mass,
+            R"doc(
+                Get the mass coordinates subset.
+
+                Returns:
+                    CoordinatesSubset: The mass coordinates subset.
+
+                Group:
+                    Static methods
+            )doc"
+        )
+        .def_static(
+            "surface_area",
+            &CoordinatesSubset::SurfaceArea,
+            R"doc(
+                Get the surface area coordinates subset.
+
+                Returns:
+                    CoordinatesSubset: The surface area coordinates subset.
+
+                Group:
+                    Static methods
+            )doc"
+        )
+        .def_static(
+            "drag_coefficient",
+            &CoordinatesSubset::DragCoefficient,
+            R"doc(
+                Get the drag coefficient coordinates subset.
+
+                Returns:
+                    CoordinatesSubset: The drag coefficient coordinates subset.
+
+                Group:
+                    Static methods
+            )doc"
+        )
 
         ;
 

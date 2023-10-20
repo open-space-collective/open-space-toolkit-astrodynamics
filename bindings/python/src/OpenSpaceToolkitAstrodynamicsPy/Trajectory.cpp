@@ -22,10 +22,44 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     using ostk::astro::Trajectory;
     using ostk::astro::trajectory::State;
 
-    class_<Trajectory>(aModule, "Trajectory")
+    class_<Trajectory>(
+        aModule,
+        "Trajectory",
+        R"doc(
+            Path followed by an object through space as a function of time.
 
-        .def(init<const ostk::astro::trajectory::Model&>(), arg("model"))
-        .def(init<const Array<State>&>(), arg("states"))
+            Group:
+                astrodynamics
+        )doc"
+    )
+
+        .def(
+            init<const ostk::astro::trajectory::Model&>(),
+            R"doc(
+                Construct a `Trajectory` object from a model.
+
+                Args:
+                    model (trajectory.Model): The model of the trajectory.
+
+                Returns:
+                    Trajectory: The `Trajectory` object.
+            )doc",
+            arg("model")
+        )
+
+        .def(
+            init<const Array<State>&>(),
+            R"doc(
+                Construct a `Trajectory` object from an array of states.
+
+                Args:
+                    states (Array[State]): The states of the trajectory.
+
+                Returns:
+                    Trajectory: The `Trajectory` object.
+            )doc",
+            arg("states")
+        )
 
         .def(self == self)
         .def(self != self)
@@ -33,15 +67,78 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         .def("__str__", &(shiftToString<Trajectory>))
         .def("__repr__", &(shiftToString<Trajectory>))
 
-        .def("is_defined", &Trajectory::isDefined)
+        .def(
+            "is_defined",
+            &Trajectory::isDefined,
+            R"doc(
+                Check if the trajectory is defined.
 
-        // .def("access_model", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
+                Returns:
+                    bool: True if the trajectory is defined, False otherwise.
+            )doc"
+        )
 
-        .def("get_state_at", &Trajectory::getStateAt, arg("instant"))
-        .def("get_states_at", &Trajectory::getStatesAt, arg("instants"))
+        .def(
+            "get_state_at",
+            &Trajectory::getStateAt,
+            R"doc(
+                Get the state of the trajectory at a given instant.
 
-        .def_static("undefined", &Trajectory::Undefined)
-        .def_static("position", &Trajectory::Position, arg("position"))
+                Args:
+                    instant (Instant): The instant.
+
+                Returns:
+                    State: The state of the trajectory at the given instant.
+            )doc",
+            arg("instant")
+        )
+
+        .def(
+            "get_states_at",
+            &Trajectory::getStatesAt,
+            R"doc(
+                Get the states of the trajectory at a given set of instants.
+
+                Args:
+                    instants (Array[Instant]): The instants.
+
+                Returns:
+                    Array[State]: The states of the trajectory at the given instants.
+            )doc",
+            arg("instants")
+        )
+
+        .def_static(
+            "undefined",
+            &Trajectory::Undefined,
+            R"doc(
+                Create an undefined `Trajectory` object.
+
+                Returns:
+                    Trajectory: The undefined `Trajectory` object.
+
+                Group:
+                    Static methods
+            )doc"
+        )
+
+        .def_static(
+            "position",
+            &Trajectory::Position,
+            R"doc(
+                Create a `Trajectory` object representing a position.
+
+                Args:
+                    position (Position): The position.
+
+                Returns:
+                    Trajectory: The `Trajectory` object representing the position.
+                
+                Group:
+                    Static methods
+            )doc",
+            arg("position")
+        )
 
         ;
 

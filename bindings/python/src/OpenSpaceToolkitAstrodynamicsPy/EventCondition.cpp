@@ -38,19 +38,62 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 {
     {
         class_<EventCondition, PyEventCondition, Shared<EventCondition>> eventCondition_class(
-            aModule, "EventCondition"
+            aModule,
+            "EventCondition",
+            R"doc(
+                An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times
+
+                Group:
+                    astrodynamics
+            )doc"
         );
 
         eventCondition_class
 
-            .def(init<const String&>(), arg("name"))
+            .def(
+                init<const String&>(),
+                arg("name"),
+                R"doc(
+                    Construct a new `EventCondition` object.
+
+                    Args:
+                        name (str): The name of the event condition.
+
+                    Returns:
+                        event_condition (EventCondition): The new `EventCondition` object.
+                )doc"
+            )
 
             .def("__str__", &(shiftToString<EventCondition>))
             .def("__repr__", &(shiftToString<EventCondition>))
 
-            .def("get_name", &EventCondition::getName)
+            .def(
+                "get_name",
+                &EventCondition::getName,
+                R"doc(
+                    Get the name of the event condition.
 
-            .def("is_satisfied", &EventCondition::isSatisfied, arg("current_state"), arg("previous_state"))
+                    Returns:
+                       name (str): The name of the event condition.
+                )doc"
+            )
+
+            .def(
+                "is_satisfied",
+                &EventCondition::isSatisfied,
+                arg("current_state"),
+                arg("previous_state"),
+                R"doc(
+                    Check if the event condition is satisfied.
+
+                    Args:
+                        current_state (State): The current state.
+                        previous_state (State): The previous state.
+
+                    Returns:
+                       is_satisfied (bool): True if the event condition is satisfied, False otherwise.
+                )doc"
+            )
 
             ;
     }
