@@ -155,7 +155,7 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-physics
 
-# Install data
+# Install seed data
 
 RUN git clone --branch main --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
 

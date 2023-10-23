@@ -29,6 +29,8 @@ FROM debian:buster as cpp-release
 
 ENV LD_LIBRARY_PATH="/usr/local/lib"
 
+# Install seed data
+
 RUN git clone --branch main --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
 
 ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY="/var/cache/open-space-toolkit-data/data/coordinate/frame/providers/iers"
@@ -60,6 +62,8 @@ RUN apt-get update -y \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip install ipython numpy
+
+# Install seed data
 
 RUN git clone --branch main --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
 
