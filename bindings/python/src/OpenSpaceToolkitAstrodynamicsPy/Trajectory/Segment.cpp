@@ -30,88 +30,124 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .def("__str__", &(shiftToString<Segment::Solution>))
         .def("__repr__", &(shiftToString<Segment::Solution>))
 
-        .def_readonly("name", &Segment::Solution::name,
+        .def_readonly(
+            "name",
+            &Segment::Solution::name,
             R"doc(
                 The name of the segment.
 
                 :type: str
-            )doc")
-        .def_readonly("dynamics", &Segment::Solution::dynamics,
+            )doc"
+        )
+        .def_readonly(
+            "dynamics",
+            &Segment::Solution::dynamics,
             R"doc(
                 The dynamics.
 
                 :type: Dynamics
-            )doc")
-        .def_readonly("states", &Segment::Solution::states,
+            )doc"
+        )
+        .def_readonly(
+            "states",
+            &Segment::Solution::states,
             R"doc(
                 The states.
 
                 :type: List[State]
-            )doc")
-        .def_readonly("condition_is_satisfied", &Segment::Solution::conditionIsSatisfied,
+            )doc"
+        )
+        .def_readonly(
+            "condition_is_satisfied",
+            &Segment::Solution::conditionIsSatisfied,
             R"doc(
                 Whether the event condition is satisfied.
 
                 :type: bool
-            )doc")
-        .def_readonly("segment_type", &Segment::Solution::segmentType,
+            )doc"
+        )
+        .def_readonly(
+            "segment_type",
+            &Segment::Solution::segmentType,
             R"doc(
                 The type of the segment.
 
                 :type: Type
-            )doc")
+            )doc"
+        )
 
-        .def("access_start_instant", &Segment::Solution::accessStartInstant,
+        .def(
+            "access_start_instant",
+            &Segment::Solution::accessStartInstant,
             R"doc(
                 Get the instant at which the segment starts.
 
                 Returns:
                     Instant: The instant at which the segment starts.
 
-            )doc")
-        .def("access_end_instant", &Segment::Solution::accessEndInstant,
+            )doc"
+        )
+        .def(
+            "access_end_instant",
+            &Segment::Solution::accessEndInstant,
             R"doc(
                 Get the instant at which the segment ends.
 
                 Returns:
                     Instant: The instant at which the segment ends.
 
-            )doc")
+            )doc"
+        )
 
-        .def("get_initial_mass", &Segment::Solution::getInitialMass,
+        .def(
+            "get_initial_mass",
+            &Segment::Solution::getInitialMass,
             R"doc(
                 Get the initial mass.
 
                 Returns:
                     Mass: The initial mass.
 
-            )doc")
-        .def("get_final_mass", &Segment::Solution::getFinalMass,
+            )doc"
+        )
+        .def(
+            "get_final_mass",
+            &Segment::Solution::getFinalMass,
             R"doc(
                 Get the final mass.
 
                 Returns:
                     Mass: The final mass.
 
-            )doc")
-        .def("get_propagation_duration", &Segment::Solution::getPropagationDuration,
+            )doc"
+        )
+        .def(
+            "get_propagation_duration",
+            &Segment::Solution::getPropagationDuration,
             R"doc(
                 Get the propagation duration.
 
                 Returns:
                     Duration: The propagation duration.
 
-            )doc")
+            )doc"
+        )
 
-        .def("compute_delta_mass", &Segment::Solution::computeDeltaMass,
+        .def(
+            "compute_delta_mass",
+            &Segment::Solution::computeDeltaMass,
             R"doc(
                 Compute the delta mass.
 
                 Returns:
                     Mass: The delta mass.
 
-            )doc")
-        .def("compute_delta_v", &Segment::Solution::computeDeltaV, arg("specific_impulse"),
+            )doc"
+        )
+        .def(
+            "compute_delta_v",
+            &Segment::Solution::computeDeltaV,
+            arg("specific_impulse"),
             R"doc(
                 Compute the delta V.
 
@@ -121,7 +157,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 Returns:
                     float: The delta V.
 
-            )doc")
+            )doc"
+        )
 
         ;
 
@@ -142,48 +179,67 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             .def("__str__", &(shiftToString<Segment>))
             .def("__repr__", &(shiftToString<Segment>))
 
-            .def("get_name", &Segment::getName,
+            .def(
+                "get_name",
+                &Segment::getName,
                 R"doc(
                     Get the name of the segment.
 
                     Returns:
                         str: The name of the segment.
 
-                )doc")
-            .def("get_event_condition", &Segment::getEventCondition,
+                )doc"
+            )
+            .def(
+                "get_event_condition",
+                &Segment::getEventCondition,
                 R"doc(
                     Get the event condition.
 
                     Returns:
                         EventCondition: The event condition.
 
-                )doc")
-            .def("get_dynamics", &Segment::getDynamics,
+                )doc"
+            )
+            .def(
+                "get_dynamics",
+                &Segment::getDynamics,
                 R"doc(
                     Get the dynamics.
 
                     Returns:
                         Dynamics: The dynamics.
 
-                )doc")
-            .def("get_numerical_solver", &Segment::getNumericalSolver,
+                )doc"
+            )
+            .def(
+                "get_numerical_solver",
+                &Segment::getNumericalSolver,
                 R"doc(
                     Get the numerical solver.
 
                     Returns:
                         NumericalSolver: The numerical solver.
 
-                )doc")
-            .def("get_type", &Segment::getType,
+                )doc"
+            )
+            .def(
+                "get_type",
+                &Segment::getType,
                 R"doc(
                     Get the type of the segment.
 
                     Returns:
                         Type: The type of the segment.
 
-                )doc")
+                )doc"
+            )
 
-            .def("solve", &Segment::solve, arg("state"), arg("maximum_propagation_duration") = Duration::Days(30.0),
+            .def(
+                "solve",
+                &Segment::solve,
+                arg("state"),
+                arg("maximum_propagation_duration") = Duration::Days(30.0),
                 R"doc(
                     Solve the segment.
 
@@ -194,10 +250,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     Returns:
                         SegmentSolution: The segment solution.
 
-                )doc")
+                )doc"
+            )
 
             .def_static(
-                "coast", &Segment::Coast, arg("name"), arg("event_condition"), arg("dynamics"), arg("numerical_solver"),
+                "coast",
+                &Segment::Coast,
+                arg("name"),
+                arg("event_condition"),
+                arg("dynamics"),
+                arg("numerical_solver"),
                 R"doc(
                     Create a coast segment.
 
@@ -243,22 +305,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             ;
 
-        enum_<Segment::Type>(segment, "Type")
+        enum_<Segment::Type>(
+            segment,
+            "Type",
+            R"doc(
+                Segment type.
+            )doc"
+        )
 
-            .value(
-                "Coast",
-                Segment::Type::Coast,
-                R"doc(
-                    The coast segment type.
-                )doc"
-            )
-            .value(
-                "Maneuver",
-                Segment::Type::Maneuver,
-                R"doc(
-                    The maneuver segment type.
-                )doc"
-            )
+            .value("Coast", Segment::Type::Coast, "Coast")
+            .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
 
             ;
     }

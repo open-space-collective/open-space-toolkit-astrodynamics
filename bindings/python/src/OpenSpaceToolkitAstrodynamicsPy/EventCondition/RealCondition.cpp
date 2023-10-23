@@ -19,40 +19,162 @@ using ostk::astro::trajectory::State;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind11::module& aModule)
 {
     {
-        class_<RealCondition, EventCondition, Shared<RealCondition>> realCondition(aModule, "RealCondition");
+        class_<RealCondition, EventCondition, Shared<RealCondition>> realCondition(
+            aModule,
+            "RealCondition",
+            R"doc(
+                A Real Event Condition.
+
+                Group:
+                    Event Condition
+            )doc"
+        );
 
         realCondition
 
             .def(
                 init<const String&, const RealCondition::Criterion&, std::function<Real(const State&)>, const Real&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        name (str): The name of the condition.
+                        criterion (Criterion): The criterion of the condition.
+                        evaluator (function): The evaluator of the condition.
+                        target (float): The target value of the condition.
+
+                )doc",
                 arg("name"),
                 arg("criterion"),
                 arg("evaluator"),
                 arg("target") = 0.0
             )
 
-            .def("__str__", &(shiftToString<RealCondition>))
-            .def("__repr__", &(shiftToString<RealCondition>))
+            .def(
+                "__str__",
+                &(shiftToString<RealCondition>),
+                R"doc(
+                    Return a string representation of the real condition.
 
-            .def("get_target", &RealCondition::getTarget)
-            .def("get_criterion", &RealCondition::getCriterion)
-            .def("get_evaluator", &RealCondition::getEvaluator)
+                    Returns:
+                        str: The string representation.
 
-            .def("evaluate", &RealCondition::evaluate, arg("state"))
+                )doc"
+            )
 
-            .def("is_satisfied", &RealCondition::isSatisfied, arg("current_state"), arg("previous_state"))
+            .def(
+                "__repr__",
+                &(shiftToString<RealCondition>),
+                R"doc(
+                    Return a string representation of the real condition.
 
-            .def_static("string_from_criterion", &RealCondition::StringFromCriterion, arg("criterion"))
+                    Returns:
+                        str: The string representation.
+
+                )doc"
+            )
+
+            .def(
+                "get_target",
+                &RealCondition::getTarget,
+                R"doc(
+                    Get the target value of the condition.
+
+                    Returns:
+                        float: The target value.
+
+                )doc"
+            )
+
+            .def(
+                "get_criterion",
+                &RealCondition::getCriterion,
+                R"doc(
+                    Get the criterion of the condition.
+
+                    Returns:
+                        Criterion: The criterion.
+
+                )doc"
+            )
+
+            .def(
+                "get_evaluator",
+                &RealCondition::getEvaluator,
+                R"doc(
+                    Get the evaluator of the condition.
+
+                    Returns:
+                        function: The evaluator.
+
+                )doc"
+            )
+
+            .def(
+                "evaluate",
+                &RealCondition::evaluate,
+                R"doc(
+                    Evaluate the condition.
+
+                    Args:
+                        state (State): The state.
+
+                    Returns:
+                        bool: True if the condition is satisfied, False otherwise.
+
+                )doc",
+                arg("state")
+            )
+
+            .def(
+                "is_satisfied",
+                &RealCondition::isSatisfied,
+                R"doc(
+                    Check if the condition is satisfied.
+
+                    Args:
+                        current_state (State): The current state.
+                        previous_state (State): The previous state.
+
+                    Returns:
+                        bool: True if the condition is satisfied, False otherwise.
+
+                )doc",
+                arg("current_state"),
+                arg("previous_state")
+            )
+
+            .def_static(
+                "string_from_criterion",
+                &RealCondition::StringFromCriterion,
+                R"doc(
+                    Get the string representation of a criterion.
+
+                    Args:
+                        criterion (Criterion): The criterion.
+
+                    Returns:
+                        str: The string representation.
+
+                )doc",
+                arg("criterion")
+            )
 
             ;
 
-        enum_<RealCondition::Criterion>(realCondition, "Criterion")
+        enum_<RealCondition::Criterion>(
+            realCondition,
+            "Criterion",
+            R"doc(
+                The Criterion that defines how the condition is satisfied.
+            )doc"
+        )
 
-            .value("PositiveCrossing", RealCondition::Criterion::PositiveCrossing)
-            .value("NegativeCrossing", RealCondition::Criterion::NegativeCrossing)
-            .value("AnyCrossing", RealCondition::Criterion::AnyCrossing)
-            .value("StrictlyPositive", RealCondition::Criterion::StrictlyPositive)
-            .value("StrictlyNegative", RealCondition::Criterion::StrictlyNegative)
+            .value("PositiveCrossing", RealCondition::Criterion::PositiveCrossing, "The positive crossing criterion")
+            .value("NegativeCrossing", RealCondition::Criterion::NegativeCrossing, "The negative crossing criterion")
+            .value("AnyCrossing", RealCondition::Criterion::AnyCrossing, "The any crossing criterion")
+            .value("StrictlyPositive", RealCondition::Criterion::StrictlyPositive, "The strictly positive criterion")
+            .value("StrictlyNegative", RealCondition::Criterion::StrictlyNegative, "The strictly negative criterion")
 
             ;
     }

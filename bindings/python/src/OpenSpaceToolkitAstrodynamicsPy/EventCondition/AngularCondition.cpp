@@ -22,7 +22,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
 {
     {
         class_<AngularCondition, EventCondition, Shared<AngularCondition>> angularCondition(
-            aModule, "AngularCondition"
+            aModule,
+            "AngularCondition",
+            R"doc(
+                An Angular Event Condition.
+
+                Group:
+                    Event Condition
+            )doc"
         );
 
         angularCondition
@@ -33,6 +40,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                     const AngularCondition::Criterion&,
                     std::function<Real(const State&)>,
                     const Angle&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        name (str): The name of the condition.
+                        criterion (Criterion): The criterion of the condition.
+                        evaluator (function): The evaluator of the condition.
+                        target_angle (Angle): The target angle of the condition.
+
+                )doc",
                 arg("name"),
                 arg("criterion"),
                 arg("evaluator"),
@@ -42,17 +59,111 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
             .def("__str__", &(shiftToString<AngularCondition>))
             .def("__repr__", &(shiftToString<AngularCondition>))
 
-            .def("get_criterion", &AngularCondition::getCriterion)
-            .def("get_evaluator", &AngularCondition::getEvaluator)
-            .def("get_target_angle", &AngularCondition::getTargetAngle)
-            .def("get_target_range", &AngularCondition::getTargetRange)
+            .def(
+                "get_criterion",
+                &AngularCondition::getCriterion,
+                R"doc(
+                    Get the criterion of the condition.
 
-            .def("is_satisfied", &AngularCondition::isSatisfied, arg("current_state"), arg("previous_state"))
+                    Returns:
+                        Criterion: The criterion of the condition.
+
+                )doc"
+            )
+
+            .def(
+                "get_evaluator",
+                &AngularCondition::getEvaluator,
+                R"doc(
+                    Get the evaluator of the condition.
+
+                    Returns:
+                        function: The evaluator of the condition.
+
+                )doc"
+            )
+
+            .def(
+                "get_target_angle",
+                &AngularCondition::getTargetAngle,
+                R"doc(
+                    Get the target angle of the condition.
+
+                    Returns:
+                        Angle: The target angle of the condition.
+
+                )doc"
+            )
+
+            .def(
+                "get_target_range",
+                &AngularCondition::getTargetRange,
+                R"doc(
+                    Get the target range of the condition.
+
+                    Returns:
+                        tuple: The target range of the condition.
+
+                )doc"
+            )
+
+            .def(
+                "is_satisfied",
+                &AngularCondition::isSatisfied,
+                R"doc(
+                    Check if the condition is satisfied.
+
+                    Args:
+                        current_state (State): The current state.
+                        previous_state (State): The previous state.
+
+                    Returns:
+                        bool: True if the condition is satisfied, False otherwise.
+
+                )doc",
+                arg("current_state"),
+                arg("previous_state")
+            )
 
             .def_static(
-                "within_range", &AngularCondition::WithinRange, arg("name"), arg("evaluator"), arg("target_range")
+                "within_range",
+                &AngularCondition::WithinRange,
+                R"doc(
+                    Create an angular condition that is satisfied when the angle is within a range.
+
+                    Args:
+                        name (str): The name of the condition.
+                        evaluator (function): The evaluator of the condition.
+                        target_range (tuple): The target range of the condition.
+
+                    Returns:
+                        AngularCondition: The angular condition.
+
+                    Group:
+                        Static methods
+                )doc",
+                arg("name"),
+                arg("evaluator"),
+                arg("target_range")
             )
-            .def_static("string_from_criterion", &AngularCondition::StringFromCriterion, arg("criterion"))
+
+            .def_static(
+                "string_from_criterion",
+                &AngularCondition::StringFromCriterion,
+                R"doc(
+                    Get the string representation of a criterion.
+
+                    Args:
+                        criterion (Criterion): The criterion.
+
+                    Returns:
+                        str: The string representation of the criterion.
+
+                    Group:
+                        Static methods
+                )doc",
+                arg("criterion")
+            )
 
             ;
 

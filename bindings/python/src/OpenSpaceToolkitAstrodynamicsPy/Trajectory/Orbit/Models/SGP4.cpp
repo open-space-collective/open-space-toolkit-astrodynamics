@@ -12,25 +12,110 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(pybind1
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
     {
-        class_<SGP4, ostk::astro::trajectory::orbit::Model>(aModule, "SGP4")
+        class_<SGP4, ostk::astro::trajectory::orbit::Model>(
+            aModule,
+            "SGP4",
+            R"doc(
+                A SGP4 model.
 
-            .def(init<TLE>(), arg("tle"))
+                Provides the interface for orbit models.
 
-            .def(self == self)
-            .def(self != self)
+                Group:
+                    Models
+            )doc"
+        )
 
-            .def("__str__", &(shiftToString<SGP4>))
-            .def("__repr__", &(shiftToString<SGP4>))
+            .def(
+                init<TLE>(),
+                R"doc(
+                    Constructor.
 
-            .def("is_defined", &SGP4::isDefined)
+                    Args:
+                        tle (TLE): The TLE.
 
-            .def("get_tle", &SGP4::getTle)
-            .def("get_epoch", &SGP4::getEpoch)
-            .def("get_revolution_number_at_epoch", &SGP4::getRevolutionNumberAtEpoch)
+                )doc",
+                arg("tle")
+            )
 
-            .def("calculate_state_at", &SGP4::calculateStateAt, arg("instant"))
+            .def(
+                "is_defined",
+                &SGP4::isDefined,
+                R"doc(
+                    Check if the `SGP4` model is defined.
 
-            .def("calculate_revolution_number_at", &SGP4::calculateRevolutionNumberAt, arg("instant"))
+                    Returns:
+                        bool: True if the `SGP4` model is defined, False otherwise.
+
+                )doc"
+            )
+
+            .def(
+                "get_tle",
+                &SGP4::getTle,
+                R"doc(
+                    Get the TLE of the `SGP4` model.
+
+                    Returns:
+                        TLE: The TLE.
+
+                )doc"
+            )
+
+            .def(
+                "get_epoch",
+                &SGP4::getEpoch,
+                R"doc(
+                    Get the epoch of the `SGP4` model.
+
+                    Returns:
+                        Instant: The epoch.
+
+                )doc"
+            )
+
+            .def(
+                "get_revolution_number_at_epoch",
+                &SGP4::getRevolutionNumberAtEpoch,
+                R"doc(
+                    Get the revolution number at the epoch of the `SGP4` model.
+
+                    Returns:
+                        int: The revolution number.
+
+                )doc"
+            )
+
+            .def(
+                "calculate_state_at",
+                &SGP4::calculateStateAt,
+                arg("instant"),
+                R"doc(
+                    Calculate the state of the `SGP4` model at a given instant.
+
+                    Args:
+                        instant (Instant): The instant.
+
+                    Returns:
+                        State: The state.
+
+                )doc"
+            )
+
+            .def(
+                "calculate_revolution_number_at",
+                &SGP4::calculateRevolutionNumberAt,
+                arg("instant"),
+                R"doc(
+                    Calculate the revolution number of the `SGP4` model at a given instant.
+
+                    Args:
+                        instant (Instant): The instant.
+
+                    Returns:
+                        int: The revolution number.
+
+                )doc"
+            )
 
             ;
     }

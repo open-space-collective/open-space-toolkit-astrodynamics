@@ -51,7 +51,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Check if the orbit model is defined.
 
                 Returns:
-                    is_defined (bool): True if the orbit model is defined, False otherwise.
+                    bool: True if the orbit model is defined, False otherwise.
             )doc"
         )
 
@@ -65,7 +65,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Check if the orbit model is a Kepler model.
 
                 Returns:
-                    is_kepler (bool): True if the orbit model is a Kepler model, False otherwise.
+                    bool: True if the orbit model is a Kepler model, False otherwise.
 
             )doc"
         )
@@ -79,7 +79,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Check if the orbit model is an SGP4 model.
 
                 Returns:
-                    is_sgp4 (bool): True if the orbit model is an SGP4 model, False otherwise.
+                    bool: True if the orbit model is an SGP4 model, False otherwise.
             )doc"
         )
         .def(
@@ -92,7 +92,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Check if the orbit model is a propagated model.
 
                 Returns:
-                    is_propagated (bool): True if the orbit model is a propagated model, False otherwise.
+                    bool: True if the orbit model is a propagated model, False otherwise.
 
             )doc"
         )
@@ -108,7 +108,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Cast the orbit model to a Kepler model.
 
                 Returns:
-                    kepler (Kepler): The Kepler model.
+                    Kepler: The Kepler model.
 
             )doc"
         )
@@ -123,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Cast the orbit model to an SGP4 model.
 
                 Returns:
-                    sgp4 (SGP4): The SGP4 model.
+                    SGP4: The SGP4 model.
 
             )doc"
         )
@@ -138,7 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Cast the orbit model to a propagated model.
 
                 Returns:
-                    propagated (Propagated): The propagated model.
+                    Propagated: The propagated model.
 
             )doc"
         )
@@ -150,7 +150,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Get the epoch of the orbit model.
 
                 Returns:
-                    epoc (Instant): The epoch of the orbit model.
+                    Instant: The epoch of the orbit model.
 
             )doc"
         )
@@ -161,7 +161,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                 Get the revolution number at the epoch of the orbit model.
 
                 Returns:
-                    revolution_number (int): The revolution number at the epoch of the orbit model.
+                    int: The revolution number at the epoch of the orbit model.
 
             )doc"
         )
@@ -175,7 +175,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                     instant (Instant): The instant at which to calculate the state.
 
                 Returns:
-                    state (State): The state of the orbit model at the given instant.
+                    State: The state of the orbit model at the given instant.
 
             )doc",
             arg("instant")
@@ -190,7 +190,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
                     instant (Instant): The instant at which to calculate the revolution number.
 
                 Returns:
-                    revolution_number (int): The revolution number of the orbit model at the given instant.
+                    int: The revolution number of the orbit model at the given instant.
 
             )doc",
             arg("instant")

@@ -14,11 +14,46 @@ using ostk::astro::eventcondition::InstantCondition;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybind11::module& aModule)
 {
     {
-        class_<InstantCondition, RealCondition, Shared<InstantCondition>>(aModule, "InstantCondition")
+        class_<InstantCondition, RealCondition, Shared<InstantCondition>>(
+            aModule,
+            "InstantCondition",
+            R"doc(
+                An Instant Event Condition.
 
-            .def(init<const RealCondition::Criterion&, const Instant&>(), arg("criterion"), arg("instant"))
+                Group:
+                    Event Condition
+            )doc"
+        )
 
-            .def("get_instant", &InstantCondition::getInstant)
+            .def(
+                init<const RealCondition::Criterion&, const Instant&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        criterion (Criterion): The criterion.
+                        instant (Instant): The instant.
+
+                    Group:
+                        Constructors
+                )doc",
+                arg("criterion"),
+                arg("instant")
+            )
+
+            .def(
+                "get_instant",
+                &InstantCondition::getInstant,
+                R"doc(
+                    Get the instant.
+
+                    Returns:
+                        Instant: The instant.
+
+                    Group:
+                        Methods
+                )doc"
+            )
 
             ;
     }

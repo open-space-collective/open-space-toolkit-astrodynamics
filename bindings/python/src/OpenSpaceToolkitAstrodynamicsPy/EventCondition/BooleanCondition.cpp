@@ -18,10 +18,31 @@ using ostk::astro::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)
 {
-    class_<BooleanCondition, RealCondition, Shared<BooleanCondition>>(aModule, "BooleanCondition")
+    class_<BooleanCondition, RealCondition, Shared<BooleanCondition>>(
+        aModule,
+        "BooleanCondition",
+        R"doc(
+            A Boolean Event Condition.
+
+            Group:
+                Event Condition
+        )doc"
+    )
 
         .def(
             init<const String&, const RealCondition::Criterion&, std::function<bool(const State&)>, const bool&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    name (str): The name of the condition.
+                    criterion (Criterion): The criterion of the condition.
+                    evaluator (function): The evaluator of the condition.
+                    is_inverse (bool): Whether the condition is inverse.
+
+                Group:
+                    Constructors
+            )doc",
             arg("name"),
             arg("criterion"),
             arg("evaluator"),
@@ -31,11 +52,51 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybi
         .def("__str__", &(shiftToString<BooleanCondition>))
         .def("__repr__", &(shiftToString<BooleanCondition>))
 
-        .def("is_inversed", &BooleanCondition::isInversed)
+        .def(
+            "is_inversed",
+            &BooleanCondition::isInversed,
+            R"doc(
+                Check if the condition is inverse.
 
-        .def("evaluate", &BooleanCondition::evaluate, arg("state"))
+                Returns:
+                    bool: True if the condition is inverse, False otherwise.
 
-        .def("is_satisfied", &BooleanCondition::isSatisfied, arg("current_state"), arg("previous_state"))
+            )doc"
+        )
+
+        .def(
+            "evaluate",
+            &BooleanCondition::evaluate,
+            R"doc(
+                Evaluate the condition.
+
+                Args:
+                    state (State): The state.
+
+                Returns:
+                    bool: True if the condition is satisfied, False otherwise.
+
+            )doc",
+            arg("state")
+        )
+
+        .def(
+            "is_satisfied",
+            &BooleanCondition::isSatisfied,
+            R"doc(
+                Check if the condition is satisfied.
+
+                Args:
+                    current_state (State): The current state.
+                    previous_state (State): The previous state.
+
+                Returns:
+                    bool: True if the condition is satisfied, False otherwise.
+
+            )doc",
+            arg("current_state"),
+            arg("previous_state")
+        )
 
         ;
 }

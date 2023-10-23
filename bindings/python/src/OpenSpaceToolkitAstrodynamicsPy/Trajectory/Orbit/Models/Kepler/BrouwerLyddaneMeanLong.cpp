@@ -16,12 +16,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
     using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
     using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong;
 
-    class_<BrouwerLyddaneMeanLong, BrouwerLyddaneMean> brouwerLyddaneMeanLong(aModule, "BrouwerLyddaneMeanLong");
+    class_<BrouwerLyddaneMeanLong, BrouwerLyddaneMean> brouwerLyddaneMeanLong(
+        aModule,
+        "BrouwerLyddaneMeanLong",
+        R"doc(
+            Brouwer-Lyddane Mean (Long) orbit elements. Short periodic variations and secular variations are averaged.
+
+            Group:
+                Kepler
+        )doc"
+    );
 
     brouwerLyddaneMeanLong
 
         .def(
             init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    eccentricity (Real): The eccentricity.
+                    inclination (Angle): The inclination.
+                    raan (Angle): The right ascension of the ascending node.
+                    aop (Angle): The argument of periapsis.
+                    mean_anomaly (Angle): The mean anomaly.
+
+            )doc",
             arg("semi_major_axis"),
             arg("eccentricity"),
             arg("inclination"),
@@ -30,15 +51,69 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
             arg("mean_anomaly")
         )
 
-        .def("to_coe", &BrouwerLyddaneMeanLong::toCOE)
+        .def(
+            "to_coe",
+            &BrouwerLyddaneMeanLong::toCOE,
+            R"doc(
+                Convert the `BrouwerLyddaneMeanLong` model to classical orbital elements.
 
-        .def_static("COE", &BrouwerLyddaneMeanLong::COE, arg("coe"))
+                Returns:
+                    COE: The classical orbital elements.
 
-        .def_static(
-            "cartesian", &BrouwerLyddaneMeanLong::Cartesian, arg("cartersian_state"), arg("gravitational_parameter")
+            )doc"
         )
 
-        .def_static("undefined", &BrouwerLyddaneMeanLong::Undefined)
+        .def_static(
+            "COE",
+            &BrouwerLyddaneMeanLong::COE,
+            R"doc(
+                Create a `BrouwerLyddaneMeanLong` model from classical orbital elements.
+
+                Args:
+                    coe (COE): The classical orbital elements.
+
+                Returns:
+                    BrouwerLyddaneMeanLong: The `BrouwerLyddaneMeanLong` model.
+
+                Group:
+                    Static methods
+            )doc",
+            arg("coe")
+        )
+
+        .def_static(
+            "cartesian",
+            &BrouwerLyddaneMeanLong::Cartesian,
+            R"doc(
+                Create a `BrouwerLyddaneMeanLong` model from Cartesian state.
+
+                Args:
+                    cartesian_state (CartesianState): The Cartesian state.
+                    gravitational_parameter (Real): The gravitational parameter of the central body.
+
+                Returns:
+                    BrouwerLyddaneMeanLong: The `BrouwerLyddaneMeanLong` model.
+
+                Group:
+                    Static methods
+            )doc",
+            arg("cartesian_state"),
+            arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "undefined",
+            &BrouwerLyddaneMeanLong::Undefined,
+            R"doc(
+                Create an undefined `BrouwerLyddaneMeanLong` model.
+
+                Returns:
+                    BrouwerLyddaneMeanLong: The undefined `BrouwerLyddaneMeanLong` model.
+
+                Group:
+                    Static methods
+            )doc"
+        )
 
         ;
 }

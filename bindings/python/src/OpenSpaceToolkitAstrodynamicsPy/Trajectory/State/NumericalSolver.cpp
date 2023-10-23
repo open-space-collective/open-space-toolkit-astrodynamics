@@ -37,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 The state of the trajectory.
 
-                :rtype: State
+                :type: State
             )doc"
         )
         .def_readonly(
@@ -46,7 +46,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 Whether the event condition is satisfied.
 
-                :rtype: bool
+                :type: bool
             )doc"
         )
         .def_readonly(
@@ -55,7 +55,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 The number of iterations required to find the solution.
 
-                :rtype: int
+                :type: int
             )doc"
         )
         .def_readonly(
@@ -64,7 +64,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 Whether the root solver has converged.
 
-                :rtype: bool
+                :type: bool
             )doc"
         );
 
@@ -114,7 +114,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Check if the numerical solver is defined.
 
                     Returns:
-                        is_defined (bool): True if the numerical solver is defined, False otherwise.
+                        bool: True if the numerical solver is defined, False otherwise.
                 )doc"
             )
 
@@ -125,7 +125,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Get the observed states.
 
                     Returns:
-                        observed_states (List)[State]: The observed states.
+                        List[State]: The observed states.
                 )doc"
             )
             .def(
@@ -135,7 +135,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Get the root solver.
 
                     Returns:
-                        root_solver (RootSolver): The root solver.
+                        RootSolver: The root solver.
                 )doc"
             )
 
@@ -167,7 +167,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         system_of_equations (callable): The system of equations.
 
                     Returns:
-                       state (State): The state at the requested time.
+                       State: The state at the requested time.
 
                 )doc",
                 arg("state"),
@@ -203,7 +203,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         system_of_equations (callable): The system of equations.
 
                     Returns:
-                        states (List[State]): The states at the requested times.
+                        List[State]: The states at the requested times.
 
                 )doc",
                 arg("state"),
@@ -241,7 +241,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         event_condition (EventCondition): The event condition.
 
                     Returns:
-                        solution (ConditionSolution): The solution to the event condition.
+                        ConditionSolution: The solution to the event condition.
 
                 )doc",
                 arg("state"),
@@ -263,7 +263,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 Return an undefined numerical solver.
 
                 Returns:
-                    numerical_solver (NumericalSolver): The undefined numerical solver.
+                    NumericalSolver: The undefined numerical solver.
 
                 Group:
                     Static methods
@@ -276,7 +276,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     state_logger (StateLogger, optional): The state logger. Defaults to None.
 
                 Returns:
-                    numerical_solver (NumericalSolver): The default conditional numerical solver.
+                    NumericalSolver: The default conditional numerical solver.
 
                 Group:
                     Static methods
@@ -286,7 +286,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 Return a conditional numerical solver.
 
                 Returns:
-                    numerical_solver (NumericalSolver): The conditional numerical solver.
+                    NumericalSolver: The conditional numerical solver.
 
                 Group:
                     Static methods

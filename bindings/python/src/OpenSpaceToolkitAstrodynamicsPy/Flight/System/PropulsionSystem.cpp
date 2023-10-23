@@ -17,7 +17,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
     using ostk::astro::flight::system::PropulsionSystem;
 
     {
-        class_<PropulsionSystem>(aModule, "PropulsionSystem")
+        class_<PropulsionSystem>(
+            aModule,
+            "PropulsionSystem",
+            R"doc(
+                A propulsion system.
+
+                Group:
+                    System
+            )doc"
+        )
 
             // .def(
             //     init([](const Real& thrust, const Unit& thrustUnit, const Real& specificImpulse, const Unit&
@@ -33,7 +42,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
             //     arg("specific_unit")
             // )
 
-            .def(init<const Real&, const Real&>(), arg("thrust_si_unit"), arg("specific_impulse_si_unit"))
+            .def(
+                init<const Real&, const Real&>(),
+                R"doc(
+                    Construct a propulsion system.
+
+                    Args:
+                        thrust (Real): Thrust in Newton.
+                        specific_impulse (Real): Specific impulse in Seconds.
+                )doc",
+                arg("thrust_si_unit"),
+                arg("specific_impulse_si_unit")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -41,15 +61,43 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
             // .def("__str__", &(shiftToString<PropulsionSystem>))
             // .def("__repr__", &(shiftToString<PropulsionSystem>))
 
-            .def("is_defined", &PropulsionSystem::isDefined)
+            .def(
+                "is_defined",
+                &PropulsionSystem::isDefined,
+                R"doc(
+                    Check if the propulsion system is defined.
+
+                    Returns:
+                        bool: True if the propulsion system is defined, False otherwise.
+                )doc"
+            )
 
             // .def("get_thrust", &PropulsionSystem::getThrust)
             // .def("get_specific_impulse", &PropulsionSystem::getSpecificImpulse)
             // .def("get_mass_flow_rate", &PropulsionSystem::getMassFlowRate) Scalar output
             // .def("get_acceleration", &PropulsionSystem::getAcceleration, arg("mass"))
 
-            .def_static("undefined", &PropulsionSystem::Undefined)
-            .def_static("default", &PropulsionSystem::Default)
+            .def_static(
+                "undefined",
+                &PropulsionSystem::Undefined,
+                R"doc(
+                    Return an undefined propulsion system.
+
+                    Returns:
+                        PropulsionSystem: An undefined propulsion system.
+                )doc"
+            )
+            .def_static(
+                "default",
+                &PropulsionSystem::Default,
+                R"doc(
+                    Return a default propulsion system.
+
+                    Returns:
+                        PropulsionSystem: A default propulsion system.
+                )doc"
+
+            )
 
             ;
     }

@@ -123,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
                 Get the identifier of the coordinates subset.
 
                 Returns:
-                    id (str): The identifier of the coordinates subset.
+                    str: The identifier of the coordinates subset.
             )doc"
         )
         .def(
@@ -133,7 +133,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
                 Get the name of the coordinates subset.
 
                 Returns:
-                    name (str): The name of the coordinates subset.
+                    str: The name of the coordinates subset.
             )doc"
         )
         .def(
@@ -143,7 +143,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
                 Get the size of the coordinates subset.
 
                 Returns:
-                    size (int): The size of the coordinates subset.
+                    int: The size of the coordinates subset.
             )doc"
         )
 
@@ -161,7 +161,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
                     coordinate_broker (CoordinatesBroker): The coordinates broker.
 
                 Returns:
-                    coordinates (numpy.ndarray): The sum of the coordinates.
+                    numpy.ndarray: The sum of the coordinates.
 
             )doc",
             arg("instant"),
@@ -184,7 +184,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
                     coordinate_broker (CoordinatesBroker): The coordinates broker.
 
                 Returns:
-                    coordinates (numpy.ndarray): The difference of the coordinates.
+                    numpy.ndarray: The difference of the coordinates.
 
             )doc",
             arg("instant"),
@@ -207,7 +207,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
                     coordinate_broker (CoordinatesBroker): The coordinates broker.
 
                 Returns:
-                    coordinates (numpy.ndarray): The coordinates in the output frame.
+                    numpy.ndarray: The coordinates in the output frame.
 
             )doc",
             arg("instant"),

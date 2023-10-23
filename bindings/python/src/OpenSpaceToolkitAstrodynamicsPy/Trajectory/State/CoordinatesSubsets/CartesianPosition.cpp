@@ -58,7 +58,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
                     coordinates_broker (CoordinatesBroker): The coordinates broker.
 
                 Returns:
-                    coordinates (numpy.ndarray): The Cartesian position in the output reference frame.
+                    numpy.ndarray: The Cartesian position in the output reference frame.
 
             )doc"
         )
@@ -67,7 +67,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
             Get the default Cartesian position subset.
 
             Returns:
-                cartesian_position (CartesianPosition): The default Cartesian position subset.
+                CartesianPosition: The default Cartesian position subset.
 
             Group:
                 Static methods

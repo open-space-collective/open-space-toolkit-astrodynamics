@@ -28,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Create a broker for ther provided coordinate subsets.
 
                 Args:
-                    coordinates_subsets (List[CoordinatesSubset]): The list of coordinates subsets.
+                    List[CoordinatesSubset]: The list of coordinates subsets.
 
             )doc"
         )
@@ -43,7 +43,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Access the list of coordinates subsets.
 
                 Returns:
-                    coordinate_subsets (List[CoordinatesSubset]): The list of coordinates subsets.
+                    List[CoordinatesSubset]: The list of coordinates subsets.
 
             )doc"
         )
@@ -54,7 +54,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Get the total number of coordinates.
 
                 Returns:
-                    number_of_coordinates (int): The total number of coordinates.
+                    int: The total number of coordinates.
 
             )doc"
         )
@@ -65,7 +65,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Get the number of coordinates subsets.
 
                 Returns:
-                    number_of_subsets (int): The number of coordinates subsets.
+                    int: The number of coordinates subsets.
 
             )doc"
         )
@@ -76,7 +76,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Get the list of coordinates subsets.
 
                 Returns:
-                    coordinates_subsets (List[CoordinatesSubset]): The list of coordinates subsets.
+                    List[CoordinatesSubset]: The list of coordinates subsets.
 
             )doc"
         )
@@ -103,7 +103,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                     coordinates_subset (CoordinatesSubset): The coordinates subset to check.
 
                 Returns:
-                    has_subset (bool): True if the coordinates broker has the coordinates subset, False otherwise.
+                    bool: True if the coordinates broker has the coordinates subset, False otherwise.
 
             )doc"
         )
@@ -120,7 +120,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                     coordinates_subset (CoordinatesSubset): The coordinates subset.
 
                 Returns:
-                    coordinates (numpy.ndarray): The coordinates of the subset.
+                    numpy.ndarray: The coordinates of the subset.
 
             )doc"
         )
@@ -139,7 +139,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                     coordinates_subset (CoordinatesSubset): The coordinates subset.
 
                 Returns:
-                    coordinates (numpy.ndarray): The coordinates of the subset.
+                    numpy.ndarray: The coordinates of the subset.
 
             )doc"
         )
@@ -158,7 +158,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                     coordinates_subsets (List[CoordinatesSubset]): The coordinates subsets.
 
                 Returns:
-                    coordinates (numpy.ndarray): The coordinates of the subsets.
+                    numpy.ndarray: The coordinates of the subsets.
 
             )doc"
         )
