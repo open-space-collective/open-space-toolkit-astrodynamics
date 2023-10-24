@@ -47,13 +47,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
         .def("__str__", &(shiftToString<Pass>))
         .def("__repr__", &(shiftToString<Pass>))
 
-        .def("is_defined", &Pass::isDefined, R"doc(
-            Check if the pass is defined.
+        .def(
+            "is_defined",
+            &Pass::isDefined,
+            R"doc(
+                Check if the pass is defined.
 
-            Returns:
-                bool: True if the pass is defined, False otherwise.
+                Returns:
+                    bool: True if the pass is defined, False otherwise.
 
-        )doc")
+            )doc"
+        )
         .def(
             "is_complete",
             &Pass::isComplete,

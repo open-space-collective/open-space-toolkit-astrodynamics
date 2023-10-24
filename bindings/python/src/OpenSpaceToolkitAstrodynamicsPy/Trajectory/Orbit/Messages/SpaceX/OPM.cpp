@@ -30,7 +30,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
                 `SpaceX OPM <https://public.ccsds.org/Pubs/502x0b3e1.pdf>`_.
 
             Group:
-                SpaceX
+                spacex
         )doc"
     );
 
@@ -45,8 +45,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
                     header (Header): The header of the OPM message.
                     deployments (list[Deployment]): The deployments of the OPM message.
 
-                Group:
-                    Constructors
             )doc",
             arg("header"),
             arg("deployments")
@@ -195,7 +193,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
             The header of the SpaceX OPM message.
 
             Group:
-                SpaceX
+                spacex
         )doc"
     )
 
@@ -245,7 +243,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
             The deployment of the SpaceX OPM message.
 
             Group:
-                SpaceX
+                spacex
         )doc"
     )
 

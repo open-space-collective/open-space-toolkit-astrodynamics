@@ -63,15 +63,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
             )doc"
         )
 
-        .def_static("default", &CartesianPosition::Default, R"doc(
-            Get the default Cartesian position subset.
+        .def_static(
+            "default",
+            &CartesianPosition::Default,
+            R"doc(
+                Get the default Cartesian position subset.
 
-            Returns:
-                CartesianPosition: The default Cartesian position subset.
+                Returns:
+                    CartesianPosition: The default Cartesian position subset.
 
-            Group:
-                Static methods
-        )doc")
+                Group:
+                    Static methods
+            )doc"
+        )
 
         ;
 }

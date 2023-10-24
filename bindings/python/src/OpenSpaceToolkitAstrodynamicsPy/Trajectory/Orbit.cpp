@@ -72,28 +72,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
 
-            .def(self == self, R"doc(
-                    Check if two `Orbit` objects are equal.
-
-                    Args:
-                        self (Orbit): The first `Orbit` object.
-                        other (Orbit): The second `Orbit` object.
-
-                    Returns:
-                        bool: True if the two `Orbit` objects are equal, False otherwise.
-
-                )doc"
-            )
+            .def(self == self)
             .def(self != self)
 
             .def("__str__", &(shiftToString<Orbit>))
             .def("__repr__", &(shiftToString<Orbit>))
 
-            .def("is_defined", &Orbit::isDefined, R"doc(
+            .def(
+                "is_defined",
+                &Orbit::isDefined,
+                R"doc(
                     Check if the `Orbit` object is defined.
-
-                    Args:
-                        self (Orbit): The `Orbit` object.
 
                     Returns:
                         bool: True if the `Orbit` object is defined, False otherwise.
@@ -101,11 +90,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
 
-            .def("access_model", &Orbit::accessModel, return_value_policy::reference, R"doc(
+            .def(
+                "access_model",
+                &Orbit::accessModel,
+                return_value_policy::reference,
+                R"doc(
                     Access the orbit model.
-
-                    Args:
-                        self (Orbit): The `Orbit` object.
 
                     Returns:
                         orbit.Model: The orbit model.
@@ -122,9 +112,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 R"doc(
                     Access the Kepler orbit model.
 
-                    Args:
-                        self (Orbit): The `Orbit` object.
-
                     Returns:
                        Kepler: The Kepler orbit model.
 
@@ -139,9 +126,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 return_value_policy::reference,
                 R"doc(
                     Access the SGP4 orbit model.
-
-                    Args:
-                        self (Orbit): The `Orbit` object.
 
                     Returns:
                         SGP4: The SGP4 orbit model.
@@ -158,9 +142,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 R"doc(
                     Access the propagated orbit model.
 
-                    Args:
-                        self (Orbit): The `Orbit` object.
-
                     Returns:
                         Propagated: The propagated orbit model.
 
@@ -176,71 +157,87 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 R"doc(
                     Access the tabulated orbit model.
 
-                    Args:
-                        self (Orbit): The `Orbit` object.
-
                     Returns:
                         Tabulated: The tabulated orbit model.
 
                 )doc"
             )
 
-            .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt, arg("instant"), R"doc(
+            .def(
+                "get_revolution_number_at",
+                &Orbit::getRevolutionNumberAt,
+                R"doc(
                     Get the revolution number at a given instant.
 
                     Args:
-                        self (Orbit): The `Orbit` object.
                         instant (Instant): The instant.
 
                     Returns:
                         int: The revolution number.
 
-                )doc"
+                )doc",
+                arg("instant")
             )
-            .def("get_pass_at", &Orbit::getPassAt, arg("instant"), R"doc(
+            .def(
+                "get_pass_at",
+                &Orbit::getPassAt,
+                R"doc(
                     Get the pass at a given instant.
 
                     Args:
-                        self (Orbit): The `Orbit` object.
                         instant (Instant): The instant.
 
                     Returns:
                         ostk::astro::trajectory::orbit::Pass: The pass.
 
-                )doc"
+                )doc",
+                arg("instant")
             )
-            .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber, arg("revolution_number"), R"doc(
+            .def(
+                "get_pass_with_revolution_number",
+                &Orbit::getPassWithRevolutionNumber,
+                R"doc(
                     Get the pass with a given revolution number.
 
                     Args:
-                        self (Orbit): The `Orbit` object.
                         revolution_number (int): The revolution number.
 
                     Returns:
                         Pass: The pass.
 
-                )doc"
+                )doc",
+                arg("revolution_number")
             )
-            .def("get_orbital_frame", &Orbit::getOrbitalFrame, arg("frame_type"), R"doc(
+            .def(
+                "get_orbital_frame",
+                &Orbit::getOrbitalFrame,
+                R"doc(
                     Get the orbital frame.
 
                     Args:
-                        self (Orbit): The `Orbit` object.
                         frame_type (Orbit::FrameType): The frame type.
 
                     Returns:
                         Frame: The orbital frame.
 
-                )doc"
+                )doc",
+                arg("frame_type")
             )
 
-            .def_static("undefined", &Orbit::Undefined, R"doc(
+            .def_static(
+                "undefined",
+                &Orbit::Undefined,
+                R"doc(
                     Get an undefined `Orbit` object.
 
                     Returns:
                         Orbit: The undefined `Orbit` object.
+                    
+                    Group:
+                        Static method
 
-                )doc")
+                )doc"
+            )
 
             .def_static(
                 "circular",
@@ -256,7 +253,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         epoch (Instant): The epoch.
                         altitude (double): The altitude.
                         inclination (double): The inclination.
-                        celestial_object (ostk::physics::env::obj::Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object.
 
                     Returns:
                         Orbit: The circular `Orbit` object.
@@ -280,7 +277,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         epoch (Instant): The epoch.
                         apoapsis_altitude (double): The apoapsis altitude.
                         periapsis_altitude (double): The periapsis altitude.
-                        celestial_object (ostk::physics::env::obj::Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object.
 
                     Returns:
                         Orbit: The equatorial `Orbit` object.
@@ -302,7 +299,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                     Args:
                         epoch (Instant): The epoch.
                         altitude (double): The altitude.
-                        celestial_object (ostk::physics::env::obj::Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object.
 
                     Returns:
                         Orbit: The circular equatorial `Orbit` object.
@@ -326,7 +323,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         epoch (Instant): The epoch.
                         inclination (double): The inclination.
                         longitude (double): The longitude.
-                        celestial_object (ostk::physics::env::obj::Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object.
 
                     Returns:
                         Orbit: The geosynchronous `Orbit` object.
@@ -350,7 +347,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         epoch (Instant): The epoch.
                         altitude (double): The altitude.
                         local_time_at_descending_node (double): The local time at descending node.
-                        celestial_object (ostk::physics::env::obj::Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object.
 
                     Returns:
                         Orbit: The sun-synchronous `Orbit` object.

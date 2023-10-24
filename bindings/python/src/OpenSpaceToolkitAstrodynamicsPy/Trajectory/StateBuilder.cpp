@@ -31,7 +31,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             init<const Shared<const Frame>&, const Array<Shared<const CoordinatesSubset>>&>(),
             arg("frame"),
             arg("coordinates_subsets"),
-            R"pydoc(
+            R"doc(
                 Construct a new `StateBuilder` object.
 
                 Arguments:
@@ -41,7 +41,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
                 Returns:
                     StateBuilder 
 
-            )pydoc"
+            )doc"
         )
         .def(
             init<const Shared<const Frame>&, const Shared<const CoordinatesBroker>&>(),

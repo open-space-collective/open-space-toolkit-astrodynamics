@@ -37,7 +37,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 The state of the trajectory.
 
-                :type: State
+                Type:
+                    State
             )doc"
         )
         .def_readonly(
@@ -46,7 +47,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 Whether the event condition is satisfied.
 
-                :type: bool
+                Type:
+                    bool
             )doc"
         )
         .def_readonly(
@@ -55,7 +57,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 The number of iterations required to find the solution.
 
-                :type: int
+                Type:
+                    int
             )doc"
         )
         .def_readonly(
@@ -64,12 +67,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             R"doc(
                 Whether the root solver has converged.
 
-                :type: bool
+                Type:
+                    bool
             )doc"
         );
 
     {
-        class_<NumericalSolver, MathNumericalSolver> numericalSolver(aModule, "NumericalSolver");
+        class_<NumericalSolver, MathNumericalSolver> numericalSolver(
+            aModule,
+            "NumericalSolver",
+            R"doc(
+                A numerical solver is used to integrate the trajectory of a dynamical system.
+
+                The numerical solver can be used to integrate the trajectory of a dynamical system to a given instant,
+                or to a set of instants, or until an `Event Condition` is met.
+
+                Group:
+                    State
+            )doc"
+        );
 
         numericalSolver
 
@@ -250,46 +266,61 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("event_condition")
             )
 
-            .def_static("default", &NumericalSolver::Default, R"doc(
-                Return the default numerical solver.
-
-                Returns:
-                    NumericalSolver: The default numerical solver.
-
-                Group:
-                    Static methods
-            )doc")
-            .def_static("undefined", &NumericalSolver::Undefined, R"doc(
-                Return an undefined numerical solver.
-
-                Returns:
-                    NumericalSolver: The undefined numerical solver.
-
-                Group:
-                    Static methods
-            )doc")
             .def_static(
-                "default_conditional", &NumericalSolver::DefaultConditional, arg("state_logger") = nullptr, R"doc(
-                Return the default conditional numerical solver.
+                "default",
+                &NumericalSolver::Default,
+                R"doc(
+                    Return the default numerical solver.
 
-                Args:
-                    state_logger (StateLogger, optional): The state logger. Defaults to None.
+                    Returns:
+                        NumericalSolver: The default numerical solver.
 
-                Returns:
-                    NumericalSolver: The default conditional numerical solver.
-
-                Group:
-                    Static methods
-            )doc"
+                    Group:
+                        Static methods
+                )doc"
             )
-            .def_static("conditional", &NumericalSolver::Conditional, R"doc(
-                Return a conditional numerical solver.
+            .def_static(
+                "undefined",
+                &NumericalSolver::Undefined,
+                R"doc(
+                    Return an undefined numerical solver.
 
-                Returns:
-                    NumericalSolver: The conditional numerical solver.
+                    Returns:
+                        NumericalSolver: The undefined numerical solver.
 
-                Group:
-                    Static methods
-            )doc");
+                    Group:
+                        Static methods
+                )doc"
+            )
+            .def_static(
+                "default_conditional",
+                &NumericalSolver::DefaultConditional,
+                R"doc(
+                    Return the default conditional numerical solver.
+
+                    Args:
+                        state_logger (StateLogger, optional): The state logger. Defaults to None.
+
+                    Returns:
+                        NumericalSolver: The default conditional numerical solver.
+
+                    Group:
+                        Static methods
+                )doc",
+                arg("state_logger") = nullptr
+            )
+            .def_static(
+                "conditional",
+                &NumericalSolver::Conditional,
+                R"doc(
+                    Return a conditional numerical solver.
+
+                    Returns:
+                        NumericalSolver: The conditional numerical solver.
+
+                    Group:
+                        Static methods
+                )doc"
+            );
     }
 }

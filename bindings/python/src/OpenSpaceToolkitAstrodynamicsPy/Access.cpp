@@ -17,21 +17,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
         class_<Access> access_class(
             aModule,
             "Access",
-            R"docs(
+            R"doc(
                 Object-to-object visibility
                 
                 This class encapsulates the concept of visibility access between two trajectories.
                 
                 Group:
                     astrodynamics
-            )docs"
+            )doc"
         );
 
         access_class
 
             .def(
                 init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
-                R"docs(
+                R"doc(
                     Constructs an Access object.
                     
                     Args:
@@ -40,7 +40,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                         time_of_closest_approach (Instant): The time of closest approach between objects
                         loss_of_signal (Instant): The instant when the signal is lost
                         max_elevation (Angle): The maximum elevation angle during the access
-                )docs",
+                )doc",
                 arg("type"),
                 arg("acquisition_of_signal"),
                 arg("time_of_closest_approach"),
@@ -57,106 +57,106 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             .def(
                 "is_defined",
                 &Access::isDefined,
-                R"docs(
+                R"doc(
                     Check if the Access object is defined.
                     
                     Returns:
                        bool: True if defined, False otherwise.
-                 )docs"
+                 )doc"
             )
 
             .def(
                 "is_complete",
                 &Access::isComplete,
-                R"docs(
+                R"doc(
                     Check if the access is complete.
                     
                     Returns:
                         bool: True if complete, False otherwise.
-                 )docs"
+                 )doc"
             )
 
             .def(
                 "get_type",
                 &Access::getType,
-                R"docs(
+                R"doc(
                     Get the type of the access.
 
                     Returns:
                         Access.Type: The type of the access.
-                )docs"
+                )doc"
             )
 
             .def(
                 "get_acquisition_of_signal",
                 &Access::getAcquisitionOfSignal,
-                R"docs(
+                R"doc(
                     Get the acquisition of signal of the access.
 
                     Returns:
                         Instant: The acquisition of signal of the access.
-                )docs"
+                )doc"
             )
 
             .def(
                 "get_time_of_closest_approach",
                 &Access::getTimeOfClosestApproach,
-                R"docs(
+                R"doc(
                     Get the time of closest approach of the access.
 
                     Returns:
                         Instant: The time of closest approach of the access.
-                )docs"
+                )doc"
             )
 
             .def(
                 "get_loss_of_signal",
                 &Access::getLossOfSignal,
-                R"docs(
+                R"doc(
                     Get the loss of signal of the access.
 
                     Returns:
                        Instant: The loss of signal of the access.
-                )docs"
+                )doc"
             )
 
             .def(
                 "get_interval",
                 &Access::getInterval,
-                R"docs(
+                R"doc(
                     Get the interval of the access.
 
                     Returns:
                        Interval: The interval of the access.
-                )docs"
+                )doc"
             )
 
             .def(
                 "get_duration",
                 &Access::getDuration,
-                R"docs(
+                R"doc(
                     Get the duration of the access.
 
                     Returns:
                        Duration: The duration of the access.
-                )docs"
+                )doc"
             )
 
             .def(
                 "get_max_elevation",
                 &Access::getMaxElevation,
-                R"docs(
+                R"doc(
                     Get the maximum elevation of the access.
 
                     Returns:
                       Angle: The maximum elevation of the access.
-                )docs"
+                )doc"
             )
 
             .def_static(
                 "undefined",
                 &Access::Undefined,
-                R"docs(
+                R"doc(
                     Creates an undefined Access object.
                     
                     Returns:
@@ -164,13 +164,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     
                     Group:
                         Static methods
-                )docs"
+                )doc"
             )
 
             .def_static(
                 "string_from_type",
                 &Access::StringFromType,
-                R"docs(
+                R"doc(
                     Returns a string representation of the Access type.
     
                     Args:
@@ -181,7 +181,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     
                     Group:
                         Static methods
-                )docs",
+                )doc",
                 arg("type")
             )
 
@@ -190,9 +190,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
         enum_<Access::Type>(
             access_class,
             "Type",
-            R"docs(
+            R"doc(
                 Access type.
-            )docs"
+            )doc"
         )
 
             .value("Undefined", Access::Type::Undefined, "Undefined")

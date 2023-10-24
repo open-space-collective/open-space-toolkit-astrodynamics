@@ -59,49 +59,73 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             arg("tolerance") = DEFAULT_TOLERANCE
         )
 
-        .def("is_defined", &Generator::isDefined, R"doc(
-            Check if the generator is defined.
+        .def(
+            "is_defined",
+            &Generator::isDefined,
+            R"doc(
+                Check if the generator is defined.
 
-            Returns:
-                bool: True if the generator is defined, False otherwise.
+                Returns:
+                    bool: True if the generator is defined, False otherwise.
 
-        )doc")
+            )doc"
+        )
 
-        .def("get_step", &Generator::getStep, R"doc(
-            Get the step.
+        .def(
+            "get_step",
+            &Generator::getStep,
+            R"doc(
+                Get the step.
 
-            Returns:
-                Duration: The step.
+                Returns:
+                    Duration: The step.
 
-        )doc")
-        .def("get_tolerance", &Generator::getTolerance, R"doc(
-            Get the tolerance.
+            )doc"
+        )
+        .def(
+            "get_tolerance",
+            &Generator::getTolerance,
+            R"doc(
+                Get the tolerance.
 
-            Returns:
-                Duration: The tolerance.
+                Returns:
+                    Duration: The tolerance.
 
-        )doc")
-        .def("get_aer_filter", &Generator::getAerFilter, R"doc(
-            Get the AER filter.
+            )doc"
+        )
+        .def(
+            "get_aer_filter",
+            &Generator::getAerFilter,
+            R"doc(
+                Get the AER filter.
 
-            Returns:
-                function: The AER filter.
+                Returns:
+                    function: The AER filter.
 
-        )doc")
-        .def("get_access_filter", &Generator::getAccessFilter, R"doc(
-            Get the access filter.
+            )doc"
+        )
+        .def(
+            "get_access_filter",
+            &Generator::getAccessFilter,
+            R"doc(
+                Get the access filter.
 
-            Returns:
-                function: The access filter.
+                Returns:
+                    function: The access filter.
 
-        )doc")
-        .def("get_state_filter", &Generator::getStateFilter, R"doc(
-            Get the state filter.
+            )doc"
+        )
+        .def(
+            "get_state_filter",
+            &Generator::getStateFilter,
+            R"doc(
+                Get the state filter.
 
-            Returns:
-                function: The state filter.
+                Returns:
+                    function: The state filter.
 
-        )doc")
+            )doc"
+        )
 
         .def(
             "get_condition_function",
@@ -200,16 +224,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             arg("state_filter")
         )
 
-        .def_static("undefined", &Generator::Undefined, R"doc(
-            Get an undefined generator.
+        .def_static(
+            "undefined",
+            &Generator::Undefined,
+            R"doc(
+                Get an undefined generator.
 
-            Returns:
-                Generator: An undefined generator.
-            
-            Group:
-                Static methods
+                Returns:
+                    Generator: An undefined generator.
+                
+                Group:
+                    Static methods
 
-        )doc")
+            )doc"
+        )
         .def_static(
             "aer_ranges",
             &Generator::AerRanges,

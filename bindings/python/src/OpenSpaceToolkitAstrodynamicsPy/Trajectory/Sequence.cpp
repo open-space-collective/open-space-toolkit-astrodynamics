@@ -286,7 +286,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                     Args:
                         event_condition (EventCondition): The event condition.
-                        thruster_dynamics (ThrusterDynamics): The thruster dynamics.
+                        thruster_dynamics (Thruster): The thruster dynamics.
 
                 )doc"
             )
