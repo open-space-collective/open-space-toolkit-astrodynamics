@@ -23,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
                 A Logical Event Condition. This class is used to combine multiple event conditions into a single set.
 
                 Group:
-                    Event Condition
+                    event-condition
             )doc"
         );
 

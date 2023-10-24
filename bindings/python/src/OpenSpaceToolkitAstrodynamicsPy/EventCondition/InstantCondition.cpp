@@ -21,7 +21,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybi
                 An Instant Event Condition.
 
                 Group:
-                    Event Condition
+                    event-condition
             )doc"
         )
 

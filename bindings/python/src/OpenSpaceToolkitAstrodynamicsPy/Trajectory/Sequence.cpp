@@ -33,78 +33,108 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         .def("__str__", &(shiftToString<Sequence::Solution>))
         .def("__repr__", &(shiftToString<Sequence::Solution>))
 
-        .def_readonly("segment_solutions", &Sequence::Solution::segmentSolutions,
+        .def_readonly(
+            "segment_solutions",
+            &Sequence::Solution::segmentSolutions,
             R"doc(
                 The solutions for each segment.
 
                 :type: List[SegmentSolution]
-            )doc")
-        .def_readonly("execution_is_complete", &Sequence::Solution::executionIsComplete,
+            )doc"
+        )
+        .def_readonly(
+            "execution_is_complete",
+            &Sequence::Solution::executionIsComplete,
             R"doc(
                 Whether the execution is complete.
 
                 :type: bool
-            )doc")
+            )doc"
+        )
 
-        .def("access_start_instant", &Sequence::Solution::accessStartInstant,
+        .def(
+            "access_start_instant",
+            &Sequence::Solution::accessStartInstant,
             R"doc(
                 Get the instant at which the access starts.
 
                 Returns:
                     Instant: The instant at which the access starts.
                 
-            )doc")
-        .def("access_end_instant", &Sequence::Solution::accessEndInstant,
+            )doc"
+        )
+        .def(
+            "access_end_instant",
+            &Sequence::Solution::accessEndInstant,
             R"doc(
                 Get the instant at which the access ends.
 
                 Returns:
                     Instant: The instant at which the access ends.
 
-            )doc")
+            )doc"
+        )
 
-        .def("get_states", &Sequence::Solution::getStates,
+        .def(
+            "get_states",
+            &Sequence::Solution::getStates,
             R"doc(
                 Get the states.
 
                 Returns:
                     List[State]: The states.
 
-            )doc")
-        .def("get_initial_mass", &Sequence::Solution::getInitialMass,
+            )doc"
+        )
+        .def(
+            "get_initial_mass",
+            &Sequence::Solution::getInitialMass,
             R"doc(
                 Get the initial mass.
 
                 Returns:
                     float: The initial mass.
             
-            )doc")
-        .def("get_final_mass", &Sequence::Solution::getFinalMass,
+            )doc"
+        )
+        .def(
+            "get_final_mass",
+            &Sequence::Solution::getFinalMass,
             R"doc(
                 Get the final mass.
 
                 Returns:
                     float: The final mass.
 
-            )doc")
-        .def("get_propagation_duration", &Sequence::Solution::getPropagationDuration,
+            )doc"
+        )
+        .def(
+            "get_propagation_duration",
+            &Sequence::Solution::getPropagationDuration,
             R"doc(
                 Get the propagation duration.
 
                 Returns:
                     Duration: The propagation duration.
                 
-            )doc")
+            )doc"
+        )
 
-        .def("compute_delta_mass", &Sequence::Solution::computeDeltaMass,
+        .def(
+            "compute_delta_mass",
+            &Sequence::Solution::computeDeltaMass,
             R"doc(
                 Compute the delta mass.
 
                 Returns:
                     float: The delta mass.
                 
-            )doc")
-        .def("compute_delta_v", &Sequence::Solution::computeDeltaV, arg("specific_impulse"),
+            )doc"
+        )
+        .def(
+            "compute_delta_v",
+            &Sequence::Solution::computeDeltaV,
+            arg("specific_impulse"),
             R"doc(
                 Compute the delta V.
 
@@ -114,7 +144,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 Returns:
                     float: The delta V.
                 
-            )doc")
+            )doc"
+        )
 
         ;
 
@@ -125,6 +156,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             R"doc(
                 A mission `Sequence`. Consists of a list of `Segment` objects and various configuration parameters.
 
+                Group:
+                    trajectory
             )doc"
         )
 
@@ -162,65 +195,92 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             .def("__str__", &(shiftToString<Sequence>))
             .def("__repr__", &(shiftToString<Sequence>))
 
-            .def("get_segments", &Sequence::getSegments,
+            .def(
+                "get_segments",
+                &Sequence::getSegments,
                 R"doc(
                     Get the segments.
 
                     Returns:
                         List[Segment]: The segments.
                     
-                )doc")
-            .def("get_numerical_solver", &Sequence::getNumericalSolver,
+                )doc"
+            )
+            .def(
+                "get_numerical_solver",
+                &Sequence::getNumericalSolver,
                 R"doc(
                     Get the numerical solver.
 
                     Returns:
                         NumericalSolver: The numerical solver.
 
-                )doc")
-            .def("get_dynamics", &Sequence::getDynamics,
+                )doc"
+            )
+            .def(
+                "get_dynamics",
+                &Sequence::getDynamics,
                 R"doc(
                     Get the dynamics.
 
                     Returns:
                         List[Dynamics]: The dynamics.
 
-                )doc")
-            .def("get_maximum_propagation_duration", &Sequence::getMaximumPropagationDuration,
+                )doc"
+            )
+            .def(
+                "get_maximum_propagation_duration",
+                &Sequence::getMaximumPropagationDuration,
                 R"doc(
                     Get the maximum propagation duration.
 
                     Returns:
                         Duration: The maximum propagation duration.
                     
-                )doc")
+                )doc"
+            )
 
-            .def("add_segment", overload_cast<const Segment&>(&Sequence::addSegment), arg("segment"),
+            .def(
+                "add_segment",
+                overload_cast<const Segment&>(&Sequence::addSegment),
+                arg("segment"),
                 R"doc(
                     Add a segment.
 
                     Args:
                         segment (Segment): The segment.
 
-                )doc")
-            .def("add_segment", overload_cast<const Array<Segment>&>(&Sequence::addSegment), arg("segments"),
+                )doc"
+            )
+            .def(
+                "add_segment",
+                overload_cast<const Array<Segment>&>(&Sequence::addSegment),
+                arg("segments"),
                 R"doc(
                     Add segments.
 
                     Args:
                         segments (List[Segment]): The segments.
 
-                )doc")
-            .def("add_coast_segment", &Sequence::addCoastSegment, arg("event_condition"),
+                )doc"
+            )
+            .def(
+                "add_coast_segment",
+                &Sequence::addCoastSegment,
+                arg("event_condition"),
                 R"doc(
                     Add a coast segment.
 
                     Args:
                         event_condition (EventCondition): The event condition.
 
-                )doc")
+                )doc"
+            )
             .def(
-                "add_maneuver_segment", &Sequence::addManeuverSegment, arg("event_condition"), arg("thruster_dynamics"),
+                "add_maneuver_segment",
+                &Sequence::addManeuverSegment,
+                arg("event_condition"),
+                arg("thruster_dynamics"),
                 R"doc(
                     Add a maneuver segment.
 
@@ -231,7 +291,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 )doc"
             )
 
-            .def("solve", &Sequence::solve, arg("state"),
+            .def(
+                "solve",
+                &Sequence::solve,
+                arg("state"),
                 R"doc(
                     Solve the sequence.
 
@@ -241,7 +304,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Returns:
                     SequenceSolution: The sequence solution.
 
-                )doc")
+                )doc"
+            )
 
             ;
     }

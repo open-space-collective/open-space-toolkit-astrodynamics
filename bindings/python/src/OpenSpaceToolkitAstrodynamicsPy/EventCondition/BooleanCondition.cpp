@@ -25,7 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybi
             A Boolean Event Condition.
 
             Group:
-                Event Condition
+                event-condition
         )doc"
     )
 

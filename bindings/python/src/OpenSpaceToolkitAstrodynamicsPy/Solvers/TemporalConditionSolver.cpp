@@ -23,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_TemporalConditionSolver(pybi
             Given a set of conditions and a time interval, the solver computes all sub-intervals over which conditions are met.
 
             Group:
-                Solvers
+                solvers
         )doc"
     )
 

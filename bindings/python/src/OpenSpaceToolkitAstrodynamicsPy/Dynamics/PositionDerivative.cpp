@@ -21,7 +21,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(pybind11
                 The position derivative model.
 
                 Group:
-                    Dynamics
+                    dynamics
             )doc"
         )
             .def(

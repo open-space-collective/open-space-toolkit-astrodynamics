@@ -13,7 +13,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
 
     typedef std::function<double(const double&)> pythonFunctionSignature;
 
-    class_<RootSolver::Solution>(aModule, "RootSolverSolution")
+    class_<RootSolver::Solution>(
+        aModule,
+        "RootSolverSolution",
+        R"doc(
+            A root solver solution.
+
+            Group:
+                astrodynamics
+        )doc"
+    )
         .def_readwrite(
             "root",
             &RootSolver::Solution::root,
@@ -43,10 +52,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                 Returns:
                     has_converged (bool): Whether the root solver has converged.
             )doc"
-        );
+        )
+
+        ;
 
     {
-        class_<RootSolver>(aModule, "RootSolver")
+        class_<RootSolver>(
+            aModule,
+            "RootSolver",
+            R"doc(
+                A root solver is an algorithm for finding a zero-crossing of a function.
+
+                Group:
+                    astrodynamics
+            )doc"
+        )
             .def(
                 init<const Size&, const Real&>(),
                 R"doc(

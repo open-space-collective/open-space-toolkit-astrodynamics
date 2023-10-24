@@ -14,7 +14,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
     using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 
-    class_<LocalOrbitalFrameFactory, Shared<LocalOrbitalFrameFactory>>(aModule, "LocalOrbitalFrameFactory")
+    class_<LocalOrbitalFrameFactory, Shared<LocalOrbitalFrameFactory>>(
+        aModule,
+        "LocalOrbitalFrameFactory",
+        R"doc(
+            The local orbital frame factory.
+
+            Group:
+                trajectory
+        )doc"
+    )
         .def(
             "is_defined",
             &LocalOrbitalFrameFactory::isDefined,
@@ -24,6 +33,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
                 Returns:
                     Frame: True if the local orbital frame factory is defined, False otherwise.
 
+                Group:
+                    trajectory
             )doc"
         )
 

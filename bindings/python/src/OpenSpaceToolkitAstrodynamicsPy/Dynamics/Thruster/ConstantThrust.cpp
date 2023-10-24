@@ -25,7 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_ConstantThrust(pyb
                 Constant Thrust, Constant Direction dynamics.
 
                 Group:
-                    Thruster
+                    thruster
             )doc"
         )
             .def(

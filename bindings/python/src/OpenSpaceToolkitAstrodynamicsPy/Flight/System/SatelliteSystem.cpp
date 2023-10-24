@@ -25,7 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                 A Satellite System.
 
                 Group:
-                    System
+                    system
             )doc"
         )
 

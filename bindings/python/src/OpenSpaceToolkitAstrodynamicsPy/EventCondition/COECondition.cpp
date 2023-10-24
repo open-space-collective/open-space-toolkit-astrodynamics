@@ -25,7 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 A COE Event Condition.
 
                 Group:
-                    Event Condition
+                    event-condition
             )doc"
         )
 

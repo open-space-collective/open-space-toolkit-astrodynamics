@@ -24,7 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
                 A propulsion system.
 
                 Group:
-                    System
+                    system
             )doc"
         )
 

@@ -28,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 An Angular Event Condition.
 
                 Group:
-                    Event Condition
+                    event-condition
             )doc"
         );
 

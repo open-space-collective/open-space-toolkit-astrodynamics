@@ -17,7 +17,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
 
             Group:
                 trajectory
-
         )doc"
     )
         .def(
@@ -39,7 +38,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
         .def(self == self)
         .def(self != self)
 
-        .def("is_defined", &LocalOrbitalFrameDirection::isDefined,
+        .def(
+            "is_defined",
+            &LocalOrbitalFrameDirection::isDefined,
             R"doc(
                 Check if the local orbital frame direction is defined.
 
@@ -49,7 +50,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
             )doc"
         )
 
-        .def("get_value", &LocalOrbitalFrameDirection::getValue,
+        .def(
+            "get_value",
+            &LocalOrbitalFrameDirection::getValue,
             R"doc(
                 Get the vector expressed in the local orbital frame.
 
@@ -58,7 +61,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
 
             )doc"
         )
-        .def("get_local_orbital_frame_factory", &LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory,
+        .def(
+            "get_local_orbital_frame_factory",
+            &LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory,
             R"doc(
                 Get the local orbital frame factory that defines the frame.
 
@@ -68,7 +73,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
             )doc"
         )
 
-        .def_static("undefined", &LocalOrbitalFrameDirection::Undefined,
+        .def_static(
+            "undefined",
+            &LocalOrbitalFrameDirection::Undefined,
             R"doc(
                 Get an undefined local orbital frame direction.
 

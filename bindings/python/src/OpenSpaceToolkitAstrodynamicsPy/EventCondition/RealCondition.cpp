@@ -26,7 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                 A Real Event Condition.
 
                 Group:
-                    Event Condition
+                    event-condition
             )doc"
         );
 

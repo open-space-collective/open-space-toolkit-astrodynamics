@@ -14,7 +14,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
     using ostk::astro::dynamics::AtmosphericDrag;
 
     {
-        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(aModule, "AtmosphericDrag")
+        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(
+            aModule,
+            "AtmosphericDrag",
+            R"doc(
+                The atmospheric drag dynamics.
+
+                Group:
+                    dynamics
+            )doc"
+        )
             .def(
                 init<const Shared<Celestial>&>(),
                 arg("celestial"),

@@ -23,13 +23,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
         )doc"
     );
 
+    enum_<Tabulated::InterpolationType>(
+        tabulated_class,
+        "InterpolationType",
+        R"doc(
+            The Interpolation Type.
+        )doc"
+    )
+        .value("Linear", Tabulated::InterpolationType::Linear, "Linear")
+        .value("CubicSpline", Tabulated::InterpolationType::CubicSpline, "Cubic Spline")
+        .value("BarycentricRational", Tabulated::InterpolationType::BarycentricRational, "Barycentric Rational")
+
+        ;
+
     tabulated_class
 
         .def(
             init<Array<State>, Integer, Tabulated::InterpolationType>(),
-            arg("states"),
-            arg("initial_revolution_number"),
-            arg("interpolation_type") = DEFAULT_TABULATED_INTERPOLATION_TYPE,
             R"doc(
                 Constructor.
 
@@ -38,7 +48,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
                     initial_revolution_number (int): The initial revolution number.
                     interpolation_type (Tabulated.InterpolationType, optional): The interpolation type.
 
-            )doc"
+            )doc",
+            arg("states"),
+            arg("initial_revolution_number"),
+            arg("interpolation_type") = DEFAULT_TABULATED_INTERPOLATION_TYPE
         )
 
         .def(self == self)
@@ -112,7 +125,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
         .def(
             "calculate_state_at",
             &Tabulated::calculateStateAt,
-            arg("instant"),
             R"doc(
                 Calculate the state of the `Tabulated` model at a given instant.
 
@@ -122,13 +134,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
                 Returns:
                     State: The state.
 
-            )doc"
+            )doc",
+            arg("instant")
         )
 
         .def(
             "calculate_states_at",
             &Tabulated::calculateStatesAt,
-            arg("instants"),
             R"doc(
                 Calculate the states of the `Tabulated` model at given instants.
 
@@ -138,13 +150,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
                 Returns:
                     Array[State]: The states.
 
-            )doc"
+            )doc",
+            arg("instants")
         )
 
         .def(
             "calculate_revolution_number_at",
             &Tabulated::calculateRevolutionNumberAt,
-            arg("instant"),
             R"doc(
                 Calculate the revolution number of the `Tabulated` model at a given instant.
 
@@ -154,21 +166,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
                 Returns:
                     int: The revolution number.
 
-            )doc"
+            )doc",
+            arg("instant")
         )
-
-        ;
-
-    enum_<Tabulated::InterpolationType>(
-        tabulated_class,
-        "InterpolationType",
-        R"doc(
-            The Interpolation Type.
-        )doc"
-    )
-        .value("Linear", Tabulated::InterpolationType::Linear, "Linear")
-        .value("CubicSpline", Tabulated::InterpolationType::CubicSpline, "Cubic Spline")
-        .value("BarycentricRational", Tabulated::InterpolationType::BarycentricRational, "Barycentric Rational")
 
         ;
 }

@@ -16,12 +16,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::
     {
         class_<ThirdBodyGravity, Dynamics, Shared<ThirdBodyGravity>>(
             aModule,
-            "ThirdBodyGravity"
+            "ThirdBodyGravity",
             R"doc(
-                The third-body gravity model.
+                The third body gravity model.
 
                 Group:
-                    Dynamics
+                    dynamics
             )doc"
         )
             .def(
