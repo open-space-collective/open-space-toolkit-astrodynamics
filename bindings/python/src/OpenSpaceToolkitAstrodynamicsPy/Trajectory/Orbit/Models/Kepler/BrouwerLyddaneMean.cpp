@@ -55,7 +55,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
                 Brouwer-Lyddane mean orbit elements. This is a parent class, please use the Short or Long child classes as appropriate.
 
                 Group:
-                    Kepler
+                    kepler
             )doc"
         );
 

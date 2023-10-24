@@ -23,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
             Brouwer-Lyddane Mean (Short) orbit elements. Short periodic variations are averaged.
 
             Group:
-                Kepler
+                kepler
         )doc"
     );
 

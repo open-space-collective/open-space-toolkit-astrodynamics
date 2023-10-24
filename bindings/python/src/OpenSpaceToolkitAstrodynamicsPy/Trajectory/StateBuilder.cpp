@@ -35,8 +35,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
                 Construct a new `StateBuilder` object.
 
                 Arguments:
-                    frame (Shared<const Frame>): The reference frame.
-                    coordinates_subsets (Array<Shared<const CoordinatesSubset>>): The coordinates subsets.
+                    frame (Frame): The reference frame.
+                    coordinates_subsets list[CoordinatesSubset]: The coordinates subsets.
 
                 Returns:
                     StateBuilder 
@@ -51,15 +51,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
                 Construct a new `StateBuilder` object.
 
                 Arguments:
-                    frame (Shared<const Frame>): The reference frame.
-                    coordinates_broker (Shared<const CoordinatesBroker>): The coordinates broker.
+                    frame (Frame): The reference frame.
+                    coordinates_broker (CoordinatesBroker): The coordinates broker.
 
                 Returns:
                     StateBuilder: The new `StateBuilder` object.
 
             )doc"
         )
-        .def(init<const State&>(), arg("state"),
+        .def(
+            init<const State&>(),
+            arg("state"),
             R"doc(
                 Construct a new `StateBuilder` object.
 
@@ -72,7 +74,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
 
-        .def(self == self,
+        .def(
+            self == self,
             R"doc(
                 Check if two `StateBuilder` objects are equal.
 
@@ -81,7 +84,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             
             )doc"
         )
-        .def(self != self,
+        .def(
+            self != self,
             R"doc(
                 Check if two `StateBuilder` objects are not equal.
 
@@ -101,7 +105,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
                 Add a coordinates subset to the `StateBuilder`.
 
                 Arguments:
-                    coordinates_subsets (Shared<const CoordinatesSubset>): The coordinates subset to add.
+                    coordinates_subsets (CoordinatesSubset): The coordinates subset to add.
 
                 Returns:
                     StateBuilder: The `StateBuilder` with the added coordinates subset.
@@ -119,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
                 Remove a coordinates subset from the `StateBuilder`.
 
                 Arguments:
-                    coordinates_subset (Shared<const CoordinatesSubset>): The coordinates subset to remove.
+                    coordinates_subset (CoordinatesSubset): The coordinates subset to remove.
 
                 Returns:
                     StateBuilder: The `StateBuilder` with the removed coordinates subset.
@@ -130,7 +134,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         .def("__str__", &(shiftToString<StateBuilder>))
         .def("__repr__", &(shiftToString<StateBuilder>))
 
-        .def("is_defined", &StateBuilder::isDefined,
+        .def(
+            "is_defined",
+            &StateBuilder::isDefined,
             R"doc(
                 Check if the `StateBuilder` is defined.
 
@@ -140,7 +146,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
 
-        .def("build", &StateBuilder::build, arg("instant"), arg("coordinates"),
+        .def(
+            "build",
+            &StateBuilder::build,
+            arg("instant"),
+            arg("coordinates"),
             R"doc(
                 Build a `State` object from the `StateBuilder`.
 
@@ -153,7 +163,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
             )doc"
         )
-        .def("reduce", &StateBuilder::reduce, arg("state"),
+        .def(
+            "reduce",
+            &StateBuilder::reduce,
+            arg("state"),
             R"doc(
                 Reduce a `State` object to the `StateBuilder`.
 
@@ -165,7 +178,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
             )doc"
         )
-        .def("expand", &StateBuilder::expand, arg("state"), arg("default_state"),
+        .def(
+            "expand",
+            &StateBuilder::expand,
+            arg("state"),
+            arg("default_state"),
             R"doc(
                 Expand a `State` object to the `StateBuilder`.
 
@@ -179,7 +196,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
 
-        .def("get_coordinates_subsets", &StateBuilder::getCoordinatesSubsets,
+        .def(
+            "get_coordinates_subsets",
+            &StateBuilder::getCoordinatesSubsets,
             R"doc(
                 Get the coordinates subsets of the `StateBuilder`.
 
@@ -188,26 +207,32 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
             )doc"
         )
-        .def("access_coordinates_broker", &StateBuilder::accessCoordinatesBroker,
+        .def(
+            "access_coordinates_broker",
+            &StateBuilder::accessCoordinatesBroker,
             R"doc(
                 Access the coordinates broker of the `StateBuilder`.
 
                 Returns:
-                    Shared<const CoordinatesBroker>: The coordinates broker of the `StateBuilder`.
+                    CoordinatesBroker: The coordinates broker of the `StateBuilder`.
 
             )doc"
         )
-        .def("get_frame", &StateBuilder::getFrame,
+        .def(
+            "get_frame",
+            &StateBuilder::getFrame,
             R"doc(
                 Get the reference frame of the `StateBuilder`.
 
                 Returns:
-                    Shared<const Frame>: The reference frame of the `StateBuilder`.
+                    Frame: The reference frame of the `StateBuilder`.
 
             )doc"
         )
 
-        .def_static("undefined", &StateBuilder::Undefined,
+        .def_static(
+            "undefined",
+            &StateBuilder::Undefined,
             R"doc(
                 Get an undefined `StateBuilder`.
 

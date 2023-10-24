@@ -37,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
                     Args:
                         name (str): The name of the condition.
                         type (Type): The type of the logical condition.
-                        event_conditions (List[EventCondition]): The list of event conditions.
+                        event_conditions (list[EventCondition]): The list of event conditions.
 
                     Group:
                         Constructors
@@ -66,7 +66,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
                     Get the list of event conditions.
 
                     Returns:
-                        List[EventCondition]: The list of event conditions.
+                        list[EventCondition]: The list of event conditions.
 
                 )doc"
             )

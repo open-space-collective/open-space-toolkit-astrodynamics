@@ -39,7 +39,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             R"doc(
                 The solutions for each segment.
 
-                :type: List[SegmentSolution]
+                :type: list[SegmentSolution]
             )doc"
         )
         .def_readonly(
@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 Get the states.
 
                 Returns:
-                    List[State]: The states.
+                    list[State]: The states.
 
             )doc"
         )
@@ -179,10 +179,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Construct a new `Sequence` object.
 
                     Args:
-                    segments (List[Segment], optional): The segments.
+                    segments (list[Segment], optional): The segments.
                     repetition_count (int, optional): The repetition count.
                     numerical_solver (NumericalSolver, optional): The numerical solver.
-                    dynamics (List[Dynamics], optional): The dynamics.
+                    dynamics (list[Dynamics], optional): The dynamics.
                     maximum_propagation_duration (Duration, optional): The maximum propagation duration.
                     verbosity (int, optional): The verbosity level.
 
@@ -202,7 +202,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Get the segments.
 
                     Returns:
-                        List[Segment]: The segments.
+                        list[Segment]: The segments.
                     
                 )doc"
             )
@@ -224,7 +224,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Get the dynamics.
 
                     Returns:
-                        List[Dynamics]: The dynamics.
+                        list[Dynamics]: The dynamics.
 
                 )doc"
             )
@@ -260,7 +260,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Add segments.
 
                     Args:
-                        segments (List[Segment]): The segments.
+                        segments (list[Segment]): The segments.
 
                 )doc"
             )
@@ -299,10 +299,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Solve the sequence.
 
                     Args:
-                    state (State): The state.
+                        state (State): The state.
 
                     Returns:
-                    SequenceSolution: The sequence solution.
+                        SequenceSolution: The sequence solution.
 
                 )doc"
             )

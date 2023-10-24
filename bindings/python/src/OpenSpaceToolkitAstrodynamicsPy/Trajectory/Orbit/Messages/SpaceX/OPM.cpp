@@ -43,7 +43,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 
                 Args:
                     header (Header): The header of the OPM message.
-                    deployments (Array[Deployment]): The deployments of the OPM message.
+                    deployments (list[Deployment]): The deployments of the OPM message.
 
                 Group:
                     Constructors
@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
                 Get the deployments of the OPM message.
 
                 Returns:
-                    deployments (Array[Deployment]): The deployments of the OPM message.
+                    deployments (list[Deployment]): The deployments of the OPM message.
 
             )doc"
         )

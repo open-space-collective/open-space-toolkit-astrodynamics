@@ -22,99 +22,119 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     class_<Propagator>(
         aModule,
         "Propagator",
-        R"mydelimiter(
+        R"doc(
             A `Propagator` that proapgates the provided `State` using it's `NumericalSolver` under the set `Dynamics`.
 
             Group:
                 trajectory
-        )mydelimiter"
+        )doc"
     )
 
         .def(
             init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
             arg("numerical_solver"),
             arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-            R"mydelimiter(
+            R"doc(
                 Construct a new `Propagator` object.
 
                 Args:
                     numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (Array[Shared[Dynamics]], optional) The dynamics.
+                    dynamics (list[Dynamics], optional) The dynamics.
 
                 Returns:
                     Propagator: The new `Propagator` object.
 
-            )mydelimiter"
+            )doc"
         )
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))
 
-        .def("is_defined", &Propagator::isDefined,
-            R"mydelimiter(
+        .def(
+            "is_defined",
+            &Propagator::isDefined,
+            R"doc(
                 Check if the propagator is defined.
 
                 Returns:
                     bool: True if the propagator is defined, False otherwise.
 
-            )mydelimiter"
+            )doc"
         )
 
-        .def("access_numerical_solver", &Propagator::accessNumericalSolver,
-            R"mydelimiter(
+        .def(
+            "access_numerical_solver",
+            &Propagator::accessNumericalSolver,
+            R"doc(
                 Access the numerical solver.
 
                 Returns:
                     NumericalSolver&: The numerical solver.
 
-            )mydelimiter"
+            )doc"
         )
 
-        .def("get_number_of_coordinates", &Propagator::getNumberOfCoordinates,
-            R"mydelimiter(
+        .def(
+            "get_number_of_coordinates",
+            &Propagator::getNumberOfCoordinates,
+            R"doc(
                 Get the number of coordinates.
 
                 Returns:
                     int: The number of coordinates.
                 
-            )mydelimiter"
+            )doc"
         )
-        .def("get_dynamics", &Propagator::getDynamics,
-            R"mydelimiter(
+        .def(
+            "get_dynamics",
+            &Propagator::getDynamics,
+            R"doc(
                 Get the dynamics.
 
                 Returns:
-                    Array[Shared[Dynamics]]: The dynamics.
+                    list[Dynamics]: The dynamics.
                 
-            )mydelimiter"
+            )doc"
         )
-        .def("set_dynamics", &Propagator::setDynamics, arg("dynamics"),
-            R"mydelimiter(
+        .def(
+            "set_dynamics",
+            &Propagator::setDynamics,
+            arg("dynamics"),
+            R"doc(
                 Set the dynamics.
 
                 Args:
-                    dynamics (Array[Shared[Dynamics]]) The dynamics.
+                    dynamics (list[Dynamics]) The dynamics.
                 
-            )mydelimiter"
+            )doc"
         )
-        .def("add_dynamics", &Propagator::addDynamics, arg("dynamics"),
-            R"mydelimiter(
+        .def(
+            "add_dynamics",
+            &Propagator::addDynamics,
+            arg("dynamics"),
+            R"doc(
                 Add dynamics.
 
                 Args:
-                    dynamics (Shared[Dynamics]) The dynamics.
+                    dynamics (Dynamics) The dynamics.
                 
-            )mydelimiter"
+            )doc"
         )
-        .def("clear_dynamics", &Propagator::clearDynamics,
-            R"mydelimiter(
+        .def(
+            "clear_dynamics",
+            &Propagator::clearDynamics,
+            R"doc(
                 Clear the dynamics.
             
-            )mydelimiter"
+            )doc"
         )
 
-        .def("calculate_state_at", &Propagator::calculateStateAt, arg("state"), arg("instant"),
-            R"mydelimiter(
+        .def(
+            "calculate_state_at",
+            &Propagator::calculateStateAt,
+            arg("state"),
+            arg("instant"),
+            R"doc(
                 Calculate the state at a given instant.
 
                 Args:
@@ -124,7 +144,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
                 Returns:
                     State: The state at the given instant.
                 
-            )mydelimiter"
+            )doc"
         )
         .def(
             "calculate_state_to_condition",
@@ -132,7 +152,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             arg("state"),
             arg("instant"),
             arg("event_condition"),
-            R"mydelimiter(
+            R"doc(
                 Calculate the state up to a given event condition.
 
                 Args:
@@ -143,34 +163,43 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
                 Returns:
                     State: The state up to the given event condition.
                 
-            )mydelimiter"
+            )doc"
         )
 
-        .def("calculate_states_at", &Propagator::calculateStatesAt, arg("state"), arg("instant_array"),
-            R"mydelimiter(
+        .def(
+            "calculate_states_at",
+            &Propagator::calculateStatesAt,
+            arg("state"),
+            arg("instant_array"),
+            R"doc(
                 Calculate the states at given instants.
 
                 Args:
                     state (State) The state.
-                    instant_array (Array[Instant]) The instants.
+                    instant_array (list[Instant]) The instants.
 
                 Returns:
-                    Array[State]: The states at the given instants.
+                    list[State]: The states at the given instants.
                 
-            )mydelimiter"
+            )doc"
         )
 
-        .def_static("default", overload_cast<>(&Propagator::Default),
-            R"mydelimiter(
+        .def_static(
+            "default",
+            overload_cast<>(&Propagator::Default),
+            R"doc(
                 Get the default propagator.
 
                 Returns:
                     Propagator: The default propagator.
                 
-            )mydelimiter"
+            )doc"
         )
-        .def_static("default", overload_cast<const Environment&>(&Propagator::Default), arg("environment"),
-            R"mydelimiter(
+        .def_static(
+            "default",
+            overload_cast<const Environment&>(&Propagator::Default),
+            arg("environment"),
+            R"doc(
                 Get the default propagator for a given environment.
 
                 Args:
@@ -179,10 +208,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
                 Returns:
                     Propagator: The default propagator for the given environment.
                 
-            )mydelimiter"
+            )doc"
         )
-        .def_static("from_environment", &Propagator::FromEnvironment, arg("numerical_solver"), arg("environment"),
-            R"mydelimiter(
+        .def_static(
+            "from_environment",
+            &Propagator::FromEnvironment,
+            arg("numerical_solver"),
+            arg("environment"),
+            R"doc(
                 Create a propagator from an environment.
 
                 Args:
@@ -194,6 +227,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Group:
                     Static methods
-            )mydelimiter"
+            )doc"
         );
 }

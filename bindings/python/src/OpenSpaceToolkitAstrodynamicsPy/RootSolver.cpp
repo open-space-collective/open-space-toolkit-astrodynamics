@@ -29,8 +29,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
             R"doc(
                 The root of the function.
 
-                Returns:
-                    root (float): The root of the function.
+                Type:
+                    float
             )doc"
         )
         .def_readwrite(
@@ -39,8 +39,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
             R"doc(
                 The number of iterations required to find the root.
 
-                Returns:
-                    iteration_count (int): The number of iterations required to find the root.
+                Type:
+                    int
             )doc"
         )
         .def_readwrite(
@@ -49,8 +49,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
             R"doc(
                 Whether the root solver has converged.
 
-                Returns:
-                    has_converged (bool): Whether the root solver has converged.
+                Type:
+                    bool
             )doc"
         )
 
@@ -73,8 +73,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     Constructor.
 
                     Args:
-                        maximum_iteration_count (int): The maximum number of iterations allowed.
-                        tolerance (float): The tolerance of the root solver.
+                        int: The maximum number of iterations allowed.
+                        float: The tolerance of the root solver.
 
                 )doc",
                 arg("maximum_iteration_count"),
@@ -91,7 +91,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     Get the tolerance of the root solver.
 
                     Returns:
-                        tolerance (float): The tolerance of the root solver.
+                        float: The tolerance of the root solver.
                  )doc"
             )
             .def(
@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     Get the maximum number of iterations allowed.
 
                     Returns:
-                        maximum_iteration_count (int): The maximum number of iterations allowed.
+                        int: The maximum number of iterations allowed.
                 )doc"
             )
 
@@ -123,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                         is_rising (bool): Whether the function is rising.
 
                     Returns:
-                        solution (RootSolverSolution): The solution to the root.
+                        RootSolverSolution: The solution to the root.
 
                 )doc",
                 arg("function"),
@@ -149,7 +149,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                         upper_bound (float): The upper bound of the root.
 
                     Returns:
-                        solution (RootSolverSolution): The solution to the root.
+                        RootSolverSolution: The solution to the root.
 
                 )doc",
                 arg("function"),
@@ -175,7 +175,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                         upper_bound (float): The upper bound of the root.
 
                     Returns:
-                        solution (RootSolverSolution): The solution to the root.
+                        RootSolverSolution: The solution to the root.
 
                 )doc",
                 arg("function"),
@@ -190,7 +190,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     Return the default root solver.
 
                     Returns:
-                        root_solver (RootSolver): The default root solver.
+                        RootSolver: The default root solver.
 
                     Group:
                         Static methods

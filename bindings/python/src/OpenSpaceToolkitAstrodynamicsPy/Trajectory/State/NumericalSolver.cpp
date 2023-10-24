@@ -125,7 +125,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Get the observed states.
 
                     Returns:
-                        List[State]: The observed states.
+                        list[State]: The observed states.
                 )doc"
             )
             .def(
@@ -199,11 +199,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Args:
                         state (State): The initial state of the trajectory.
-                        instants (List[Instant]): The instants to integrate to.
+                        instants (list[Instant]): The instants to integrate to.
                         system_of_equations (callable): The system of equations.
 
                     Returns:
-                        List[State]: The states at the requested times.
+                        list[State]: The states at the requested times.
 
                 )doc",
                 arg("state"),

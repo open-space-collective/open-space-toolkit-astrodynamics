@@ -54,7 +54,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
 
                     Args:
                         propagator (Propagator): The propagator.
-                        state_array (Array[State]): The initial state array.
+                        state_array (list[State]): The initial state array.
 
                 )doc",
                 arg("propagator"),
@@ -129,10 +129,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
                     Calculate the states of the `Propagated` model at given instants.
 
                     Args:
-                        instant_array (Array[Instant]): The instants.
+                        instant_array (list[Instant]): The instants.
 
                     Returns:
-                        Array[State]: The states.
+                        list[State]: The states.
 
                 )doc"
             )
@@ -160,7 +160,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
                     Access the cached state array of the `Propagated` model.
 
                     Returns:
-                        Array[State]: The cached state array.
+                        list[State]: The cached state array.
 
                 )doc"
             )
@@ -185,7 +185,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
                     Set the cached state array of the `Propagated` model.
 
                     Args:
-                        state_array (Array[State]): The state array.
+                        state_array (list[State]): The state array.
 
                 )doc"
             )

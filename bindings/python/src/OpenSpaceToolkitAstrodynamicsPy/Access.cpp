@@ -61,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Check if the Access object is defined.
                     
                     Returns:
-                       is_defined (bool): True if defined, False otherwise.
+                       bool: True if defined, False otherwise.
                  )docs"
             )
 
@@ -72,7 +72,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Check if the access is complete.
                     
                     Returns:
-                        is_complete (bool): True if complete, False otherwise.
+                        bool: True if complete, False otherwise.
                  )docs"
             )
 
@@ -83,7 +83,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the type of the access.
 
                     Returns:
-                        type (Access::Type): The type of the access.
+                        Access.Type: The type of the access.
                 )docs"
             )
 
@@ -94,7 +94,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the acquisition of signal of the access.
 
                     Returns:
-                        acquisition_of_signal (Instant): The acquisition of signal of the access.
+                        Instant: The acquisition of signal of the access.
                 )docs"
             )
 
@@ -105,7 +105,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the time of closest approach of the access.
 
                     Returns:
-                        time_of_closest_approach (Instant): The time of closest approach of the access.
+                        Instant: The time of closest approach of the access.
                 )docs"
             )
 
@@ -116,7 +116,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the loss of signal of the access.
 
                     Returns:
-                       loss_of_signal (Instant): The loss of signal of the access.
+                       Instant: The loss of signal of the access.
                 )docs"
             )
 
@@ -127,7 +127,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the interval of the access.
 
                     Returns:
-                       interval (Interval): The interval of the access.
+                       Interval: The interval of the access.
                 )docs"
             )
 
@@ -138,7 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the duration of the access.
 
                     Returns:
-                       duration (Duration): The duration of the access.
+                       Duration: The duration of the access.
                 )docs"
             )
 
@@ -149,7 +149,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the maximum elevation of the access.
 
                     Returns:
-                      max_elevation (Angle): The maximum elevation of the access.
+                      Angle: The maximum elevation of the access.
                 )docs"
             )
 
@@ -160,7 +160,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Creates an undefined Access object.
                     
                     Returns:
-                        access (Access): An undefined Access object.
+                        Access: An undefined Access object.
                     
                     Group:
                         Static methods
@@ -177,7 +177,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                         type (Access.Type): The type of the access.
                     
                     Returns:
-                        access_type (str): A string representation of the type.
+                        str: A string representation of the type.
                     
                     Group:
                         Static methods

@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                 Construct a `Trajectory` object from an array of states.
 
                 Args:
-                    states (Array[State]): The states of the trajectory.
+                    states (list[State]): The states of the trajectory.
 
                 Returns:
                     Trajectory: The `Trajectory` object.
@@ -100,10 +100,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                 Get the states of the trajectory at a given set of instants.
 
                 Args:
-                    instants (Array[Instant]): The instants.
+                    instants (list[Instant]): The instants.
 
                 Returns:
-                    Array[State]: The states of the trajectory at the given instants.
+                    list[State]: The states of the trajectory at the given instants.
             )doc",
             arg("instants")
         )

@@ -44,7 +44,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
                 Constructor.
 
                 Args:
-                    states (Array[State]): The states.
+                    states (list[State]): The states.
                     initial_revolution_number (int): The initial revolution number.
                     interpolation_type (Tabulated.InterpolationType, optional): The interpolation type.
 
@@ -145,10 +145,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
                 Calculate the states of the `Tabulated` model at given instants.
 
                 Args:
-                    instants (Array[Instant]): The instants.
+                    instants (list[Instant]): The instants.
 
                 Returns:
-                    Array[State]: The states.
+                    list[State]: The states.
 
             )doc",
             arg("instants")

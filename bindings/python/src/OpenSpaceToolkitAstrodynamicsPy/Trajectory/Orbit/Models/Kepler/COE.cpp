@@ -37,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
                 \end{aligned}
 
             Group:
-                Kepler
+                kepler
         )doc"
     );
 

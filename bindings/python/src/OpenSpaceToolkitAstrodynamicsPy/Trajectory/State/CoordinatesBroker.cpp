@@ -13,7 +13,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
     using ostk::astro::trajectory::state::CoordinatesBroker;
     using ostk::astro::trajectory::state::CoordinatesSubset;
 
-    class_<CoordinatesBroker, Shared<CoordinatesBroker>>(aModule, "CoordinatesBroker")
+    class_<CoordinatesBroker, Shared<CoordinatesBroker>>(
+        aModule,
+        "CoordinatesBroker",
+        R"doc(
+            Class to manage the coordinates subsets of a state.
+        
+            Group:
+                state
+        )doc"
+    )
 
         .def(
             init<>(),
@@ -28,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Create a broker for ther provided coordinate subsets.
 
                 Args:
-                    List[CoordinatesSubset]: The list of coordinates subsets.
+                    list[CoordinatesSubset]: The list of coordinates subsets.
 
             )doc"
         )
@@ -43,7 +52,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Access the list of coordinates subsets.
 
                 Returns:
-                    List[CoordinatesSubset]: The list of coordinates subsets.
+                    list[CoordinatesSubset]: The list of coordinates subsets.
 
             )doc"
         )
@@ -76,7 +85,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
                 Get the list of coordinates subsets.
 
                 Returns:
-                    List[CoordinatesSubset]: The list of coordinates subsets.
+                    list[CoordinatesSubset]: The list of coordinates subsets.
 
             )doc"
         )
@@ -155,7 +164,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
 
                 Args:
                     coordinates (numpy.ndarray): The full coordinates vector.
-                    coordinates_subsets (List[CoordinatesSubset]): The coordinates subsets.
+                    coordinates_subsets (list[CoordinatesSubset]): The coordinates subsets.
 
                 Returns:
                     numpy.ndarray: The coordinates of the subsets.

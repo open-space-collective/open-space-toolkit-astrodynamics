@@ -54,7 +54,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             R"doc(
                 The states.
 
-                :type: List[State]
+                :type: list[State]
             )doc"
         )
         .def_readonly(
