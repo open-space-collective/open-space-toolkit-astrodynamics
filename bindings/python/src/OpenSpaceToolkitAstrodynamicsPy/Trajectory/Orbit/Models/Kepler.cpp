@@ -32,6 +32,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
             )doc"
         );
 
+        enum_<Kepler::PerturbationType>(
+            kepler_class,
+            "PerturbationType",
+            R"doc(
+                The Perturbation Type due to Oblateness
+            
+            )doc"
+        )
+
+            .value("No", Kepler::PerturbationType::None, "No perturbation")
+
+            .value("J2", Kepler::PerturbationType::J2, "J2 perturbation")
+
+            .value("J4", Kepler::PerturbationType::J4, "J4 perturbation")
+
+            ;
+
         kepler_class
 
             .def(
@@ -53,7 +70,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                         equatorial_radius (Length): The equatorial radius.
                         j2 (Real): The J2 coefficient.
                         j4 (Real): The J4 coefficient.
-                        perturbation_type (Kepler.PerturbationType): The perturbation type.
+                        perturbation_type (PerturbationType): The perturbation type.
 
                 )doc",
                 arg("coe"),
@@ -74,7 +91,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                         coe (COE): The classical orbital elements.
                         epoch (Instant): The epoch.
                         celestial_object (Celestial): The celestial object.
-                        perturbation_type (Kepler.PerturbationType): The perturbation type.
+                        perturbation_type (PerturbationType): The perturbation type.
                         in_fixed_frame (bool): If True, the state is expressed in the fixed frame, otherwise it is expressed in the inertial frame. Default is False.
 
                 )doc",
@@ -210,7 +227,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                     Get the perturbation type of the `Kepler` model.
 
                     Returns:
-                        Kepler.PerturbationType: The perturbation type.
+                        PerturbationType: The perturbation type.
 
                     Group:
                         Methods
@@ -258,10 +275,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                 &Kepler::StringFromPerturbationType,
                 arg("perturbation_type"),
                 R"doc(
-                    Get the string representation of a `Kepler.PerturbationType`.
+                    Get the string representation of a `PerturbationType`.
 
                     Args:
-                        perturbation_type (Kepler.PerturbationType): The perturbation type.
+                        perturbation_type (PerturbationType): The perturbation type.
 
                     Returns:
                         str: The string representation.
@@ -270,23 +287,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                         Methods
                 )doc"
             )
-
-            ;
-
-        enum_<Kepler::PerturbationType>(
-            kepler_class,
-            "PerturbationType",
-            R"doc(
-                The Perturbation Type due to Oblateness
-            
-            )doc"
-        )
-
-            .value("No", Kepler::PerturbationType::None, "No perturbation")
-
-            .value("J2", Kepler::PerturbationType::J2, "J2 perturbation")
-
-            .value("J4", Kepler::PerturbationType::J4, "J4 perturbation")
 
             ;
     }

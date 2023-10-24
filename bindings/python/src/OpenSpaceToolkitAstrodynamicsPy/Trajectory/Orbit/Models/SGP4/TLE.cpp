@@ -20,9 +20,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
         aModule,
         "TLE",
         R"doc(
-            A TLE.
+            A Two-Line Element set (TLE).
 
-            Provides the interface for TLEs.
+            A TLE is a data format encoding a list of orbital elements of an Earth-orbiting object for a given point in time
+
+            Reference:
+                https://en.wikipedia.org/wiki/Two-line_element_set
 
             Group:
                 SGP4

@@ -30,6 +30,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             )doc"
         );
 
+        enum_<RealCondition::Criterion>(
+            realCondition,
+            "Criterion",
+            R"doc(
+                The Criterion that defines how the condition is satisfied.
+            )doc"
+        )
+
+            .value("PositiveCrossing", RealCondition::Criterion::PositiveCrossing, "The positive crossing criterion")
+            .value("NegativeCrossing", RealCondition::Criterion::NegativeCrossing, "The negative crossing criterion")
+            .value("AnyCrossing", RealCondition::Criterion::AnyCrossing, "The any crossing criterion")
+            .value("StrictlyPositive", RealCondition::Criterion::StrictlyPositive, "The strictly positive criterion")
+            .value("StrictlyNegative", RealCondition::Criterion::StrictlyNegative, "The strictly negative criterion")
+
+            ;
+
         realCondition
 
             .def(
@@ -159,22 +175,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                 )doc",
                 arg("criterion")
             )
-
-            ;
-
-        enum_<RealCondition::Criterion>(
-            realCondition,
-            "Criterion",
-            R"doc(
-                The Criterion that defines how the condition is satisfied.
-            )doc"
-        )
-
-            .value("PositiveCrossing", RealCondition::Criterion::PositiveCrossing, "The positive crossing criterion")
-            .value("NegativeCrossing", RealCondition::Criterion::NegativeCrossing, "The negative crossing criterion")
-            .value("AnyCrossing", RealCondition::Criterion::AnyCrossing, "The any crossing criterion")
-            .value("StrictlyPositive", RealCondition::Criterion::StrictlyPositive, "The strictly positive criterion")
-            .value("StrictlyNegative", RealCondition::Criterion::StrictlyNegative, "The strictly negative criterion")
 
             ;
     }

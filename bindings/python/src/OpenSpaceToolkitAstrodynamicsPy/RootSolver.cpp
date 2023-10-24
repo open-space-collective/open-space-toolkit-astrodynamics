@@ -191,9 +191,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
 
                     Returns:
                         RootSolver: The default root solver.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 

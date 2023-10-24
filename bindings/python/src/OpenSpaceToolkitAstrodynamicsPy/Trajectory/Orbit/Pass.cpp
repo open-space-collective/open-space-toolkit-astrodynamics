@@ -23,6 +23,50 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
         )doc"
     );
 
+    enum_<Pass::Type>(
+        pass_class,
+        "Type",
+        R"doc(
+            The type of `Pass`.
+        )doc"
+    )
+
+        .value("Undefined", Pass::Type::Undefined, "Undefined")
+        .value("Complete", Pass::Type::Complete, "Complete")
+        .value("Partial", Pass::Type::Partial, "Partial")
+
+        ;
+
+    enum_<Pass::Phase>(
+        pass_class,
+        "Phase",
+        R"doc(
+            The phase of the `Pass`.
+        )doc"
+    )
+
+        .value("Undefined", Pass::Phase::Undefined, "Undefined")
+        .value("Ascending", Pass::Phase::Ascending, "Ascending")
+        .value("Descending", Pass::Phase::Descending, "Descending")
+
+        ;
+
+    enum_<Pass::Quarter>(
+        pass_class,
+        "Quarter",
+        R"doc(
+            The quarter of the `Pass`.
+        )doc"
+    )
+
+        .value("Undefined", Pass::Quarter::Undefined, "Undefined")
+        .value("First", Pass::Quarter::First, "First")
+        .value("Second", Pass::Quarter::Second, "Second")
+        .value("Third", Pass::Quarter::Third, "Third")
+        .value("Fourth", Pass::Quarter::Fourth, "Fourth")
+
+        ;
+
     pass_class
 
         .def(
@@ -168,50 +212,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             )doc",
             arg("quarter")
         )
-
-        ;
-
-    enum_<Pass::Type>(
-        pass_class,
-        "Type",
-        R"doc(
-            The type of `Pass`.
-        )doc"
-    )
-
-        .value("Undefined", Pass::Type::Undefined, "Undefined")
-        .value("Complete", Pass::Type::Complete, "Complete")
-        .value("Partial", Pass::Type::Partial, "Partial")
-
-        ;
-
-    enum_<Pass::Phase>(
-        pass_class,
-        "Phase",
-        R"doc(
-            The phase of the `Pass`.
-        )doc"
-    )
-
-        .value("Undefined", Pass::Phase::Undefined, "Undefined")
-        .value("Ascending", Pass::Phase::Ascending, "Ascending")
-        .value("Descending", Pass::Phase::Descending, "Descending")
-
-        ;
-
-    enum_<Pass::Quarter>(
-        pass_class,
-        "Quarter",
-        R"doc(
-            The quarter of the `Pass`.
-        )doc"
-    )
-
-        .value("Undefined", Pass::Quarter::Undefined, "Undefined")
-        .value("First", Pass::Quarter::First, "First")
-        .value("Second", Pass::Quarter::Second, "Second")
-        .value("Third", Pass::Quarter::Third, "Third")
-        .value("Fourth", Pass::Quarter::Fourth, "Fourth")
 
         ;
 }

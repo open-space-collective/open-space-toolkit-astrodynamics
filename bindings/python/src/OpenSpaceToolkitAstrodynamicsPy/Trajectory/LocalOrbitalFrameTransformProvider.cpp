@@ -26,6 +26,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
         );
     // TBI: can't make this linked with Shared<Provider>
 
+    enum_<LocalOrbitalFrameTransformProvider::Type>(
+        localOrbitalFrameTransformProviderClass,
+        "Type",
+        R"doc(
+            The local orbital frame type.
+        )doc"
+    )
+
+        .value("Undefined", LocalOrbitalFrameTransformProvider::Type::Undefined, "Undefined")
+        .value("NED", LocalOrbitalFrameTransformProvider::Type::NED, "North-East-Down")
+        .value("LVLH", LocalOrbitalFrameTransformProvider::Type::LVLH, "Local Vertical-Local Horizontal")
+        .value("LVLHGD", LocalOrbitalFrameTransformProvider::Type::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
+        .value("VVLH", LocalOrbitalFrameTransformProvider::Type::VVLH, "Vertical-Local Horizontal")
+        .value("QSW", LocalOrbitalFrameTransformProvider::Type::QSW, "Quasi-Satellite West")
+        .value("TNW", LocalOrbitalFrameTransformProvider::Type::TNW, "Topocentric North-West")
+        .value("VNC", LocalOrbitalFrameTransformProvider::Type::VNC, "Velocity-Normal-Co-normal")
+
+        ;
+
     localOrbitalFrameTransformProviderClass
 
         .def(
@@ -53,25 +72,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
             )doc",
             arg("instant")
         )
-
-        ;
-
-    enum_<LocalOrbitalFrameTransformProvider::Type>(
-        localOrbitalFrameTransformProviderClass,
-        "Type",
-        R"doc(
-            The local orbital frame type.
-        )doc"
-    )
-
-        .value("Undefined", LocalOrbitalFrameTransformProvider::Type::Undefined, "Undefined")
-        .value("NED", LocalOrbitalFrameTransformProvider::Type::NED, "North-East-Down")
-        .value("LVLH", LocalOrbitalFrameTransformProvider::Type::LVLH, "Local Vertical-Local Horizontal")
-        .value("LVLHGD", LocalOrbitalFrameTransformProvider::Type::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
-        .value("VVLH", LocalOrbitalFrameTransformProvider::Type::VVLH, "Vertical-Local Horizontal")
-        .value("QSW", LocalOrbitalFrameTransformProvider::Type::QSW, "Quasi-Satellite West")
-        .value("TNW", LocalOrbitalFrameTransformProvider::Type::TNW, "Topocentric North-West")
-        .value("VNC", LocalOrbitalFrameTransformProvider::Type::VNC, "Velocity-Normal-Co-normal")
 
         ;
 }

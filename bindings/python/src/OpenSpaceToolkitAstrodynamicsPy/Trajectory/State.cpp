@@ -38,8 +38,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                  
                  Args:
                      instant (Instant): An instant
-                     position (Position): The cartesian position at the instant in International System of Units
-                     velocity (Velocity): The cartesian velocity at the instant in International System of Units
+                     position (Position): The cartesian position at the instant
+                     velocity (Velocity): The cartesian velocity at the instant
              )doc",
             arg("instant"),
             arg("position"),

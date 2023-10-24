@@ -39,6 +39,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
         )doc"
     );
 
+    enum_<CDM::ObjectType>(
+        cdm,
+        "ObjectType",
+        R"doc(
+            Object type.
+
+        )doc"
+    )
+
+        .value("Payload", CDM::ObjectType::Payload, "Payload")
+        .value("RocketBody", CDM::ObjectType::RocketBody, "Rocket Body")
+        .value("Debris", CDM::ObjectType::Debris, "Debris")
+        .value("Unknown", CDM::ObjectType::Unknown, "Unknown")
+        .value("Other", CDM::ObjectType::Other, "Other")
+
+        ;
+
     cdm
 
         .def(
@@ -354,24 +371,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
         ;
 
     ;
-
-    enum_<CDM::ObjectType>(
-        cdm,
-        "ObjectType",
-        R"doc(
-            Object type.
-
-            Defined in CCSDS 502.0-B-2, Annex A.2.1.
-        )doc"
-    )
-
-        .value("Payload", CDM::ObjectType::Payload, "Payload")
-        .value("RocketBody", CDM::ObjectType::RocketBody, "Rocket Body")
-        .value("Debris", CDM::ObjectType::Debris, "Debris")
-        .value("Unknown", CDM::ObjectType::Unknown, "Unknown")
-        .value("Other", CDM::ObjectType::Other, "Other")
-
-        ;
 
     class_<CDM::Header>(
         cdm,

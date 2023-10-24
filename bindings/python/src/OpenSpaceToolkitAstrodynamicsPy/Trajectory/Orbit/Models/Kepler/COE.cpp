@@ -41,6 +41,41 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
         )doc"
     );
 
+    enum_<COE::Element>(
+        coe,
+        "Element",
+        R"doc(
+            Classical Orbital Element enumeration.
+
+        )doc"
+    )
+
+        .value("SemiMajorAxis", COE::Element::SemiMajorAxis, "Semi-Major Axis")
+        .value("Eccentricity", COE::Element::Eccentricity, "Eccentricity")
+        .value("Inclination", COE::Element::Inclination, "Inclination")
+        .value("Aop", COE::Element::Aop, "Argument of Perigee")
+        .value("Raan", COE::Element::Raan, "Right Angle of the Ascending Node")
+        .value("TrueAnomaly", COE::Element::TrueAnomaly, "True Anomaly")
+        .value("MeanAnomaly", COE::Element::MeanAnomaly, "Mean Anomaly")
+        .value("EccentricAnomaly", COE::Element::EccentricAnomaly, "Eccentric Anomaly")
+
+        ;
+
+    enum_<COE::AnomalyType>(
+        coe,
+        "AnomalyType",
+        R"doc(
+            The type of Anomaly.
+        )doc"
+    )
+
+        // Have to rename slightly as True is a keyword in Python
+        .value("TrueAnomaly", COE::AnomalyType::True, "True Anomaly")
+        .value("MeanAnomaly", COE::AnomalyType::Mean, "Mean Anomaly")
+        .value("EccentricAnomaly", COE::AnomalyType::Eccentric, "Eccentric Anomaly")
+
+        ;
+
     coe
 
         .def(
@@ -256,41 +291,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             )doc",
             arg("element")
         )
-
-        ;
-
-    enum_<COE::Element>(
-        coe,
-        "Element",
-        R"doc(
-            Classical Orbital Element enumeration.
-
-        )doc"
-    )
-
-        .value("SemiMajorAxis", COE::Element::SemiMajorAxis, "Semi-Major Axis")
-        .value("Eccentricity", COE::Element::Eccentricity, "Eccentricity")
-        .value("Inclination", COE::Element::Inclination, "Inclination")
-        .value("Aop", COE::Element::Aop, "Argument of Perigee")
-        .value("Raan", COE::Element::Raan, "Right Angle of the Ascending Node")
-        .value("TrueAnomaly", COE::Element::TrueAnomaly, "True Anomaly")
-        .value("MeanAnomaly", COE::Element::MeanAnomaly, "Mean Anomaly")
-        .value("EccentricAnomaly", COE::Element::EccentricAnomaly, "Eccentric Anomaly")
-
-        ;
-
-    enum_<COE::AnomalyType>(
-        coe,
-        "AnomalyType",
-        R"doc(
-            The type of Anomaly.
-        )doc"
-    )
-
-        // Have to rename slightly as True is a keyword in Python
-        .value("TrueAnomaly", COE::AnomalyType::True, "True Anomaly")
-        .value("MeanAnomaly", COE::AnomalyType::Mean, "Mean Anomaly")
-        .value("EccentricAnomaly", COE::AnomalyType::Eccentric, "Eccentric Anomaly")
 
         ;
 }

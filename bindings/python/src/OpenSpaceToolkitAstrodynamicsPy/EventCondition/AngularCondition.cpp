@@ -32,6 +32,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
             )doc"
         );
 
+        enum_<AngularCondition::Criterion>(
+            angularCondition,
+            "Criterion",
+            R"doc(
+                Angular condition criterion.
+
+            )doc"
+        )
+
+            .value("PositiveCrossing", AngularCondition::Criterion::PositiveCrossing)
+            .value("NegativeCrossing", AngularCondition::Criterion::NegativeCrossing)
+            .value("AnyCrossing", AngularCondition::Criterion::AnyCrossing)
+            .value("WithinRange", AngularCondition::Criterion::WithinRange)
+
+            ;
+
         angularCondition
 
             .def(
@@ -45,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
 
                     Args:
                         name (str): The name of the condition.
-                        criterion (Criterion): The criterion of the condition.
+                        criterion (ostk.astrodynamics.event_condition.AngularCondition.Criterion): The criterion of the condition.
                         evaluator (function): The evaluator of the condition.
                         target_angle (Angle): The target angle of the condition.
 
@@ -66,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                     Get the criterion of the condition.
 
                     Returns:
-                        Criterion: The criterion of the condition.
+                        ostk.astrodynamics.event_condition.AngularCondition.Criterion: The criterion of the condition.
 
                 )doc"
             )
@@ -154,7 +170,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                     Get the string representation of a criterion.
 
                     Args:
-                        criterion (Criterion): The criterion.
+                        criterion (ostk.astrodynamics.event_condition.AngularCondition.Criterion): The criterion.
 
                     Returns:
                         str: The string representation of the criterion.
@@ -164,15 +180,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 )doc",
                 arg("criterion")
             )
-
-            ;
-
-        enum_<AngularCondition::Criterion>(angularCondition, "Criterion")
-
-            .value("PositiveCrossing", AngularCondition::Criterion::PositiveCrossing)
-            .value("NegativeCrossing", AngularCondition::Criterion::NegativeCrossing)
-            .value("AnyCrossing", AngularCondition::Criterion::AnyCrossing)
-            .value("WithinRange", AngularCondition::Criterion::WithinRange)
 
             ;
     }

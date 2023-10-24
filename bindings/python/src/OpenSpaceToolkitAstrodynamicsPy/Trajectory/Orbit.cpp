@@ -40,6 +40,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )doc"
         );
 
+        enum_<Orbit::FrameType>(
+            orbit_class,
+            "FrameType",
+            R"doc(
+                The local orbital frame type.
+            )doc"
+        )
+
+            .value("Undefined", Orbit::FrameType::Undefined, "Undefined")
+            .value("NED", Orbit::FrameType::NED, "North-East-Down")
+            .value("LVLH", Orbit::FrameType::LVLH, "Local Vertical-Local Horizontal")
+            .value("LVLHGD", Orbit::FrameType::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
+            .value("VVLH", Orbit::FrameType::VVLH, "Vertical-Local Horizontal")
+            .value("QSW", Orbit::FrameType::QSW, "Quasi-Satellite West")
+            .value("TNW", Orbit::FrameType::TNW, "Topocentric North-West")
+            .value("VNC", Orbit::FrameType::VNC, "Velocity-Normal-Co-normal")
+
+            ;
+
         orbit_class
 
             .def(
@@ -356,25 +375,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         Static methods
                 )doc"
             )
-
-            ;
-
-        enum_<Orbit::FrameType>(
-            orbit_class,
-            "FrameType",
-            R"doc(
-                The local orbital frame type.
-            )doc"
-        )
-
-            .value("Undefined", Orbit::FrameType::Undefined, "Undefined")
-            .value("NED", Orbit::FrameType::NED, "North-East-Down")
-            .value("LVLH", Orbit::FrameType::LVLH, "Local Vertical-Local Horizontal")
-            .value("LVLHGD", Orbit::FrameType::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
-            .value("VVLH", Orbit::FrameType::VVLH, "Vertical-Local Horizontal")
-            .value("QSW", Orbit::FrameType::QSW, "Quasi-Satellite West")
-            .value("TNW", Orbit::FrameType::TNW, "Topocentric North-West")
-            .value("VNC", Orbit::FrameType::VNC, "Velocity-Normal-Co-normal")
 
             ;
     }

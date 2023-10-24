@@ -27,6 +27,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             )doc"
         );
 
+        enum_<Access::Type>(
+            access_class,
+            "Type",
+            R"doc(
+                Access type.
+            )doc"
+        )
+
+            .value("Undefined", Access::Type::Undefined, "Undefined")
+            .value("Complete", Access::Type::Complete, "Complete")
+            .value("Partial", Access::Type::Partial, "Partial")
+
+            ;
+
         access_class
 
             .def(
@@ -161,9 +175,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     
                     Returns:
                         Access: An undefined Access object.
-                    
-                    Group:
-                        Static methods
+
                 )doc"
             )
 
@@ -178,26 +190,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     
                     Returns:
                         str: A string representation of the type.
-                    
-                    Group:
-                        Static methods
+
                 )doc",
                 arg("type")
             )
-
-            ;
-
-        enum_<Access::Type>(
-            access_class,
-            "Type",
-            R"doc(
-                Access type.
-            )doc"
-        )
-
-            .value("Undefined", Access::Type::Undefined, "Undefined")
-            .value("Complete", Access::Type::Complete, "Complete")
-            .value("Partial", Access::Type::Partial, "Partial")
 
             ;
     }

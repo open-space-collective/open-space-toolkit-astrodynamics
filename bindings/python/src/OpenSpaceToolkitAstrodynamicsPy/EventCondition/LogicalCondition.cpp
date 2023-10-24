@@ -27,6 +27,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
             )doc"
         );
 
+        enum_<LogicalCondition::Type>(
+            logicalCondition,
+            "Type",
+            R"doc(
+                Logical Condition Type.
+                    - Disjunctive (Or)
+                    - Conjucntive (And)
+            )doc"
+        )
+
+            .value("And", LogicalCondition::Type::And, "And")
+            .value("Or", LogicalCondition::Type::Or, "Or")
+
+            ;
+
         logicalCondition
 
             .def(
@@ -70,21 +85,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
 
                 )doc"
             )
-
-            ;
-
-        enum_<LogicalCondition::Type>(
-            logicalCondition,
-            "Type",
-            R"doc(
-                Logical Condition Type.
-                    - Disjunctive (Or)
-                    - Conjucntive (And)
-            )doc"
-        )
-
-            .value("And", LogicalCondition::Type::And, "And")
-            .value("Or", LogicalCondition::Type::Or, "Or")
 
             ;
     }

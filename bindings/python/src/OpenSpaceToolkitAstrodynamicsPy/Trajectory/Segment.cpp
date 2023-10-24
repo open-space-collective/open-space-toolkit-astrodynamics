@@ -174,6 +174,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         );
 
+        enum_<Segment::Type>(
+            segment,
+            "Type",
+            R"doc(
+                Segment type.
+            )doc"
+        )
+
+            .value("Coast", Segment::Type::Coast, "Coast")
+            .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
+
+            ;
+
         segment
 
             .def("__str__", &(shiftToString<Segment>))
@@ -302,19 +315,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                         Static methods
                 )doc"
             )
-
-            ;
-
-        enum_<Segment::Type>(
-            segment,
-            "Type",
-            R"doc(
-                Segment type.
-            )doc"
-        )
-
-            .value("Coast", Segment::Type::Coast, "Coast")
-            .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
 
             ;
     }
