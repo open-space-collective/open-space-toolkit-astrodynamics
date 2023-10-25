@@ -21,7 +21,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(pybind1
                 Provides the interface for orbit models.
 
                 Group:
-                    Models
+                    orbit
             )doc"
         )
 

@@ -156,9 +156,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
                 Returns:
                     Pass: The undefined pass.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -172,9 +169,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
                 Returns:
                     str: The string representation of the pass type.
-
-                Group:
-                    Static methods
             )doc",
             arg("type")
         )
@@ -189,9 +183,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
                 Returns:
                     str: The string representation of the pass phase.
-
-                Group:
-                    Static methods
             )doc",
             arg("phase")
         )
@@ -206,9 +197,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
                 Returns:
                     str: The string representation of the pass quarter.
-
-                Group:
-                    Static methods
             )doc",
             arg("quarter")
         )

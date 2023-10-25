@@ -26,7 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             Spacecraft Flight Profile.
 
             Group:
-                flight
+                profile
         )doc"
     )
 
@@ -37,9 +37,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     model (Model): The profile model.
-
-                Group:
-                    Constructors
             )doc",
             arg("model")
         )
@@ -55,9 +52,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     bool: True if the profile is defined, False otherwise.
-
-                Group:
-                    Methods
             )doc"
         )
 
@@ -72,9 +66,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     State: The state of the profile at the given instant.
-
-                Group:
-                    Methods
             )doc",
             arg("instant")
         )
@@ -90,9 +81,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     list: The states of the profile at the given instants.
-
-                Group:
-                    Methods
             )doc",
             arg("instants")
         )
@@ -108,9 +96,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     Frame: The axes of the profile at the given instant.
-
-                Group:
-                    Methods
             )doc",
             arg("instant")
         )
@@ -126,9 +111,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     Frame: The body frame of the profile.
-
-                Group:
-                    Methods
             )doc",
             arg("frame_name")
         )
@@ -141,9 +123,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     Profile: The undefined profile.
-
-                Group:
-                    Static methods
             )doc"
         )
 
@@ -159,9 +138,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     Profile: The inertial pointing profile.
-
-                Group:
-                    Static methods
             )doc",
             arg("trajectory"),
             arg("quaternion")
@@ -179,9 +155,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Returns:
                     Profile: The nadir pointing profile.
-
-                Group:
-                    Static methods
             )doc",
             arg("orbit"),
             arg("orbital_frame_type")

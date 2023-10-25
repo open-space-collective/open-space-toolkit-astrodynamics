@@ -192,7 +192,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     Propagator: The default propagator.
-                
             )doc"
         )
         .def_static(
@@ -207,7 +206,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     Propagator: The default propagator for the given environment.
-                
             )doc"
         )
         .def_static(
@@ -224,9 +222,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     Propagator: The propagator.
-
-                Group:
-                    Static methods
             )doc"
         );
 }

@@ -23,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
             Defined with respect to a reference frame and a Cartesian position.
 
             Group:
-                CoordinatesSubsets
+                state
         )doc"
     )
 
@@ -73,9 +73,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
 
                 Returns:
                     CartesianVelocity: The default Cartesian velocity subset.
-
-                Group:
-                    Static methods
             )doc"
         )
 

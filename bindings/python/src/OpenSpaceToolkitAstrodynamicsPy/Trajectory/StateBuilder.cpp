@@ -238,7 +238,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
                 Returns:
                     StateBuilder: The undefined `StateBuilder`.
-                
             )doc"
         )
 

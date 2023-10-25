@@ -30,7 +30,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
                 `SpaceX OPM <https://public.ccsds.org/Pubs/502x0b3e1.pdf>`_.
 
             Group:
-                spacex
+                ccsds
         )doc"
     );
 
@@ -123,10 +123,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 
                 Returns:
                     opm (OPM): An undefined OPM message.
-
-                Group:
-                    Static methods
-
             )doc"
         )
         .def_static(
@@ -140,10 +136,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 
                 Returns:
                     opm (OPM): The OPM message.
-
-                Group:
-                    Static methods
-
             )doc",
             arg("dictionary")
         )
@@ -158,10 +150,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 
                 Returns:
                     opm (OPM): The OPM message.
-
-                Group:
-                    Static methods
-
             )doc",
             arg("string")
         )
@@ -176,10 +164,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 
                 Returns:
                     opm (OPM): The OPM message.
-
-                Group:
-                    Static methods
-
             )doc",
             arg("file")
         )

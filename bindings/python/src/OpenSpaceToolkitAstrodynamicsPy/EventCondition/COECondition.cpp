@@ -43,9 +43,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -67,9 +64,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -91,9 +85,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -115,9 +106,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -139,9 +127,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -163,9 +148,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -187,9 +169,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -211,9 +190,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
                     Returns:
                         COECondition: The COE condition.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion"),
                 arg("frame"),

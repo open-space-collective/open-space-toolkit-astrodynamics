@@ -48,8 +48,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
                     Construct a propulsion system.
 
                     Args:
-                        thrust (Real): Thrust in Newton.
-                        specific_impulse (Real): Specific impulse in Seconds.
+                        thrust (float): Thrust in Newton.
+                        specific_impulse (float): Specific impulse in Seconds.
                 )doc",
                 arg("thrust_si_unit"),
                 arg("specific_impulse_si_unit")

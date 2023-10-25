@@ -55,7 +55,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
                 Brouwer-Lyddane mean orbit elements. This is a parent class, please use the Short or Long child classes as appropriate.
 
                 Group:
-                    kepler
+                    orbital-elements
             )doc"
         );
 
@@ -68,7 +68,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
 
                     Args:
                         semi_major_axis (Length): The semi-major axis.
-                        eccentricity (Real): The eccentricity.
+                        eccentricity (float): The eccentricity.
                         inclination (Angle): The inclination.
                         raan (Angle): The right ascension of the ascending node.
                         aop (Angle): The argument of periapsis.
@@ -142,7 +142,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
                     Get the Cartesian state of the `BrouwerLyddaneMean` model.
 
                     Args:
-                        gravitational_parameter (Real): The gravitational parameter of the central body.
+                        gravitational_parameter (float): The gravitational parameter of the central body.
                         frame (str): The reference frame in which the state is expressed.
 
                     Returns:

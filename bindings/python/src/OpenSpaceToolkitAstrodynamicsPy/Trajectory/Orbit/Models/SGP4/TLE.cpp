@@ -28,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
                 https://en.wikipedia.org/wiki/Two-line_element_set
 
             Group:
-                SGP4
+                orbit
         )doc"
     )
 
@@ -359,10 +359,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     TLE: The undefined `TLE` object.
-                
-                Group:
-                    Static methods
-
             )doc"
         )
 
@@ -383,10 +379,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     bool: True if the TLE can be parsed, False otherwise.
-                
-                Group:
-                    Static methods
-
             )doc"
         )
 
@@ -402,10 +394,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     TLE: The parsed TLE.
-
-                Group:
-                    Static methods
-
             )doc"
         )
 
@@ -421,10 +409,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     TLE: The loaded TLE.
-
-                Group:
-                    Static methods
-
             )doc"
         )
 
@@ -489,10 +473,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     TLE: The constructed TLE.
-
-                Group:
-                    Static methods
-
             )doc"
         )
 
@@ -554,10 +534,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     TLE: The constructed TLE.
-
-                Group:
-                    Static methods
-
             )doc"
         )
 
@@ -573,10 +549,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
                 Returns:
                     int: The checksum.
-
-                Group:
-                    Static methods
-
             )doc"
         )
 

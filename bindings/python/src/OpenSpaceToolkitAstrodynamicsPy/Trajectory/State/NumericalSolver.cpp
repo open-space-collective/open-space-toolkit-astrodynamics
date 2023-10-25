@@ -28,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             The solution to an event condition.
 
             Group:
-                astrodynamics
+                state
         )doc"
     )
         .def_readonly(
@@ -83,7 +83,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 or to a set of instants, or until an `Event Condition` is met.
 
                 Group:
-                    State
+                    state
             )doc"
         );
 
@@ -274,9 +274,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         NumericalSolver: The default numerical solver.
-
-                    Group:
-                        Static methods
                 )doc"
             )
             .def_static(
@@ -287,9 +284,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         NumericalSolver: The undefined numerical solver.
-
-                    Group:
-                        Static methods
                 )doc"
             )
             .def_static(
@@ -303,9 +297,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         NumericalSolver: The default conditional numerical solver.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("state_logger") = nullptr
             )
@@ -317,9 +308,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         NumericalSolver: The conditional numerical solver.
-
-                    Group:
-                        Static methods
                 )doc"
             );
     }

@@ -284,9 +284,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                     Returns:
                         Segment: The coast segment.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 
@@ -310,9 +307,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                     Returns:
                         Segment: The maneuver segment.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 

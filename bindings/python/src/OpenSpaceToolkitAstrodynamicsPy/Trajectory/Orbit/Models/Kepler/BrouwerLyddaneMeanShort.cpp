@@ -23,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
             Brouwer-Lyddane Mean (Short) orbit elements. Short periodic variations are averaged.
 
             Group:
-                kepler
+                orbital-elements
         )doc"
     );
 
@@ -36,7 +36,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
                     inclination (Angle): The inclination.
                     raan (Angle): The right ascension of the ascending node.
                     aop (Angle): The argument of periapsis.
@@ -73,9 +73,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
 
                 Returns:
                     BrouwerLyddaneMeanShort: The `BrouwerLyddaneMeanShort` model.
-
-                Group:
-                    Static methods
             )doc",
             arg("coe")
         )
@@ -88,13 +85,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
 
                 Args:
                     cartesian_state (CartesianState): The Cartesian state.
-                    gravitational_parameter (Real): The gravitational parameter of the central body.
+                    gravitational_parameter (float): The gravitational parameter of the central body.
 
                 Returns:
                     BrouwerLyddaneMeanShort: The `BrouwerLyddaneMeanShort` model.
-
-                Group:
-                    Static methods
             )doc",
             arg("cartesian_state"),
             arg("gravitational_parameter")
@@ -108,9 +102,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
 
                 Returns:
                     BrouwerLyddaneMeanShort: The undefined `BrouwerLyddaneMeanShort` model.
-
-                Group:
-                    Static methods
             )doc"
         )
 

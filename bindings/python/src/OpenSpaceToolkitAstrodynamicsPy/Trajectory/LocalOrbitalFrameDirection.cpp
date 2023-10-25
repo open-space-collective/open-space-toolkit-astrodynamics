@@ -81,9 +81,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
 
                 Returns:
                     LocalOrbitalFrameDirection: The undefined local orbital frame direction.
-
-                Group:
-                    Static methods
             )doc"
         )
 

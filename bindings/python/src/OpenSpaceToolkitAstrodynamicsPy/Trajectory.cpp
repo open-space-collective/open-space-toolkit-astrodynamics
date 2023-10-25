@@ -29,7 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             Path followed by an object through space as a function of time.
 
             Group:
-                astrodynamics
+                trajectory
         )doc"
     )
 
@@ -116,9 +116,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
 
                 Returns:
                     Trajectory: The undefined `Trajectory` object.
-
-                Group:
-                    Static methods
             )doc"
         )
 
@@ -133,9 +130,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
 
                 Returns:
                     Trajectory: The `Trajectory` object representing the position.
-                
-                Group:
-                    Static methods
             )doc",
             arg("position")
         )

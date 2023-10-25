@@ -28,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                 Provides the interface for orbit models.
 
                 Group:
-                    Models
+                    orbit
             )doc"
         );
 
@@ -68,8 +68,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                         epoch (Instant): The epoch.
                         gravitational_parameter (Derived): The gravitational parameter.
                         equatorial_radius (Length): The equatorial radius.
-                        j2 (Real): The J2 coefficient.
-                        j4 (Real): The J4 coefficient.
+                        j2 (float): The J2 coefficient.
+                        j4 (float): The J4 coefficient.
                         perturbation_type (PerturbationType): The perturbation type.
 
                 )doc",
@@ -116,9 +116,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         bool: True if the `Kepler` model is defined, False otherwise.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -130,9 +127,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         COE: The classical orbital elements.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -144,9 +138,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         Instant: The epoch.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -158,9 +149,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         int: The revolution number.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -172,9 +160,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         Derived: The gravitational parameter.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -186,9 +171,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         Length: The equatorial radius.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -199,10 +181,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                     Get the J2 coefficient of the `Kepler` model.
 
                     Returns:
-                        Real: The J2 coefficient.
-
-                    Group:
-                        Methods
+                        float: The J2 coefficient.
                 )doc"
             )
 
@@ -213,10 +192,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
                     Get the J4 coefficient of the `Kepler` model.
 
                     Returns:
-                        Real: The J4 coefficient.
-
-                    Group:
-                        Methods
+                        float: The J4 coefficient.
                 )doc"
             )
 
@@ -228,9 +204,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         PerturbationType: The perturbation type.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -246,9 +219,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         State: The state.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -264,9 +234,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         int: The revolution number.
-
-                    Group:
-                        Methods
                 )doc"
             )
 
@@ -282,9 +249,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                     Returns:
                         str: The string representation.
-
-                    Group:
-                        Methods
                 )doc"
             )
 

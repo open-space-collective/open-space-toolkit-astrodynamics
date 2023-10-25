@@ -83,8 +83,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
             to create a custom dynamics class
 
             Group:
-                astrodynamics
-            
+                dynamics
         )doc"
     )
 
@@ -180,9 +179,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
 
                 Returns:
                     dynamics (Dynamics): The `Dynamics` object created from the environment.
-                
-                Group:
-                    Static methods
             )doc"
         )
 

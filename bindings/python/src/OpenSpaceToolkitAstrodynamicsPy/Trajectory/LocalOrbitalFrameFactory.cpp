@@ -66,9 +66,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The undefined local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -83,9 +80,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The NED local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -100,9 +94,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The LVLH local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -117,9 +108,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The VVLH local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -134,9 +122,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The QSW local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -151,9 +136,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The TNW local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -168,9 +150,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The VNC local orbital frame factory.
-
-                Group:
-                    Static methods
             )doc"
         )
 

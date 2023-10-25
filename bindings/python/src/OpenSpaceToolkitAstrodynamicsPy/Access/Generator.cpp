@@ -232,10 +232,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
                 Returns:
                     Generator: An undefined generator.
-                
-                Group:
-                    Static methods
-
             )doc"
         )
         .def_static(
@@ -252,10 +248,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
                 Returns:
                     Generator: The AER generator.
-                
-                Group:
-                    Static methods
-
             )doc",
             arg("azimuth_range"),
             arg("elevation_range"),
@@ -275,10 +267,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
                 Returns:
                     Generator: The AER generator.
-                
-                Group:
-                    Static methods
-
             )doc",
             arg("azimuth_elevation_mask"),
             arg("range_range"),

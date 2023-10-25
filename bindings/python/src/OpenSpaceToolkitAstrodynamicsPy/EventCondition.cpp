@@ -44,7 +44,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                 An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times
 
                 Group:
-                    astrodynamics
+                    event-condition
             )doc"
         );
 

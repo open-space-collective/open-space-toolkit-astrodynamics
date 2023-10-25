@@ -162,9 +162,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(pybind11::modul
 
                 Returns:
                     undefined_state (State): The undefined state.
-
-                Group:
-                    Static methods
              )doc"
         )
 

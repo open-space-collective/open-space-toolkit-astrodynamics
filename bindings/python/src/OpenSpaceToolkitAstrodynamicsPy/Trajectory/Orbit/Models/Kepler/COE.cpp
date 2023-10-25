@@ -37,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
                 \end{aligned}
 
             Group:
-                kepler
+                orbital-elements
         )doc"
     );
 
@@ -85,7 +85,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
                     inclination (Angle): The inclination.
                     raan (Angle): The right ascension of the ascending node.
                     aop (Angle): The argument of periapsis.
@@ -108,27 +108,199 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
         .def("__str__", &(shiftToString<COE>))
         .def("__repr__", &(shiftToString<COE>))
 
-        .def("is_defined", &COE::isDefined)
+        .def(
+            "is_defined",
+            &COE::isDefined,
+            R"doc(
+               Check if the COE is defined.
 
-        .def("get_semi_major_axis", &COE::getSemiMajorAxis)
-        .def("get_eccentricity", &COE::getEccentricity)
-        .def("get_inclination", &COE::getInclination)
-        .def("get_raan", &COE::getRaan)
-        .def("get_aop", &COE::getAop)
-        .def("get_true_anomaly", &COE::getTrueAnomaly)
-        .def("get_mean_anomaly", &COE::getMeanAnomaly)
-        .def("get_eccentric_anomaly", &COE::getEccentricAnomaly)
-        .def("get_periapsis_radius", &COE::getPeriapsisRadius)
-        .def("get_apoapsis_radius", &COE::getApoapsisRadius)
-        .def("get_SI_vector", &COE::getSIVector, arg("anomaly_type"))
+               Returns:
+                  bool: True if the COE is defined, False otherwise.
+            )doc"
+        )
 
-        .def("get_mean_motion", &COE::getMeanMotion, arg("gravitational_parameter"))
+        .def(
+            "get_semi_major_axis",
+            &COE::getSemiMajorAxis,
+            R"doc(
+               Get the semi-major axis of the COE.
 
-        .def("get_orbital_period", &COE::getOrbitalPeriod, arg("gravitational_parameter"))
+               Returns:
+                  Length: The semi-major axis of the COE.
+            )doc"
+        )
 
-        .def("get_cartesian_state", &COE::getCartesianState, arg("gravitational_parameter"), arg("frame"))
+        .def(
+            "get_eccentricity",
+            &COE::getEccentricity,
+            R"doc(
+               Get the eccentricity of the COE.
 
-        .def_static("undefined", &COE::Undefined)
+               Returns:
+                  float: The eccentricity of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_inclination",
+            &COE::getInclination,
+            R"doc(
+               Get the inclination of the COE.
+
+               Returns:
+                  Angle: The inclination of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_raan",
+            &COE::getRaan,
+            R"doc(
+               Get the right ascension of the ascending node of the COE.
+
+               Returns:
+                  Angle: The right ascension of the ascending node of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_aop",
+            &COE::getAop,
+            R"doc(
+               Get the argument of periapsis of the COE.
+
+               Returns:
+                  Angle: The argument of periapsis of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_true_anomaly",
+            &COE::getTrueAnomaly,
+            R"doc(
+               Get the true anomaly of the COE.
+
+               Returns:
+                  Angle: The true anomaly of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_mean_anomaly",
+            &COE::getMeanAnomaly,
+            R"doc(
+               Get the mean anomaly of the COE.
+
+               Returns:
+                  Angle: The mean anomaly of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_eccentric_anomaly",
+            &COE::getEccentricAnomaly,
+            R"doc(
+               Get the eccentric anomaly of the COE.
+
+               Returns:
+                  Angle: The eccentric anomaly of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_periapsis_radius",
+            &COE::getPeriapsisRadius,
+            R"doc(
+               Get the periapsis radius of the COE.
+
+               Returns:
+                  Length: The periapsis radius of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_apoapsis_radius",
+            &COE::getApoapsisRadius,
+            R"doc(
+               Get the apoapsis radius of the COE.
+
+               Returns:
+                  Length: The apoapsis radius of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_SI_vector",
+            &COE::getSIVector,
+            R"doc(
+               Get the state vector of the COE in the specified anomaly type.
+
+               Args:
+                  anomaly_type (AnomalyType): The type of anomaly.
+
+               Returns:
+                  numpy.ndarray: The state vector of the COE in the specified anomaly type.
+            )doc",
+            arg("anomaly_type")
+        )
+
+        .def(
+            "get_mean_motion",
+            &COE::getMeanMotion,
+            R"doc(
+               Get the mean motion of the COE.
+
+               Args:
+                  gravitational_parameter (double): The gravitational parameter of the central body.
+
+               Returns:
+                  float: The mean motion of the COE.
+            )doc",
+            arg("gravitational_parameter")
+        )
+
+        .def(
+            "get_orbital_period",
+            &COE::getOrbitalPeriod,
+            R"doc(
+               Get the orbital period of the COE.
+
+               Args:
+                  gravitational_parameter (double): The gravitational parameter of the central body.
+
+               Returns:
+                  Duration: The orbital period of the COE.
+            )doc",
+            arg("gravitational_parameter")
+        )
+
+        .def(
+            "get_cartesian_state",
+            &COE::getCartesianState,
+            R"doc(
+               Get the Cartesian state of the COE.
+
+               Args:
+                  gravitational_parameter (double): The gravitational parameter of the central body.
+                  frame (Frame): The reference frame in which to express the Cartesian state.
+
+               Returns:
+                  CartesianState: The Cartesian state of the COE.
+            )doc",
+            arg("gravitational_parameter"),
+            arg("frame")
+        )
+
+        .def_static(
+            "undefined",
+            &COE::Undefined,
+            R"doc(
+                Create an undefined `COE` model.
+
+                Returns:
+                    COE: The undefined `COE` model.
+            )doc"
+        )
 
         .def_static(
             "cartesian",
@@ -138,13 +310,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     cartesian_state (CartesianState): The Cartesian state.
-                    gravitational_parameter (Real): The gravitational parameter of the central body.
+                    gravitational_parameter (float): The gravitational parameter of the central body.
 
                 Returns:
                     COE: The `COE` model.
-
-                Group:
-                    Static methods
             )doc",
             arg("cartesian_state"),
             arg("gravitational_parameter")
@@ -162,9 +331,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Returns:
                     COE: The `COE` model.
-
-                Group:
-                    Static methods
             )doc",
             arg("vector"),
             arg("anomaly_type")
@@ -178,13 +344,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     true_anomaly (Angle): The true anomaly.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
 
                 Returns:
                     Angle: The eccentric anomaly.
-
-                Group:
-                    Static methods
             )doc",
             arg("true_anomaly"),
             arg("eccentricity")
@@ -198,13 +361,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     eccentric_anomaly (Angle): The eccentric anomaly.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
 
                 Returns:
                     Angle: The true anomaly.
-
-                Group:
-                    Static methods
             )doc",
             arg("eccentric_anomaly"),
             arg("eccentricity")
@@ -218,13 +378,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     eccentric_anomaly (Angle): The eccentric anomaly.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
 
                 Returns:
                     Angle: The mean anomaly.
-
-                Group:
-                    Static methods
             )doc",
             arg("eccentric_anomaly"),
             arg("eccentricity")
@@ -238,14 +395,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     mean_anomaly (Angle): The mean anomaly.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
                     tolerance (float): The tolerance of the root solver.
 
                 Returns:
                     Angle: The eccentric anomaly.
-
-                Group:
-                    Static methods
             )doc",
             arg("mean_anomaly"),
             arg("eccentricity"),
@@ -260,14 +414,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Args:
                     mean_anomaly (Angle): The mean anomaly.
-                    eccentricity (Real): The eccentricity.
+                    eccentricity (float): The eccentricity.
                     tolerance (float): The tolerance of the root solver.
 
                 Returns:
                     Angle: The true anomaly.
-
-                Group:
-                    Static methods
             )doc",
             arg("mean_anomaly"),
             arg("eccentricity"),
@@ -285,9 +436,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
                 Returns:
                     str: The string representation.
-
-                Group:
-                    Static methods
             )doc",
             arg("element")
         )

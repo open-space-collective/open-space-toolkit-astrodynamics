@@ -44,7 +44,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
         "ObjectType",
         R"doc(
             Object type.
-
         )doc"
     )
 
@@ -69,7 +68,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                     relative_metadata (CDM::RelativeMetadata): The relative metadata.
                     objects_metadata_array (Array<CDM::Metadata>): The objects metadata array.
                     objects_data_array (Array<CDM::Data>): The objects data array.
-
             )doc",
             arg("header"),
             arg("relative_metadata"),
@@ -158,7 +156,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                     index (int): The index of the object data.
 
                 Returns:
-                    CDM::Data: The object data.
+                    Data: The object data.
 
             )doc",
             arg("index")
@@ -170,7 +168,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                 Get the CCSDS CDM version.
 
                 Returns:
-                    std::string: The CCSDS CDM version.
+                    str: The CCSDS CDM version.
 
             )doc"
         )
@@ -192,7 +190,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                 Get the originator.
 
                 Returns:
-                    std::string: The originator.
+                    str: The originator.
 
             )doc"
         )
@@ -203,7 +201,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                 Get the message for.
 
                 Returns:
-                    std::string: The message for.
+                    str: The message for.
 
             )doc"
         )
@@ -214,7 +212,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                 Get the message ID.
 
                 Returns:
-                    std::string: The message ID.
+                    str: The message ID.
 
             )doc"
         )
@@ -280,7 +278,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
                 Get the collision probability method.
 
                 Returns:
-                    std::string: The collision probability method.
+                    str: The collision probability method.
 
             )doc"
         )
@@ -293,9 +291,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
                 Returns:
                     CDM: An undefined CDM.
-
-                Group:
-                    Static members
             )doc"
         )
         .def_static(
@@ -306,10 +301,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
                 Returns:
                     Dictionary: The CDM dictionary.
-
-                Group:
-                    Static members
-
             )doc",
             arg("dictionary")
         )
@@ -324,10 +315,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
                 Returns:
                     CDM: The parsed CDM.
-
-                Group:
-                    Static members
-
             )doc",
             arg("string")
         )
@@ -342,10 +329,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
             Returns:
                 CDM: The loaded CDM.
-
-                Group:
-                    Static members
-
         )doc",
             arg("file")
         )
@@ -360,10 +343,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
                 Returns:
                     CDM::ObjectType: The object type.
-
-                Group:
-                    Static members
-
             )doc",
             arg("string")
         )

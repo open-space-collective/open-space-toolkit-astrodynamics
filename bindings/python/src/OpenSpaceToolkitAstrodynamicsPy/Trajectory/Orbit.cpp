@@ -36,7 +36,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 Gravitationally curved trajectory of an object.
 
                 Group:
-                    trajectory
+                    orbit
             )doc"
         );
 
@@ -251,10 +251,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         Orbit: The undefined `Orbit` object.
-                    
-                    Group:
-                        Static method
-
                 )doc"
             )
 
@@ -276,9 +272,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         Orbit: The circular `Orbit` object.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 
@@ -300,9 +293,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         Orbit: The equatorial `Orbit` object.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 
@@ -322,9 +312,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         Orbit: The circular equatorial `Orbit` object.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 
@@ -346,9 +333,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         Orbit: The geosynchronous `Orbit` object.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 
@@ -370,9 +354,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         Orbit: The sun-synchronous `Orbit` object.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 

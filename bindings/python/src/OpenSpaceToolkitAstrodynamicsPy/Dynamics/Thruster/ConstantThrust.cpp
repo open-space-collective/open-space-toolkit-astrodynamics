@@ -25,7 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_ConstantThrust(pyb
                 Constant Thrust, Constant Direction dynamics.
 
                 Group:
-                    thruster
+                    dynamics
             )doc"
         )
             .def(
@@ -125,9 +125,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_ConstantThrust(pyb
 
                     Returns:
                         ConstantThrust: The constant thrust.
-
-                    Group:
-                        Static methods
                 )doc",
                 arg("satellite_system"),
                 arg("velocity_direction") = true,

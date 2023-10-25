@@ -225,9 +225,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
 
                 Returns:
                     CoordinatesSubset: The mass coordinates subset.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -238,9 +235,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
 
                 Returns:
                     CoordinatesSubset: The surface area coordinates subset.
-
-                Group:
-                    Static methods
             )doc"
         )
         .def_static(
@@ -251,9 +245,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
 
                 Returns:
                     CoordinatesSubset: The drag coefficient coordinates subset.
-
-                Group:
-                    Static methods
             )doc"
         )
 

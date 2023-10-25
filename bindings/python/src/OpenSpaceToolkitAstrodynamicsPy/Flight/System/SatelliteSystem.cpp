@@ -116,9 +116,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
 
                     Returns:
                         SatelliteSystem: The undefined satellite system.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 
@@ -130,9 +127,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
 
                     Returns:
                         SatelliteSystem: The default satellite system.
-
-                    Group:
-                        Static methods
                 )doc"
             )
 

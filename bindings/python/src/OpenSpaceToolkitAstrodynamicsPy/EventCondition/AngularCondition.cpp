@@ -155,8 +155,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                     Returns:
                         AngularCondition: The angular condition.
 
-                    Group:
-                        Static methods
                 )doc",
                 arg("name"),
                 arg("evaluator"),
@@ -175,8 +173,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                     Returns:
                         str: The string representation of the criterion.
 
-                    Group:
-                        Static methods
                 )doc",
                 arg("criterion")
             )

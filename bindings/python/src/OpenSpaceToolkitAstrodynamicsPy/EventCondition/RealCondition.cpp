@@ -171,7 +171,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
 
                     Returns:
                         str: The string representation.
-
                 )doc",
                 arg("criterion")
             )
