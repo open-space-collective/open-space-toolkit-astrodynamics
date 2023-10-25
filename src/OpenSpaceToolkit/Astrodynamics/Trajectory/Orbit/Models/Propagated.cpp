@@ -215,12 +215,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
                 (forwardStates[k].accessCoordinates() * forwardWeight +
                  backwardStates[k].accessCoordinates() * backwardWeight);
 
-            averagedStates.add(
-                outputStateBuilder.build(
-                    instants[k],
-                    coordinates
-                )
-            );
+            averagedStates.add(outputStateBuilder.build(instants[k], coordinates));
         }
 
         allStates.add(averagedStates);

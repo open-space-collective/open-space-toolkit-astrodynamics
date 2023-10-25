@@ -36,7 +36,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
         .def("__str__", &(shiftToString<BaseModel>))
         .def("__repr__", &(shiftToString<BaseModel>))
 
-        .def("is_defined", &BaseModel::isDefined,
+        .def(
+            "is_defined",
+            &BaseModel::isDefined,
             R"doc(
                 Check if the model is defined.
 
@@ -46,7 +48,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
             )doc"
         )
 
-        .def("calculate_state_at", &BaseModel::calculateStateAt, arg("instant"),
+        .def(
+            "calculate_state_at",
+            &BaseModel::calculateStateAt,
+            arg("instant"),
             R"doc(
                 Calculate the state at a given instant.
 
@@ -58,7 +63,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
 
             )doc"
         )
-        .def("calculate_states_at", &BaseModel::calculateStatesAt, arg("instants"),
+        .def(
+            "calculate_states_at",
+            &BaseModel::calculateStatesAt,
+            arg("instants"),
             R"doc(
                 Calculate the states at given instants.
 
