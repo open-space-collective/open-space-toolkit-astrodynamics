@@ -67,18 +67,91 @@ class PyThruster : public Thruster
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& aModule)
 {
-    class_<Thruster, PyThruster, Dynamics, Shared<Thruster>>(aModule, "Thruster")
+    class_<Thruster, PyThruster, Dynamics, Shared<Thruster>>(
+        aModule,
+        "Thruster",
+        R"doc(
+            Abstract Thruster Class.
 
-        .def(init<const SatelliteSystem&, const String&>(), arg("satellite_system"), arg("name") = String::Empty())
+            Base class to derive other thruster classes from. Cannot be instantiated.
 
-        .def("get_name", &Thruster::getName)
-        .def("get_satelltite_system", &Thruster::getSatelliteSystem)
+            Group:
+                dynamics
+        )doc"
+    )
+
+        .def(
+            init<const SatelliteSystem&, const String&>(),
+            arg("satellite_system"),
+            arg("name") = String::Empty(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    satellite_system (SatelliteSystem): The satellite system.
+                    name (str): The name of the thruster.
+
+            )doc"
+        )
+
+        .def(
+            "get_name",
+            &Thruster::getName,
+            R"doc(
+                Get the name of the thruster.
+
+                Returns:
+                    str: The name of the thruster.
+
+            )doc"
+        )
+
+        .def(
+            "get_satelltite_system",
+            &Thruster::getSatelliteSystem,
+            R"doc(
+                Get the satellite system of the thruster.
+
+                Returns:
+                    SatelliteSystem: The satellite system.
+
+            )doc"
+        )
 
         .def("__str__", &(shiftToString<Thruster>))
         .def("__repr__", &(shiftToString<Thruster>))
 
-        .def("is_defined", &Thruster::isDefined)
-        .def("compute_contribution", &Thruster::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
+        .def(
+            "is_defined",
+            &Thruster::isDefined,
+            R"doc(
+                Check if the thruster is defined.
+
+                Returns:
+                    bool: True if the thruster is defined, False otherwise.
+
+            )doc"
+        )
+
+        .def(
+            "compute_contribution",
+            &Thruster::computeContribution,
+            arg("instant"),
+            arg("state_vector"),
+            arg("frame"),
+            R"doc(
+                Compute the contribution of the thruster to the state vector.
+
+                Args:
+                    instant (Instant): The instant of the state vector.
+                    state_vector (numpy.ndarray): The state vector.
+                    frame (Frame): The reference frame.
+
+                Returns:
+                    numpy.ndarray: The contribution of the thruster to the state vector.
+
+            )doc"
+        )
 
         ;
 

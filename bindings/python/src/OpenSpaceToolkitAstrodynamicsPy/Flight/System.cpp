@@ -16,9 +16,34 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
     using ostk::astro::flight::System;
 
     {
-        class_<System>(aModule, "System")
+        class_<System>(
+            aModule,
+            "System",
+            R"doc(
+                A flight system.
 
-            .def(init<const Mass&, const Composite&>(), arg("mass"), arg("geometry"))
+                Provides the interface for flight systems.
+
+                .. warning:: This class is an abstract class and cannot be instantiated.
+
+                Group:
+                    system
+            )doc"
+        )
+
+            .def(
+                init<const Mass&, const Composite&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        mass (Mass): The mass of the system.
+                        geometry (Composite): The geometry of the system.
+
+                )doc",
+                arg("mass"),
+                arg("geometry")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -26,12 +51,52 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
             .def("__str__", &(shiftToString<System>))
             .def("__repr__", &(shiftToString<System>))
 
-            .def("is_defined", &System::isDefined)
+            .def(
+                "is_defined",
+                &System::isDefined,
+                R"doc(
+                    Check if the system is defined.
 
-            .def("get_mass", &System::getMass)
-            .def("get_geometry", &System::getGeometry)
+                    Returns:
+                        bool: True if the system is defined, False otherwise.
 
-            .def_static("undefined", &System::Undefined)
+                )doc"
+            )
+
+            .def(
+                "get_mass",
+                &System::getMass,
+                R"doc(
+                    Get the mass of the system.
+
+                    Returns:
+                        Mass: The mass of the system.
+
+                )doc"
+            )
+
+            .def(
+                "get_geometry",
+                &System::getGeometry,
+                R"doc(
+                    Get the geometry of the system.
+
+                    Returns:
+                        Composite: The geometry of the system.
+
+                )doc"
+            )
+
+            .def_static(
+                "undefined",
+                &System::Undefined,
+                R"doc(
+                    Create an undefined system.
+
+                    Returns:
+                        System: The undefined system.
+                )doc"
+            )
 
             ;
     }

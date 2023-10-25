@@ -13,27 +13,65 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
     using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 
     class_<LocalOrbitalFrameTransformProvider, Shared<LocalOrbitalFrameTransformProvider>>
-        localOrbitalFrameTransformProviderClass(aModule, "LocalOrbitalFrameTransformProvider");
+        localOrbitalFrameTransformProviderClass(
+            aModule,
+            "LocalOrbitalFrameTransformProvider",
+            R"doc(
+                Local orbital frame transform provider, frame provider.
+                Generates a specific transform based on instant, position, velocity and a LOF type.
+
+                Group:
+                    trajectory
+            )doc"
+        );
     // TBI: can't make this linked with Shared<Provider>
 
-    localOrbitalFrameTransformProviderClass
+    enum_<LocalOrbitalFrameTransformProvider::Type>(
+        localOrbitalFrameTransformProviderClass,
+        "Type",
+        R"doc(
+            The local orbital frame type.
+        )doc"
+    )
 
-        .def("is_defined", &LocalOrbitalFrameTransformProvider::isDefined)
-
-        .def("get_transform_at", &LocalOrbitalFrameTransformProvider::getTransformAt, arg("instant"))
+        .value("Undefined", LocalOrbitalFrameTransformProvider::Type::Undefined, "Undefined")
+        .value("NED", LocalOrbitalFrameTransformProvider::Type::NED, "North-East-Down")
+        .value("LVLH", LocalOrbitalFrameTransformProvider::Type::LVLH, "Local Vertical-Local Horizontal")
+        .value("LVLHGD", LocalOrbitalFrameTransformProvider::Type::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
+        .value("VVLH", LocalOrbitalFrameTransformProvider::Type::VVLH, "Vertical-Local Horizontal")
+        .value("QSW", LocalOrbitalFrameTransformProvider::Type::QSW, "Quasi-Satellite West")
+        .value("TNW", LocalOrbitalFrameTransformProvider::Type::TNW, "Topocentric North-West")
+        .value("VNC", LocalOrbitalFrameTransformProvider::Type::VNC, "Velocity-Normal-Co-normal")
 
         ;
 
-    enum_<LocalOrbitalFrameTransformProvider::Type>(localOrbitalFrameTransformProviderClass, "Type")
+    localOrbitalFrameTransformProviderClass
 
-        .value("Undefined", LocalOrbitalFrameTransformProvider::Type::Undefined)
-        .value("NED", LocalOrbitalFrameTransformProvider::Type::NED)
-        .value("LVLH", LocalOrbitalFrameTransformProvider::Type::LVLH)
-        .value("LVLHGD", LocalOrbitalFrameTransformProvider::Type::LVLHGD)
-        .value("VVLH", LocalOrbitalFrameTransformProvider::Type::VVLH)
-        .value("QSW", LocalOrbitalFrameTransformProvider::Type::QSW)
-        .value("TNW", LocalOrbitalFrameTransformProvider::Type::TNW)
-        .value("VNC", LocalOrbitalFrameTransformProvider::Type::VNC)
+        .def(
+            "is_defined",
+            &LocalOrbitalFrameTransformProvider::isDefined,
+            R"doc(
+                Returns true if the provider is defined.
+
+                Returns:
+                    bool: True if the provider is defined.
+            )doc"
+        )
+
+        .def(
+            "get_transform_at",
+            &LocalOrbitalFrameTransformProvider::getTransformAt,
+            R"doc(
+                Returns the transform at a given instant.
+
+                Args:
+                    instant (Instant): The instant.
+
+                Returns:
+                    Transform: The transform at the given instant.
+            )doc",
+            arg("instant")
+        )
 
         ;
 }
