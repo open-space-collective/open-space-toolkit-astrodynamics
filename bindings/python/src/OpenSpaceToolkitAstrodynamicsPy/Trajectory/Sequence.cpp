@@ -134,7 +134,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         .def(
             "compute_delta_v",
             &Sequence::Solution::computeDeltaV,
-            arg("specific_impulse"),
             R"doc(
                 Compute the delta V.
 
@@ -144,7 +143,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 Returns:
                     float: The delta V.
                 
-            )doc"
+            )doc",
+            arg("specific_impulse")
         )
 
         ;
@@ -169,12 +169,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     const Array<Shared<Dynamics>>&,
                     const Duration&,
                     const Size&>(),
-                arg("segments") = Array<Segment>::Empty(),
-                arg("repetition_count") = 1,
-                arg("numerical_solver") = NumericalSolver::DefaultConditional(),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("maximum_propagation_duration") = Duration::Days(30.0),
-                arg("verbosity") = 1,
                 R"doc(
                     Construct a new `Sequence` object.
 
@@ -189,7 +183,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Returns:
                         Sequence: The new `Sequence` object.
 
-                )doc"
+                )doc",
+                arg("segments") = Array<Segment>::Empty(),
+                arg("repetition_count") = 1,
+                arg("numerical_solver") = NumericalSolver::DefaultConditional(),
+                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
+                arg("maximum_propagation_duration") = Duration::Days(30.0),
+                arg("verbosity") = 1
             )
 
             .def("__str__", &(shiftToString<Sequence>))
@@ -243,14 +243,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             .def(
                 "add_segment",
                 overload_cast<const Segment&>(&Sequence::addSegment),
-                arg("segment"),
                 R"doc(
                     Add a segment.
 
                     Args:
                         segment (Segment): The segment.
 
-                )doc"
+                )doc",
+                arg("segment")
             )
             .def(
                 "add_segment",
@@ -267,20 +267,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             .def(
                 "add_coast_segment",
                 &Sequence::addCoastSegment,
-                arg("event_condition"),
                 R"doc(
                     Add a coast segment.
 
                     Args:
                         event_condition (EventCondition): The event condition.
 
-                )doc"
+                )doc",
+                arg("event_condition")
             )
             .def(
                 "add_maneuver_segment",
                 &Sequence::addManeuverSegment,
-                arg("event_condition"),
-                arg("thruster_dynamics"),
                 R"doc(
                     Add a maneuver segment.
 
@@ -288,15 +286,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                         event_condition (EventCondition): The event condition.
                         thruster_dynamics (Thruster): The thruster dynamics.
 
-                )doc"
+                )doc",
+                arg("event_condition"),
+                arg("thruster_dynamics")
             )
 
             .def(
                 "solve",
                 &Sequence::solve,
-                arg("state"),
-                arg("maximum_propagation_duration") = Duration::Days(30.0),
-                arg("event_condition") = nullptr
                 R"doc(
                     Solve the sequence.
 
@@ -312,7 +309,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Returns:
                         SequenceSolution: The sequence solution.
 
-                )doc"
+                )doc",
+                arg("state"),
+                arg("maximum_propagation_duration") = Duration::Days(30.0),
+                arg("event_condition") = nullptr
             )
 
             ;
