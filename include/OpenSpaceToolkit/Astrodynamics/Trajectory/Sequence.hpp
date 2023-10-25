@@ -66,9 +66,10 @@ class Sequence
     ///                         const Array<Shared<Dynamics>> dynamicsArray =
     ///                         {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
     ///                         const Duration maximumPropagationDuration = Duration::Days(7.0);
+    ///                         const Size verbosity = 0;
     ///
-    ///                         Sequence sequence = {repetitionCount,numericalSolver, dynamicsArray,
-    ///                         maximumPropagationDuration};
+    ///                         Sequence sequence = {repetitionCount, numericalSolver, dynamicsArray,
+    ///                         maximumPropagationDuration, verbosity};
     ///
     /// @endcode
     ///
@@ -148,9 +149,15 @@ class Sequence
     /// @brief                  Solve the sequence given an initial state.
     ///
     /// @param                  [in] aState Initial state for the sequence.
+    /// @param                  [in] aMaximumPropagationDuration Maximum propagation duration. Defaults to 30.0 days
+    /// @param                  [in] anEventCondition An event condition.
     /// @return                 A Solution that contains solutions for each segment.
 
-    Solution solve(const State& aState) const;
+    Solution solve(
+        const State& aState,
+        const Duration& aMaximumPropagationDuration = Duration::Days(30.0),
+        const Shared<EventCondition>& anEventConditionSPtr = nullptr
+    ) const;
 
     /// @brief                  Print the sequence.
     ///

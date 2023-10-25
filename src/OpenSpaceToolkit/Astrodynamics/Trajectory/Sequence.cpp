@@ -222,17 +222,30 @@ void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventCondition
     segments_.add(Segment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_));
 }
 
-Sequence::Solution Sequence::solve(const State& aState) const
+Sequence::Solution Sequence::solve(
+    const State& aState, const Duration& aMaximumPropagationDuration, const Shared<EventCondition>& anEventConditionSPtr
+) const
 {
     Array<Segment::Solution> segmentSolutions;
 
     State initialState = aState;
     State finalState = State::Undefined();
 
+    bool eventConditionIsSatisfied = anEventConditionSPtr == nullptr;
+
     for (Size i = 0; i < repetitionCount_; ++i)
     {
         for (const Segment& segment : segments_)
         {
+            // Maximum propagation check
+            if ((initialState.accessInstant() - aState.accessInstant()) > aMaximumPropagationDuration)
+            {
+                BOOST_LOG_TRIVIAL(warning)
+                    << "Terminating Sequence because maximum propagation duration is reached." << std::endl;
+
+                return {segmentSolutions, false};
+            }
+
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
             Segment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
@@ -244,6 +257,7 @@ Sequence::Solution Sequence::solve(const State& aState) const
 
             segmentSolutions.add(segmentSolution);
 
+            // Segment condition check
             if (!segmentSolution.conditionIsSatisfied)
             {
                 BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
@@ -251,11 +265,25 @@ Sequence::Solution Sequence::solve(const State& aState) const
                 return {segmentSolutions, false};
             }
 
+            // Event condition check
+            if (anEventConditionSPtr != nullptr &&
+                anEventConditionSPtr->isSatisfied(segmentSolution.states.accessLast(), initialState))
+            {
+                BOOST_LOG_TRIVIAL(debug) << "Sequence Event condition is satisfied." << std::endl;
+
+                return {segmentSolutions, true};
+            }
+
             initialState = segmentSolution.states.accessLast();
         }
     }
 
-    return {segmentSolutions, true};
+    if (eventConditionIsSatisfied)
+    {
+        return {segmentSolutions, true};
+    }
+
+    return {segmentSolutions, false};
 }
 
 void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
