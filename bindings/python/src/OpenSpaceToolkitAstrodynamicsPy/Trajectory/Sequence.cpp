@@ -295,11 +295,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 "solve",
                 &Sequence::solve,
                 arg("state"),
+                arg("maximum_propagation_duration") = Duration::Days(30.0),
+                arg("event_condition") = nullptr
                 R"doc(
                     Solve the sequence.
 
+                    This method will terminate early if the maximum propagation duration is exceeded.
+                    If an event condition is provided, it will terminate if the event condition is met.
+                    In the case that the event condition is not met, it will return the `SequenceSolution` with `executionIsComplete` set to `False`.
+
                     Args:
                         state (State): The state.
+                        maximum_propagation_duration (Duration, optional): The maximum propagation duration.
+                        event_condition (EventCondition, optional): The event condition.
 
                     Returns:
                         SequenceSolution: The sequence solution.
