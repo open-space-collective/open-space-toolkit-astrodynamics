@@ -26,7 +26,8 @@ BooleanCondition::BooleanCondition(
               const bool boolean = anEvaluator(aState);
               return anInverseFlag ? (boolean ? -1.0 : 1.0) : (boolean ? 1.0 : -1.0);
           },
-          0.0
+          0.0,
+          false
       ),
       inverse_(anInverseFlag)
 {

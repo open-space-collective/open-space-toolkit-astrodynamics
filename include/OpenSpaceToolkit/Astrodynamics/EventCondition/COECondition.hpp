@@ -43,11 +43,19 @@ using ostk::astro::trajectory::State;
 class COECondition
 {
    public:
+    /// @brief                  Semi-Major Axis based constructor
+    ///
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
+    /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
+    /// @param                  [in] aSemiMajorAxis A Semi-Major Axis
+    /// @param                  [in] aGravitationalParameter A gravitational parameter
+
     static RealCondition SemiMajorAxis(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Length& aSemiMajorAxis,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Eccentricity based constructor
@@ -63,7 +71,8 @@ class COECondition
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Real& anEccentricity,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Inclination based constructor
@@ -79,7 +88,8 @@ class COECondition
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aSemiMajorAxis,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Argument of Periapsis based constructor
@@ -95,7 +105,8 @@ class COECondition
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& anAOP,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Right Ascension of Ascending Node based constructor
@@ -111,7 +122,8 @@ class COECondition
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aRAAN,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  True Anomaly based constructor
@@ -127,7 +139,8 @@ class COECondition
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aTrueAnomaly,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Mean Anomaly based constructor
@@ -143,7 +156,8 @@ class COECondition
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aMeanAnomaly,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Eccentric Anomaly based constructor
@@ -159,7 +173,8 @@ class COECondition
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& anEccentricAnomaly,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const bool& targetIsRelative = false
     );
 
    private:

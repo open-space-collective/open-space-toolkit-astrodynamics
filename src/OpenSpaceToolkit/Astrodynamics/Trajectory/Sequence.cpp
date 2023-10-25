@@ -243,6 +243,11 @@ Sequence::Solution Sequence::solve(
     {
         for (const Segment& segment : segments_)
         {
+            if (segment.accessEventCondition()->targetIsRelative())
+            {
+                segment.accessEventCondition()->updateTarget(initialState);
+            }
+
             // Terminate Sequence unsuccessfully if the propagation limit was exceeded
             if (totalPropagationDuration > sequencePropagationDurationLimit)
             {

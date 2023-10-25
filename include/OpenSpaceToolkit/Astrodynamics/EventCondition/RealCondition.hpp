@@ -38,7 +38,7 @@ class RealCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluatro, aTarget};
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTarget};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
@@ -46,12 +46,14 @@ class RealCondition : public EventCondition
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
+    /// @param                  [in] targetIsRelative A boolean indicating whether or not the target is relative to
 
     RealCondition(
         const String& aName,
         const Criterion& aCriterion,
         const std::function<Real(const State&)> anEvaluator,
-        const Real& aTarget = 0.0
+        const Real& aTarget = 0.0,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Virtual destructor
@@ -63,18 +65,6 @@ class RealCondition : public EventCondition
     /// @return                 Enum representing the criterion of the Event Condition
 
     Criterion getCriterion() const;
-
-    /// @brief                  Get evaluator
-    ///
-    /// @return                 Evaluator
-
-    std::function<Real(const State&)> getEvaluator() const;
-
-    /// @brief                  Get the target of the Event Condition
-    ///
-    /// @return                 Real number representing the target of the Event Condition
-
-    Real getTarget() const;
 
     /// @brief                  Print the Event Condition
     ///
@@ -112,8 +102,6 @@ class RealCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<Real(const State&)> evaluator_;
-    Real target_;
     std::function<bool(const Real&, const Real&)> comparator_;
 
     static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);

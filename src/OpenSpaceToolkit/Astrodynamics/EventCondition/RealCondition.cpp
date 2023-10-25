@@ -16,12 +16,11 @@ RealCondition::RealCondition(
     const String& aName,
     const Criterion& aCriterion,
     const std::function<Real(const State&)> anEvaluator,
-    const Real& aTarget
+    const Real& aTarget,
+    const bool& targetIsRelative
 )
-    : EventCondition(aName),
+    : EventCondition(aName, anEvaluator, aTarget, targetIsRelative),
       criterion_(aCriterion),
-      evaluator_(anEvaluator),
-      target_(aTarget),
       comparator_(GenerateComparator(aCriterion))
 {
 }
@@ -33,16 +32,6 @@ RealCondition::Criterion RealCondition::getCriterion() const
     return criterion_;
 }
 
-std::function<Real(const State&)> RealCondition::getEvaluator() const
-{
-    return evaluator_;
-}
-
-Real RealCondition::getTarget() const
-{
-    return target_;
-}
-
 void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
@@ -50,6 +39,7 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
     ostk::core::utils::Print::Line(anOutputStream) << "Target: " << getTarget();
+    ostk::core::utils::Print::Line(anOutputStream) << "Target type: " << (targetIsRelative_ ? "Relative" : "Absolute");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

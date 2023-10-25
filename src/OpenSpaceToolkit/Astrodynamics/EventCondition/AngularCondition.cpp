@@ -18,13 +18,12 @@ AngularCondition::AngularCondition(
     const String& aName,
     const Criterion& aCriterion,
     const std::function<Real(const State&)>& anEvaluator,
-    const Angle& aTargetAngle
+    const Angle& aTargetAngle,
+    const bool& targetIsRelative
 )
-    : EventCondition(aName),
+    : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, Real::TwoPi()), targetIsRelative),
       criterion_(aCriterion),
-      evaluator_(anEvaluator),
       comparator_(GenerateComparator(aCriterion, aTargetAngle.inRadians(0.0, Real::TwoPi()))),
-      target_(aTargetAngle.inRadians(0.0, Real::TwoPi())),
       targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
 {
 }
@@ -34,11 +33,6 @@ AngularCondition::~AngularCondition() {}
 AngularCondition::Criterion AngularCondition::getCriterion() const
 {
     return criterion_;
-}
-
-std::function<Real(const State&)> AngularCondition::getEvaluator() const
-{
-    return evaluator_;
 }
 
 Angle AngularCondition::getTargetAngle() const
@@ -184,9 +178,8 @@ AngularCondition::AngularCondition(
     const std::function<Real(const State&)>& anEvaluator,
     const Pair<Angle, Angle>& aTargetRange
 )
-    : EventCondition(aName),
+    : EventCondition(aName, anEvaluator, Real::Undefined(), false),
       criterion_(aCriterion),
-      evaluator_(anEvaluator),
       comparator_(
           [lowerBound = aTargetRange.first.inRadians(0.0, Real::TwoPi()),
            upperBound = aTargetRange.second.inRadians(0.0, Real::TwoPi())](
@@ -196,7 +189,6 @@ AngularCondition::AngularCondition(
               return (currentValue >= lowerBound) && (currentValue <= upperBound);
           }
       ),
-      target_(Real::Undefined()),
       targetRange_(std::make_pair(
           aTargetRange.first.inRadians(0.0, Real::TwoPi()), aTargetRange.second.inRadians(0.0, Real::TwoPi())
       ))

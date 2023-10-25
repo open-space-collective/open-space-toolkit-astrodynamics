@@ -50,12 +50,14 @@ class AngularCondition : public EventCondition
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
     /// @param                  [in] aTargetAngle A target angle
+    /// @param                  [in] targetIsRelative A flag indicating whether the target is relative
 
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
         const std::function<Real(const State&)>& anEvaluator,
-        const Angle& aTargetAngle
+        const Angle& aTargetAngle,
+        const bool& targetIsRelative = false
     );
 
     /// @brief                  Virtual destructor
@@ -67,12 +69,6 @@ class AngularCondition : public EventCondition
     /// @return                 Enum representing the criterion of the Event Condition
 
     Criterion getCriterion() const;
-
-    /// @brief                  Get evaluator
-    ///
-    /// @return                 Evaluator
-
-    std::function<Real(const State&)> getEvaluator() const;
 
     /// @brief                  Get target
     ///
@@ -127,9 +123,7 @@ class AngularCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<Real(const State&)> evaluator_;
     std::function<bool(const Real&, const Real&)> comparator_;
-    Real target_;
     Pair<Real, Real> targetRange_;
 
     static bool IsPositiveCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);

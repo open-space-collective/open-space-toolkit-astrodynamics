@@ -28,7 +28,8 @@ RealCondition COECondition::SemiMajorAxis(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Length& aSemiMajorAxis,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -36,6 +37,7 @@ RealCondition COECondition::SemiMajorAxis(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::SemiMajorAxis, aFrameSPtr, aGravitationalParameter),
         aSemiMajorAxis.inMeters(),
+        targetIsRelative,
     };
 }
 
@@ -43,7 +45,8 @@ RealCondition COECondition::Eccentricity(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Real& anEccentricity,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -51,6 +54,7 @@ RealCondition COECondition::Eccentricity(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Eccentricity, aFrameSPtr, aGravitationalParameter),
         anEccentricity,
+        targetIsRelative,
     };
 }
 
@@ -58,7 +62,8 @@ AngularCondition COECondition::Inclination(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& anInclination,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -66,6 +71,7 @@ AngularCondition COECondition::Inclination(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter),
         anInclination,
+        targetIsRelative,
     };
 }
 
@@ -73,7 +79,8 @@ AngularCondition COECondition::Aop(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& anArgumentOfPeriapsis,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -81,6 +88,7 @@ AngularCondition COECondition::Aop(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter),
         anArgumentOfPeriapsis,
+        targetIsRelative,
     };
 }
 
@@ -88,7 +96,8 @@ AngularCondition COECondition::Raan(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& aRightAscensionOfAscendingNode,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -96,6 +105,7 @@ AngularCondition COECondition::Raan(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Raan, aFrameSPtr, aGravitationalParameter),
         aRightAscensionOfAscendingNode,
+        targetIsRelative,
     };
 }
 
@@ -103,7 +113,8 @@ AngularCondition COECondition::TrueAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& aTrueAnomaly,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -111,6 +122,7 @@ AngularCondition COECondition::TrueAnomaly(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter),
         aTrueAnomaly,
+        targetIsRelative,
     };
 }
 
@@ -118,7 +130,8 @@ AngularCondition COECondition::MeanAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& aMeanAnomaly,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -126,6 +139,7 @@ AngularCondition COECondition::MeanAnomaly(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter),
         aMeanAnomaly,
+        targetIsRelative,
     };
 }
 
@@ -133,7 +147,8 @@ AngularCondition COECondition::EccentricAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& anEccentricAnomaly,
-    const Derived& aGravitationalParameter
+    const Derived& aGravitationalParameter,
+    const bool& targetIsRelative
 )
 {
     return {
@@ -141,6 +156,7 @@ AngularCondition COECondition::EccentricAnomaly(
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::EccentricAnomaly, aFrameSPtr, aGravitationalParameter),
         anEccentricAnomaly,
+        targetIsRelative,
     };
 }
 

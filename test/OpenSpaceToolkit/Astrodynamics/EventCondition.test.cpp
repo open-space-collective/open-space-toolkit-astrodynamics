@@ -19,7 +19,15 @@ class TestCondition : public EventCondition
 {
    public:
     TestCondition(const String& aName)
-        : EventCondition(aName)
+        : EventCondition(
+              aName,
+              [](const State& aState) -> Real
+              {
+                  return 0.0;
+              },
+              0.0,
+              false
+          )
     {
     }
 

@@ -16,6 +16,7 @@ namespace astro
 {
 
 using ostk::core::types::String;
+using ostk::core::types::Real;
 
 using ostk::astro::trajectory::State;
 
@@ -28,16 +29,20 @@ class EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, aCriterion, anEvaluatro, aTarget};
+    ///                         EventCondition eventCondition = {aName, anEvaluator, aTarget, targetIsRelative};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
-    /// Condition is met
-    /// @param                  [in] anEvaluator A function evaluating a state and a time
+    /// @param                  [in] anEvaluator A function evaluating a state
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
+    /// @param                  [in] targetIsRelative A boolean indicating whether or not the target is relative
 
-    EventCondition(const String& aName);
+    EventCondition(
+        const String& aName,
+        std::function<Real(const State&)> anEvaluator,
+        const Real& aTarget,
+        const bool& targetIsRelative = false
+    );
 
     /// @brief                  Virtual destructor
 
@@ -61,6 +66,30 @@ class EventCondition
 
     String getName() const;
 
+    /// @brief                  Get evaluator
+    ///
+    /// @return                 Evaluator
+
+    std::function<Real(const State&)> getEvaluator() const;
+
+    /// @brief                  Get the target
+    ///
+    /// @return                 Target
+
+    Real getTarget() const;
+
+    /// @brief                  Get the target is relative
+    ///
+    /// @return                 Target is relative
+
+    bool targetIsRelative() const;
+
+    /// @brief                  Update the target value if the Event Condition is relative
+    ///
+    /// @param                  [in] aState A state to calculate the relative target from
+
+    virtual void updateTarget(const State& aState);
+
     /// @brief                  Print the Event Condition
     ///
     /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
@@ -79,8 +108,11 @@ class EventCondition
 
     virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
 
-   private:
+   protected:
     String name_;
+    std::function<Real(const State&)> evaluator_;
+    Real target_;
+    bool targetIsRelative_;
 };
 
 }  // namespace astro

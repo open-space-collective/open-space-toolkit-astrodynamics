@@ -19,7 +19,8 @@ InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& a
           {
               return (aState.accessInstant() - Instant::J2000()).inSeconds();
           },
-          (anInstant - Instant::J2000()).inSeconds()
+          (anInstant - Instant::J2000()).inSeconds(),
+          false
       )
 {
 }
