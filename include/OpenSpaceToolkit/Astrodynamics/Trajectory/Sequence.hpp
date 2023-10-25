@@ -149,8 +149,8 @@ class Sequence
     /// @brief                  Solve the sequence given an initial state.
     ///
     /// @param                  [in] aState Initial state for the sequence.
-    /// @param                  [in] aMaximumPropagationDuration Maximum propagation duration. Defaults to 30.0 days
-    /// @param                  [in] anEventCondition An event condition.
+    /// @param                  [in] aMaximumPropagationDuration Maximum propagation duration. Defaults to 30.0 days.
+    /// @param                  [in] anEventCondition An event condition. Defaults to nullptr.
     /// @return                 A Solution that contains solutions for each segment.
 
     Solution solve(
