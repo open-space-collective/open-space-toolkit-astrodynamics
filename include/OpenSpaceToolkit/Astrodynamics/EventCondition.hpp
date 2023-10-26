@@ -78,9 +78,9 @@ class EventCondition
 
     Real getTarget() const;
 
-    /// @brief                  Get the target is relative
+    /// @brief                  Return true if the target is relative
     ///
-    /// @return                 Target is relative
+    /// @return                 true if Target is relative
 
     bool targetIsRelative() const;
 
@@ -88,7 +88,7 @@ class EventCondition
     ///
     /// @param                  [in] aState A state to calculate the relative target from
 
-    virtual void updateTarget(const State& aState);
+    virtual void updateRelativeTarget(const State& aState);
 
     /// @brief                  Print the Event Condition
     ///

@@ -245,7 +245,7 @@ Sequence::Solution Sequence::solve(
         {
             if (segment.accessEventCondition()->targetIsRelative())
             {
-                segment.accessEventCondition()->updateTarget(initialState);
+                segment.accessEventCondition()->setTargetState(initialState);
             }
 
             // Terminate Sequence unsuccessfully if the propagation limit was exceeded
