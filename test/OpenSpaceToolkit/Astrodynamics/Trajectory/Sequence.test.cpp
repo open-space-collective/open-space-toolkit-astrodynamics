@@ -55,7 +55,6 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::trajectory::Segment;
@@ -67,6 +66,7 @@ using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::Dynamics;
 using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
@@ -299,11 +299,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
+<<<<<<< HEAD
         const Shared<const ConstantThrust> constantThrustSPtr =
             std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
 
         const Shared<Thruster> thrustDynamicsSPtr =
             std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr);
+=======
+        const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(
+            ConstantThrust::Intrack(COE::Undefined(), EarthGravitationalModel::EGM2008.gravitationalParameter_)
+        );
+>>>>>>> wip: first cut at guidance law
 
         defaultSequence_.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
@@ -312,7 +318,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
+<<<<<<< HEAD
             thrustDynamicsSPtr
+=======
+            std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr)
+>>>>>>> wip: first cut at guidance law
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
