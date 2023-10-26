@@ -4,6 +4,8 @@
 #include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 namespace ostk
@@ -12,6 +14,8 @@ namespace astro
 {
 namespace trajectory
 {
+
+using ostk::physics::time::Duration;
 
 const Instant& Sequence::Solution::accessStartInstant() const
 {
@@ -138,7 +142,7 @@ Sequence::Sequence(
       repetitionCount_(aRepetitionCount),
       numericalSolver_(aNumericalSolver),
       dynamics_(aDynamicsArray),
-      maximumPropagationDuration_(maximumPropagationDuration)
+      segmentPropagationDurationLimit_(maximumPropagationDuration)
 {
     if (verbosity == 5)
     {
@@ -199,7 +203,7 @@ Array<Shared<Dynamics>> Sequence::getDynamics() const
 
 Duration Sequence::getMaximumPropagationDuration() const
 {
-    return maximumPropagationDuration_;
+    return segmentPropagationDurationLimit_;
 }
 
 void Sequence::addSegment(const Segment& aSegment)
@@ -223,7 +227,9 @@ void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventCondition
 }
 
 Sequence::Solution Sequence::solve(
-    const State& aState, const Duration& aMaximumPropagationDuration, const Shared<EventCondition>& anEventConditionSPtr
+    const State& aState,
+    const Duration& sequencePropagationDurationLimit,
+    const Shared<EventCondition>& anEventConditionSPtr
 ) const
 {
     Array<Segment::Solution> segmentSolutions;
@@ -231,14 +237,14 @@ Sequence::Solution Sequence::solve(
     State initialState = aState;
     State finalState = State::Undefined();
 
-    bool eventConditionIsSatisfied = anEventConditionSPtr == nullptr;
+    Duration totalPropagationDuration = Duration::Seconds(0.0);
 
     for (Size i = 0; i < repetitionCount_; ++i)
     {
         for (const Segment& segment : segments_)
         {
-            // Maximum propagation check
-            if ((initialState.accessInstant() - aState.accessInstant()) > aMaximumPropagationDuration)
+            // Terminate Sequence unsuccessfully if the propagation limit was exceeded
+            if (totalPropagationDuration > sequencePropagationDurationLimit)
             {
                 BOOST_LOG_TRIVIAL(warning)
                     << "Terminating Sequence because maximum propagation duration is reached." << std::endl;
@@ -248,7 +254,12 @@ Sequence::Solution Sequence::solve(
 
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
-            Segment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
+            // Clip the segment propagation limit if it will exceed the Sequence propagation limit
+            const Duration segmentPropagationDurationLimit = std::min(
+                segmentPropagationDurationLimit_, (sequencePropagationDurationLimit - totalPropagationDuration)
+            );
+
+            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit);
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
@@ -257,7 +268,9 @@ Sequence::Solution Sequence::solve(
 
             segmentSolutions.add(segmentSolution);
 
-            // Segment condition check
+            totalPropagationDuration += segmentSolution.getPropagationDuration();
+
+            // Terminate Sequence unsuccessfully if the segment condition was not satisfied
             if (!segmentSolution.conditionIsSatisfied)
             {
                 BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
@@ -265,7 +278,7 @@ Sequence::Solution Sequence::solve(
                 return {segmentSolutions, false};
             }
 
-            // Event condition check
+            // Terminate Sequence successfully if a provided event condition was satisfied
             if (anEventConditionSPtr != nullptr &&
                 anEventConditionSPtr->isSatisfied(segmentSolution.states.accessLast(), initialState))
             {
@@ -278,11 +291,13 @@ Sequence::Solution Sequence::solve(
         }
     }
 
-    if (eventConditionIsSatisfied)
+    // No Event Condition was provided, therefore the Sequence has successfully completed
+    if (anEventConditionSPtr == nullptr)
     {
         return {segmentSolutions, true};
     }
 
+    // An Event Condition was provided, however the condition was not met, therefore the completion is unsuccessful
     return {segmentSolutions, false};
 }
 
@@ -315,7 +330,7 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Maximum Propagation Duration:" << maximumPropagationDuration_.toString();
+        << "Maximum Propagation Duration:" << segmentPropagationDurationLimit_.toString();
 
     if (displayDecorator)
     {

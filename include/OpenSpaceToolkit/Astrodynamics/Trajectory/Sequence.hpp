@@ -77,7 +77,8 @@ class Sequence
     /// @param                  [in] aRepetitionCount A repetition count. Defaults to 1.
     /// @param                  [in] aNumericalSolver A Numerical Solver. Defaults to Undefined.
     /// @param                  [in] aDynamicsArray An array of shared dynamics. Defaults to empty.
-    /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 7.0 days.
+    /// @param                  [in] segmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
+    /// days.
     /// @param                  [in] verbosity Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
 
     Sequence(
@@ -85,7 +86,7 @@ class Sequence
         const Size& aRepetitionCount = 1,
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const Duration& maximumPropagationDuration = Duration::Days(7.0),
+        const Duration& segmentPropagationDurationLimit = Duration::Days(7.0),
         const Size& verbosity = 0
     );
 
@@ -149,13 +150,14 @@ class Sequence
     /// @brief                  Solve the sequence given an initial state.
     ///
     /// @param                  [in] aState Initial state for the sequence.
-    /// @param                  [in] aMaximumPropagationDuration Maximum propagation duration. Defaults to 30.0 days.
+    /// @param                  [in] sequencePropagationDurationLimit Maximum propagation duration for the Sequence.
+    /// Defaults to 30.0 days.
     /// @param                  [in] anEventCondition An event condition. Defaults to nullptr.
     /// @return                 A Solution that contains solutions for each segment.
 
     Solution solve(
         const State& aState,
-        const Duration& aMaximumPropagationDuration = Duration::Days(30.0),
+        const Duration& sequencePropagationDurationLimit = Duration::Days(30.0),
         const Shared<EventCondition>& anEventConditionSPtr = nullptr
     ) const;
 
@@ -171,7 +173,7 @@ class Sequence
     Size repetitionCount_;
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
-    Duration maximumPropagationDuration_;
+    Duration segmentPropagationDurationLimit_;
 };
 
 }  // namespace trajectory
