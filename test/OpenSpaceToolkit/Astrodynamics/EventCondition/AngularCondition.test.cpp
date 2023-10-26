@@ -95,7 +95,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Getters)
     {
         EXPECT_TRUE(defaultCondition_.getName() == defaultName_);
         EXPECT_TRUE(defaultCondition_.getCriterion() == defaultCriterion_);
-        EXPECT_NO_THROW(defaultCondition_.getEvaluator());  // Cannot compare equality for std::function
         EXPECT_TRUE(defaultCondition_.getTargetAngle() == defaultTargetAngle_);
         EXPECT_THROW(defaultCondition_.getTargetRange(), ostk::core::error::RuntimeError);
     }

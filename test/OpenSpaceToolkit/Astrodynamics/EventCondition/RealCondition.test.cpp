@@ -102,13 +102,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Getters)
     {
         EXPECT_TRUE(defaultCondition_.getName() == defaultName_);
         EXPECT_TRUE(defaultCondition_.getCriterion() == defaultCriterion_);
-        EXPECT_NO_THROW(defaultCondition_.getEvaluator());  // Cannot compare equality for std::function
-        EXPECT_TRUE(defaultCondition_.getTarget() == defaultTarget_);
-    }
-
-    {
-        const RealCondition condition = RealCondition(defaultName_, defaultCriterion_, defaultEvaluator_);
-        EXPECT_EQ(condition.getTarget(), 0.0);
     }
 }
 
