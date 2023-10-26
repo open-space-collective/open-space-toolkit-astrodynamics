@@ -123,15 +123,13 @@ class AngularCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<bool(const Real&, const Real&)> comparator_;
+    std::function<bool(const Real&, const Real&, const Real&)> comparator_;
     Pair<Real, Real> targetRange_;
 
     static bool IsPositiveCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
     static bool IsNegativeCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
 
-    static std::function<bool(const Real&, const Real&)> GenerateComparator(
-        const Criterion& aCriterion, const Real& aTarget
-    );
+    std::function<bool(const Real&, const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
 
     AngularCondition(
         const String& aName,

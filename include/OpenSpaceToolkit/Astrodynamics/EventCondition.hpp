@@ -112,6 +112,7 @@ class EventCondition
     String name_;
     std::function<Real(const State&)> evaluator_;
     Real target_;
+    mutable Real relativeTarget_ = 0.0;
     bool targetIsRelative_;
 };
 

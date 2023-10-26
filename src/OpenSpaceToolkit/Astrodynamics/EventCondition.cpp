@@ -64,7 +64,7 @@ void EventCondition::updateTarget(const State& aState)
         throw ostk::core::error::runtime::Undefined("Evaluator.");
     }
 
-    target_ += evaluator_(aState);
+    relativeTarget_ = evaluator_(aState);
 }
 
 void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -72,7 +72,8 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
-    ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << String::Format("Target {}:", (targetIsRelative_ ? " (Relative)" : "")) << getTarget();
     ostk::core::utils::Print::Line(anOutputStream) << "Target Type:" << (targetIsRelative_ ? "Relative" : "Absolute");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();

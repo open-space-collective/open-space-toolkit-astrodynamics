@@ -23,7 +23,7 @@ AngularCondition::AngularCondition(
 )
     : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, Real::TwoPi()), targetIsRelative),
       criterion_(aCriterion),
-      comparator_(GenerateComparator(aCriterion, aTargetAngle.inRadians(0.0, Real::TwoPi()))),
+      comparator_(GenerateComparator(aCriterion)),
       targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
 {
 }
@@ -78,7 +78,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return comparator_(evaluator_(currentState), evaluator_(previousState));
+    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_ + relativeTarget_));
 }
 
 AngularCondition AngularCondition::WithinRange(
@@ -141,24 +141,24 @@ bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& 
     return (currentValue > previousValue) && (targetValue <= previousValue || targetValue > currentValue);
 }
 
-std::function<bool(const Real&, const Real&)> AngularCondition::GenerateComparator(
-    const AngularCondition::Criterion& aCriterion, const Real& aTarget
+std::function<bool(const Real&, const Real&, const Real&)> AngularCondition::GenerateComparator(
+    const AngularCondition::Criterion& aCriterion
 )
 {
     switch (aCriterion)
     {
         case Criterion::PositiveCrossing:
-            return [aTarget](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
             {
                 return AngularCondition::IsPositiveCrossing(currentValue, previousValue, aTarget);
             };
         case Criterion::NegativeCrossing:
-            return [aTarget](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
             {
                 return AngularCondition::IsNegativeCrossing(currentValue, previousValue, aTarget);
             };
         case Criterion::AnyCrossing:
-            return [aTarget](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
             {
                 return AngularCondition::IsPositiveCrossing(currentValue, previousValue, aTarget) ||
                        AngularCondition::IsNegativeCrossing(currentValue, previousValue, aTarget);
@@ -183,7 +183,7 @@ AngularCondition::AngularCondition(
       comparator_(
           [lowerBound = aTargetRange.first.inRadians(0.0, Real::TwoPi()),
            upperBound = aTargetRange.second.inRadians(0.0, Real::TwoPi())](
-              const Real& currentValue, [[maybe_unused]] const Real& previousValue
+              const Real& currentValue, [[maybe_unused]] const Real& previousValue, [[maybe_unused]] const Real& aTarget
           ) -> bool
           {
               return (currentValue >= lowerBound) && (currentValue <= upperBound);

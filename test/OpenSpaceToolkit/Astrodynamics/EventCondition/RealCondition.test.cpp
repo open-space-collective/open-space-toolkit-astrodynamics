@@ -208,9 +208,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, DurationCond
 
         condition.updateTarget(generateState(0.0, Instant::J2000() + Duration::Minutes(1.0)));
 
-        EXPECT_DOUBLE_EQ(condition.getTarget(), Duration::Minutes(2.0).inSeconds());
         EXPECT_TRUE(condition.isSatisfied(
-            generateState(0.0, Instant::J2000() + Duration::Minutes(5.0)), generateState(0.0, Instant::J2000())
+            generateState(0.0, Instant::J2000() + Duration::Minutes(2.1)), generateState(0.0, Instant::J2000())
         ));
     }
 }

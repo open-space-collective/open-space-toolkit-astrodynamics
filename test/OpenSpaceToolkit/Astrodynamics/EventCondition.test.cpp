@@ -137,6 +137,5 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, UpdateTarget)
             true
         };
         EXPECT_NO_THROW(eventCondition.updateTarget(state));
-        EXPECT_DOUBLE_EQ(eventCondition.getTarget(), 5.0);
     }
 }
