@@ -42,7 +42,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
@@ -112,6 +113,7 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::Propagator;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::SatelliteSystem;
@@ -119,7 +121,8 @@ using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::ThirdBodyGravity;
 using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::thruster::ConstantThrust;
+using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
@@ -2630,7 +2633,13 @@ TEST_P(
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrust> thrusterDynamicsSPtr = std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
+    // TBI: Put a realistic value here
+    const COE targetCOE = COE::Undefined();
+
+    Shared<ConstantThrust> constantThrustSPtr =
+        std::make_shared<ConstantThrust>(targetCOE, earth.getGravitationalParameter(), thrustDirection);
+
+    Shared<Thruster> thrusterDynamicsSPtr = std::make_shared<Thruster>(satelliteSystem, constantThrustSPtr);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
@@ -3185,9 +3194,11 @@ TEST_P(
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrust> thrusterDynamicsSPtr = std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
-    Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
-    Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr);
+    const Shared<ConstantThrust> guidanceLawSPtr =
+        std::make_shared<ConstantThrust>(COE::Undefined(), earth.getGravitationalParameter(), thrustDirection);
+    const Shared<Thruster> thrusterDynamicsSPtr = std::make_shared<Thruster>(satelliteSystem, guidanceLawSPtr);
+    const Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
+    const Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(), centralBodyGravitySPtr, atmosphericDragSPtr, thrusterDynamicsSPtr

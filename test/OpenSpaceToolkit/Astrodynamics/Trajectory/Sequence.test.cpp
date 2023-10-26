@@ -11,7 +11,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -68,7 +69,8 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::thruster::ConstantThrust;
+using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
@@ -297,6 +299,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
+        const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(
+            ConstantThrust::Intrack(COE::Undefined(), EarthGravitationalModel::EGM2008.gravitationalParameter_)
+        );
+
         defaultSequence_.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
                 RealCondition::Criterion::AnyCrossing,
@@ -304,7 +310,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(SatelliteSystem::Default()))
+            std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr)
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
