@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 
 namespace ostk
@@ -11,6 +13,8 @@ namespace astro
 {
 namespace eventcondition
 {
+
+using ostk::physics::time::Instant;
 
 RealCondition::RealCondition(
     const String& aName,
@@ -78,6 +82,20 @@ String RealCondition::StringFromCriterion(const Criterion& aCriterion)
     }
 
     return String::Empty();
+}
+
+RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, const Duration& aDuration)
+{
+    return {
+        "Duration",
+        aCriterion,
+        [](const State& aState) -> Real
+        {
+            return (aState.accessInstant() - Instant::J2000()).inSeconds();
+        },
+        aDuration.inSeconds(),
+        true,
+    };
 }
 
 std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(

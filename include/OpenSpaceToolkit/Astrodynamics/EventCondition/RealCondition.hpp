@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 namespace ostk
@@ -17,6 +19,8 @@ namespace eventcondition
 
 using ostk::core::types::Real;
 using ostk::core::types::String;
+
+using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::State;
 
@@ -99,6 +103,15 @@ class RealCondition : public EventCondition
     /// @return                 String representing the given criterion
 
     static String StringFromCriterion(const Criterion& aCriterion);
+
+    /// @brief                  Generate a Duration based condition
+    ///
+    /// @param                  [in] aCriterion An enum representing the criterion
+    /// @param                  [in] aDuration A duration
+    ///
+    /// @return                 A Duration based condition
+
+    static RealCondition DurationCondition(const Criterion& aCriterion, const Duration& aDuration);
 
    private:
     Criterion criterion_;
