@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1698265890484,
+  "lastUpdate": 1698414116167,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 4139553237.799993,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4138602179.9999976 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ab528cf717a62c1b616e35e55130f290cc606ab8",
+          "message": "chore: update dev container to better enable cpp and python liniting (#243)\n\n* chore: add black formatter to dev container\r\n\r\n* chore: remove linting ignore warnings\r\n\r\n* fix: add back reportMissingModuleSource in devcontainer.json because stubs will not fix it",
+          "timestamp": "2023-10-27T15:00:30+02:00",
+          "tree_id": "4f04fe7f3bcb6a389e0444bfc6bd6e5e6064151a",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ab528cf717a62c1b616e35e55130f290cc606ab8"
+        },
+        "date": 1698414114940,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 995377031.2999951,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 995080970.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1941376169.5000062,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1941147440 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4917954704.600004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4917400480.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4969352382.300008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4968749140 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4911006627.200004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4910453790.000006 ns\nthreads: 1"
           }
         ]
       }
