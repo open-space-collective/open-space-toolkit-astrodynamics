@@ -19,8 +19,7 @@ InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& a
           {
               return (aState.accessInstant() - Instant::J2000()).inSeconds();
           },
-          (anInstant - Instant::J2000()).inSeconds(),
-          false
+          (anInstant - Instant::J2000()).inSeconds()
       )
 {
 }
@@ -29,7 +28,7 @@ InstantCondition::~InstantCondition() {}
 
 Instant InstantCondition::getInstant() const
 {
-    return Instant::J2000() + Duration::Seconds(getTarget());
+    return Instant::J2000() + Duration::Seconds(getTarget().value_);
 }
 
 }  // namespace eventcondition

@@ -23,6 +23,7 @@
 using ostk::core::ctnr::Array;
 using ostk::core::types::String;
 using ostk::core::types::Shared;
+using ostk::core::types::Real;
 
 using ostk::math::obj::VectorXd;
 
@@ -332,7 +333,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
-            0.5,
+            Real(0.5),
             EarthGravitationalModel::EGM2008.gravitationalParameter_
         ));
 

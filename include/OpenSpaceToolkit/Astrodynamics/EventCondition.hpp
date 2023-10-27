@@ -5,8 +5,8 @@
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
-
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -18,6 +18,9 @@ namespace astro
 using ostk::core::types::String;
 using ostk::core::types::Real;
 
+using ostk::physics::units::Angle;
+using ostk::physics::units::Length;
+
 using ostk::astro::trajectory::State;
 
 /// @brief                      An Event Condition defines a criterion that can be evaluated
@@ -26,23 +29,50 @@ using ostk::astro::trajectory::State;
 class EventCondition
 {
    public:
+    struct Target
+    {
+        enum class Type
+        {
+            Absolute,
+            RelativeSegmentStart,
+            RelativeSequenceStart
+        };
+
+        Target(const Real& aValue, const Type& aType = Type::Absolute);
+        Target(const Angle& anAngle, const Type& aType = Type::Absolute);
+        Target(const Length& aLength, const Type& aType = Type::Absolute);
+
+        bool operator==(const Target& aTarget) const;
+        bool operator!=(const Target& aTarget) const;
+
+        Real value_;
+        Type type_;
+        mutable Real valueOffset_ = 0.0;
+    };
+
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, anEvaluator, aTarget, targetIsRelative};
+    ///                         EventCondition eventCondition = {aName, anEvaluator, aTargetValue};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
     /// @param                  [in] anEvaluator A function evaluating a state
-    /// @param                  [in] aTarget A target value associated with the Real Event Condition
-    /// @param                  [in] targetIsRelative A boolean indicating whether or not the target is relative
+    /// @param                  [in] aTarget A target associated with the Real Event Condition
 
-    EventCondition(
-        const String& aName,
-        std::function<Real(const State&)> anEvaluator,
-        const Real& aTarget,
-        const bool& targetIsRelative = false
-    );
+    EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget);
+
+    /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         EventCondition eventCondition = {aName, anEvaluator, aTarget};
+    /// @endcode
+    ///
+    /// @param                  [in] aName A string representing the name of the Real Event Condition
+    /// @param                  [in] anEvaluator A function evaluating a state
+    /// @param                  [in] aTargetValue A target value associated with the Real Event Condition
+
+    EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const Real& aTargetValue);
 
     /// @brief                  Virtual destructor
 
@@ -76,19 +106,13 @@ class EventCondition
     ///
     /// @return                 Target
 
-    Real getTarget() const;
-
-    /// @brief                  Return true if the target is relative
-    ///
-    /// @return                 true if Target is relative
-
-    bool targetIsRelative() const;
+    Target getTarget() const;
 
     /// @brief                  Update the target value if the Event Condition is relative
     ///
     /// @param                  [in] aState A state to calculate the relative target from
 
-    virtual void updateRelativeTarget(const State& aState);
+    virtual void updateTarget(const State& aState);
 
     /// @brief                  Print the Event Condition
     ///
@@ -111,9 +135,7 @@ class EventCondition
    protected:
     String name_;
     std::function<Real(const State&)> evaluator_;
-    Real target_;
-    mutable Real relativeTarget_ = 0.0;
-    bool targetIsRelative_;
+    Target target_;
 };
 
 }  // namespace astro

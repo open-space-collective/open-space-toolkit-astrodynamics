@@ -6,6 +6,7 @@ from ostk.physics.environment.gravitational import Earth
 from ostk.physics.units import Derived, Length, Angle
 from ostk.physics.coordinate import Frame
 
+from ostk.astrodynamics import EventConditionTarget
 from ostk.astrodynamics.event_condition import (
     COECondition,
     AngularCondition,
@@ -39,42 +40,42 @@ class TestCOECondition:
         (
             (
                 COECondition.semi_major_axis,
-                Length.meters(7e6),
+                EventConditionTarget(Length.meters(7e6)),
                 RealCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.eccentricity,
-                0.1,
+                EventConditionTarget(0.1),
                 RealCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.inclination,
-                Angle.degrees(0.0),
+                EventConditionTarget(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.aop,
-                Angle.degrees(0.0),
+                EventConditionTarget(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.raan,
-                Angle.degrees(0.0),
+                EventConditionTarget(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.true_anomaly,
-                Angle.degrees(0.0),
+                EventConditionTarget(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.mean_anomaly,
-                Angle.degrees(0.0),
+                EventConditionTarget(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.eccentric_anomaly,
-                Angle.degrees(0.0),
+                EventConditionTarget(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
         ),

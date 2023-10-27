@@ -33,6 +33,7 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::coord::Frame;
 
+using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
@@ -47,22 +48,21 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aSemiMajorAxis A Semi-Major Axis
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
 
     static RealCondition SemiMajorAxis(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Length& aSemiMajorAxis,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentricity based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anEccentricity An eccentricity
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -70,16 +70,15 @@ class COECondition
     static RealCondition Eccentricity(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Real& anEccentricity,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Inclination based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anInclination An inclination
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -87,16 +86,15 @@ class COECondition
     static AngularCondition Inclination(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aSemiMajorAxis,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Argument of Periapsis based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anAOP An argument of periapsis
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -104,16 +102,15 @@ class COECondition
     static AngularCondition Aop(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& anAOP,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Right Ascension of Ascending Node based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aRAAN A right angle of ascending node
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -121,16 +118,15 @@ class COECondition
     static AngularCondition Raan(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aRAAN,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  True Anomaly based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aTrueAnomaly A true anomaly
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -138,16 +134,15 @@ class COECondition
     static AngularCondition TrueAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aTrueAnomaly,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Mean Anomaly based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aMeanAnomaly A mean anomaly
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -155,16 +150,15 @@ class COECondition
     static AngularCondition MeanAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aMeanAnomaly,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentric Anomaly based constructor
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anEccentricAnomaly An eccentric anomaly
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -172,9 +166,8 @@ class COECondition
     static AngularCondition EccentricAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& anEccentricAnomaly,
-        const Derived& aGravitationalParameter,
-        const bool& targetIsRelative = false
+        const EventCondition::Target& aTarget,
+        const Derived& aGravitationalParameter
     );
 
    private:

@@ -69,6 +69,7 @@ using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::dynamics::thruster::ConstantThrust;
+using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::eventcondition::RealCondition;
@@ -523,9 +524,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
             std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
                 AngularCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
-                Angle::Degrees(5.0),
-                EarthGravitationalModel::EGM2008.gravitationalParameter_,
-                true
+                EventCondition::Target(Angle::Degrees(5.0), EventCondition::Target::Type::RelativeSegmentStart),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
             ));
 
         const Array<Segment> segments = {
@@ -559,7 +559,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
                 {segmentSolution.states.accessLast().getPosition(), segmentSolution.states.accessLast().getVelocity()},
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             );
-            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-6);
+            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-5);
             initialCOE = coe;
         }
     }

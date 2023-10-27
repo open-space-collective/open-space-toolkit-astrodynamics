@@ -42,7 +42,7 @@ class AngularCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetRange};
+    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetAngle};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Angular Event Condition
@@ -50,14 +50,31 @@ class AngularCondition : public EventCondition
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
     /// @param                  [in] aTargetAngle A target angle
-    /// @param                  [in] targetIsRelative A flag indicating whether the target is relative
 
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
         const std::function<Real(const State&)>& anEvaluator,
-        const Angle& aTargetAngle,
-        const bool& targetIsRelative = false
+        const Angle& aTargetAngle
+    );
+
+    /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetAngle};
+    /// @endcode
+    ///
+    /// @param                  [in] aName A string representing the name of the Angular Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Angular Event
+    /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
+    /// @param                  [in] aTarget A target
+
+    AngularCondition(
+        const String& aName,
+        const Criterion& aCriterion,
+        const std::function<Real(const State&)>& anEvaluator,
+        const Target& aTarget
     );
 
     /// @brief                  Virtual destructor

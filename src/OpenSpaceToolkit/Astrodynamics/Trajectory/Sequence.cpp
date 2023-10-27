@@ -243,9 +243,13 @@ Sequence::Solution Sequence::solve(
     {
         for (const Segment& segment : segments_)
         {
-            if (segment.accessEventCondition()->targetIsRelative())
+            if (segment.accessEventCondition()->getTarget().type_ == EventCondition::Target::Type::RelativeSegmentStart)
             {
-                segment.accessEventCondition()->setTargetState(initialState);
+                segment.accessEventCondition()->updateTarget(initialState);
+            }
+            else if (segment.accessEventCondition()->getTarget().type_ == EventCondition::Target::Type::RelativeSequenceStart)
+            {
+                segment.accessEventCondition()->updateTarget(aState);
             }
 
             // Terminate Sequence unsuccessfully if the propagation limit was exceeded

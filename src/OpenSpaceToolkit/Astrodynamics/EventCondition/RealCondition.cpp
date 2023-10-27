@@ -19,11 +19,22 @@ using ostk::physics::time::Instant;
 RealCondition::RealCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)> anEvaluator,
-    const Real& aTarget,
-    const bool& targetIsRelative
+    const std::function<Real(const State&)>& anEvaluator,
+    const Real& aTargetValue
 )
-    : EventCondition(aName, anEvaluator, aTarget, targetIsRelative),
+    : EventCondition(aName, anEvaluator, aTargetValue),
+      criterion_(aCriterion),
+      comparator_(GenerateComparator(aCriterion))
+{
+}
+
+RealCondition::RealCondition(
+    const String& aName,
+    const Criterion& aCriterion,
+    const std::function<Real(const State&)>& anEvaluator,
+    const Target& aTarget
+)
+    : EventCondition(aName, anEvaluator, aTarget),
       criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion))
 {
@@ -42,15 +53,13 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
 
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
-    ostk::core::utils::Print::Line(anOutputStream) << "Target: " << getTarget();
-    ostk::core::utils::Print::Line(anOutputStream) << "Target type: " << (targetIsRelative_ ? "Relative" : "Absolute");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 Real RealCondition::evaluate(const State& aState) const
 {
-    return this->evaluator_(aState) - (target_ + relativeTarget_);
+    return this->evaluator_(aState) - (target_.value_ + target_.valueOffset_);
 }
 
 bool RealCondition::isSatisfied(const State& currentState, const State& previousState) const
@@ -93,8 +102,7 @@ RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, cons
         {
             return (aState.accessInstant() - Instant::J2000()).inSeconds();
         },
-        aDuration.inSeconds(),
-        true,
+        {aDuration.inSeconds(), RealCondition::Target::Type::RelativeSegmentStart}
     };
 }
 

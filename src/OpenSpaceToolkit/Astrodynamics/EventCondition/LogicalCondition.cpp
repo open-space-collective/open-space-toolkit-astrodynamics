@@ -12,7 +12,7 @@ namespace eventcondition
 LogicalCondition::LogicalCondition(
     const String& aName, const LogicalCondition::Type& aType, const Array<Shared<EventCondition>>& eventConditions
 )
-    : EventCondition(aName, nullptr, 0.0, false),
+    : EventCondition(aName, nullptr, 0.0),
       type_(aType),
       eventConditions_(eventConditions),
       evaluator_(LogicalCondition::GenerateEvaluator(aType))

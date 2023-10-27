@@ -49,15 +49,32 @@ class RealCondition : public EventCondition
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state
-    /// @param                  [in] aTarget A target value associated with the Real Event Condition
-    /// @param                  [in] targetIsRelative A boolean indicating whether or not the target is relative to
+    /// @param                  [in] aTargetValue A target value associated with the Real Event Condition
 
     RealCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)> anEvaluator,
-        const Real& aTarget = 0.0,
-        const bool& targetIsRelative = false
+        const std::function<Real(const State&)>& anEvaluator,
+        const Real& aTargetValue = 0.0
+    );
+
+        /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTarget};
+    /// @endcode
+    ///
+    /// @param                  [in] aName A string representing the name of the Real Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
+    /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state
+    /// @param                  [in] aTarget A target associated with the Real Event Condition
+
+    RealCondition(
+        const String& aName,
+        const Criterion& aCriterion,
+        const std::function<Real(const State&)>& anEvaluator,
+        const EventCondition::Target& aTarget
     );
 
     /// @brief                  Virtual destructor

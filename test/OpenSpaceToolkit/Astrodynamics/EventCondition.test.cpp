@@ -29,9 +29,9 @@ class TestCondition : public EventCondition
 {
    public:
     TestCondition(
-        const String& aName, const std::function<Real(const State&)>& anEvaluator, const bool& targetIsRelative
+        const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget
     )
-        : EventCondition(aName, anEvaluator, 0.0, targetIsRelative)
+        : EventCondition(aName, anEvaluator, aTarget)
     {
     }
 
@@ -42,20 +42,21 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
 {
    protected:
     const String defaultName_ = "Test Event Condition";
+    const EventCondition::Target defaultTarget_ = {0.0, EventCondition::Target::Type::Absolute};
     TestCondition defaultCondition_ = {
         defaultName_,
         []([[maybe_unused]] const State& aState) -> Real
         {
             return 0.0;
         },
-        false,
+        defaultTarget_
     };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(TestCondition testCondition(defaultName_, nullptr, true));
+        EXPECT_NO_THROW(TestCondition testCondition(defaultName_, nullptr, defaultTarget_));
     }
 }
 
@@ -98,14 +99,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, GetEvaluator)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, GetTarget)
 {
     {
-        EXPECT_DOUBLE_EQ(defaultCondition_.getTarget(), 0.0);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, TargetIsRelative)
-{
-    {
-        EXPECT_FALSE(defaultCondition_.targetIsRelative());
+        EXPECT_EQ(defaultCondition_.getTarget(), defaultTarget_);
     }
 }
 
@@ -122,7 +116,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, UpdateTarget)
     }
 
     {
-        TestCondition eventCondition = {"name", nullptr, true};
+        TestCondition eventCondition = {"name", nullptr, {0.0, EventCondition::Target::Type::RelativeSegmentStart}};
 
         EXPECT_THROW(eventCondition.updateTarget(state), ostk::core::error::runtime::Undefined);
     }
@@ -134,7 +128,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, UpdateTarget)
             {
                 return 5.0;
             },
-            true
+            {0.0, EventCondition::Target::Type::RelativeSegmentStart}
         };
         EXPECT_NO_THROW(eventCondition.updateTarget(state));
     }

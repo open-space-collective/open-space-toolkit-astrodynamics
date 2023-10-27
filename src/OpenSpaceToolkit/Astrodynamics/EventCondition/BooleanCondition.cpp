@@ -15,7 +15,7 @@ namespace eventcondition
 BooleanCondition::BooleanCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<bool(const State&)> anEvaluator,
+    const std::function<bool(const State&)>& anEvaluator,
     const bool& anInverseFlag
 )
     : RealCondition(
@@ -26,8 +26,7 @@ BooleanCondition::BooleanCondition(
               const bool boolean = anEvaluator(aState);
               return anInverseFlag ? (boolean ? -1.0 : 1.0) : (boolean ? 1.0 : -1.0);
           },
-          0.0,
-          false
+          0.0
       ),
       inverse_(anInverseFlag)
 {

@@ -18,10 +18,22 @@ AngularCondition::AngularCondition(
     const String& aName,
     const Criterion& aCriterion,
     const std::function<Real(const State&)>& anEvaluator,
-    const Angle& aTargetAngle,
-    const bool& targetIsRelative
+    const Angle& aTargetAngle
 )
-    : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, Real::TwoPi()), targetIsRelative),
+    : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, Real::TwoPi())),
+      criterion_(aCriterion),
+      comparator_(GenerateComparator(aCriterion)),
+      targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
+{
+}
+
+AngularCondition::AngularCondition(
+    const String& aName,
+    const Criterion& aCriterion,
+    const std::function<Real(const State&)>& anEvaluator,
+    const Target& aTarget
+)
+    : EventCondition(aName, anEvaluator, aTarget),
       criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion)),
       targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
@@ -37,12 +49,12 @@ AngularCondition::Criterion AngularCondition::getCriterion() const
 
 Angle AngularCondition::getTargetAngle() const
 {
-    if (!target_.isDefined())
+    if (!target_.value_.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Target");
     }
 
-    return Angle::Radians(target_);
+    return Angle::Radians(target_.value_);
 }
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
@@ -61,7 +73,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
-    if (target_.isDefined())
+    if (target_.value_.isDefined())
     {
         ostk::core::utils::Print::Line(anOutputStream)
             << "Target:" << String::Format("{} [deg]", getTargetAngle().inDegrees());
@@ -78,7 +90,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_ + relativeTarget_));
+    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value_ + target_.valueOffset_));
 }
 
 AngularCondition AngularCondition::WithinRange(
@@ -178,7 +190,7 @@ AngularCondition::AngularCondition(
     const std::function<Real(const State&)>& anEvaluator,
     const Pair<Angle, Angle>& aTargetRange
 )
-    : EventCondition(aName, anEvaluator, Real::Undefined(), false),
+    : EventCondition(aName, anEvaluator, Real::Undefined()),
       criterion_(aCriterion),
       comparator_(
           [lowerBound = aTargetRange.first.inRadians(0.0, Real::TwoPi()),
