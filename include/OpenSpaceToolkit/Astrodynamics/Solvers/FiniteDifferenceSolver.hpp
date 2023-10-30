@@ -1,10 +1,9 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Solvers__
-#define __OpenSpaceToolkit_Astrodynamics_Solvers__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver__
+#define __OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -18,7 +17,6 @@ namespace solvers
 {
 
 using ostk::core::types::Real;
-using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
@@ -26,11 +24,19 @@ using ostk::math::obj::MatrixXd;
 
 using ostk::physics::time::Instant;
 
+using ostk::astro::trajectory::State;
+
 /// @brief                      Finite Difference solver
 
-class FiniteDifference
+class FiniteDifferenceSolver
 {
    public:
+    enum class Type
+    {
+        Forward,
+        Backward,
+        Central
+    };
     /// @brief                  Constructor
     ///
     /// @code
@@ -40,9 +46,10 @@ class FiniteDifference
     ///
     /// @endcode
     ///
-    /// @param                  [in] stepPercentage A step size percentage. Defaults to 1e-3
+    /// @param                  [in] aStepPercentage A step size percentage. Defaults to 1e-3
+    /// @param                  [in] aType A Finite Difference type.
 
-    FiniteDifference(const Real& stepPercentage = 1e-3);
+    FiniteDifference(const Type& aType, const Real& aStepPercentage = 1e-3);
 
     /// @brief                  Output stream operator.
     ///
@@ -81,14 +88,12 @@ class FiniteDifference
     /// @brief                  Compute the gradient
     ///
     /// @param                  [in] aState The state to compute the gradient of.
-    /// @param                  [in] getStates Callable that generates the state given an initial state and target
+    /// @param                  [in] getState Callable that generates the state given an initial state and target
     /// instant.
     ///
     /// @return                 The gradient
 
-    VectorXd computeGradient(
-        const State& aState, std::function<Array<VectorXd>(const VectorXd&, const Array<Instant>&)> getStates,
-    );
+    VectorXd computeGradient(const State& aState, std::function<State(const State&, const Instant&)> getState);
 
     /// @brief                  Print the solver.
     ///
@@ -99,6 +104,7 @@ class FiniteDifference
 
    private:
     const Real stepPercentage_;
+    const Type type_;
 };
 
 }  // namespace solvers
