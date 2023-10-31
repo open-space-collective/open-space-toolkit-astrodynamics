@@ -5,7 +5,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
-
 namespace ostk
 {
 namespace astro
@@ -37,7 +36,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
     const Array<Instant>& anInstantArray,
     std::function<Array<State>(const State&, const Array<Instant>&)> getStates,
     const Real& aStepPercentage
-)
+) const
 {
     const StateBuilder stateBuilder = {aState};
 
@@ -45,14 +44,17 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
 
     MatrixXd A = MatrixXd::Zero(stateVectorDimension, stateVectorDimension * anInstantArray.size());
 
-    const auto computeSteps = [&getStates, &anInstantArray, &stateVectorDimension](const State& perturbedState) -> MatrixXd
+    const auto computeSteps = [&getStates, &anInstantArray, &stateVectorDimension](const State& perturbedState
+                              ) -> MatrixXd
     {
         Array<State> propagatedSteps = getStates(perturbedState, anInstantArray);
         MatrixXd perturbedCoordinates(stateVectorDimension, anInstantArray.size());
         for (Index j = 0; j < anInstantArray.size(); ++j)
         {
-            perturbedCoordinates.col(j) = propagatedSteps[j].accessCoordinates();
+            perturbedCoordinates.col(j) = propagatedSteps[j].getCoordinates();
         }
+
+        std::cout << "perturbed coordinates: \n" << perturbedCoordinates << std::endl;
 
         return perturbedCoordinates;
     };
@@ -62,8 +64,9 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
     switch (type_)
     {
         case FiniteDifferenceSolver::Type::Forward:
-            computeJacobianBlock =
-                [&computeSteps, &stateBuilder, anInstant = aState.accessInstant()](const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex)
+            computeJacobianBlock = [&computeSteps, &stateBuilder, anInstant = aState.accessInstant()](
+                                       const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex
+                                   )
             {
                 aCoordinateVector(anIndex) += aStepSize;
                 const MatrixXd coordinates = computeSteps(stateBuilder.build(anInstant, aCoordinateVector));
@@ -72,8 +75,9 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
             };
             break;
         case FiniteDifferenceSolver::Type::Backward:
-            computeJacobianBlock =
-                [&computeSteps, &stateBuilder, anInstant = aState.accessInstant()](const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex)
+            computeJacobianBlock = [&computeSteps, &stateBuilder, anInstant = aState.accessInstant()](
+                                       const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex
+                                   )
             {
                 aCoordinateVector(anIndex) -= aStepSize;
                 const MatrixXd coordinates = computeSteps(stateBuilder.build(anInstant, aCoordinateVector));
@@ -83,16 +87,22 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
             break;
 
         case FiniteDifferenceSolver::Type::Central:
-            computeJacobianBlock =
-                [&computeSteps, &stateBuilder, anInstant = aState.accessInstant()](const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex)
+            computeJacobianBlock = [&computeSteps, &stateBuilder, anInstant = aState.accessInstant()](
+                                       const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex
+                                   )
             {
                 // Perturb state forward
                 aCoordinateVector(anIndex) += aStepSize;
+                std::cout << "forward step: " << aCoordinateVector.transpose() << std::endl;
                 const MatrixXd forwardCoordinates = computeSteps(stateBuilder.build(anInstant, aCoordinateVector));
 
                 // Perturb state backward
                 aCoordinateVector(anIndex) -= 2.0 * aStepSize;
+                std::cout << "backward step: " << aCoordinateVector.transpose() << std::endl;
                 const MatrixXd backwardCoordinates = computeSteps(stateBuilder.build(anInstant, aCoordinateVector));
+
+                std::cout << "forward coordinates: " << forwardCoordinates.transpose() << std::endl;
+                std::cout << "backward coordinates: " << backwardCoordinates.transpose() << std::endl;
 
                 return (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize);
             };
@@ -110,6 +120,8 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
 
         const MatrixXd differencedCoordinates = computeJacobianBlock(stepSize, aState.accessCoordinates(), i);
 
+        std::cout << "differenced coordinates: " << differencedCoordinates << std::endl;
+
         for (Index j = 0; j < anInstantArray.size(); ++j)
         {
             A.block(0, i + j * stateVectorDimension, stateVectorDimension, 1) = differencedCoordinates.col(j);
@@ -119,8 +131,11 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
 }
 
 MatrixXd FiniteDifferenceSolver::computeJacobian(
-    const State& aState, const Instant& anInstant, std::function<State(const State&, const Instant&)> getState, const Real& aStepPercentage
-)
+    const State& aState,
+    const Instant& anInstant,
+    std::function<State(const State&, const Instant&)> getState,
+    const Real& aStepPercentage
+) const
 {
     const auto getStates = [&getState](const State& state, const Array<Instant>& anInstantArray) -> Array<State>
     {
@@ -140,7 +155,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
 
 VectorXd FiniteDifferenceSolver::computeGradient(
     const State& aState, std::function<State(const State&, const Instant&)> getState, const Duration& aStepSize
-)
+) const
 {
     const auto compute = [&aState, &getState](const Duration& aDurationStep)
     {
@@ -181,11 +196,26 @@ void FiniteDifferenceSolver::print(std::ostream& anOutputStream, bool displayDec
         ostk::core::utils::Print::Header(anOutputStream, "Finite Difference Solver");
     }
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Type: " << type_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Type: " << FiniteDifferenceSolver::StringFromType(type_);
 
     if (displayDecorator)
     {
         ostk::core::utils::Print::Footer(anOutputStream);
+    }
+}
+
+String FiniteDifferenceSolver::StringFromType(const FiniteDifferenceSolver::Type& aType_)
+{
+    switch (aType_)
+    {
+        case FiniteDifferenceSolver::Type::Forward:
+            return "Forward";
+        case FiniteDifferenceSolver::Type::Backward:
+            return "Backward";
+        case FiniteDifferenceSolver::Type::Central:
+            return "Central";
+        default:
+            throw ostk::core::error::runtime::Wrong("Type");
     }
 }
 

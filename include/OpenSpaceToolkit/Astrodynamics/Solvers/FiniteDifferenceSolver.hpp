@@ -7,8 +7,8 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -20,6 +20,7 @@ namespace solvers
 {
 
 using ostk::core::types::Real;
+using ostk::core::types::String;
 using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
@@ -76,7 +77,7 @@ class FiniteDifferenceSolver
         const Array<Instant>& anInstantArray,
         std::function<Array<State>(const State&, const Array<Instant>&)> getStates,
         const Real& aStepPercentage = 1e-3
-    );
+    ) const;
 
     /// @brief                  Compute the Jacobian by perturbing the coordinates
     ///
@@ -92,7 +93,7 @@ class FiniteDifferenceSolver
         const Instant& anInstant,
         std::function<State(const State&, const Instant&)> getState,
         const Real& aStepPercentage = 1e-3
-    );
+    ) const;
 
     /// @brief                  Compute the gradient
     ///
@@ -102,7 +103,9 @@ class FiniteDifferenceSolver
     ///
     /// @return                 The gradient
 
-    VectorXd computeGradient(const State& aState, std::function<State(const State&, const Instant&)> getState, const Duration& aStepSize);
+    VectorXd computeGradient(
+        const State& aState, std::function<State(const State&, const Instant&)> getState, const Duration& aStepSize
+    ) const;
 
     /// @brief                  Print the solver.
     ///
@@ -110,6 +113,14 @@ class FiniteDifferenceSolver
     /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+    /// @brief                  Convert a type to string
+    ///
+    /// @param                  [in] aType A type.
+    ///
+    /// @return                 The string name of the type.
+
+    static String StringFromType(const Type& aType);
 
    private:
     const Type type_;
