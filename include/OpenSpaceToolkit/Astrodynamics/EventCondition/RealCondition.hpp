@@ -58,7 +58,7 @@ class RealCondition : public EventCondition
         const Real& aTargetValue = 0.0
     );
 
-        /// @brief                  Constructor
+    /// @brief                  Constructor
     ///
     /// @code
     ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTarget};

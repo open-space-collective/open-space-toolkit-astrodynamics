@@ -43,14 +43,18 @@ bool EventCondition::Target::operator!=(const EventCondition::Target& aTarget) c
     return !((*this) == aTarget);
 }
 
-EventCondition::EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget)
+EventCondition::EventCondition(
+    const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget
+)
     : name_(aName),
       evaluator_(anEvaluator),
       target_(aTarget)
 {
 }
 
-EventCondition::EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const Real& aTargetValue)
+EventCondition::EventCondition(
+    const String& aName, const std::function<Real(const State&)>& anEvaluator, const Real& aTargetValue
+)
     : name_(aName),
       evaluator_(anEvaluator),
       target_({aTargetValue, EventCondition::Target::Type::Absolute})
@@ -102,9 +106,11 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
     // TBM: Use enum to string from Target::Type
+    ostk::core::utils::Print::Line(anOutputStream
+    ) << String::Format("Target {}:", ((target_.type_ == EventCondition::Target::Type::Absolute) ? " (Relative)" : ""))
+      << getTarget().value_;
     ostk::core::utils::Print::Line(anOutputStream)
-        << String::Format("Target {}:", ((target_.type_ == EventCondition::Target::Type::Absolute) ? " (Relative)" : "")) << getTarget().value_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Target Type:" << (target_.type_ == EventCondition::Target::Type::Absolute ? "Relative" : "Absolute");
+        << "Target Type:" << (target_.type_ == EventCondition::Target::Type::Absolute ? "Relative" : "Absolute");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

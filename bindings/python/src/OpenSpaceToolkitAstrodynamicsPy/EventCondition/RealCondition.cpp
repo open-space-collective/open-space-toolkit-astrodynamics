@@ -49,7 +49,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
         realCondition
 
             .def(
-                init<const String&, const RealCondition::Criterion&, const std::function<Real(const State&)>&, const Real&>(),
+                init<
+                    const String&,
+                    const RealCondition::Criterion&,
+                    const std::function<Real(const State&)>&,
+                    const Real&>(),
                 R"doc(
                     Constructor.
 
@@ -67,7 +71,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             )
 
             .def(
-                init<const String&, const RealCondition::Criterion&, const std::function<Real(const State&)>&, const EventCondition::Target&>(),
+                init<
+                    const String&,
+                    const RealCondition::Criterion&,
+                    const std::function<Real(const State&)>&,
+                    const EventCondition::Target&>(),
                 R"doc(
                     Constructor.
 

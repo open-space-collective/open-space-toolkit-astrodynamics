@@ -60,8 +60,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
         )
 
             .value("Absolute", EventCondition::Target::Type::Absolute, "Absolute")
-            .value("RelativeSegmentStart", EventCondition::Target::Type::RelativeSegmentStart, "Relative to the State at the end of the previous Segment.")
-            .value("RelativeSequenceStart", EventCondition::Target::Type::RelativeSequenceStart, "Relative to the State at the start of the Sequence.")
+            .value(
+                "RelativeSegmentStart",
+                EventCondition::Target::Type::RelativeSegmentStart,
+                "Relative to the State at the end of the previous Segment."
+            )
+            .value(
+                "RelativeSequenceStart",
+                EventCondition::Target::Type::RelativeSequenceStart,
+                "Relative to the State at the start of the Sequence."
+            )
 
             ;
 
@@ -136,9 +144,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             .def("__eq__", &EventCondition::Target::operator==)
             .def("__ne__", &EventCondition::Target::operator!=)
-        
-            ;
 
+            ;
 
         class_<EventCondition, PyEventCondition, Shared<EventCondition>> eventCondition_class(
             aModule,

@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
+
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
@@ -60,7 +61,9 @@ class EventCondition
     /// @param                  [in] anEvaluator A function evaluating a state
     /// @param                  [in] aTarget A target associated with the Real Event Condition
 
-    EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget);
+    EventCondition(
+        const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget
+    );
 
     /// @brief                  Constructor
     ///
