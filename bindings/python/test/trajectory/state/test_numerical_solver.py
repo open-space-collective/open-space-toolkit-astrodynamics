@@ -240,7 +240,7 @@ class TestNumericalSolver:
             condition_solution.state.get_instant() - initial_state.get_instant()
         ).in_seconds()
 
-        assert abs(float(time - custom_condition.get_target())) < 1e-6
+        assert abs(float(time - custom_condition.get_target().value)) < 1e-6
 
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))

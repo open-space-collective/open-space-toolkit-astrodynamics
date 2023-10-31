@@ -25,11 +25,6 @@ def gravitational_parameter() -> Derived:
 
 
 @pytest.fixture
-def target() -> float:
-    return 7e6
-
-
-@pytest.fixture
 def frame() -> Frame:
     return Frame.GCRF()
 
