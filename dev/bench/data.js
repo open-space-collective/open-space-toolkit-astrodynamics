@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1698414116167,
+  "lastUpdate": 1698782742733,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -324,6 +324,60 @@ window.BENCHMARK_DATA = {
             "value": 4911006627.200004,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4910453790.000006 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "be6a9af7714f7491ec0aa513cbcf1e5c8a7e1a0d",
+          "message": "feat: Event Condition termination for Sequences (#262)\n\n* feat: add event condition option to a Sequence\r\n\r\n* feat: add python bindings and test\r\n\r\n* chore: style\r\n\r\n* feat: formatting\r\n\r\n* feat: fix docs\r\n\r\n* feat: address Kyle's feedback\r\n\r\n---------\r\n\r\nCo-authored-by: Vishwa Shah <vishwa@loftorbital.com>",
+          "timestamp": "2023-10-31T19:26:46Z",
+          "tree_id": "143ac51b7a3ea11ed86b78414ea3f6f63a0fd682",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/be6a9af7714f7491ec0aa513cbcf1e5c8a7e1a0d"
+        },
+        "date": 1698782742038,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 695246790.9000007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 694947969.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1480103697.6000035,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1479855249.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4144411764.099993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4143754709.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4143399230.899991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4143203209.999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4143605290.6999917,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4143386370 ns\nthreads: 1"
           }
         ]
       }
