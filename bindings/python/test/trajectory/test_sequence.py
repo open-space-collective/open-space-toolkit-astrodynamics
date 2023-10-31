@@ -371,7 +371,13 @@ class TestSequence:
 
         assert len(sequence.get_segments()) == segments_count + 1
 
-    def test_solve(self, state: State, sequence: Sequence, segments: list[Segment]):
+    def test_solve(
+        self,
+        state: State,
+        sequence: Sequence,
+        segments: list[Segment],
+        instant_condition: InstantCondition,
+    ):
         solution = sequence.solve(state)
 
         assert len(solution.segment_solutions) == len(segments)
@@ -388,3 +394,6 @@ class TestSequence:
 
         assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
+
+        assert sequence.solve(state, Duration.minutes(5.0)) is not None
+        assert sequence.solve(state, Duration.hours(5.0), instant_condition) is not None

@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
@@ -70,6 +71,7 @@ using ostk::astro::dynamics::thruster::ConstantThrust;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::eventcondition::RealCondition;
+using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
@@ -309,6 +311,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 {
+    // default solve
     {
         const Sequence::Solution solution = defaultSequence_.solve(defaultState_);
 
@@ -330,6 +333,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         EXPECT_EQ(solution.getStates().getSize(), statesSize);
     }
 
+    // segment termination due to maximum propagation duration
     {
         const Sequence sequence = {
             defaultSegments_,
@@ -344,6 +348,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         EXPECT_FALSE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+    }
+
+    // sequence termination maximum propagation duration
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Seconds(0.1));
+
+        EXPECT_FALSE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    }
+
+    // sequence completion due to event condition
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
+        };
+
+        Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
+        );
+
+        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Days(1.0), eventCondition);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    }
+
+    // sequence failure, event condition not met
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
+        };
+
+        Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(30.0)
+        );
+
+        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Days(30.0), eventCondition);
+
+        EXPECT_FALSE(solution.executionIsComplete);
     }
 }
 
