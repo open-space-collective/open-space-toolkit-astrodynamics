@@ -400,6 +400,66 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
     {
         EXPECT_NO_THROW(defaultPropagator_.calculateStateAt(state, instant));
     }
+
+    {
+        // Test that the propagator respects the input Frame
+        const State outputStateGCRF = defaultPropagator_.calculateStateAt(state, instantArray[0]);
+        const State outputStateITRF =
+            defaultPropagator_.calculateStateAt(state.inFrame(Frame::ITRF()), instantArray[0]);
+
+        EXPECT_EQ(outputStateGCRF.getFrame(), Frame::GCRF());
+        EXPECT_EQ(outputStateITRF.getFrame(), Frame::ITRF());
+
+        const State outputStateGCRF2 = outputStateITRF.inFrame(Frame::GCRF());
+
+        EXPECT_EQ(outputStateGCRF.getInstant(), outputStateGCRF2.getInstant());
+        EXPECT_EQ(outputStateGCRF.getFrame(), outputStateGCRF2.getFrame());
+        EXPECT_EQ(outputStateGCRF.accessCoordinatesBroker(), outputStateGCRF2.accessCoordinatesBroker());
+
+        // Get the coordinates from the two states
+        const VectorXd coordinates1 = outputStateGCRF.getCoordinates();
+        const VectorXd coordinates2 = outputStateGCRF2.getCoordinates();
+
+        // Check that the two vectors have the same size
+        EXPECT_EQ(coordinates1.size(), coordinates2.size());
+
+        // Check that each element of the two vectors is close
+        for (int i = 0; i < coordinates1.size(); ++i)
+        {
+            EXPECT_NEAR(coordinates1(i), coordinates2(i), 1e-5);
+        }
+    }
+
+    {
+        // Test that the propagator respects the input State dimensions
+
+        VectorXd coords(8);
+        coords << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 1, 2;
+
+        const Array<Shared<const CoordinatesSubset>> coordinatesSubsets = {
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra1", 1)),
+            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra2", 1)),
+        };
+
+        const State bigState = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            coords,
+            gcrfSPtr_,
+            coordinatesSubsets,
+        };
+
+        // Confirm the propagator only needs 6 dimensions
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(bigState.getCoordinates().size(), 8);
+
+        const State outputState = defaultPropagator_.calculateStateAt(bigState, instantArray[0]);
+
+        EXPECT_NE(bigState, outputState);
+        EXPECT_EQ(bigState.getCoordinatesSubsets(), outputState.getCoordinatesSubsets());
+        EXPECT_EQ(outputState.getCoordinates().size(), 8);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStateAt_Condition)
@@ -437,6 +497,100 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         };
 
         EXPECT_FALSE(propagator.calculateStateToCondition(state, endInstant, failureCondition).conditionIsSatisfied);
+    }
+
+    {
+        // Current state and instant setup
+        const State state = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+        };
+
+        // Setup instants
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
+
+        const InstantCondition condition = {
+            InstantCondition::Criterion::StrictlyPositive,
+            state.accessInstant() + Duration::Seconds(60.0),
+        };
+
+        const Propagator propagator = {defaultRKD5_, defaultDynamics_};
+
+        const NumericalSolver::ConditionSolution conditionSolutionGCRF =
+            propagator.calculateStateToCondition(state, endInstant, condition);
+
+        const NumericalSolver::ConditionSolution conditionSolutionITRF =
+            propagator.calculateStateToCondition(state.inFrame(Frame::ITRF()), endInstant, condition);
+
+        // Test that the propagator respects the input Frame
+        const State outputStateGCRF = conditionSolutionGCRF.state;
+        const State outputStateITRF = conditionSolutionITRF.state;
+
+        EXPECT_EQ(outputStateGCRF.getFrame(), Frame::GCRF());
+        EXPECT_EQ(outputStateITRF.getFrame(), Frame::ITRF());
+
+        const State outputStateGCRF2 = outputStateITRF.inFrame(Frame::GCRF());
+
+        EXPECT_EQ(outputStateGCRF.getFrame(), outputStateGCRF2.getFrame());
+        EXPECT_EQ(outputStateGCRF.accessCoordinatesBroker(), outputStateGCRF2.accessCoordinatesBroker());
+
+        // Get the coordinates from the two states
+        const VectorXd coordinates1 = outputStateGCRF.getCoordinates();
+        const VectorXd coordinates2 = outputStateGCRF2.getCoordinates();
+
+        // Check that the two vectors have the same size
+        EXPECT_EQ(coordinates1.size(), coordinates2.size());
+
+        // Check that each element of the two vectors is close
+        for (int i = 0; i < coordinates1.size(); ++i)
+        {
+            EXPECT_NEAR(coordinates1(i), coordinates2(i), 1e-5);
+        }
+    }
+
+    {
+        // Test that the propagator respects the input State dimensions
+
+        VectorXd coords(8);
+        coords << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 1, 2;
+
+        const Array<Shared<const CoordinatesSubset>> coordinatesSubsets = {
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra1", 1)),
+            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra2", 1)),
+        };
+
+        const State bigState = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            coords,
+            gcrfSPtr_,
+            coordinatesSubsets,
+        };
+
+        // Setup instants
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
+
+        const InstantCondition condition = {
+            InstantCondition::Criterion::StrictlyPositive,
+            bigState.accessInstant() + Duration::Seconds(60.0),
+        };
+
+        const Propagator propagator = {defaultRKD5_, defaultDynamics_};
+
+        // Confirm the propagator only needs 6 dimensions
+        EXPECT_EQ(propagator.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(bigState.getCoordinates().size(), 8);
+
+        const NumericalSolver::ConditionSolution conditionSolution =
+            propagator.calculateStateToCondition(bigState, endInstant, condition);
+
+        const State outputState = conditionSolution.state;
+
+        EXPECT_NE(bigState, outputState);
+        EXPECT_EQ(bigState.getCoordinatesSubsets(), outputState.getCoordinatesSubsets());
+        EXPECT_EQ(outputState.getCoordinates().size(), 8);
     }
 }
 
@@ -595,6 +749,80 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
             // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
+        }
+    }
+
+    {
+        // Current state and instant setup
+        const State state = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+        };
+
+        // Test that the propagator respects the input Frame
+        const Array<State> outputStatesGCRF = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> outputStatesITRF =
+            defaultPropagator_.calculateStatesAt(state.inFrame(Frame::ITRF()), instantArray);
+
+        // Validation loop
+        for (size_t i = 0; i < outputStatesGCRF.getSize(); i++)
+        {
+            EXPECT_EQ(outputStatesGCRF[i].getFrame(), Frame::GCRF());
+            EXPECT_EQ(outputStatesITRF[i].getFrame(), Frame::ITRF());
+
+            const State outputStateGCRF2 = outputStatesITRF[i].inFrame(Frame::GCRF());
+
+            EXPECT_EQ(outputStatesGCRF[i].getInstant(), outputStateGCRF2.getInstant());
+            EXPECT_EQ(outputStatesGCRF[i].getFrame(), outputStateGCRF2.getFrame());
+            EXPECT_EQ(outputStatesGCRF[i].accessCoordinatesBroker(), outputStateGCRF2.accessCoordinatesBroker());
+
+            // Get the coordinates from the two states
+            const VectorXd coordinates1 = outputStatesGCRF[i].getCoordinates();
+            const VectorXd coordinates2 = outputStateGCRF2.getCoordinates();
+
+            // Check that the two vectors have the same size
+            EXPECT_EQ(coordinates1.size(), coordinates2.size());
+
+            // Check that each element of the two vectors is close
+            for (int j = 0; j < coordinates1.size(); ++j)
+            {
+                EXPECT_NEAR(coordinates1(j), coordinates2(j), 1e-3);
+            }
+        }
+    }
+
+    {
+        // Test that the propagator respects the input State dimensions
+
+        VectorXd coords(8);
+        coords << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 1, 2;
+
+        const Array<Shared<const CoordinatesSubset>> coordinatesSubsets = {
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra1", 1)),
+            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra2", 1)),
+        };
+
+        const State bigState = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            coords,
+            gcrfSPtr_,
+            coordinatesSubsets,
+        };
+
+        // Confirm the propagator only needs 6 dimensions
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(bigState.getCoordinates().size(), 8);
+
+        const Array<State> outputStates = defaultPropagator_.calculateStatesAt(bigState, instantArray);
+
+        for (size_t i = 0; i < outputStates.getSize(); i++)
+        {
+            EXPECT_NE(bigState, outputStates[i]);
+            EXPECT_EQ(bigState.getCoordinatesSubsets(), outputStates[i].getCoordinatesSubsets());
+            EXPECT_EQ(outputStates[i].getCoordinates().size(), 8);
         }
     }
 }
@@ -2215,7 +2443,8 @@ TEST_F(
     SWManager::Get().reset();
 }
 
-// TBI: Specific class for parameterized tests on thruster dynamics, could inherit from base fixture for common inputs
+// TBI: Specific class for parameterized tests on thruster dynamics, could inherit from base fixture for common
+
 // error: 'testing::Test' is an ambiguous base
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     : public ::testing::TestWithParam<
@@ -2511,16 +2740,21 @@ TEST_P(
         // std::cout << "Mass error is: " << massError << "kg" << std::endl;
         // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] -
         // referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
-        // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] << "m/s^2"
+        // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] <<
+        // "m/s^2"
         // << std::endl; std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] -
         // referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
-        // error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2" <<
+        // error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2"
+        // <<
         // std::endl; std::cout << "Maneuver acceleration error LOF Y is: " << maneuverContributionLOF[1] -
         // referenceManeuverAccelerationArrayLOF[i][1] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
-        // error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2" <<
-        // std::endl; std::cout << "Maneuver acceleration error GCRF is: " << maneuverAccelerationContributionErrorGCRF
+        // error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2"
+        // <<
+        // std::endl; std::cout << "Maneuver acceleration error GCRF is: " <<
+        // maneuverAccelerationContributionErrorGCRF
         // << "m/s^2" << std::endl; // Do it in percentage std::cout << "Maneuver acceleration error LOF is: " <<
-        // maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl; std::cout << "Total acceleration (central
+        // maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl; std::cout << "Total acceleration
+        // (central
         // body + maneuver) error GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl; std::cout <<
         // "Central body acceleration contribution error GCRF is: " <<
         // centralBodyGravityAccelerationContributionErrorGCRF << "m/s^2" << std::endl;
@@ -2599,7 +2833,7 @@ INSTANTIATE_TEST_SUITE_P(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
             "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00-00-00.000_115.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_"
             "0.0_30.0.csv",                                 // Scenario validation data file path
-            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust
             Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
             100.0,                                          // Satellite dry mass [kg]
             0.1,                                            // Thrust [N]
@@ -3059,7 +3293,8 @@ TEST_P(
         // std::cout << "Mass error is: " << massError << "kg" << std::endl;
         // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] -
         // referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
-        // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] << "m/s^2"
+        // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] <<
+        // "m/s^2"
         // << std::endl; std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] -
         // referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
         // error GCRF is: " << maneuverAccelerationContributionErrorGCRF << "m/s^2" << std::endl;  // Do it in
@@ -3068,7 +3303,8 @@ TEST_P(
         // std::cout << "Drag acceleration error GCRF is: " << dragAccelerationContributionErrorGCRF << "m/s^2" <<
         // std::endl;  // Do it in percentage std::cout << "Total acceleration (centralbody + maneuver + drag) error
         // GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield); std::cout << "**************************************"
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield); std::cout <<
+        // "**************************************"
         // << std::endl;
     }
 }

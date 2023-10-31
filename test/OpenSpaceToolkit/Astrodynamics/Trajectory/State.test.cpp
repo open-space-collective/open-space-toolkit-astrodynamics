@@ -928,6 +928,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(velocity, state.getVelocity());
         EXPECT_EQ(coordinates, state.getCoordinates());
         EXPECT_EQ(state.getCoordinatesSubsets(), brokerSPtr->getSubsets());
+        EXPECT_TRUE(state.hasSubset(CartesianPosition::Default()));
+        EXPECT_TRUE(state.hasSubset(CartesianVelocity::Default()));
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
 
@@ -944,6 +946,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(instant, state.getInstant());
         EXPECT_EQ(position, state.getPosition());
         EXPECT_EQ(velocity, state.getVelocity());
+        EXPECT_TRUE(state.hasSubset(CartesianPosition::Default()));
+        EXPECT_TRUE(state.hasSubset(CartesianVelocity::Default()));
         EXPECT_EQ(coordinates, state.getCoordinates());
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
@@ -972,6 +976,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getVelocity());
         EXPECT_ANY_THROW(State::Undefined().getCoordinates());
         EXPECT_ANY_THROW(State::Undefined().getCoordinatesSubsets());
+        EXPECT_ANY_THROW(State::Undefined().hasSubset(CartesianPosition::Default()));
         EXPECT_ANY_THROW(State::Undefined().getFrame());
     }
 }

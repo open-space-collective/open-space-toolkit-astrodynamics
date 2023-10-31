@@ -14,18 +14,73 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11
     using ostk::astro::dynamics::CentralBodyGravity;
 
     {
-        class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(aModule, "CentralBodyGravity")
-            .def(init<const Shared<Celestial>&>(), arg("celestial"))
+        class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(
+            aModule,
+            "CentralBodyGravity",
+            R"doc(
+                The central-body gravity model.
+
+                Group:
+                    dynamics
+            )doc"
+        )
+            .def(
+                init<const Shared<Celestial>&>(),
+                arg("celestial"),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        celestial (Celestial): The central body.
+
+                )doc"
+            )
 
             .def("__str__", &(shiftToString<CentralBodyGravity>))
             .def("__repr__", &(shiftToString<CentralBodyGravity>))
 
-            .def("is_defined", &CentralBodyGravity::isDefined)
+            .def(
+                "is_defined",
+                &CentralBodyGravity::isDefined,
+                R"doc(
+                    Check if the central-body gravity is defined.
 
-            .def("get_celestial", &CentralBodyGravity::getCelestial)
+                    Returns:
+                        bool: True if the central-body gravity is defined, False otherwise.
+
+                )doc"
+            )
 
             .def(
-                "compute_contribution", &CentralBodyGravity::computeContribution, arg("instant"), arg("x"), arg("frame")
+                "get_celestial",
+                &CentralBodyGravity::getCelestial,
+                R"doc(
+                    Get the central body.
+
+                    Returns:
+                        Celestial: The central body.
+
+                )doc"
+            )
+
+            .def(
+                "compute_contribution",
+                &CentralBodyGravity::computeContribution,
+                arg("instant"),
+                arg("x"),
+                arg("frame"),
+                R"doc(
+                    Compute the contribution of the central-body gravity to the state vector.
+
+                    Args:
+                        instant (Instant): The instant of the state vector.
+                        x (numpy.ndarray): The state vector.
+                        frame (Frame): The reference frame.
+
+                    Returns:
+                        numpy.ndarray: The contribution of the central-body gravity to the state vector.
+
+                )doc"
             );
     }
 }

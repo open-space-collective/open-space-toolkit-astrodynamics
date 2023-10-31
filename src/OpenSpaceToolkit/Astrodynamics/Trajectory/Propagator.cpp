@@ -143,18 +143,21 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const State state = {
-        aState.accessInstant(),
-        aState.inFrame(Propagator::IntegrationFrameSPtr).extractCoordinates(this->coordinatesBrokerSPtr_->getSubsets()),
-        Propagator::IntegrationFrameSPtr,
-        this->coordinatesBrokerSPtr_,
-    };
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
 
-    return numericalSolver_.integrateTime(
-        state,
+    const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
+
+    const State solverOutputState = numericalSolver_.integrateTime(
+        solverInputState,
         anInstant,
-        Dynamics::GetSystemOfEquations(this->dynamicsContexts_, state.accessInstant(), Propagator::IntegrationFrameSPtr)
+        Dynamics::GetSystemOfEquations(
+            this->dynamicsContexts_, solverInputState.accessInstant(), Propagator::IntegrationFrameSPtr
+        )
     );
+
+    const StateBuilder outputStateBuilder = {aState};
+
+    return outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState);
 }
 
 NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
@@ -168,19 +171,20 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     const Instant startInstant = aState.getInstant();
 
-    const State state = {
-        aState.accessInstant(),
-        aState.inFrame(Propagator::IntegrationFrameSPtr).extractCoordinates(this->coordinatesBrokerSPtr_->getSubsets()),
-        Propagator::IntegrationFrameSPtr,
-        this->coordinatesBrokerSPtr_,
-    };
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
 
-    const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
-        state,
+    const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
+
+    NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
+        solverInputState,
         anInstant,
         Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr),
         anEventCondition
     );
+
+    const StateBuilder outputStateBuilder = {aState};
+
+    conditionSolution.state = outputStateBuilder.expand(conditionSolution.state.inFrame(aState.accessFrame()), aState);
 
     return conditionSolution;
 }
@@ -210,19 +214,18 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
-    const State state = {
-        aState.accessInstant(),
-        aState.inFrame(Propagator::IntegrationFrameSPtr).extractCoordinates(this->coordinatesBrokerSPtr_->getSubsets()),
-        Propagator::IntegrationFrameSPtr,
-        this->coordinatesBrokerSPtr_,
-    };
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
 
-    const Instant startInstant = state.accessInstant();
+    const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
+
+    const Instant startInstant = solverInputState.accessInstant();
 
     Array<Instant> forwardInstants;
     forwardInstants.reserve(anInstantArray.getSize());
     Array<Instant> backwardInstants;
     backwardInstants.reserve(anInstantArray.getSize());
+
+    const StateBuilder outputStateBuilder(aState);
 
     for (const Instant& anInstant : anInstantArray)
     {
@@ -241,7 +244,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     if (!forwardInstants.isEmpty())
     {
         forwardPropagatedStates = numericalSolver_.integrateTime(
-            state,
+            solverInputState,
             forwardInstants,
             Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr)
         );
@@ -254,7 +257,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardInstants.begin(), backwardInstants.end());
 
         backwardPropagatedStates = numericalSolver_.integrateTime(
-            state,
+            solverInputState,
             backwardInstants,
             Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr)
         );
@@ -262,7 +265,15 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
     }
 
-    return backwardPropagatedStates + forwardPropagatedStates;
+    Array<State> outputStates;
+    outputStates.reserve(backwardPropagatedStates.getSize() + forwardPropagatedStates.getSize());
+
+    for (const State& solverOutputState : backwardPropagatedStates + forwardPropagatedStates)
+    {
+        outputStates.add(outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState));
+    }
+
+    return outputStates;
 }
 
 void Propagator::print(std::ostream& anOutputStream, bool displayDecorator) const

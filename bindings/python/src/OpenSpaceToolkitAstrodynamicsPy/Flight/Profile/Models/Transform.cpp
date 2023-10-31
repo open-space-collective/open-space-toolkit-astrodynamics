@@ -16,22 +16,134 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Transform(pybi
     using ostk::astro::flight::profile::State;
     using ostk::astro::flight::profile::models::Transform;
 
-    class_<Transform, Model>(aModule, "Transform")
+    class_<Transform, Model>(
+        aModule,
+        "Transform",
+        R"doc(
+            A flight profile model defined by a transform.
 
-        .def(init<const DynamicProvider&, const Shared<const Frame>&>(), arg("dynamic_provider"), arg("frame"))
+            Group:
+                profile
+        )doc"
+    )
+
+        .def(
+            init<const DynamicProvider&, const Shared<const Frame>&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    dynamic_provider (DynamicProvider): The dynamic provider of the transform.
+                    frame (Frame): The frame of the transform.
+
+             )doc",
+            arg("dynamic_provider"),
+            arg("frame")
+        )
 
         .def("__str__", &(shiftToString<State>))
         .def("__repr__", &(shiftToString<State>))
 
-        .def("is_defined", &Transform::isDefined)
+        .def(
+            "is_defined",
+            &Transform::isDefined,
+            R"doc(
+                Check if the model is defined.
 
-        .def("calculate_state_at", &Transform::calculateStateAt, arg("instant"))
-        .def("get_axes_at", &Transform::getAxesAt, arg("instant"))
-        .def("get_body_frame", &Transform::getBodyFrame, arg("frame_name"))
+                Returns:
+                    bool: True if the model is defined, False otherwise.
+             )doc"
+        )
 
-        .def_static("undefined", &Transform::Undefined)
-        .def_static("inertial_pointing", &Transform::InertialPointing, arg("trajectory"), arg("quaternion"))
-        .def_static("nadir_pointing", &Transform::NadirPointing, arg("orbit"), arg("orbital_frame_type"))
+        .def(
+            "calculate_state_at",
+            &Transform::calculateStateAt,
+            R"doc(
+                Calculate the state of the model at a specific instant.
+
+                Args:
+                    instant (Instant): The instant at which to calculate the state.
+
+                Returns:
+                    State: The state of the model at the specified instant.
+             )doc",
+            arg("instant")
+        )
+
+        .def(
+            "get_axes_at",
+            &Transform::getAxesAt,
+            R"doc(
+                Get the axes of the model at a specific instant.
+
+                Args:
+                    instant (Instant): The instant at which to get the axes.
+
+                Returns:
+                    numpy.ndarray: The axes of the model at the specified instant.
+             )doc",
+            arg("instant")
+        )
+
+        .def(
+            "get_body_frame",
+            &Transform::getBodyFrame,
+            R"doc(
+                Get the body frame of the model with the specified name.
+
+                Args:
+                    frame_name (str): The name of the body frame.
+
+                Returns:
+                    Frame: The body frame of the model with the specified name.
+             )doc",
+            arg("frame_name")
+        )
+
+        .def_static(
+            "undefined",
+            &Transform::Undefined,
+            R"doc(
+                Get an undefined transform.
+
+                Returns:
+                    Transform: The undefined transform.
+             )doc"
+        )
+
+        .def_static(
+            "inertial_pointing",
+            &Transform::InertialPointing,
+            R"doc(
+                Create a transform for inertial pointing.
+
+                Args:
+                    trajectory (Trajectory): The trajectory to point at.
+                    quaternion (Quaternion): The quaternion to rotate the axes by.
+
+                Returns:
+                    Transform: The transform for inertial pointing.
+             )doc",
+            arg("trajectory"),
+            arg("quaternion")
+        )
+
+        .def_static(
+            "nadir_pointing",
+            &Transform::NadirPointing,
+            R"doc(
+                Create a transform for nadir pointing.
+
+                Args:
+                    orbit (Orbit): The orbit to point at.
+                    orbital_frame_type (OrbitalFrameType): The type of the orbital frame.
+
+                Returns:
+                    Transform: The transform for nadir pointing.
+             )doc",
+            arg("orbit"),
+            arg("orbital_frame_type")
+        )
 
         ;
 }

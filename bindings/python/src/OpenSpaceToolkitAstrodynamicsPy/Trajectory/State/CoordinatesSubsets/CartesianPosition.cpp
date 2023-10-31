@@ -14,28 +14,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
     pybind11::module& aModule
 )
 {
-    class_<CartesianPosition, Shared<CartesianPosition>, CoordinatesSubset>(aModule, "CartesianPosition")
+    class_<CartesianPosition, Shared<CartesianPosition>, CoordinatesSubset>(
+        aModule,
+        "CartesianPosition",
+        R"doc(
+            Cartesian position coordinates subset.
 
-        .def(init<const String&>(), arg("name"))
+            Defined with respect to a reference frame.
+
+            Group:
+                state
+        )doc"
+    )
 
         .def(
-            "add",
-            &CartesianPosition::add,
-            arg("instant"),
-            arg("coordinates"),
-            arg("another_coordinates"),
-            arg("frame"),
-            arg("coordinates_broker")
+            init<const String&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    name (str): The name of the subset.
+
+            )doc",
+            arg("name")
         )
-        .def(
-            "subtract",
-            &CartesianPosition::subtract,
-            arg("instant"),
-            arg("coordinates"),
-            arg("another_coordinates"),
-            arg("frame"),
-            arg("coordinates_broker")
-        )
+
         .def(
             "in_frame",
             &CartesianPosition::inFrame,
@@ -43,10 +46,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
             arg("coordinates"),
             arg("from_frame"),
             arg("to_frame"),
-            arg("coordinates_broker")
+            arg("coordinates_broker"),
+            R"doc(
+                Convert a Cartesian position from one reference frame to another.
+
+                Args:
+                    instant (Instant): The instant of the conversion.
+                    coordinates (numpy.ndarray): The Cartesian position to convert.
+                    from_frame (str): The reference frame of the input Cartesian position.
+                    to_frame (str): The reference frame of the output Cartesian position.
+                    coordinates_broker (CoordinatesBroker): The coordinates broker.
+
+                Returns:
+                    numpy.ndarray: The Cartesian position in the output reference frame.
+
+            )doc"
         )
 
-        .def_static("default", &CartesianPosition::Default)
+        .def_static(
+            "default",
+            &CartesianPosition::Default,
+            R"doc(
+                Get the default Cartesian position subset.
+
+                Returns:
+                    CartesianPosition: The default Cartesian position subset.
+            )doc"
+        )
 
         ;
 }

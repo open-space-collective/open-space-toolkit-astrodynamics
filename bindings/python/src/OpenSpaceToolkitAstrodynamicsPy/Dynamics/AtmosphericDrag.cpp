@@ -14,16 +14,73 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
     using ostk::astro::dynamics::AtmosphericDrag;
 
     {
-        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(aModule, "AtmosphericDrag")
-            .def(init<const Shared<Celestial>&>(), arg("celestial"))
+        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(
+            aModule,
+            "AtmosphericDrag",
+            R"doc(
+                The atmospheric drag dynamics.
+
+                Group:
+                    dynamics
+            )doc"
+        )
+            .def(
+                init<const Shared<Celestial>&>(),
+                arg("celestial"),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        celestial (Celestial): The celestial body.
+
+                )doc"
+            )
 
             .def("__str__", &(shiftToString<AtmosphericDrag>))
             .def("__repr__", &(shiftToString<AtmosphericDrag>))
 
-            .def("is_defined", &AtmosphericDrag::isDefined)
+            .def(
+                "is_defined",
+                &AtmosphericDrag::isDefined,
+                R"doc(
+                    Check if the atmospheric drag is defined.
 
-            .def("get_celestial", &AtmosphericDrag::getCelestial)
+                    Returns:
+                        bool: True if the atmospheric drag is defined, False otherwise.
 
-            .def("compute_contribution", &AtmosphericDrag::computeContribution, arg("instant"), arg("x"), arg("frame"));
+                )doc"
+            )
+
+            .def(
+                "get_celestial",
+                &AtmosphericDrag::getCelestial,
+                R"doc(
+                    Get the celestial body.
+
+                    Returns:
+                        Celestial: The celestial body.
+
+                )doc"
+            )
+
+            .def(
+                "compute_contribution",
+                &AtmosphericDrag::computeContribution,
+                arg("instant"),
+                arg("x"),
+                arg("frame"),
+                R"doc(
+                    Compute the contribution of the atmospheric drag to the state vector.
+
+                    Args:
+                        instant (Instant): The instant of the state vector.
+                        x (numpy.ndarray): The state vector.
+                        frame (Frame): The reference frame.
+
+                    Returns:
+                        numpy.ndarray: The contribution of the atmospheric drag to the state vector.
+
+                )doc"
+            );
     }
 }

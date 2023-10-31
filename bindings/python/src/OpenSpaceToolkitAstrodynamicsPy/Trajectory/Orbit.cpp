@@ -29,21 +29,66 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::astro::trajectory::orbit::models::SGP4;
 
     {
-        class_<Orbit, ostk::astro::Trajectory> orbit_class(aModule, "Orbit");
+        class_<Orbit, ostk::astro::Trajectory> orbit_class(
+            aModule,
+            "Orbit",
+            R"doc(
+                Gravitationally curved trajectory of an object.
+
+                Group:
+                    orbit
+            )doc"
+        );
+
+        enum_<Orbit::FrameType>(
+            orbit_class,
+            "FrameType",
+            R"doc(
+                The local orbital frame type.
+            )doc"
+        )
+
+            .value("Undefined", Orbit::FrameType::Undefined, "Undefined")
+            .value("NED", Orbit::FrameType::NED, "North-East-Down")
+            .value("LVLH", Orbit::FrameType::LVLH, "Local Vertical-Local Horizontal")
+            .value("LVLHGD", Orbit::FrameType::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
+            .value("VVLH", Orbit::FrameType::VVLH, "Vertical-Local Horizontal")
+            .value("QSW", Orbit::FrameType::QSW, "Quasi-Satellite West")
+            .value("TNW", Orbit::FrameType::TNW, "Topocentric North-West")
+            .value("VNC", Orbit::FrameType::VNC, "Velocity-Normal-Co-normal")
+
+            ;
 
         orbit_class
 
             .def(
                 init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>(),
                 arg("model"),
-                arg("celestial_object")
+                arg("celestial_object"),
+                R"doc(
+                    Constructs an `Orbit` object.
+
+                    Args:
+                        model (orbit.Model): The orbit model.
+                        celestial_object (Celestial): The celestial object.
+
+                )doc"
             )
 
             .def(
                 init<const Array<State>&, const Integer&, const Shared<const Celestial>&>(),
                 arg("states"),
                 arg("initial_revolution_number"),
-                arg("celestial_object")
+                arg("celestial_object"),
+                R"doc(
+                    Constructs an `Orbit` object.
+
+                    Args:
+                        states (Array<State>): The states.
+                        initial_revolution_number (Integer): The initial revolution number.
+                        celestial_object (Celestial): The celestial object.
+
+                )doc"
             )
 
             .def(self == self)
@@ -52,51 +97,182 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             .def("__str__", &(shiftToString<Orbit>))
             .def("__repr__", &(shiftToString<Orbit>))
 
-            .def("is_defined", &Orbit::isDefined)
+            .def(
+                "is_defined",
+                &Orbit::isDefined,
+                R"doc(
+                    Check if the `Orbit` object is defined.
 
-            .def("access_model", &Orbit::accessModel, return_value_policy::reference)  // [TBR]
+                    Returns:
+                        bool: True if the `Orbit` object is defined, False otherwise.
+
+                )doc"
+            )
+
+            .def(
+                "access_model",
+                &Orbit::accessModel,
+                return_value_policy::reference,
+                R"doc(
+                    Access the orbit model.
+
+                    Returns:
+                        orbit.Model: The orbit model.
+
+                )doc"
+            )
             .def(
                 "access_kepler_model",
                 +[](const Orbit& anOrbit) -> const Kepler&
                 {
                     return anOrbit.accessModel().as<Kepler>();
                 },
-                return_value_policy::reference
-            )  // [TBR]
+                return_value_policy::reference,
+                R"doc(
+                    Access the Kepler orbit model.
+
+                    Returns:
+                       Kepler: The Kepler orbit model.
+
+                )doc"
+            )
             .def(
                 "access_sgp4_model",
                 +[](const Orbit& anOrbit) -> const SGP4&
                 {
                     return anOrbit.accessModel().as<SGP4>();
                 },
-                return_value_policy::reference
-            )  // [TBR]
+                return_value_policy::reference,
+                R"doc(
+                    Access the SGP4 orbit model.
+
+                    Returns:
+                        SGP4: The SGP4 orbit model.
+
+                )doc"
+            )
             .def(
                 "access_propagated_model",
                 +[](const Orbit& anOrbit) -> const Propagated&
                 {
                     return anOrbit.accessModel().as<Propagated>();
                 },
-                return_value_policy::reference
-            )  // [TBR]
+                return_value_policy::reference,
+                R"doc(
+                    Access the propagated orbit model.
+
+                    Returns:
+                        Propagated: The propagated orbit model.
+
+                )doc"
+            )
             .def(
                 "access_tabulated_model",
                 +[](const Orbit& anOrbit) -> const Tabulated&
                 {
                     return anOrbit.accessModel().as<Tabulated>();
                 },
-                return_value_policy::reference
-            )  // [TBR]
+                return_value_policy::reference,
+                R"doc(
+                    Access the tabulated orbit model.
 
-            .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt, arg("instant"))
-            .def("get_pass_at", &Orbit::getPassAt, arg("instant"))
-            .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber, arg("revolution_number"))
-            .def("get_orbital_frame", &Orbit::getOrbitalFrame, arg("frame_type"))
+                    Returns:
+                        Tabulated: The tabulated orbit model.
 
-            .def_static("undefined", &Orbit::Undefined)
+                )doc"
+            )
+
+            .def(
+                "get_revolution_number_at",
+                &Orbit::getRevolutionNumberAt,
+                R"doc(
+                    Get the revolution number at a given instant.
+
+                    Args:
+                        instant (Instant): The instant.
+
+                    Returns:
+                        int: The revolution number.
+
+                )doc",
+                arg("instant")
+            )
+            .def(
+                "get_pass_at",
+                &Orbit::getPassAt,
+                R"doc(
+                    Get the pass at a given instant.
+
+                    Args:
+                        instant (Instant): The instant.
+
+                    Returns:
+                        ostk::astro::trajectory::orbit::Pass: The pass.
+
+                )doc",
+                arg("instant")
+            )
+            .def(
+                "get_pass_with_revolution_number",
+                &Orbit::getPassWithRevolutionNumber,
+                R"doc(
+                    Get the pass with a given revolution number.
+
+                    Args:
+                        revolution_number (int): The revolution number.
+
+                    Returns:
+                        Pass: The pass.
+
+                )doc",
+                arg("revolution_number")
+            )
+            .def(
+                "get_orbital_frame",
+                &Orbit::getOrbitalFrame,
+                R"doc(
+                    Get the orbital frame.
+
+                    Args:
+                        frame_type (Orbit::FrameType): The frame type.
+
+                    Returns:
+                        Frame: The orbital frame.
+
+                )doc",
+                arg("frame_type")
+            )
 
             .def_static(
-                "circular", &Orbit::Circular, arg("epoch"), arg("altitude"), arg("inclination"), arg("celestial_object")
+                "undefined",
+                &Orbit::Undefined,
+                R"doc(
+                    Get an undefined `Orbit` object.
+
+                    Returns:
+                        Orbit: The undefined `Orbit` object.
+                )doc"
+            )
+
+            .def_static(
+                "circular",
+                &Orbit::Circular,
+                arg("epoch"),
+                arg("altitude"),
+                arg("inclination"),
+                arg("celestial_object"),
+                R"doc(
+                    Create a circular `Orbit` object.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        altitude (double): The altitude.
+                        inclination (double): The inclination.
+                        celestial_object (Celestial): The celestial object.
+
+                    Returns:
+                        Orbit: The circular `Orbit` object.
+                )doc"
             )
 
             .def_static(
@@ -105,7 +281,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("epoch"),
                 arg("apoapsis_altitude"),
                 arg("periapsis_altitude"),
-                arg("celestial_object")
+                arg("celestial_object"),
+                R"doc(
+                    Create an equatorial `Orbit` object.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        apoapsis_altitude (double): The apoapsis altitude.
+                        periapsis_altitude (double): The periapsis altitude.
+                        celestial_object (Celestial): The celestial object.
+
+                    Returns:
+                        Orbit: The equatorial `Orbit` object.
+                )doc"
             )
 
             .def_static(
@@ -113,7 +301,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 &Orbit::CircularEquatorial,
                 arg("epoch"),
                 arg("altitude"),
-                arg("celestial_object")
+                arg("celestial_object"),
+                R"doc(
+                    Create a circular equatorial `Orbit` object.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        altitude (double): The altitude.
+                        celestial_object (Celestial): The celestial object.
+
+                    Returns:
+                        Orbit: The circular equatorial `Orbit` object.
+                )doc"
             )
 
             .def_static(
@@ -122,7 +321,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("epoch"),
                 arg("inclination"),
                 arg("longitude"),
-                arg("celestial_object")
+                arg("celestial_object"),
+                R"doc(
+                    Create a geosynchronous `Orbit` object.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        inclination (double): The inclination.
+                        longitude (double): The longitude.
+                        celestial_object (Celestial): The celestial object.
+
+                    Returns:
+                        Orbit: The geosynchronous `Orbit` object.
+                )doc"
             )
 
             .def_static(
@@ -131,21 +342,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("epoch"),
                 arg("altitude"),
                 arg("local_time_at_descending_node"),
-                arg("celestial_object")
+                arg("celestial_object"),
+                R"doc(
+                    Create a sun-synchronous `Orbit` object.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        altitude (double): The altitude.
+                        local_time_at_descending_node (double): The local time at descending node.
+                        celestial_object (Celestial): The celestial object.
+
+                    Returns:
+                        Orbit: The sun-synchronous `Orbit` object.
+                )doc"
             )
-
-            ;
-
-        enum_<Orbit::FrameType>(orbit_class, "FrameType")
-
-            .value("Undefined", Orbit::FrameType::Undefined)
-            .value("NED", Orbit::FrameType::NED)
-            .value("LVLH", Orbit::FrameType::LVLH)
-            .value("LVLHGD", Orbit::FrameType::LVLHGD)
-            .value("VVLH", Orbit::FrameType::VVLH)
-            .value("QSW", Orbit::FrameType::QSW)
-            .value("TNW", Orbit::FrameType::TNW)
-            .value("VNC", Orbit::FrameType::VNC)
 
             ;
     }

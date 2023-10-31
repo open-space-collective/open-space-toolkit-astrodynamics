@@ -69,7 +69,8 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
     if (target_.isDefined())
     {
-        ostk::core::utils::Print::Line(anOutputStream) << "Target: \n" << getTargetAngle();
+        ostk::core::utils::Print::Line(anOutputStream)
+            << "Target:" << String::Format("{} [deg]", getTargetAngle().inDegrees());
     }
     else
     {
