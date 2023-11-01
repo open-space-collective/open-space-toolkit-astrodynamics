@@ -205,11 +205,6 @@ const Shared<EventCondition>& Segment::accessEventCondition() const
     return eventCondition_;
 }
 
-Shared<EventCondition>& Segment::accessEventCondition()
-{
-    return eventCondition_;
-}
-
 const Array<Shared<Dynamics>>& Segment::accessDynamics() const
 {
     return dynamics_;

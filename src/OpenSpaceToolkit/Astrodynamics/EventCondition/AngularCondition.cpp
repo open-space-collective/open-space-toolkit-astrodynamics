@@ -49,12 +49,12 @@ AngularCondition::Criterion AngularCondition::getCriterion() const
 
 Angle AngularCondition::getTargetAngle() const
 {
-    if (!target_.value_.isDefined())
+    if (!target_.value.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Target");
     }
 
-    return Angle::Radians(target_.value_);
+    return Angle::Radians(target_.value);
 }
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
@@ -73,7 +73,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
-    if (target_.value_.isDefined())
+    if (target_.isDefined())
     {
         ostk::core::utils::Print::Line(anOutputStream)
             << "Target:" << String::Format("{} [deg]", getTargetAngle().inDegrees());
@@ -90,7 +90,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value_ + target_.valueOffset_));
+    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value + target_.valueOffset));
 }
 
 AngularCondition AngularCondition::WithinRange(

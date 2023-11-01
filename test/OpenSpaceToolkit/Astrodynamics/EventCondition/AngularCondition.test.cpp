@@ -29,7 +29,9 @@ using ostk::math::obj::VectorXd;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 using ostk::physics::units::Angle;
+using ostk::physics::units::Length;
 
+using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::StateBuilder;
@@ -67,8 +69,16 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Constructor)
 {
-    EXPECT_NO_THROW(AngularCondition(defaultName_, defaultCriterion_, defaultEvaluator_, defaultTargetAngle_));
-    EXPECT_NO_THROW(AngularCondition::WithinRange(defaultName_, defaultEvaluator_, defaultTargetRange_));
+    {
+        EXPECT_NO_THROW(AngularCondition(defaultName_, defaultCriterion_, defaultEvaluator_, defaultTargetAngle_));
+        EXPECT_NO_THROW(AngularCondition(
+            defaultName_, defaultCriterion_, defaultEvaluator_, EventCondition::Target(defaultTargetAngle_)
+        ));
+    }
+
+    {
+        EXPECT_NO_THROW(AngularCondition::WithinRange(defaultName_, defaultEvaluator_, defaultTargetRange_));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Print)

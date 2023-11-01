@@ -597,6 +597,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
             ++iter;
         }
     }
+
+    {
+        const Shared<AngularCondition> relativeTrueAnomalyCondition =
+            std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
+                AngularCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                EventCondition::Target(Angle::Degrees(5.0), EventCondition::Target::Type::RelativeSequenceStart),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
+
+        const Array<Segment> segments = {
+            Segment::Coast(
+                "Relative True Anomaly", relativeTrueAnomalyCondition, defaultDynamics_, defaultNumericalSolver_
+            ),
+        };
+
+        Sequence sequence = {
+            segments,
+            3,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            Duration::Days(1.0),
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+
+        COE initialCOE = COE::Cartesian(
+            {defaultState_.getPosition(), defaultState_.getVelocity()},
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        );
+
+        for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
+        {
+            EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
+            const COE coe = COE::Cartesian(
+                {segmentSolution.states.accessLast().getPosition(), segmentSolution.states.accessLast().getVelocity()},
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            );
+            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-5);
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)

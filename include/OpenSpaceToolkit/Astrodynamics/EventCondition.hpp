@@ -46,15 +46,19 @@ class EventCondition
         bool operator==(const Target& aTarget) const;
         bool operator!=(const Target& aTarget) const;
 
-        Real value_;
-        Type type_;
-        mutable Real valueOffset_ = 0.0;
+        bool isDefined() const;
+
+        static String StringFromType(const Type& aType);
+
+        const Real value;
+        const Type type;
+        mutable Real valueOffset = 0.0;
     };
 
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, anEvaluator, aTargetValue};
+    ///                         EventCondition eventCondition = {aName, anEvaluator, aTarget};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
@@ -68,7 +72,7 @@ class EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, anEvaluator, aTarget};
+    ///                         EventCondition eventCondition = {aName, anEvaluator, aTargetValue};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition

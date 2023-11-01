@@ -243,11 +243,11 @@ Sequence::Solution Sequence::solve(
     {
         for (const Segment& segment : segments_)
         {
-            if (segment.accessEventCondition()->getTarget().type_ == EventCondition::Target::Type::RelativeSegmentStart)
+            if (segment.accessEventCondition()->getTarget().type == EventCondition::Target::Type::RelativeSegmentStart)
             {
                 segment.accessEventCondition()->updateTarget(initialState);
             }
-            else if (segment.accessEventCondition()->getTarget().type_ == EventCondition::Target::Type::RelativeSequenceStart)
+            else if (segment.accessEventCondition()->getTarget().type == EventCondition::Target::Type::RelativeSequenceStart)
             {
                 segment.accessEventCondition()->updateTarget(aState);
             }

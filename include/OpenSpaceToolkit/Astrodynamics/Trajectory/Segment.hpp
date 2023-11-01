@@ -118,11 +118,6 @@ class Segment
 
     const Shared<EventCondition>& accessEventCondition() const;
 
-    /// @brief                  Access event condition (non-const)
-    /// @return                 Event condition
-
-    Shared<EventCondition>& accessEventCondition();
-
     /// @brief                  Access dynamics
     /// @return                 Dynamics
 

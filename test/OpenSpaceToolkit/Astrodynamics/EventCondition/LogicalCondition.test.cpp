@@ -28,11 +28,13 @@ using ostk::core::types::Shared;
 using ostk::math::obj::VectorXd;
 
 using ostk::physics::time::Instant;
+using ostk::physics::time::Duration;
 using ostk::physics::coord::Frame;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::LogicalCondition;
 using ostk::astro::eventcondition::BooleanCondition;
+using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
@@ -61,8 +63,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     const Array<Shared<EventCondition>> defaultEventConditions_ = {
         alwaysTrueBooleanCondition_, alwaysFalseBooleanCondition_
     };
-    const LogicalCondition defaultLogicalCondition_ =
-        LogicalCondition(defaultName_, defaultType_, defaultEventConditions_);
+    LogicalCondition defaultLogicalCondition_ = LogicalCondition(defaultName_, defaultType_, defaultEventConditions_);
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
     const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
@@ -86,6 +87,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Getters)
 
     {
         EXPECT_EQ(defaultLogicalCondition_.getType(), defaultType_);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, UpdateTarget)
+{
+    {
+        EXPECT_THROW(defaultLogicalCondition_.updateTarget(defaultState_), ostk::core::error::RuntimeError);
+    }
+
+    {
+        LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_,
+            defaultType_,
+            {
+                std::make_shared<RealCondition>(
+                    RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Seconds(30.0))
+                ),
+            }
+        );
+        EXPECT_NO_THROW(logicalCondition.updateTarget(defaultState_));
     }
 }
 

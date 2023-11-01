@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
                     Args:
                         value (float): The value of the target.
-                        type (EventConditionTarget.Type): The type of the target.
+                        type (EventConditionTarget.Type): The type of the target. Defaults to EventConditionTarget.Type.Absolute.
 
                     Returns:
                         event_condition_target (EventConditionTarget): The new `EventConditionTarget` object.
@@ -98,7 +98,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
                     Args:
                         length (Length): The value of the target as a `Length`.
-                        type (EventConditionTarget.Type): The type of the target.
+                        type (EventConditionTarget.Type): The type of the target. Defaults to EventConditionTarget.Type.Absolute.
 
                     Returns:
                         event_condition_target (EventConditionTarget): The new `EventConditionTarget` object.
@@ -114,7 +114,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
                     Args:
                         angle (Angle): The value of the target as an `Angle`.
-                        type (EventConditionTarget.Type): The type of the target.
+                        type (EventConditionTarget.Type): The type of the target. Defaults to EventConditionTarget.Type.Absolute.
 
                     Returns:
                         event_condition_target (EventConditionTarget): The new `EventConditionTarget` object.
@@ -123,9 +123,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                 arg("type") = EventCondition::Target::Type::Absolute
             )
 
+            .def_static(
+                "StringFromType",
+                &EventCondition::Target::StringFromType,
+                R"doc(
+                    Enum as a string
+
+                    Args:
+                        type (EventConditionTarget.Type): The type of the target.
+
+                    Returns:
+                        string (str): Name of the enum as a string.
+                )doc"
+            )
+
             .def_readonly(
                 "value",
-                &EventCondition::Target::value_,
+                &EventCondition::Target::value,
                 R"doc(
                     The value of the target.
 
@@ -134,7 +148,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             )
             .def_readonly(
                 "type",
-                &EventCondition::Target::type_,
+                &EventCondition::Target::type,
                 R"doc(
                     The type of the target.
 

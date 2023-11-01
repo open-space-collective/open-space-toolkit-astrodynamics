@@ -61,7 +61,7 @@ class AngularCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetAngle};
+    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTarget};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Angular Event Condition

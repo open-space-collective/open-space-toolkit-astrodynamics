@@ -42,7 +42,7 @@ class RealCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTarget};
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTargetValue};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition

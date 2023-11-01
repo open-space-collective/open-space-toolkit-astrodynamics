@@ -21,6 +21,8 @@ using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
+using ostk::physics::units::Length;
+using ostk::physics::units::Angle;
 
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
@@ -52,6 +54,80 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
         defaultTarget_
     };
 };
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_Constructor)
+{
+    {
+        EXPECT_NO_THROW(EventCondition::Target(0.0));
+        EXPECT_NO_THROW(EventCondition::Target(0.0, EventCondition::Target::Type::RelativeSegmentStart));
+    }
+
+    {
+        EXPECT_NO_THROW(EventCondition::Target(Length::Meters(0.0)));
+        EXPECT_NO_THROW(EventCondition::Target(Length::Meters(0.0), EventCondition::Target::Type::RelativeSegmentStart)
+        );
+    }
+
+    {
+        EXPECT_NO_THROW(EventCondition::Target(Angle::Degrees(0.0)));
+        EXPECT_NO_THROW(EventCondition::Target(Angle::Degrees(0.0), EventCondition::Target::Type::RelativeSegmentStart)
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_Equals)
+{
+    {
+        const EventCondition::Target target = {0.0, EventCondition::Target::Type::Absolute};
+        EXPECT_TRUE(target == target);
+    }
+
+    {
+        const EventCondition::Target target = {Real::Undefined(), EventCondition::Target::Type::Absolute};
+        EXPECT_FALSE(target == target);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_NotEquals)
+{
+    {
+        const EventCondition::Target target = {0.0, EventCondition::Target::Type::Absolute};
+        EXPECT_FALSE(target != target);
+    }
+
+    {
+        const EventCondition::Target target = {Real::Undefined(), EventCondition::Target::Type::Absolute};
+        EXPECT_TRUE(target != target);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_isDefined)
+{
+    {
+        const EventCondition::Target target = {0.0, EventCondition::Target::Type::Absolute};
+        EXPECT_TRUE(target.isDefined());
+    }
+
+    {
+        const EventCondition::Target target = {Real::Undefined(), EventCondition::Target::Type::Absolute};
+        EXPECT_FALSE(target.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_StringFromType)
+{
+    {
+        EXPECT_EQ(EventCondition::Target::StringFromType(EventCondition::Target::Type::Absolute), "Absolute");
+        EXPECT_EQ(
+            EventCondition::Target::StringFromType(EventCondition::Target::Type::RelativeSegmentStart),
+            "RelativeSegmentStart"
+        );
+        EXPECT_EQ(
+            EventCondition::Target::StringFromType(EventCondition::Target::Type::RelativeSequenceStart),
+            "RelativeSequenceStart"
+        );
+    }
+}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
 {
