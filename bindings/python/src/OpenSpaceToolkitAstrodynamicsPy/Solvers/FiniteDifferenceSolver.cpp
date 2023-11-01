@@ -2,8 +2,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 
-namespace py = pybind11;
-
 inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybind11::module& aModule)
 {
     using namespace pybind11;

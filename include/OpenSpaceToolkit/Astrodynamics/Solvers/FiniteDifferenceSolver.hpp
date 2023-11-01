@@ -42,6 +42,7 @@ class FiniteDifferenceSolver
         Backward,
         Central
     };
+
     /// @brief                  Constructor
     ///
     /// @code
