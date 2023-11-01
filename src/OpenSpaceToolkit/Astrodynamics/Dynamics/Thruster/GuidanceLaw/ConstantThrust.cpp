@@ -24,10 +24,8 @@ using ostk::math::geom::d3::trf::rot::Quaternion;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
-ConstantThrust::ConstantThrust(
-    const COE& aCOE, const Derived& aGravitationalParameter, const LocalOrbitalFrameDirection& aThrustDirection
-)
-    : GuidanceLaw(aCOE, aGravitationalParameter),
+ConstantThrust::ConstantThrust(const LocalOrbitalFrameDirection& aThrustDirection)
+    : GuidanceLaw("Constant Thrust"),
       localOrbitalFrameDirection_(aThrustDirection)
 {
 }
@@ -43,6 +41,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
 
 LocalOrbitalFrameDirection ConstantThrust::getLocalThrustDirection() const
 {
+    if (!localOrbitalFrameDirection_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local Thrust Direction");
+    }
+
     return localOrbitalFrameDirection_;
 }
 
@@ -78,19 +81,13 @@ void ConstantThrust::print(std::ostream& anOutputStream, bool displayDecorator) 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-ConstantThrust ConstantThrust::Intrack(
-    const COE& aCOE, const Derived& aGravitationalParameter, const bool& velocityDirection
-)
+ConstantThrust ConstantThrust::Intrack(const bool& velocityDirection)
 {
     const Vector3d direction = (velocityDirection ? Vector3d {1.0, 0.0, 0.0} : Vector3d {-1.0, 0.0, 0.0});
     const LocalOrbitalFrameDirection localOrbitalFrameDirection =
         LocalOrbitalFrameDirection(direction, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
-    return {
-        aCOE,
-        aGravitationalParameter,
-        localOrbitalFrameDirection,
-    };
+    return {localOrbitalFrameDirection};
 }
 
 }  // namespace guidancelaw

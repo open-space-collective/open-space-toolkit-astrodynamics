@@ -8,14 +8,10 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -31,16 +27,9 @@ namespace guidancelaw
 using ostk::core::types::Real;
 
 using ostk::math::obj::Vector3d;
-using ostk::math::geom::d3::trf::rot::RotationMatrix;
 
 using ostk::physics::time::Instant;
-using ostk::physics::units::Mass;
-using ostk::physics::data::Scalar;
 
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::Dynamics;
-using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
 /// @brief                      Define the acceleration experienced by a point mass due to a constant thrust
@@ -58,9 +47,7 @@ class ConstantThrust : public GuidanceLaw
     ///
     /// @param                  [in] aThrustDirection A local orbital frame thrust direction
 
-    ConstantThrust(
-        const COE& aCOE, const Derived& aGravitationalParameter, const LocalOrbitalFrameDirection& aThrustDirection
-    );
+    ConstantThrust(const LocalOrbitalFrameDirection& aThrustDirection);
 
     /// @brief                  Destructor
 
@@ -101,6 +88,12 @@ class ConstantThrust : public GuidanceLaw
         const Real& aThrustAcceleration
     ) const override;
 
+    /// @brief                  Print constant thrust thruster dynamics
+    ///
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] displayDecorator A boolean indicating whether or not to display the decorator
+    /// during printing
+
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
     /// @brief                  Intrack Constant thrust dynamics
@@ -110,9 +103,7 @@ class ConstantThrust : public GuidanceLaw
     ///
     /// @return                 Constant Thrust dynamics
 
-    static ConstantThrust Intrack(
-        const COE& aCOE, const Derived& aGravitationalParameter, const bool& velocityDirection = true
-    );
+    static ConstantThrust Intrack(const bool& velocityDirection = true);
 
    private:
     LocalOrbitalFrameDirection localOrbitalFrameDirection_;

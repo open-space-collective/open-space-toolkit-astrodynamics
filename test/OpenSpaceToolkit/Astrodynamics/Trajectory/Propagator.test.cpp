@@ -113,7 +113,6 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::SatelliteSystem;
