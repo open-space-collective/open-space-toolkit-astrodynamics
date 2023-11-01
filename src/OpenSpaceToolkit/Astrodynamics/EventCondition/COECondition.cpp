@@ -171,7 +171,6 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
             case COE::Element::Raan:
                 return coe.getRaan().inRadians(0.0, Real::TwoPi());
             case COE::Element::TrueAnomaly:
-                // std::cout << "TrueAnomaly: " << coe.getTrueAnomaly().inDegrees() << std::endl;
                 return coe.getTrueAnomaly().inRadians(0.0, Real::TwoPi());
             case COE::Element::MeanAnomaly:
                 return coe.getMeanAnomaly().inRadians(0.0, Real::TwoPi());

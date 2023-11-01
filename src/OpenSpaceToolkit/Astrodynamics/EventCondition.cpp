@@ -89,12 +89,12 @@ void EventCondition::updateTarget(const State& aState)
 {
     if (target_.type_ == EventCondition::Target::Type::Absolute)
     {
-        throw ostk::core::error::RuntimeError("Can only set state for 'Relative' conditions.");
+        throw ostk::core::error::RuntimeError("Can only set state for 'Relative' Event Conditions.");
     }
 
     if (!evaluator_)
     {
-        throw ostk::core::error::runtime::Undefined("Evaluator.");
+        throw ostk::core::error::runtime::Undefined("Evaluator");
     }
 
     target_.valueOffset_ = evaluator_(aState);

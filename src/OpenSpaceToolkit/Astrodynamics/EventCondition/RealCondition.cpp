@@ -102,7 +102,7 @@ RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, cons
         {
             return (aState.accessInstant() - Instant::J2000()).inSeconds();
         },
-        {aDuration.inSeconds(), RealCondition::Target::Type::RelativeSegmentStart}
+        {aDuration.inSeconds(), EventCondition::Target::Type::RelativeSegmentStart}
     };
 }
 
