@@ -10,7 +10,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -41,7 +41,8 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::dynamics::thruster::ConstantThrust;
+using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
@@ -93,10 +94,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
         InstantCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(15.0)
     );
-    const Shared<ConstantThrust> defaultConstantThrust_ = std::make_shared<ConstantThrust>(
-        SatelliteSystem::Default(),
+
+    const Shared<const ConstantThrust> constantThrustSPtr_ = std::make_shared<ConstantThrust>(
         LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()))
     );
+
+    const Shared<Thruster> defaultConstantThrust_ =
+        std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr_);
+
     const Segment defaultCoastSegment_ =
         Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_);
 

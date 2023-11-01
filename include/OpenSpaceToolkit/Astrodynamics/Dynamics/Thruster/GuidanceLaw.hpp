@@ -8,9 +8,6 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
 {
@@ -21,14 +18,13 @@ namespace dynamics
 namespace thruster
 {
 
+using ostk::core::types::String;
+
 using ostk::core::types::Real;
 
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::units::Derived;
-
-using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 /// @brief                      An interface for a Guidance Law that can computes an acceleration contribution. To be
 /// used in conjunction with a Thruster class to propagate a satellite to a target orbit.
@@ -40,7 +36,7 @@ class GuidanceLaw
     ///
     /// @param                  [in] aName A name
 
-    GuidanceLaw(const COE& aCOE, const Derived& aGravitationalParameter);
+    GuidanceLaw(const String& aName);
 
     /// @brief                  Destructor
 
@@ -58,11 +54,11 @@ class GuidanceLaw
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const GuidanceLaw& aGuidanceLaw);
 
-    /// @brief                  Get Classical Orbital Elements
+    /// @brief                  Get name
     ///
-    /// @return                 The Classical Orbital Elements
+    /// @return                 The name
 
-    COE getCOE() const;
+    String getName() const;
 
     /// @brief                  Print guidance law
     ///
@@ -89,8 +85,7 @@ class GuidanceLaw
     ) const = 0;
 
    protected:
-    const COE targetCOE_;
-    const Derived gravitationalParameter_;
+    const String name_;
 };
 
 }  // namespace thruster

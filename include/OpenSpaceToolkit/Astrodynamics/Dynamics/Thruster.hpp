@@ -41,7 +41,7 @@ class Thruster : public Dynamics
 
     Thruster(
         const SatelliteSystem& aSatelliteSystem,
-        const Shared<GuidanceLaw>& aGuidanceLaw,
+        const Shared<const GuidanceLaw>& aGuidanceLaw,
         const String& aName = String::Empty()
     );
 
@@ -57,13 +57,7 @@ class Thruster : public Dynamics
     ///
     /// @return                 Guidance law
 
-    Shared<GuidanceLaw> getGuidanceLaw() const;
-
-    /// @brief                  Get name
-    ///
-    /// @return                 Name of thruster
-
-    String getName() const;
+    Shared<const GuidanceLaw> getGuidanceLaw() const;
 
     /// @brief                  Return the coordinates subsets that the instance reads from
     ///
@@ -106,7 +100,7 @@ class Thruster : public Dynamics
 
    private:
     const SatelliteSystem satelliteSystem_;
-    Shared<GuidanceLaw> guidanceLaw_;
+    const Shared<const GuidanceLaw> guidanceLaw_;
     const String name_;
 };
 

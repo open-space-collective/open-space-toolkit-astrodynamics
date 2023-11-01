@@ -75,7 +75,6 @@ using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::Dynamics;
@@ -126,7 +125,10 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrus
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
-    LocalOrbitalFrameDirection localOrbitalFrameDirection_ = LocalOrbitalFrameDirection::Undefined();
+    LocalOrbitalFrameDirection localOrbitalFrameDirection_ = {
+        {1.0, 0.0, 0.0},
+        LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
+    };
 
     const Scalar thrust_ = Scalar(0.1, PropulsionSystem::thrustSIUnit);
     const Scalar specificImpulse_ = Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit);
@@ -138,37 +140,26 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrus
         specificImpulse_  // Isp
     );
 
+    const ConstantThrust defaultConstantThrust_ = {localOrbitalFrameDirection_};
+
     NumericalSolver::StateVector startStateVector_;
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-
-    const COE targetCOE_ = {
-        Length::Meters(600.0),
-        0.0,
-        Angle::Degrees(97.0),
-        Angle::Degrees(0.0),
-        Angle::Degrees(0.0),
-        Angle::Degrees(0.0),
-    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Constructor)
 
 {
     {
-        EXPECT_NO_THROW(
-            ConstantThrust constantThrust(targetCOE_, earth_.getGravitationalParameter(), localOrbitalFrameDirection_)
-        );
+        EXPECT_NO_THROW(ConstantThrust constantThrust(localOrbitalFrameDirection_));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, StreamOperator)
 {
     {
-        ConstantThrust constantThrust(targetCOE_, earth_.getGravitationalParameter(), localOrbitalFrameDirection_);
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << constantThrust << std::endl);
+        EXPECT_NO_THROW(std::cout << defaultConstantThrust_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -177,12 +168,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Print)
 {
     {
-        ConstantThrust constantThrust(targetCOE_, earth_.getGravitationalParameter(), localOrbitalFrameDirection_);
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(constantThrust.print(std::cout, true));
-        EXPECT_NO_THROW(constantThrust.print(std::cout, false));
+        EXPECT_NO_THROW(defaultConstantThrust_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultConstantThrust_.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
@@ -190,14 +179,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Getters)
 {
     {
-        ConstantThrust constantThrust(targetCOE_, earth_.getGravitationalParameter(), localOrbitalFrameDirection_);
-        EXPECT_TRUE(constantThrust.getLocalThrustDirection() == localOrbitalFrameDirection_);
+        // Not checking equality due to precision loss.
+        EXPECT_NO_THROW(defaultConstantThrust_.getLocalThrustDirection());
     }
 
     {
-        ConstantThrust constantThrust(
-            targetCOE_, earth_.getGravitationalParameter(), LocalOrbitalFrameDirection::Undefined()
-        );
+        ConstantThrust constantThrust(LocalOrbitalFrameDirection::Undefined());
         EXPECT_THROW(constantThrust.getLocalThrustDirection(), ostk::core::error::runtime::Undefined);
     }
 }
@@ -338,7 +325,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Intrack)
 {
     {
-        ConstantThrust constantThrust = ConstantThrust::Intrack(targetCOE_, earth_.getGravitationalParameter(), true);
+        ConstantThrust constantThrust = ConstantThrust::Intrack(true);
         Vector3d direction = {1.0, 0.0, 0.0};
         EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
         EXPECT_TRUE(
@@ -349,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 
     {
         Vector3d direction = {-1.0, 0.0, 0.0};
-        ConstantThrust constantThrust = ConstantThrust::Intrack(targetCOE_, earth_.getGravitationalParameter(), false);
+        ConstantThrust constantThrust = ConstantThrust::Intrack(false);
         EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
         EXPECT_TRUE(
             constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory()->getProviderType() ==

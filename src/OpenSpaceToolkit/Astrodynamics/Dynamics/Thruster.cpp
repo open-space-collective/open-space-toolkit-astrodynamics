@@ -29,11 +29,11 @@ using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 Thruster::Thruster(
-    const SatelliteSystem& aSatelliteSystem, const Shared<GuidanceLaw>& aGuidanceLaw, const String& aName
+    const SatelliteSystem& aSatelliteSystem, const Shared<const GuidanceLaw>& aGuidanceLaw, const String& aName
 )
-    : satelliteSystem_(aSatelliteSystem),
-      guidanceLaw_(aGuidanceLaw),
-      name_(aName)
+    : Dynamics(aName),
+      satelliteSystem_(aSatelliteSystem),
+      guidanceLaw_(aGuidanceLaw)
 {
 }
 
@@ -49,14 +49,9 @@ SatelliteSystem Thruster::getSatelliteSystem() const
     return satelliteSystem_;
 }
 
-Shared<GuidanceLaw> Thruster::getGuidanceLaw() const
+Shared<const GuidanceLaw> Thruster::getGuidanceLaw() const
 {
     return guidanceLaw_;
-}
-
-String Thruster::getName() const
-{
-    return name_;
 }
 
 Array<Shared<const CoordinatesSubset>> Thruster::getReadCoordinatesSubsets() const

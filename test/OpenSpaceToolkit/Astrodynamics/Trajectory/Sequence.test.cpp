@@ -61,6 +61,7 @@ using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::Sequence;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
@@ -76,7 +77,6 @@ using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
 {
@@ -299,9 +299,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
-        const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(
-            ConstantThrust::Intrack(COE::Undefined(), EarthGravitationalModel::EGM2008.gravitationalParameter_)
-        );
+        const Shared<const ConstantThrust> constantThrustSPtr =
+            std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
+
+        const Shared<Thruster> thrustDynamicsSPtr =
+            std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr);
 
         defaultSequence_.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
@@ -310,7 +312,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-            std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr)
+            thrustDynamicsSPtr
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
@@ -470,7 +472,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             Length::Kilometers(7000.0),
             EarthGravitationalModel::EGM2008.gravitationalParameter_
         )),
-        std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
+        std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
     );
 
     const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
@@ -699,7 +701,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
         );
 
         testing::internal::CaptureStdout();
