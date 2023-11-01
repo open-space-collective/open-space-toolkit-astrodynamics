@@ -212,12 +212,16 @@ def constant_thrust(satellite_system: SatelliteSystem) -> ConstantThrust:
         ),
     )
 
+
 @pytest.fixture
 def sma_target(sma: Length) -> EventConditionTarget:
     return EventConditionTarget(sma)
 
+
 @pytest.fixture
-def sma_condition(sma_target: EventConditionTarget, gravitational_parameter: Derived) -> COECondition:
+def sma_condition(
+    sma_target: EventConditionTarget, gravitational_parameter: Derived
+) -> COECondition:
     return COECondition.semi_major_axis(
         criterion=RealCondition.Criterion.AnyCrossing,
         frame=Frame.GCRF(),
