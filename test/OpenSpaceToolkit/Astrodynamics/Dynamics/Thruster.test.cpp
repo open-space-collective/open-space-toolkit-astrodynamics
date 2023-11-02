@@ -126,7 +126,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetWriteCoordinatesSubs
         CoordinatesSubset::Mass(),
     };
 
-    const Array<Shared<const CoordinatesSubset>> writeSubsets = defaultThruster_.getReadCoordinatesSubsets();
+    const Array<Shared<const CoordinatesSubset>> writeSubsets = defaultThruster_.getWriteCoordinatesSubsets();
 
     for (Index i = 0; i < expectedSubsets.getSize(); ++i)
     {
@@ -149,7 +149,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, ComputeContribution)
             defaultThruster_.computeContribution(Instant::J2000(), coordinates, Frame::GCRF());
 
         VectorXd expectedAcceleration(4);
-        expectedAcceleration << 0.0, 0.0, 0.0, -0.000101972;
+        expectedAcceleration << 0.0, 0.0, 0.0, -0.0001019716212977928;
 
         EXPECT_TRUE(acceleration.isNear(expectedAcceleration, 1e-12));
     }
