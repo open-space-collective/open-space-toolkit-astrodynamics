@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1698955247825,
+  "lastUpdate": 1698958545385,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -432,6 +432,60 @@ window.BENCHMARK_DATA = {
             "value": 2786426096.49998,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2786204250.0000014 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "92babf02122dbe061a23d0fe3d85a36699a7de12",
+          "message": "feat: event condition relative target (#263)\n\n* feat: add relative target for event conditions\r\n\r\n* feat: update tests\r\n\r\n* feat: add duration condition\r\n\r\n* feat: use a relativeTarget_ so as to not update the target_ field ever\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* feat: use a Target object\r\n\r\n* style: format\r\n\r\n* fix: tests\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* feat: address remaining feedback\r\n\r\n* chore: format\r\n\r\n---------\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\nCo-authored-by: Vishwa Shah <vishwa@loftorbital.com>",
+          "timestamp": "2023-11-02T13:20:09-07:00",
+          "tree_id": "de5fb039d279d7e713432f472a198540943ce653",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/92babf02122dbe061a23d0fe3d85a36699a7de12"
+        },
+        "date": 1698958544646,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 736335695.300005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 736236970 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1651639716.599999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1651456590.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4174895279.1000075,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4174550810.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4175517829,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4175169220.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4175262348.1,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4174922620.000001 ns\nthreads: 1"
           }
         ]
       }
