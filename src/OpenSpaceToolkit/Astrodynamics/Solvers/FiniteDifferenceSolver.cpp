@@ -141,13 +141,14 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
 MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     const State& aState,
     const Instant& anInstant,
-    std::function<State(const State&, const Instant&)> getState,
+    std::function<State(const State&, const Instant&)> generateState,
     const Real& aStepPercentage
 ) const
 {
-    const auto getStates = [&getState](const State& anInputState, const Array<Instant>& anInstantArray) -> Array<State>
+    const auto getStates =
+        [&generateState](const State& anInputState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        const State outputState = getState(anInputState, anInstantArray[0]);
+        const State outputState = generateState(anInputState, anInstantArray[0]);
 
         return {outputState};
     };
@@ -156,17 +157,17 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
 }
 
 VectorXd FiniteDifferenceSolver::computeGradient(
-    const State& aState, std::function<State(const State&, const Instant&)> getState, const Duration& aStepSize
+    const State& aState, std::function<State(const State&, const Instant&)> generateState, const Duration& aStepSize
 ) const
 {
     switch (type_)
     {
         case FiniteDifferenceSolver::Type::Forward:
         {
-            const VectorXd coordinates = getState(aState, aState.accessInstant()).getCoordinates();
+            const VectorXd coordinates = generateState(aState, aState.accessInstant()).getCoordinates();
 
             const Instant instant = aState.accessInstant() + aStepSize;
-            const VectorXd forwardCoordinates = getState(aState, instant).getCoordinates();
+            const VectorXd forwardCoordinates = generateState(aState, instant).getCoordinates();
 
             const VectorXd differencedCoordinates = (forwardCoordinates - coordinates) / (aStepSize.inSeconds());
 
@@ -175,10 +176,10 @@ VectorXd FiniteDifferenceSolver::computeGradient(
 
         case FiniteDifferenceSolver::Type::Backward:
         {
-            const VectorXd coordinates = getState(aState, aState.accessInstant()).getCoordinates();
+            const VectorXd coordinates = generateState(aState, aState.accessInstant()).getCoordinates();
 
             const Instant instant = aState.accessInstant() - aStepSize;
-            const VectorXd backwardCoordinates = getState(aState, instant).getCoordinates();
+            const VectorXd backwardCoordinates = generateState(aState, instant).getCoordinates();
 
             const VectorXd differencedCoordinates = (coordinates - backwardCoordinates) / (aStepSize.inSeconds());
 
@@ -190,8 +191,8 @@ VectorXd FiniteDifferenceSolver::computeGradient(
             const Instant forwardInstant = aState.accessInstant() + aStepSize;
             const Instant backwardInstant = aState.accessInstant() - aStepSize;
 
-            const VectorXd forwardCoordinates = getState(aState, forwardInstant).accessCoordinates();
-            const VectorXd backwardCoordinates = getState(aState, backwardInstant).accessCoordinates();
+            const VectorXd forwardCoordinates = generateState(aState, forwardInstant).accessCoordinates();
+            const VectorXd backwardCoordinates = generateState(aState, backwardInstant).accessCoordinates();
 
             return (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize.inSeconds());
         }

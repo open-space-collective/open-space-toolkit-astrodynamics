@@ -46,9 +46,9 @@ class FiniteDifferenceSolver
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         const Real stepPercentage = 1e-3;
+    ///                         const Type aType = FiniteDifferenceSolver::Type::Forward;
     ///
-    ///                         FiniteDifferenceSolver finiteDifferenceSolver = {stepPercentage};
+    ///                         FiniteDifferenceSolver finiteDifferenceSolver = {aType};
     ///
     /// @endcode
     ///
@@ -84,7 +84,7 @@ class FiniteDifferenceSolver
     ///
     /// @param                  [in] aState A state.
     /// @param                  [in] anInstant An instant.
-    /// @param                  [in] getState Callable to generate a State at the requested Instant.
+    /// @param                  [in] generateState Callable to generate a State at the requested Instant.
     /// @param                  [in] aStepPercentage The step percentage to use for the perturbation. Defaults to 1e-3.
     ///
     /// @return                 The State Transition Matrix
@@ -92,14 +92,14 @@ class FiniteDifferenceSolver
     MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Instant& anInstant,
-        std::function<State(const State&, const Instant&)> getState,
+        std::function<State(const State&, const Instant&)> generateState,
         const Real& aStepPercentage = 1e-3
     ) const;
 
     /// @brief                  Compute the gradient
     ///
     /// @param                  [in] aState The state to compute the gradient of.
-    /// @param                  [in] getState Callable that generates the state given an initial state and target.
+    /// @param                  [in] generateState Callable that generates the state given an initial state and target.
     /// instant.
     /// @param                  [in] aStepSize The step size to use for the time perturbation step.
     ///
@@ -107,7 +107,7 @@ class FiniteDifferenceSolver
 
     VectorXd computeGradient(
         const State& aState,
-        std::function<State(const State&, const Instant&)> getState,
+        std::function<State(const State&, const Instant&)> generateState,
         const Duration& aStepSize = Duration::Milliseconds(1e-3)
     ) const;
 

@@ -93,10 +93,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                const State& aState,
                const Instant& anInstant,
-               std::function<State(const State&, const Instant&)> getState,
+               std::function<State(const State&, const Instant&)> generateState,
                const Real& aStepPercentage = 1e-3) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstant, getState, aStepPercentage);
+                return solver.computeStateTransitionMatrix(aState, anInstant, generateState, aStepPercentage);
             },
             R"doc(
                 Compute the state transition matrix.
@@ -119,10 +119,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             "compute_gradient",
             [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                const State& aState,
-               std::function<State(const State&, const Instant&)> getState,
+               std::function<State(const State&, const Instant&)> generateState,
                const Duration& aStepSize = Duration::Seconds(1e-6)) -> VectorXd
             {
-                return solver.computeGradient(aState, getState, aStepSize);
+                return solver.computeGradient(aState, generateState, aStepSize);
             },
             R"doc(
                 Compute the gradient.
