@@ -15,10 +15,12 @@
 
 using ostk::core::types::Real;
 using ostk::core::types::String;
+using ostk::core::types::Shared;
 
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
 
 using ostk::astro::dynamics::thruster::GuidanceLaw;
 
@@ -33,7 +35,7 @@ class MockGuidanceLaw : public GuidanceLaw
     MOCK_METHOD(
         Vector3d,
         computeAcceleration,
-        (const Instant&, const Vector3d&, const Vector3d&, const Real&),
+        (const Instant&, const Vector3d&, const Vector3d&, const Real&, const Shared<const Frame>&),
         (const, override)
     );
 };

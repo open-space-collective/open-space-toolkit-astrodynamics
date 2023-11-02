@@ -2,11 +2,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 
-<<<<<<< HEAD
-=======
-#include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/Thruster/GuidanceLaw.cpp>
-
->>>>>>> wip: feat: add tests
 using namespace pybind11;
 
 using ostk::core::types::String;
@@ -21,11 +16,7 @@ using ostk::physics::coord::Frame;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
-<<<<<<< HEAD
 using ostk::astro::GuidanceLaw;
-=======
-using ostk::astro::dynamics::thruster::GuidanceLaw;
->>>>>>> wip: feat: add tests
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 
@@ -106,10 +97,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
 
         .def(
 <<<<<<< HEAD
+<<<<<<< HEAD
             "get_satellite_system",
 =======
             "get_satelltite_system",
 >>>>>>> wip: feat: add tests
+=======
+            "get_satellite_system",
+>>>>>>> feat: fix remaining tests
             &Thruster::getSatelliteSystem,
             R"doc(
                 Get the satellite system of the thruster.

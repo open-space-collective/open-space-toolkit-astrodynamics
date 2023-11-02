@@ -67,7 +67,7 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
 @pytest.fixture
 def dynamics(
     satellite_system: SatelliteSystem,
-    guidance_law: GuidanceLaw,
+    guidance_law: ConstantThrust,
 ) -> Thruster:
     return Thruster(
         satellite_system=satellite_system,

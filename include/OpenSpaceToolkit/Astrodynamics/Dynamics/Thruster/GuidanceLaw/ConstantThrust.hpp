@@ -78,6 +78,7 @@ class ConstantThrust : public GuidanceLaw
     /// @param                  [in] aPositionCoordinates The position coordinates
     /// @param                  [in] aVelocityCoordinates The velocity coordinates
     /// @param                  [in] aThrustAcceleration The thrust acceleration
+    /// @param                  [in] outputFrameSPtr The frame in which the acceleration is expressed
     ///
     /// @return                 Acceleration
 
@@ -85,7 +86,8 @@ class ConstantThrust : public GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration
+        const Real& aThrustAcceleration,
+        const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
     /// @brief                  Print constant thrust thruster dynamics
