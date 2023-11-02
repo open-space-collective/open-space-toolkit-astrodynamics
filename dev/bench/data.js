@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1698782742733,
+  "lastUpdate": 1698955247825,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -378,6 +378,60 @@ window.BENCHMARK_DATA = {
             "value": 4143605290.6999917,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4143386370 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "62ba2dcd892839ff8782da93e1133295d460e130",
+          "message": "feat: add finite difference solver (#264)\n\n* feat: add finite difference solver class\r\n\r\n* feat: add backward, forward and central differencing options\r\n\r\n* feat: get it to compile\r\n\r\n* feat: keep working on it\r\n\r\n* feat: adding test\r\n\r\n* feat: add bindings\r\n\r\n* chore: nit cleanup\r\n\r\n* chore: format\r\n\r\n* feat: address remaining feedback\r\n\r\n---------\r\n\r\nCo-authored-by: Vishwa Shah <vishwa@loftorbital.com>",
+          "timestamp": "2023-11-02T12:17:22-07:00",
+          "tree_id": "5229cca74642e081fb9fbafface513c9c8fff2c9",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/62ba2dcd892839ff8782da93e1133295d460e130"
+        },
+        "date": 1698955247103,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 664590131.4999946,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 664544610.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1354859042.700008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1354778880 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2783420497.3,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783273130.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2784000144.099997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783645030.0000024 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2786426096.49998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2786204250.0000014 ns\nthreads: 1"
           }
         ]
       }
