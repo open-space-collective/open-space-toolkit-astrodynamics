@@ -4,9 +4,12 @@
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw__
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
@@ -19,10 +22,12 @@ namespace thruster
 {
 
 using ostk::core::types::String;
-
+using ostk::core::types::Shared;
 using ostk::core::types::Real;
 
 using ostk::math::obj::Vector3d;
+
+using ostk::physics::coord::Frame;
 
 using ostk::physics::time::Instant;
 
@@ -74,6 +79,7 @@ class GuidanceLaw
     /// @param                  [in] aPositionCoordinates The position coordinates
     /// @param                  [in] aVelocityCoordinates The velocity coordinates
     /// @param                  [in] aThrustAcceleration The thrust acceleration
+    /// @param                  [in] outputFrameSPtr The frame in which the acceleration is expressed
     ///
     /// @return                 The acceleration at the provided coordinates
 
@@ -81,7 +87,8 @@ class GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration
+        const Real& aThrustAcceleration,
+        const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
 
    protected:

@@ -98,7 +98,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
         )
 
         .def(
-            "get_satelltite_system",
+            "get_satellite_system",
             &Thruster::getSatelliteSystem,
             R"doc(
                 Get the satellite system of the thruster.

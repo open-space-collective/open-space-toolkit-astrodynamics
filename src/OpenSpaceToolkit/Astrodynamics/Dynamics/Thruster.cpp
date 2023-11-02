@@ -92,14 +92,14 @@ VectorXd Thruster::computeContribution(
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6])).getValue();
 
     const Vector3d acceleration = guidanceLaw_->computeAcceleration(
-        anInstant, positionCoordinates, velocityCoordinates, thrustAccelerationMagnitude
+        anInstant, positionCoordinates, velocityCoordinates, thrustAccelerationMagnitude, aFrameSPtr
     );
 
     // Compute contribution
     VectorXd contribution(4);
+    // TBI: Can be optimized to cache the SI value of mass flow rate as a Real
     contribution << acceleration[0], acceleration[1], acceleration[2],
-        -satelliteSystem_.accessPropulsionSystem().getMassFlowRate().getValue(
-        );  // TBI: Can be optimized to cache the SI value as a Real
+        -satelliteSystem_.accessPropulsionSystem().getMassFlowRate().getValue();
 
     return contribution;
 }

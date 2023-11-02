@@ -46,7 +46,8 @@ class MockGuidanceLaw : public GuidanceLaw
         [[maybe_unused]] const Instant& anInstant,
         [[maybe_unused]] const Vector3d& aPositionCoordinates,
         [[maybe_unused]] const Vector3d& aVelocityCoordinates,
-        [[maybe_unused]] const Real& aThrustDirection
+        [[maybe_unused]] const Real& aThrustDirection,
+        [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {
         return {0.0, 0.0, 0.0};

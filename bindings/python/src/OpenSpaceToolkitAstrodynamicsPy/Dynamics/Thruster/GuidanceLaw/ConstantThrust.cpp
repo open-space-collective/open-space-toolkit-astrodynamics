@@ -62,7 +62,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_Consta
                         instant (Instant): The instant of the state vector.
                         position_coordinates (numpy.ndarray): The position coordinates.
                         velocity_coordinates (numpy.ndarray): The velocity coordinates.
-                        thrust_acceleration (float): The thrust acceleration.
+                        thrust_acceleration (float): The thrust acceleration magnitude.
+                        output_frame (Frame): The frame the acceleration will be expressed in.
 
                     Returns:
                         numpy.ndarray: The contribution of the constant thrust to the state vector.
@@ -71,7 +72,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_Consta
                 arg("instant"),
                 arg("position_coordinates"),
                 arg("velocity_coordinates"),
-                arg("thrust_acceleration")
+                arg("thrust_acceleration"),
+                arg("output_frame")
             )
 
             .def_static(

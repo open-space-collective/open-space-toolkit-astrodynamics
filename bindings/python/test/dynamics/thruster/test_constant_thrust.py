@@ -10,7 +10,7 @@ from ostk.physics.coordinate import Frame
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 
-from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics.dynamics.thruster import GuidanceLaw
 from ostk.astrodynamics.dynamics.thruster.guidance_law import ConstantThrust
 
 
@@ -46,15 +46,19 @@ def velocity_coordinates() -> list[float]:
 
 @pytest.fixture
 def thrust_acceleration() -> float:
-    return 1.0
+    return 1.0 / 105.0
+
+
+@pytest.fixture
+def frame() -> Frame:
+    return Frame.GCRF()
 
 
 class TestConstantThrust:
     def test_constructors(self, guidance_law: ConstantThrust):
         assert guidance_law is not None
         assert isinstance(guidance_law, ConstantThrust)
-        assert isinstance(guidance_law, Dynamics)
-        assert guidance_law.is_defined()
+        assert isinstance(guidance_law, GuidanceLaw)
 
     def test_getters(self, guidance_law: ConstantThrust):
         assert guidance_law.get_local_thrust_direction() is not None
@@ -73,12 +77,14 @@ class TestConstantThrust:
         position_coordinates: list[float],
         velocity_coordinates: list[float],
         thrust_acceleration: float,
+        frame: Frame,
     ):
         contribution = guidance_law.compute_acceleration(
-            instant,
-            position_coordinates,
-            velocity_coordinates,
-            thrust_acceleration,
+            instant=instant,
+            position_coordinates=position_coordinates,
+            velocity_coordinates=velocity_coordinates,
+            thrust_acceleration=thrust_acceleration,
+            output_frame=frame,
         )
 
         assert len(contribution) == 3

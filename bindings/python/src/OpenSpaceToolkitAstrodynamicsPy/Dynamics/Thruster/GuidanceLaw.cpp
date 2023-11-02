@@ -13,6 +13,7 @@ using ostk::core::types::Shared;
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
 
 using ostk::astro::dynamics::thruster::GuidanceLaw;
 
@@ -33,7 +34,8 @@ class PyGuidanceLaw : public GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration
+        const Real& aThrustAcceleration,
+        const Shared<const Frame>& outputFrameSPtr
     ) const
     {
         PYBIND11_OVERRIDE_PURE_NAME(
@@ -44,7 +46,8 @@ class PyGuidanceLaw : public GuidanceLaw
             anInstant,
             aPositionCoordinates,
             aVelocityCoordinates,
-            aThrustAcceleration
+            aThrustAcceleration,
+            outputFrameSPtr
         );
     }
 };
@@ -97,7 +100,8 @@ void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(pybind11::mod
                     instant (Instant): Instant of computation.
                     position_coordinates (np.array): Position coordinates.
                     velocity_coordinates (np.array): Velocity coordinates.
-                    thrust_acceleration (float): Thrust acceleration.
+                    thrust_acceleration (float): Thrust acceleration magnitude.
+                    output_frame (Frame): The frame the acceleration is expressed in.
 
                 Returns:
                     np.array: The acceleration.
@@ -105,7 +109,8 @@ void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(pybind11::mod
             arg("instant"),
             arg("position_coordinates"),
             arg("velocity_coordinates"),
-            arg("thrust_acceleration")
+            arg("thrust_acceleration"),
+            arg("output_frame")
         )
 
         ;
