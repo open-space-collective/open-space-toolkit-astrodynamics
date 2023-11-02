@@ -62,6 +62,13 @@ class LogicalCondition : public EventCondition
 
     LogicalCondition::Type getType() const;
 
+    /// @brief                  Update the target of the individual event conditions composing the Logical Connective
+    /// Event Condition.
+    ///
+    /// @param                  [in] aState
+
+    virtual void updateTarget(const State& aState) override;
+
     /// @brief                  Get the individual event conditions composing the Logical Connective Event Condition.
     ///
     /// @return                 An Array of shared pointers to EventCondition instances,

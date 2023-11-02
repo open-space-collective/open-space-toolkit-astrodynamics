@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 namespace ostk
@@ -17,6 +19,8 @@ namespace eventcondition
 
 using ostk::core::types::Real;
 using ostk::core::types::String;
+
+using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::State;
 
@@ -38,20 +42,39 @@ class RealCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluatro, aTarget};
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTargetValue};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state
-    /// @param                  [in] aTarget A target value associated with the Real Event Condition
+    /// @param                  [in] aTargetValue A target value associated with the Real Event Condition
 
     RealCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)> anEvaluator,
-        const Real& aTarget = 0.0
+        const std::function<Real(const State&)>& anEvaluator,
+        const Real& aTargetValue = 0.0
+    );
+
+    /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTarget};
+    /// @endcode
+    ///
+    /// @param                  [in] aName A string representing the name of the Real Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
+    /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state
+    /// @param                  [in] aTarget A target associated with the Real Event Condition
+
+    RealCondition(
+        const String& aName,
+        const Criterion& aCriterion,
+        const std::function<Real(const State&)>& anEvaluator,
+        const EventCondition::Target& aTarget
     );
 
     /// @brief                  Virtual destructor
@@ -63,18 +86,6 @@ class RealCondition : public EventCondition
     /// @return                 Enum representing the criterion of the Event Condition
 
     Criterion getCriterion() const;
-
-    /// @brief                  Get evaluator
-    ///
-    /// @return                 Evaluator
-
-    std::function<Real(const State&)> getEvaluator() const;
-
-    /// @brief                  Get the target of the Event Condition
-    ///
-    /// @return                 Real number representing the target of the Event Condition
-
-    Real getTarget() const;
 
     /// @brief                  Print the Event Condition
     ///
@@ -110,10 +121,17 @@ class RealCondition : public EventCondition
 
     static String StringFromCriterion(const Criterion& aCriterion);
 
+    /// @brief                  Generate a Duration based condition
+    ///
+    /// @param                  [in] aCriterion An enum representing the criterion
+    /// @param                  [in] aDuration A duration
+    ///
+    /// @return                 A Duration based condition
+
+    static RealCondition DurationCondition(const Criterion& aCriterion, const Duration& aDuration);
+
    private:
     Criterion criterion_;
-    std::function<Real(const State&)> evaluator_;
-    Real target_;
     std::function<bool(const Real&, const Real&)> comparator_;
 
     static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);

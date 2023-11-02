@@ -33,6 +33,7 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::coord::Frame;
 
+using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
@@ -43,10 +44,17 @@ using ostk::astro::trajectory::State;
 class COECondition
 {
    public:
+    /// @brief                  Semi-Major Axis based constructor
+    ///
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
+    /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
+    /// @param                  [in] aTarget A Target
+    /// @param                  [in] aGravitationalParameter A gravitational parameter
+
     static RealCondition SemiMajorAxis(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Length& aSemiMajorAxis,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -54,7 +62,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anEccentricity An eccentricity
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -62,7 +70,7 @@ class COECondition
     static RealCondition Eccentricity(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Real& anEccentricity,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -70,7 +78,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anInclination An inclination
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -78,7 +86,7 @@ class COECondition
     static AngularCondition Inclination(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aSemiMajorAxis,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -86,7 +94,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anAOP An argument of periapsis
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -94,7 +102,7 @@ class COECondition
     static AngularCondition Aop(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& anAOP,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -102,7 +110,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aRAAN A right angle of ascending node
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -110,7 +118,7 @@ class COECondition
     static AngularCondition Raan(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aRAAN,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -118,7 +126,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aTrueAnomaly A true anomaly
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -126,7 +134,7 @@ class COECondition
     static AngularCondition TrueAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aTrueAnomaly,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -134,7 +142,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aMeanAnomaly A mean anomaly
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -142,7 +150,7 @@ class COECondition
     static AngularCondition MeanAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& aMeanAnomaly,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -150,7 +158,7 @@ class COECondition
     ///
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] anEccentricAnomaly An eccentric anomaly
+    /// @param                  [in] aTarget A Target
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
@@ -158,7 +166,7 @@ class COECondition
     static AngularCondition EccentricAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
-        const Angle& anEccentricAnomaly,
+        const EventCondition::Target& aTarget,
         const Derived& aGravitationalParameter
     );
 

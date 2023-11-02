@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 
 namespace ostk
@@ -12,16 +14,28 @@ namespace astro
 namespace eventcondition
 {
 
+using ostk::physics::time::Instant;
+
 RealCondition::RealCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)> anEvaluator,
-    const Real& aTarget
+    const std::function<Real(const State&)>& anEvaluator,
+    const Real& aTargetValue
 )
-    : EventCondition(aName),
+    : EventCondition(aName, anEvaluator, aTargetValue),
       criterion_(aCriterion),
-      evaluator_(anEvaluator),
-      target_(aTarget),
+      comparator_(GenerateComparator(aCriterion))
+{
+}
+
+RealCondition::RealCondition(
+    const String& aName,
+    const Criterion& aCriterion,
+    const std::function<Real(const State&)>& anEvaluator,
+    const Target& aTarget
+)
+    : EventCondition(aName, anEvaluator, aTarget),
+      criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion))
 {
 }
@@ -33,30 +47,19 @@ RealCondition::Criterion RealCondition::getCriterion() const
     return criterion_;
 }
 
-std::function<Real(const State&)> RealCondition::getEvaluator() const
-{
-    return evaluator_;
-}
-
-Real RealCondition::getTarget() const
-{
-    return target_;
-}
-
 void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
 
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
-    ostk::core::utils::Print::Line(anOutputStream) << "Target: " << getTarget();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 Real RealCondition::evaluate(const State& aState) const
 {
-    return this->evaluator_(aState) - target_;
+    return this->evaluator_(aState) - (target_.value + target_.valueOffset);
 }
 
 bool RealCondition::isSatisfied(const State& currentState, const State& previousState) const
@@ -88,6 +91,19 @@ String RealCondition::StringFromCriterion(const Criterion& aCriterion)
     }
 
     return String::Empty();
+}
+
+RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, const Duration& aDuration)
+{
+    return {
+        "Duration",
+        aCriterion,
+        [](const State& aState) -> Real
+        {
+            return (aState.accessInstant() - Instant::J2000()).inSeconds();
+        },
+        {aDuration.inSeconds(), EventCondition::Target::Type::RelativeSegmentStart}
+    };
 }
 
 std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(

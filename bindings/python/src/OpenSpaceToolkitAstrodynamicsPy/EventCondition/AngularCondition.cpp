@@ -72,6 +72,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 arg("target_angle")
             )
 
+            .def(
+                init<
+                    const String&,
+                    const AngularCondition::Criterion&,
+                    std::function<Real(const State&)>,
+                    const EventCondition::Target&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        name (str): The name of the condition.
+                        criterion (ostk.astrodynamics.event_condition.AngularCondition.Criterion): The criterion of the condition.
+                        evaluator (function): The evaluator of the condition.
+                        target (EventConditionTarget): The target of the condition.
+
+                )doc",
+                arg("name"),
+                arg("criterion"),
+                arg("evaluator"),
+                arg("target")
+            )
+
             .def("__str__", &(shiftToString<AngularCondition>))
             .def("__repr__", &(shiftToString<AngularCondition>))
 
@@ -83,18 +105,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
 
                     Returns:
                         ostk.astrodynamics.event_condition.AngularCondition.Criterion: The criterion of the condition.
-
-                )doc"
-            )
-
-            .def(
-                "get_evaluator",
-                &AngularCondition::getEvaluator,
-                R"doc(
-                    Get the evaluator of the condition.
-
-                    Returns:
-                        function: The evaluator of the condition.
 
                 )doc"
             )

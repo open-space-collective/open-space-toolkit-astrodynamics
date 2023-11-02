@@ -49,7 +49,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
         realCondition
 
             .def(
-                init<const String&, const RealCondition::Criterion&, std::function<Real(const State&)>, const Real&>(),
+                init<
+                    const String&,
+                    const RealCondition::Criterion&,
+                    const std::function<Real(const State&)>&,
+                    const Real&>(),
                 R"doc(
                     Constructor.
 
@@ -57,13 +61,35 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                         name (str): The name of the condition.
                         criterion (Criterion): The criterion of the condition.
                         evaluator (function): The evaluator of the condition.
-                        target (float): The target value of the condition.
+                        target_value (float): The target value of the condition.
 
                 )doc",
                 arg("name"),
                 arg("criterion"),
                 arg("evaluator"),
-                arg("target") = 0.0
+                arg("target_value") = 0.0
+            )
+
+            .def(
+                init<
+                    const String&,
+                    const RealCondition::Criterion&,
+                    const std::function<Real(const State&)>&,
+                    const EventCondition::Target&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        name (str): The name of the condition.
+                        criterion (Criterion): The criterion of the condition.
+                        evaluator (function): The evaluator of the condition.
+                        target (EventConditionTarget): The target of the condition.
+
+                )doc",
+                arg("name"),
+                arg("criterion"),
+                arg("evaluator"),
+                arg("target")
             )
 
             .def(
@@ -91,18 +117,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             )
 
             .def(
-                "get_target",
-                &RealCondition::getTarget,
-                R"doc(
-                    Get the target value of the condition.
-
-                    Returns:
-                        float: The target value.
-
-                )doc"
-            )
-
-            .def(
                 "get_criterion",
                 &RealCondition::getCriterion,
                 R"doc(
@@ -110,18 +124,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
 
                     Returns:
                         Criterion: The criterion.
-
-                )doc"
-            )
-
-            .def(
-                "get_evaluator",
-                &RealCondition::getEvaluator,
-                R"doc(
-                    Get the evaluator of the condition.
-
-                    Returns:
-                        function: The evaluator.
 
                 )doc"
             )
@@ -173,6 +175,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                         str: The string representation.
                 )doc",
                 arg("criterion")
+            )
+
+            .def_static(
+                "duration_condition",
+                &RealCondition::DurationCondition,
+                R"doc(
+                    Generate a duration condition.
+
+                    Args:
+                        criterion (Criterion): The criterion of the condition.
+                        duration (Duration): Duration target.
+
+                    Returns:
+                        RealCondition: The duration condition.
+                )doc",
+                arg("criterion"),
+                arg("duration")
             )
 
             ;

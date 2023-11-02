@@ -42,7 +42,7 @@ class AngularCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetRange};
+    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetAngle};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Angular Event Condition
@@ -58,6 +58,25 @@ class AngularCondition : public EventCondition
         const Angle& aTargetAngle
     );
 
+    /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTarget};
+    /// @endcode
+    ///
+    /// @param                  [in] aName A string representing the name of the Angular Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Angular Event
+    /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
+    /// @param                  [in] aTarget A target
+
+    AngularCondition(
+        const String& aName,
+        const Criterion& aCriterion,
+        const std::function<Real(const State&)>& anEvaluator,
+        const Target& aTarget
+    );
+
     /// @brief                  Virtual destructor
 
     virtual ~AngularCondition();
@@ -67,12 +86,6 @@ class AngularCondition : public EventCondition
     /// @return                 Enum representing the criterion of the Event Condition
 
     Criterion getCriterion() const;
-
-    /// @brief                  Get evaluator
-    ///
-    /// @return                 Evaluator
-
-    std::function<Real(const State&)> getEvaluator() const;
 
     /// @brief                  Get target
     ///
@@ -127,17 +140,13 @@ class AngularCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<Real(const State&)> evaluator_;
-    std::function<bool(const Real&, const Real&)> comparator_;
-    Real target_;
+    std::function<bool(const Real&, const Real&, const Real&)> comparator_;
     Pair<Real, Real> targetRange_;
 
     static bool IsPositiveCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
     static bool IsNegativeCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
 
-    static std::function<bool(const Real&, const Real&)> GenerateComparator(
-        const Criterion& aCriterion, const Real& aTarget
-    );
+    std::function<bool(const Real&, const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
 
     AngularCondition(
         const String& aName,

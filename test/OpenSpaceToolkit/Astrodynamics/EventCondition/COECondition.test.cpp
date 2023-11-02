@@ -38,6 +38,7 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Length;
 using ostk::physics::units::Derived;
 
+using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::AngularCondition;

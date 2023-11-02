@@ -11,6 +11,7 @@ namespace astro
 {
 namespace eventcondition
 {
+
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::coord::Frame;
@@ -27,7 +28,7 @@ using ostk::astro::trajectory::State;
 RealCondition COECondition::SemiMajorAxis(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Length& aSemiMajorAxis,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -35,14 +36,14 @@ RealCondition COECondition::SemiMajorAxis(
         "Semi-major axis Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::SemiMajorAxis, aFrameSPtr, aGravitationalParameter),
-        aSemiMajorAxis.inMeters(),
+        aTarget
     };
 }
 
 RealCondition COECondition::Eccentricity(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Real& anEccentricity,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -50,14 +51,14 @@ RealCondition COECondition::Eccentricity(
         "Eccentricity Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Eccentricity, aFrameSPtr, aGravitationalParameter),
-        anEccentricity,
+        aTarget
     };
 }
 
 AngularCondition COECondition::Inclination(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Angle& anInclination,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -65,14 +66,14 @@ AngularCondition COECondition::Inclination(
         "Inclination Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter),
-        anInclination,
+        aTarget
     };
 }
 
 AngularCondition COECondition::Aop(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Angle& anArgumentOfPeriapsis,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -80,14 +81,14 @@ AngularCondition COECondition::Aop(
         "Argument of periapsis Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter),
-        anArgumentOfPeriapsis,
+        aTarget
     };
 }
 
 AngularCondition COECondition::Raan(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Angle& aRightAscensionOfAscendingNode,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -95,14 +96,14 @@ AngularCondition COECondition::Raan(
         "Right angle of ascending node Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::Raan, aFrameSPtr, aGravitationalParameter),
-        aRightAscensionOfAscendingNode,
+        aTarget
     };
 }
 
 AngularCondition COECondition::TrueAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Angle& aTrueAnomaly,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -110,14 +111,14 @@ AngularCondition COECondition::TrueAnomaly(
         "True anomaly Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter),
-        aTrueAnomaly,
+        aTarget
     };
 }
 
 AngularCondition COECondition::MeanAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Angle& aMeanAnomaly,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -125,14 +126,14 @@ AngularCondition COECondition::MeanAnomaly(
         "Mean anomaly Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter),
-        aMeanAnomaly,
+        aTarget
     };
 }
 
 AngularCondition COECondition::EccentricAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
-    const Angle& anEccentricAnomaly,
+    const EventCondition::Target& aTarget,
     const Derived& aGravitationalParameter
 )
 {
@@ -140,7 +141,7 @@ AngularCondition COECondition::EccentricAnomaly(
         "Eccentric anomaly Condition",
         aCriterion,
         COECondition::GenerateEvaluator(COE::Element::EccentricAnomaly, aFrameSPtr, aGravitationalParameter),
-        anEccentricAnomaly,
+        aTarget
     };
 }
 

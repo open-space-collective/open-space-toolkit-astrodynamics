@@ -12,7 +12,7 @@ namespace eventcondition
 LogicalCondition::LogicalCondition(
     const String& aName, const LogicalCondition::Type& aType, const Array<Shared<EventCondition>>& eventConditions
 )
-    : EventCondition(aName),
+    : EventCondition(aName, nullptr, 0.0),
       type_(aType),
       eventConditions_(eventConditions),
       evaluator_(LogicalCondition::GenerateEvaluator(aType))
@@ -29,6 +29,14 @@ LogicalCondition::Type LogicalCondition::getType() const
 Array<Shared<EventCondition>> LogicalCondition::getEventConditions() const
 {
     return eventConditions_;
+}
+
+void LogicalCondition::updateTarget(const State& aState)
+{
+    for (const auto& eventCondition : eventConditions_)
+    {
+        eventCondition->updateTarget(aState);
+    }
 }
 
 bool LogicalCondition::isSatisfied(const State& currentState, const State& previousState) const

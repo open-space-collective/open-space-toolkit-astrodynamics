@@ -64,10 +64,12 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::dynamics::thruster::ConstantThrust;
+using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::eventcondition::RealCondition;
@@ -335,7 +337,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 
     // segment termination due to maximum propagation duration
     {
-        const Sequence sequence = {
+        Sequence sequence = {
             defaultSegments_,
             defaultRepetitionCount_,
             defaultNumericalSolver_,
@@ -513,6 +515,132 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             std::log(solution.getInitialMass().inKilograms() / solution.getFinalMass().inKilograms()),
         1e-3
     );
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
+{
+    {
+        const Shared<AngularCondition> relativeTrueAnomalyCondition =
+            std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
+                AngularCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                EventCondition::Target(Angle::Degrees(5.0), EventCondition::Target::Type::RelativeSegmentStart),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
+
+        const Array<Segment> segments = {
+            Segment::Coast(
+                "Relative True Anomaly", relativeTrueAnomalyCondition, defaultDynamics_, defaultNumericalSolver_
+            ),
+        };
+
+        Sequence sequence = {
+            segments,
+            3,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            Duration::Days(1.0),
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+
+        COE initialCOE = COE::Cartesian(
+            {defaultState_.getPosition(), defaultState_.getVelocity()},
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        );
+
+        for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
+        {
+            EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
+            const COE coe = COE::Cartesian(
+                {segmentSolution.states.accessLast().getPosition(), segmentSolution.states.accessLast().getVelocity()},
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            );
+            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-5);
+            initialCOE = coe;
+        }
+    }
+
+    {
+        const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(30.0))
+        );
+
+        const Array<Segment> segments = {
+            Segment::Coast("Duration", durationCondition, defaultDynamics_, defaultNumericalSolver_),
+        };
+
+        Sequence sequence = {
+            segments,
+            3,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            Duration::Days(1.0),
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+
+        Size iter = 1;
+        for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
+        {
+            EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
+            EXPECT_NEAR(
+                (segmentSolution.accessEndInstant() - defaultState_.accessInstant()).inSeconds(), 30.0 * iter, 1e-6
+            );
+
+            ++iter;
+        }
+    }
+
+    {
+        const Shared<AngularCondition> relativeTrueAnomalyCondition =
+            std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
+                AngularCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                EventCondition::Target(Angle::Degrees(5.0), EventCondition::Target::Type::RelativeSequenceStart),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
+
+        const Array<Segment> segments = {
+            Segment::Coast(
+                "Relative True Anomaly", relativeTrueAnomalyCondition, defaultDynamics_, defaultNumericalSolver_
+            ),
+        };
+
+        Sequence sequence = {
+            segments,
+            3,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            Duration::Days(1.0),
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+
+        COE initialCOE = COE::Cartesian(
+            {defaultState_.getPosition(), defaultState_.getVelocity()},
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        );
+
+        for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
+        {
+            EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
+            const COE coe = COE::Cartesian(
+                {segmentSolution.states.accessLast().getPosition(), segmentSolution.states.accessLast().getVelocity()},
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            );
+            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-5);
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)

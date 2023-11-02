@@ -25,6 +25,7 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
@@ -55,12 +56,12 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
     };
     const StateBuilder defaultStateBuilder_ = StateBuilder(defaultFrame_, defaultSubsets_);
 
-    const State generateState(const Real& coordinate)
+    const State generateState(const Real& coordinate, const Instant& anInstant = Instant::J2000())
     {
         VectorXd coordinates(1);
         coordinates << coordinate;
 
-        return defaultStateBuilder_.build(defaultInstant_, coordinates);
+        return defaultStateBuilder_.build(anInstant, coordinates);
     }
 };
 
@@ -102,13 +103,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Getters)
     {
         EXPECT_TRUE(defaultCondition_.getName() == defaultName_);
         EXPECT_TRUE(defaultCondition_.getCriterion() == defaultCriterion_);
-        EXPECT_NO_THROW(defaultCondition_.getEvaluator());  // Cannot compare equality for std::function
-        EXPECT_TRUE(defaultCondition_.getTarget() == defaultTarget_);
-    }
-
-    {
-        const RealCondition condition = RealCondition(defaultName_, defaultCriterion_, defaultEvaluator_);
-        EXPECT_EQ(condition.getTarget(), 0.0);
     }
 }
 
@@ -197,6 +191,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
         EXPECT_TRUE(condition.isSatisfied(generateState(0.0), generateState(2.0)));
         EXPECT_TRUE(condition.isSatisfied(generateState(0.0), generateState(-1.0)));
         EXPECT_FALSE(condition.isSatisfied(generateState(3.0), generateState(2.0)));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, DurationCondition)
+{
+    {
+        EXPECT_NO_THROW(
+            RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Hours(1.0))
+        );
+    }
+
+    {
+        RealCondition condition =
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(1.0));
+
+        condition.updateTarget(generateState(0.0, Instant::J2000() + Duration::Minutes(1.0)));
+
+        EXPECT_TRUE(condition.isSatisfied(
+            generateState(0.0, Instant::J2000() + Duration::Minutes(2.1)), generateState(0.0, Instant::J2000())
+        ));
     }
 }
 

@@ -28,7 +28,7 @@ InstantCondition::~InstantCondition() {}
 
 Instant InstantCondition::getInstant() const
 {
-    return Instant::J2000() + Duration::Seconds(getTarget());
+    return Instant::J2000() + Duration::Seconds(getTarget().value);
 }
 
 }  // namespace eventcondition

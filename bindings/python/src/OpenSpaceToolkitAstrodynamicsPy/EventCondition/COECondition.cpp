@@ -38,7 +38,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        semi_major_axis (float): The semi-major axis.
+                        semi_major_axis (EventConditionTarget): The semi-major axis.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -59,7 +59,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        eccentricity (float): The eccentricity.
+                        eccentricity (EventConditionTarget): The eccentricity.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -80,7 +80,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        inclination (float): The inclination.
+                        inclination (EventConditionTarget): The inclination.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        aop (float): The argument of perigee.
+                        aop (EventConditionTarget): The argument of perigee.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -122,7 +122,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        raan (float): The right ascension of the ascending node.
+                        raan (EventConditionTarget): The right ascension of the ascending node.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -143,7 +143,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        true_anomaly (float): The true anomaly.
+                        true_anomaly (EventConditionTarget): The true anomaly.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -164,7 +164,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        mean_anomaly (float): The mean anomaly.
+                        mean_anomaly (EventConditionTarget): The mean anomaly.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:
@@ -185,7 +185,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                     Args:
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
-                        eccentric_anomaly (float): The eccentric anomaly.
+                        eccentric_anomaly (EventConditionTarget): The eccentric anomaly.
                         gravitational_parameter (float): The gravitational parameter.
 
                     Returns:

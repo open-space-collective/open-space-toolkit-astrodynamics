@@ -15,7 +15,7 @@ namespace eventcondition
 BooleanCondition::BooleanCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<bool(const State&)> anEvaluator,
+    const std::function<bool(const State&)>& anEvaluator,
     const bool& anInverseFlag
 )
     : RealCondition(

@@ -40,9 +40,6 @@ def event_condition(evaluator, target: float) -> RealCondition:
 
 
 class TestRealCondition:
-    def test_get_target(self, event_condition: RealCondition, target: float):
-        assert event_condition.get_target() == target
-
     def test_evaluate(self, state: State, event_condition: RealCondition):
         assert event_condition.evaluate(state) is not None
 

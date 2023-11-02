@@ -20,11 +20,22 @@ AngularCondition::AngularCondition(
     const std::function<Real(const State&)>& anEvaluator,
     const Angle& aTargetAngle
 )
-    : EventCondition(aName),
+    : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, Real::TwoPi())),
       criterion_(aCriterion),
-      evaluator_(anEvaluator),
-      comparator_(GenerateComparator(aCriterion, aTargetAngle.inRadians(0.0, Real::TwoPi()))),
-      target_(aTargetAngle.inRadians(0.0, Real::TwoPi())),
+      comparator_(GenerateComparator(aCriterion)),
+      targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
+{
+}
+
+AngularCondition::AngularCondition(
+    const String& aName,
+    const Criterion& aCriterion,
+    const std::function<Real(const State&)>& anEvaluator,
+    const Target& aTarget
+)
+    : EventCondition(aName, anEvaluator, aTarget),
+      criterion_(aCriterion),
+      comparator_(GenerateComparator(aCriterion)),
       targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
 {
 }
@@ -36,19 +47,14 @@ AngularCondition::Criterion AngularCondition::getCriterion() const
     return criterion_;
 }
 
-std::function<Real(const State&)> AngularCondition::getEvaluator() const
-{
-    return evaluator_;
-}
-
 Angle AngularCondition::getTargetAngle() const
 {
-    if (!target_.isDefined())
+    if (!target_.value.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Target");
     }
 
-    return Angle::Radians(target_);
+    return Angle::Radians(target_.value);
 }
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
@@ -84,7 +90,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return comparator_(evaluator_(currentState), evaluator_(previousState));
+    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value + target_.valueOffset));
 }
 
 AngularCondition AngularCondition::WithinRange(
@@ -147,24 +153,24 @@ bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& 
     return (currentValue > previousValue) && (targetValue <= previousValue || targetValue > currentValue);
 }
 
-std::function<bool(const Real&, const Real&)> AngularCondition::GenerateComparator(
-    const AngularCondition::Criterion& aCriterion, const Real& aTarget
+std::function<bool(const Real&, const Real&, const Real&)> AngularCondition::GenerateComparator(
+    const AngularCondition::Criterion& aCriterion
 )
 {
     switch (aCriterion)
     {
         case Criterion::PositiveCrossing:
-            return [aTarget](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
             {
                 return AngularCondition::IsPositiveCrossing(currentValue, previousValue, aTarget);
             };
         case Criterion::NegativeCrossing:
-            return [aTarget](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
             {
                 return AngularCondition::IsNegativeCrossing(currentValue, previousValue, aTarget);
             };
         case Criterion::AnyCrossing:
-            return [aTarget](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
             {
                 return AngularCondition::IsPositiveCrossing(currentValue, previousValue, aTarget) ||
                        AngularCondition::IsNegativeCrossing(currentValue, previousValue, aTarget);
@@ -184,19 +190,17 @@ AngularCondition::AngularCondition(
     const std::function<Real(const State&)>& anEvaluator,
     const Pair<Angle, Angle>& aTargetRange
 )
-    : EventCondition(aName),
+    : EventCondition(aName, anEvaluator, Real::Undefined()),
       criterion_(aCriterion),
-      evaluator_(anEvaluator),
       comparator_(
           [lowerBound = aTargetRange.first.inRadians(0.0, Real::TwoPi()),
            upperBound = aTargetRange.second.inRadians(0.0, Real::TwoPi())](
-              const Real& currentValue, [[maybe_unused]] const Real& previousValue
+              const Real& currentValue, [[maybe_unused]] const Real& previousValue, [[maybe_unused]] const Real& aTarget
           ) -> bool
           {
               return (currentValue >= lowerBound) && (currentValue <= upperBound);
           }
       ),
-      target_(Real::Undefined()),
       targetRange_(std::make_pair(
           aTargetRange.first.inRadians(0.0, Real::TwoPi()), aTargetRange.second.inRadians(0.0, Real::TwoPi())
       ))

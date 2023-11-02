@@ -25,7 +25,7 @@ from ostk.physics.units import Mass
 from ostk.astrodynamics.event_condition import COECondition
 from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import RealCondition
-from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics import Dynamics, EventConditionTarget
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.dynamics.thruster import ConstantThrust
@@ -214,11 +214,18 @@ def constant_thrust(satellite_system: SatelliteSystem) -> ConstantThrust:
 
 
 @pytest.fixture
-def sma_condition(sma: Length, gravitational_parameter: Derived) -> COECondition:
+def sma_target(sma: Length) -> EventConditionTarget:
+    return EventConditionTarget(sma)
+
+
+@pytest.fixture
+def sma_condition(
+    sma_target: EventConditionTarget, gravitational_parameter: Derived
+) -> COECondition:
     return COECondition.semi_major_axis(
         criterion=RealCondition.Criterion.AnyCrossing,
         frame=Frame.GCRF(),
-        semi_major_axis=sma,
+        semi_major_axis=sma_target,
         gravitational_parameter=gravitational_parameter,
     )
 
