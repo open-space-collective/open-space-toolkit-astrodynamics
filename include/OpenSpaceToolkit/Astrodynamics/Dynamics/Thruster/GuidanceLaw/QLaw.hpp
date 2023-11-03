@@ -13,7 +13,9 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -44,6 +46,8 @@ using ostk::physics::units::Derived;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::dynamics::thruster::GuidanceLaw;
+using ostk::astro::solvers::FiniteDifferenceSolver;
+using ostk::astro::trajectory::StateBuilder;
 
 /// @brief                     The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
@@ -72,9 +76,16 @@ class QLaw : public GuidanceLaw
     /// @brief                  Constructor
     ///
     /// @param                  [in] aCOE A target orbit described by Classical Orbital Elements.
-    /// @param                  [in]
+    /// @param                  [in] aGravitationalParameter The gravitational parameter of the central body.
+    /// @param                  [in] aParameterSet A set of parameters for the QLaw.
+    /// @param                  [in] aFiniteDifferenceSolver The finite difference solver.
 
-    QLaw(const COE& aCOE, const Derived& aGravitationalParameter, const Parameters& aParameterSet);
+    QLaw(
+        const COE& aCOE,
+        const Derived& aGravitationalParameter,
+        const Parameters& aParameterSet,
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver = FiniteDifferenceSolver::Default()
+    );
 
     /// @brief                  Destructor
 
@@ -123,15 +134,14 @@ class QLaw : public GuidanceLaw
    private:
     Parameters parameters_;
     const Real mu_;
-    const COE targetCOE_;
+    const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;
+    const FiniteDifferenceSolver finiteDifferenceSolver_;
+    const StateBuilder stateBuilder_;
 
-    Real computeQ(const Vector6d& currentCOEVector, const Vector6d& targetCOEVector, const Real& aThrustAcceleration)
-        const;
+    Real computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const;
 
-    Vector3d computeThrustDirection(
-        const Vector6d& currentCOEVector, const Vector6d& targetCOEVector, const Real& aThrustAcceleration
-    ) const;
+    Vector3d computeThrustDirection(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const;
 
     Matrix53d computeDOEWithF(const Vector6d& aCOEVector) const;
 

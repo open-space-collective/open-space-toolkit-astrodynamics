@@ -4,6 +4,8 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/QLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
@@ -15,17 +17,28 @@ namespace thruster
 {
 
 using ostk::math::obj::Vector6d;
+using ostk::math::obj::VectorXd;
 using ostk::math::geom::d3::trf::rot::RotationMatrix;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
-QLaw::QLaw(const COE& aCOE, const Derived& aGravitationalParameter, const QLaw::Parameters& aParameterSet)
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+
+QLaw::QLaw(
+    const COE& aCOE,
+    const Derived& aGravitationalParameter,
+    const QLaw::Parameters& aParameterSet,
+    const FiniteDifferenceSolver& aFiniteDifferenceSolver
+)
     : GuidanceLaw("Q-Law"),
       parameters_(aParameterSet),
       mu_(aGravitationalParameter.in(aGravitationalParameter.getUnit())),
-      targetCOE_(aCOE),
-      gravitationalParameter_(aGravitationalParameter)
+      targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),
+      gravitationalParameter_(aGravitationalParameter),
+      finiteDifferenceSolver_(aFiniteDifferenceSolver),
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinatesSubset>("COE Vector", 6)})
 {
 }
 
@@ -64,8 +77,7 @@ Vector3d QLaw::computeAcceleration(
     coeVector[1] = std::max(coeVector[1], singularityTolerance);
     coeVector[2] = std::max(singularityTolerance, std::min(coeVector[2], singularityTolerance));
 
-    const Vector3d thrustDirection =
-        computeThrustDirection(coeVector, targetCOE_.getSIVector(COE::AnomalyType::True), aThrustAcceleration);
+    const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
     // TBI: Maybe get a Quaternion and apply the rotation
     const Matrix3d R_thetaRH_GCRF = QLaw::thetaRHToGCRF(aPositionCoordinates, aVelocityCoordinates);
@@ -73,16 +85,27 @@ Vector3d QLaw::computeAcceleration(
     return aThrustAcceleration * R_thetaRH_GCRF * thrustDirection;
 }
 
-Vector3d QLaw::computeThrustDirection(
-    const Vector6d& currentCOEVector, const Vector6d& targetCOEVector, const Real& aThrustAcceleration
-) const
+Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const
 {
     const Matrix53d derivativeMatrix = computeDOEWithF(currentCOEVector);
 
-    // TBI: Generalized Jacobian via Finite Difference algorithm
-    const Matrix5d jacobian;
+    const auto getQ = [this,
+                       &aThrustAcceleration](const State& aState, [[maybe_unused]] const Instant& anInstant) -> VectorXd
+    {
+        const Vector6d coeVector = COE::Cartesian({aState.getPosition(), aState.getVelocity()}, gravitationalParameter_)
+                                       .getSIVector(COE::AnomalyType::True);
 
-    const MatrixXd D = jacobian * derivativeMatrix;
+        VectorXd coordinates(1);
+        coordinates << this->computeQ(coeVector, aThrustAcceleration);
+
+        return coordinates;
+    };
+
+    const MatrixXd stateTransitionMatrix = finiteDifferenceSolver_.computeStateTransitionMatrix(
+        stateBuilder_.build(Instant::J2000(), currentCOEVector), Instant::J2000(), getQ
+    );
+
+    const MatrixXd D = stateTransitionMatrix * derivativeMatrix;
 
     return {
         D.col(0).sum(),
@@ -91,16 +114,15 @@ Vector3d QLaw::computeThrustDirection(
     };
 }
 
-Real QLaw::computeQ(const Vector6d& currentCOEVector, const Vector6d& targetCOEVector, const Real& aThrustAcceleration)
-    const
+Real QLaw::computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const
 {
     Vector5d deltaCOE(5);
-    deltaCOE << (currentCOEVector[0] - targetCOEVector[0]), (currentCOEVector[1] - targetCOEVector[1]),
-        (currentCOEVector[2] - targetCOEVector[2]), (std::acos(std::cos((currentCOEVector[3] - targetCOEVector[3])))),
-        (std::acos(std::cos((currentCOEVector[4] - targetCOEVector[4]))));
+    deltaCOE << (currentCOEVector[0] - targetCOEVector_[0]), (currentCOEVector[1] - targetCOEVector_[1]),
+        (currentCOEVector[2] - targetCOEVector_[2]), (std::acos(std::cos((currentCOEVector[3] - targetCOEVector_[3])))),
+        (std::acos(std::cos((currentCOEVector[4] - targetCOEVector_[4]))));
 
     Vector5d scalingCOE(5);
-    scalingCOE << (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector[0]), parameters_.n)) * 1.0 /
+    scalingCOE << (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n)) * 1.0 /
                       parameters_.r,
         1.0, 1.0, 1.0, 1.0;
 
