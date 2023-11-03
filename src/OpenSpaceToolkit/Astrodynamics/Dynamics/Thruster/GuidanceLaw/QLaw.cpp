@@ -1,7 +1,7 @@
+/// Apache License 2.0
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
-
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -20,7 +20,6 @@ namespace guidancelaw
 
 using ostk::math::obj::Vector6d;
 using ostk::math::obj::VectorXd;
-using ostk::math::geom::d3::trf::rot::RotationMatrix;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
@@ -33,7 +32,7 @@ QLaw::Parameters::Parameters(
     const Size& aMValue,
     const Size& aNValue,
     const Size& aRValue,
-    const Size& aBValue
+    const Real& aBValue
 )
     : m(aMValue),
       n(aNValue),
@@ -120,6 +119,16 @@ void QLaw::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "QLaw") : void();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+QLaw::Parameters QLaw::getParameters() const
+{
+    return parameters_;
+}
+
+COE QLaw::getTargetCOE() const
+{
+    return COE::FromSIVector(targetCOEVector_, COE::AnomalyType::True);
 }
 
 Vector3d QLaw::computeAcceleration(
@@ -273,12 +282,12 @@ Matrix3d QLaw::thetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3
     const Vector3d H = aPositionCoordinates.cross(aVelocityCoordinates).normalized();
     const Vector3d theta = H.cross(R);
 
-    Matrix3d RotationMatrix;
-    RotationMatrix.col(0) = theta;
-    RotationMatrix.col(1) = R;
-    RotationMatrix.col(2) = H;
+    Matrix3d rotationMatrix;
+    rotationMatrix.col(0) = theta;
+    rotationMatrix.col(1) = R;
+    rotationMatrix.col(2) = H;
 
-    return RotationMatrix;
+    return rotationMatrix;
 }
 
 Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const

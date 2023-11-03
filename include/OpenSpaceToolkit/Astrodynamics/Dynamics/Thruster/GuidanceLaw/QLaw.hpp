@@ -6,7 +6,6 @@
 #include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -40,7 +39,6 @@ using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
 using ostk::math::obj::Vector6d;
 using ostk::math::obj::MatrixXd;
-using ostk::math::geom::d3::trf::rot::Quaternion;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
@@ -71,7 +69,7 @@ class QLaw : public GuidanceLaw
             const Size& aMValue = 3,
             const Size& aNValue = 4,
             const Size& aRValue = 2,
-            const Size& aBValue = 0.01
+            const Real& aBValue = 0.01
         );
 
         Vector5d getControlWeights() const;
@@ -115,7 +113,17 @@ class QLaw : public GuidanceLaw
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const QLaw& aGuidanceLaw);
 
-    Map<COE::Element, Real> getElementWeights() const;
+    /// @brief                  Get Parameters
+    ///
+    /// @return                 Parameters
+
+    Parameters getParameters() const;
+
+    /// @brief                  Get target COE
+    ///
+    /// @return                 target COE
+
+    COE getTargetCOE() const;
 
     /// @brief                  Print guidance law
     ///
