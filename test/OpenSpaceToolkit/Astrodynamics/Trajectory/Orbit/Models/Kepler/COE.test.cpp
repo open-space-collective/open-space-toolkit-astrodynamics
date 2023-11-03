@@ -344,6 +344,78 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetApoap
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiLatusRectum)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(0.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        EXPECT_DOUBLE_EQ(
+            semiMajorAxis.inMeters() * (1.0 - std::pow(eccentricity, 2)), coe.getSemiLatusRectum().inMeters()
+        );
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getSemiLatusRectum());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRadialDistance)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(0.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        EXPECT_DOUBLE_EQ(
+            semiMajorAxis.inMeters() * (1.0 - std::pow(eccentricity, 2)) /
+                (1.0 + eccentricity * std::cos(trueAnomaly.inRadians())),
+            coe.getRadialDistance().inMeters()
+        );
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getRadialDistance());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngularMomentum)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(0.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        EXPECT_DOUBLE_EQ(
+            std::sqrt(
+                Earth::EGM2008.gravitationalParameter_.in(Earth::EGM2008.gravitationalParameter_.getUnit()) *
+                coe.getSemiLatusRectum().inMeters()
+            ),
+            coe.getAngularMomentum(Earth::EGM2008.gravitationalParameter_)
+        );
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getAngularMomentum(Earth::EGM2008.gravitationalParameter_));
+    }
+}
+
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
