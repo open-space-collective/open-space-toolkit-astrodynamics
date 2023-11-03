@@ -152,3 +152,6 @@ class TestFiniteDifferenceSolver:
         )
         assert isinstance(gradient, np.ndarray)
         assert all(gradient - np.array([0.0, -1.0]) < 1e-6)
+
+    def test_default(self):
+        assert isinstance(FiniteDifferenceSolver.default(), FiniteDifferenceSolver)

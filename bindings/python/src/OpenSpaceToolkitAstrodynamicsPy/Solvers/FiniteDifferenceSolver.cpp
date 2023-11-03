@@ -159,5 +159,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             arg("type")
         )
 
+        .def_static(
+            "default",
+            &FiniteDifferenceSolver::Default,
+            R"doc(
+                Get the default Finite Difference Solver.
+
+                Returns:
+                    FiniteDifferenceSolver: The default Finite Difference Solver.
+            )doc",
+        )
+
         ;
 }
