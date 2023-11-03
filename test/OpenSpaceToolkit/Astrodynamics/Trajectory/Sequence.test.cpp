@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
@@ -25,6 +26,7 @@
 using ostk::core::ctnr::Array;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
+using ostk::core::types::Index;
 using ostk::core::types::Real;
 
 using ostk::math::geom::d3::objects::Composite;
@@ -69,6 +71,7 @@ using ostk::astro::dynamics::thruster::ConstantThrust;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::eventcondition::RealCondition;
+using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
@@ -126,6 +129,38 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_getS
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        const Segment::Solution segmentSolution = {
+            "A Segment", {}, {defaultState_, defaultState_}, true, Segment::Type::Coast
+        };
+
+        Sequence::Solution sequenceSolution = {{segmentSolution}, true};
+        EXPECT_NO_THROW(sequenceSolution.print(std::cout, true));
+        EXPECT_NO_THROW(sequenceSolution.print(std::cout, false));
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_StreamOperator)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        const Segment::Solution segmentSolution = {
+            "A Segment", {}, {defaultState_, defaultState_}, true, Segment::Type::Coast
+        };
+
+        EXPECT_NO_THROW(std::cout << segmentSolution << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
 {
     {
@@ -137,7 +172,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_));
+        {
+            EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_));
+        }
+
+        {
+            EXPECT_THROW(Sequence sequence(defaultSegments_, 0), ostk::core::error::runtime::Wrong);
+        }
     }
 
     {
@@ -158,6 +199,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
             defaultDynamics_,
             defaultMaximumPropagationDuration_
         ));
+    }
+
+    {
+        {
+            for (Size verbosity = 0; verbosity <= 5; ++verbosity)
+            {
+                EXPECT_NO_THROW(Sequence sequence(
+                    defaultSegments_,
+                    defaultRepetitionCount_,
+                    defaultNumericalSolver_,
+                    defaultDynamics_,
+                    defaultMaximumPropagationDuration_,
+                    verbosity
+                ));
+            }
+        }
+
+        {
+            EXPECT_THROW(
+                Sequence sequence(
+                    defaultSegments_,
+                    defaultRepetitionCount_,
+                    defaultNumericalSolver_,
+                    defaultDynamics_,
+                    defaultMaximumPropagationDuration_,
+                    6
+                ),
+                ostk::core::error::runtime::Wrong
+            );
+        }
     }
 }
 
@@ -240,6 +311,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 {
+    // default solve
     {
         const Sequence::Solution solution = defaultSequence_.solve(defaultState_);
 
@@ -261,6 +333,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         EXPECT_EQ(solution.getStates().getSize(), statesSize);
     }
 
+    // segment termination due to maximum propagation duration
     {
         const Sequence sequence = {
             defaultSegments_,
@@ -275,6 +348,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         EXPECT_FALSE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+    }
+
+    // sequence termination maximum propagation duration
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Seconds(0.1));
+
+        EXPECT_FALSE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    }
+
+    // sequence completion due to event condition
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
+        };
+
+        Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
+        );
+
+        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Days(1.0), eventCondition);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    }
+
+    // sequence failure, event condition not met
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
+        };
+
+        Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(30.0)
+        );
+
+        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Days(30.0), eventCondition);
+
+        EXPECT_FALSE(solution.executionIsComplete);
     }
 }
 
@@ -362,11 +490,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     EXPECT_EQ(solution.accessStartInstant(), Instant::J2000());
     EXPECT_EQ(solution.accessEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
 
+    const Array<State> solutionStates = solution.getStates();
+
+    for (Index i = 1; i < solutionStates.getSize(); ++i)
+    {
+        EXPECT_TRUE(solutionStates[i].accessInstant() > solutionStates[i - 1].accessInstant());
+    }
     EXPECT_DOUBLE_EQ(solution.getInitialMass().inKilograms(), mass + 100.0);
     EXPECT_DOUBLE_EQ(
         solution.getFinalMass().inKilograms(),
         solution.segmentSolutions.accessLast().states.accessLast().accessCoordinates()[6]
     );
+    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
 
     EXPECT_DOUBLE_EQ(
         solution.computeDeltaMass().inKilograms(),
@@ -378,15 +513,65 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             std::log(solution.getInitialMass().inKilograms() / solution.getFinalMass().inKilograms()),
         1e-3
     );
-
-    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
 {
-    testing::internal::CaptureStdout();
+    {
+        testing::internal::CaptureStdout();
 
-    EXPECT_NO_THROW(defaultSequence_.print(std::cout, true));
-    EXPECT_NO_THROW(defaultSequence_.print(std::cout, false));
-    EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+        EXPECT_NO_THROW(defaultSequence_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultSequence_.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
+    {
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+
+        const PropulsionSystem propulsionSystem = PropulsionSystem(1.0, 1500.0);
+
+        const SatelliteSystem satelliteSystem = {
+            Mass::Kilograms(100.0),
+            satelliteGeometry,
+            Matrix3d::Identity(),
+            500.0,
+            2.1,
+            propulsionSystem,
+        };
+
+        Sequence sequence = {
+            Array<Segment>::Empty(),
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_,
+        };
+
+        sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            RealCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            Length::Kilometers(6999.5),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        )));
+
+        sequence.addManeuverSegment(
+            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+                RealCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                Length::Kilometers(7000.0),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            )),
+            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
+        );
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(sequence.print(std::cout, true));
+        EXPECT_NO_THROW(sequence.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
 }

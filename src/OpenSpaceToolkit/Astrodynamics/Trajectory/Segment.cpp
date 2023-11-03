@@ -64,11 +64,6 @@ Mass Segment::Solution::getInitialMass() const
     return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
 }
 
-Duration Segment::Solution::getPropagationDuration() const
-{
-    return accessEndInstant() - accessStartInstant();
-}
-
 Mass Segment::Solution::getFinalMass() const
 {
     if (states.isEmpty())
@@ -77,6 +72,11 @@ Mass Segment::Solution::getFinalMass() const
     }
 
     return Mass::Kilograms(states.accessLast().extractCoordinates(CoordinatesSubset::Mass())[0]);
+}
+
+Duration Segment::Solution::getPropagationDuration() const
+{
+    return accessEndInstant() - accessStartInstant();
 }
 
 Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
@@ -99,6 +99,44 @@ Mass Segment::Solution::computeDeltaMass() const
     }
 
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Header(anOutputStream, "Segment Solution");
+    }
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name;
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Condition satisfied:" << (conditionIsSatisfied ? "True" : "False");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Segment type:" << (segmentType == Segment::Type::Coast ? "Coast" : "Maneuver");
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << accessStartInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << accessEndInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Propagation duration:" << (accessEndInstant() - accessStartInstant()).toString();
+
+    if (segmentType == Segment::Type::Maneuver)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Initial mass:" << getInitialMass().toString();
+        ostk::core::utils::Print::Line(anOutputStream) << "Final mass:" << getFinalMass().toString();
+        ostk::core::utils::Print::Line(anOutputStream) << "Total mass consumed:" << computeDeltaMass().toString();
+    }
+
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Footer(anOutputStream);
+    }
+}
+
+std::ostream& operator<<(std::ostream& anOutputStream, const Segment::Solution& aSolution)
+{
+    aSolution.print(anOutputStream);
+
+    return anOutputStream;
 }
 
 Segment::Segment(
@@ -132,7 +170,7 @@ Segment::Segment(
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Segment& aSegment)
 {
-    aSegment.print(anOutputStream, false);
+    aSegment.print(anOutputStream);
 
     return anOutputStream;
 }
@@ -205,14 +243,20 @@ void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    eventCondition_->print(anOutputStream, true);
+    ostk::core::utils::Print::Line(anOutputStream) << "Type:" << (type_ == Segment::Type::Coast ? "Coast" : "Maneuver");
+    ostk::core::utils::Print::Separator(anOutputStream, "Event Condition");
+    eventCondition_->print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream);
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Dynamics");
     for (const auto& dynamics : dynamics_)
     {
-        dynamics->print(anOutputStream, true);
+        dynamics->print(anOutputStream, false);
     }
     ostk::core::utils::Print::Line(anOutputStream);
-    ostk::core::utils::Print::Line(anOutputStream) << numericalSolver_;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Numerical Solver");
+    numericalSolver_.print(anOutputStream, false);
 
     if (displayDecorator)
     {

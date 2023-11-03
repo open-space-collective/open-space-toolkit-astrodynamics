@@ -17,27 +17,74 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
 {
     {
         class_<LogicalCondition, EventCondition, Shared<LogicalCondition>> logicalCondition(
-            aModule, "LogicalCondition"
+            aModule,
+            "LogicalCondition",
+            R"doc(
+                A Logical Event Condition. This class is used to combine multiple event conditions into a single set.
+
+                Group:
+                    event-condition
+            )doc"
         );
+
+        enum_<LogicalCondition::Type>(
+            logicalCondition,
+            "Type",
+            R"doc(
+                Logical Condition Type.
+                    - Disjunctive (Or)
+                    - Conjucntive (And)
+            )doc"
+        )
+
+            .value("And", LogicalCondition::Type::And, "And")
+            .value("Or", LogicalCondition::Type::Or, "Or")
+
+            ;
 
         logicalCondition
 
             .def(
                 init<const String&, const LogicalCondition::Type&, const Array<Shared<EventCondition>>&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        name (str): The name of the condition.
+                        type (Type): The type of the logical condition.
+                        event_conditions (list[EventCondition]): The list of event conditions.
+
+                    Group:
+                        Constructors
+                )doc",
                 arg("name"),
                 arg("type"),
                 arg("event_conditions")
             )
 
-            .def("get_type", &LogicalCondition::getType)
-            .def("get_event_conditions", &LogicalCondition::getEventConditions)
+            .def(
+                "get_type",
+                &LogicalCondition::getType,
+                R"doc(
+                    Get the type of the logical condition.
 
-            ;
+                    Returns:
+                        Type: The type of the logical condition.
 
-        enum_<LogicalCondition::Type>(logicalCondition, "Type")
+                )doc"
+            )
 
-            .value("And", LogicalCondition::Type::And)
-            .value("Or", LogicalCondition::Type::Or)
+            .def(
+                "get_event_conditions",
+                &LogicalCondition::getEventConditions,
+                R"doc(
+                    Get the list of event conditions.
+
+                    Returns:
+                        list[EventCondition]: The list of event conditions.
+
+                )doc"
+            )
 
             ;
     }

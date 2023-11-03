@@ -27,7 +27,6 @@ using ostk::physics::units::Time;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
-static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 Propagated::Propagated(const Propagator& aPropagator, const State& aState)
     : Model(),
@@ -140,6 +139,9 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         }
     }
 
+    // Builder for output states based on cached array
+    StateBuilder outputStateBuilder = {this->cachedStateArray_.accessFirst()};
+
     Array<State> allStates = Array<State>::Empty();
 
     // Maintain counter separately so as to only iterate once through instant array
@@ -213,12 +215,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
                 (forwardStates[k].accessCoordinates() * forwardWeight +
                  backwardStates[k].accessCoordinates() * backwardWeight);
 
-            averagedStates.add({
-                instants[k],
-                coordinates,
-                gcrfSPtr,
-                propagator_.accessCoordinatesBroker(),
-            });
+            averagedStates.add(outputStateBuilder.build(instants[k], coordinates));
         }
 
         allStates.add(averagedStates);

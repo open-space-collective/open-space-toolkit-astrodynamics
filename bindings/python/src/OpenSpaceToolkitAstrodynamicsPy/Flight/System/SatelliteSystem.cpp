@@ -18,11 +18,34 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
     using ostk::astro::flight::system::SatelliteSystem;
 
     {
-        class_<SatelliteSystem, System>(aModule, "SatelliteSystem")
+        class_<SatelliteSystem, System>(
+            aModule,
+            "SatelliteSystem",
+            R"doc(
+                A Satellite System.
+
+                Group:
+                    system
+            )doc"
+        )
 
             .def(
                 init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&, const PropulsionSystem&>(
                 ),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        mass (Mass): The mass of the satellite system.
+                        satellite_geometry (Composite): The geometry of the satellite system.
+                        inertia_tensor (Matrix3d): The inertia tensor of the satellite system.
+                        cross_sectional_surface_area (float): The cross-sectional surface area of the satellite system.
+                        drag_coefficient (float): The drag coefficient of the satellite system.
+                        propulsion_system (PropulsionSystem): The propulsion system of the satellite system.
+
+                    Group:
+                        Constructors
+                )doc",
                 arg("mass"),
                 arg("satellite_geometry"),
                 arg("inertia_tensor"),
@@ -37,14 +60,75 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
             .def("__str__", &(shiftToString<SatelliteSystem>))
             .def("__repr__", &(shiftToString<SatelliteSystem>))
 
-            .def("is_defined", &SatelliteSystem::isDefined)
+            .def(
+                "is_defined",
+                &SatelliteSystem::isDefined,
+                R"doc(
+                    Check if the satellite system is defined.
 
-            .def("get_inertia_tensor", &SatelliteSystem::getInertiaTensor)
-            .def("get_cross_sectional_surface_area", &SatelliteSystem::getCrossSectionalSurfaceArea)
-            .def("get_drag_coefficient", &SatelliteSystem::getDragCoefficient)
+                    Returns:
+                        bool: True if the satellite system is defined, False otherwise.
 
-            .def_static("undefined", &SatelliteSystem::Undefined)
-            .def_static("default", &SatelliteSystem::Default)
+                )doc"
+            )
+
+            .def(
+                "get_inertia_tensor",
+                &SatelliteSystem::getInertiaTensor,
+                R"doc(
+                    Get the inertia tensor of the satellite system.
+
+                    Returns:
+                        Matrix3d: The inertia tensor of the satellite system.
+
+                )doc"
+            )
+
+            .def(
+                "get_cross_sectional_surface_area",
+                &SatelliteSystem::getCrossSectionalSurfaceArea,
+                R"doc(
+                    Get the cross-sectional surface area of the satellite system.
+
+                    Returns:
+                        float: The cross-sectional surface area of the satellite system.
+
+                )doc"
+            )
+
+            .def(
+                "get_drag_coefficient",
+                &SatelliteSystem::getDragCoefficient,
+                R"doc(
+                    Get the drag coefficient of the satellite system.
+
+                    Returns:
+                        float: The drag coefficient of the satellite system.
+
+                )doc"
+            )
+
+            .def_static(
+                "undefined",
+                &SatelliteSystem::Undefined,
+                R"doc(
+                    Create an undefined satellite system.
+
+                    Returns:
+                        SatelliteSystem: The undefined satellite system.
+                )doc"
+            )
+
+            .def_static(
+                "default",
+                &SatelliteSystem::Default,
+                R"doc(
+                    Create a default satellite system.
+
+                    Returns:
+                        SatelliteSystem: The default satellite system.
+                )doc"
+            )
 
             ;
     }

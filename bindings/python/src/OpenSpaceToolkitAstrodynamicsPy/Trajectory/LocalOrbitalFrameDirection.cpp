@@ -9,23 +9,80 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
     using ostk::astro::trajectory::LocalOrbitalFrameDirection;
     using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 
-    class_<LocalOrbitalFrameDirection>(aModule, "LocalOrbitalFrameDirection")
+    class_<LocalOrbitalFrameDirection>(
+        aModule,
+        "LocalOrbitalFrameDirection",
+        R"doc(
+            A local orbital frame direction.
 
+            Group:
+                trajectory
+        )doc"
+    )
         .def(
             init<const ostk::math::obj::Vector3d&, const Shared<const LocalOrbitalFrameFactory>&>(),
             arg("vector"),
-            arg("local_orbital_frame_factory")
+            arg("local_orbital_frame_factory"),
+            R"doc(
+                Construct a new `LocalOrbitalFrameDirection` object.
+
+                Args:
+                    vector (numpy.ndarray): The vector expressed in the local orbital frame.
+                    local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory that defines the frame.
+
+                Returns:
+                    LocalOrbitalFrameDirection: The new `LocalOrbitalFrameDirection` object.
+            )doc"
         )
 
         .def(self == self)
         .def(self != self)
 
-        .def("is_defined", &LocalOrbitalFrameDirection::isDefined)
+        .def(
+            "is_defined",
+            &LocalOrbitalFrameDirection::isDefined,
+            R"doc(
+                Check if the local orbital frame direction is defined.
 
-        .def("get_value", &LocalOrbitalFrameDirection::getValue)
-        .def("get_local_orbital_frame_factory", &LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory)
+                Returns:
+                    bool: True if the local orbital frame direction is defined, False otherwise.
 
-        .def_static("undefined", &LocalOrbitalFrameDirection::Undefined)
+            )doc"
+        )
+
+        .def(
+            "get_value",
+            &LocalOrbitalFrameDirection::getValue,
+            R"doc(
+                Get the vector expressed in the local orbital frame.
+
+                Returns:
+                    Vector3d: The vector expressed in the local orbital frame.
+
+            )doc"
+        )
+        .def(
+            "get_local_orbital_frame_factory",
+            &LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory,
+            R"doc(
+                Get the local orbital frame factory that defines the frame.
+
+                Returns:
+                    LocalOrbitalFrameFactory: The local orbital frame factory that defines the frame.
+
+            )doc"
+        )
+
+        .def_static(
+            "undefined",
+            &LocalOrbitalFrameDirection::Undefined,
+            R"doc(
+                Get an undefined local orbital frame direction.
+
+                Returns:
+                    LocalOrbitalFrameDirection: The undefined local orbital frame direction.
+            )doc"
+        )
 
         ;
 }

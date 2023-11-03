@@ -69,21 +69,118 @@ class PyDynamics : public Dynamics
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
 {
-    class_<Dynamics, PyDynamics, Shared<Dynamics>>(aModule, "Dynamics")
+    class_<Dynamics, PyDynamics, Shared<Dynamics>>(
+        aModule,
+        "Dynamics",
+        R"doc(
+            Abstract interface class for dynamics.
+            
+            Can inherit and provide the virtual methods:
+                - is_defined
+                - get_read_coordinates_subsets
+                - get_write_coordinates_subsets
+                - compute_contribution
+            to create a custom dynamics class
 
-        .def(init<const String&>(), arg("name"))
+            Group:
+                dynamics
+        )doc"
+    )
 
-        .def("get_name", &Dynamics::getName)
+        .def(
+            init<const String&>(),
+            arg("name"),
+            R"doc(
+                Construct a new `Dynamics` object.
+
+                Args:
+                    name (str): The name of the dynamics.
+
+                Returns:
+                    dynamics (Dynamics): The new `Dynamics` object.
+            )doc"
+        )
+
+        .def(
+            "get_name",
+            &Dynamics::getName,
+            R"doc(
+                Get the name of the dynamics.
+
+                Returns:
+                    name (str): The name of the dynamics.
+            )doc"
+        )
 
         .def("__str__", &(shiftToString<Dynamics>))
         .def("__repr__", &(shiftToString<Dynamics>))
 
-        .def("is_defined", &Dynamics::isDefined)
-        .def("get_read_coordinates_subsets", &Dynamics::getReadCoordinatesSubsets)
-        .def("get_write_coordinates_subsets", &Dynamics::getWriteCoordinatesSubsets)
-        .def("compute_contribution", &Dynamics::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
+        .def(
+            "is_defined",
+            &Dynamics::isDefined,
+            R"doc(
+                Check if the dynamics is defined.
 
-        .def_static("from_environment", &Dynamics::FromEnvironment, arg("environment"))
+                Returns:
+                    is_defined (bool): True if the dynamics is defined, False otherwise.
+            )doc"
+        )
+
+        .def(
+            "get_read_coordinates_subsets",
+            &Dynamics::getReadCoordinatesSubsets,
+            R"doc(
+                Get the coordinates subsets that the dynamics reads.
+
+                Returns:
+                    read_coordinates_subsets (Array<CoordinatesSubset>): The coordinates subsets that the dynamics reads.
+            )doc"
+        )
+
+        .def(
+            "get_write_coordinates_subsets",
+            &Dynamics::getWriteCoordinatesSubsets,
+            R"doc(
+                Get the coordinates subsets that the dynamics writes.
+
+                Returns:
+                    write_coordinates_subsets (Array<CoordinatesSubset>): The coordinates subsets that the dynamics writes.
+            )doc"
+        )
+
+        .def(
+            "compute_contribution",
+            &Dynamics::computeContribution,
+            arg("instant"),
+            arg("state_vector"),
+            arg("frame"),
+            R"doc(
+                Compute the contribution of the dynamics at a given instant.
+
+                Args:
+                    instant (Instant): The instant at which to compute the contribution.
+                    state_vector (numpy.ndarray): The state vector at the instant.
+                    frame (Frame): The reference frame in which to compute the contribution.
+
+                Returns:
+                    contribution (numpy.ndarray): The contribution of the dynamics at the instant.
+            )doc"
+        )
+
+        .def_static(
+            "from_environment",
+            &Dynamics::FromEnvironment,
+            arg("environment"),
+            R"doc(
+                Create a `Dynamics` object from an environment.
+
+                Args:
+                    environment (Environment): The environment to create the dynamics from.
+
+                Returns:
+                    dynamics (Dynamics): The `Dynamics` object created from the environment.
+            )doc"
+        )
 
         ;
 

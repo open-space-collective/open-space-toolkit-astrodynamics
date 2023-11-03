@@ -120,8 +120,7 @@ void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator
 
     Dynamics::print(anOutputStream, false);
 
-    // TBI: Print Celestial once there is a print method in OSTk physics
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
+    // TBI: Print Celestial once we have a proper implementation of Celestial::print
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

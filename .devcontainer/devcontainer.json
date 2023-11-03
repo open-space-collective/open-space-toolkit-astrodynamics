@@ -29,14 +29,13 @@
                     }
                 },
                 "python.analysis.diagnosticSeverityOverrides": {
-                    "reportMissingImports": "none",
-                    "reportMissingModuleSource": "none",
-                    "reportUndefinedVariable": "none"
+                    "reportMissingModuleSource": "none"
                 }
             },
             "extensions": [
                 "ms-vscode.cpptools",
                 "ms-python.python",
+                "ms-python.black-formatter",
                 "mhutchie.git-graph",
                 "ms-vscode.cpptools-extension-pack"
             ]
