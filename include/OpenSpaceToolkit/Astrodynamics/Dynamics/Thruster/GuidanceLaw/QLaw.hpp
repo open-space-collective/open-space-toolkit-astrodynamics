@@ -25,6 +25,8 @@ namespace dynamics
 {
 namespace thruster
 {
+namespace guidancelaw
+{
 
 using ostk::core::types::Real;
 using ostk::core::types::Size;
@@ -64,13 +66,23 @@ class QLaw : public GuidanceLaw
    public:
     struct Parameters
     {
-        Map<COE::Element, Real> elementWeights;
-        Size m = 3;
-        Size n = 4;
-        Size r = 2;
-        Real b = 0.01;
+        Parameters(
+            const Map<COE::Element, Real>& anElementWeights,
+            const Size& aMValue = 3,
+            const Size& aNValue = 4,
+            const Size& aRValue = 2,
+            const Size& aBValue = 0.01
+        );
 
-        Vector5d controlWeights;
+        Vector5d getControlWeights() const;
+
+        const Size m;
+        const Size n;
+        const Size r;
+        const Real b;
+
+       private:
+        Vector5d controlWeights_ = Vector5d::Zero();
     };
 
     /// @brief                  Constructor
@@ -84,7 +96,7 @@ class QLaw : public GuidanceLaw
         const COE& aCOE,
         const Derived& aGravitationalParameter,
         const Parameters& aParameterSet,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver = FiniteDifferenceSolver::Default()
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver
     );
 
     /// @brief                  Destructor
@@ -150,6 +162,7 @@ class QLaw : public GuidanceLaw
     static Matrix3d thetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 };
 
+}  // namespace guidancelaw
 }  // namespace thruster
 }  // namespace dynamics
 }  // namespace astro

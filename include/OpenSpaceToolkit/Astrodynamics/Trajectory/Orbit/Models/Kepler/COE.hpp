@@ -62,8 +62,8 @@ class COE
         SemiMajorAxis,
         Eccentricity,
         Inclination,
-        Aop,
         Raan,
+        Aop,
         TrueAnomaly,
         MeanAnomaly,
         EccentricAnomaly

@@ -299,17 +299,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
-<<<<<<< HEAD
         const Shared<const ConstantThrust> constantThrustSPtr =
             std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
 
         const Shared<Thruster> thrustDynamicsSPtr =
             std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr);
-=======
-        const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(
-            ConstantThrust::Intrack(COE::Undefined(), EarthGravitationalModel::EGM2008.gravitationalParameter_)
-        );
->>>>>>> wip: first cut at guidance law
 
         defaultSequence_.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
@@ -318,11 +312,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-<<<<<<< HEAD
             thrustDynamicsSPtr
-=======
-            std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr)
->>>>>>> wip: first cut at guidance law
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);

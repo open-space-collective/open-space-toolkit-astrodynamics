@@ -15,6 +15,8 @@ namespace dynamics
 {
 namespace thruster
 {
+namespace guidancelaw
+{
 
 using ostk::math::obj::Vector6d;
 using ostk::math::obj::VectorXd;
@@ -25,6 +27,69 @@ using ostk::physics::coord::Velocity;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;
+
+QLaw::Parameters::Parameters(
+    const Map<COE::Element, Real>& anElementWeights,
+    const Size& aMValue,
+    const Size& aNValue,
+    const Size& aRValue,
+    const Size& aBValue
+)
+    : m(aMValue),
+      n(aNValue),
+      r(aRValue),
+      b(aBValue)
+{
+    if (anElementWeights.count(COE::Element::TrueAnomaly))
+    {
+        throw ostk::core::error::RuntimeError("Cannot target True Anomaly.");
+    }
+
+    if (anElementWeights.count(COE::Element::MeanAnomaly))
+    {
+        throw ostk::core::error::RuntimeError("Cannot target Mean Anomaly.");
+    }
+
+    if (anElementWeights.count(COE::Element::EccentricAnomaly))
+    {
+        throw ostk::core::error::RuntimeError("Cannot target Eccentric Anomaly.");
+    }
+
+    if (anElementWeights.empty())
+    {
+        throw ostk::core::error::RuntimeError("ElementWeights is empty. Must target at least one element.");
+    }
+
+    if (anElementWeights.count(COE::Element::SemiMajorAxis))
+    {
+        controlWeights_(0) = anElementWeights.at(COE::Element::SemiMajorAxis);
+    }
+
+    if (anElementWeights.count(COE::Element::Eccentricity))
+    {
+        controlWeights_(1) = anElementWeights.at(COE::Element::Eccentricity);
+    }
+
+    if (anElementWeights.count(COE::Element::Inclination))
+    {
+        controlWeights_(2) = anElementWeights.at(COE::Element::Inclination);
+    }
+
+    if (anElementWeights.count(COE::Element::Raan))
+    {
+        controlWeights_(3) = anElementWeights.at(COE::Element::Raan);
+    }
+
+    if (anElementWeights.count(COE::Element::Aop))
+    {
+        controlWeights_(4) = anElementWeights.at(COE::Element::Aop);
+    }
+}
+
+Vector5d QLaw::Parameters::getControlWeights() const
+{
+    return controlWeights_;
+}
 
 QLaw::QLaw(
     const COE& aCOE,
@@ -38,7 +103,7 @@ QLaw::QLaw(
       targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),
       gravitationalParameter_(aGravitationalParameter),
       finiteDifferenceSolver_(aFiniteDifferenceSolver),
-      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinatesSubset>("COE Vector", 6)})
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinatesSubset>("QLaw Element Vector", 5)})
 {
 }
 
@@ -79,7 +144,6 @@ Vector3d QLaw::computeAcceleration(
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
-    // TBI: Maybe get a Quaternion and apply the rotation
     const Matrix3d R_thetaRH_GCRF = QLaw::thetaRHToGCRF(aPositionCoordinates, aVelocityCoordinates);
 
     return aThrustAcceleration * R_thetaRH_GCRF * thrustDirection;
@@ -90,28 +154,31 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Re
     const Matrix53d derivativeMatrix = computeDOEWithF(currentCOEVector);
 
     const auto getQ = [this,
-                       &aThrustAcceleration](const State& aState, [[maybe_unused]] const Instant& anInstant) -> VectorXd
+                       &aThrustAcceleration](const State& aState, [[maybe_unused]] const Instant& anInstant) -> State
     {
-        const Vector6d coeVector = COE::Cartesian({aState.getPosition(), aState.getVelocity()}, gravitationalParameter_)
-                                       .getSIVector(COE::AnomalyType::True);
+        const Vector6d& coeVector = aState.accessCoordinates();
 
         VectorXd coordinates(1);
         coordinates << this->computeQ(coeVector, aThrustAcceleration);
 
-        return coordinates;
+        return State(Instant::J2000(), coordinates, Frame::GCRF(), {std::make_shared<CoordinatesSubset>("Q", 1)});
     };
 
     const MatrixXd stateTransitionMatrix = finiteDifferenceSolver_.computeStateTransitionMatrix(
-        stateBuilder_.build(Instant::J2000(), currentCOEVector), Instant::J2000(), getQ
+        stateBuilder_.build(Instant::J2000(), currentCOEVector.segment(0, 5)), Instant::J2000(), getQ
     );
 
     const MatrixXd D = stateTransitionMatrix * derivativeMatrix;
 
-    return {
+    Vector3d thrustDirection = {
         D.col(0).sum(),
         D.col(1).sum(),
         D.col(2).sum(),
     };
+
+    thrustDirection.normalize();
+
+    return -thrustDirection;
 }
 
 Real QLaw::computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const
@@ -132,7 +199,8 @@ Real QLaw::computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceler
 
     const Vector5d deltaCOE_divided_maximalCOE = (deltaCOE.cwiseQuotient(maximalCOE));
 
-    return (parameters_.controlWeights.cwiseProduct(scalingCOE)
+    return (parameters_.getControlWeights()
+                .cwiseProduct(scalingCOE)
                 .cwiseProduct(deltaCOE_divided_maximalCOE.cwiseProduct(deltaCOE_divided_maximalCOE)))
         .sum();
 }
@@ -268,6 +336,7 @@ Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const
     return derivativeMatrix;
 }
 
+}  // namespace guidancelaw
 }  // namespace thruster
 }  // namespace dynamics
 }  // namespace astro
