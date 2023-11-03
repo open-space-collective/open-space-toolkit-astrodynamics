@@ -68,7 +68,8 @@ class FiniteDifferenceSolver
     ///
     /// @param                  [in] aState A state.
     /// @param                  [in] anInstantArray An array of instants.
-    /// @param                  [in] getStates Callable to generate States at the requested Instants.
+    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of States at the
+    /// requested Instants.
     /// @param                  [in] aStepPercentage The step percentage to use for the perturbation. Defaults to 1e-3.
     ///
     /// @return                 The State Transition Matrix
@@ -76,7 +77,7 @@ class FiniteDifferenceSolver
     MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Array<Instant>& anInstantArray,
-        std::function<Array<State>(const State&, const Array<Instant>&)> getStates,
+        std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates,
         const Real& aStepPercentage = 1e-3
     ) const;
 
@@ -84,7 +85,8 @@ class FiniteDifferenceSolver
     ///
     /// @param                  [in] aState A state.
     /// @param                  [in] anInstant An instant.
-    /// @param                  [in] generateState Callable to generate a State at the requested Instant.
+    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a state at the
+    /// requested Instant.
     /// @param                  [in] aStepPercentage The step percentage to use for the perturbation. Defaults to 1e-3.
     ///
     /// @return                 The State Transition Matrix
@@ -92,22 +94,22 @@ class FiniteDifferenceSolver
     MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Instant& anInstant,
-        std::function<State(const State&, const Instant&)> generateState,
+        std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates,
         const Real& aStepPercentage = 1e-3
     ) const;
 
     /// @brief                  Compute the gradient
     ///
     /// @param                  [in] aState The state to compute the gradient of.
-    /// @param                  [in] generateState Callable that generates the state given an initial state and target.
-    /// instant.
+    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a state at the
+    /// requested Instant.
     /// @param                  [in] aStepSize The step size to use for the time perturbation step.
     ///
     /// @return                 The gradient
 
     VectorXd computeGradient(
         const State& aState,
-        std::function<State(const State&, const Instant&)> generateState,
+        std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates,
         const Duration& aStepSize = Duration::Milliseconds(1e-3)
     ) const;
 
@@ -125,6 +127,12 @@ class FiniteDifferenceSolver
     /// @return                 The string name of the type.
 
     static String StringFromType(const Type& aType);
+
+    /// @brief                  Default Finite Difference Solver
+    ///
+    /// @return                 The default Finite Difference Solver.
+
+    static FiniteDifferenceSolver Default();
 
    private:
     const Type type_;

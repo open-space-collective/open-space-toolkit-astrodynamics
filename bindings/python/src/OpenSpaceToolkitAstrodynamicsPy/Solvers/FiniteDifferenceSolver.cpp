@@ -66,10 +66,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                const State& aState,
                const Array<Instant>& anInstantArray,
-               std::function<Array<State>(const State&, const Array<Instant>&)> getStates,
+               std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates,
                const Real& aStepPercentage = 1e-3) -> Eigen::MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstantArray, getStates, aStepPercentage);
+                return solver.computeStateTransitionMatrix(
+                    aState, anInstantArray, generateStateCoordinates, aStepPercentage
+                );
             },
             R"doc(
                 Compute the state transition matrix.
@@ -77,7 +79,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                 Args:
                     state (State): The state.
                     instants (Array(Instant)): The instants at which to calculate the STM.
-                    get_states (function): The function to get the states.
+                    generate_states_coordinatess (function): The function to get the states.
                     step_percentage (float): The step percentage. Defaults to 1e-3.
 
                 Returns:
@@ -85,7 +87,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             )doc",
             arg("state"),
             arg("instants"),
-            arg("get_states"),
+            arg("generate_states_coordinatess"),
             arg("step_percentage")
         )
         .def(
@@ -93,10 +95,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                const State& aState,
                const Instant& anInstant,
-               std::function<State(const State&, const Instant&)> generateState,
+               std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates,
                const Real& aStepPercentage = 1e-3) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstant, generateState, aStepPercentage);
+                return solver.computeStateTransitionMatrix(
+                    aState, anInstant, generateStateCoordinates, aStepPercentage
+                );
             },
             R"doc(
                 Compute the state transition matrix.
@@ -104,7 +108,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                 Args:
                     state (State): The state.
                     instant (Instant): The instant at which to calculate the STM.
-                    get_state (function): The function to get the state.
+                    generate_state_coordinates (function): The function to get the state.
                     step_percentage (float): The step percentage. Defaults to 1e-3.
 
                 Returns:
@@ -112,31 +116,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
             )doc",
             arg("state"),
             arg("instant"),
-            arg("get_state"),
+            arg("generate_state_coordinates"),
             arg("step_percentage")
         )
         .def(
             "compute_gradient",
             [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                const State& aState,
-               std::function<State(const State&, const Instant&)> generateState,
+               std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates,
                const Duration& aStepSize = Duration::Seconds(1e-6)) -> VectorXd
             {
-                return solver.computeGradient(aState, generateState, aStepSize);
+                return solver.computeGradient(aState, generateStateCoordinates, aStepSize);
             },
             R"doc(
                 Compute the gradient.
 
                 Args:
                     state (State): The state.
-                    get_state (function): The function to get the state.
+                    generate_state_coordinates (function): The function to generate the state.
                     step_size (duration): The step size as a duration. Defaults to 1e-6 seconds.
 
                 Returns:
                     np.array: The state transition matrix.
             )doc",
             arg("state"),
-            arg("get_state"),
+            arg("generate_state_coordinates"),
             arg("step_size")
         )
 
