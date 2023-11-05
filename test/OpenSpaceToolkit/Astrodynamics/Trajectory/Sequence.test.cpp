@@ -12,7 +12,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -71,7 +71,7 @@ using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::dynamics::Thruster;
-using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
+using ostk::astro::guidancelaw::ConstantThrust;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;

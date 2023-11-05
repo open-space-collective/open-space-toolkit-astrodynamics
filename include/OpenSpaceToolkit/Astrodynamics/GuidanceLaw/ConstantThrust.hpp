@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust__
-#define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust__
+#ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust__
+#define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust__
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
@@ -16,10 +16,6 @@
 namespace ostk
 {
 namespace astro
-{
-namespace dynamics
-{
-namespace thruster
 {
 namespace guidancelaw
 {
@@ -112,8 +108,6 @@ class ConstantThrust : public GuidanceLaw
 };
 
 }  // namespace guidancelaw
-}  // namespace thruster
-}  // namespace dynamics
 }  // namespace astro
 }  // namespace ostk
 

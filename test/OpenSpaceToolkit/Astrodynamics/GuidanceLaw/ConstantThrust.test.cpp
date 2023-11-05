@@ -27,7 +27,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
@@ -78,14 +78,14 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
+using ostk::astro::guidancelaw::ConstantThrust;
 
 using namespace boost::numeric::odeint;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -146,7 +146,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrus
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Constructor)
 
 {
     {
@@ -154,7 +154,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, StreamOperator)
 {
     {
         testing::internal::CaptureStdout();
@@ -165,7 +165,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Print)
 {
     {
         testing::internal::CaptureStdout();
@@ -176,7 +176,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Getters)
 {
     {
         // Not checking equality due to precision loss.
@@ -190,7 +190,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 }
 
 /* Contribution computation validation test */
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, calculateThrustAccelerationAt)
+// TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrustAccelerationAt)
 // {
 //     {
 //         // Test Case (thrust direction, local orbital frame, reference data)
@@ -322,7 +322,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 //     }
 // }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, Intrack)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Intrack)
 {
     {
         ConstantThrust constantThrust = ConstantThrust::Intrack(true);

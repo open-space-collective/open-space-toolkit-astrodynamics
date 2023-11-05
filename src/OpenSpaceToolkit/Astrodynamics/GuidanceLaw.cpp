@@ -1,15 +1,11 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 
 namespace ostk
 {
 namespace astro
-{
-namespace dynamics
-{
-namespace thruster
 {
 
 GuidanceLaw::GuidanceLaw(const String& aName)
@@ -39,7 +35,5 @@ void GuidanceLaw::print(std::ostream& anOutputStream, bool displayDecorator) con
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-}  // namespace thruster
-}  // namespace dynamics
 }  // namespace astro
 }  // namespace ostk

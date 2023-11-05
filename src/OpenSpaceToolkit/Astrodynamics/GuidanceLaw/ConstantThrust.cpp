@@ -5,16 +5,12 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
 namespace ostk
 {
 namespace astro
-{
-namespace dynamics
-{
-namespace thruster
 {
 namespace guidancelaw
 {
@@ -92,7 +88,5 @@ ConstantThrust ConstantThrust::Intrack(const bool& velocityDirection)
 }
 
 }  // namespace guidancelaw
-}  // namespace thruster
-}  // namespace dynamics
 }  // namespace astro
 }  // namespace ostk

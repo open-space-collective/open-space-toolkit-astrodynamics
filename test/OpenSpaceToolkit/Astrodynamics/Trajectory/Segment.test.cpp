@@ -10,7 +10,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -42,7 +42,7 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::dynamics::Thruster;
-using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
+using ostk::astro::guidancelaw::ConstantThrust;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;

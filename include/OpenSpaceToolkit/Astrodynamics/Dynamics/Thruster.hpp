@@ -8,7 +8,7 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
@@ -26,7 +26,7 @@ using ostk::core::ctnr::Array;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::dynamics::thruster::GuidanceLaw;
+using ostk::astro::GuidanceLaw;
 
 /// @brief                      Define the acceleration experienced by a point mass due to thrust
 

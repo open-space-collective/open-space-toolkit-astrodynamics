@@ -9,7 +9,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
@@ -29,7 +29,7 @@ using ostk::physics::coord::Frame;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::dynamics::thruster::GuidanceLaw;
+using ostk::astro::GuidanceLaw;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;

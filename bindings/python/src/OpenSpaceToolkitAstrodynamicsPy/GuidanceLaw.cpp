@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/Thruster/GuidanceLaw/ConstantThrust.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ConstantThrust.cpp>
 
 using namespace pybind11;
 
@@ -15,7 +15,7 @@ using ostk::math::obj::Vector3d;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
-using ostk::astro::dynamics::thruster::GuidanceLaw;
+using ostk::astro::GuidanceLaw;
 
 // Trampoline class for virtual member functions
 class PyGuidanceLaw : public GuidanceLaw
@@ -52,7 +52,7 @@ class PyGuidanceLaw : public GuidanceLaw
     }
 };
 
-void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(pybind11::module& aModule)
+void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
 {
     class_<GuidanceLaw, PyGuidanceLaw, Shared<GuidanceLaw>>(
         aModule,
@@ -122,5 +122,5 @@ void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(pybind11::mod
     guidance_law.attr("__path__") = "ostk.astrodynamics.dynamics.guidance_law";
 
     // Add objects to "guidance_law" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_ConstantThrust(guidance_law);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(guidance_law);
 }

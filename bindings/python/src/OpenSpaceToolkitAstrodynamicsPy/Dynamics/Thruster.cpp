@@ -2,8 +2,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/Thruster/GuidanceLaw.cpp>
-
 using namespace pybind11;
 
 using ostk::core::types::String;
@@ -18,7 +16,7 @@ using ostk::physics::coord::Frame;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
-using ostk::astro::dynamics::thruster::GuidanceLaw;
+using ostk::astro::GuidanceLaw;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 
@@ -156,13 +154,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
         )
 
         ;
-
-    // Create "thruster" python submodule
-    auto thruster = aModule.def_submodule("thruster");
-
-    // Add __path__ attribute for "thruster" submodule
-    thruster.attr("__path__") = "ostk.astrodynamics.dynamics.thruster";
-
-    // Add objects to "thruster" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(thruster);
 }

@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_ConstantThrust(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -10,8 +10,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_Consta
     using ostk::core::types::Shared;
 
     using ostk::astro::trajectory::LocalOrbitalFrameDirection;
-    using ostk::astro::dynamics::thruster::GuidanceLaw;
-    using ostk::astro::dynamics::thruster::guidancelaw::ConstantThrust;
+    using ostk::astro::GuidanceLaw;
+    using ostk::astro::guidancelaw::ConstantThrust;
 
     {
         class_<ConstantThrust, GuidanceLaw, Shared<ConstantThrust>>(

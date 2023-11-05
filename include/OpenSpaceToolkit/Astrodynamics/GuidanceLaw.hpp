@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw__
-#define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw__
+#ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
+#define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
@@ -15,10 +15,6 @@
 namespace ostk
 {
 namespace astro
-{
-namespace dynamics
-{
-namespace thruster
 {
 
 using ostk::core::types::String;
@@ -95,8 +91,6 @@ class GuidanceLaw
     const String name_;
 };
 
-}  // namespace thruster
-}  // namespace dynamics
 }  // namespace astro
 }  // namespace ostk
 
