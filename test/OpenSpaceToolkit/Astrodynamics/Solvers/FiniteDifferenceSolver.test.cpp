@@ -28,15 +28,15 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
 {
     void SetUp() override
     {
-        getStates = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
+        generateStatesCoordinates = [](const State& aState, const Array<Instant>& anInstantArray) -> MatrixXd
         {
-            Array<State> states;
-            states.reserve(anInstantArray.size());
+            MatrixXd statesCoordinates(2, anInstantArray.size());
 
             const Real& x0 = aState.accessCoordinates()(0);  // Initial position
             const Real& v0 = aState.accessCoordinates()(1);  // Initial position
             const Real omega = std::sqrt(1.0);  // Angular frequency, assuming unit mass and spring constant
 
+            Size i = 0;
             for (const Instant& instant : anInstantArray)
             {
                 const Real t = (instant - aState.accessInstant()).inSeconds();
@@ -46,14 +46,14 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
                 VectorXd coordinates(2);
                 coordinates << x, v;
 
-                const State state = State(instant, coordinates, Frame::GCRF(), coordinateSubsets_);
-                states.add(state);
+                statesCoordinates.col(i) = coordinates;
+                ++i;
             }
 
-            return states;
+            return statesCoordinates;
         };
 
-        generateState = [this](const State& aState, const Instant& anInstant) -> State
+        generateStateCoordinates = [](const State& aState, const Instant& anInstant) -> VectorXd
         {
             const Real& x0 = aState.accessCoordinates()(0);  // Initial position
             const Real& v0 = aState.accessCoordinates()(1);  // Initial position
@@ -63,12 +63,10 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
             const Real x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
             const Real v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
-            VectorXd coordinates(2);
+            VectorXd coordinates(2, 1);
             coordinates << x, v;
 
-            const State state = State(anInstant, coordinates, Frame::GCRF(), coordinateSubsets_);
-
-            return state;
+            return coordinates;
         };
 
         VectorXd initialCoordinates(2);
@@ -79,7 +77,13 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
 
    protected:
     const FiniteDifferenceSolver::Type defaultType_ = FiniteDifferenceSolver::Type::Central;
-    const FiniteDifferenceSolver defaultSolver_ = FiniteDifferenceSolver(defaultType_);
+    const Real defaultStepPercentage_ = 1e-3;
+    const Duration defaultStepDuration_ = Duration::Milliseconds(1e-3);
+    const FiniteDifferenceSolver defaultSolver_ = {
+        defaultType_,
+        defaultStepPercentage_,
+        defaultStepDuration_,
+    };
 
     const Array<Shared<const CoordinatesSubset>> coordinateSubsets_ = {
         std::make_shared<const CoordinatesSubset>(CoordinatesSubset("Position", 1)),
@@ -88,13 +92,13 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
 
     State initialState_ = State::Undefined();
 
-    std::function<Array<State>(const State&, const Array<Instant>&)> getStates;
-    std::function<State(const State&, const Instant&)> generateState;
+    std::function<MatrixXd(const State&, const Array<Instant>&)> generateStatesCoordinates;
+    std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Constructor)
 {
-    EXPECT_NO_THROW(FiniteDifferenceSolver solver(defaultType_));
+    EXPECT_NO_THROW(FiniteDifferenceSolver solver(defaultType_, defaultStepPercentage_, defaultStepDuration_));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, StreamOperator)
@@ -105,6 +109,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, StreamOper
         EXPECT_NO_THROW(std::cout << defaultSolver_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Getters)
+{
+    {
+        EXPECT_EQ(defaultType_, defaultSolver_.getType());
+    }
+
+    {
+        EXPECT_EQ(defaultStepPercentage_, defaultSolver_.getStepPercentage());
+    }
+
+    {
+        EXPECT_EQ(defaultStepDuration_, defaultSolver_.getStepDuration());
     }
 }
 
@@ -121,21 +140,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
             std::cos(100.0), std::sin(-200.0), std::cos(200.0);
 
         {
-            const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Central};
-            const MatrixXd jacobian = solver.computeStateTransitionMatrix(initialState_, instants, getStates);
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Central,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const MatrixXd jacobian =
+                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
 
         {
-            const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Forward};
-            const MatrixXd jacobian = solver.computeStateTransitionMatrix(initialState_, instants, getStates);
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Forward,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const MatrixXd jacobian =
+                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates);
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
 
         {
-            const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Backward};
-            const MatrixXd jacobian = solver.computeStateTransitionMatrix(initialState_, instants, getStates);
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Backward,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const MatrixXd jacobian =
+                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates);
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
     }
@@ -147,22 +181,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
         expectedJacobian << std::cos(100.0), std::sin(100.0), std::sin(-100.0), std::cos(100.0);
 
         {
-            const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Central};
-            const MatrixXd jacobian = solver.computeStateTransitionMatrix(initialState_, instant, generateState);
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Central,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const MatrixXd jacobian =
+                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
 
         {
-            const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Forward};
-            const MatrixXd jacobian = solver.computeStateTransitionMatrix(initialState_, instant, generateState);
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Forward,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const MatrixXd jacobian =
+                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
 
         {
-            const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Backward};
-            const MatrixXd jacobian = solver.computeStateTransitionMatrix(initialState_, instant, generateState);
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Backward,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const MatrixXd jacobian =
+                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
@@ -175,22 +224,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
     expectedGradient << 0.0, -1.0;
 
     {
-        const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Central};
-        const VectorXd gradient = solver.computeGradient(initialState_, generateState, Duration::Milliseconds(1.0));
+        const FiniteDifferenceSolver solver = {
+            FiniteDifferenceSolver::Type::Central,
+            defaultStepPercentage_,
+            defaultStepDuration_,
+        };
+        const VectorXd gradient = solver.computeGradient(initialState_, generateStateCoordinates);
 
         EXPECT_TRUE(gradient.isApprox(expectedGradient, 1e-6));
     }
 
     {
-        const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Forward};
-        const VectorXd gradient = solver.computeGradient(initialState_, generateState, Duration::Milliseconds(1e-3));
+        const FiniteDifferenceSolver solver = {
+            FiniteDifferenceSolver::Type::Forward,
+            defaultStepPercentage_,
+            defaultStepDuration_,
+        };
+        const VectorXd gradient = solver.computeGradient(initialState_, generateStateCoordinates);
 
         EXPECT_TRUE(gradient.isApprox(expectedGradient, 1e-6));
     }
 
     {
-        const FiniteDifferenceSolver solver = {FiniteDifferenceSolver::Type::Backward};
-        const VectorXd gradient = solver.computeGradient(initialState_, generateState, Duration::Milliseconds(1e-3));
+        const FiniteDifferenceSolver solver = {
+            FiniteDifferenceSolver::Type::Backward,
+            defaultStepPercentage_,
+            defaultStepDuration_,
+        };
+        const VectorXd gradient = solver.computeGradient(initialState_, generateStateCoordinates);
 
         EXPECT_TRUE(gradient.isApprox(expectedGradient, 1e-6));
     }
@@ -213,4 +274,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, StringFrom
     EXPECT_EQ("Central", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Central));
     EXPECT_EQ("Forward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Forward));
     EXPECT_EQ("Backward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Backward));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Default)
+{
+    EXPECT_NO_THROW(FiniteDifferenceSolver::Default());
 }

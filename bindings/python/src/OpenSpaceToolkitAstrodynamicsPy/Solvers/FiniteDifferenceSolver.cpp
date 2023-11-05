@@ -45,31 +45,65 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
     finiteDifferenceSolver
 
         .def(
-            init<const ostk::astro::solvers::FiniteDifferenceSolver::Type&>(),
+            init<const ostk::astro::solvers::FiniteDifferenceSolver::Type&, const Real&, const Duration&>(),
             R"doc(
                 Construct a FiniteDifferenceSolver.
 
                 Args:
                     type (FiniteDifferenceSolver.Type): Type of finite difference scheme.
+                    step_percentage (float): The step percentage to use for computing the STM.
+                    step_duration (Duration): The step duration to use for computing the gradient.
 
                 Returns:
                     FiniteDifferenceSolver: The FiniteDifferenceSolver.
             )doc",
-            arg("type")
+            arg("type"),
+            arg("step_percentage"),
+            arg("step_duration")
         )
 
         .def("__str__", &(shiftToString<FiniteDifferenceSolver>))
         .def("__repr__", &(shiftToString<FiniteDifferenceSolver>))
 
         .def(
+            "get_type",
+            &FiniteDifferenceSolver::getType,
+            R"doc(
+                Get the type.
+
+                Returns:
+                    FiniteDifferenceSolver.Type: The type.
+            )doc"
+        )
+        .def(
+            "get_step_percentage",
+            &FiniteDifferenceSolver::getStepPercentage,
+            R"doc(
+                Get the step percentage used for computing the STM.
+
+                Returns:
+                    float: The step percentage.
+            )doc"
+        )
+        .def(
+            "get_step_duration",
+            &FiniteDifferenceSolver::getStepDuration,
+            R"doc(
+                Get the step duration used for computing the gradient.
+
+                Returns:
+                    Duration: The step duration.
+            )doc"
+        )
+
+        .def(
             "compute_state_transition_matrix",
-            [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
-               const State& aState,
-               const Array<Instant>& anInstantArray,
-               std::function<Array<State>(const State&, const Array<Instant>&)> getStates,
-               const Real& aStepPercentage = 1e-3) -> Eigen::MatrixXd
+            +[](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
+                const State& aState,
+                const Array<Instant>& anInstantArray,
+                std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstantArray, getStates, aStepPercentage);
+                return solver.computeStateTransitionMatrix(aState, anInstantArray, generateStateCoordinates);
             },
             R"doc(
                 Compute the state transition matrix.
@@ -77,26 +111,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                 Args:
                     state (State): The state.
                     instants (Array(Instant)): The instants at which to calculate the STM.
-                    get_states (function): The function to get the states.
-                    step_percentage (float): The step percentage. Defaults to 1e-3.
+                    generate_states_coordinates (function): The function to get the states.
 
                 Returns:
                     np.array: The state transition matrix.
             )doc",
             arg("state"),
             arg("instants"),
-            arg("get_states"),
-            arg("step_percentage")
+            arg("generate_states_coordinates")
         )
         .def(
             "compute_state_transition_matrix",
-            [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
-               const State& aState,
-               const Instant& anInstant,
-               std::function<State(const State&, const Instant&)> generateState,
-               const Real& aStepPercentage = 1e-3) -> MatrixXd
+            +[](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
+                const State& aState,
+                const Instant& anInstant,
+                std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstant, generateState, aStepPercentage);
+                return solver.computeStateTransitionMatrix(aState, anInstant, generateStateCoordinates);
             },
             R"doc(
                 Compute the state transition matrix.
@@ -104,40 +135,35 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                 Args:
                     state (State): The state.
                     instant (Instant): The instant at which to calculate the STM.
-                    get_state (function): The function to get the state.
-                    step_percentage (float): The step percentage. Defaults to 1e-3.
+                    generate_state_coordinates (function): The function to get the state.
 
                 Returns:
                     np.array: The state transition matrix.
             )doc",
             arg("state"),
             arg("instant"),
-            arg("get_state"),
-            arg("step_percentage")
+            arg("generate_state_coordinates")
         )
         .def(
             "compute_gradient",
             [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                const State& aState,
-               std::function<State(const State&, const Instant&)> generateState,
-               const Duration& aStepSize = Duration::Seconds(1e-6)) -> VectorXd
+               std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates) -> VectorXd
             {
-                return solver.computeGradient(aState, generateState, aStepSize);
+                return solver.computeGradient(aState, generateStateCoordinates);
             },
             R"doc(
                 Compute the gradient.
 
                 Args:
                     state (State): The state.
-                    get_state (function): The function to get the state.
-                    step_size (duration): The step size as a duration. Defaults to 1e-6 seconds.
+                    generate_state_coordinates (function): The function to generate the state coordinates.
 
                 Returns:
                     np.array: The state transition matrix.
             )doc",
             arg("state"),
-            arg("get_state"),
-            arg("step_size")
+            arg("generate_state_coordinates")
         )
 
         .def_static(
@@ -153,6 +179,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                     str: The string name of the type.
             )doc",
             arg("type")
+        )
+
+        .def_static(
+            "default",
+            &FiniteDifferenceSolver::Default,
+            R"doc(
+                Get the default Finite Difference Solver.
+
+                Returns:
+                    FiniteDifferenceSolver: The default Finite Difference Solver.
+            )doc"
         )
 
         ;
