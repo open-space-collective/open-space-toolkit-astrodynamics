@@ -47,14 +47,18 @@ class FiniteDifferenceSolver
     ///
     /// @code
     ///                         const Type aType = FiniteDifferenceSolver::Type::Forward;
+    ///                         const Real aStepPercentage = 1e-3;
+    ///                         const Duration aStepDuration = Duration::Milliseconds(1e-3);
     ///
     ///                         FiniteDifferenceSolver finiteDifferenceSolver = {aType};
     ///
     /// @endcode
     ///
     /// @param                  [in] aType A Finite Difference type.
+    /// @param                  [in] aStepPercentage The step percentage to use for computing the STM.
+    /// @param                  [in] aStepDuration The step duration to use for computing the gradient.
 
-    FiniteDifferenceSolver(const Type& aType);
+    FiniteDifferenceSolver(const Type& aType, const Real& aStepPercentage, const Duration& aStepDuration);
 
     /// @brief                  Output stream operator.
     ///
@@ -63,6 +67,24 @@ class FiniteDifferenceSolver
     /// @return                 An output stream.
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const FiniteDifferenceSolver& aFiniteDifference);
+
+    /// @brief                  Get the Type.
+    ///
+    /// @return                 The Type.
+
+    Type getType() const;
+
+    /// @brief                  Get the step percentage.
+    ///
+    /// @return                 The step percentage.
+
+    Real getStepPercentage() const;
+
+    /// @brief                  Get the step duration.
+    ///
+    /// @return                 The step duration.
+
+    Duration getStepDuration() const;
 
     /// @brief                  Compute the State Transition Matrix by perturbing the coordinates
     ///
@@ -77,8 +99,7 @@ class FiniteDifferenceSolver
     MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Array<Instant>& anInstantArray,
-        std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates,
-        const Real& aStepPercentage = 1e-3
+        std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates
     ) const;
 
     /// @brief                  Compute the State Transition Matrix by perturbing the coordinates
@@ -94,8 +115,7 @@ class FiniteDifferenceSolver
     MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Instant& anInstant,
-        std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates,
-        const Real& aStepPercentage = 1e-3
+        std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates
     ) const;
 
     /// @brief                  Compute the gradient
@@ -103,14 +123,11 @@ class FiniteDifferenceSolver
     /// @param                  [in] aState The state to compute the gradient of.
     /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a state at the
     /// requested Instant.
-    /// @param                  [in] aStepSize The step size to use for the time perturbation step.
     ///
     /// @return                 The gradient
 
     VectorXd computeGradient(
-        const State& aState,
-        std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates,
-        const Duration& aStepSize = Duration::Milliseconds(1e-3)
+        const State& aState, std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates
     ) const;
 
     /// @brief                  Print the solver.
@@ -136,6 +153,8 @@ class FiniteDifferenceSolver
 
    private:
     const Type type_;
+    const Real stepPercentage_;
+    const Duration stepDuration_;
 };
 
 }  // namespace solvers

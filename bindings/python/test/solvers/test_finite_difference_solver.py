@@ -14,6 +14,16 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset
 
 
+@pytest.fixture
+def step_percentage() -> float:
+    return 1e-3
+
+
+@pytest.fixture
+def step_duration() -> Duration:
+    return Duration.seconds(1e-6)
+
+
 @pytest.fixture(
     params=[
         FiniteDifferenceSolver.Type.Forward,
@@ -21,8 +31,8 @@ from ostk.astrodynamics.trajectory.state import CoordinatesSubset
         FiniteDifferenceSolver.Type.Central,
     ]
 )
-def finite_difference_solver(request):
-    return FiniteDifferenceSolver(request.param)
+def finite_difference_solver(request, step_percentage: float, step_duration: Duration):
+    return FiniteDifferenceSolver(request.param, step_percentage, step_duration)
 
 
 @pytest.fixture
@@ -103,6 +113,13 @@ class TestFiniteDifferenceSolver:
     def test_constructor(self, finite_difference_solver: FiniteDifferenceSolver):
         assert isinstance(finite_difference_solver, FiniteDifferenceSolver)
 
+    def test_getters(self, finite_difference_solver: FiniteDifferenceSolver):
+        assert isinstance(
+            finite_difference_solver.get_type(), FiniteDifferenceSolver.Type
+        )
+        assert finite_difference_solver.get_step_percentage() is not None
+        assert isinstance(finite_difference_solver.get_step_duration(), Duration)
+
     def test_string_from_type(self):
         assert (
             FiniteDifferenceSolver.string_from_type(FiniteDifferenceSolver.Type.Forward)
@@ -114,10 +131,12 @@ class TestFiniteDifferenceSolver:
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
         instants: list[Instant],
-        generate_states_coordinates,
+        generate_states_coordinates: callable,
     ):
         stm = finite_difference_solver.compute_state_transition_matrix(
-            state, instants, generate_states_coordinates, 1e-3
+            state=state,
+            instants=instants,
+            generate_states_coordinates=generate_states_coordinates,
         )
         assert isinstance(stm, np.ndarray)
         assert stm.shape == (
@@ -133,7 +152,9 @@ class TestFiniteDifferenceSolver:
         instant: Instant,
     ):
         stm = finite_difference_solver.compute_state_transition_matrix(
-            state, instant, generate_state_coordinates, 1e-3
+            state=state,
+            instant=instant,
+            generate_state_coordinates=generate_state_coordinates,
         )
         assert isinstance(stm, np.ndarray)
         assert stm.shape == (
@@ -148,7 +169,8 @@ class TestFiniteDifferenceSolver:
         generate_state_coordinates: callable,
     ):
         gradient = finite_difference_solver.compute_gradient(
-            state, generate_state_coordinates, Duration.milliseconds(1e-3)
+            state=state,
+            generate_state_coordinates=generate_state_coordinates,
         )
         assert isinstance(gradient, np.ndarray)
         assert all(gradient - np.array([0.0, -1.0]) < 1e-6)
