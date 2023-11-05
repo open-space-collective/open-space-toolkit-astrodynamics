@@ -157,7 +157,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
 
                 Args:
                     state (State): The state.
-                    generate_state_coordinates (function): The function to generate the state.
+                    generate_state_coordinates (function): The function to generate the state coordinates.
 
                 Returns:
                     np.array: The state transition matrix.

@@ -106,7 +106,7 @@ class FiniteDifferenceSolver
     ///
     /// @param                  [in] aState A state.
     /// @param                  [in] anInstant An instant.
-    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a state at the
+    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a State at the
     /// requested Instant.
     /// @param                  [in] aStepPercentage The step percentage to use for the perturbation. Defaults to 1e-3.
     ///
@@ -121,7 +121,7 @@ class FiniteDifferenceSolver
     /// @brief                  Compute the gradient
     ///
     /// @param                  [in] aState The state to compute the gradient of.
-    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a state at the
+    /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a State at the
     /// requested Instant.
     ///
     /// @return                 The gradient
