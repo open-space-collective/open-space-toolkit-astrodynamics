@@ -190,7 +190,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThru
 }
 
 /* Contribution computation validation test */
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, computeAcceleration)
+// TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_ConstantThrust, calculateThrustAccelerationAt)
 // {
 //     {
 //         // Test Case (thrust direction, local orbital frame, reference data)

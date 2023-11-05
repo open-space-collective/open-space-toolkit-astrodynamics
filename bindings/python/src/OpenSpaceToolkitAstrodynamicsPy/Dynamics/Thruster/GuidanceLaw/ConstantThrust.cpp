@@ -53,8 +53,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_Consta
             )
 
             .def(
-                "compute_acceleration",
-                &ConstantThrust::computeAcceleration,
+                "calculate_thrust_acceleration_at",
+                &ConstantThrust::calculateThrustAccelerationAt,
                 R"doc(
                     Compute the acceleration due to constant thrust.
 

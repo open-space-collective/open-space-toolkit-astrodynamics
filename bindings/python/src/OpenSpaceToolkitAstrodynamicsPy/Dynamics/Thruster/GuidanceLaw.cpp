@@ -30,7 +30,7 @@ class PyGuidanceLaw : public GuidanceLaw
         PYBIND11_OVERRIDE(void, GuidanceLaw, print, anOutputStream, displayDecorator);
     }
 
-    Vector3d computeAcceleration(
+    Vector3d calculateThrustAccelerationAt(
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
@@ -41,8 +41,8 @@ class PyGuidanceLaw : public GuidanceLaw
         PYBIND11_OVERRIDE_PURE_NAME(
             Vector3d,
             GuidanceLaw,
-            "compute_acceleration",
-            computeAcceleration,
+            "calculate_thrust_acceleration_at",
+            calculateThrustAccelerationAt,
             anInstant,
             aPositionCoordinates,
             aVelocityCoordinates,
@@ -91,8 +91,8 @@ void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(pybind11::mod
         )
 
         .def(
-            "compute_acceleration",
-            &GuidanceLaw::computeAcceleration,
+            "calculate_thrust_acceleration_at",
+            &GuidanceLaw::calculateThrustAccelerationAt,
             R"doc(
                 Compute the acceleration.
 

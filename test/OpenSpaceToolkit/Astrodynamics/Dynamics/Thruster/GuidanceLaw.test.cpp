@@ -34,7 +34,7 @@ class MockGuidanceLaw : public GuidanceLaw
 
     MOCK_METHOD(
         Vector3d,
-        computeAcceleration,
+        calculateThrustAccelerationAt,
         (const Instant&, const Vector3d&, const Vector3d&, const Real&, const Shared<const Frame>&),
         (const, override)
     );
