@@ -17,6 +17,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/RootSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Solvers.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw.cpp>
 
 PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 {

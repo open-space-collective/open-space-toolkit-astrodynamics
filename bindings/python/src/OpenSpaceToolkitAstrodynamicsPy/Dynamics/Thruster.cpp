@@ -163,6 +163,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
 
         ;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
     // Create "thruster" python submodule
@@ -174,4 +175,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
     // Add objects to "thruster" submodule
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(thruster);
 >>>>>>> wip: feat: add tests
+=======
+>>>>>>> refactor: move guidance law around
 }
