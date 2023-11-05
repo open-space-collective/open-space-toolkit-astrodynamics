@@ -91,7 +91,7 @@ VectorXd Thruster::computeContribution(
     const Real thrustAccelerationMagnitude =
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6])).getValue();
 
-    const Vector3d acceleration = guidanceLaw_->computeAcceleration(
+    const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
         anInstant, positionCoordinates, velocityCoordinates, thrustAccelerationMagnitude, aFrameSPtr
     );
 

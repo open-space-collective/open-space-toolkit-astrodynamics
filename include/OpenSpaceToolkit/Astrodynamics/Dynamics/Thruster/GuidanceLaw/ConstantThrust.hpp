@@ -82,7 +82,7 @@ class ConstantThrust : public GuidanceLaw
     ///
     /// @return                 Acceleration
 
-    virtual Vector3d computeAcceleration(
+    virtual Vector3d calculateThrustAccelerationAt(
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,

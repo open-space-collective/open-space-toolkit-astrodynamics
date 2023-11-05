@@ -42,7 +42,7 @@ class MockGuidanceLaw : public GuidanceLaw
     {
     }
 
-    Vector3d computeAcceleration(
+    Vector3d calculateThrustAccelerationAt(
         [[maybe_unused]] const Instant& anInstant,
         [[maybe_unused]] const Vector3d& aPositionCoordinates,
         [[maybe_unused]] const Vector3d& aVelocityCoordinates,
@@ -91,7 +91,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, Print)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetSatelliteSystem)
 {
-    EXPECT_EQ(defaultThruster_.getSatelliteSystem(), defaultSatelliteSystem_);
+    {
+        EXPECT_EQ(defaultThruster_.getSatelliteSystem(), defaultSatelliteSystem_);
+    }
+
+    {
+        const Thruster undefinedThruster = {SatelliteSystem::Default(), defaultGuidanceLaw_, defaultName_};
+        EXPECT_THROW(undefinedThruster.getSatelliteSystem(), ostk::core::error::runtime::Undefined);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetGuidanceLaw)

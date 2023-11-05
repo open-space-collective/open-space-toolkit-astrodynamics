@@ -49,7 +49,7 @@ LocalOrbitalFrameDirection ConstantThrust::getLocalThrustDirection() const
     return localOrbitalFrameDirection_;
 }
 
-Vector3d ConstantThrust::computeAcceleration(
+Vector3d ConstantThrust::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
@@ -57,11 +57,11 @@ Vector3d ConstantThrust::computeAcceleration(
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
-    // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to Requested Frame
     const Shared<const Frame> localOrbitalFrameSPtr =
         this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
             anInstant, aPositionCoordinates, aVelocityCoordinates
         );
+
     const Quaternion q_requestedFrame_LOF =
         localOrbitalFrameSPtr->getTransformTo(outputFrameSPtr, anInstant).getOrientation().normalize();
 

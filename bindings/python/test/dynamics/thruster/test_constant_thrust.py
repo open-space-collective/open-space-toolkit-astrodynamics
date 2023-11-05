@@ -79,7 +79,7 @@ class TestConstantThrust:
         thrust_acceleration: float,
         frame: Frame,
     ):
-        contribution = guidance_law.compute_acceleration(
+        contribution = guidance_law.calculate_thrust_acceleration_at(
             instant=instant,
             position_coordinates=position_coordinates,
             velocity_coordinates=velocity_coordinates,
