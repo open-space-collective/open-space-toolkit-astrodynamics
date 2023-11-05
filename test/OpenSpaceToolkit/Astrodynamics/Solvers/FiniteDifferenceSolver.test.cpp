@@ -221,3 +221,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, StringFrom
     EXPECT_EQ("Forward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Forward));
     EXPECT_EQ("Backward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Backward));
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Default)
+{
+    EXPECT_NO_THROW(FiniteDifferenceSolver::Default());
+}
