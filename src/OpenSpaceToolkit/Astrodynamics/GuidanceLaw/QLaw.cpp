@@ -188,15 +188,21 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Re
 
 Real QLaw::computeQ(const Vector5d& currentCOEVector, const Real& aThrustAcceleration) const
 {
-    Vector5d deltaCOE(5);
-    deltaCOE << (currentCOEVector[0] - targetCOEVector_[0]), (currentCOEVector[1] - targetCOEVector_[1]),
-        (currentCOEVector[2] - targetCOEVector_[2]), (std::acos(std::cos((currentCOEVector[3] - targetCOEVector_[3])))),
-        (std::acos(std::cos((currentCOEVector[4] - targetCOEVector_[4]))));
+    const Vector5d deltaCOE = {
+        (currentCOEVector[0] - targetCOEVector_[0]),
+        (currentCOEVector[1] - targetCOEVector_[1]),
+        (currentCOEVector[2] - targetCOEVector_[2]),
+        (std::acos(std::cos((currentCOEVector[3] - targetCOEVector_[3])))),
+        (std::acos(std::cos((currentCOEVector[4] - targetCOEVector_[4])))),
+    };
 
-    Vector5d scalingCOE(5);
-    scalingCOE << (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n)) * 1.0 /
-                      parameters_.r,
-        1.0, 1.0, 1.0, 1.0;
+    const Vector5d scalingCOE = {
+        (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n)) * 1.0 / parameters_.r,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+    };
 
     const Vector5d maximalCOE = computeOrbitalElementsMaximalChange(currentCOEVector, aThrustAcceleration);
 
@@ -215,7 +221,7 @@ Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, c
     const Real& semiMajorAxis = aCOEVector[0];
     const Real& eccentricity = aCOEVector[1];
     const Real& inclination = aCOEVector[2];
-    const Real& argumentOfPeriapsis = aCOEVector[3];
+    const Real& argumentOfPeriapsis = aCOEVector[4];
 
     const Real semiLatusRectum = COE::ComputeSemiLatusRectum(semiMajorAxis, eccentricity);
     const Real angularMomentum = COE::ComputeAngularMomentum(semiLatusRectum, gravitationalParameter_);
@@ -291,7 +297,7 @@ Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const
     const Real& semiMajorAxis = aCOEVector[0];
     const Real& eccentricity = aCOEVector[1];
     const Real& inclination = aCOEVector[2];
-    const Real& argumentOfPeriapsis = aCOEVector[3];
+    const Real& argumentOfPeriapsis = aCOEVector[4];
     const Real& trueAnomaly = aCOEVector[5];
 
     const Real semiLatusRectum = COE::ComputeSemiLatusRectum(semiMajorAxis, eccentricity);
@@ -300,7 +306,7 @@ Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const
 
     // columns: Orbital elements
     // rows: theta, radial, angular momentum directions
-    Matrix53d derivativeMatrix;
+    Matrix53d derivativeMatrix = Matrix53d::Zero();
 
     // Common grouped operations
     const Real trueAnomaly_sin = std::sin(trueAnomaly);
@@ -312,22 +318,16 @@ Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const
     const Real sma_alpha = (2.0 * semiMajorAxis * semiMajorAxis / angularMomentum);
     derivativeMatrix(0, 0) = sma_alpha * semiLatusRectum / radialDistance;
     derivativeMatrix(0, 1) = sma_alpha * eccentricity * trueAnomaly_sin;
-    derivativeMatrix(0, 2) = 0.0;
 
     // Eccentricity
     derivativeMatrix(1, 0) =
         ((semiLatusRectum + radialDistance) * trueAnomaly_cos + (radialDistance * eccentricity)) / angularMomentum;
     derivativeMatrix(1, 1) = (semiLatusRectum / angularMomentum) * trueAnomaly_sin;
-    derivativeMatrix(1, 2) = 0.0;
 
     // Inclination
-    derivativeMatrix(2, 0) = 0.0;
-    derivativeMatrix(2, 1) = 0.0;
     derivativeMatrix(2, 2) = (radialDistance / angularMomentum) * trueAnomaly_ArgumentOfPeriapsis_cos;
 
     // Right Ascension of the Ascending Node
-    derivativeMatrix(3, 0) = 0.0;
-    derivativeMatrix(3, 1) = 0.0;
     derivativeMatrix(3, 2) =
         (radialDistance * trueAnomaly_ArgumentOfPeriapsis_sin) / (angularMomentum * std::sin(inclination));
 
