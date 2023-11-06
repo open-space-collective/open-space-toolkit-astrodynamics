@@ -8,7 +8,6 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
