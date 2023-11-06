@@ -4,6 +4,8 @@
 #define __OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -20,6 +22,7 @@ namespace solvers
 {
 
 using ostk::core::types::Real;
+using ostk::core::types::Size;
 using ostk::core::types::String;
 using ostk::core::ctnr::Array;
 
@@ -86,48 +89,51 @@ class FiniteDifferenceSolver
 
     Duration getStepDuration() const;
 
-    /// @brief                  Compute the State Transition Matrix by perturbing the coordinates
+    /// @brief                  Compute the Jacobian by perturbing the coordinates
     ///
     /// @param                  [in] aState A state.
     /// @param                  [in] anInstantArray An array of instants.
     /// @param                  [in] generateStateCoordinates Callable to generate coordinates of States at the
     /// requested Instants.
-    /// @param                  [in] aStepPercentage The step percentage to use for the perturbation. Defaults to 1e-3.
+    /// @param                  [in] aCoordinatesDimension The dimension of the coordinates produced by
+    /// `generateStateCoordinates`.
     ///
-    /// @return                 The State Transition Matrix
+    /// @return                 The Jacobian
 
-    MatrixXd computeStateTransitionMatrix(
+    MatrixXd computeJacobian(
         const State& aState,
         const Array<Instant>& anInstantArray,
-        std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates
+        const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
+        const Size& aCoordinatesDimension
     ) const;
 
-    /// @brief                  Compute the State Transition Matrix by perturbing the coordinates
+    /// @brief                  Compute the Jacobian by perturbing the coordinates
     ///
     /// @param                  [in] aState A state.
     /// @param                  [in] anInstant An instant.
     /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a State at the
     /// requested Instant.
-    /// @param                  [in] aStepPercentage The step percentage to use for the perturbation. Defaults to 1e-3.
-    ///
-    /// @return                 The State Transition Matrix
+    /// @param                  [in] aCoordinatesDimension The dimension of the coordinates produced by
+    /// `generateStateCoordinates`.
+    /// @return                 The Jacobian
 
-    MatrixXd computeStateTransitionMatrix(
+    MatrixXd computeJacobian(
         const State& aState,
         const Instant& anInstant,
-        std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates
+        const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
+        const Size& aCoordinatesDimension
     ) const;
 
-    /// @brief                  Compute the gradient
+    /// @brief                  Compute the gradient.
     ///
     /// @param                  [in] aState The state to compute the gradient of.
     /// @param                  [in] generateStateCoordinates Callable to generate coordinates of a State at the
     /// requested Instant.
     ///
-    /// @return                 The gradient
+    /// @return                 The gradient.
 
     VectorXd computeGradient(
-        const State& aState, std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates
+        const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
     ) const;
 
     /// @brief                  Print the solver.

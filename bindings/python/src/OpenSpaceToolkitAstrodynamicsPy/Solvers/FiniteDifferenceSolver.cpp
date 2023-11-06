@@ -21,7 +21,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
         aModule,
         "FiniteDifferenceSolver",
         R"doc(
-            A Finite Difference Solver to compute the gradient, and state transition matrix of a function.
+            A Finite Difference Solver to compute the gradient, and jacobian of a function.
 
             Group:
                 solvers
@@ -97,16 +97,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
         )
 
         .def(
-            "compute_state_transition_matrix",
+            "compute_jacobian",
             +[](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Array<Instant>& anInstantArray,
                 std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstantArray, generateStateCoordinates);
+                return solver.computeJacobian(aState, anInstantArray, generateStateCoordinates);
             },
             R"doc(
-                Compute the state transition matrix.
+                Compute the jacobian.
 
                 Args:
                     state (State): The state.
@@ -114,23 +114,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                     generate_states_coordinates (function): The function to get the states.
 
                 Returns:
-                    np.array: The state transition matrix.
+                    np.array: The jacobian.
             )doc",
             arg("state"),
             arg("instants"),
             arg("generate_states_coordinates")
         )
         .def(
-            "compute_state_transition_matrix",
+            "compute_jacobian",
             +[](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Instant& anInstant,
                 std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(aState, anInstant, generateStateCoordinates);
+                return solver.computeJacobian(aState, anInstant, generateStateCoordinates);
             },
             R"doc(
-                Compute the state transition matrix.
+                Compute the jacobian.
 
                 Args:
                     state (State): The state.
@@ -138,7 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                     generate_state_coordinates (function): The function to get the state.
 
                 Returns:
-                    np.array: The state transition matrix.
+                    np.array: The jacobian.
             )doc",
             arg("state"),
             arg("instant"),
@@ -160,7 +160,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
                     generate_state_coordinates (function): The function to generate the state coordinates.
 
                 Returns:
-                    np.array: The state transition matrix.
+                    np.array: The jacobian.
             )doc",
             arg("state"),
             arg("generate_state_coordinates")

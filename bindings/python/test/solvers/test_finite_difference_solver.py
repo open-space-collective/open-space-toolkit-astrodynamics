@@ -126,14 +126,14 @@ class TestFiniteDifferenceSolver:
             == "Forward"
         )
 
-    def test_compute_state_transition_matrix_array(
+    def test_compute_jacobian_array(
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
         instants: list[Instant],
         generate_states_coordinates: callable,
     ):
-        stm = finite_difference_solver.compute_state_transition_matrix(
+        stm = finite_difference_solver.compute_jacobian(
             state=state,
             instants=instants,
             generate_states_coordinates=generate_states_coordinates,
@@ -144,14 +144,14 @@ class TestFiniteDifferenceSolver:
             len(state.get_coordinates()) * len(instants),
         )
 
-    def test_compute_state_transition_matrix_single(
+    def test_compute_jacobian_single(
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
         generate_state_coordinates: callable,
         instant: Instant,
     ):
-        stm = finite_difference_solver.compute_state_transition_matrix(
+        stm = finite_difference_solver.compute_jacobian(
             state=state,
             instant=instant,
             generate_state_coordinates=generate_state_coordinates,
