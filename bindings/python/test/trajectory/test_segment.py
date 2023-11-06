@@ -14,7 +14,8 @@ from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
-from ostk.astrodynamics.dynamics.thruster import ConstantThrust
+from ostk.astrodynamics.dynamics import Thruster
+from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.event_condition import InstantCondition
@@ -108,16 +109,23 @@ def maneuver_segment(
     instant_condition: InstantCondition,
     dynamics: list,
     numerical_solver: NumericalSolver,
-    thruster_dynamics: ConstantThrust,
+    thruster_dynamics: Thruster,
 ) -> Segment:
     return Segment.maneuver(
-        name, instant_condition, thruster_dynamics, dynamics, numerical_solver
+        name=name,
+        event_condition=instant_condition,
+        thruster_dynamics=thruster_dynamics,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
     )
 
 
 @pytest.fixture
-def thruster_dynamics() -> ConstantThrust:
-    return ConstantThrust.intrack(satellite_system=SatelliteSystem.default())
+def thruster_dynamics() -> Thruster:
+    return Thruster(
+        satellite_system=SatelliteSystem.default(),
+        guidance_law=ConstantThrust.intrack(),
+    )
 
 
 class TestSegment:
@@ -172,7 +180,11 @@ class TestSegment:
     ):
         assert (
             Segment.maneuver(
-                name, instant_condition, thruster_dynamics, dynamics, numerical_solver
+                name=name,
+                event_condition=instant_condition,
+                thruster_dynamics=thruster_dynamics,
+                dynamics=dynamics,
+                numerical_solver=numerical_solver,
             )
             is not None
         )

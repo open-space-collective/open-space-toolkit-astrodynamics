@@ -25,10 +25,12 @@ from ostk.physics.units import Mass
 from ostk.astrodynamics.event_condition import COECondition
 from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import RealCondition
-from ostk.astrodynamics import Dynamics, EventConditionTarget
+from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics import EventConditionTarget
+from ostk.astrodynamics.dynamics import Thruster
+from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
-from ostk.astrodynamics.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import Segment
@@ -203,13 +205,22 @@ def gravitational_parameter() -> Derived:
 
 
 @pytest.fixture
-def constant_thrust(satellite_system: SatelliteSystem) -> ConstantThrust:
+def constant_thrust() -> ConstantThrust:
     return ConstantThrust(
-        satellite_system=satellite_system,
         thrust_direction=LocalOrbitalFrameDirection(
             vector=[1.0, 0.0, 0.0],
             local_orbital_frame_factory=LocalOrbitalFrameFactory.VNC(Frame.GCRF()),
-        ),
+        )
+    )
+
+
+@pytest.fixture
+def thruster_dynamics(
+    satellite_system: SatelliteSystem, constant_thrust: ConstantThrust
+) -> ConstantThrust:
+    return Thruster(
+        satellite_system=satellite_system,
+        guidance_law=constant_thrust,
     )
 
 
@@ -261,14 +272,14 @@ def coast_sma_segment(
 @pytest.fixture
 def thrust_segment(
     sma_condition: RealCondition,
-    constant_thrust: ConstantThrust,
+    thruster_dynamics: Thruster,
     dynamics: list[Dynamics],
     numerical_solver: NumericalSolver,
 ):
     return Segment.maneuver(
         name="duration thrust",
         event_condition=sma_condition,
-        thruster_dynamics=constant_thrust,
+        thruster_dynamics=thruster_dynamics,
         dynamics=dynamics,
         numerical_solver=numerical_solver,
     )
@@ -370,11 +381,11 @@ class TestSequence:
         self,
         sequence: Sequence,
         instant_condition: InstantCondition,
-        constant_thrust: ConstantThrust,
+        thruster_dynamics: Thruster,
     ):
         segments_count: int = len(sequence.get_segments())
 
-        sequence.add_maneuver_segment(instant_condition, constant_thrust)
+        sequence.add_maneuver_segment(instant_condition, thruster_dynamics)
 
         assert len(sequence.get_segments()) == segments_count + 1
 

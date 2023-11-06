@@ -34,10 +34,11 @@ from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.dynamics import CentralBodyGravity
-from ostk.astrodynamics.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import AtmosphericDrag
+from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
 from ostk.astrodynamics.trajectory.state.coordinates_subset import (
@@ -191,11 +192,14 @@ def local_orbital_frame_direction() -> LocalOrbitalFrameDirection:
 
 
 @pytest.fixture
-def constant_thrust(
+def thrust_dynamics(
     satellite_system: SatelliteSystem,
     local_orbital_frame_direction: LocalOrbitalFrameDirection,
-) -> ConstantThrust:
-    return ConstantThrust(satellite_system, local_orbital_frame_direction)
+) -> Thruster:
+    return Thruster(
+        satellite_system=satellite_system,
+        guidance_law=ConstantThrust(local_orbital_frame_direction),
+    )
 
 
 @pytest.fixture
@@ -369,12 +373,12 @@ class TestPropagator:
         self,
         numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
-        constant_thrust: ConstantThrust,
+        thrust_dynamics: Thruster,
         state: State,
     ):
         propagator: Propagator = Propagator(
             numerical_solver,
-            dynamics + [constant_thrust],
+            dynamics + [thrust_dynamics],
         )
 
         instant_array = [

@@ -11,9 +11,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
@@ -60,6 +61,7 @@ using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::Sequence;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
@@ -68,13 +70,13 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::thruster::ConstantThrust;
+using ostk::astro::dynamics::Thruster;
+using ostk::astro::guidancelaw::ConstantThrust;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
 {
@@ -297,6 +299,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
+        const Shared<const ConstantThrust> constantThrustSPtr =
+            std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
+
+        const Shared<Thruster> thrustDynamicsSPtr =
+            std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr);
+
         defaultSequence_.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
                 RealCondition::Criterion::AnyCrossing,
@@ -304,7 +312,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(SatelliteSystem::Default()))
+            thrustDynamicsSPtr
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
@@ -464,7 +472,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             Length::Kilometers(7000.0),
             EarthGravitationalModel::EGM2008.gravitationalParameter_
         )),
-        std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
+        std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
     );
 
     const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
@@ -693,7 +701,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
                 Length::Kilometers(7000.0),
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             )),
-            std::make_shared<ConstantThrust>(ConstantThrust::Intrack(satelliteSystem))
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
         );
 
         testing::internal::CaptureStdout();

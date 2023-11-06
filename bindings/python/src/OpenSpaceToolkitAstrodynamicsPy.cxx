@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/RootSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Solvers.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
@@ -46,4 +47,5 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     OpenSpaceToolkitAstrodynamicsPy_Access(m);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition(m);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(m);
 }

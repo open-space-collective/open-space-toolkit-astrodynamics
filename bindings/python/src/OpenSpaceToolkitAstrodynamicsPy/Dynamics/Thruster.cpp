@@ -2,8 +2,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/Thruster/ConstantThrust.cpp>
-
 using namespace pybind11;
 
 using ostk::core::types::String;
@@ -18,6 +16,7 @@ using ostk::physics::coord::Frame;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
+using ostk::astro::GuidanceLaw;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 
@@ -81,39 +80,40 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
     )
 
         .def(
-            init<const SatelliteSystem&, const String&>(),
+            init<const SatelliteSystem&, const Shared<const GuidanceLaw>&, const String&>(),
             arg("satellite_system"),
+            arg("guidance_law"),
             arg("name") = String::Empty(),
             R"doc(
                 Constructor.
 
                 Args:
                     satellite_system (SatelliteSystem): The satellite system.
+                    guidance_law (GuidanceLaw): The guidance law used to compute the acceleration vector.
                     name (str): The name of the thruster.
 
             )doc"
         )
 
         .def(
-            "get_name",
-            &Thruster::getName,
-            R"doc(
-                Get the name of the thruster.
-
-                Returns:
-                    str: The name of the thruster.
-
-            )doc"
-        )
-
-        .def(
-            "get_satelltite_system",
+            "get_satellite_system",
             &Thruster::getSatelliteSystem,
             R"doc(
                 Get the satellite system of the thruster.
 
                 Returns:
                     SatelliteSystem: The satellite system.
+
+            )doc"
+        )
+        .def(
+            "get_guidance_law",
+            &Thruster::getGuidanceLaw,
+            R"doc(
+                Get the guidance law of the thruster.
+
+                Returns:
+                    GuidanceLaw: The guidance law.
 
             )doc"
         )
@@ -154,13 +154,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
         )
 
         ;
-
-    // Create "thruster" python submodule
-    auto thruster = aModule.def_submodule("thruster");
-
-    // Add __path__ attribute for "thruster" submodule
-    thruster.attr("__path__") = "ostk.astrodynamics.dynamics.thruster";
-
-    // Add objects to "thruster" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_ConstantThrust(thruster);
 }
