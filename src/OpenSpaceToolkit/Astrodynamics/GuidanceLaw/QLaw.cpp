@@ -169,11 +169,11 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Re
         return coordinates;
     };
 
-    const MatrixXd stateTransitionMatrix = finiteDifferenceSolver_.computeStateTransitionMatrix(
-        stateBuilder_.build(Instant::J2000(), currentCOEVector.segment(0, 5)), Instant::J2000(), getQ
+    const MatrixXd jacobian = finiteDifferenceSolver_.computeJacobian(
+        stateBuilder_.build(Instant::J2000(), currentCOEVector.segment(0, 5)), Instant::J2000(), getQ, 1
     );
 
-    const MatrixXd D = stateTransitionMatrix * derivativeMatrix;
+    const MatrixXd D = jacobian * derivativeMatrix;
 
     Vector3d thrustDirection = {
         D.col(0).sum(),
