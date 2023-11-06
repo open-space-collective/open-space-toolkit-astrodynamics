@@ -17,9 +17,9 @@ from ostk.physics.units import Derived
 
 from ostk.astrodynamics.solvers import FiniteDifferenceSolver
 from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
-from ostk.astrodynamics.dynamics.thruster import GuidanceLaw
-from ostk.astrodynamics.dynamics.thruster.guidance_law import QLaw
-from ostk.astrodynamics.dynamics.thruster.guidance_law import QLawParameters
+from ostk.astrodynamics import GuidanceLaw
+from ostk.astrodynamics.guidance_law import QLaw
+from ostk.astrodynamics.guidance_law import QLawParameters
 
 
 @pytest.fixture

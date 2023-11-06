@@ -3,17 +3,13 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/QLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
 namespace astro
-{
-namespace dynamics
-{
-namespace thruster
 {
 namespace guidancelaw
 {
@@ -131,7 +127,7 @@ COE QLaw::getTargetCOE() const
     return COE::FromSIVector(targetCOEVector_, COE::AnomalyType::True);
 }
 
-Vector3d QLaw::computeAcceleration(
+Vector3d QLaw::calculateThrustAccelerationAt(
     [[maybe_unused]] const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
@@ -163,14 +159,14 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Re
     const Matrix53d derivativeMatrix = computeDOEWithF(currentCOEVector);
 
     const auto getQ = [this,
-                       &aThrustAcceleration](const State& aState, [[maybe_unused]] const Instant& anInstant) -> State
+                       &aThrustAcceleration](const State& aState, [[maybe_unused]] const Instant& anInstant) -> VectorXd
     {
-        const Vector6d& coeVector = aState.accessCoordinates();
+        const Vector5d& coeVector = aState.accessCoordinates();
 
         VectorXd coordinates(1);
         coordinates << this->computeQ(coeVector, aThrustAcceleration);
 
-        return State(Instant::J2000(), coordinates, Frame::GCRF(), {std::make_shared<CoordinatesSubset>("Q", 1)});
+        return coordinates;
     };
 
     const MatrixXd stateTransitionMatrix = finiteDifferenceSolver_.computeStateTransitionMatrix(
@@ -190,7 +186,7 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Re
     return -thrustDirection;
 }
 
-Real QLaw::computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const
+Real QLaw::computeQ(const Vector5d& currentCOEVector, const Real& aThrustAcceleration) const
 {
     Vector5d deltaCOE(5);
     deltaCOE << (currentCOEVector[0] - targetCOEVector_[0]), (currentCOEVector[1] - targetCOEVector_[1]),
@@ -214,7 +210,7 @@ Real QLaw::computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceler
         .sum();
 }
 
-Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector6d& aCOEVector, const Real& aThrustAcceleration) const
+Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, const Real& aThrustAcceleration) const
 {
     const Real& semiMajorAxis = aCOEVector[0];
     const Real& eccentricity = aCOEVector[1];
@@ -346,7 +342,5 @@ Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const
 }
 
 }  // namespace guidancelaw
-}  // namespace thruster
-}  // namespace dynamics
 }  // namespace astro
 }  // namespace ostk

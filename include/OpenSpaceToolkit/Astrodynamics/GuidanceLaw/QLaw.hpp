@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw__
-#define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw__
+#ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
+#define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 
 #include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
@@ -19,10 +19,6 @@
 namespace ostk
 {
 namespace astro
-{
-namespace dynamics
-{
-namespace thruster
 {
 namespace guidancelaw
 {
@@ -45,7 +41,7 @@ using ostk::physics::coord::Frame;
 using ostk::physics::units::Derived;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::dynamics::thruster::GuidanceLaw;
+using ostk::astro::GuidanceLaw;
 using ostk::astro::solvers::FiniteDifferenceSolver;
 using ostk::astro::trajectory::StateBuilder;
 
@@ -143,7 +139,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return                 The acceleration at the provided coordinates
 
-    virtual Vector3d computeAcceleration(
+    virtual Vector3d calculateThrustAccelerationAt(
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
@@ -159,20 +155,18 @@ class QLaw : public GuidanceLaw
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
 
-    Real computeQ(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const;
+    Real computeQ(const Vector5d& currentCOEVector, const Real& aThrustAcceleration) const;
 
     Vector3d computeThrustDirection(const Vector6d& currentCOEVector, const Real& aThrustAcceleration) const;
 
     Matrix53d computeDOEWithF(const Vector6d& aCOEVector) const;
 
-    Vector5d computeOrbitalElementsMaximalChange(const Vector6d& aCOEVector, const Real& aThrustAcceleration) const;
+    Vector5d computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, const Real& aThrustAcceleration) const;
 
     static Matrix3d thetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 };
 
 }  // namespace guidancelaw
-}  // namespace thruster
-}  // namespace dynamics
 }  // namespace astro
 }  // namespace ostk
 

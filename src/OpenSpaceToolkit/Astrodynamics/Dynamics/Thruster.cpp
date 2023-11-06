@@ -85,6 +85,7 @@ VectorXd Thruster::computeContribution(
 
     if (x[6] <= satelliteSystem_.getMass().inKilograms())  // We compare against the dry mass of the Satellite
     {
+        std::cout << x[6] << std::endl;
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 

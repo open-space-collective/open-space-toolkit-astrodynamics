@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/GuidanceLaw/QLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 
 using namespace pybind11;
 
@@ -16,12 +16,12 @@ using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 using ostk::physics::units::Derived;
 
-using ostk::astro::dynamics::thruster::GuidanceLaw;
-using ostk::astro::dynamics::thruster::guidancelaw::QLaw;
+using ostk::astro::GuidanceLaw;
+using ostk::astro::guidancelaw::QLaw;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::solvers::FiniteDifferenceSolver;
 
-void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_QLaw(pybind11::module& aModule)
+void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 {
     class_<QLaw::Parameters>(
         aModule,
@@ -170,10 +170,10 @@ void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw_QLaw(pybind11
         )
 
         .def(
-            "compute_acceleration",
-            &GuidanceLaw::computeAcceleration,
+            "calculate_thrust_acceleration_at",
+            &GuidanceLaw::calculateThrustAccelerationAt,
             R"doc(
-                Compute the acceleration.
+                Calculate the thrust acceleration at the provided coordinates and instant.
 
                 Args:
                     instant (Instant): Instant of computation.
