@@ -10,8 +10,8 @@ from ostk.physics.coordinate import Frame
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 
-from ostk.astrodynamics.dynamics.thruster import GuidanceLaw
-from ostk.astrodynamics.dynamics.thruster.guidance_law import ConstantThrust
+from ostk.astrodynamics import GuidanceLaw
+from ostk.astrodynamics.guidance_law import ConstantThrust
 
 
 @pytest.fixture

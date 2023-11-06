@@ -24,7 +24,7 @@ from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import Thruster
-from ostk.astrodynamics.dynamics.thruster.guidance_law import ConstantThrust
+from ostk.astrodynamics.guidance_law import ConstantThrust
 
 
 @pytest.fixture

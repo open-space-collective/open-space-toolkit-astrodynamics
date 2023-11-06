@@ -9,8 +9,8 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
@@ -96,7 +96,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetSatelliteSystem)
     }
 
     {
-        const Thruster undefinedThruster = {SatelliteSystem::Default(), defaultGuidanceLaw_, defaultName_};
+        const Thruster undefinedThruster = {SatelliteSystem::Undefined(), defaultGuidanceLaw_, defaultName_};
         EXPECT_THROW(undefinedThruster.getSatelliteSystem(), ostk::core::error::runtime::Undefined);
     }
 }

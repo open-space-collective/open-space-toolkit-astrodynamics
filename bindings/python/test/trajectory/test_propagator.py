@@ -38,7 +38,7 @@ from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import AtmosphericDrag
-from ostk.astrodynamics.dynamics.thruster.guidance_law import ConstantThrust
+from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
 from ostk.astrodynamics.trajectory.state.coordinates_subset import (
