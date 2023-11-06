@@ -137,11 +137,12 @@ class TestFiniteDifferenceSolver:
             state=state,
             instants=instants,
             generate_states_coordinates=generate_states_coordinates,
+            coordinates_dimension=2,
         )
         assert isinstance(stm, np.ndarray)
         assert stm.shape == (
-            len(state.get_coordinates()),
             len(state.get_coordinates()) * len(instants),
+            len(state.get_coordinates()),
         )
 
     def test_compute_jacobian_single(
@@ -155,6 +156,7 @@ class TestFiniteDifferenceSolver:
             state=state,
             instant=instant,
             generate_state_coordinates=generate_state_coordinates,
+            coordinates_dimension=2,
         )
         assert isinstance(stm, np.ndarray)
         assert stm.shape == (
