@@ -109,8 +109,8 @@ void Thruster::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Thruster") : void();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite System:" << satelliteSystem_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Guidance Law:" << guidanceLaw_;
+    satelliteSystem_.print(anOutputStream, false);
+    guidanceLaw_->print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

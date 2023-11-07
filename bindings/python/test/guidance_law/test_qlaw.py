@@ -120,7 +120,7 @@ class TestQLaw:
         assert q_law.get_parameters() is not None
         assert q_law.get_target_coe() is not None
 
-    def test_compute_acceleration(
+    def test_calculate_acceleration_at(
         self,
         q_law: QLaw,
         position_coordinates: list[float],
@@ -130,7 +130,7 @@ class TestQLaw:
         frame: Frame,
     ):
         assert pytest.approx(
-            q_law.compute_acceleration(
+            q_law.calculate_acceleration_at(
                 instant=instant,
                 position_coordinates=position_coordinates,
                 velocity_coordinates=velocity_coordinates,
