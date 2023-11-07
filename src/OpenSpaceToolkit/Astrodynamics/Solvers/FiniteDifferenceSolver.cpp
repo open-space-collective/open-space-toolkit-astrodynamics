@@ -50,15 +50,17 @@ Duration FiniteDifferenceSolver::getStepDuration() const
     return stepDuration_;
 }
 
-MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
+MatrixXd FiniteDifferenceSolver::computeJacobian(
     const State& aState,
     const Array<Instant>& anInstantArray,
-    std::function<MatrixXd(const State&, const Array<Instant>&)> generateStateCoordinates
+    const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
+    const Size& aCoordinatesDimension
 ) const
 {
     const StateBuilder stateBuilder = {aState};
 
     const Size stateVectorDimension = aState.getSize();
+    const Size numberOfInstants = anInstantArray.getSize();
 
     std::function<MatrixXd(const Real&, VectorXd, const Index&)> computeBlock;
 
@@ -128,7 +130,7 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
             throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
     }
 
-    MatrixXd A = MatrixXd::Zero(stateVectorDimension, stateVectorDimension * anInstantArray.size());
+    MatrixXd A = MatrixXd::Zero(aCoordinatesDimension * numberOfInstants, stateVectorDimension);
 
     for (Index i = 0; i < stateVectorDimension; ++i)
     {
@@ -136,22 +138,23 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
                                 ? aState.accessCoordinates()(i) * stepPercentage_
                                 : stepPercentage_;
 
-        const VectorXd coords = aState.accessCoordinates();
-        const MatrixXd differencedCoordinates = computeBlock(stepSize, aState.getCoordinates(), i);
+        MatrixXd differencedCoordinates = computeBlock(stepSize, aState.getCoordinates(), i);
 
-        for (Index j = 0; j < anInstantArray.size(); ++j)
-        {
-            A.block(0, i + j * stateVectorDimension, stateVectorDimension, 1) = differencedCoordinates.col(j);
-        }
+        const VectorXd columnStackedCoordinates =
+            Eigen::Map<VectorXd>(differencedCoordinates.data(), differencedCoordinates.size());
+
+        A.col(i) = columnStackedCoordinates;
     }
 
     return A;
 }
 
-MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
+MatrixXd FiniteDifferenceSolver::computeJacobian(
     const State& aState,
     const Instant& anInstant,
-    std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates
+    const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
+    const Size& aCoordinatesDimension
+
 ) const
 {
     const auto generateStatesCoordinates =
@@ -159,14 +162,16 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     {
         const VectorXd coordinates = generateStateCoordinates(anInputState, anInstantArray[0]);
 
-        return {coordinates};
+        const MatrixXd coordinatesMatrix = {coordinates};
+
+        return coordinatesMatrix;
     };
 
-    return computeStateTransitionMatrix(aState, {anInstant}, generateStatesCoordinates);
+    return computeJacobian(aState, {anInstant}, generateStatesCoordinates, aCoordinatesDimension);
 }
 
 VectorXd FiniteDifferenceSolver::computeGradient(
-    const State& aState, std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates
+    const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
 ) const
 {
     switch (type_)

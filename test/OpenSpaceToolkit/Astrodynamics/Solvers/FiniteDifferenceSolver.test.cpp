@@ -127,17 +127,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Getters)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeStateTransitionMatrix)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJacobian)
 {
     {
         const Array<Instant> instants = {
             Instant::J2000() + Duration::Seconds(100.0),
             Instant::J2000() + Duration::Seconds(200.0),
+            Instant::J2000() + Duration::Seconds(300.0),
         };
 
-        MatrixXd expectedJacobian(2, 4);
-        expectedJacobian << std::cos(100.0), std::sin(100.0), std::cos(200.0), std::sin(200.0), std::sin(-100.0),
-            std::cos(100.0), std::sin(-200.0), std::cos(200.0);
+        MatrixXd expectedJacobian(2 * instants.getSize(), 2);
+
+        expectedJacobian << std::cos(100.0), std::sin(100.0), std::sin(-100.0), std::cos(100.0), std::cos(200.0),
+            std::sin(200.0), std::sin(-200.0), std::cos(200.0), std::cos(300.0), std::sin(300.0), std::sin(-300.0),
+            std::cos(300.0);
 
         {
             const FiniteDifferenceSolver solver = {
@@ -145,8 +148,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates);
+            const MatrixXd jacobian = solver.computeJacobian(initialState_, instants, generateStatesCoordinates, 2);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
@@ -157,8 +159,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates);
+            const MatrixXd jacobian = solver.computeJacobian(initialState_, instants, generateStatesCoordinates, 2);
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
 
@@ -168,8 +169,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates);
+            const MatrixXd jacobian = solver.computeJacobian(initialState_, instants, generateStatesCoordinates, 2);
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
     }
@@ -186,8 +186,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates);
+            const MatrixXd jacobian = solver.computeJacobian(initialState_, instant, generateStateCoordinates, 2);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
@@ -198,8 +197,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates);
+            const MatrixXd jacobian = solver.computeJacobian(initialState_, instant, generateStateCoordinates, 2);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
@@ -210,8 +208,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates);
+            const MatrixXd jacobian = solver.computeJacobian(initialState_, instant, generateStateCoordinates, 2);
 
             EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-12));
         }
