@@ -54,7 +54,7 @@ def parameters() -> QLawParameters:
 
 @pytest.fixture
 def finite_difference_solver() -> FiniteDifferenceSolver:
-    return FiniteDifferenceSolver(FiniteDifferenceSolver.Type.Central)
+    return FiniteDifferenceSolver.default()
 
 
 @pytest.fixture

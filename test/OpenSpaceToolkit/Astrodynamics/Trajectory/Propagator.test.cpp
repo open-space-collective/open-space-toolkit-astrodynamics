@@ -2596,7 +2596,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
         {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()}
     };
 
-    const State state = propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Days(15.1));
+    const State state = propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Days(14.82));
 
     const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
