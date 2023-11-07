@@ -26,11 +26,26 @@ namespace kepler
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Mass;
+using ostk::physics::units::ElectricCurrent;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
+static const Derived::Unit AngularMomentumSIUnit = {
+    Length::Unit::Meter,
+    {2},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-2},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0},
+};
 
 COE::COE(
     const Length& aSemiMajorAxis,
@@ -204,15 +219,18 @@ Length COE::getRadialDistance() const
     ));
 }
 
-Real COE::getAngularMomentum(const Derived& aGravitationalParameter) const
+Derived COE::getAngularMomentum(const Derived& aGravitationalParameter) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return COE::ComputeAngularMomentum(
-        COE::ComputeSemiLatusRectum(semiMajorAxis_.inMeters(), eccentricity_), aGravitationalParameter
+    return Derived(
+        COE::ComputeAngularMomentum(
+            COE::ComputeSemiLatusRectum(semiMajorAxis_.inMeters(), eccentricity_), aGravitationalParameter
+        ),
+        AngularMomentumSIUnit
     );
 }
 

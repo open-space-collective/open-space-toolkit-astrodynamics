@@ -96,15 +96,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
         )
 
         .def(
-<<<<<<< HEAD
-<<<<<<< HEAD
             "get_satellite_system",
-=======
-            "get_satelltite_system",
->>>>>>> wip: feat: add tests
-=======
-            "get_satellite_system",
->>>>>>> feat: fix remaining tests
             &Thruster::getSatelliteSystem,
             R"doc(
                 Get the satellite system of the thruster.
@@ -162,19 +154,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
         )
 
         ;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-    // Create "thruster" python submodule
-    auto thruster = aModule.def_submodule("thruster");
-
-    // Add __path__ attribute for "thruster" submodule
-    thruster.attr("__path__") = "ostk.astrodynamics.dynamics.thruster";
-
-    // Add objects to "thruster" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_GuidanceLaw(thruster);
->>>>>>> wip: feat: add tests
-=======
->>>>>>> refactor: move guidance law around
 }

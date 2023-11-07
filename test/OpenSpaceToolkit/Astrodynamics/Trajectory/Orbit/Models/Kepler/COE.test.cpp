@@ -402,12 +402,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
+        const Derived angularMomentum = coe.getAngularMomentum(Earth::EGM2008.gravitationalParameter_);
+
         EXPECT_DOUBLE_EQ(
             std::sqrt(
                 Earth::EGM2008.gravitationalParameter_.in(Earth::EGM2008.gravitationalParameter_.getUnit()) *
                 coe.getSemiLatusRectum().inMeters()
             ),
-            coe.getAngularMomentum(Earth::EGM2008.gravitationalParameter_)
+            angularMomentum.in(angularMomentum.getUnit())
         );
     }
 

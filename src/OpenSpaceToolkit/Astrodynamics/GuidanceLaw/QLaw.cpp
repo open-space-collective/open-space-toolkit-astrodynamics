@@ -143,7 +143,7 @@ Vector3d QLaw::calculateThrustAccelerationAt(
 
     Vector6d coeVector = coe.getSIVector(COE::AnomalyType::True);
 
-    const double singularityTolerance = 1e-4;
+    static const double singularityTolerance = 1e-4;
     coeVector[1] = std::max(coeVector[1], singularityTolerance);
     coeVector[2] = std::max(singularityTolerance, std::min(coeVector[2], singularityTolerance));
 
@@ -176,14 +176,14 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& currentCOEVector, const Re
     const MatrixXd D = jacobian * derivativeMatrix;
 
     Vector3d thrustDirection = {
-        D.col(0).sum(),
-        D.col(1).sum(),
-        D.col(2).sum(),
+        -D.col(0).sum(),
+        -D.col(1).sum(),
+        -D.col(2).sum(),
     };
 
     thrustDirection.normalize();
 
-    return -thrustDirection;
+    return thrustDirection;
 }
 
 Real QLaw::computeQ(const Vector5d& currentCOEVector, const Real& aThrustAcceleration) const
@@ -197,7 +197,9 @@ Real QLaw::computeQ(const Vector5d& currentCOEVector, const Real& aThrustAcceler
     };
 
     const Vector5d scalingCOE = {
-        (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n)) * 1.0 / parameters_.r,
+        std::pow(
+            (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n)), 1.0 / parameters_.r
+        ),
         1.0,
         1.0,
         1.0,
@@ -241,22 +243,22 @@ Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, c
 
     // Inclination
     const Real inclination_xx = (semiLatusRectum * aThrustAcceleration) /
-                                    (angularMomentum * std::sqrt(1.0 - eccentricitySquared * aop_sin * aop_sin)) -
+                                    (angularMomentum * std::sqrt(1.0 - (eccentricitySquared * aop_sin * aop_sin))) -
                                 eccentricity * std::abs(aop_cos);
 
     // Right Ascension of the Ascending Node
     const Real rightAscensionOfAscendingNode_xx =
         (semiLatusRectum * aThrustAcceleration) /
         (angularMomentum * std::sin(inclination) *
-         ((1.0 - eccentricitySquared * aop_cos * aop_cos) - eccentricity * std::abs(aop_sin)));
+         ((1.0 - (eccentricitySquared * aop_cos * aop_cos)) - eccentricity * std::abs(aop_sin)));
 
     // Argument of Periapsis
     const Real alpha = (1.0 - eccentricitySquared) / (2.0 * std::pow(eccentricity, 3));
-    const Real beta = std::sqrt(0.25 * 4.0 * alpha * alpha + 1.0 / 27.0);
+    const Real beta = std::sqrt(alpha * alpha + 1.0 / 27.0);
 
     const Real cosTheta_xx =
         std::pow((alpha + beta), 1.0 / 3.0) - std::pow((beta - alpha), 1.0 / 3.0) - 1.0 / eccentricity;
-    const Real r_xx = semiLatusRectum / (1.0 + eccentricity * cosTheta_xx);
+    const Real r_xx = semiLatusRectum / (1.0 + (eccentricity * cosTheta_xx));
 
     const Real cosTheta_xxSquared = cosTheta_xx * cosTheta_xx;
 
@@ -322,21 +324,21 @@ Matrix53d QLaw::computeDOEWithF(const Vector6d& aCOEVector) const
     // Eccentricity
     derivativeMatrix(1, 0) =
         ((semiLatusRectum + radialDistance) * trueAnomaly_cos + (radialDistance * eccentricity)) / angularMomentum;
-    derivativeMatrix(1, 1) = (semiLatusRectum / angularMomentum) * trueAnomaly_sin;
+    derivativeMatrix(1, 1) = (semiLatusRectum * trueAnomaly_sin / angularMomentum);
 
     // Inclination
-    derivativeMatrix(2, 2) = (radialDistance / angularMomentum) * trueAnomaly_ArgumentOfPeriapsis_cos;
+    derivativeMatrix(2, 2) = (radialDistance * trueAnomaly_ArgumentOfPeriapsis_cos / angularMomentum);
 
     // Right Ascension of the Ascending Node
     derivativeMatrix(3, 2) =
         (radialDistance * trueAnomaly_ArgumentOfPeriapsis_sin) / (angularMomentum * std::sin(inclination));
 
     // Argument of Periapsis
-    const Real aop_alpha = eccentricity * angularMomentum;
-    derivativeMatrix(4, 0) = (semiLatusRectum + radialDistance) * trueAnomaly_sin / (aop_alpha);
-    derivativeMatrix(4, 1) = -semiLatusRectum * trueAnomaly_cos / (aop_alpha);
+    const Real aop_alpha = 1.0 / (eccentricity * angularMomentum);
+    derivativeMatrix(4, 0) = (semiLatusRectum + radialDistance) * trueAnomaly_sin * aop_alpha;
+    derivativeMatrix(4, 1) = -semiLatusRectum * trueAnomaly_cos * aop_alpha;
     derivativeMatrix(4, 2) = (-radialDistance * trueAnomaly_ArgumentOfPeriapsis_sin * std::cos(inclination)) /
-                             (eccentricity * angularMomentum * angularMomentum * std::sin(inclination));
+                             (angularMomentum * std::sin(inclination));
 
     return derivativeMatrix;
 }

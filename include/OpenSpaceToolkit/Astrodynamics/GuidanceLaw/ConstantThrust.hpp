@@ -96,8 +96,8 @@ class ConstantThrust : public GuidanceLaw
 
     /// @brief                  Intrack Constant thrust dynamics
     ///
-    /// @param                  [in] velocityDirection A bool representing the direction of the thrust. Defaults to
-    /// true.
+    /// @param                  [in] velocityDirection A bool representing the direction of the thrust, with true
+    /// meaning along the velocity direction. Defaults to true.
     ///
     /// @return                 Constant Thrust dynamics
 

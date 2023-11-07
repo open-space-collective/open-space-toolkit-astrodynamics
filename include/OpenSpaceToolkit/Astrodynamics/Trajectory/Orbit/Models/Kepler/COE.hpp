@@ -202,8 +202,7 @@ class COE
     ///
     /// @return                 Angular Momentum
 
-    // TBM: Maybe return with unit
-    Real getAngularMomentum(const Derived& aGravitationalParameter) const;
+    Derived getAngularMomentum(const Derived& aGravitationalParameter) const;
 
     /// @brief                  Get Mean motion
     ///
@@ -316,7 +315,7 @@ class COE
 
     /// @brief                  Compute the semi-latus rectum of the orbit.
     ///
-    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit.
+    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param                  [in] anEccentricity Eccentricity of the orbit.
     /// @return                 Real Semi-latus rectum.
 
@@ -324,7 +323,7 @@ class COE
 
     /// @brief                  Compute the angular momentum of the orbit.
     ///
-    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit.
+    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param                  [in] anEccentricity Eccentricity of the orbit.
     /// @param                  [in] aGravitationalParameter Gravitational parameter.
     /// @return                 Angular momentum.
@@ -335,7 +334,7 @@ class COE
 
     /// @brief                  Compute the angular momentum of the orbit.
     ///
-    /// @param                  [in] aSemiLatusRectum Semi-latus rectum of the orbit.
+    /// @param                  [in] aSemiLatusRectum Semi-latus rectum of the orbit in meters.
     /// @param                  [in] aGravitationalParameter Gravitational parameter.
     /// @return                 Angular momentum.
 
@@ -343,9 +342,9 @@ class COE
 
     /// @brief                  Compute the radial distance at a given true anomaly.
     ///
-    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit.
+    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param                  [in] anEccentricity Eccentricity of the orbit.
-    /// @param                  [in] trueAnomaly True anomaly.
+    /// @param                  [in] trueAnomaly True anomaly in radians.
     /// @return                 Radial distance.
 
     static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);

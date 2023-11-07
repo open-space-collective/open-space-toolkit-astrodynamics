@@ -85,15 +85,14 @@ VectorXd Thruster::computeContribution(
 
     if (x[6] <= satelliteSystem_.getMass().inKilograms())  // We compare against the dry mass of the Satellite
     {
-        std::cout << x[6] << std::endl;
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
-    const Real thrustAccelerationMagnitude =
+    const Real maximumThrustAccelerationMagnitude =
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6])).getValue();
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
-        anInstant, positionCoordinates, velocityCoordinates, thrustAccelerationMagnitude, aFrameSPtr
+        anInstant, positionCoordinates, velocityCoordinates, maximumThrustAccelerationMagnitude, aFrameSPtr
     );
 
     // Compute contribution
