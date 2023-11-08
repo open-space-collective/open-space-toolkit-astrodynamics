@@ -12,23 +12,29 @@ Define the acceleration experienced by a point mass due to thrust.
 Inheritance diagram for ostk\+::astro\+::dynamics\+::Thruster\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=3.000000cm]{classostk_1_1astro_1_1dynamics_1_1_thruster}
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1dynamics_1_1_thruster}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a2010b04f846ce1b413384c5a29bbfbf1}{Thruster}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System, const String \&a\+Name=String\+::\+Empty())
+\mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a886c1081204b366422573a893fe9dee5}{Thruster}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} $>$ \&a\+Guidance\+Law, const String \&a\+Name=String\+::\+Empty())
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-virtual \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a76cfada8b1c7e00fda60b9d71ac25f83}{$\sim$\+Thruster}} ()=0
-\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
-virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}{is\+Defined}} () const =0
-\begin{DoxyCompactList}\small\item\em Check if thruster is defined. \end{DoxyCompactList}\item 
-String \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a7e0fde2be011b784a71147a059c027b4}{get\+Name}} () const
-\begin{DoxyCompactList}\small\item\em Get name. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a6408bef4a7aada7a5fc5d7c6e8adbcad}{$\sim$\+Thruster}} ()
+\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_aa2fb1513fee69124f28a99fea26b6a04}{get\+Satellite\+System}} () const
 \begin{DoxyCompactList}\small\item\em Get satellite system. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a460a207a50b8c18caafcaf05dffdcc33}{get\+Guidance\+Law}} () const
+\begin{DoxyCompactList}\small\item\em Get guidance law. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad5c5ce7c8bdb39931b580254f35cb899}{get\+Read\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ab60e4c7647ff68a7873983d5aaa20ae9}{get\+Write\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance writes to. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad7e1160f12df4226de431b29bf56ae69}{is\+Defined}} () const override
+\begin{DoxyCompactList}\small\item\em Check if constant thrust thruster dynamics is defined. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a70cc44888e0077a8ad35dfe5a8a2e852}{compute\+Contribution}} (const Instant \&an\+Instant, const Vector\+Xd \&x, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const override
+\begin{DoxyCompactList}\small\item\em Compute the contribution to the state derivative. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print thruster. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
@@ -37,11 +43,11 @@ virtual void \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e28
 Define the acceleration experienced by a point mass due to thrust. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a2010b04f846ce1b413384c5a29bbfbf1}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a2010b04f846ce1b413384c5a29bbfbf1}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a886c1081204b366422573a893fe9dee5}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a886c1081204b366422573a893fe9dee5}} 
 \index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!Thruster@{Thruster}}
 \index{Thruster@{Thruster}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
 \doxysubsubsection{\texorpdfstring{Thruster()}{Thruster()}}
-{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Thruster\+::\+Thruster (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System,  }\item[{const String \&}]{a\+Name = {\ttfamily String\+:\+:Empty()} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Thruster\+::\+Thruster (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} $>$ \&}]{a\+Guidance\+Law,  }\item[{const String \&}]{a\+Name = {\ttfamily String\+:\+:Empty()} }\end{DoxyParamCaption})}
 
 
 
@@ -49,35 +55,78 @@ Constructor.
 
 
 \begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Satellite\+System} & A satellite system \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Guidance\+Law} & A guidance law \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a76cfada8b1c7e00fda60b9d71ac25f83}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a76cfada8b1c7e00fda60b9d71ac25f83}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a6408bef4a7aada7a5fc5d7c6e8adbcad}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a6408bef4a7aada7a5fc5d7c6e8adbcad}} 
 \index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!````~Thruster@{$\sim$Thruster}}
 \index{````~Thruster@{$\sim$Thruster}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
 \doxysubsubsection{\texorpdfstring{$\sim$Thruster()}{~Thruster()}}
-{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Thruster\+::$\sim$\+Thruster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
-
-
-
-Destructor. 
+{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Thruster\+::$\sim$\+Thruster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a7e0fde2be011b784a71147a059c027b4}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a7e0fde2be011b784a71147a059c027b4}} 
-\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getName@{getName}}
-\index{getName@{getName}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
-\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
-{\footnotesize\ttfamily String ostk\+::astro\+::dynamics\+::\+Thruster\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a70cc44888e0077a8ad35dfe5a8a2e852}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a70cc44888e0077a8ad35dfe5a8a2e852}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!computeContribution@{computeContribution}}
+\index{computeContribution@{computeContribution}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{computeContribution()}{computeContribution()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::dynamics\+::\+Thruster\+::compute\+Contribution (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{x,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
-Get name. 
+Compute the contribution to the state derivative. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The reduced derivative state vector (this vector must follow the structure determined by the \textquotesingle{}write\textquotesingle{} coordinate subsets) expressed in the given frame 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a625e6436f0874734702c9ace5674a924}{ostk\+::astro\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a460a207a50b8c18caafcaf05dffdcc33}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a460a207a50b8c18caafcaf05dffdcc33}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getGuidanceLaw@{getGuidanceLaw}}
+\index{getGuidanceLaw@{getGuidanceLaw}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{getGuidanceLaw()}{getGuidanceLaw()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} $>$ ostk\+::astro\+::dynamics\+::\+Thruster\+::get\+Guidance\+Law (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get guidance law. 
 
 \begin{DoxyReturn}{Returns}
-Name of thruster 
+Guidance law 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_ad5c5ce7c8bdb39931b580254f35cb899}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_ad5c5ce7c8bdb39931b580254f35cb899}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getReadCoordinatesSubsets@{getReadCoordinatesSubsets}}
+\index{getReadCoordinatesSubsets@{getReadCoordinatesSubsets}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{getReadCoordinatesSubsets()}{getReadCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::dynamics\+::\+Thruster\+::get\+Read\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance reads from. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance reads from 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_abad8ede80d4404db1adf272f137760b0}{ostk\+::astro\+::\+Dynamics}}.
+
 \mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_aa2fb1513fee69124f28a99fea26b6a04}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_aa2fb1513fee69124f28a99fea26b6a04}} 
 \index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getSatelliteSystem@{getSatelliteSystem}}
 \index{getSatelliteSystem@{getSatelliteSystem}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
@@ -91,26 +140,39 @@ Get satellite system.
 \begin{DoxyReturn}{Returns}
 Satellite system 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_ab60e4c7647ff68a7873983d5aaa20ae9}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_ab60e4c7647ff68a7873983d5aaa20ae9}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}}
+\index{getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{getWriteCoordinatesSubsets()}{getWriteCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::dynamics\+::\+Thruster\+::get\+Write\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance writes to. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance writes to 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_abd3fe0e2bb0feb82e109d569d39cafff}{ostk\+::astro\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_ad7e1160f12df4226de431b29bf56ae69}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_ad7e1160f12df4226de431b29bf56ae69}} 
 \index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!isDefined@{isDefined}}
 \index{isDefined@{isDefined}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
 \doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
-{\footnotesize\ttfamily virtual bool ostk\+::astro\+::dynamics\+::\+Thruster\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::dynamics\+::\+Thruster\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
-Check if thruster is defined. 
+Check if constant thrust thruster dynamics is defined. 
 
 \begin{DoxyReturn}{Returns}
-True if thruster is defined 
+True if constant thrust thruster dynamics is defined 
 \end{DoxyReturn}
 
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a41b321dd678aa88df95f8a7c9fb5eba8}{ostk\+::astro\+::\+Dynamics}}.
-
-
-
-Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a7e3613937ad9641db16854d9681e539e}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}} 
 \index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!print@{print}}
@@ -132,10 +194,6 @@ Print thruster.
 
 
 Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}{ostk\+::astro\+::\+Dynamics}}.
-
-
-
-Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a1f322fa8185a9ada4baa94a7ae7ec578}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}.
 
 
 

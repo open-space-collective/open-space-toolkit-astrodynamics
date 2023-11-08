@@ -5,6 +5,7 @@ var dir_63b6b1ec5d4fb1381aa2ced999c67fda =
     [ "Dynamics", "dir_0b6608e3d374155cbf0f51bbaa9dd801.html", "dir_0b6608e3d374155cbf0f51bbaa9dd801" ],
     [ "EventCondition", "dir_e41b2cba089ed3ee71bd9bdec1b42eda.html", "dir_e41b2cba089ed3ee71bd9bdec1b42eda" ],
     [ "Flight", "dir_a9475479c97067a34c1b41ad9be87160.html", "dir_a9475479c97067a34c1b41ad9be87160" ],
+    [ "GuidanceLaw", "dir_24a764cd8ceb16d81396c7a9f4a45711.html", "dir_24a764cd8ceb16d81396c7a9f4a45711" ],
     [ "Solvers", "dir_0ff8e11cbb54ee7aeff85ec17a62416d.html", "dir_0ff8e11cbb54ee7aeff85ec17a62416d" ],
     [ "Trajectory", "dir_487c49ff17ded48b6f4eeef50bd2df5e.html", "dir_487c49ff17ded48b6f4eeef50bd2df5e" ],
     [ "Access.hpp", "_access_8hpp.html", [
@@ -15,9 +16,13 @@ var dir_63b6b1ec5d4fb1381aa2ced999c67fda =
       [ "Context", "structostk_1_1astro_1_1_dynamics_1_1_context.html", "structostk_1_1astro_1_1_dynamics_1_1_context" ]
     ] ],
     [ "EventCondition.hpp", "_event_condition_8hpp.html", [
-      [ "EventCondition", "classostk_1_1astro_1_1_event_condition.html", "classostk_1_1astro_1_1_event_condition" ]
+      [ "EventCondition", "classostk_1_1astro_1_1_event_condition.html", "classostk_1_1astro_1_1_event_condition" ],
+      [ "Target", "structostk_1_1astro_1_1_event_condition_1_1_target.html", "structostk_1_1astro_1_1_event_condition_1_1_target" ]
     ] ],
     [ "Flight.hpp", "_flight_8hpp.html", null ],
+    [ "GuidanceLaw.hpp", "_guidance_law_8hpp.html", [
+      [ "GuidanceLaw", "classostk_1_1astro_1_1_guidance_law.html", "classostk_1_1astro_1_1_guidance_law" ]
+    ] ],
     [ "RootSolver.hpp", "_root_solver_8hpp.html", [
       [ "RootSolver", "classostk_1_1astro_1_1_root_solver.html", "classostk_1_1astro_1_1_root_solver" ],
       [ "Solution", "structostk_1_1astro_1_1_root_solver_1_1_solution.html", "structostk_1_1astro_1_1_root_solver_1_1_solution" ]

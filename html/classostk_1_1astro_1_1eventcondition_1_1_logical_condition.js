@@ -8,5 +8,6 @@ var classostk_1_1astro_1_1eventcondition_1_1_logical_condition =
     [ "~LogicalCondition", "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#ac79f9d61b68f2a5f19fd365cdedea4e9", null ],
     [ "getEventConditions", "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aab9c41f8d984d91f568f7fcc2fc18e29", null ],
     [ "getType", "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#afb23a1cb522cbed81db776fd8b00c3f4", null ],
-    [ "isSatisfied", "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aa8f6d2cc1732d240e22a196afe81d815", null ]
+    [ "isSatisfied", "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aa8f6d2cc1732d240e22a196afe81d815", null ],
+    [ "updateTarget", "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#a40bf584788641739fddefbf210fec5f3", null ]
 ];

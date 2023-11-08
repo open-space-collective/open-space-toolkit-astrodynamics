@@ -1,0 +1,182 @@
+\hypertarget{classostk_1_1astro_1_1_guidance_law}{}\doxysection{ostk\+::astro\+::Guidance\+Law Class Reference}
+\label{classostk_1_1astro_1_1_guidance_law}\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+
+
+An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunction with a Thruster class to propagate a satellite to a target orbit.  
+
+
+
+
+{\ttfamily \#include $<$Guidance\+Law.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::Guidance\+Law\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1_guidance_law}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_a690e3ba56c09d422b192e0d541cceeaa}{Guidance\+Law}} (const String \&a\+Name)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_ac967db2634a494bd10c5b93e367d6060}{$\sim$\+Guidance\+Law}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_ac21e2c422bb4c427c66d6f392f5e2d4b}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Get name. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_a231006fc7a751b9eee38856790fd664a}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print guidance law. \end{DoxyCompactList}\item 
+virtual Vector3d \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_af8828ad685afba9cf252d3e0975e71cd}{calculate\+Thrust\+Acceleration\+At}} (const Instant \&an\+Instant, const Vector3d \&a\+Position\+Coordinates, const Vector3d \&a\+Velocity\+Coordinates, const Real \&a\+Thrust\+Acceleration, const Shared$<$ const Frame $>$ \&output\+Frame\+S\+Ptr) const =0
+\begin{DoxyCompactList}\small\item\em Compute the acceleration at the provided coordinates based on logic specific to the guidance law. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const String \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_ad71b1cfdadfed25f05974f8c00671ccf}{name\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_ae4a58ea6d1ff7c6c6b4eb47701c9be38}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} \&a\+Guidance\+Law)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunction with a Thruster class to propagate a satellite to a target orbit. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_a690e3ba56c09d422b192e0d541cceeaa}\label{classostk_1_1astro_1_1_guidance_law_a690e3ba56c09d422b192e0d541cceeaa}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!GuidanceLaw@{GuidanceLaw}}
+\index{GuidanceLaw@{GuidanceLaw}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{GuidanceLaw()}{GuidanceLaw()}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Guidance\+Law\+::\+Guidance\+Law (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_ac967db2634a494bd10c5b93e367d6060}\label{classostk_1_1astro_1_1_guidance_law_ac967db2634a494bd10c5b93e367d6060}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!````~GuidanceLaw@{$\sim$GuidanceLaw}}
+\index{````~GuidanceLaw@{$\sim$GuidanceLaw}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{$\sim$GuidanceLaw()}{~GuidanceLaw()}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Guidance\+Law\+::$\sim$\+Guidance\+Law (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_af8828ad685afba9cf252d3e0975e71cd}\label{classostk_1_1astro_1_1_guidance_law_af8828ad685afba9cf252d3e0975e71cd}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!calculateThrustAccelerationAt@{calculateThrustAccelerationAt}}
+\index{calculateThrustAccelerationAt@{calculateThrustAccelerationAt}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{calculateThrustAccelerationAt()}{calculateThrustAccelerationAt()}}
+{\footnotesize\ttfamily virtual Vector3d ostk\+::astro\+::\+Guidance\+Law\+::calculate\+Thrust\+Acceleration\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector3d \&}]{a\+Position\+Coordinates,  }\item[{const Vector3d \&}]{a\+Velocity\+Coordinates,  }\item[{const Real \&}]{a\+Thrust\+Acceleration,  }\item[{const Shared$<$ const Frame $>$ \&}]{output\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Compute the acceleration at the provided coordinates based on logic specific to the guidance law. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Position\+Coordinates} & The position coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Velocity\+Coordinates} & The velocity coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration \\
+\hline
+\mbox{\texttt{ in}}  & {\em output\+Frame\+S\+Ptr} & The frame in which the acceleration is expressed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The acceleration at the provided coordinates 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a048346071989ea9da87fdf1991b82ed0}{ostk\+::astro\+::guidancelaw\+::\+Q\+Law}}, and \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_constant_thrust_a3bfc1bb4e3e779eeae490c943f12a0a6}{ostk\+::astro\+::guidancelaw\+::\+Constant\+Thrust}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_ac21e2c422bb4c427c66d6f392f5e2d4b}\label{classostk_1_1astro_1_1_guidance_law_ac21e2c422bb4c427c66d6f392f5e2d4b}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!getName@{getName}}
+\index{getName@{getName}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::\+Guidance\+Law\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get name. 
+
+\begin{DoxyReturn}{Returns}
+The name 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_a231006fc7a751b9eee38856790fd664a}\label{classostk_1_1astro_1_1_guidance_law_a231006fc7a751b9eee38856790fd664a}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!print@{print}}
+\index{print@{print}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::\+Guidance\+Law\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print guidance law. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_constant_thrust_a6c42d534611a01f7ef59cd58fcc216e9}{ostk\+::astro\+::guidancelaw\+::\+Constant\+Thrust}}, and \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_af79760ef166ff0b817beac9981550a41}{ostk\+::astro\+::guidancelaw\+::\+Q\+Law}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_ae4a58ea6d1ff7c6c6b4eb47701c9be38}\label{classostk_1_1astro_1_1_guidance_law_ae4a58ea6d1ff7c6c6b4eb47701c9be38}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} \&}]{a\+Guidance\+Law }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_a690e3ba56c09d422b192e0d541cceeaa}{GuidanceLaw}}(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Guidance\+Law} & A guidance Law \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_guidance_law_ad71b1cfdadfed25f05974f8c00671ccf}\label{classostk_1_1astro_1_1_guidance_law_ad71b1cfdadfed25f05974f8c00671ccf}} 
+\index{ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}!name\_@{name\_}}
+\index{name\_@{name\_}!ostk::astro::GuidanceLaw@{ostk::astro::GuidanceLaw}}
+\doxysubsubsection{\texorpdfstring{name\_}{name\_}}
+{\footnotesize\ttfamily const String ostk\+::astro\+::\+Guidance\+Law\+::name\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\mbox{\hyperlink{_guidance_law_8hpp}{Guidance\+Law.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\mbox{\hyperlink{_guidance_law_8cpp}{Guidance\+Law.\+cpp}}\end{DoxyCompactItemize}

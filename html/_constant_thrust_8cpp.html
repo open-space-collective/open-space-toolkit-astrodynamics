@@ -90,11 +90,8 @@ $(document).ready(function(){initNavTree('_constant_thrust_8cpp.html',''); initR
 <div class="textblock"><code>#include &lt;OpenSpaceToolkit/Core/Error.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp&gt;</code><br />
-<code>#include &lt;OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="_constant_thrust_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_constant_thrust_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="_local_orbital_frame_factory_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_cartesian_position_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_cartesian_velocity_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -103,15 +100,13 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceostk_1_1astro"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html">ostk::astro</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespaceostk_1_1astro_1_1dynamics"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1dynamics.html">ostk::astro::dynamics</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespaceostk_1_1astro_1_1dynamics_1_1thruster"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1dynamics_1_1thruster.html">ostk::astro::dynamics::thruster</a></td></tr>
+<tr class="memitem:namespaceostk_1_1astro_1_1guidancelaw"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html">ostk::astro::guidancelaw</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad6ab3f1e189b84fbcfcfba7d9ba46d8f"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1dynamics_1_1thruster.html#ad6ab3f1e189b84fbcfcfba7d9ba46d8f">ostk::astro::dynamics::thruster::operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const ConstantThrust &amp;aConstantThrust)</td></tr>
-<tr class="separator:ad6ab3f1e189b84fbcfcfba7d9ba46d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ef0491bcf6600da8e92e1358a5166fc"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a5ef0491bcf6600da8e92e1358a5166fc">ostk::astro::guidancelaw::operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const ConstantThrust &amp;aConstantThrust)</td></tr>
+<tr class="separator:a5ef0491bcf6600da8e92e1358a5166fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -119,7 +114,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdc2ce6839bd9a3b87630c53f2ae038b.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_168f0d47388952730fc4bc2bc6e393cf.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_b07397b4142767c4e18ebe4370b96e01.html">Dynamics</a></li><li class="navelem"><a class="el" href="dir_4cabdc107b9b7fa851a15317a1429eda.html">Thruster</a></li><li class="navelem"><a class="el" href="_constant_thrust_8cpp.html">ConstantThrust.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdc2ce6839bd9a3b87630c53f2ae038b.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_168f0d47388952730fc4bc2bc6e393cf.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_ec695a87dd5092ff3b41fa2f473c563c.html">GuidanceLaw</a></li><li class="navelem"><a class="el" href="_constant_thrust_8cpp.html">ConstantThrust.cpp</a></li>
   </ul>
 </div>
 </body>

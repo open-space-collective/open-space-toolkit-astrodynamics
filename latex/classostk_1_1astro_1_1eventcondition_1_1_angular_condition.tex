@@ -29,12 +29,12 @@ enum \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition
 \item 
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_af00ad6d8626f050b30133e3e20ad34cc}{Angular\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a9dbebc22b37e4050303374d7a0867a4a}{Criterion}} \&a\+Criterion, const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&an\+Evaluator, const Angle \&a\+Target\+Angle)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a7c9e77dc09fd6b3dc302b4504d15cb0f}{Angular\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a9dbebc22b37e4050303374d7a0867a4a}{Criterion}} \&a\+Criterion, const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&an\+Evaluator, const \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}} \&a\+Target)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_aef38c986e84cc10aa8bdcb83d2083ccf}{$\sim$\+Angular\+Condition}} ()
 \begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a9dbebc22b37e4050303374d7a0867a4a}{Criterion}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a81049b73b9cfc6522f030d11330d4895}{get\+Criterion}} () const
 \begin{DoxyCompactList}\small\item\em Get the criterion of the Event Condition. \end{DoxyCompactList}\item 
-std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a0f373b143f8fd1ef09bd8b0482788383}{get\+Evaluator}} () const
-\begin{DoxyCompactList}\small\item\em Get evaluator. \end{DoxyCompactList}\item 
 Angle \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_ac2f247acf91e8eb31d5cbe2f807894d8}{get\+Target\+Angle}} () const
 \begin{DoxyCompactList}\small\item\em Get target. \end{DoxyCompactList}\item 
 Pair$<$ Angle, Angle $>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a2982a2eddf085267bfcaf69662d0d752}{get\+Target\+Range}} () const
@@ -50,6 +50,7 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_conditi
 \begin{DoxyCompactList}\small\item\em Create an angular condition that is satisfied when the angle is within a range. \end{DoxyCompactList}\item 
 static String \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_ab0822e4657dccdd088f2da6e36ed0f33}{String\+From\+Criterion}} (const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a9dbebc22b37e4050303374d7a0867a4a}{Criterion}} \&a\+Criterion)
 \begin{DoxyCompactList}\small\item\em Convert criterion to string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
@@ -86,7 +87,7 @@ Within\+Range&\\
 \mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_af00ad6d8626f050b30133e3e20ad34cc}\label{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_af00ad6d8626f050b30133e3e20ad34cc}} 
 \index{ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}!AngularCondition@{AngularCondition}}
 \index{AngularCondition@{AngularCondition}!ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}}
-\doxysubsubsection{\texorpdfstring{AngularCondition()}{AngularCondition()}}
+\doxysubsubsection{\texorpdfstring{AngularCondition()}{AngularCondition()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Angular\+Condition\+::\+Angular\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a9dbebc22b37e4050303374d7a0867a4a}{Criterion}} \&}]{a\+Criterion,  }\item[{const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&}]{an\+Evaluator,  }\item[{const Angle \&}]{a\+Target\+Angle }\end{DoxyParamCaption})}
 
 
@@ -95,7 +96,7 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_af00ad6d8626f050b30133e3e20ad34cc}{AngularCondition}} angularCondition = \{aName, aCriterion, anEvaluator, aTargetRange\};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_af00ad6d8626f050b30133e3e20ad34cc}{AngularCondition}} angularCondition = \{aName, aCriterion, anEvaluator, aTargetAngle\};}
 \end{DoxyCode}
 
 
@@ -108,6 +109,33 @@ Constructor.
 \mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state to an angle in radians \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Target\+Angle} & A target angle \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a7c9e77dc09fd6b3dc302b4504d15cb0f}\label{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a7c9e77dc09fd6b3dc302b4504d15cb0f}} 
+\index{ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}!AngularCondition@{AngularCondition}}
+\index{AngularCondition@{AngularCondition}!ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}}
+\doxysubsubsection{\texorpdfstring{AngularCondition()}{AngularCondition()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Angular\+Condition\+::\+Angular\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a9dbebc22b37e4050303374d7a0867a4a}{Criterion}} \&}]{a\+Criterion,  }\item[{const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&}]{an\+Evaluator,  }\item[{const \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}} \&}]{a\+Target }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_af00ad6d8626f050b30133e3e20ad34cc}{AngularCondition}} angularCondition = \{aName, aCriterion, anEvaluator, aTarget\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A string representing the name of the Angular Event Condition \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Criterion} & An enum indicating the criterion used to determine if the Angular Event Condition is met \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state to an angle in radians \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Target} & A target \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_aef38c986e84cc10aa8bdcb83d2083ccf}\label{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_aef38c986e84cc10aa8bdcb83d2083ccf}} 
@@ -135,19 +163,6 @@ Get the criterion of the Event Condition.
 
 \begin{DoxyReturn}{Returns}
 Enum representing the criterion of the Event Condition 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a0f373b143f8fd1ef09bd8b0482788383}\label{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_a0f373b143f8fd1ef09bd8b0482788383}} 
-\index{ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}!getEvaluator@{getEvaluator}}
-\index{getEvaluator@{getEvaluator}!ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}}
-\doxysubsubsection{\texorpdfstring{getEvaluator()}{getEvaluator()}}
-{\footnotesize\ttfamily std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ ostk\+::astro\+::eventcondition\+::\+Angular\+Condition\+::get\+Evaluator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-
-
-Get evaluator. 
-
-\begin{DoxyReturn}{Returns}
-Evaluator 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_ac2f247acf91e8eb31d5cbe2f807894d8}\label{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_ac2f247acf91e8eb31d5cbe2f807894d8}} 
 \index{ostk::astro::eventcondition::AngularCondition@{ostk::astro::eventcondition::AngularCondition}!getTargetAngle@{getTargetAngle}}

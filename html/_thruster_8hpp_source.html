@@ -88,88 +88,99 @@ $(document).ready(function(){initNavTree('_thruster_8hpp_source.html',''); initR
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Core/Types/Real.hpp&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Mathematics/Objects/Vector.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Core/Containers/Array.hpp&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Core/Types/Real.hpp&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Core/Types/Shared.hpp&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Physics/Data/Direction.hpp&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Physics/Units/Mass.hpp&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_dynamics_8hpp.html">OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_satellite_system_8hpp.html">OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_trajectory_2_state_8hpp.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceostk.html">ostk</a></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>astro</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>dynamics</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using</span> ostk::core::types::Real;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> ostk::math::obj::Vector3d;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> ostk::math::geom::d3::trf::rot::RotationMatrix;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using</span> ostk::physics::data::Direction;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using</span> ostk::physics::time::Instant;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using</span> ostk::physics::units::Mass;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">ostk::astro::flight::system::SatelliteSystem</a>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html">ostk::astro::flight::system::PropulsionSystem</a>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1_dynamics.html">ostk::astro::Dynamics</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html">   41</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html">Thruster</a> : <span class="keyword">public</span> <a class="code" href="classostk_1_1astro_1_1_dynamics.html">Dynamics</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_dynamics_8hpp.html">OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_satellite_system_8hpp.html">OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_guidance_law_8hpp.html">OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_coordinates_subset_8hpp.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceostk.html">ostk</a></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>astro</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>dynamics</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> ostk::core::types::String;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using</span> ostk::core::types::Shared;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using</span> ostk::core::ctnr::Array;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1_dynamics.html">ostk::astro::Dynamics</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">ostk::astro::flight::system::SatelliteSystem</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">ostk::astro::trajectory::state::CoordinatesSubset</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html">ostk::astro::GuidanceLaw</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html">Thruster</a> : <span class="keyword">public</span> <a class="code" href="classostk_1_1astro_1_1_dynamics.html">Dynamics</a></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a886c1081204b366422573a893fe9dee5">Thruster</a>(</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a>&amp; aSatelliteSystem,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">const</span> Shared&lt;const GuidanceLaw&gt;&amp; aGuidanceLaw,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">const</span> String&amp; aName = String::Empty()</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    );</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a2010b04f846ce1b413384c5a29bbfbf1">Thruster</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a>&amp; aSatelliteSystem, <span class="keyword">const</span> String&amp; aName = String::Empty());</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a6408bef4a7aada7a5fc5d7c6e8adbcad">~Thruster</a>();</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a76cfada8b1c7e00fda60b9d71ac25f83">~Thruster</a>() = 0;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a79ddcf70714352f810a175e085b4a71e">isDefined</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#aa2fb1513fee69124f28a99fea26b6a04">getSatelliteSystem</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    String <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a7e0fde2be011b784a71147a059c027b4">getName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Shared&lt;const GuidanceLaw&gt; <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a460a207a50b8c18caafcaf05dffdcc33">getGuidanceLaw</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#aa2fb1513fee69124f28a99fea26b6a04">getSatelliteSystem</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">virtual</span> Array&lt;Shared&lt;const CoordinatesSubset&gt;&gt; <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad5c5ce7c8bdb39931b580254f35cb899">getReadCoordinatesSubsets</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">const</span> String name_;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> satelliteSystem_;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}  <span class="comment">// namespace dynamics</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">virtual</span> Array&lt;Shared&lt;const CoordinatesSubset&gt;&gt; <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ab60e4c7647ff68a7873983d5aaa20ae9">getWriteCoordinatesSubsets</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad7e1160f12df4226de431b29bf56ae69">isDefined</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">virtual</span> VectorXd <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a70cc44888e0077a8ad35dfe5a8a2e852">computeContribution</a>(</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant, <span class="keyword">const</span> VectorXd&amp; x, <span class="keyword">const</span> Shared&lt;const Frame&gt;&amp; aFrameSPtr</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    ) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> satelliteSystem_;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">const</span> Shared&lt;const GuidanceLaw&gt; guidanceLaw_;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">const</span> String name_;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}  <span class="comment">// namespace dynamics</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}  <span class="comment">// namespace ostk</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a76cfada8b1c7e00fda60b9d71ac25f83"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a76cfada8b1c7e00fda60b9d71ac25f83">ostk::astro::dynamics::Thruster::~Thruster</a></div><div class="ttdeci">virtual ~Thruster()=0</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:21</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a79ddcf70714352f810a175e085b4a71e"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a79ddcf70714352f810a175e085b4a71e">ostk::astro::dynamics::Thruster::isDefined</a></div><div class="ttdeci">virtual bool isDefined() const =0</div><div class="ttdoc">Check if thruster is defined.</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_ad1e2825fcd6c49c44718ddd592b23011"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011">ostk::astro::dynamics::Thruster::print</a></div><div class="ttdeci">virtual void print(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</div><div class="ttdoc">Print thruster.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:33</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">ostk::astro::trajectory::state::CoordinatesSubset</a></div><div class="ttdoc">State coordinates subset. It contains information related to a particular group of coordinates....</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.hpp:38</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a6408bef4a7aada7a5fc5d7c6e8adbcad"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a6408bef4a7aada7a5fc5d7c6e8adbcad">ostk::astro::dynamics::Thruster::~Thruster</a></div><div class="ttdeci">~Thruster()</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:40</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a70cc44888e0077a8ad35dfe5a8a2e852"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a70cc44888e0077a8ad35dfe5a8a2e852">ostk::astro::dynamics::Thruster::computeContribution</a></div><div class="ttdeci">virtual VectorXd computeContribution(const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</div><div class="ttdoc">Compute the contribution to the state derivative.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:79</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html">ostk::astro::GuidanceLaw</a></div><div class="ttdoc">An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunct...</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.hpp:33</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_ad1e2825fcd6c49c44718ddd592b23011"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011">ostk::astro::dynamics::Thruster::print</a></div><div class="ttdeci">void print(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</div><div class="ttdoc">Print thruster.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:107</div></div>
+<div class="ttc" id="a_guidance_law_8hpp_html"><div class="ttname"><a href="_guidance_law_8hpp.html">GuidanceLaw.hpp</a></div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_ad7e1160f12df4226de431b29bf56ae69"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad7e1160f12df4226de431b29bf56ae69">ostk::astro::dynamics::Thruster::isDefined</a></div><div class="ttdeci">virtual bool isDefined() const override</div><div class="ttdoc">Check if constant thrust thruster dynamics is defined.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:74</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_html"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">ostk::astro::flight::system::SatelliteSystem</a></div><div class="ttdoc">Define the dynamics system who's motion is being studied, in particular this is a satellite system.</div><div class="ttdef"><b>Definition:</b> SatelliteSystem.hpp:43</div></div>
 <div class="ttc" id="anamespaceostk_html"><div class="ttname"><a href="namespaceostk.html">ostk</a></div><div class="ttdoc">Apache License 2.0.</div><div class="ttdef"><b>Definition:</b> Generator.hpp:23</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html">ostk::astro::dynamics::Thruster</a></div><div class="ttdoc">Define the acceleration experienced by a point mass due to thrust.</div><div class="ttdef"><b>Definition:</b> Thruster.hpp:41</div></div>
-<div class="ttc" id="a_trajectory_2_state_8hpp_html"><div class="ttname"><a href="_trajectory_2_state_8hpp.html">State.hpp</a></div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_aa2fb1513fee69124f28a99fea26b6a04"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#aa2fb1513fee69124f28a99fea26b6a04">ostk::astro::dynamics::Thruster::getSatelliteSystem</a></div><div class="ttdeci">SatelliteSystem getSatelliteSystem() const</div><div class="ttdoc">Get satellite system.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:28</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html">ostk::astro::dynamics::Thruster</a></div><div class="ttdoc">Define the acceleration experienced by a point mass due to thrust.</div><div class="ttdef"><b>Definition:</b> Thruster.hpp:33</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a886c1081204b366422573a893fe9dee5"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a886c1081204b366422573a893fe9dee5">ostk::astro::dynamics::Thruster::Thruster</a></div><div class="ttdeci">Thruster(const SatelliteSystem &amp;aSatelliteSystem, const Shared&lt; const GuidanceLaw &gt; &amp;aGuidanceLaw, const String &amp;aName=String::Empty())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:31</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a460a207a50b8c18caafcaf05dffdcc33"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a460a207a50b8c18caafcaf05dffdcc33">ostk::astro::dynamics::Thruster::getGuidanceLaw</a></div><div class="ttdeci">Shared&lt; const GuidanceLaw &gt; getGuidanceLaw() const</div><div class="ttdoc">Get guidance law.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:52</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_aa2fb1513fee69124f28a99fea26b6a04"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#aa2fb1513fee69124f28a99fea26b6a04">ostk::astro::dynamics::Thruster::getSatelliteSystem</a></div><div class="ttdeci">SatelliteSystem getSatelliteSystem() const</div><div class="ttdoc">Get satellite system.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:42</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_dynamics_html"><div class="ttname"><a href="classostk_1_1astro_1_1_dynamics.html">ostk::astro::Dynamics</a></div><div class="ttdoc">Define a dynamical system subject to equations of motion.</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:49</div></div>
 <div class="ttc" id="a_dynamics_8hpp_html"><div class="ttname"><a href="_dynamics_8hpp.html">Dynamics.hpp</a></div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_ab60e4c7647ff68a7873983d5aaa20ae9"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ab60e4c7647ff68a7873983d5aaa20ae9">ostk::astro::dynamics::Thruster::getWriteCoordinatesSubsets</a></div><div class="ttdeci">virtual Array&lt; Shared&lt; const CoordinatesSubset &gt; &gt; getWriteCoordinatesSubsets() const override</div><div class="ttdoc">Return the coordinates subsets that the instance writes to.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:66</div></div>
 <div class="ttc" id="a_satellite_system_8hpp_html"><div class="ttname"><a href="_satellite_system_8hpp.html">SatelliteSystem.hpp</a></div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_html"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html">ostk::astro::flight::system::PropulsionSystem</a></div><div class="ttdoc">Define a propulsion system (constant thrust, constant Isp for now)</div><div class="ttdef"><b>Definition:</b> PropulsionSystem.hpp:37</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a7e0fde2be011b784a71147a059c027b4"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a7e0fde2be011b784a71147a059c027b4">ostk::astro::dynamics::Thruster::getName</a></div><div class="ttdeci">String getName() const</div><div class="ttdoc">Get name.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:23</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_a2010b04f846ce1b413384c5a29bbfbf1"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a2010b04f846ce1b413384c5a29bbfbf1">ostk::astro::dynamics::Thruster::Thruster</a></div><div class="ttdeci">Thruster(const SatelliteSystem &amp;aSatelliteSystem, const String &amp;aName=String::Empty())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:15</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_state_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a></div><div class="ttdoc">Trajectory State.</div><div class="ttdef"><b>Definition:</b> State.hpp:43</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1dynamics_1_1_thruster_html_ad5c5ce7c8bdb39931b580254f35cb899"><div class="ttname"><a href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad5c5ce7c8bdb39931b580254f35cb899">ostk::astro::dynamics::Thruster::getReadCoordinatesSubsets</a></div><div class="ttdeci">virtual Array&lt; Shared&lt; const CoordinatesSubset &gt; &gt; getReadCoordinatesSubsets() const override</div><div class="ttdoc">Return the coordinates subsets that the instance reads from.</div><div class="ttdef"><b>Definition:</b> Thruster.cpp:57</div></div>
+<div class="ttc" id="a_coordinates_subset_8hpp_html"><div class="ttname"><a href="_coordinates_subset_8hpp.html">CoordinatesSubset.hpp</a></div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

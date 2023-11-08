@@ -1,0 +1,295 @@
+\hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{}\doxysection{ostk\+::astro\+::solvers\+::Finite\+Difference\+Solver Class Reference}
+\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+
+
+Finite Difference solver.  
+
+
+
+
+{\ttfamily \#include $<$Finite\+Difference\+Solver.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} \{ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda67d2f6740a8eaebf4d5c6f79be8da481}{Type\+::\+Forward}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bdab3263eb38f8903efc271cc7a760da510}{Type\+::\+Backward}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda4a8c79ddddd6109289084e80aa41cdf2}{Type\+::\+Central}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a048458b38fd02b216262d9d6c0f59819}{Finite\+Difference\+Solver}} (const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} \&a\+Type, const Real \&a\+Step\+Percentage, const Duration \&a\+Step\+Duration)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_af6bd7be96e0f588f79981eea5758893e}{get\+Type}} () const
+\begin{DoxyCompactList}\small\item\em Get the Type. \end{DoxyCompactList}\item 
+Real \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a322914346b3cb35fed4a107b2d32bb36}{get\+Step\+Percentage}} () const
+\begin{DoxyCompactList}\small\item\em Get the step percentage. \end{DoxyCompactList}\item 
+Duration \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a0d6174ff0dfc3c7c6049f3a810b54800}{get\+Step\+Duration}} () const
+\begin{DoxyCompactList}\small\item\em Get the step duration. \end{DoxyCompactList}\item 
+Matrix\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a0da12e7816e3bd7424bac6cf4bdea103}{compute\+Jacobian}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Array$<$ Instant $>$ \&an\+Instant\+Array, const std\+::function$<$ Matrix\+Xd(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&, const Array$<$ Instant $>$ \&)$>$ \&generate\+State\+Coordinates, const Size \&a\+Coordinates\+Dimension) const
+\begin{DoxyCompactList}\small\item\em Compute the Jacobian by perturbing the coordinates. \end{DoxyCompactList}\item 
+Matrix\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_aac3bb31a9870472c5f8151146b6d98af}{compute\+Jacobian}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Instant \&an\+Instant, const std\+::function$<$ Vector\+Xd(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&, const Instant \&)$>$ \&generate\+State\+Coordinates, const Size \&a\+Coordinates\+Dimension) const
+\begin{DoxyCompactList}\small\item\em Compute the Jacobian by perturbing the coordinates. \end{DoxyCompactList}\item 
+Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_ac0ec3a26011c3c0111b020888717e611}{compute\+Gradient}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const std\+::function$<$ Vector\+Xd(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&, const Instant \&)$>$ \&generate\+State\+Coordinates) const
+\begin{DoxyCompactList}\small\item\em Compute the gradient. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a834b4434e7f3c16bb0b0b24f77adb097}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print the solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_ab482ea413406ca590a93e9082f2d6912}{String\+From\+Type}} (const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} \&a\+Type)
+\begin{DoxyCompactList}\small\item\em Convert a type to string. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{Finite\+Difference\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_adcecbf3f1ddaa07a42b464599da50957}{Default}} ()
+\begin{DoxyCompactList}\small\item\em Default Finite Difference Solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a6a9bc10e97e6723115f7bb8a1875dc2a}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{Finite\+Difference\+Solver}} \&a\+Finite\+Difference)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Finite Difference solver. 
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!Type@{Type}}
+\index{Type@{Type}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Forward@{Forward}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!Forward@{Forward}}}\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda67d2f6740a8eaebf4d5c6f79be8da481}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda67d2f6740a8eaebf4d5c6f79be8da481}} 
+Forward&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Backward@{Backward}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!Backward@{Backward}}}\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bdab3263eb38f8903efc271cc7a760da510}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bdab3263eb38f8903efc271cc7a760da510}} 
+Backward&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Central@{Central}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!Central@{Central}}}\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda4a8c79ddddd6109289084e80aa41cdf2}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda4a8c79ddddd6109289084e80aa41cdf2}} 
+Central&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a048458b38fd02b216262d9d6c0f59819}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a048458b38fd02b216262d9d6c0f59819}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!FiniteDifferenceSolver@{FiniteDifferenceSolver}}
+\index{FiniteDifferenceSolver@{FiniteDifferenceSolver}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{FiniteDifferenceSolver()}{FiniteDifferenceSolver()}}
+{\footnotesize\ttfamily ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::\+Finite\+Difference\+Solver (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} \&}]{a\+Type,  }\item[{const Real \&}]{a\+Step\+Percentage,  }\item[{const Duration \&}]{a\+Step\+Duration }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{const} \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} aType = \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bda67d2f6740a8eaebf4d5c6f79be8da481}{FiniteDifferenceSolver::Type::Forward}};}
+\DoxyCodeLine{\textcolor{keyword}{const} Real aStepPercentage = 1e-\/3;}
+\DoxyCodeLine{\textcolor{keyword}{const} Duration aStepDuration = Duration::Milliseconds(1e-\/3);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a048458b38fd02b216262d9d6c0f59819}{FiniteDifferenceSolver}} finiteDifferenceSolver = \{aType\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Type} & A Finite Difference type. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Step\+Percentage} & The step percentage to use for computing the S\+TM. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Step\+Duration} & The step duration to use for computing the gradient. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_ac0ec3a26011c3c0111b020888717e611}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_ac0ec3a26011c3c0111b020888717e611}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!computeGradient@{computeGradient}}
+\index{computeGradient@{computeGradient}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{computeGradient()}{computeGradient()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::compute\+Gradient (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const std\+::function$<$ Vector\+Xd(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&, const Instant \&)$>$ \&}]{generate\+State\+Coordinates }\end{DoxyParamCaption}) const}
+
+
+
+Compute the gradient. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & The state to compute the gradient of. \\
+\hline
+\mbox{\texttt{ in}}  & {\em generate\+State\+Coordinates} & Callable to generate coordinates of a State at the requested Instant.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The gradient. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a0da12e7816e3bd7424bac6cf4bdea103}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a0da12e7816e3bd7424bac6cf4bdea103}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!computeJacobian@{computeJacobian}}
+\index{computeJacobian@{computeJacobian}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{computeJacobian()}{computeJacobian()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Matrix\+Xd ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::compute\+Jacobian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array,  }\item[{const std\+::function$<$ Matrix\+Xd(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&, const Array$<$ Instant $>$ \&)$>$ \&}]{generate\+State\+Coordinates,  }\item[{const Size \&}]{a\+Coordinates\+Dimension }\end{DoxyParamCaption}) const}
+
+
+
+Compute the Jacobian by perturbing the coordinates. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & A state. \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Instant\+Array} & An array of instants. \\
+\hline
+\mbox{\texttt{ in}}  & {\em generate\+State\+Coordinates} & Callable to generate coordinates of States at the requested Instants. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Dimension} & The dimension of the coordinates produced by {\ttfamily generate\+State\+Coordinates}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Jacobian 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_aac3bb31a9870472c5f8151146b6d98af}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_aac3bb31a9870472c5f8151146b6d98af}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!computeJacobian@{computeJacobian}}
+\index{computeJacobian@{computeJacobian}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{computeJacobian()}{computeJacobian()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Matrix\+Xd ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::compute\+Jacobian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Instant \&}]{an\+Instant,  }\item[{const std\+::function$<$ Vector\+Xd(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&, const Instant \&)$>$ \&}]{generate\+State\+Coordinates,  }\item[{const Size \&}]{a\+Coordinates\+Dimension }\end{DoxyParamCaption}) const}
+
+
+
+Compute the Jacobian by perturbing the coordinates. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & A state. \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant. \\
+\hline
+\mbox{\texttt{ in}}  & {\em generate\+State\+Coordinates} & Callable to generate coordinates of a State at the requested Instant. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Dimension} & The dimension of the coordinates produced by {\ttfamily generate\+State\+Coordinates}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Jacobian 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_adcecbf3f1ddaa07a42b464599da50957}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_adcecbf3f1ddaa07a42b464599da50957}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!Default@{Default}}
+\index{Default@{Default}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{Default()}{Default()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{Finite\+Difference\+Solver}} ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::\+Default (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Default Finite Difference Solver. 
+
+\begin{DoxyReturn}{Returns}
+The default Finite Difference Solver. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a0d6174ff0dfc3c7c6049f3a810b54800}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a0d6174ff0dfc3c7c6049f3a810b54800}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!getStepDuration@{getStepDuration}}
+\index{getStepDuration@{getStepDuration}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{getStepDuration()}{getStepDuration()}}
+{\footnotesize\ttfamily Duration ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::get\+Step\+Duration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the step duration. 
+
+\begin{DoxyReturn}{Returns}
+The step duration. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a322914346b3cb35fed4a107b2d32bb36}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a322914346b3cb35fed4a107b2d32bb36}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!getStepPercentage@{getStepPercentage}}
+\index{getStepPercentage@{getStepPercentage}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{getStepPercentage()}{getStepPercentage()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::get\+Step\+Percentage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the step percentage. 
+
+\begin{DoxyReturn}{Returns}
+The step percentage. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_af6bd7be96e0f588f79981eea5758893e}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_af6bd7be96e0f588f79981eea5758893e}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!getType@{getType}}
+\index{getType@{getType}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Finite\+Difference\+Solver\+::\+Type}} ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the Type. 
+
+\begin{DoxyReturn}{Returns}
+The Type. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a834b4434e7f3c16bb0b0b24f77adb097}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a834b4434e7f3c16bb0b0b24f77adb097}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!print@{print}}
+\index{print@{print}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+Print the solver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream. \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators if true, display decorators. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_ab482ea413406ca590a93e9082f2d6912}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_ab482ea413406ca590a93e9082f2d6912}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!StringFromType@{StringFromType}}
+\index{StringFromType@{StringFromType}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{StringFromType()}{StringFromType()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::solvers\+::\+Finite\+Difference\+Solver\+::\+String\+From\+Type (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a48c233ddd923ee50188c62b08a5f47bd}{Type}} \&}]{a\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Convert a type to string. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Type} & A type.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The string name of the type. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a6a9bc10e97e6723115f7bb8a1875dc2a}\label{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver_a6a9bc10e97e6723115f7bb8a1875dc2a}} 
+\index{ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::solvers::FiniteDifferenceSolver@{ostk::astro::solvers::FiniteDifferenceSolver}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{Finite\+Difference\+Solver}} \&}]{a\+Finite\+Difference }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Finite\+Difference} & A finite difference solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An output stream. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Solvers/\mbox{\hyperlink{_finite_difference_solver_8hpp}{Finite\+Difference\+Solver.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Solvers/\mbox{\hyperlink{_finite_difference_solver_8cpp}{Finite\+Difference\+Solver.\+cpp}}\end{DoxyCompactItemize}

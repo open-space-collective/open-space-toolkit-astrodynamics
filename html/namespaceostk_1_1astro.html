@@ -101,6 +101,8 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceostk_1_1astro_1_1flight"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight.html">flight</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceostk_1_1astro_1_1guidancelaw"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html">guidancelaw</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceostk_1_1astro_1_1solvers"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1solvers.html">solvers</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceostk_1_1astro_1_1trajectory"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1trajectory.html">trajectory</a></td></tr>
@@ -117,6 +119,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times.  <a href="classostk_1_1astro_1_1_event_condition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunction with a Thruster class to propagate a satellite to a target orbit.  <a href="classostk_1_1astro_1_1_guidance_law.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_root_solver.html">RootSolver</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.  <a href="classostk_1_1astro_1_1_root_solver.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,6 +137,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac51b4760b5d319009939b2c94499fc8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d5810d67d4d17063ace5ff0c7b8c5a4"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a8d5810d67d4d17063ace5ff0c7b8c5a4">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;anEventCondition)</td></tr>
 <tr class="separator:a8d5810d67d4d17063ace5ff0c7b8c5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dc0583ea98f0d84341e53b7a22e9215"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a3dc0583ea98f0d84341e53b7a22e9215">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a> &amp;aGuidanceLaw)</td></tr>
+<tr class="separator:a3dc0583ea98f0d84341e53b7a22e9215"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af133b774c97fb149321a50874009a218"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#af133b774c97fb149321a50874009a218">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_root_solver.html">RootSolver</a> &amp;aRootSolver)</td></tr>
 <tr class="separator:af133b774c97fb149321a50874009a218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cb767c3814a31416e0491406bc56ed2"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a0cb767c3814a31416e0491406bc56ed2">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;aTrajectory)</td></tr>
@@ -139,7 +146,7 @@ Functions</h2></td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ad6bf403749e98996e2e56cd6dc8cc848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6bf403749e98996e2e56cd6dc8cc848">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6bf403749e98996e2e56cd6dc8cc848">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +174,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac51b4760b5d319009939b2c94499fc8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac51b4760b5d319009939b2c94499fc8d">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac51b4760b5d319009939b2c94499fc8d">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +211,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8d5810d67d4d17063ace5ff0c7b8c5a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d5810d67d4d17063ace5ff0c7b8c5a4">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d5810d67d4d17063ace5ff0c7b8c5a4">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,8 +247,45 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3dc0583ea98f0d84341e53b7a22e9215"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dc0583ea98f0d84341e53b7a22e9215">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; ostk::astro::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>anOutputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a> &amp;&#160;</td>
+          <td class="paramname"><em>aGuidanceLaw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line">std::cout &lt;&lt; GuidanceLaw(...) ;</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aGuidanceLaw</td><td>A guidance Law </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
+
+</div>
+</div>
 <a id="af133b774c97fb149321a50874009a218"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af133b774c97fb149321a50874009a218">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af133b774c97fb149321a50874009a218">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -277,7 +321,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0cb767c3814a31416e0491406bc56ed2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cb767c3814a31416e0491406bc56ed2">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cb767c3814a31416e0491406bc56ed2">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

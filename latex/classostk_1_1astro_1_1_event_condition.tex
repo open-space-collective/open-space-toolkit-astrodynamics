@@ -15,19 +15,41 @@ Inheritance diagram for ostk\+::astro\+::Event\+Condition\+:\begin{figure}[H]
 \includegraphics[height=1.561338cm]{classostk_1_1astro_1_1_event_condition}
 \end{center}
 \end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}}
+\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a051bb385c0004d76bcc96da67bc37255}{Event\+Condition}} (const String \&a\+Name)
+\mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ac52f7f9df65ed558df5a0aaf7a1613ba}{Event\+Condition}} (const String \&a\+Name, const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&an\+Evaluator, const \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Event\+Condition\+::\+Target}} \&a\+Target)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a89150353f36a9cfd971da4cbb7c2b586}{Event\+Condition}} (const String \&a\+Name, const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&an\+Evaluator, const Real \&a\+Target\+Value)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a8c33b8dc74c54cfeb89e673fa0548de0}{$\sim$\+Event\+Condition}} ()
 \begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
 String \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a4059c751030da6877a63a6cff90576e7}{get\+Name}} () const
 \begin{DoxyCompactList}\small\item\em Get the name of the Event Condition. \end{DoxyCompactList}\item 
+std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a498e794a6eed5cf46e66c0b4acad4d50}{get\+Evaluator}} () const
+\begin{DoxyCompactList}\small\item\em Get evaluator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}} \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ada7ab6f4ab76ee6e67399d16097dab5f}{get\+Target}} () const
+\begin{DoxyCompactList}\small\item\em Get the target. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_adbec683a19790e6f1b4d3b94f93b36c7}{update\+Target}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State)
+\begin{DoxyCompactList}\small\item\em Update the target value if the Event Condition is relative. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a72cf3353323b6b21f4406c8e152b2d30}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print the Event Condition. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}{is\+Satisfied}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&current\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&previous\+State) const =0
 \begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state and previous state/time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ae1e396a2c12ebb12e040727ae84003b3}{name\+\_\+}}
+\item 
+std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ac58153e421a6928188bfc93b5e26c12e}{evaluator\+\_\+}}
+\item 
+\mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}} \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a73427fa8ca6b8383e00958c90d41fd23}{target\+\_\+}}
+\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -39,11 +61,11 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a79479
 An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a051bb385c0004d76bcc96da67bc37255}\label{classostk_1_1astro_1_1_event_condition_a051bb385c0004d76bcc96da67bc37255}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_ac52f7f9df65ed558df5a0aaf7a1613ba}\label{classostk_1_1astro_1_1_event_condition_ac52f7f9df65ed558df5a0aaf7a1613ba}} 
 \index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!EventCondition@{EventCondition}}
 \index{EventCondition@{EventCondition}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
-\doxysubsubsection{\texorpdfstring{EventCondition()}{EventCondition()}}
-{\footnotesize\ttfamily ostk\+::astro\+::\+Event\+Condition\+::\+Event\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{EventCondition()}{EventCondition()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Event\+Condition\+::\+Event\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&}]{an\+Evaluator,  }\item[{const \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Event\+Condition\+::\+Target}} \&}]{a\+Target }\end{DoxyParamCaption})}
 
 
 
@@ -51,7 +73,7 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a051bb385c0004d76bcc96da67bc37255}{EventCondition}} eventCondition = \{aName, aCriterion, anEvaluatro, aTarget\};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ac52f7f9df65ed558df5a0aaf7a1613ba}{EventCondition}} eventCondition = \{aName, anEvaluator, aTarget\};}
 \end{DoxyCode}
 
 
@@ -59,11 +81,34 @@ Constructor.
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em a\+Name} & A string representing the name of the Real Event Condition \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Criterion} & An enum indicating the criterion used to determine if the Real Event Condition is met \\
+\mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state and a time \\
+\mbox{\texttt{ in}}  & {\em a\+Target} & A target associated with the Real Event Condition \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Target} & A target value associated with the Real Event Condition \\
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a89150353f36a9cfd971da4cbb7c2b586}\label{classostk_1_1astro_1_1_event_condition_a89150353f36a9cfd971da4cbb7c2b586}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!EventCondition@{EventCondition}}
+\index{EventCondition@{EventCondition}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{EventCondition()}{EventCondition()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Event\+Condition\+::\+Event\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&}]{an\+Evaluator,  }\item[{const Real \&}]{a\+Target\+Value }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ac52f7f9df65ed558df5a0aaf7a1613ba}{EventCondition}} eventCondition = \{aName, anEvaluator, aTargetValue\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A string representing the name of the Real Event Condition \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Target\+Value} & A target value associated with the Real Event Condition \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a8c33b8dc74c54cfeb89e673fa0548de0}\label{classostk_1_1astro_1_1_event_condition_a8c33b8dc74c54cfeb89e673fa0548de0}} 
@@ -79,6 +124,19 @@ Virtual destructor.
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a498e794a6eed5cf46e66c0b4acad4d50}\label{classostk_1_1astro_1_1_event_condition_a498e794a6eed5cf46e66c0b4acad4d50}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!getEvaluator@{getEvaluator}}
+\index{getEvaluator@{getEvaluator}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{getEvaluator()}{getEvaluator()}}
+{\footnotesize\ttfamily std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ ostk\+::astro\+::\+Event\+Condition\+::get\+Evaluator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get evaluator. 
+
+\begin{DoxyReturn}{Returns}
+Evaluator 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a4059c751030da6877a63a6cff90576e7}\label{classostk_1_1astro_1_1_event_condition_a4059c751030da6877a63a6cff90576e7}} 
 \index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!getName@{getName}}
 \index{getName@{getName}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
@@ -91,6 +149,19 @@ Get the name of the Event Condition.
 
 \begin{DoxyReturn}{Returns}
 String representing the name of the Event Condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_ada7ab6f4ab76ee6e67399d16097dab5f}\label{classostk_1_1astro_1_1_event_condition_ada7ab6f4ab76ee6e67399d16097dab5f}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!getTarget@{getTarget}}
+\index{getTarget@{getTarget}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{getTarget()}{getTarget()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Event\+Condition\+::\+Target}} ostk\+::astro\+::\+Event\+Condition\+::get\+Target (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the target. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}} 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}\label{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}} 
 \index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!isSatisfied@{isSatisfied}}
@@ -137,6 +208,25 @@ Print the Event Condition.
 
 Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_angular_condition_ae698c9eb4d449023ff8839b5483cc494}{ostk\+::astro\+::eventcondition\+::\+Angular\+Condition}}, \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a1ef4b1c7ae1b5fefed815dc72d59187e}{ostk\+::astro\+::eventcondition\+::\+Real\+Condition}}, and \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_condition_a7286d3264f19497cef2d4070266f397e}{ostk\+::astro\+::eventcondition\+::\+Boolean\+Condition}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_adbec683a19790e6f1b4d3b94f93b36c7}\label{classostk_1_1astro_1_1_event_condition_adbec683a19790e6f1b4d3b94f93b36c7}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!updateTarget@{updateTarget}}
+\index{updateTarget@{updateTarget}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{updateTarget()}{updateTarget()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::\+Event\+Condition\+::update\+Target (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Update the target value if the Event Condition is relative. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & A state to calculate the relative target from \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a40bf584788641739fddefbf210fec5f3}{ostk\+::astro\+::eventcondition\+::\+Logical\+Condition}}.
+
 
 
 \doxysubsection{Friends And Related Function Documentation}
@@ -152,7 +242,7 @@ Output stream operator.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a051bb385c0004d76bcc96da67bc37255}{EventCondition}}(...) ;}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ac52f7f9df65ed558df5a0aaf7a1613ba}{EventCondition}}(...) ;}
 \end{DoxyCode}
 
 
@@ -166,6 +256,27 @@ Output stream operator.
 \begin{DoxyReturn}{Returns}
 A reference to output stream 
 \end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_ac58153e421a6928188bfc93b5e26c12e}\label{classostk_1_1astro_1_1_event_condition_ac58153e421a6928188bfc93b5e26c12e}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!evaluator\_@{evaluator\_}}
+\index{evaluator\_@{evaluator\_}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{evaluator\_}{evaluator\_}}
+{\footnotesize\ttfamily std\+::function$<$Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}\&)$>$ ostk\+::astro\+::\+Event\+Condition\+::evaluator\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_ae1e396a2c12ebb12e040727ae84003b3}\label{classostk_1_1astro_1_1_event_condition_ae1e396a2c12ebb12e040727ae84003b3}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!name\_@{name\_}}
+\index{name\_@{name\_}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{name\_}{name\_}}
+{\footnotesize\ttfamily String ostk\+::astro\+::\+Event\+Condition\+::name\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a73427fa8ca6b8383e00958c90d41fd23}\label{classostk_1_1astro_1_1_event_condition_a73427fa8ca6b8383e00958c90d41fd23}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!target\_@{target\_}}
+\index{target\_@{target\_}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{target\_}{target\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1_event_condition_1_1_target}{Target}} ostk\+::astro\+::\+Event\+Condition\+::target\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

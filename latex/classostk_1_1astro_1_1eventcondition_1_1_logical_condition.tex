@@ -31,10 +31,13 @@ enum \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{Logical\+Condition\+::\+Type}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_afb23a1cb522cbed81db776fd8b00c3f4}{get\+Type}} () const
 \begin{DoxyCompactList}\small\item\em Get the type of the logical connective. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a40bf584788641739fddefbf210fec5f3}{update\+Target}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State) override
+\begin{DoxyCompactList}\small\item\em Update the target of the individual event conditions composing the Logical Connective Event Condition. \end{DoxyCompactList}\item 
 Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aab9c41f8d984d91f568f7fcc2fc18e29}{get\+Event\+Conditions}} () const
 \begin{DoxyCompactList}\small\item\em Get the individual event conditions composing the Logical Connective Event Condition. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aa8f6d2cc1732d240e22a196afe81d815}{is\+Satisfied}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&current\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&previous\+State) const override
 \begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state and previous state/time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
@@ -149,6 +152,25 @@ Boolean value indicating if the Event Condition is met
 
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}{ostk\+::astro\+::\+Event\+Condition}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a40bf584788641739fddefbf210fec5f3}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a40bf584788641739fddefbf210fec5f3}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!updateTarget@{updateTarget}}
+\index{updateTarget@{updateTarget}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{updateTarget()}{updateTarget()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::update\+Target (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Update the target of the individual event conditions composing the Logical Connective Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_adbec683a19790e6f1b4d3b94f93b36c7}{ostk\+::astro\+::\+Event\+Condition}}.
 
 
 

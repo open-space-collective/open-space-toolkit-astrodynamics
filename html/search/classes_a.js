@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['metadata_683',['Metadata',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html',1,'ostk::astro::conjunction::messages::ccsds::CDM']]],
-  ['model_684',['Model',['../classostk_1_1astro_1_1trajectory_1_1_model.html',1,'ostk::astro::trajectory::Model'],['../classostk_1_1astro_1_1flight_1_1profile_1_1_model.html',1,'ostk::astro::flight::profile::Model'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html',1,'ostk::astro::trajectory::orbit::Model']]]
+  ['localorbitalframedirection_728',['LocalOrbitalFrameDirection',['../classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction.html',1,'ostk::astro::trajectory']]],
+  ['localorbitalframefactory_729',['LocalOrbitalFrameFactory',['../classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory.html',1,'ostk::astro::trajectory']]],
+  ['localorbitalframetransformprovider_730',['LocalOrbitalFrameTransformProvider',['../classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider.html',1,'ostk::astro::trajectory']]],
+  ['logicalcondition_731',['LogicalCondition',['../classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html',1,'ostk::astro::eventcondition']]]
 ];

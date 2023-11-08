@@ -1,9 +1,12 @@
 var classostk_1_1astro_1_1dynamics_1_1_thruster =
 [
-    [ "Thruster", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a2010b04f846ce1b413384c5a29bbfbf1", null ],
-    [ "~Thruster", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a76cfada8b1c7e00fda60b9d71ac25f83", null ],
-    [ "getName", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a7e0fde2be011b784a71147a059c027b4", null ],
+    [ "Thruster", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a886c1081204b366422573a893fe9dee5", null ],
+    [ "~Thruster", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a6408bef4a7aada7a5fc5d7c6e8adbcad", null ],
+    [ "computeContribution", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a70cc44888e0077a8ad35dfe5a8a2e852", null ],
+    [ "getGuidanceLaw", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a460a207a50b8c18caafcaf05dffdcc33", null ],
+    [ "getReadCoordinatesSubsets", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad5c5ce7c8bdb39931b580254f35cb899", null ],
     [ "getSatelliteSystem", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#aa2fb1513fee69124f28a99fea26b6a04", null ],
-    [ "isDefined", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a79ddcf70714352f810a175e085b4a71e", null ],
+    [ "getWriteCoordinatesSubsets", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#ab60e4c7647ff68a7873983d5aaa20ae9", null ],
+    [ "isDefined", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad7e1160f12df4226de431b29bf56ae69", null ],
     [ "print", "classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011", null ]
 ];

@@ -13,6 +13,8 @@
 \item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1flight}{flight}}
 \item 
+ \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw}{guidancelaw}}
+\item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1solvers}{solvers}}
 \item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory}{trajectory}}
@@ -26,6 +28,8 @@ class \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}}
 \begin{DoxyCompactList}\small\item\em Define a dynamical system subject to equations of motion. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}}
 \begin{DoxyCompactList}\small\item\em An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}}
+\begin{DoxyCompactList}\small\item\em An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunction with a Thruster class to propagate a satellite to a target orbit. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver}{Root\+Solver}}
 \begin{DoxyCompactList}\small\item\em A Root Solver is a method for finding the roots (a.\+k.\+a. zeros) of an equation. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}}
@@ -39,6 +43,8 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_ac51b4760b5d319009939b
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a8d5810d67d4d17063ace5ff0c7b8c5a4}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&an\+Event\+Condition)
 \item 
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a3dc0583ea98f0d84341e53b7a22e9215}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} \&a\+Guidance\+Law)
+\item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_af133b774c97fb149321a50874009a218}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver}{Root\+Solver}} \&a\+Root\+Solver)
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory)
@@ -49,13 +55,13 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a0cb767c3814a31416e049
 \mbox{\Hypertarget{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}\label{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} \&}]{an\+Access }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceostk_1_1astro_ac51b4760b5d319009939b2c94499fc8d}\label{namespaceostk_1_1astro_ac51b4760b5d319009939b2c94499fc8d}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \&}]{a\+Dynamics }\end{DoxyParamCaption})}
 
 
@@ -77,7 +83,7 @@ A reference to output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_a8d5810d67d4d17063ace5ff0c7b8c5a4}\label{namespaceostk_1_1astro_a8d5810d67d4d17063ace5ff0c7b8c5a4}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&}]{an\+Event\+Condition }\end{DoxyParamCaption})}
 
 
@@ -96,10 +102,32 @@ A reference to output stream
 \begin{DoxyReturn}{Returns}
 A reference to output stream 
 \end{DoxyReturn}
+\mbox{\Hypertarget{namespaceostk_1_1astro_a3dc0583ea98f0d84341e53b7a22e9215}\label{namespaceostk_1_1astro_a3dc0583ea98f0d84341e53b7a22e9215}} 
+\index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law}{Guidance\+Law}} \&}]{a\+Guidance\+Law }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << GuidanceLaw(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Guidance\+Law} & A guidance Law \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
 \mbox{\Hypertarget{namespaceostk_1_1astro_af133b774c97fb149321a50874009a218}\label{namespaceostk_1_1astro_af133b774c97fb149321a50874009a218}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver}{Root\+Solver}} \&}]{a\+Root\+Solver }\end{DoxyParamCaption})}
 
 
@@ -115,7 +143,7 @@ An output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}\label{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
 
 

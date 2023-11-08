@@ -1,0 +1,36 @@
+\hypertarget{_q_law_8hpp}{}\doxysection{include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Guidance\+Law/\+Q\+Law.hpp File Reference}
+\label{_q_law_8hpp}\index{include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp@{include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp}}
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Map.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Real.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Objects/\+Vector.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Instant.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Units/\+Derived.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Guidance\+Law.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Solvers/\+Finite\+Difference\+Solver.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\+Kepler/\+C\+O\+E.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State\+Builder.\+hpp$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{ostk\+::astro\+::guidancelaw\+::\+Q\+Law}}
+\begin{DoxyCompactList}\small\item\em The Q-\/law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions for maximum rates of change of the orbit elements and the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target orbit). \href{https://dataverse.jpl.nasa.gov/api/access/datafile/10307}{\texttt{ https\+://dataverse.\+jpl.\+nasa.\+gov/api/access/datafile/10307}}?gbrecs=true \href{https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives}{\texttt{ https\+://www.\+researchgate.\+net/publication/370849580\+\_\+\+Analytic\+\_\+\+Calculation\+\_\+and\+\_\+\+Application\+\_\+of\+\_\+the\+\_\+\+Q-\/\+Law\+\_\+\+Guidance\+\_\+\+Algorithm\+\_\+\+Partial\+\_\+\+Derivatives}} \href{https://dataverse.jpl.nasa.gov/api/access/datafile/13727}{\texttt{ https\+://dataverse.\+jpl.\+nasa.\+gov/api/access/datafile/13727}}?gbrecs=true. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Parameters}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceostk}{ostk}}
+\begin{DoxyCompactList}\small\item\em Apache License 2.\+0. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespaceostk_1_1astro}{ostk\+::astro}}
+\item 
+ \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw}{ostk\+::astro\+::guidancelaw}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{ostk\+::astro\+::guidancelaw\+::\+Vector5d}} = Eigen\+::\+Matrix$<$ double, 5, 1 $>$
+\item 
+using \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_abff1901c0c566316d83ac15ccc30ed24}{ostk\+::astro\+::guidancelaw\+::\+Matrix5d}} = Eigen\+::\+Matrix$<$ double, 5, 5 $>$
+\item 
+using \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a73c581733c8705e189293ab575031897}{ostk\+::astro\+::guidancelaw\+::\+Matrix53d}} = Eigen\+::\+Matrix$<$ double, 5, 3 $>$
+\end{DoxyCompactItemize}

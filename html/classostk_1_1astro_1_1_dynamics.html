@@ -101,12 +101,11 @@ Inheritance diagram for ostk::astro::Dynamics:</div>
  <div class="center">
   <img src="classostk_1_1astro_1_1_dynamics.png" usemap="#ostk::astro::Dynamics_map" alt=""/>
   <map id="ostk::astro::Dynamics_map" name="ostk::astro::Dynamics_map">
-<area href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html" title="Define the acceleration experienced by a spacecraft due to atmospheric drag." alt="ostk::astro::dynamics::AtmosphericDrag" shape="rect" coords="0,56,266,80"/>
-<area href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html" title="Define the acceleration experienced by a point mass due to gravity." alt="ostk::astro::dynamics::CentralBodyGravity" shape="rect" coords="276,56,542,80"/>
-<area href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html" title="Define the contribution to the position due to velocity." alt="ostk::astro::dynamics::PositionDerivative" shape="rect" coords="552,56,818,80"/>
-<area href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html" title="Define the acceleration experienced by a point mass due to gravity." alt="ostk::astro::dynamics::ThirdBodyGravity" shape="rect" coords="828,56,1094,80"/>
-<area href="classostk_1_1astro_1_1dynamics_1_1_thruster.html" title="Define the acceleration experienced by a point mass due to thrust." alt="ostk::astro::dynamics::Thruster" shape="rect" coords="1104,56,1370,80"/>
-<area href="classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust.html" title="Define the acceleration experienced by a point mass due to a constant thrust thruster dynamics." alt="ostk::astro::dynamics::thruster::ConstantThrust" shape="rect" coords="1104,112,1370,136"/>
+<area href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html" title="Define the acceleration experienced by a spacecraft due to atmospheric drag." alt="ostk::astro::dynamics::AtmosphericDrag" shape="rect" coords="0,56,244,80"/>
+<area href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html" title="Define the acceleration experienced by a point mass due to gravity." alt="ostk::astro::dynamics::CentralBodyGravity" shape="rect" coords="254,56,498,80"/>
+<area href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html" title="Define the contribution to the position due to velocity." alt="ostk::astro::dynamics::PositionDerivative" shape="rect" coords="508,56,752,80"/>
+<area href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html" title="Define the acceleration experienced by a point mass due to gravity." alt="ostk::astro::dynamics::ThirdBodyGravity" shape="rect" coords="762,56,1006,80"/>
+<area href="classostk_1_1astro_1_1dynamics_1_1_thruster.html" title="Define the acceleration experienced by a point mass due to thrust." alt="ostk::astro::dynamics::Thruster" shape="rect" coords="1016,56,1260,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -257,15 +256,15 @@ Friends</h2></td></tr>
 <p>Compute the contribution to the state derivative. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramname">x</td><td>The reduced state vector (this vector will follow the structure determined by the 'read' coordinate subsets) </td></tr>
-    <tr><td class="paramname">aFrameSPtr</td><td>The frame in which the state vector is expressed</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The reduced state vector (this vector will follow the structure determined by the 'read' coordinate subsets) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>The frame in which the state vector is expressed</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The reduced derivative state vector (this vector must follow the structure determined by the 'write' coordinate subsets) expressed in the given frame </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a9c993e6ef4c6c96d1b2b6b6aba30a99b">ostk::astro::dynamics::thruster::ConstantThrust</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a864795902a6b6b4c17410c903c63384c">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#adbab512d3cd1466165a2388aeb75131c">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a533154f87a8d7b88258ccae70843f60c">ostk::astro::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a668efb685ad318986dbcab15f7187ca8">ostk::astro::dynamics::PositionDerivative</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a864795902a6b6b4c17410c903c63384c">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#adbab512d3cd1466165a2388aeb75131c">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a533154f87a8d7b88258ccae70843f60c">ostk::astro::dynamics::ThirdBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a70cc44888e0077a8ad35dfe5a8a2e852">ostk::astro::dynamics::Thruster</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a668efb685ad318986dbcab15f7187ca8">ostk::astro::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
@@ -350,7 +349,7 @@ Friends</h2></td></tr>
 <p>Return the coordinates subsets that the instance reads from. </p>
 <dl class="section return"><dt>Returns</dt><dd>The coordinates subsets that the instance reads from </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a6cc180835cf899dd7e4b3842b5e38303">ostk::astro::dynamics::thruster::ConstantThrust</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a236972339073c8483983b9a42db3d8a9">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#adc6cb61d6ee19dfaa914d82be0fb6712">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a68628fa328b2799b93c6fd05a81498c8">ostk::astro::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a690e18ea04ae18ec283f7dc19ae9cd41">ostk::astro::dynamics::PositionDerivative</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a236972339073c8483983b9a42db3d8a9">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#adc6cb61d6ee19dfaa914d82be0fb6712">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a68628fa328b2799b93c6fd05a81498c8">ostk::astro::dynamics::ThirdBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad5c5ce7c8bdb39931b580254f35cb899">ostk::astro::dynamics::Thruster</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a690e18ea04ae18ec283f7dc19ae9cd41">ostk::astro::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
@@ -433,7 +432,7 @@ Friends</h2></td></tr>
 <p>Return the coordinates subsets that the instance writes to. </p>
 <dl class="section return"><dt>Returns</dt><dd>The coordinates subsets that the instance writes to </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a84de6d1175d4b32ede2e12aa015d42f1">ostk::astro::dynamics::thruster::ConstantThrust</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a5873af593b64ce337fed031b9b186f3d">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#a9bc3a27d7abc1c0ae0efc5b27cf58996">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a5f8b006a7fe6d1859b3a01dfe72dedcf">ostk::astro::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a0738486daea7904ebc95962032f9577b">ostk::astro::dynamics::PositionDerivative</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a5873af593b64ce337fed031b9b186f3d">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#a9bc3a27d7abc1c0ae0efc5b27cf58996">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a5f8b006a7fe6d1859b3a01dfe72dedcf">ostk::astro::dynamics::ThirdBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ab60e4c7647ff68a7873983d5aaa20ae9">ostk::astro::dynamics::Thruster</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a0738486daea7904ebc95962032f9577b">ostk::astro::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
@@ -463,7 +462,7 @@ Friends</h2></td></tr>
 <p>Check if dynamics is defined (pure virtual) </p>
 <dl class="section return"><dt>Returns</dt><dd>True if dynamics is defined </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a7e3613937ad9641db16854d9681e539e">ostk::astro::dynamics::thruster::ConstantThrust</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a8cd7da63d6416e7208393903ffb40ba3">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#ad8009887dd5ff11a1e0be78f949c3317">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#af8dd288ea8d53c2ad3af6af8b47ae97f">ostk::astro::dynamics::ThirdBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#ad0d1367f1436871298e39b44b8771f03">ostk::astro::dynamics::PositionDerivative</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#a79ddcf70714352f810a175e085b4a71e">ostk::astro::dynamics::Thruster</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad7e1160f12df4226de431b29bf56ae69">ostk::astro::dynamics::Thruster</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a8cd7da63d6416e7208393903ffb40ba3">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#ad8009887dd5ff11a1e0be78f949c3317">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#af8dd288ea8d53c2ad3af6af8b47ae97f">ostk::astro::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#ad0d1367f1436871298e39b44b8771f03">ostk::astro::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
@@ -510,7 +509,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a1f322fa8185a9ada4baa94a7ae7ec578">ostk::astro::dynamics::thruster::ConstantThrust</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a64f2ae87c856bc2bd977e54328751dea">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#a4345c57c92945e06a8dfb09b908d3353">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a70e243034149c75f9a79585dcf6bcb7d">ostk::astro::dynamics::ThirdBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a4eaa05bf516919c5ac750e630fd4f66e">ostk::astro::dynamics::PositionDerivative</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011">ostk::astro::dynamics::Thruster</a>.</p>
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a64f2ae87c856bc2bd977e54328751dea">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#a4345c57c92945e06a8dfb09b908d3353">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#a70e243034149c75f9a79585dcf6bcb7d">ostk::astro::dynamics::ThirdBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#a4eaa05bf516919c5ac750e630fd4f66e">ostk::astro::dynamics::PositionDerivative</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011">ostk::astro::dynamics::Thruster</a>.</p>
 
 </div>
 </div>

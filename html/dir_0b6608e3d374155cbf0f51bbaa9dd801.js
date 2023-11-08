@@ -1,6 +1,5 @@
 var dir_0b6608e3d374155cbf0f51bbaa9dd801 =
 [
-    [ "Thruster", "dir_6db943b0eacabca471e997b226eb745f.html", "dir_6db943b0eacabca471e997b226eb745f" ],
     [ "AtmosphericDrag.hpp", "_atmospheric_drag_8hpp.html", [
       [ "AtmosphericDrag", "classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html", "classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag" ]
     ] ],

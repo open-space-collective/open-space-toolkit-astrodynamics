@@ -54,6 +54,8 @@ Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2d
 \begin{DoxyCompactList}\small\item\em Get the coordinates of the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\item 
 const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ad03f40490dd2a2572284221008be05f5}{get\+Coordinates\+Subsets}} () const
 \begin{DoxyCompactList}\small\item\em Get the coordinates subsets of the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a03752b6712854c8369824408bab72e3c}{has\+Subset}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Coordinates\+Subset\+S\+Ptr) const
+\begin{DoxyCompactList}\small\item\em Check if the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} has a given coordinates subset. \end{DoxyCompactList}\item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a592f2853a63cfc45c1adec2a0c1118ab}{extract\+Coordinates}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Subset\+S\+Ptr) const
 \begin{DoxyCompactList}\small\item\em Extract the coordinates for a single subset. \end{DoxyCompactList}\item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_aad1f1b9eeb7118bbe356520d3fe40f03}{extract\+Coordinates}} (const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&a\+Coordinates\+Subsets\+Array) const
@@ -335,6 +337,24 @@ Get the cartesian velocity associated with the \mbox{\hyperlink{classostk_1_1ast
 
 \begin{DoxyReturn}{Returns}
 The cartesian velocity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a03752b6712854c8369824408bab72e3c}\label{classostk_1_1astro_1_1trajectory_1_1_state_a03752b6712854c8369824408bab72e3c}} 
+\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!hasSubset@{hasSubset}}
+\index{hasSubset@{hasSubset}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
+\doxysubsubsection{\texorpdfstring{hasSubset()}{hasSubset()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+State\+::has\+Subset (\begin{DoxyParamCaption}\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&}]{a\+Coordinates\+Subset\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+
+
+Check if the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} has a given coordinates subset. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset\+S\+Ptr} & the coordinates subset to be checked\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the coordinates subset is included in the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_aa9c95303df830f9dfed347231961dcf6}\label{classostk_1_1astro_1_1trajectory_1_1_state_aa9c95303df830f9dfed347231961dcf6}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!inFrame@{inFrame}}

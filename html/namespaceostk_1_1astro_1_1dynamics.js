@@ -1,6 +1,5 @@
 var namespaceostk_1_1astro_1_1dynamics =
 [
-    [ "thruster", "namespaceostk_1_1astro_1_1dynamics_1_1thruster.html", "namespaceostk_1_1astro_1_1dynamics_1_1thruster" ],
     [ "AtmosphericDrag", "classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html", "classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag" ],
     [ "CentralBodyGravity", "classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html", "classostk_1_1astro_1_1dynamics_1_1_central_body_gravity" ],
     [ "PositionDerivative", "classostk_1_1astro_1_1dynamics_1_1_position_derivative.html", "classostk_1_1astro_1_1dynamics_1_1_position_derivative" ],
