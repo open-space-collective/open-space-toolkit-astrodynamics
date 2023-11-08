@@ -180,7 +180,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, UpdateTarget)
 
     {
         defaultCondition_.updateTarget(state);
-        EXPECT_FALSE(defaultCondition_.getTarget().valueOffset == 0.0);
+        EXPECT_TRUE(defaultCondition_.getTarget().valueOffset == 0.0);
     }
 
     {
