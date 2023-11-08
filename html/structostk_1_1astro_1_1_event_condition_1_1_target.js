@@ -2,8 +2,7 @@ var structostk_1_1astro_1_1_event_condition_1_1_target =
 [
     [ "Type", "structostk_1_1astro_1_1_event_condition_1_1_target.html#ad4f282cf21bc328fa6e4197a68eb48e5", [
       [ "Absolute", "structostk_1_1astro_1_1_event_condition_1_1_target.html#ad4f282cf21bc328fa6e4197a68eb48e5ab51ca26c6c89cfc9bec338f7a0d3e0c8", null ],
-      [ "RelativeSegmentStart", "structostk_1_1astro_1_1_event_condition_1_1_target.html#ad4f282cf21bc328fa6e4197a68eb48e5a586b32954e33551eb77100da210f95cc", null ],
-      [ "RelativeSequenceStart", "structostk_1_1astro_1_1_event_condition_1_1_target.html#ad4f282cf21bc328fa6e4197a68eb48e5a6fa130e15e46a9916ad02b9f6a724cde", null ]
+      [ "Relative", "structostk_1_1astro_1_1_event_condition_1_1_target.html#ad4f282cf21bc328fa6e4197a68eb48e5a2ca9469819fb0fb61ff98e914a7ccca0", null ]
     ] ],
     [ "Target", "structostk_1_1astro_1_1_event_condition_1_1_target.html#aaca2e5d3eadd04687afe6c0ffa42bb05", null ],
     [ "Target", "structostk_1_1astro_1_1_event_condition_1_1_target.html#aca7106c42084b231285e7e917acdc28c", null ],

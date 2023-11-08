@@ -36,7 +36,9 @@ virtual void \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_c
 Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aab9c41f8d984d91f568f7fcc2fc18e29}{get\+Event\+Conditions}} () const
 \begin{DoxyCompactList}\small\item\em Get the individual event conditions composing the Logical Connective Event Condition. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aa8f6d2cc1732d240e22a196afe81d815}{is\+Satisfied}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&current\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&previous\+State) const override
-\begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state and previous state/time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Check if the Logical Connective Event Condition is satisfied. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a6e4f486bfdcd7d3d6d6829bc83557c1c}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\begin{DoxyCompactList}\small\item\em Print the Logical Connective Event Condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
@@ -137,21 +139,42 @@ The type.
 
 
 
-Check if the Event Condition is satisfied based on current state and previous state/time. 
+Check if the Logical Connective Event Condition is satisfied. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em current\+State} & The current state \\
+\mbox{\texttt{ in}}  & {\em current\+State} & A state. \\
 \hline
-\mbox{\texttt{ in}}  & {\em previous\+State} & The previous state\\
+\mbox{\texttt{ in}}  & {\em previous\+State} & A state.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Boolean value indicating if the Event Condition is met 
+True if the Logical Connective Event Condition is satisfied. 
 \end{DoxyReturn}
 
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}{ostk\+::astro\+::\+Event\+Condition}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a6e4f486bfdcd7d3d6d6829bc83557c1c}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a6e4f486bfdcd7d3d6d6829bc83557c1c}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!print@{print}}
+\index{print@{print}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print the Logical Connective Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream. \\
+\hline
+\mbox{\texttt{ in}}  & {\em display\+Decorator} & A boolean indicating whether or not to display decorator during the printing process. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a72cf3353323b6b21f4406c8e152b2d30}{ostk\+::astro\+::\+Event\+Condition}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a40bf584788641739fddefbf210fec5f3}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_a40bf584788641739fddefbf210fec5f3}} 
 \index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!updateTarget@{updateTarget}}

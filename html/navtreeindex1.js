@@ -163,9 +163,9 @@ var NAVTREEINDEX1 =
 "classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#af8dd288ea8d53c2ad3af6af8b47ae97f":[4,0,0,0,2,3,7],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html":[4,0,0,0,2,4],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a460a207a50b8c18caafcaf05dffdcc33":[4,0,0,0,2,4,3],
+"classostk_1_1astro_1_1dynamics_1_1_thruster.html#a50266e66c082605ebd38c0266c46c92b":[4,0,0,0,2,4,0],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a6408bef4a7aada7a5fc5d7c6e8adbcad":[4,0,0,0,2,4,1],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html#a70cc44888e0077a8ad35dfe5a8a2e852":[4,0,0,0,2,4,2],
-"classostk_1_1astro_1_1dynamics_1_1_thruster.html#a886c1081204b366422573a893fe9dee5":[4,0,0,0,2,4,0],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html#aa2fb1513fee69124f28a99fea26b6a04":[4,0,0,0,2,4,5],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html#ab60e4c7647ff68a7873983d5aaa20ae9":[4,0,0,0,2,4,6],
 "classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad1e2825fcd6c49c44718ddd592b23011":[4,0,0,0,2,4,8],
@@ -196,7 +196,8 @@ var NAVTREEINDEX1 =
 "classostk_1_1astro_1_1eventcondition_1_1_instant_condition.html#abdebda6d76cf8967a1a89125a6c36143":[4,0,0,0,3,3,1],
 "classostk_1_1astro_1_1eventcondition_1_1_instant_condition.html#afe98b0ce41d8b1b9202dbd5cc8f9efe1":[4,0,0,0,3,3,0],
 "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html":[4,0,0,0,3,4],
-"classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#a40bf584788641739fddefbf210fec5f3":[4,0,0,0,3,4,6],
+"classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#a40bf584788641739fddefbf210fec5f3":[4,0,0,0,3,4,7],
+"classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#a6e4f486bfdcd7d3d6d6829bc83557c1c":[4,0,0,0,3,4,6],
 "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aa8f6d2cc1732d240e22a196afe81d815":[4,0,0,0,3,4,5],
 "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aab9c41f8d984d91f568f7fcc2fc18e29":[4,0,0,0,3,4,3],
 "classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#ac79f9d61b68f2a5f19fd365cdedea4e9":[4,0,0,0,3,4,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classostk_1_1astro_1_1flight_1_1_system.html#ade321754db6db7f635def34cb137d9c4":[4,0,0,0,4,3,2],
 "classostk_1_1astro_1_1flight_1_1_system.html#afac17c0d5e2b1fb9416babf240a1aa65":[4,0,0,0,4,3,0],
 "classostk_1_1astro_1_1flight_1_1profile_1_1_model.html":[4,0,0,0,4,0,1],
-"classostk_1_1astro_1_1flight_1_1profile_1_1_model.html#a04ded49c09d9a44820251c48f47d0ffa":[4,0,0,0,4,0,1,7],
-"classostk_1_1astro_1_1flight_1_1profile_1_1_model.html#a0af64ad25ed8d8b2510a70bfe5bcb971":[4,0,0,0,4,0,1,9]
+"classostk_1_1astro_1_1flight_1_1profile_1_1_model.html#a04ded49c09d9a44820251c48f47d0ffa":[4,0,0,0,4,0,1,7]
 };
