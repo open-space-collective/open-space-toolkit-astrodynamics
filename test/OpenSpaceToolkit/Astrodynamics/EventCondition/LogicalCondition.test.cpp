@@ -106,6 +106,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, UpdateTar
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(defaultLogicalCondition_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultLogicalCondition_.print(std::cout, false));
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
 {
     {
