@@ -54,10 +54,8 @@ String EventCondition::Target::StringFromType(const EventCondition::Target::Type
     {
         case EventCondition::Target::Type::Absolute:
             return "Absolute";
-        case EventCondition::Target::Type::RelativeSegmentStart:
-            return "RelativeSegmentStart";
-        case EventCondition::Target::Type::RelativeSequenceStart:
-            return "RelativeSequenceStart";
+        case EventCondition::Target::Type::Relative:
+            return "Relative";
         default:
             throw ostk::core::error::runtime::Wrong("Type");
     }
@@ -107,17 +105,15 @@ EventCondition::Target EventCondition::getTarget() const
 
 void EventCondition::updateTarget(const State& aState)
 {
-    if (target_.type == EventCondition::Target::Type::Absolute)
-    {
-        throw ostk::core::error::RuntimeError("Can only set state for 'Relative' Event Conditions.");
-    }
-
     if (!evaluator_)
     {
         throw ostk::core::error::runtime::Undefined("Evaluator");
     }
 
-    target_.valueOffset = evaluator_(aState);
+    if (target_.type == EventCondition::Target::Type::Relative)
+    {
+        target_.valueOffset = evaluator_(aState);
+    }
 }
 
 void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const

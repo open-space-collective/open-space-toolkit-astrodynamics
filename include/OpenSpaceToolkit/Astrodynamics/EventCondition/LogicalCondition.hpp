@@ -76,7 +76,22 @@ class LogicalCondition : public EventCondition
 
     Array<Shared<EventCondition>> getEventConditions() const;
 
+    /// @brief                  Check if the Logical Connective Event Condition is satisfied.
+    ///
+    /// @param                  [in] currentState A state.
+    /// @param                  [in] previousState A state.
+    ///
+    /// @return                 True if the Logical Connective Event Condition is satisfied.
+
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
+
+    /// @brief                  Print the Logical Connective Event Condition.
+    ///
+    /// @param                  [in] anOutputStream An output stream.
+    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
+    ///                         the printing process.
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
     typedef std::function<
