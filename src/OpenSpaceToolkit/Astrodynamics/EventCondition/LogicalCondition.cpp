@@ -44,6 +44,21 @@ bool LogicalCondition::isSatisfied(const State& currentState, const State& previ
     return evaluator_(eventConditions_, currentState, previousState);
 }
 
+void LogicalCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Logical Condition") : void();
+
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Event Conditions: " << String::Format("[{}]", eventConditions_.getSize());
+
+    for (const auto& eventCondition : eventConditions_)
+    {
+        eventCondition->print(anOutputStream, false);
+    }
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
 LogicalCondition::evaluationSignature LogicalCondition::GenerateEvaluator(const LogicalCondition::Type& aType)
 {
     switch (aType)

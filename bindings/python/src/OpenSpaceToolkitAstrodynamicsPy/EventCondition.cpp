@@ -60,16 +60,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
         )
 
             .value("Absolute", EventCondition::Target::Type::Absolute, "Absolute")
-            .value(
-                "RelativeSegmentStart",
-                EventCondition::Target::Type::RelativeSegmentStart,
-                "Relative to the State at the start of the current Segment."
-            )
-            .value(
-                "RelativeSequenceStart",
-                EventCondition::Target::Type::RelativeSequenceStart,
-                "Relative to the State at the start of the Sequence."
-            )
+            .value("Relative", EventCondition::Target::Type::Relative, "Relative to the provided State.")
 
             ;
 

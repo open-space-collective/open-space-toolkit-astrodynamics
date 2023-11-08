@@ -42,7 +42,7 @@ class Thruster : public Dynamics
     Thruster(
         const SatelliteSystem& aSatelliteSystem,
         const Shared<const GuidanceLaw>& aGuidanceLaw,
-        const String& aName = String::Empty()
+        const String& aName = "Thruster"
     );
 
     ~Thruster();

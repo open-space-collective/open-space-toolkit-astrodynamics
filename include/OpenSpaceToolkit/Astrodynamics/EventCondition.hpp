@@ -35,8 +35,7 @@ class EventCondition
         enum class Type
         {
             Absolute,
-            RelativeSegmentStart,
-            RelativeSequenceStart
+            Relative
         };
 
         Target(const Real& aValue, const Type& aType = Type::Absolute);

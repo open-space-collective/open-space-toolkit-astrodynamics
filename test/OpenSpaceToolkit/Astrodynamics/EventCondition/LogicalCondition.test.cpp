@@ -93,10 +93,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, UpdateTarget)
 {
     {
-        EXPECT_THROW(defaultLogicalCondition_.updateTarget(defaultState_), ostk::core::error::RuntimeError);
-    }
-
-    {
         LogicalCondition logicalCondition = LogicalCondition(
             defaultName_,
             defaultType_,
@@ -107,6 +103,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, UpdateTar
             }
         );
         EXPECT_NO_THROW(logicalCondition.updateTarget(defaultState_));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(defaultLogicalCondition_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultLogicalCondition_.print(std::cout, false));
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
