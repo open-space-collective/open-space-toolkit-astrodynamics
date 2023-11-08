@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1699378726677,
+  "lastUpdate": 1699410227076,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -648,6 +648,60 @@ window.BENCHMARK_DATA = {
             "value": 2795441207.3000016,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2795295439.9999995 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "77606a89c1133a756f5d5dafa892536a5b57361f",
+          "message": "feat: Q-Law guidance law (#266)\n\n* wip: first cut at guidance law\r\n\r\n* wip: feat: add tests\r\n\r\n* feat: fix remaining tests\r\n\r\n* feat: address Remy's feedback:\r\n\r\n* refactor: move guidance law around\r\n\r\n* feat: fix tests\r\n\r\n* style: format\r\n\r\n* wip: first cut at guidance law\r\n\r\n* feat: QLaw guidance law\r\n\r\n* wip: Use finite difference solver\r\n\r\n* feat: add working unit tests\r\n\r\n* feat: add bindings and python test\r\n\r\n* feat: add tests for COE\r\n\r\n* feat: add end-to-end test\r\n\r\n* feat: add more tests\r\n\r\n* feat: fix some small bugs\r\n\r\n* feat: address remaining feedback\r\n\r\n* feat: add python tests/bindings for COE and fix thruster test py\r\n\r\n* feat: fix tests\r\n\r\n* feat: fix test and printing\r\n\r\n* feat: fix test",
+          "timestamp": "2023-11-08T01:39:48Z",
+          "tree_id": "ed4414e82651b3b4ba169df2c2a3e55bc98ea31e",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/77606a89c1133a756f5d5dafa892536a5b57361f"
+        },
+        "date": 1699410225097,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 674001044.500011,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 673969219.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1350707329.299985,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1350662650.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2786839014.1999955,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2786702250.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2783488207.299985,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783434800 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2778979451.099997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2778918369.999998 ns\nthreads: 1"
           }
         ]
       }
