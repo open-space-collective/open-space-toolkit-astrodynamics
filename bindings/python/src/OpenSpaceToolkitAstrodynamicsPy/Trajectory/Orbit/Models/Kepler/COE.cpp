@@ -112,10 +112,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "is_defined",
             &COE::isDefined,
             R"doc(
-               Check if the COE is defined.
+                Check if the COE is defined.
 
-               Returns:
-                  bool: True if the COE is defined, False otherwise.
+                Returns:
+                    bool: True if the COE is defined, False otherwise.
             )doc"
         )
 
@@ -123,10 +123,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_semi_major_axis",
             &COE::getSemiMajorAxis,
             R"doc(
-               Get the semi-major axis of the COE.
+                Get the semi-major axis of the COE.
 
-               Returns:
-                  Length: The semi-major axis of the COE.
+                Returns:
+                    Length: The semi-major axis of the COE.
             )doc"
         )
 
@@ -134,10 +134,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_eccentricity",
             &COE::getEccentricity,
             R"doc(
-               Get the eccentricity of the COE.
+                Get the eccentricity of the COE.
 
-               Returns:
-                  float: The eccentricity of the COE.
+                Returns:
+                    float: The eccentricity of the COE.
             )doc"
         )
 
@@ -145,10 +145,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_inclination",
             &COE::getInclination,
             R"doc(
-               Get the inclination of the COE.
+                Get the inclination of the COE.
 
-               Returns:
-                  Angle: The inclination of the COE.
+                Returns:
+                    Angle: The inclination of the COE.
             )doc"
         )
 
@@ -156,10 +156,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_raan",
             &COE::getRaan,
             R"doc(
-               Get the right ascension of the ascending node of the COE.
+                Get the right ascension of the ascending node of the COE.
 
-               Returns:
-                  Angle: The right ascension of the ascending node of the COE.
+                Returns:
+                    Angle: The right ascension of the ascending node of the COE.
             )doc"
         )
 
@@ -167,10 +167,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_aop",
             &COE::getAop,
             R"doc(
-               Get the argument of periapsis of the COE.
+                Get the argument of periapsis of the COE.
 
-               Returns:
-                  Angle: The argument of periapsis of the COE.
+                Returns:
+                    Angle: The argument of periapsis of the COE.
             )doc"
         )
 
@@ -178,10 +178,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_true_anomaly",
             &COE::getTrueAnomaly,
             R"doc(
-               Get the true anomaly of the COE.
+                Get the true anomaly of the COE.
 
-               Returns:
-                  Angle: The true anomaly of the COE.
+                Returns:
+                    Angle: The true anomaly of the COE.
             )doc"
         )
 
@@ -189,10 +189,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_mean_anomaly",
             &COE::getMeanAnomaly,
             R"doc(
-               Get the mean anomaly of the COE.
+                Get the mean anomaly of the COE.
 
-               Returns:
-                  Angle: The mean anomaly of the COE.
+                Returns:
+                    Angle: The mean anomaly of the COE.
             )doc"
         )
 
@@ -200,10 +200,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_eccentric_anomaly",
             &COE::getEccentricAnomaly,
             R"doc(
-               Get the eccentric anomaly of the COE.
+                Get the eccentric anomaly of the COE.
 
-               Returns:
-                  Angle: The eccentric anomaly of the COE.
+                Returns:
+                    Angle: The eccentric anomaly of the COE.
             )doc"
         )
 
@@ -211,10 +211,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_periapsis_radius",
             &COE::getPeriapsisRadius,
             R"doc(
-               Get the periapsis radius of the COE.
+                Get the periapsis radius of the COE.
 
-               Returns:
-                  Length: The periapsis radius of the COE.
+                Returns:
+                    Length: The periapsis radius of the COE.
             )doc"
         )
 
@@ -222,10 +222,46 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             "get_apoapsis_radius",
             &COE::getApoapsisRadius,
             R"doc(
-               Get the apoapsis radius of the COE.
+                Get the apoapsis radius of the COE.
+
+                Returns:
+                    Length: The apoapsis radius of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_semi_latus_rectum",
+            &COE::getSemiLatusRectum,
+            R"doc(
+               Get the semi-latus rectum of the COE.
 
                Returns:
-                  Length: The apoapsis radius of the COE.
+                  Length: The semilatus rectum of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_radial_distance",
+            &COE::getRadialDistance,
+            R"doc(
+               Get the radial distance of the COE.
+
+               Returns:
+                  Length: The radial distance of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_angular_momentum",
+            &COE::getAngularMomentum,
+            R"doc(
+                Get the angular momentum of the COE.
+
+                Args:
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+
+                Returns:
+                    Derived: The angular momentum of the COE.
             )doc"
         )
 
@@ -423,6 +459,78 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             arg("mean_anomaly"),
             arg("eccentricity"),
             arg("tolerance")
+        )
+
+        .def_static(
+            "compute_semi_latus_rectum",
+            &COE::ComputeSemiLatusRectum,
+            R"doc(
+                Compute the semi-latus rectum from the semi-major axis and the eccentricity.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    eccentricity (float): The eccentricity.
+
+                Returns:
+                    Length: The semi-latus rectum.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity")
+        )
+
+        .def_static(
+            "compute_angular_momentum",
+            overload_cast<const Real&, const Real&, const Derived&>(&COE::ComputeAngularMomentum),
+            R"doc(
+                Compute the angular momentum from the semi-major axis and the eccentricity.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    eccentricity (float): The eccentricity.
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+
+                Returns:
+                    Derived: The angular momentum.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity"),
+            arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "compute_angular_momentum",
+            overload_cast<const Real&, const Derived&>(&COE::ComputeAngularMomentum),
+            R"doc(
+                Compute the angular momentum from the semi-latus rectum.
+
+                Args:
+                    semi_latus_rectum (float): The semi-latus rectum. In meters.
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+
+                Returns:
+                    Derived: The angular momentum.
+            )doc",
+            arg("semi_latus_rectum"),
+            arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "compute_radial_distance",
+            &COE::ComputeRadialDistance,
+            R"doc(
+                Compute the radial distance from the semi-latus rectum and the eccentricity.
+
+                Args:
+                    semi_latus_rectum (float): The semi-latus rectum. In meters.
+                    eccentricity (float): The eccentricity.
+                    true_anomaly (float): The true anomly. In degrees.
+
+                Returns:
+                    Length: The radial distance.
+            )doc",
+            arg("semi_latus_rectum"),
+            arg("eccentricity"),
+            arg("true_anomaly")
         )
 
         .def_static(

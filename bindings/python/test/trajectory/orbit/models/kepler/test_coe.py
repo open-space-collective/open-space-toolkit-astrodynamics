@@ -101,6 +101,9 @@ class TestCOE:
         assert coe.get_orbital_period(Earth.EGM2008.gravitational_parameter) is not None
         assert coe.get_periapsis_radius() is not None
         assert coe.get_apoapsis_radius() is not None
+        assert coe.get_semi_latus_rectum() is not None
+        assert coe.get_radial_distance() is not None
+        assert coe.get_angular_momentum(Earth.EGM2008.gravitational_parameter) is not None
         assert coe.get_SI_vector(COE.AnomalyType.TrueAnomaly) is not None
         assert coe.get_SI_vector(COE.AnomalyType.MeanAnomaly) is not None
         assert coe.get_SI_vector(COE.AnomalyType.EccentricAnomaly) is not None
@@ -119,6 +122,23 @@ class TestCOE:
             COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0)
             is not None
         )
+
+    def test_compute_methods(self):
+        semi_latus_rectum: float = COE.compute_semi_latus_rectum(7000.0e3, 0.0)
+        assert semi_latus_rectum is not None
+        assert (
+            COE.compute_angular_momentum(
+                7000.0e3, 0.0, Earth.EGM2008.gravitational_parameter
+            )
+            is not None
+        )
+        assert (
+            COE.compute_angular_momentum(
+                semi_latus_rectum, Earth.EGM2008.gravitational_parameter
+            )
+            is not None
+        )
+        assert COE.compute_radial_distance(7000.0e3, 0.0, 0.0) is not None
 
     def test_from_SI_vector(
         self,

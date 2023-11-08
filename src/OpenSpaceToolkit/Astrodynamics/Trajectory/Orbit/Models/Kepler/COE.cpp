@@ -26,11 +26,26 @@ namespace kepler
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Mass;
+using ostk::physics::units::ElectricCurrent;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
+static const Derived::Unit AngularMomentumSIUnit = {
+    Length::Unit::Meter,
+    {2},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-2},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0},
+};
 
 COE::COE(
     const Length& aSemiMajorAxis,
@@ -178,6 +193,45 @@ Length COE::getApoapsisRadius() const
     }
 
     return this->semiMajorAxis_ * (1.0 + this->eccentricity_);
+}
+
+Length COE::getSemiLatusRectum() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return Length::Meters(COE::ComputeSemiLatusRectum(semiMajorAxis_.inMeters(), eccentricity_));
+}
+
+Length COE::getRadialDistance() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return Length::Meters(COE::ComputeRadialDistance(
+        semiMajorAxis_.inMeters(),
+        eccentricity_,
+        COE::ConvertAnomaly(anomaly_, eccentricity_, anomalyType_, AnomalyType::True, 1e-12).inRadians()
+    ));
+}
+
+Derived COE::getAngularMomentum(const Derived& aGravitationalParameter) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return Derived(
+        COE::ComputeAngularMomentum(
+            COE::ComputeSemiLatusRectum(semiMajorAxis_.inMeters(), eccentricity_), aGravitationalParameter
+        ),
+        AngularMomentumSIUnit
+    );
 }
 
 Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
@@ -796,6 +850,32 @@ Angle COE::TrueAnomalyFromMeanAnomaly(const Angle& aMeanAnomly, const Real& anEc
     return TrueAnomalyFromEccentricAnomaly(
         EccentricAnomalyFromMeanAnomaly(aMeanAnomly, anEccentricity, aTolerance), anEccentricity
     );
+}
+
+Real COE::ComputeSemiLatusRectum(const Real& aSemiMajorAxis, const Real& anEccentricity)
+{
+    return aSemiMajorAxis * (1.0 - (anEccentricity * anEccentricity));
+}
+
+Real COE::ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& aTrueAnomaly)
+{
+    return ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity) / (1.0 + anEccentricity * std::cos(aTrueAnomaly));
+}
+
+Real COE::ComputeAngularMomentum(
+    const Real& aSemiMajorAxis, const Real& anEccentricity, const Derived& aGravitationalParameter
+)
+{
+    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+
+    return std::sqrt(mu_SI * ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity));
+}
+
+Real COE::ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aGravitationalParameter)
+{
+    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+
+    return std::sqrt(mu_SI * aSemiLatusRectum);
 }
 
 String COE::StringFromElement(const COE::Element& anElement)

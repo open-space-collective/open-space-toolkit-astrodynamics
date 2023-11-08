@@ -55,7 +55,6 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::trajectory::Segment;
@@ -67,6 +66,7 @@ using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::Dynamics;
 using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;

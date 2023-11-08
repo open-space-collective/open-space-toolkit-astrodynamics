@@ -88,11 +88,11 @@ VectorXd Thruster::computeContribution(
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
-    const Real thrustAccelerationMagnitude =
+    const Real maximumThrustAccelerationMagnitude =
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6])).getValue();
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
-        anInstant, positionCoordinates, velocityCoordinates, thrustAccelerationMagnitude, aFrameSPtr
+        anInstant, positionCoordinates, velocityCoordinates, maximumThrustAccelerationMagnitude, aFrameSPtr
     );
 
     // Compute contribution
@@ -109,8 +109,8 @@ void Thruster::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Thruster") : void();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite System:" << satelliteSystem_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Guidance Law:" << guidanceLaw_;
+    satelliteSystem_.print(anOutputStream, false);
+    guidanceLaw_->print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

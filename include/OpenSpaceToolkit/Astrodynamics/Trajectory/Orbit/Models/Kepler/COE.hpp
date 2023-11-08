@@ -62,8 +62,8 @@ class COE
         SemiMajorAxis,
         Eccentricity,
         Inclination,
-        Aop,
         Raan,
+        Aop,
         TrueAnomaly,
         MeanAnomaly,
         EccentricAnomaly
@@ -186,6 +186,24 @@ class COE
 
     Length getApoapsisRadius() const;
 
+    /// @brief                  Get Semi-Latus Rectum
+    ///
+    /// @return                 Semi-Latus Rectum
+
+    Length getSemiLatusRectum() const;
+
+    /// @brief                  Get Radial Distance
+    ///
+    /// @return                 Radiaul Distance
+
+    Length getRadialDistance() const;
+
+    /// @brief                  Get Angular Momentum
+    ///
+    /// @return                 Angular Momentum
+
+    Derived getAngularMomentum(const Derived& aGravitationalParameter) const;
+
     /// @brief                  Get Mean motion
     ///
     /// @param                  [in] aGravitationalParameter A gravitational parameter
@@ -226,7 +244,7 @@ class COE
     /// @brief                  Construct an undefined COE
     ///
     /// @code
-    ///                         COE coe = COE::Undefined() ; // Undefined
+    ///                         COE coe = COE::Undefined();
     /// @endcode
     ///
     /// @return                 Undefined coe
@@ -295,10 +313,45 @@ class COE
         const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance
     );
 
+    /// @brief                  Compute the semi-latus rectum of the orbit.
+    ///
+    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param                  [in] anEccentricity Eccentricity of the orbit.
+    /// @return                 Real Semi-latus rectum.
+
+    static Real ComputeSemiLatusRectum(const Real& aSemiMajorAxis, const Real& anEccentricity);
+
+    /// @brief                  Compute the angular momentum of the orbit.
+    ///
+    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param                  [in] anEccentricity Eccentricity of the orbit.
+    /// @param                  [in] aGravitationalParameter Gravitational parameter.
+    /// @return                 Angular momentum.
+
+    static Real ComputeAngularMomentum(
+        const Real& aSemiMajorAxis, const Real& anEccentricity, const Derived& aGravitationalParameter
+    );
+
+    /// @brief                  Compute the angular momentum of the orbit.
+    ///
+    /// @param                  [in] aSemiLatusRectum Semi-latus rectum of the orbit in meters.
+    /// @param                  [in] aGravitationalParameter Gravitational parameter.
+    /// @return                 Angular momentum.
+
+    static Real ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aGravitationalParameter);
+
+    /// @brief                  Compute the radial distance at a given true anomaly.
+    ///
+    /// @param                  [in] aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param                  [in] anEccentricity Eccentricity of the orbit.
+    /// @param                  [in] trueAnomaly True anomaly in radians.
+    /// @return                 Radial distance.
+
+    static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);
+
     /// @brief                  Convert element to string
     ///
     /// @param                  [in] anElement An element
-    ///
     /// @return                 String representing the element
 
     static String StringFromElement(const COE::Element& anElement);
