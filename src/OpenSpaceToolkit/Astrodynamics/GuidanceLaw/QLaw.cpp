@@ -157,9 +157,6 @@ Vector3d QLaw::calculateThrustAccelerationAt(
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
-    std::cout << anInstant.toString() << std::endl;
-    std::cout << coe << std::endl;
-
     const Matrix3d R_thetaRH_GCRF = QLaw::ThetaRHToGCRF(aPositionCoordinates, aVelocityCoordinates);
 
     return aThrustAcceleration * R_thetaRH_GCRF * thrustDirection;

@@ -37,7 +37,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             "m",
             &QLaw::Parameters::m,
             R"doc(
-                Scaling parameter for SMA delta.
+                Scaling parameter for Semi-Major Axis delta.
 
                 Type:
                     int
@@ -47,7 +47,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             "n",
             &QLaw::Parameters::n,
             R"doc(
-                Scaling parameter for SMA delta.
+                Scaling parameter for Semi-Major Axis delta.
 
                 Type:
                     int
@@ -57,7 +57,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             "r",
             &QLaw::Parameters::r,
             R"doc(
-                Scaling parameter for SMA delta.
+                Scaling parameter for Semi-Major Axis delta.
+
+                Type:
+                    int
+            )doc"
+        )
+        .def_readonly(
+            "k",
+            &QLaw::Parameters::r,
+            R"doc(
+                Penalty parameter for periapsis.
 
                 Type:
                     int
@@ -67,7 +77,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             "b",
             &QLaw::Parameters::b,
             R"doc(
-                Scaling parameter for SMA delta.
+                Scaling parameter for Argument of Periapsis.
 
                 Type:
                     float
@@ -75,23 +85,34 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         )
 
         .def(
-            init<const Map<COE::Element, Real>&, const Size&, const Size&, const Size&, const Real&>(),
+            init<
+                const Map<COE::Element, Real>&,
+                const Size&,
+                const Size&,
+                const Size&,
+                const Size&,
+                const Length&,
+                const Real&>(),
             R"doc(
             Constructor.
 
             Args:
                 element_weights (dict): Key-value pair of COE elements and the weights for the targeter.
-                m (int): Scaling parameter for SMA delta.
-                n (int): Scaling parameter for SMA delta.
-                r (int): Scaling parameter for SMA delta.
-                b (float): Scaling parameter for SMA delta.
+                m (int): Scaling parameter for Semi-Major Axis delta. Default to 3.
+                n (int): Scaling parameter for Semi-Major Axis delta. Default to 4.
+                r (int): Scaling parameter for Semi-Major Axis delta. Default to 2.
+                k (int): Penalty parameter for periapsis. Default to 100.
+                minimum_periapsis_radius (Length): Minimum periapsis radius. Default to 6578.0 km.
+                b (float): Scaling parameter for Argument of Periapsis maximal change. Default to 0.01.
 
         )doc",
             arg("element_weights"),
-            arg("m"),
-            arg("n"),
-            arg("r"),
-            arg("b")
+            arg("m") = 3,
+            arg("n") = 4,
+            arg("r") = 2,
+            arg("k") = 100,
+            arg("minimum_periapsis_radius") = Length.Kilometers(6578.0),
+            arg("b") = 0.01
         )
 
         .def(
@@ -102,6 +123,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
                 Returns:
                     np.array: The control weights.
+            )doc"
+        )
+
+        .def(
+            "get_minimum_periapsis_radius",
+            &QLaw::Parameters::getMinimumPeriapsisRadius,
+            R"doc(
+                Get the minimum periapsis radius.
+
+                Returns:
+                    Length: The minimum periapsis radius.
             )doc"
         )
 
