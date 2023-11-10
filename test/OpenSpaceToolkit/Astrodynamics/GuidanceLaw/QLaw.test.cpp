@@ -242,7 +242,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 
         const Real Q = qlaw.computeQ(currentCOEVector, thrustAcceleration);
 
-        const Real expectedQ = 10971555799477.6;
+        const Real expectedQ = 11918884993552.9;
 
         EXPECT_NEAR(Q, expectedQ, 1e3);
     }

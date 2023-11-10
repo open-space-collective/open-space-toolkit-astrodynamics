@@ -111,7 +111,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("n") = 4,
             arg("r") = 2,
             arg("k") = 100,
-            arg("minimum_periapsis_radius") = Length.Kilometers(6578.0),
+            arg("minimum_periapsis_radius") = Length::Kilometers(6578.0),
             arg("b") = 0.01
         )
 
