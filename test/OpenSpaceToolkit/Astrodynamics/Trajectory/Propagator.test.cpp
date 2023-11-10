@@ -2244,6 +2244,10 @@ TEST_F(
             std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
             std::make_shared<EarthAtmosphericModel>(
                 EarthAtmosphericModel::Type::NRLMSISE00,
+                EarthAtmosphericModel::InputDataType::CSSISpaceWeatherFile,
+                Real::Undefined(),
+                Real::Undefined(),
+                Real::Undefined(),
                 Frame::ITRF(),
                 EarthGravitationalModel::WGS84.equatorialRadius_,
                 EarthGravitationalModel::WGS84.flattening_,
@@ -2373,6 +2377,10 @@ TEST_F(
             std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
             std::make_shared<EarthAtmosphericModel>(
                 EarthAtmosphericModel::Type::NRLMSISE00,
+                EarthAtmosphericModel::InputDataType::CSSISpaceWeatherFile,
+                Real::Undefined(),
+                Real::Undefined(),
+                Real::Undefined(),
                 Frame::ITRF(),
                 EarthGravitationalModel::WGS84.equatorialRadius_,
                 EarthGravitationalModel::WGS84.flattening_,
