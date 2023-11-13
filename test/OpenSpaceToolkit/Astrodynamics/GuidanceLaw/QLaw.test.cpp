@@ -25,6 +25,7 @@ using ostk::core::types::Size;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Tuple;
 
 using ostk::math::obj::Matrix3d;
 using ostk::math::obj::Vector3d;
@@ -88,6 +89,47 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
     }
 
    protected:
+    Tuple<QLaw, Vector6d, Real> getQLawFullTargeting() const
+    {
+        const Vector6d currentCOEVector = {
+            24505900,
+            0.725,
+            0.001047197551196598,
+            0.05235987755982989,
+            0.08726646259971647,
+            0.0,
+        };
+        const Real thrustAcceleration = 2.0 / 2000.0;
+
+        const COE targetCOE = {
+            Length::Meters(26500.0e3),
+            0.7,
+            Angle::Degrees(116.0),
+            Angle::Degrees(180.0),
+            Angle::Degrees(270.0),
+            Angle::Degrees(0.0),
+        };
+
+        const QLaw::Parameters parameters = {
+            {
+                {COE::Element::SemiMajorAxis, 1.0},
+                {COE::Element::Eccentricity, 1.0},
+                {COE::Element::Inclination, 1.0},
+                {COE::Element::Raan, 1.0},
+                {COE::Element::Aop, 1.0},
+            },
+        };
+
+        QLaw qlaw = {
+            targetCOE,
+            gravitationalParameter_,
+            parameters,
+            finiteDifferenceSolver_,
+        };
+
+        return std::make_tuple(qlaw, currentCOEVector, thrustAcceleration);
+    }
+
     const QLaw::Parameters parameters_ = {
         {
             {COE::Element::SemiMajorAxis, 1.0},
@@ -143,46 +185,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetTar
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeOrbitalElementsMaximalChange)
 {
     {
-        const COE currentCOE = {
-            Length::Meters(24505.9e3),
-            0.725,
-            Angle::Degrees(0.06),
-            Angle::Degrees(3.0),
-            Angle::Degrees(5.0),
-            Angle::Degrees(0.0),
-        };
-
-        const Vector5d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True).segment(0, 5);
-        const Real thrustAcceleration = 2.0 / 2000.0;
-
-        const COE targetCOE = {
-            Length::Meters(26500.0e3),
-            0.7,
-            Angle::Degrees(116.0),
-            Angle::Degrees(180.0),
-            Angle::Degrees(270.0),
-            Angle::Degrees(0.0),
-        };
-
-        const QLaw::Parameters parameters = {
-            {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
-                {COE::Element::Raan, 1.0},
-                {COE::Element::Aop, 1.0},
-            },
-        };
-
-        const QLaw qlaw = {
-            targetCOE,
-            gravitationalParameter_,
-            parameters,
-            finiteDifferenceSolver_,
-        };
+        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting();
+        const QLaw qlaw = std::get<0>(parameters);
+        const Vector6d currentCOEVector = std::get<1>(parameters);
+        const Real thrustAcceleration = std::get<2>(parameters);
 
         const Vector5d orbitalElements_xx =
-            qlaw.computeOrbitalElementsMaximalChange(currentCOEVector, thrustAcceleration);
+            qlaw.computeOrbitalElementsMaximalChange(currentCOEVector.segment(0, 5), thrustAcceleration);
 
         const Vector5d expectedOrbitalElements_xx = {
             30.4365392373584,
@@ -202,65 +211,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeQ)
 {
     {
-        const COE currentCOE = {
-            Length::Meters(24505.9e3),
-            0.725,
-            Angle::Degrees(0.06),
-            Angle::Degrees(3.0),
-            Angle::Degrees(5.0),
-            Angle::Degrees(0.0),
-        };
+        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting();
+        const QLaw qlaw = std::get<0>(parameters);
+        const Vector6d currentCOEVector = std::get<1>(parameters);
+        const Real thrustAcceleration = std::get<2>(parameters);
 
-        const Vector5d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True).segment(0, 5);
-        const Real thrustAcceleration = 2.0 / 2000.0;
+        const Real Q = qlaw.computeQ(currentCOEVector.segment(0, 5), thrustAcceleration);
 
-        const COE targetCOE = {
-            Length::Meters(26500.0e3),
-            0.7,
-            Angle::Degrees(116.0),
-            Angle::Degrees(180.0),
-            Angle::Degrees(270.0),
-            Angle::Degrees(0.0),
-        };
+        const Real expectedQ = 11918884993553.0;
 
-        const QLaw::Parameters parameters = {
-            {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
-                {COE::Element::Raan, 1.0},
-                {COE::Element::Aop, 1.0},
-            },
-        };
-
-        const QLaw qlaw = {
-            targetCOE,
-            gravitationalParameter_,
-            parameters,
-            finiteDifferenceSolver_,
-        };
-
-        const Real Q = qlaw.computeQ(currentCOEVector, thrustAcceleration);
-
-        const Real expectedQ = 11918884993552.9;
-
-        EXPECT_NEAR(Q, expectedQ, 1e3);
+        EXPECT_LT(std::abs(Q - expectedQ), 50.0);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Compute_dOE_dF)
 {
     {
-        const COE currentCOE = {
-            Length::Meters(24505.9e3),
-            0.725,
-            Angle::Degrees(0.06),
-            Angle::Degrees(3.0),
-            Angle::Degrees(5.0),
-            Angle::Degrees(0.0),
-        };
-
-        const Vector6d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True);
+        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting();
+        const QLaw qlaw = std::get<0>(parameters);
+        const Vector6d currentCOEVector = std::get<1>(parameters);
 
         const Matrix53d dOE_dF = QLaw::Compute_dOE_dF(currentCOEVector, gravitationalParameter_);
 
@@ -270,7 +239,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
         expected_dOE_dF(2, 2) = 9.86239602346264e-5;
         expected_dOE_dF(3, 2) = 0.00823959150786049;
         expected_dOE_dF(4, 1) = -0.000235553360486265;
-        expected_dOE_dF(4, 2) = -0.00823958698999931;
+        expected_dOE_dF(4, 2) = -0.00823958698971347;
 
         for (Size i = 0; i < 5; ++i)
         {
@@ -282,56 +251,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeThrustDirection)
+{
+    {
+        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting();
+        const QLaw qlaw = std::get<0>(parameters);
+        const Vector6d currentCOEVector = std::get<1>(parameters);
+        const Real thrustAcceleration = std::get<2>(parameters);
+
+        const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
+
+        const Vector3d expectedThrustDirection = {0.63856458, 0.00650164, -0.76954078};
+
+        for (Size i = 0; i < 3; ++i)
+        {
+            EXPECT_NEAR(thrustDirection(i), expectedThrustDirection(i), 1e-8);
+        }
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Compute_dQ_dOE)
 {
     {
-        const COE currentCOE = {
-            Length::Meters(24505.9e3),
-            0.725,
-            Angle::Degrees(0.06),
-            Angle::Degrees(3.0),
-            Angle::Degrees(5.0),
-            Angle::Degrees(0.0),
-        };
+        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting();
+        const QLaw qlaw = std::get<0>(parameters);
+        const Vector6d currentCOEVector = std::get<1>(parameters);
+        const Real thrustAcceleration = std::get<2>(parameters);
 
-        const Vector5d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True).segment(0, 5);
-        const Real thrustAcceleration = 2.0 / 2000.0;
+        const Vector5d dQ_dOE = qlaw.compute_dQ_dOE(currentCOEVector.segment(0, 5), thrustAcceleration);
 
-        const COE targetCOE = {
-            Length::Meters(26500.0e3),
-            0.7,
-            Angle::Degrees(116.0),
-            Angle::Degrees(180.0),
-            Angle::Degrees(270.0),
-            Angle::Degrees(0.0),
-        };
-
-        const QLaw::Parameters parameters = {
-            {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
-                {COE::Element::Raan, 1.0},
-                {COE::Element::Aop, 1.0},
-            },
-        };
-
-        const QLaw qlaw = {
-            targetCOE,
-            gravitationalParameter_,
-            parameters,
-            finiteDifferenceSolver_,
-        };
-
-        const Vector5d dQ_dOE = qlaw.compute_dQ_dOE(currentCOEVector, thrustAcceleration);
-
-        // analytically calculated using sympy
+        // finite differences manually by using sympy
         const Vector5d expected_dQ_dOE = {
-            -452366.239974152,
-            -44406901695950.7,
-            440503322527533,
-            -91754896.7814982,
-            1202754640828.99,
+            -4458973.44508479,
+            308846550517104.0,
+            478538133471352.0,
+            -99677385.5546418,
+            1306605428444.13,
         };
 
         for (Size i = 0; i < 5; ++i)
@@ -416,8 +371,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
             Frame::GCRF()
         );
 
-        const Vector3d accelerationExpected = {0.0, 0.0033333320640941645, 2.9088817174504986e-06};
+        const Vector3d accelerationExpected = {
+            -8.2474804263461029e-05,
+            0.00063405934466644542,
+            -0.00076887362687431417,
+        };
 
-        EXPECT_TRUE(acceleration.isNear(accelerationExpected, 1e-12));
+        for (Size i = 0; i < 3; ++i)
+        {
+            EXPECT_NEAR(acceleration(i), accelerationExpected(i), 1e-12);
+        }
     }
 }
