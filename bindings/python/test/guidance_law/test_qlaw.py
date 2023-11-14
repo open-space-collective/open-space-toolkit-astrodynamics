@@ -45,10 +45,6 @@ def gravitational_parameter() -> Derived:
 def parameters() -> QLawParameters:
     return QLawParameters(
         element_weights={COE.Element.SemiMajorAxis: 1.0, COE.Element.Eccentricity: 1.0},
-        m=3,
-        n=4,
-        r=2,
-        b=0.01,
     )
 
 
