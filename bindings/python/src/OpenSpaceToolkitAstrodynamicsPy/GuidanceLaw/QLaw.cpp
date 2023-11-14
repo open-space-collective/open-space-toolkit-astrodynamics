@@ -5,7 +5,6 @@
 using namespace pybind11;
 
 using ostk::core::types::String;
-using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::ctnr::Map;
@@ -86,13 +85,13 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
         .def(
             init<
-                const Map<COE::Element, Real>&,
+                const Map<COE::Element, double>&,
                 const Size&,
                 const Size&,
                 const Size&,
                 const Size&,
                 const Length&,
-                const Real&>(),
+                const double&>(),
             R"doc(
             Constructor.
 

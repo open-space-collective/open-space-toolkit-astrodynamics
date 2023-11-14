@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 
 #include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -62,13 +61,13 @@ class QLaw : public GuidanceLaw
     struct Parameters
     {
         Parameters(
-            const Map<COE::Element, Real>& anElementWeights,
+            const Map<COE::Element, double>& anElementWeights,
             const Size& aMValue = 3,
             const Size& aNValue = 4,
             const Size& aRValue = 2,
             const Size& aKValue = 100,
             const Length& minimumPeriapsisradius = Length::Kilometers(6578.0),
-            const Real& aBValue = 0.01
+            const double& aBValue = 0.01
         );
 
         Vector5d getControlWeights() const;
@@ -77,14 +76,14 @@ class QLaw : public GuidanceLaw
         const Size m;
         const Size n;
         const Size r;
-        const Real k;
-        const Real b;
-        const Real periapsisWeight = 1.0;
+        const double k;
+        const double b;
+        const double periapsisWeight = 1.0;
 
         friend QLaw;
 
        private:
-        const Real minimumPeriapsisRadius_;
+        const double minimumPeriapsisRadius_;
         Vector5d controlWeights_ = Vector5d::Zero();
     };
 
@@ -163,7 +162,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return                 The maximal change in orbital elements
 
-    Vector5d computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, const Real& aThrustAcceleration) const;
+    Vector5d computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
     /// @brief                  Compute the Proximity Quotient value
     ///
@@ -172,7 +171,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return                 The Q value
 
-    Real computeQ(const Vector5d& aCOEVector, const Real& aThrustAcceleration) const;
+    double computeQ(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
     /// @brief                  Compute the derivative of Q with respect to the orbital elements
     ///
@@ -181,7 +180,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return                 The derivative of Q with respect to the orbital elements
 
-    Vector5d compute_dQ_dOE(const Vector5d& aCOEVector, const Real& aThrustAcceleration) const;
+    Vector5d compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
     /// @brief                  Compute the thrust direction
     ///
@@ -190,7 +189,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return                 The thrust direction
 
-    Vector3d computeThrustDirection(const Vector6d& aCOEVector, const Real& aThrustAcceleration) const;
+    Vector3d computeThrustDirection(const Vector6d& aCOEVector, const double& aThrustAcceleration) const;
 
     /// @brief                  Compute the derivative of the orbital elements with respect to the thrust vectors
     ///
@@ -212,7 +211,7 @@ class QLaw : public GuidanceLaw
 
    private:
     Parameters parameters_;
-    const Real mu_;
+    const double mu_;
     const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;
     const FiniteDifferenceSolver finiteDifferenceSolver_;

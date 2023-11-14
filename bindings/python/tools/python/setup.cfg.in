@@ -24,6 +24,11 @@ classifiers =
 zip_safe = True
 include_package_data = True
 install_requires = file: requirements.txt
+packages = find:
+
+[options.packages.find]
+include = ostk.*, pytrajectory.*
+exclude = ostk.astrodynamics.test.*
 
 [options.package_data]
 ostk.astrodynamics=${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}, ${LIBRARY_TARGET}.*${EXTENSION}*.so
