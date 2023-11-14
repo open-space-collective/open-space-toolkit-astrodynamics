@@ -2609,8 +2609,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
 
     const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
-    std::cout << endCOE << std::endl;
-
     EXPECT_TRUE(std::abs(endCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters()) < 60000.0);
 }
 
