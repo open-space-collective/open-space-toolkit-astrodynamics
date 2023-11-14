@@ -2553,8 +2553,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
     const Derived gravitationalParameter =
         Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
 
-    const Shared<QLaw> qlaw =
-        std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default()));
+    const Shared<QLaw> qlaw = std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters));
 
     const Mass mass = Mass::Kilograms(50.0);
     const Composite satelliteGeometry(Cuboid(
@@ -2650,8 +2649,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
     const Derived gravitationalParameter =
         Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
 
-    const Shared<QLaw> qlaw =
-        std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default()));
+    const Shared<QLaw> qlaw = std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters));
 
     const Mass mass = Mass::Kilograms(50.0);
     const Composite satelliteGeometry(Cuboid(

@@ -19,7 +19,6 @@ using ostk::physics::units::Derived;
 using ostk::astro::GuidanceLaw;
 using ostk::astro::guidancelaw::QLaw;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::solvers::FiniteDifferenceSolver;
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 {
@@ -176,7 +175,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         .def("__repr__", &(shiftToString<QLaw>))
 
         .def(
-            init<const COE&, const Derived&, const QLaw::Parameters&, const FiniteDifferenceSolver&>(),
+            init<const COE&, const Derived&, const QLaw::Parameters&>(),
             R"doc(
                 Constructor.
 
@@ -184,13 +183,11 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     coe (COE): The target orbit described by Classical Orbital Elements.
                     gravitational_parameter (float): The gravitational parameter of the central body.
                     parameters (QLaw.Parameters): A set of parameters for the QLaw.
-                    finite_difference_solver (FiniteDifferenceSolver): The finite difference solver.
 
             )doc",
             arg("target_coe"),
             arg("gravitational_parameter"),
-            arg("parameters"),
-            arg("finite_difference_solver")
+            arg("parameters")
         )
 
         .def(

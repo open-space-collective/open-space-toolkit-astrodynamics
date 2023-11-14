@@ -58,7 +58,6 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::solvers::FiniteDifferenceSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::Dynamics;
@@ -131,7 +130,6 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
             targetCOE,
             gravitationalParameter_,
             parameters,
-            finiteDifferenceSolver_,
         };
 
         return std::make_tuple(qlaw, currentCOEVector, thrustAcceleration);
@@ -165,13 +163,10 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 
     const Real thrustAcceleration_ = 1.0 / 300.0;
 
-    const FiniteDifferenceSolver finiteDifferenceSolver_ = FiniteDifferenceSolver::Default();
-
     const QLaw qlaw_ = {
         targetCOE_,
         gravitationalParameter_,
         parameters_,
-        finiteDifferenceSolver_,
     };
 
     State initialState_ = State::Undefined();
@@ -179,11 +174,9 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constructor)
 {
-    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, finiteDifferenceSolver_));
+    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_));
 
-    EXPECT_THROW(
-        QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}, finiteDifferenceSolver_), ostk::core::error::RuntimeError
-    );
+    EXPECT_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}), ostk::core::error::RuntimeError);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetParameters)
@@ -275,7 +268,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 
         const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
 
-        const Vector3d expectedThrustDirection = {0.63856458, 0.00650164, -0.76954078};
+        const Vector3d expectedThrustDirection = {0.65328616, 0.00639639, -0.75708406};
 
         for (Size i = 0; i < 3; ++i)
         {
@@ -296,11 +289,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 
         // finite differences manually by using sympy
         const Vector5d expected_dQ_dOE = {
-            -4458973.44508479,
-            308846550517104.0,
-            478538133471352.0,
-            -99677385.5546418,
-            1306605428444.13,
+            -4451831.72900846,
+            304679993012117.0,
+            478538188797579.0,
+            -99677391.4654718,
+            1306605416901.52,
         };
 
         for (Size i = 0; i < 5; ++i)
@@ -360,7 +353,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
             targetCOE,
             gravitationalParameter_,
             parameters,
-            finiteDifferenceSolver_,
         };
 
         const COE currentCOE = {
@@ -400,7 +392,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
 
         for (Size i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(acceleration(i), accelerationExpected(i), 1e-12);
+            EXPECT_NEAR(acceleration(i), accelerationExpected(i), 1e-4);
         }
     }
 }

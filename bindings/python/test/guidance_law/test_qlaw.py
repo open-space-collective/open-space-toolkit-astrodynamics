@@ -15,7 +15,6 @@ from ostk.physics.units import Angle
 from ostk.physics.units import Derived
 
 
-from ostk.astrodynamics.solvers import FiniteDifferenceSolver
 from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
 from ostk.astrodynamics import GuidanceLaw
 from ostk.astrodynamics.guidance_law import QLaw
@@ -52,22 +51,15 @@ def parameters() -> QLawParameters:
 
 
 @pytest.fixture
-def finite_difference_solver() -> FiniteDifferenceSolver:
-    return FiniteDifferenceSolver.default()
-
-
-@pytest.fixture
 def q_law(
     target_COE: COE,
     gravitational_parameter: Derived,
     parameters: QLawParameters,
-    finite_difference_solver: FiniteDifferenceSolver,
 ) -> QLaw:
     return QLaw(
         target_coe=target_COE,
         gravitational_parameter=gravitational_parameter,
         parameters=parameters,
-        finite_difference_solver=finite_difference_solver,
     )
 
 

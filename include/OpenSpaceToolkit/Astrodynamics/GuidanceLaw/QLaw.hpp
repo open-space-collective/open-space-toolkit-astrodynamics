@@ -11,9 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -44,8 +42,6 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::GuidanceLaw;
-using ostk::astro::solvers::FiniteDifferenceSolver;
-using ostk::astro::trajectory::StateBuilder;
 
 /// @brief                     The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
@@ -76,9 +72,9 @@ class QLaw : public GuidanceLaw
         Vector5d getControlWeights() const;
         Length getMinimumPeriapsisRadius() const;
 
-        const Size m;
-        const Size n;
-        const Size r;
+        const double m;
+        const double n;
+        const double r;
         const double b;
         const double k;
         const double periapsisWeight;
@@ -103,14 +99,8 @@ class QLaw : public GuidanceLaw
     /// @param                  [in] aCOE A target orbit described by Classical Orbital Elements.
     /// @param                  [in] aGravitationalParameter The gravitational parameter of the central body.
     /// @param                  [in] aParameterSet A set of parameters for the QLaw.
-    /// @param                  [in] aFiniteDifferenceSolver The finite difference solver.
 
-    QLaw(
-        const COE& aCOE,
-        const Derived& aGravitationalParameter,
-        const Parameters& aParameterSet,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver
-    );
+    QLaw(const COE& aCOE, const Derived& aGravitationalParameter, const Parameters& aParameterSet);
 
     /// @brief                  Destructor
 
@@ -225,8 +215,6 @@ class QLaw : public GuidanceLaw
     const double mu_;
     const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;
-    const FiniteDifferenceSolver finiteDifferenceSolver_;
-    const StateBuilder stateBuilder_;
 
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
 };
