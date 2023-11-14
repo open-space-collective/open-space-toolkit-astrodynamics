@@ -95,11 +95,13 @@ VectorXd Thruster::computeContribution(
         anInstant, positionCoordinates, velocityCoordinates, maximumThrustAccelerationMagnitude, aFrameSPtr
     );
 
+    const Real effectiveThrustPercent = acceleration.norm() / maximumThrustAccelerationMagnitude;
+
     // Compute contribution
     VectorXd contribution(4);
     // TBI: Can be optimized to cache the SI value of mass flow rate as a Real
     contribution << acceleration[0], acceleration[1], acceleration[2],
-        -satelliteSystem_.accessPropulsionSystem().getMassFlowRate().getValue();
+        -effectiveThrustPercent * satelliteSystem_.accessPropulsionSystem().getMassFlowRate().getValue();
 
     return contribution;
 }
