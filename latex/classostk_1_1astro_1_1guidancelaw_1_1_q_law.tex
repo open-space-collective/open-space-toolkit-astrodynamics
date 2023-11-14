@@ -34,7 +34,22 @@ virtual \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_af79760ef166ff0b817beac9981550a41}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print guidance law. \end{DoxyCompactList}\item 
 virtual Vector3d \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a048346071989ea9da87fdf1991b82ed0}{calculate\+Thrust\+Acceleration\+At}} (const Instant \&an\+Instant, const Vector3d \&a\+Position\+Coordinates, const Vector3d \&a\+Velocity\+Coordinates, const Real \&a\+Thrust\+Acceleration, const Shared$<$ const Frame $>$ \&output\+Frame\+S\+Ptr) const override
-\begin{DoxyCompactList}\small\item\em Compute the acceleration at the provided coordinates based on logic specific to the guidance law. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Compute the acceleration at the provided coordinates based on logic specific to the guidance law. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a199792f8f11fb6cf0a1f0891b482f57b}{compute\+Orbital\+Elements\+Maximal\+Change}} (const \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \&a\+C\+O\+E\+Vector, const double \&a\+Thrust\+Acceleration) const
+\begin{DoxyCompactList}\small\item\em Compute the maximal change in orbital elements. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a72b0e87c8b9d330ab808eb0c8ed91dfc}{computeQ}} (const \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \&a\+C\+O\+E\+Vector, const double \&a\+Thrust\+Acceleration) const
+\begin{DoxyCompactList}\small\item\em Compute the Proximity Quotient value. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a336f7f1c6143ea8f8092f16535c72065}{compute\+\_\+d\+Q\+\_\+d\+OE}} (const \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \&a\+C\+O\+E\+Vector, const double \&a\+Thrust\+Acceleration) const
+\begin{DoxyCompactList}\small\item\em Compute the derivative of Q with respect to the orbital elements. \end{DoxyCompactList}\item 
+Vector3d \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_ac2fb93df1b6719ed684e59bf2d8d464c}{compute\+Thrust\+Direction}} (const Vector6d \&a\+C\+O\+E\+Vector, const double \&a\+Thrust\+Acceleration) const
+\begin{DoxyCompactList}\small\item\em Compute the thrust direction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a73c581733c8705e189293ab575031897}{Matrix53d}} \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a7639ade3092b62ea5b36b2c3acd5a870}{Compute\+\_\+d\+O\+E\+\_\+dF}} (const Vector6d \&a\+C\+O\+E\+Vector, const Derived \&a\+Gravitational\+Parameter)
+\begin{DoxyCompactList}\small\item\em Compute the derivative of the orbital elements with respect to the thrust vectors. \end{DoxyCompactList}\item 
+static Matrix3d \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a15ce7b785c09c451d48e8929e8f151d4}{Theta\+R\+H\+To\+G\+C\+RF}} (const Vector3d \&a\+Position\+Coordinates, const Vector3d \&a\+Velocity\+Coordinates)
+\begin{DoxyCompactList}\small\item\em Convert from the theta-\/\+RH frame to the G\+C\+RF frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -111,6 +126,106 @@ The acceleration at the provided coordinates
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_af8828ad685afba9cf252d3e0975e71cd}{ostk\+::astro\+::\+Guidance\+Law}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a7639ade3092b62ea5b36b2c3acd5a870}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a7639ade3092b62ea5b36b2c3acd5a870}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!Compute\_dOE\_dF@{Compute\_dOE\_dF}}
+\index{Compute\_dOE\_dF@{Compute\_dOE\_dF}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{Compute\_dOE\_dF()}{Compute\_dOE\_dF()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a73c581733c8705e189293ab575031897}{Matrix53d}} ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Compute\+\_\+d\+O\+E\+\_\+dF (\begin{DoxyParamCaption}\item[{const Vector6d \&}]{a\+C\+O\+E\+Vector,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Compute the derivative of the orbital elements with respect to the thrust vectors. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & A vector of classical orbital elements \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & The gravitational parameter\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The derivative of the orbital elements with respect to the thrust vectors 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a336f7f1c6143ea8f8092f16535c72065}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a336f7f1c6143ea8f8092f16535c72065}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!compute\_dQ\_dOE@{compute\_dQ\_dOE}}
+\index{compute\_dQ\_dOE@{compute\_dQ\_dOE}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{compute\_dQ\_dOE()}{compute\_dQ\_dOE()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::compute\+\_\+d\+Q\+\_\+d\+OE (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \&}]{a\+C\+O\+E\+Vector,  }\item[{const double \&}]{a\+Thrust\+Acceleration }\end{DoxyParamCaption}) const}
+
+
+
+Compute the derivative of Q with respect to the orbital elements. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & The current vector of classical orbital elements \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The derivative of Q with respect to the orbital elements 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a199792f8f11fb6cf0a1f0891b482f57b}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a199792f8f11fb6cf0a1f0891b482f57b}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!computeOrbitalElementsMaximalChange@{computeOrbitalElementsMaximalChange}}
+\index{computeOrbitalElementsMaximalChange@{computeOrbitalElementsMaximalChange}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{computeOrbitalElementsMaximalChange()}{computeOrbitalElementsMaximalChange()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::compute\+Orbital\+Elements\+Maximal\+Change (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \&}]{a\+C\+O\+E\+Vector,  }\item[{const double \&}]{a\+Thrust\+Acceleration }\end{DoxyParamCaption}) const}
+
+
+
+Compute the maximal change in orbital elements. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & A vector of classical orbital elements \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximal change in orbital elements 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a72b0e87c8b9d330ab808eb0c8ed91dfc}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a72b0e87c8b9d330ab808eb0c8ed91dfc}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!computeQ@{computeQ}}
+\index{computeQ@{computeQ}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{computeQ()}{computeQ()}}
+{\footnotesize\ttfamily double ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::computeQ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \&}]{a\+C\+O\+E\+Vector,  }\item[{const double \&}]{a\+Thrust\+Acceleration }\end{DoxyParamCaption}) const}
+
+
+
+Compute the Proximity Quotient value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & The vector of classical orbital elements \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Q value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_ac2fb93df1b6719ed684e59bf2d8d464c}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_ac2fb93df1b6719ed684e59bf2d8d464c}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!computeThrustDirection@{computeThrustDirection}}
+\index{computeThrustDirection@{computeThrustDirection}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{computeThrustDirection()}{computeThrustDirection()}}
+{\footnotesize\ttfamily Vector3d ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::compute\+Thrust\+Direction (\begin{DoxyParamCaption}\item[{const Vector6d \&}]{a\+C\+O\+E\+Vector,  }\item[{const double \&}]{a\+Thrust\+Acceleration }\end{DoxyParamCaption}) const}
+
+
+
+Compute the thrust direction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & The current vector of classical orbital elements \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The thrust direction 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a11b114a151863e416e4e318cc6129ff2}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a11b114a151863e416e4e318cc6129ff2}} 
 \index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!getParameters@{getParameters}}
 \index{getParameters@{getParameters}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
@@ -158,6 +273,26 @@ Print guidance law.
 
 Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_a231006fc7a751b9eee38856790fd664a}{ostk\+::astro\+::\+Guidance\+Law}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a15ce7b785c09c451d48e8929e8f151d4}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a15ce7b785c09c451d48e8929e8f151d4}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!ThetaRHToGCRF@{ThetaRHToGCRF}}
+\index{ThetaRHToGCRF@{ThetaRHToGCRF}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{ThetaRHToGCRF()}{ThetaRHToGCRF()}}
+{\footnotesize\ttfamily Matrix3d ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Theta\+R\+H\+To\+G\+C\+RF (\begin{DoxyParamCaption}\item[{const Vector3d \&}]{a\+Position\+Coordinates,  }\item[{const Vector3d \&}]{a\+Velocity\+Coordinates }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Convert from the theta-\/\+RH frame to the G\+C\+RF frame. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Position\+Coordinates} & The position coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Velocity\+Coordinates} & The velocity coordinates\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The coordinates in the G\+C\+RF frame 
+\end{DoxyReturn}
 
 
 \doxysubsection{Friends And Related Function Documentation}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['launchdate_1316',['launchDate',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header.html#a4790963173b1dfc89bfe3ee9b3ce93c6',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Header']]]
+  ['k_1332',['k',['../structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html#ae3a8b90bfc64f3ee62513e4426b8c141',1,'ostk::astro::guidancelaw::QLaw::Parameters']]]
 ];

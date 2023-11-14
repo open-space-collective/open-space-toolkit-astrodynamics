@@ -83,6 +83,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1guidancelaw_1_1_
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -129,6 +130,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a048346071989ea9da87fdf1991b82ed0"><td class="memItemLeft" align="right" valign="top">virtual Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a048346071989ea9da87fdf1991b82ed0">calculateThrustAccelerationAt</a> (const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, const Real &amp;aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const override</td></tr>
 <tr class="memdesc:a048346071989ea9da87fdf1991b82ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the acceleration at the provided coordinates based on logic specific to the guidance law.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a048346071989ea9da87fdf1991b82ed0">More...</a><br /></td></tr>
 <tr class="separator:a048346071989ea9da87fdf1991b82ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a199792f8f11fb6cf0a1f0891b482f57b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a199792f8f11fb6cf0a1f0891b482f57b">computeOrbitalElementsMaximalChange</a> (const <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> &amp;aCOEVector, const double &amp;aThrustAcceleration) const</td></tr>
+<tr class="memdesc:a199792f8f11fb6cf0a1f0891b482f57b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the maximal change in orbital elements.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a199792f8f11fb6cf0a1f0891b482f57b">More...</a><br /></td></tr>
+<tr class="separator:a199792f8f11fb6cf0a1f0891b482f57b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b0e87c8b9d330ab808eb0c8ed91dfc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a72b0e87c8b9d330ab808eb0c8ed91dfc">computeQ</a> (const <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> &amp;aCOEVector, const double &amp;aThrustAcceleration) const</td></tr>
+<tr class="memdesc:a72b0e87c8b9d330ab808eb0c8ed91dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Proximity Quotient value.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a72b0e87c8b9d330ab808eb0c8ed91dfc">More...</a><br /></td></tr>
+<tr class="separator:a72b0e87c8b9d330ab808eb0c8ed91dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a336f7f1c6143ea8f8092f16535c72065"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a336f7f1c6143ea8f8092f16535c72065">compute_dQ_dOE</a> (const <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> &amp;aCOEVector, const double &amp;aThrustAcceleration) const</td></tr>
+<tr class="memdesc:a336f7f1c6143ea8f8092f16535c72065"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the derivative of Q with respect to the orbital elements.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a336f7f1c6143ea8f8092f16535c72065">More...</a><br /></td></tr>
+<tr class="separator:a336f7f1c6143ea8f8092f16535c72065"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2fb93df1b6719ed684e59bf2d8d464c"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#ac2fb93df1b6719ed684e59bf2d8d464c">computeThrustDirection</a> (const Vector6d &amp;aCOEVector, const double &amp;aThrustAcceleration) const</td></tr>
+<tr class="memdesc:ac2fb93df1b6719ed684e59bf2d8d464c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the thrust direction.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#ac2fb93df1b6719ed684e59bf2d8d464c">More...</a><br /></td></tr>
+<tr class="separator:ac2fb93df1b6719ed684e59bf2d8d464c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classostk_1_1astro_1_1_guidance_law"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classostk_1_1astro_1_1_guidance_law')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classostk_1_1astro_1_1_guidance_law.html">ostk::astro::GuidanceLaw</a></td></tr>
 <tr class="memitem:a690e3ba56c09d422b192e0d541cceeaa inherit pub_methods_classostk_1_1astro_1_1_guidance_law"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_guidance_law.html#a690e3ba56c09d422b192e0d541cceeaa">GuidanceLaw</a> (const String &amp;aName)</td></tr>
 <tr class="memdesc:a690e3ba56c09d422b192e0d541cceeaa inherit pub_methods_classostk_1_1astro_1_1_guidance_law"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1_guidance_law.html#a690e3ba56c09d422b192e0d541cceeaa">More...</a><br /></td></tr>
@@ -139,6 +152,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac21e2c422bb4c427c66d6f392f5e2d4b inherit pub_methods_classostk_1_1astro_1_1_guidance_law"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_guidance_law.html#ac21e2c422bb4c427c66d6f392f5e2d4b">getName</a> () const</td></tr>
 <tr class="memdesc:ac21e2c422bb4c427c66d6f392f5e2d4b inherit pub_methods_classostk_1_1astro_1_1_guidance_law"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get name.  <a href="classostk_1_1astro_1_1_guidance_law.html#ac21e2c422bb4c427c66d6f392f5e2d4b">More...</a><br /></td></tr>
 <tr class="separator:ac21e2c422bb4c427c66d6f392f5e2d4b inherit pub_methods_classostk_1_1astro_1_1_guidance_law"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a7639ade3092b62ea5b36b2c3acd5a870"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a73c581733c8705e189293ab575031897">Matrix53d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a7639ade3092b62ea5b36b2c3acd5a870">Compute_dOE_dF</a> (const Vector6d &amp;aCOEVector, const Derived &amp;aGravitationalParameter)</td></tr>
+<tr class="memdesc:a7639ade3092b62ea5b36b2c3acd5a870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the derivative of the orbital elements with respect to the thrust vectors.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a7639ade3092b62ea5b36b2c3acd5a870">More...</a><br /></td></tr>
+<tr class="separator:a7639ade3092b62ea5b36b2c3acd5a870"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15ce7b785c09c451d48e8929e8f151d4"><td class="memItemLeft" align="right" valign="top">static Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a15ce7b785c09c451d48e8929e8f151d4">ThetaRHToGCRF</a> (const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates)</td></tr>
+<tr class="memdesc:a15ce7b785c09c451d48e8929e8f151d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert from the theta-RH frame to the GCRF frame.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a15ce7b785c09c451d48e8929e8f151d4">More...</a><br /></td></tr>
+<tr class="separator:a15ce7b785c09c451d48e8929e8f151d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -303,6 +325,204 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a7639ade3092b62ea5b36b2c3acd5a870"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7639ade3092b62ea5b36b2c3acd5a870">&#9670;&nbsp;</a></span>Compute_dOE_dF()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a73c581733c8705e189293ab575031897">Matrix53d</a> ostk::astro::guidancelaw::QLaw::Compute_dOE_dF </td>
+          <td>(</td>
+          <td class="paramtype">const Vector6d &amp;&#160;</td>
+          <td class="paramname"><em>aCOEVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Derived &amp;&#160;</td>
+          <td class="paramname"><em>aGravitationalParameter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the derivative of the orbital elements with respect to the thrust vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>A vector of classical orbital elements </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aGravitationalParameter</td><td>The gravitational parameter</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The derivative of the orbital elements with respect to the thrust vectors </dd></dl>
+
+</div>
+</div>
+<a id="a336f7f1c6143ea8f8092f16535c72065"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a336f7f1c6143ea8f8092f16535c72065">&#9670;&nbsp;</a></span>compute_dQ_dOE()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> ostk::astro::guidancelaw::QLaw::compute_dQ_dOE </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> &amp;&#160;</td>
+          <td class="paramname"><em>aCOEVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>aThrustAcceleration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the derivative of Q with respect to the orbital elements. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>The current vector of classical orbital elements </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The derivative of Q with respect to the orbital elements </dd></dl>
+
+</div>
+</div>
+<a id="a199792f8f11fb6cf0a1f0891b482f57b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a199792f8f11fb6cf0a1f0891b482f57b">&#9670;&nbsp;</a></span>computeOrbitalElementsMaximalChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> ostk::astro::guidancelaw::QLaw::computeOrbitalElementsMaximalChange </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> &amp;&#160;</td>
+          <td class="paramname"><em>aCOEVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>aThrustAcceleration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the maximal change in orbital elements. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>A vector of classical orbital elements </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The maximal change in orbital elements </dd></dl>
+
+</div>
+</div>
+<a id="a72b0e87c8b9d330ab808eb0c8ed91dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72b0e87c8b9d330ab808eb0c8ed91dfc">&#9670;&nbsp;</a></span>computeQ()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ostk::astro::guidancelaw::QLaw::computeQ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceostk_1_1astro_1_1guidancelaw.html#a962bac78289f90d5f0595d01df71287a">Vector5d</a> &amp;&#160;</td>
+          <td class="paramname"><em>aCOEVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>aThrustAcceleration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the Proximity Quotient value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>The vector of classical orbital elements </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The Q value </dd></dl>
+
+</div>
+</div>
+<a id="ac2fb93df1b6719ed684e59bf2d8d464c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2fb93df1b6719ed684e59bf2d8d464c">&#9670;&nbsp;</a></span>computeThrustDirection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Vector3d ostk::astro::guidancelaw::QLaw::computeThrustDirection </td>
+          <td>(</td>
+          <td class="paramtype">const Vector6d &amp;&#160;</td>
+          <td class="paramname"><em>aCOEVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>aThrustAcceleration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the thrust direction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>The current vector of classical orbital elements </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The thrust direction </dd></dl>
+
+</div>
+</div>
 <a id="a11b114a151863e416e4e318cc6129ff2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11b114a151863e416e4e318cc6129ff2">&#9670;&nbsp;</a></span>getParameters()</h2>
 
@@ -390,6 +610,52 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a15ce7b785c09c451d48e8929e8f151d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15ce7b785c09c451d48e8929e8f151d4">&#9670;&nbsp;</a></span>ThetaRHToGCRF()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Matrix3d ostk::astro::guidancelaw::QLaw::ThetaRHToGCRF </td>
+          <td>(</td>
+          <td class="paramtype">const Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>aPositionCoordinates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>aVelocityCoordinates</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert from the theta-RH frame to the GCRF frame. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aPositionCoordinates</td><td>The position coordinates </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aVelocityCoordinates</td><td>The velocity coordinates</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates in the GCRF frame </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a id="a8f94cc3d8532a14a66eda491ca8d0e72"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f94cc3d8532a14a66eda491ca8d0e72">&#9670;&nbsp;</a></span>operator&lt;&lt;</h2>
@@ -444,7 +710,7 @@ Additional Inherited Members</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1guidancelaw_1_1_q_law_html_a0411c9808fc8096d1b489a11044a8a62"><div class="ttname"><a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a0411c9808fc8096d1b489a11044a8a62">ostk::astro::guidancelaw::QLaw::QLaw</a></div><div class="ttdeci">QLaw(const COE &amp;aCOE, const Derived &amp;aGravitationalParameter, const Parameters &amp;aParameterSet, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> QLaw.cpp:89</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1guidancelaw_1_1_q_law_html_a0411c9808fc8096d1b489a11044a8a62"><div class="ttname"><a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a0411c9808fc8096d1b489a11044a8a62">ostk::astro::guidancelaw::QLaw::QLaw</a></div><div class="ttdeci">QLaw(const COE &amp;aCOE, const Derived &amp;aGravitationalParameter, const Parameters &amp;aParameterSet, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> QLaw.cpp:98</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

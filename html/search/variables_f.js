@@ -1,12 +1,14 @@
 var searchData=
 [
-  ['target_5f_1376',['target_',['../classostk_1_1astro_1_1_event_condition.html#a73427fa8ca6b8383e00958c90d41fd23',1,'ostk::astro::EventCondition']]],
-  ['tca_1377',['TCA',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a5ff54bfc2f15a679244cc84cda3b5adc',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['thrustacceleration_1378',['thrustAcceleration',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a375d41d5e93b600ab5eebc5eafee0331',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
-  ['thrustsiunit_1379',['thrustSIUnit',['../classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a39f76e83f8b8108117124af6623da03d',1,'ostk::astro::flight::system::PropulsionSystem']]],
-  ['timelastobend_1380',['timeLastObEnd',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#abfcfb812c643a21e44307f68cdf62225',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
-  ['timelastobstart_1381',['timeLastObStart',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#ad554f0dd23c5ec30e6de4a5f2d7a2ece',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
-  ['tracksavailable_1382',['tracksAvailable',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a4dc2ead201237e6599d4e6d3ef4b91ec',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
-  ['tracksused_1383',['tracksUsed',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#aee9cd2e0a4277eb259710128397d0c14',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
-  ['type_1384',['type',['../structostk_1_1astro_1_1_event_condition_1_1_target.html#a4884cdd3bbb32d0dbd0a7b382825b5dd',1,'ostk::astro::EventCondition::Target']]]
+  ['r_1367',['r',['../structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html#a713476be79316df995b3aa02077b0de2',1,'ostk::astro::guidancelaw::QLaw::Parameters']]],
+  ['raan_5f_1368',['raan_',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a9b63625b1f7fe150d5732d0f0e786859',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['readindexes_1369',['readIndexes',['../structostk_1_1astro_1_1_dynamics_1_1_context.html#a5d0d57b47b2c195b08f203e6e32a3a4f',1,'ostk::astro::Dynamics::Context']]],
+  ['readstatesize_1370',['readStateSize',['../structostk_1_1astro_1_1_dynamics_1_1_context.html#ada5a035e78b6c90e46c4323e86034642',1,'ostk::astro::Dynamics::Context']]],
+  ['recommendedodspan_1371',['recommendedODSpan',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a60bd4f519dad47a722abe9390348495f',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
+  ['refframe_1372',['refFrame',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html#a1f7760be8ce00cf588146c557a7511b4',1,'ostk::astro::conjunction::messages::ccsds::CDM::Metadata']]],
+  ['relativeposition_1373',['relativePosition',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a659e2e07a69047b7716bca49ff0d00f8',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
+  ['relativevelocity_1374',['relativeVelocity',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a2f1782200bd13c7a473769667a060870',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
+  ['residualsaccepted_1375',['residualsAccepted',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a762ebadedd5504222e2eac267a89bf10',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
+  ['root_1376',['root',['../structostk_1_1astro_1_1_root_solver_1_1_solution.html#a5c0d25e70aa239b2b9297b97d8d64c2f',1,'ostk::astro::RootSolver::Solution']]],
+  ['rootsolverhasconverged_1377',['rootSolverHasConverged',['../structostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution.html#a85a39c2b078d84eff718e663585b57de',1,'ostk::astro::trajectory::state::NumericalSolver::ConditionSolution']]]
 ];

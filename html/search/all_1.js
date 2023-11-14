@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b_53',['b',['../structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html#a91b44005545f6997ce2f5f6e156fa6ac',1,'ostk::astro::guidancelaw::QLaw::Parameters']]],
+  ['b_53',['b',['../structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html#a3844538c67133a4a844ecb0bf388337d',1,'ostk::astro::guidancelaw::QLaw::Parameters']]],
   ['backward_54',['Backward',['../classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html#a48c233ddd923ee50188c62b08a5f47bdab3263eb38f8903efc271cc7a760da510',1,'ostk::astro::solvers::FiniteDifferenceSolver']]],
   ['ballisticcoefficient_55',['ballisticCoefficient',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#a7e024d88ff6426d0d5d7cfc386f69379',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
   ['barycentricrational_56',['BarycentricRational',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77a98cf9ba70112c998166a82b6f289bb9f',1,'ostk::astro::trajectory::models::Tabulated']]],
