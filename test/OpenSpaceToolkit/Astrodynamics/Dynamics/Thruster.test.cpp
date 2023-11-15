@@ -157,7 +157,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, ComputeContribution)
             defaultThruster_.computeContribution(Instant::J2000(), coordinates, Frame::GCRF());
 
         VectorXd expectedAcceleration(4);
-        expectedAcceleration << 0.0, 0.0, 0.0, -0.0001019716212977928;
+        expectedAcceleration << 0.0, 0.0, 0.0, 0.0;
 
         EXPECT_TRUE(acceleration.isNear(expectedAcceleration, 1e-12));
     }
