@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1699930574879,
+  "lastUpdate": 1700303673816,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,60 @@ window.BENCHMARK_DATA = {
             "value": 4109015670.1000185,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4108319360.000003 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a77605d7902f166ea9492d0ab1c25301f8e52fa2",
+          "message": "feat: scale mass flow rate by thrust percentage (#273)\n\n* feat: scale mass flow rate by thrust percentage\r\n\r\n* feat: fix test",
+          "timestamp": "2023-11-18T11:06:13+01:00",
+          "tree_id": "e8d717017456874c378718c0ce99abcb6ca6c9c7",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a77605d7902f166ea9492d0ab1c25301f8e52fa2"
+        },
+        "date": 1700303672816,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 547128160.1000044,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 547112089.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 792770954.3000048,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 792755800 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2787819689.0000086,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2787620819.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2787486525.399993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2787406420.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2786871421.0999937,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2786497199.9999995 ns\nthreads: 1"
           }
         ]
       }
