@@ -60,7 +60,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 Returns:
                     Instant: The instant at which the access starts.
-                
+
             )doc"
         )
         .def(
@@ -94,7 +94,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 Returns:
                     float: The initial mass.
-            
+
             )doc"
         )
         .def(
@@ -116,7 +116,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 Returns:
                     Duration: The propagation duration.
-                
+
             )doc"
         )
 
@@ -128,7 +128,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 Returns:
                     float: The delta mass.
-                
+
             )doc"
         )
         .def(
@@ -142,7 +142,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 Returns:
                     float: The delta V.
-                
+
             )doc",
             arg("specific_impulse")
         )
@@ -203,7 +203,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                     Returns:
                         list[Segment]: The segments.
-                    
+
                 )doc"
             )
             .def(
@@ -236,13 +236,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                     Returns:
                         Duration: The maximum propagation duration.
-                    
+
                 )doc"
             )
 
             .def(
                 "add_segment",
-                overload_cast<const Segment&>(&Sequence::addSegment),
+                &Sequence::addSegment,
                 R"doc(
                     Add a segment.
 
@@ -253,8 +253,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 arg("segment")
             )
             .def(
-                "add_segment",
-                overload_cast<const Array<Segment>&>(&Sequence::addSegment),
+                "add_segments",
+                &Sequence::addSegments,
                 arg("segments"),
                 R"doc(
                     Add segments.
