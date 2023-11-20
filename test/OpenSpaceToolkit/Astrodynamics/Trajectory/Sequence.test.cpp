@@ -274,7 +274,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
     }
 
     {
-        EXPECT_NO_THROW(defaultSequence_.addSegment({coastSegment_, coastSegment_}));
+        EXPECT_NO_THROW(defaultSequence_.addSegments({coastSegment_, coastSegment_}));
     }
 }
 

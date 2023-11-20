@@ -211,9 +211,9 @@ void Sequence::addSegment(const Segment& aSegment)
     segments_.add(aSegment);
 }
 
-void Sequence::addSegment(const Array<Segment>& someSegments)
+void Sequence::addSegments(const Array<Segment>& aTrajectorySegmentArray)
 {
-    segments_.add(someSegments);
+    segments_.add(aTrajectorySegmentArray);
 }
 
 void Sequence::addCoastSegment(const Shared<EventCondition>& anEventConditionSPtr)

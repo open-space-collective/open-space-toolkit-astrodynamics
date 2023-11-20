@@ -362,7 +362,7 @@ class TestSequence:
 
         segments_count = len(sequence.get_segments())
 
-        sequence.add_segment([coast_duration_segment, coast_duration_segment])
+        sequence.add_segments([coast_duration_segment, coast_duration_segment])
 
         assert len(sequence.get_segments()) == segments_count + 2
 

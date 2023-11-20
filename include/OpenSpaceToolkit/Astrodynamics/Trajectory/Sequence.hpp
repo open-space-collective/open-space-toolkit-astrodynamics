@@ -132,7 +132,7 @@ class Sequence
     ///
     /// @param                  [in] aTrajectorySegmentArray An array of trajectory segments.
 
-    void addSegment(const Array<Segment>& aTrajectorySegmentArray);
+    void addSegments(const Array<Segment>& aTrajectorySegmentArray);
 
     /// @brief                  Add a coast segment.
     ///
