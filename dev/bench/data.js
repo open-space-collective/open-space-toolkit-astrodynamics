@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1700303673816,
+  "lastUpdate": 1700519642726,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 2786871421.0999937,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2786497199.9999995 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43561754+Derollez@users.noreply.github.com",
+            "name": "Remy Derollez",
+            "username": "Derollez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "aaed350023c011567408b62b644864bf069fa98f",
+          "message": "fix: addSegment method on Sequence (#275)\n\n* fix: remove overload on addSegment for Sequence and use addSegments for array input\r\n\r\n* test: adapt cpp and python tests",
+          "timestamp": "2023-11-20T12:05:34-10:00",
+          "tree_id": "4c3a3de640a3c1fef8a03afb6552cba4441bd986",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/aaed350023c011567408b62b644864bf069fa98f"
+        },
+        "date": 1700519641789,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 563761722.000001,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 563744159.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 792341868.5000002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 792321100.0000004 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2783766948.699997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783711930.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2785576161.500006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2785525870.000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2783580487.499995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783431920.000004 ns\nthreads: 1"
           }
         ]
       }
