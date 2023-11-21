@@ -187,8 +187,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("subset")
         )
         .def(
-            "extract_coordinates",
-            overload_cast<const Shared<const CoordinatesSubset>&>(&State::extractCoordinates, const_),
+            "extract_coordinate",
+            &State::extractCoordinate,
             R"doc(
                 Extract the coordinates associated to a subset of the state.
 
@@ -202,7 +202,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         )
         .def(
             "extract_coordinates",
-            overload_cast<const Array<Shared<const CoordinatesSubset>>&>(&State::extractCoordinates, const_),
+            &State::extractCoordinates,
             R"doc(
                 Extract the coordinates associated to a set of subsets of the state.
 

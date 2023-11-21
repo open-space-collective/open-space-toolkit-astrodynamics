@@ -63,8 +63,8 @@ VectorXd CoordinatesSubset::add(
     const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    return aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this) +
-           aCoordinatesBrokerSPtr->extractCoordinates(anotherFullCoordinatesVector, *this);
+    return aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) +
+           aCoordinatesBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CoordinatesSubset::subtract(
@@ -75,8 +75,8 @@ VectorXd CoordinatesSubset::subtract(
     const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    return aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this) -
-           aCoordinatesBrokerSPtr->extractCoordinates(anotherFullCoordinatesVector, *this);
+    return aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) -
+           aCoordinatesBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CoordinatesSubset::inFrame(
@@ -87,7 +87,7 @@ VectorXd CoordinatesSubset::inFrame(
     const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    VectorXd coordinates = aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this);
+    VectorXd coordinates = aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     return coordinates;
 }

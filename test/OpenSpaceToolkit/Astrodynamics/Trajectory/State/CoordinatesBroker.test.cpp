@@ -319,7 +319,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, ExtractCoordinates)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, ExtractCoordinate)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -330,24 +330,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         VectorXd fullCoordinatesVector(6);
         fullCoordinatesVector << 0.0, 1.0, 2.0, 3.0, 4.0, 5.0;
 
-        const VectorXd subset_1_coordinates = broker.extractCoordinates(fullCoordinatesVector, subset_1);
+        const VectorXd subset_1_coordinates = broker.extractCoordinate(fullCoordinatesVector, subset_1);
         EXPECT_EQ(1, subset_1_coordinates.size());
         EXPECT_EQ(0.0, subset_1_coordinates(0));
 
-        const VectorXd subset_2_coordinates = broker.extractCoordinates(fullCoordinatesVector, subset_2);
+        const VectorXd subset_2_coordinates = broker.extractCoordinate(fullCoordinatesVector, subset_2);
         EXPECT_EQ(2, subset_2_coordinates.size());
         EXPECT_EQ(1.0, subset_2_coordinates(0));
         EXPECT_EQ(2.0, subset_2_coordinates(1));
 
-        const VectorXd subset_3_coordinates = broker.extractCoordinates(fullCoordinatesVector, subset_3);
+        const VectorXd subset_3_coordinates = broker.extractCoordinate(fullCoordinatesVector, subset_3);
         EXPECT_EQ(3, subset_3_coordinates.size());
         EXPECT_EQ(3.0, subset_3_coordinates(0));
         EXPECT_EQ(4.0, subset_3_coordinates(1));
         EXPECT_EQ(5.0, subset_3_coordinates(2));
 
-        EXPECT_ANY_THROW(broker.extractCoordinates(fullCoordinatesVector, subset_4));
+        EXPECT_ANY_THROW(broker.extractCoordinate(fullCoordinatesVector, subset_4));
     }
+}
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, ExtractCoordinates)
+{
     {
         CoordinatesBroker broker = CoordinatesBroker();
         broker.addSubset(subset_1);

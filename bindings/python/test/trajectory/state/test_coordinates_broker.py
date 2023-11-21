@@ -57,21 +57,27 @@ class TestCoordinatesBroker:
     ):
         assert coordinates_broker.has_subset(coordinates_subsets[0])
 
-    def test_extract_coordinates(
+    def test_extract_coordinate(
         self,
         coordinates_broker: CoordinatesBroker,
         coordinates: list[float],
         coordinates_subsets: list[CoordinatesSubset],
     ):
         assert (
-            coordinates_broker.extract_coordinates(coordinates, coordinates_subsets[0])
+            coordinates_broker.extract_coordinate(coordinates, coordinates_subsets[0])
             == [1.0, 2.0]
         ).all()
         assert (
-            coordinates_broker.extract_coordinates(coordinates, coordinates_subsets[1])
+            coordinates_broker.extract_coordinate(coordinates, coordinates_subsets[1])
             == [3.0, 4.0, 5.0]
         ).all()
 
+    def test_extract_coordinates(
+        self,
+        coordinates_broker: CoordinatesBroker,
+        coordinates: list[float],
+        coordinates_subsets: list[CoordinatesSubset],
+    ):
         assert (
             coordinates_broker.extract_coordinates(coordinates, coordinates_subsets)
             == [1.0, 2.0, 3.0, 4.0, 5.0]

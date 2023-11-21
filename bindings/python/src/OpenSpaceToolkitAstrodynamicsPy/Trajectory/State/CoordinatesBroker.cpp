@@ -116,27 +116,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
 
             )doc"
         )
+
         .def(
-            "extract_coordinates",
-            overload_cast<const VectorXd&, const CoordinatesSubset&>(&CoordinatesBroker::extractCoordinates, const_),
-            arg("coordinates"),
-            arg("coordinates_subset"),
-            R"doc(
-                Extract the coordinates of a subset from a full coordinates vector.
-
-                Args:
-                    coordinates (numpy.ndarray): The full coordinates vector.
-                    coordinates_subset (CoordinatesSubset): The coordinates subset.
-
-                Returns:
-                    numpy.ndarray: The coordinates of the subset.
-
-            )doc"
-        )
-        .def(
-            "extract_coordinates",
+            "extract_coordinate",
             overload_cast<const VectorXd&, const Shared<const CoordinatesSubset>&>(
-                &CoordinatesBroker::extractCoordinates, const_
+                &CoordinatesBroker::extractCoordinate, const_
             ),
             arg("coordinates"),
             arg("coordinates_subset"),
@@ -154,9 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "extract_coordinates",
-            overload_cast<const VectorXd&, const Array<Shared<const CoordinatesSubset>>&>(
-                &CoordinatesBroker::extractCoordinates, const_
-            ),
+            &CoordinatesBroker::extractCoordinates,
             arg("coordinates"),
             arg("coordinates_subsets"),
             R"doc(

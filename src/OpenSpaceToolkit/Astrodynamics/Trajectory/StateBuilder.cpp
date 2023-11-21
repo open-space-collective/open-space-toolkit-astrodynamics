@@ -149,7 +149,7 @@ const State StateBuilder::reduce(const State& aState) const
             throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", subset->getName());
         }
 
-        const VectorXd subsetCoordinates = aState.extractCoordinates(subset);
+        const VectorXd subsetCoordinates = aState.extractCoordinate(subset);
         coordinates.segment(nextIndex, subsetCoordinates.size()) = subsetCoordinates;
         nextIndex += subsetCoordinates.size();
     }
@@ -197,13 +197,13 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
         {
             subsetDetected = true;
             nonDefaultSubsetDetections++;
-            subsetCoordinates = aState.extractCoordinates(subset);
+            subsetCoordinates = aState.extractCoordinate(subset);
         }
 
         if (!subsetDetected && defaultState.accessCoordinatesBroker()->hasSubset(subset))
         {
             subsetDetected = true;
-            subsetCoordinates = defaultState.extractCoordinates(subset);
+            subsetCoordinates = defaultState.extractCoordinate(subset);
         }
 
         if (!subsetDetected)

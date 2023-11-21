@@ -855,8 +855,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
         -05576.415230079790, 00000.000000000000;
 
     VectorXd actualCoordinates(6);
-    actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
-    actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
+    actualCoordinates.segment(0, 3) = finalState.extractCoordinate(CartesianPosition::Default());
+    actualCoordinates.segment(3, 3) = finalState.extractCoordinate(CartesianVelocity::Default());
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 
@@ -903,11 +903,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
         -05576.414764013522, -00000.000000010687, satelliteDryMass_.inKilograms(), surfaceArea, dragCoefficient;
 
     VectorXd actualCoordinates(9);
-    actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
-    actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
-    actualCoordinates.segment(6, 1) = finalState.extractCoordinates(CoordinatesSubset::Mass());
-    actualCoordinates.segment(7, 1) = finalState.extractCoordinates(CoordinatesSubset::SurfaceArea());
-    actualCoordinates.segment(8, 1) = finalState.extractCoordinates(CoordinatesSubset::DragCoefficient());
+    actualCoordinates.segment(0, 3) = finalState.extractCoordinate(CartesianPosition::Default());
+    actualCoordinates.segment(3, 3) = finalState.extractCoordinate(CartesianVelocity::Default());
+    actualCoordinates.segment(6, 1) = finalState.extractCoordinate(CoordinatesSubset::Mass());
+    actualCoordinates.segment(7, 1) = finalState.extractCoordinate(CoordinatesSubset::SurfaceArea());
+    actualCoordinates.segment(8, 1) = finalState.extractCoordinate(CoordinatesSubset::DragCoefficient());
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 
@@ -3199,7 +3199,7 @@ TEST_P(
         // GCRF Compare
         const Position positionGCRF = propagatedStateArray[i].inFrame(gcrfSPtr_).getPosition();
         const Velocity velocityGCRF = propagatedStateArray[i].inFrame(gcrfSPtr_).getVelocity();
-        const double mass = propagatedStateArray[i].extractCoordinates(CoordinatesSubset::Mass())[0];
+        const double mass = propagatedStateArray[i].extractCoordinate(CoordinatesSubset::Mass())[0];
 
         VectorXd OSTkStateCoordinatesGCRF(7);
         OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass;
@@ -3756,7 +3756,7 @@ TEST_P(
         // GCRF Compare
         const Position positionGCRF = propagatedStateArray[i].inFrame(gcrfSPtr_).getPosition();
         const Velocity velocityGCRF = propagatedStateArray[i].inFrame(gcrfSPtr_).getVelocity();
-        const double mass = propagatedStateArray[i].extractCoordinates(CoordinatesSubset::Mass())[0];
+        const double mass = propagatedStateArray[i].extractCoordinate(CoordinatesSubset::Mass())[0];
 
         VectorXd OSTkStateCoordinatesGCRF(9);
         OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass,

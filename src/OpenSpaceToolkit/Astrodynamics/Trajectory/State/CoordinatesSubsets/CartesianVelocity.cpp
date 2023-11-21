@@ -37,8 +37,8 @@ VectorXd CartesianVelocity::inFrame(
 ) const
 {
     const VectorXd positionCoordinates =
-        aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, this->cartesianPositionSPtr_);
-    const VectorXd velocityCoordinates = aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this);
+        aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, this->cartesianPositionSPtr_);
+    const VectorXd velocityCoordinates = aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     Vector3d toFrameCoordinates =
         Velocity::MetersPerSecond({velocityCoordinates(0), velocityCoordinates(1), velocityCoordinates(2)}, fromFrame)

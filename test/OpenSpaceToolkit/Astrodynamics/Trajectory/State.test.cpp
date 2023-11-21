@@ -50,8 +50,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 
         const State state(instant, coordinates, Frame::GCRF(), subsets);
 
-        EXPECT_EQ(state.extractCoordinates(CartesianPosition::Default()), coordinates.segment(0, 3));
-        EXPECT_EQ(state.extractCoordinates(CartesianVelocity::Default()), coordinates.segment(3, 3));
+        EXPECT_EQ(state.extractCoordinate(CartesianPosition::Default()), coordinates.segment(0, 3));
+        EXPECT_EQ(state.extractCoordinate(CartesianVelocity::Default()), coordinates.segment(3, 3));
     }
 
     {
@@ -1056,7 +1056,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinate)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
@@ -1064,7 +1064,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(CoordinatesBroker());
         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
 
-        EXPECT_ANY_THROW(aState.extractCoordinates(CartesianPosition::Default()));
+        EXPECT_ANY_THROW(aState.extractCoordinate(CartesianPosition::Default()));
     }
 
     {
@@ -1076,10 +1076,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
         );
         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
 
-        EXPECT_EQ(coordinates.segment(0, 3), aState.extractCoordinates(CartesianPosition::Default()));
-        EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinates(CartesianVelocity::Default()));
+        EXPECT_EQ(coordinates.segment(0, 3), aState.extractCoordinate(CartesianPosition::Default()));
+        EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinate(CartesianVelocity::Default()));
     }
+}
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
+{
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd coordinates(6);

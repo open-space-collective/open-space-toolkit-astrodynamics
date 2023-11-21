@@ -133,7 +133,7 @@ bool State::operator==(const State& aState) const
             return false;
         }
 
-        if (this->extractCoordinates(subset) != aState.extractCoordinates(subset))
+        if (this->extractCoordinate(subset) != aState.extractCoordinate(subset))
         {
             return false;
         }
@@ -317,7 +317,7 @@ Position State::getPosition() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Position::Meters(this->extractCoordinates(CartesianPosition::Default()), this->frameSPtr_);
+    return Position::Meters(this->extractCoordinate(CartesianPosition::Default()), this->frameSPtr_);
 }
 
 Velocity State::getVelocity() const
@@ -327,7 +327,7 @@ Velocity State::getVelocity() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Velocity::MetersPerSecond(this->extractCoordinates(CartesianVelocity::Default()), this->frameSPtr_);
+    return Velocity::MetersPerSecond(this->extractCoordinate(CartesianVelocity::Default()), this->frameSPtr_);
 }
 
 VectorXd State::getCoordinates() const
@@ -355,9 +355,9 @@ bool State::hasSubset(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
     return this->coordinatesBrokerSPtr_->hasSubset(aSubsetSPtr);
 }
 
-VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
+VectorXd State::extractCoordinate(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
 {
-    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubsetSPtr);
+    return this->coordinatesBrokerSPtr_->extractCoordinate(this->accessCoordinates(), aSubsetSPtr);
 }
 
 VectorXd State::extractCoordinates(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray) const
@@ -424,7 +424,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
         for (const auto& subset : subsets)
         {
             ostk::core::utils::Print::Line(anOutputStream)
-                << subset->getName() << this->extractCoordinates(subset).toString(4);
+                << subset->getName() << this->extractCoordinate(subset).toString(4);
         }
     }
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
