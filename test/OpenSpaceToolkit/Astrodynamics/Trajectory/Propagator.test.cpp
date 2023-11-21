@@ -2525,8 +2525,25 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     Propagator defaultPropagator_ = Propagator::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_Paper_Case_A)
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
+      public ::testing::WithParamInterface<Tuple<QLaw::GradientStrategy>>
 {
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    QLaw_GradientStrategy,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw,
+    testing::Values(
+        std::make_tuple(QLaw::GradientStrategy::Analytical), std::make_tuple(QLaw::GradientStrategy::FiniteDifference)
+    )
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, QLaw_Paper_Case_A)
+{
+    const auto testParameters = GetParam();
+    const QLaw::GradientStrategy gradientStrategy = std::get<0>(testParameters);
+
     const COE targetCOE = {
         Length::Meters(42000.0e3),
         0.01,
@@ -2553,7 +2570,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
     const Derived gravitationalParameter =
         Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
 
-    const Shared<QLaw> qlaw = std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters));
+    const Shared<QLaw> qlaw =
+        std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
     const Mass mass = Mass::Kilograms(50.0);
     const Composite satelliteGeometry(Cuboid(
@@ -2623,9 +2641,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
     EXPECT_TRUE(std::abs(endCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters()) < 60000.0);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_Paper_Case_E)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, QLaw_Paper_Case_E)
 {
     GTEST_SKIP() << "Skipping test as it does not produce comparable results between Release + Debug.";
+
+    const auto testParameters = GetParam();
+    const QLaw::GradientStrategy gradientStrategy = std::get<0>(testParameters);
 
     const COE targetCOE = {
         Length::Meters(26500.0e3),
@@ -2649,7 +2670,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
     const Derived gravitationalParameter =
         Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
 
-    const Shared<QLaw> qlaw = std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters));
+    const Shared<QLaw> qlaw =
+        std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
     const Mass mass = Mass::Kilograms(50.0);
     const Composite satelliteGeometry(Cuboid(
@@ -2725,8 +2747,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
     // EXPECT_TRUE(std::abs(endCOE.getAop().inDegrees() - targetCOE.getAop().inDegrees()) < 1.0);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_targeting)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, SSO_targeting)
 {
+    const auto testParameters = GetParam();
+    const QLaw::GradientStrategy gradientStrategy = std::get<0>(testParameters);
+
     const Orbit orbit = Orbit::SunSynchronous(
         Instant::J2000(), Length::Meters(585.0e3), Time(10, 0, 0), std::make_shared<Earth>(Earth::Default())
     );
@@ -2796,7 +2821,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters));
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {
@@ -2832,9 +2858,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {
@@ -2870,9 +2895,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {
@@ -2908,9 +2932,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {
@@ -2947,9 +2970,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {
@@ -2988,9 +3010,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {
@@ -3031,9 +3052,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {

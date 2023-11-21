@@ -22,9 +22,30 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 {
-    class_<QLaw::Parameters>(
+    class_<QLaw, GuidanceLaw, Shared<QLaw>> qLaw(
         aModule,
-        "QLawParameters",
+        "QLaw",
+        R"doc(
+            This class implements the Q-law guidance law.
+
+            Ref: https://dataverse.jpl.nasa.gov/api/access/datafile/10307?gbrecs=true
+            Ref: https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives
+            Ref for derivations: https://dataverse.jpl.nasa.gov/api/access/datafile/13727?gbrecs=true
+
+            The Q-law is a Lyapunov feedback control law developed by Petropoulos,
+            based on analytic expressions for maximum rates of change of the orbit elements and
+            the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov
+            function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target orbit).
+
+            Group:
+                guidance-law
+        )doc"
+    )
+
+        ;
+    class_<QLaw::Parameters>(
+        qLaw,
+        "Parameters",
         R"doc(
             Q-law parameters.
 
@@ -151,31 +172,26 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
         ;
 
-    class_<QLaw, GuidanceLaw, Shared<QLaw>>(
-        aModule,
-        "QLaw",
+    enum_<QLaw::GradientStrategy>(
+        qLaw,
+        "GradientStrategy",
         R"doc(
-            This class implements the Q-law guidance law.
-
-            Ref: https://dataverse.jpl.nasa.gov/api/access/datafile/10307?gbrecs=true
-            Ref: https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives
-            Ref for derivations: https://dataverse.jpl.nasa.gov/api/access/datafile/13727?gbrecs=true
-
-            The Q-law is a Lyapunov feedback control law developed by Petropoulos,
-            based on analytic expressions for maximum rates of change of the orbit elements and
-            the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov
-            function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target orbit).
-
-            Group:
-                guidance-law
+            Gradient strategy.
         )doc"
     )
+
+        .value("Analytical", QLaw::GradientStrategy::Analytical, "Analytical")
+        .value("FiniteDifference", QLaw::GradientStrategy::FiniteDifference, "Finite Differenced")
+
+        ;
+
+    qLaw
 
         .def("__str__", &(shiftToString<QLaw>))
         .def("__repr__", &(shiftToString<QLaw>))
 
         .def(
-            init<const COE&, const Derived&, const QLaw::Parameters&>(),
+            init<const COE&, const Derived&, const QLaw::Parameters&, const QLaw::GradientStrategy&>(),
             R"doc(
                 Constructor.
 
@@ -183,11 +199,13 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     coe (COE): The target orbit described by Classical Orbital Elements.
                     gravitational_parameter (float): The gravitational parameter of the central body.
                     parameters (QLaw.Parameters): A set of parameters for the QLaw.
+                    gradient_strategy (QLaw.GradientStrategy): The strategy used to compute the gradient dQ_dOE. Defaults to FiniteDifference.
 
             )doc",
             arg("target_coe"),
             arg("gravitational_parameter"),
-            arg("parameters")
+            arg("parameters"),
+            arg("gradient_strategy") = QLaw::GradientStrategy::FiniteDifference
         )
 
         .def(
@@ -208,6 +226,16 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
                 Returns:
                     COE: The target COE.
+            )doc"
+        )
+        .def(
+            "get_gradient_strategy",
+            &QLaw::getGradientStrategy,
+            R"doc(
+                Get the gradient strategy.
+
+                Returns:
+                    QLaw.GradientStrategy: The gradient strategy.
             )doc"
         )
 

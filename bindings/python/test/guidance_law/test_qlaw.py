@@ -18,7 +18,6 @@ from ostk.physics.units import Derived
 from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
 from ostk.astrodynamics import GuidanceLaw
 from ostk.astrodynamics.guidance_law import QLaw
-from ostk.astrodynamics.guidance_law import QLawParameters
 
 
 @pytest.fixture
@@ -41,8 +40,8 @@ def gravitational_parameter() -> Derived:
 
 
 @pytest.fixture
-def parameters() -> QLawParameters:
-    return QLawParameters(
+def parameters() -> QLaw.Parameters:
+    return QLaw.Parameters(
         element_weights={
             COE.Element.SemiMajorAxis: (1.0, 100.0),
             COE.Element.Eccentricity: (1.0, 1e-3),
@@ -51,15 +50,22 @@ def parameters() -> QLawParameters:
 
 
 @pytest.fixture
+def gradient_strategy() -> QLaw.GradientStrategy:
+    return QLaw.GradientStrategy.FiniteDifference
+
+
+@pytest.fixture
 def q_law(
     target_COE: COE,
     gravitational_parameter: Derived,
-    parameters: QLawParameters,
+    parameters: QLaw.Parameters,
+    gradient_strategy: QLaw.GradientStrategy,
 ) -> QLaw:
     return QLaw(
         target_coe=target_COE,
         gravitational_parameter=gravitational_parameter,
         parameters=parameters,
+        gradient_strategy=gradient_strategy,
     )
 
 
@@ -89,11 +95,11 @@ def instant() -> Instant:
 
 
 class TestQLawParameters:
-    def test_constructors(self, parameters: QLawParameters):
+    def test_constructors(self, parameters: QLaw.Parameters):
         assert parameters is not None
-        assert isinstance(parameters, QLawParameters)
+        assert isinstance(parameters, QLaw.Parameters)
 
-    def test_getters(self, parameters: QLawParameters):
+    def test_getters(self, parameters: QLaw.Parameters):
         assert parameters.get_control_weights() is not None
         assert parameters.m is not None
         assert parameters.n is not None
@@ -110,6 +116,7 @@ class TestQLaw:
     def test_getters(self, q_law: QLaw):
         assert q_law.get_parameters() is not None
         assert q_law.get_target_coe() is not None
+        assert q_law.get_gradient_strategy() is not None
 
     def test_calculate_thrust_acceleration_at(
         self,

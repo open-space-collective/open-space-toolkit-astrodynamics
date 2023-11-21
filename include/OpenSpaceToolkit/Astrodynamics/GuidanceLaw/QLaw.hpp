@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -45,6 +46,7 @@ using ostk::physics::units::Length;
 using ostk::astro::GuidanceLaw;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::solvers::FiniteDifferenceSolver;
+using ostk::astro::trajectory::StateBuilder;
 
 /// @brief                     The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
@@ -146,6 +148,12 @@ class QLaw : public GuidanceLaw
 
     COE getTargetCOE() const;
 
+    /// @brief                  Get Gradient Strategy
+    ///
+    /// @return                 Gradient Strategy
+
+    GradientStrategy getGradientStrategy() const;
+
     /// @brief                  Print guidance law
     ///
     /// @param                  [in] anOutputStream An output stream
@@ -233,6 +241,7 @@ class QLaw : public GuidanceLaw
     const Derived gravitationalParameter_;
 
     const GradientStrategy gradientStrategy_;
+
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
 

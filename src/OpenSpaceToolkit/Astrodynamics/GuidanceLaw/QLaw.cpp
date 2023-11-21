@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
@@ -20,8 +21,10 @@ using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
+using ostk::physics::coord::Frame;
 
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 QLaw::Parameters::Parameters(
     const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
@@ -91,9 +94,9 @@ QLaw::QLaw(
       gravitationalParameter_(aGravitationalParameter),
       gradientStrategy_(aGradientStrategy),
       finiteDifferenceSolver_(
-          FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-6, Duration::Seconds(1e-6))
+          FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
       ),
-      stateBuilder_()
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinatesSubset>("QLaw Element Vector", 5)})
 {
 }
 
@@ -120,6 +123,11 @@ QLaw::Parameters QLaw::getParameters() const
 COE QLaw::getTargetCOE() const
 {
     return COE::FromSIVector(targetCOEVector_, COE::AnomalyType::True);
+}
+
+QLaw::GradientStrategy QLaw::getGradientStrategy() const
+{
+    return gradientStrategy_;
 }
 
 Vector3d QLaw::calculateThrustAccelerationAt(
