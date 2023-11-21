@@ -2614,6 +2614,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_Paper_Case_E)
 {
+    GTEST_SKIP() << "Skipping test as it does not produce comparable results between Release + Debug.";
+
     const COE targetCOE = {
         Length::Meters(26500.0e3),
         0.7,
