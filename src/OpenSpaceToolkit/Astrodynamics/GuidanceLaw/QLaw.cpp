@@ -187,6 +187,11 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
 
     const Vector5d jacobian = compute_dQ_dOE(coeVectorSegment, aThrustAcceleration);
 
+    if (jacobian.array().isNaN().any())
+    {
+        throw ostk::core::error::RuntimeError("NaN encountered in jacobian calcluation.");
+    }
+
     const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
 
     return D;
@@ -532,7 +537,7 @@ Vector5d QLaw::computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double
     const double x115 = (1.0 / 3.0) * x53 * (3.0 * x114 + 2.0) / x54;
     const double x116 = x112 * (1.0 - 1.0 * x6) + (2.0 / 3.0);
     const double x117 = std::pow(x55, -(2.0 / 3.0)) * (x115 + x116);
-    const double x118 = std::pow(x56, -(2.0 / 3.0)) * (-x115 + x116);
+    const double x118 = std::pow(std::max(x56, 1e-15), -(2.0 / 3.0)) * (-x115 + x116);
     const double x119 = -1.5874010519681996 * x117 - 1.5874010519681996 * x118 + 2.0;
     const double x120 = rightAscensionOfAscendingNodeWeight * x100 * x36;
     const double x121 = argumentOfPeriapsisWeight * x102 * x111 * x46 * x69 * x75;
@@ -568,39 +573,25 @@ Vector5d QLaw::computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double
         -x122 * (mu_ * parameters_.b * x121 * x47 * ((((x48) > 0) - ((x48) < 0)) + x48 * x49 / x42) + x100 * x22 * x30 +
                  x120 * x40 * x41 * x48);
 
-    double dQ_dRightAscensionOfAscendingNode =
-        -x120 * x122 * x39 * x42 * std::sin(x37) / std::sqrt(1.0 - std::pow(x38, 2.0));
-
-    double dQ_dArgumentOfPeriapsis = -x122 * (argumentOfPeriapsisWeight * mu_ * semiMajorAxis * x46 * x65 * x68 * x7 *
-                                                  std::sin(x66) / std::sqrt(1.0 - std::pow(x67, 2.0)) +
-                                              eccentricity * inclinationWeight * mu_ * x23 * x26 * x29 * x5 * x8 *
-                                                  (x106 * x24 - (((x24) > 0) - ((x24) < 0))) -
-                                              eccentricity * x100 * x110 * x123 - x104 * x121 * x123 * x50 / x36);
-
-    if (!std::isfinite(dQ_dSemiMajorAxis))
+    double x124 = std::sin(x37) / std::sqrt(1.0 - std::pow(x38, 2.0));
+    if (!std::isfinite(x124))
     {
-        dQ_dSemiMajorAxis = 0.0;
+        x124 = 0.0;
     }
 
-    if (!std::isfinite(dQ_dEccentricity))
+    double dQ_dRightAscensionOfAscendingNode = -x120 * x122 * x39 * x42 * x124;
+
+    double x125 = std::sin(x66) / std::sqrt(1.0 - std::pow(x67, 2.0));
+    if (!std::isfinite(x125))
     {
-        dQ_dEccentricity = 0.0;
+        x125 = 0.0;
     }
 
-    if (!std::isfinite(dQ_dInclination))
-    {
-        dQ_dInclination = 0.0;
-    }
-
-    if (!std::isfinite(dQ_dArgumentOfPeriapsis))
-    {
-        dQ_dArgumentOfPeriapsis = 0.0;
-    }
-
-    if (!std::isfinite(dQ_dRightAscensionOfAscendingNode))
-    {
-        dQ_dRightAscensionOfAscendingNode = 0.0;
-    }
+    double dQ_dArgumentOfPeriapsis =
+        -x122 * (argumentOfPeriapsisWeight * mu_ * semiMajorAxis * x46 * x65 * x68 * x7 * x125 +
+                 eccentricity * inclinationWeight * mu_ * x23 * x26 * x29 * x5 * x8 *
+                     (x106 * x24 - (((x24) > 0) - ((x24) < 0))) -
+                 eccentricity * x100 * x110 * x123 - x104 * x121 * x123 * x50 / x36);
 
     return {
         dQ_dSemiMajorAxis,
