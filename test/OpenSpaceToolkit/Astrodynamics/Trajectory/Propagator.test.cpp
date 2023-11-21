@@ -2796,9 +2796,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
             },
         };
 
-        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
-            QLaw(targetCOE, gravitationalParameter, parameters, FiniteDifferenceSolver::Default())
-        );
+        const Shared<QLaw> qlaw = std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {

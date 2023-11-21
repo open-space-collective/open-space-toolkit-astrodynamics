@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -36,12 +37,14 @@ using ostk::math::object::Vector6d;
 using ostk::math::object::MatrixXd;
 
 using ostk::physics::time::Instant;
+using ostk::physics::time::Duration;
 using ostk::physics::coord::Frame;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::GuidanceLaw;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::solvers::FiniteDifferenceSolver;
 
 /// @brief                     The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
@@ -94,13 +97,26 @@ class QLaw : public GuidanceLaw
         };
     };
 
+    enum class GradientStrategy
+    {
+        Analytical,
+        FiniteDifference
+    };
+
     /// @brief                  Constructor
     ///
     /// @param                  [in] aCOE A target orbit described by Classical Orbital Elements.
     /// @param                  [in] aGravitationalParameter The gravitational parameter of the central body.
     /// @param                  [in] aParameterSet A set of parameters for the QLaw.
+    /// @param                  [in] aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
+    /// FiniteDifference
 
-    QLaw(const COE& aCOE, const Derived& aGravitationalParameter, const Parameters& aParameterSet);
+    QLaw(
+        const COE& aCOE,
+        const Derived& aGravitationalParameter,
+        const Parameters& aParameterSet,
+        const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference
+    );
 
     /// @brief                  Destructor
 
@@ -216,7 +232,14 @@ class QLaw : public GuidanceLaw
     const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;
 
+    const GradientStrategy gradientStrategy_;
+    const FiniteDifferenceSolver finiteDifferenceSolver_;
+    const StateBuilder stateBuilder_;
+
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
+
+    Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
+    Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 };
 
 }  // namespace guidancelaw
