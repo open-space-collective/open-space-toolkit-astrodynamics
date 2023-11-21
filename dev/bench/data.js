@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1700532352274,
+  "lastUpdate": 1700588259332,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 2790570289.8000073,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2790442749.9999986 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8e56e922b49f03d66557d0790a74fe2362875a8a",
+          "message": "feat: add tests for QLaw targeting from SSO (#279)",
+          "timestamp": "2023-11-21T09:07:03-08:00",
+          "tree_id": "39dc29690268b030e125b7e5ec444724468a4d6e",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/8e56e922b49f03d66557d0790a74fe2362875a8a"
+        },
+        "date": 1700588258222,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 560293311.1000026,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 560261779.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 795764414.3999971,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 795713949.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2789083025.300002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2788946870 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2780771439.2000093,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2780657560.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2782298456.4999843,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2781888160.000001 ns\nthreads: 1"
           }
         ]
       }
