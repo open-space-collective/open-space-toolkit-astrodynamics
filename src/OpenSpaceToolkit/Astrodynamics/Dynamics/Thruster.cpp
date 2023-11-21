@@ -33,7 +33,11 @@ Thruster::Thruster(
 )
     : Dynamics(aName),
       satelliteSystem_(aSatelliteSystem),
-      guidanceLaw_(aGuidanceLaw)
+      guidanceLaw_(aGuidanceLaw),
+      massFlowRateCache_(
+          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate().getValue()
+                                       : Real::Undefined()
+      )
 {
 }
 
@@ -77,7 +81,7 @@ bool Thruster::isDefined() const
 }
 
 VectorXd Thruster::computeContribution(
-    const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
     const Vector3d positionCoordinates = {x[0], x[1], x[2]};
@@ -95,13 +99,11 @@ VectorXd Thruster::computeContribution(
         anInstant, positionCoordinates, velocityCoordinates, maximumThrustAccelerationMagnitude, aFrameSPtr
     );
 
-    const Real effectiveThrustPercent = acceleration.norm() / maximumThrustAccelerationMagnitude;
+    const Real effectiveThrustFraction = acceleration.norm() / maximumThrustAccelerationMagnitude;
 
     // Compute contribution
     VectorXd contribution(4);
-    // TBI: Can be optimized to cache the SI value of mass flow rate as a Real
-    contribution << acceleration[0], acceleration[1], acceleration[2],
-        -effectiveThrustPercent * satelliteSystem_.accessPropulsionSystem().getMassFlowRate().getValue();
+    contribution << acceleration[0], acceleration[1], acceleration[2], -effectiveThrustFraction * massFlowRateCache_;
 
     return contribution;
 }
