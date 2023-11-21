@@ -14,6 +14,8 @@ namespace astro
 namespace guidancelaw
 {
 
+using ostk::core::types::Index;
+
 using ostk::math::object::Vector6d;
 using ostk::math::object::VectorXd;
 
@@ -24,64 +26,47 @@ using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
 QLaw::Parameters::Parameters(
-    const Map<COE::Element, double>& anElementWeights,
+    const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
     const Size& aMValue,
     const Size& aNValue,
     const Size& aRValue,
+    const double& aBValue,
     const Size& aKValue,
-    const Length& minimumPeriapsisradius,
-    const double& aBValue
+    const double& aPeriapsisWeight,
+    const Length& minimumPeriapsisradius
 )
     : m(aMValue),
       n(aNValue),
       r(aRValue),
-      k(aKValue),
       b(aBValue),
-      minimumPeriapsisRadius_(minimumPeriapsisradius.inMeters())
+      k(aKValue),
+      periapsisWeight(aPeriapsisWeight),
+      minimumPeriapsisRadius_(minimumPeriapsisradius.inMeters()),
+      convergenceThresholds_(Vector5d::Zero()),
+      controlWeights_(Vector5d::Zero())
 {
-    if (anElementWeights.count(COE::Element::TrueAnomaly))
-    {
-        throw ostk::core::error::RuntimeError("Cannot target True Anomaly.");
-    }
-
-    if (anElementWeights.count(COE::Element::MeanAnomaly))
-    {
-        throw ostk::core::error::RuntimeError("Cannot target Mean Anomaly.");
-    }
-
-    if (anElementWeights.count(COE::Element::EccentricAnomaly))
-    {
-        throw ostk::core::error::RuntimeError("Cannot target Eccentric Anomaly.");
-    }
-
-    if (anElementWeights.empty())
+    if (anElementWeightsMap.empty())
     {
         throw ostk::core::error::RuntimeError("ElementWeights is empty. Must target at least one element.");
     }
 
-    if (anElementWeights.count(COE::Element::SemiMajorAxis))
+    for (const auto& it : anElementWeightsMap)
     {
-        controlWeights_(0) = anElementWeights.at(COE::Element::SemiMajorAxis);
+        if (!validElements_.contains(it.first))
+        {
+            throw ostk::core::error::RuntimeError("Cannot target [" + COE::StringFromElement(it.first) + "].");
+        }
     }
 
-    if (anElementWeights.count(COE::Element::Eccentricity))
+    Index i = 0;
+    for (const COE::Element& element : validElements_)
     {
-        controlWeights_(1) = anElementWeights.at(COE::Element::Eccentricity);
-    }
-
-    if (anElementWeights.count(COE::Element::Inclination))
-    {
-        controlWeights_(2) = anElementWeights.at(COE::Element::Inclination);
-    }
-
-    if (anElementWeights.count(COE::Element::Raan))
-    {
-        controlWeights_(3) = anElementWeights.at(COE::Element::Raan);
-    }
-
-    if (anElementWeights.count(COE::Element::Aop))
-    {
-        controlWeights_(4) = anElementWeights.at(COE::Element::Aop);
+        if (anElementWeightsMap.count(element))
+        {
+            controlWeights_(i) = std::get<0>(anElementWeightsMap.at(element));
+            convergenceThresholds_(i) = std::get<1>(anElementWeightsMap.at(element));
+        }
+        ++i;
     }
 }
 
@@ -222,6 +207,14 @@ double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAccelerat
         (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
         (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
     };
+
+    for (Index i = 0; i < 5; ++i)
+    {
+        if (std::abs(deltaCOE[i]) < parameters_.convergenceThresholds_[i])
+        {
+            deltaCOE[i] = 0.0;
+        }
+    }
 
     // S_oe
     const Vector5d scalingCOE = {

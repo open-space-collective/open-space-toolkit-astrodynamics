@@ -25,6 +25,8 @@ namespace guidancelaw
 using ostk::core::types::Real;
 using ostk::core::types::Size;
 using ostk::core::types::Shared;
+using ostk::core::ctnr::Tuple;
+using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
 
 using ostk::math::object::Vector3d;
@@ -61,13 +63,14 @@ class QLaw : public GuidanceLaw
     struct Parameters
     {
         Parameters(
-            const Map<COE::Element, double>& anElementWeights,
+            const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
             const Size& aMValue = 3,
             const Size& aNValue = 4,
             const Size& aRValue = 2,
+            const double& aBValue = 0.01,
             const Size& aKValue = 100,
-            const Length& minimumPeriapsisradius = Length::Kilometers(6578.0),
-            const double& aBValue = 0.01
+            const double& aPeriapsisWeight = 0.0,
+            const Length& minimumPeriapsisradius = Length::Kilometers(6578.0)
         );
 
         Vector5d getControlWeights() const;
@@ -76,15 +79,23 @@ class QLaw : public GuidanceLaw
         const Size m;
         const Size n;
         const Size r;
-        const double k;
         const double b;
-        const double periapsisWeight = 1.0;
+        const double k;
+        const double periapsisWeight;
 
         friend QLaw;
 
        private:
         const double minimumPeriapsisRadius_;
-        Vector5d controlWeights_ = Vector5d::Zero();
+        Vector5d convergenceThresholds_;
+        Vector5d controlWeights_;
+        const Array<COE::Element> validElements_ = {
+            COE::Element::SemiMajorAxis,
+            COE::Element::Eccentricity,
+            COE::Element::Inclination,
+            COE::Element::Raan,
+            COE::Element::Aop,
+        };
     };
 
     /// @brief                  Constructor
