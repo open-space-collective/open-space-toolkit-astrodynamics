@@ -97,7 +97,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             "get_states_at",
             &Trajectory::getStatesAt,
             R"doc(
-                Get the states of the trajectory at a given set of instants.
+                Get the states of the trajectory at a given set of instants. This method is preferred over calling `get_state_at` multiple times since there is a performance gain.
 
                 Args:
                     instants (list[Instant]): The instants.

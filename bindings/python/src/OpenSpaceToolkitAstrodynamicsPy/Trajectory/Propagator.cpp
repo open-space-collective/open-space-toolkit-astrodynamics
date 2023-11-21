@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     int: The number of coordinates.
-                
+
             )doc"
         )
         .def(
@@ -93,7 +93,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     list[Dynamics]: The dynamics.
-                
+
             )doc"
         )
         .def(
@@ -105,7 +105,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Args:
                     dynamics (list[Dynamics]) The dynamics.
-                
+
             )doc"
         )
         .def(
@@ -117,7 +117,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Args:
                     dynamics (Dynamics) The dynamics.
-                
+
             )doc"
         )
         .def(
@@ -125,7 +125,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             &Propagator::clearDynamics,
             R"doc(
                 Clear the dynamics.
-            
+
             )doc"
         )
 
@@ -143,7 +143,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     State: The state at the given instant.
-                
+
             )doc"
         )
         .def(
@@ -162,7 +162,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     State: The state up to the given event condition.
-                
+
             )doc"
         )
 
@@ -172,7 +172,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             arg("state"),
             arg("instant_array"),
             R"doc(
-                Calculate the states at given instants.
+                Calculate the states at given instants. This method is preferred over calling `calculate_state_at` multiple times since there is a performance gain.
 
                 Args:
                     state (State) The state.
@@ -180,7 +180,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     list[State]: The states at the given instants.
-                
+
             )doc"
         )
 
