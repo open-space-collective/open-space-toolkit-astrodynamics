@@ -34,7 +34,10 @@ Thruster::Thruster(
     : Dynamics(aName),
       satelliteSystem_(aSatelliteSystem),
       guidanceLaw_(aGuidanceLaw),
-      massFlowRateCache_(aSatelliteSystem.accessPropulsionSystem().getMassFlowRate().getValue())
+      massFlowRateCache_(
+          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate().getValue()
+                                       : Real::Undefined()
+      )
 {
 }
 
@@ -78,7 +81,7 @@ bool Thruster::isDefined() const
 }
 
 VectorXd Thruster::computeContribution(
-    const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
     const Vector3d positionCoordinates = {x[0], x[1], x[2]};
