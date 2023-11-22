@@ -289,13 +289,14 @@ start-jupyter-notebook: build-release-image-jupyter ## Start Jupyter Notebook en
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
+debug-jupyter-notebook: build-development-image build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
 
 	@ echo "Building Python$(jupyter_python_version) packages..."
 	@ mkdir -p $(CURDIR)/build
 	@ mkdir -p $(CURDIR)/packages/python
 
 	docker run \
+		-it \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app/build \
