@@ -2,7 +2,6 @@
 
 project_name := astrodynamics
 project_version := $(shell git describe --tags --always)
-project_major_version := $(shell git describe --tags --always | cut -c 1)
 
 docker_registry_path := openspacecollective
 docker_image_repository := $(docker_registry_path)/open-space-toolkit-$(project_name)
@@ -16,8 +15,6 @@ docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 jupyter_notebook_port := 9005
 jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-3.11.3
 jupyter_python_version := 3.11
-
-project_name_camel_case := $(shell echo $(project_name) | sed -r 's/(^|-)([a-z])/\U\2/g')
 
 pull: ## Pull all images
 
