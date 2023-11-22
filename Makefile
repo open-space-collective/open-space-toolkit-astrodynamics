@@ -223,7 +223,7 @@ build-packages-python-standalone: ## Build Python packages (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON .. \
-		&& $(MAKE) -j 4 \
+		&& $(MAKE) -j $(shell nproc) \
 		&& mkdir -p /app/packages/python \
 		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
 
@@ -237,7 +237,7 @@ start-development-no-link: build-development-image ## Start development environm
 		-it \
 		--rm \
 		--privileged \
-		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR):/app" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash
@@ -289,7 +289,20 @@ start-jupyter-notebook: build-release-image-jupyter ## Start Jupyter Notebook en
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code, must have run make start-development and ostk-build and ostk-install-python to use this
+debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
+
+	@ echo "Building Python$(jupyter_python_version) packages..."
+	@ mkdir -p $(CURDIR)/build
+	@ mkdir -p $(CURDIR)/packages/python
+
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--workdir=/app/build \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DPYTHON_SEARCH_VERSIONS="$(jupyter_python_version)" .. \
+		&& $(MAKE) -j $(shell nproc) \
+		&& cp /app/build/bindings/python/dist/*.whl /app/packages/python"
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -298,15 +311,14 @@ debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook us
 		--rm \
 		--user=root \
 		--publish="$(jupyter_notebook_port):8888" \
-		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
-		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
-		--volume="$(CURDIR)/build/bindings/python/OpenSpaceToolkit${project_name_camel_case}Py-python-package-$(jupyter_python_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)" \
+		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs:delegated" \
+		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials:delegated" \
+		--volume="$(CURDIR)/packages/python:/home/jovyan/.packages:delegated" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/ --force-reinstall ; start-notebook.sh --ServerApp.token=''"
+		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /home/jovyan/.packages/*.whl --force-reinstall ; start-notebook.sh --ServerApp.token=''"
 
-	bash -c "sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)/bindings/python/docs"
-	bash -c "sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)/tutorials/python/notebooks"
+	bash -c "sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)"
 
 .PHONY: debug-jupyter-notebook
 
@@ -457,7 +469,7 @@ test-unit-cpp-standalone: ## Run C++ unit tests (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=ON .. \
-		&& $(MAKE) -j 4 \
+		&& $(MAKE) -j $(shell nproc) \
 		&& $(MAKE) test"
 
 .PHONY: test-unit-cpp-standalone
@@ -480,7 +492,7 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--entrypoint="" \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF .. \
-		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/dist/*311*.whl \
+		&& $(MAKE) -j $(shell nproc) && python3.11 -m pip install --root-user-action=ignore bindings/python/dist/*311*.whl \
 		&& python3.11 -m pip install plotly pandas \
 		&& python3.11 -m pip install git+https://github.com/lucas-bremond/cesiumpy.git#egg=cesiumpy \
 		&& cd /usr/local/lib/python3.11/site-packages/ostk/$(project_name)/ \
@@ -513,7 +525,7 @@ test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=ON -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_CODE_COVERAGE=ON .. \
-		&& $(MAKE) -j 4 \
+		&& $(MAKE) -j $(shell nproc) \
 		&& $(MAKE) coverage \
 		&& (rm -rf /app/coverage || true) \
 		&& mkdir /app/coverage \
@@ -546,7 +558,7 @@ benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
-		&& $(MAKE) -j 4 \
+		&& $(MAKE) -j $(shell nproc) \
 		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=./../bin/benchmark_result.json"
 
 .PHONY: benchmark-cpp-standalone
@@ -556,12 +568,11 @@ clean: ## Clean
 	@ echo "Cleaning up..."
 
 	rm -rf "$(CURDIR)/build"
-	rm -rf "$(CURDIR)/bin/"*.test*
+	rm -rf "$(CURDIR)/bin"
 	rm -rf "$(CURDIR)/docs/html"
 	rm -rf "$(CURDIR)/docs/latex"
-	rm -rf "$(CURDIR)/lib/"*.so*
+	rm -rf "$(CURDIR)/lib"
 	rm -rf "$(CURDIR)/coverage"
-	rm -rf "$(CURDIR)/benchmark"
 	rm -rf "$(CURDIR)/packages"
 	rm -rf "$(CURDIR)/.open-space-toolkit"
 
