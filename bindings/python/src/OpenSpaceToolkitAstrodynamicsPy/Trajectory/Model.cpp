@@ -68,7 +68,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
             &BaseModel::calculateStatesAt,
             arg("instants"),
             R"doc(
-                Calculate the states at given instants.
+                Calculate the states at given instants. It can be more performant than looping `calculate_state_at` for multiple instants.
 
                 @param instants The instants.
 

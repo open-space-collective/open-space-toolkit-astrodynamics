@@ -67,7 +67,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
             "calculate_states_at",
             &Model::calculateStatesAt,
             R"doc(
-                Calculate the states of the model at specific instants.
+                Calculate the states of the model at specific instants. It can be more performant than looping `calculate_state_at` for multiple instants.
 
                 Args:
                     instants (list[Instant]): The instants at which to calculate the states.
