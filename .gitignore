@@ -41,6 +41,9 @@ coverage/
 
 docs/html/
 docs/latex/
+docs/xml/
+docs/_build
+docs/_rst/api/
 
 ## Misc.
 

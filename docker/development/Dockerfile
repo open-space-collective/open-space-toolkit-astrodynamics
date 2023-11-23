@@ -172,6 +172,10 @@ ARG VERSION
 ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
 
+# Environment
+
+ENV LC_ALL="en_US.UTF-8"
+
 # Execution
 
 CMD [ "/bin/bash" ]
