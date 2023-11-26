@@ -32,7 +32,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::types::Unique;
 
-using ostk::math::geometry::d3::trf::rot::Quaternion;
+using ostk::math::geometry::d3::transformations::rotations::Quaternion;
 using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Axes;

@@ -135,7 +135,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
 {
-    using ostk::math::geometry::d3::trf::rot::Quaternion;
+    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -169,7 +169,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 {
     using ostk::core::ctnr::Array;
 
-    using ostk::math::geometry::d3::trf::rot::Quaternion;
+    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -259,7 +259,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
     using ostk::core::types::Shared;
     using ostk::core::types::String;
 
-    using ostk::math::geometry::d3::trf::rot::Quaternion;
+    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::Environment;
@@ -399,7 +399,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
     using ostk::core::types::Shared;
     using ostk::core::types::String;
 
-    using ostk::math::geometry::d3::trf::rot::Quaternion;
+    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::Environment;
@@ -755,8 +755,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
 {
     using ostk::core::ctnr::Array;
 
-    using ostk::math::geometry::d3::trf::rot::Quaternion;
-    using ostk::math::geometry::d3::trf::rot::RotationVector;
+    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformations::rotations::RotationVector;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;

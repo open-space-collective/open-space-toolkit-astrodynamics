@@ -35,8 +35,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
     using ostk::core::types::Real;
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::trf::rot::Quaternion;
-    using ostk::math::geometry::d3::trf::rot::RotationVector;
+    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformations::rotations::RotationVector;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::Environment;

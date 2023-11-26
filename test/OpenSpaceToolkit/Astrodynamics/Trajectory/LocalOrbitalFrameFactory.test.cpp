@@ -27,7 +27,7 @@ using ostk::core::types::String;
 
 using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
-using ostk::math::geometry::d3::trf::rot::Quaternion;
+using ostk::math::geometry::d3::transformations::rotations::Quaternion;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;

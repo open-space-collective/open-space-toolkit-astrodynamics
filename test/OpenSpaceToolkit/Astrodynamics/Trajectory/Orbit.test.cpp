@@ -36,7 +36,7 @@ using ostk::core::types::Shared;
 
 using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
-using ostk::math::geometry::d3::trf::rot::Quaternion;
+using ostk::math::geometry::d3::transformations::rotations::Quaternion;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
