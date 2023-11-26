@@ -15,8 +15,8 @@ namespace astro
 namespace flight
 {
 
-using ostk::math::geom::d3::objects::Composite;
-using ostk::math::obj::Vector3d;
+using ostk::math::geometry::d3::objects::Composite;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::units::Mass;
 

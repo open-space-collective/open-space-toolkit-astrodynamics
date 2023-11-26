@@ -26,12 +26,12 @@
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;
-using ostk::core::fs::File;
-using ostk::core::fs::Path;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
@@ -59,10 +59,10 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 //     using ostk::core::types::Real ;
 //     using ostk::core::ctnr::Array ;
 //     using ostk::core::ctnr::Table ;
-//     using ostk::core::fs::Path ;
-//     using ostk::core::fs::File ;
+//     using ostk::core::filesystem::Path ;
+//     using ostk::core::filesystem::File ;
 
-//     using ostk::math::obj::Vector3d ;
+//     using ostk::math::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -75,7 +75,7 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 //     using ostk::physics::coord::Frame ;
 //     using ostk::physics::coord::Position ;
 //     using ostk::physics::coord::Velocity ;
-//     using ostk::physics::env::obj::celest::Earth ;
+//     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::Orbit ;
 //     using ostk::astro::trajectory::State ;

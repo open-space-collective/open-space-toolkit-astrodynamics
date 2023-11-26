@@ -41,7 +41,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::Unique;
 
 using ostk::physics::coord::Frame;
-using ostk::physics::env::obj::Celestial;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Time;
 using ostk::physics::units::Angle;

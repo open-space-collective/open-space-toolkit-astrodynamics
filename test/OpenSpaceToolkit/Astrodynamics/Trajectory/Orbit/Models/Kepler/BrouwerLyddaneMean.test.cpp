@@ -21,8 +21,8 @@ using ostk::core::types::Real;
 using ostk::core::types::Index;
 using ostk::core::ctnr::Tuple;
 
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::Vector6d;
+using ostk::math::object::Vector3d;
+using ostk::math::object::Vector6d;
 
 using ostk::physics::units::Angle;
 using ostk::physics::coord::Frame;

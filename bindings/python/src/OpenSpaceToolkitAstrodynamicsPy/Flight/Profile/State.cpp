@@ -8,8 +8,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(pybind11::modul
 
     using ostk::core::types::Shared;
 
-    using ostk::math::geom::d3::trf::rot::Quaternion;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::trf::rot::Quaternion;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
     using ostk::physics::coord::Position;

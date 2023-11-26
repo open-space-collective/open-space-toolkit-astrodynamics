@@ -33,7 +33,7 @@ using ostk::core::ctnr::Pair;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::Interval;
+using ostk::math::object::Interval;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Position;
@@ -42,7 +42,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Length;
-using ostk::physics::env::obj::Celestial;
+using ostk::physics::environment::object::Celestial;
 
 using ostk::astro::Access;
 using ostk::astro::Trajectory;

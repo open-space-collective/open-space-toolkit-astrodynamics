@@ -17,8 +17,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::coord::Frame;
 
-using ostk::math::obj::VectorXd;
-using ostk::math::obj::MatrixXd;
+using ostk::math::object::VectorXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::astro::solvers::FiniteDifferenceSolver;
 using ostk::astro::trajectory::State;

@@ -9,7 +9,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::ctnr::Map;
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;

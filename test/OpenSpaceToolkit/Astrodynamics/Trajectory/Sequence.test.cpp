@@ -30,19 +30,19 @@ using ostk::core::types::Size;
 using ostk::core::types::Index;
 using ostk::core::types::Real;
 
-using ostk::math::geom::d3::objects::Composite;
-using ostk::math::geom::d3::objects::Cuboid;
-using ostk::math::geom::d3::objects::Point;
-using ostk::math::obj::Matrix3d;
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::VectorXd;
+using ostk::math::geometry::d3::objects::Composite;
+using ostk::math::geometry::d3::objects::Cuboid;
+using ostk::math::geometry::d3::objects::Point;
+using ostk::math::object::Matrix3d;
+using ostk::math::object::Vector3d;
+using ostk::math::object::VectorXd;
 
-using ostk::physics::env::obj::Celestial;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Scale;
-using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;

@@ -7,7 +7,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
-using ostk::core::fs::File;
+using ostk::core::filesystem::File;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Size;
@@ -250,8 +250,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Pars
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Load)
 {
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
+    using ostk::core::filesystem::File;
+    using ostk::core::filesystem::Path;
 
     {
         const OPM opm = OPM::Load(File::Path(

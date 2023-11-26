@@ -25,7 +25,7 @@ namespace models
 namespace sgp4
 {
 
-using ostk::core::fs::File;
+using ostk::core::filesystem::File;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::String;

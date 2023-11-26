@@ -19,7 +19,7 @@ namespace messages
 namespace spacex
 {
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 Vector3d vector3dFromObject(const ctnr::Object& anObject)
 {

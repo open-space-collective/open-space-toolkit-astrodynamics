@@ -22,7 +22,7 @@ namespace guidancelaw
 
 using ostk::core::types::Real;
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::time::Instant;
 

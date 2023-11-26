@@ -36,7 +36,7 @@ using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
-using ostk::math::obj::Vector6d;
+using ostk::math::object::Vector6d;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;

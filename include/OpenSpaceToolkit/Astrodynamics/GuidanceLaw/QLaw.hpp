@@ -27,13 +27,13 @@ using ostk::core::types::Size;
 using ostk::core::types::Shared;
 using ostk::core::ctnr::Map;
 
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::Matrix3d;
+using ostk::math::object::Vector3d;
+using ostk::math::object::Matrix3d;
 using Vector5d = Eigen::Matrix<double, 5, 1>;
 using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
-using ostk::math::obj::Vector6d;
-using ostk::math::obj::MatrixXd;
+using ostk::math::object::Vector6d;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;

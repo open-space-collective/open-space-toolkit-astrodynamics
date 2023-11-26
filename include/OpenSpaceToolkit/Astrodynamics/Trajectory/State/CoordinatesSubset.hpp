@@ -25,7 +25,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
-using ostk::math::obj::VectorXd;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;

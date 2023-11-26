@@ -285,8 +285,8 @@ COE::CartesianState COE::getCartesianState(
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geom::d3::trf::rot::RotationMatrix;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::trf::rot::RotationMatrix;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
     using ostk::physics::units::Time;
@@ -425,7 +425,7 @@ COE COE::Undefined()
 
 COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter)
 {
-    using ostk::math::obj::Vector3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
     using ostk::physics::units::Time;

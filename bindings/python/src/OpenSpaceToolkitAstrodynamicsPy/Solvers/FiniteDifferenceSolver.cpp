@@ -9,8 +9,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
     using ostk::core::ctnr::Array;
     using ostk::core::ctnr::Size;
 
-    using ostk::math::obj::VectorXd;
-    using ostk::math::obj::MatrixXd;
+    using ostk::math::object::VectorXd;
+    using ostk::math::object::MatrixXd;
 
     using ostk::physics::time::Instant;
     using ostk::physics::time::Duration;

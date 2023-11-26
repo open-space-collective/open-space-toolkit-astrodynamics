@@ -10,7 +10,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
     using ostk::core::types::Real;
 
-    using ostk::physics::env::obj::Celestial;
+    using ostk::physics::environment::object::Celestial;
     using ostk::physics::time::Instant;
     using ostk::physics::units::Derived;
     using ostk::physics::units::Length;

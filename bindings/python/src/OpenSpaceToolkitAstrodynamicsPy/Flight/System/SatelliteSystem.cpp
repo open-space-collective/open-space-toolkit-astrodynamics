@@ -8,8 +8,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
 
     using ostk::core::types::Real;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::obj::Matrix3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::object::Matrix3d;
 
     using ostk::physics::units::Mass;
 

@@ -20,7 +20,7 @@ namespace dynamics
 using ostk::core::types::Integer;
 using ostk::core::types::String;
 
-using ostk::physics::env::obj::Celestial;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 
 using ostk::astro::Dynamics;

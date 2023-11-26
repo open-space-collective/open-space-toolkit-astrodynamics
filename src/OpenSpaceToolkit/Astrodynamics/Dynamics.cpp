@@ -19,7 +19,7 @@ using ostk::core::types::Index;
 using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
-using ostk::physics::env::obj::Celestial;
+using ostk::physics::environment::object::Celestial;
 
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::ThirdBodyGravity;

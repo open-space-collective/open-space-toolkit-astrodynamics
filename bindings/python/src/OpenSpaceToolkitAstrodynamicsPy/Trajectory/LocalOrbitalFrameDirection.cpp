@@ -20,7 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
         )doc"
     )
         .def(
-            init<const ostk::math::obj::Vector3d&, const Shared<const LocalOrbitalFrameFactory>&>(),
+            init<const ostk::math::object::Vector3d&, const Shared<const LocalOrbitalFrameFactory>&>(),
             arg("vector"),
             arg("local_orbital_frame_factory"),
             R"doc(

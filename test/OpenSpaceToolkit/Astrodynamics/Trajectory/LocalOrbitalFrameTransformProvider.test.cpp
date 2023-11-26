@@ -13,7 +13,7 @@
 
 using ostk::core::types::Shared;
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;

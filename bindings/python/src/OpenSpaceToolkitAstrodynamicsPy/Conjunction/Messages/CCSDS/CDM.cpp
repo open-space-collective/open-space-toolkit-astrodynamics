@@ -11,7 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::obj::MatrixXd;
+    using ostk::math::object::MatrixXd;
 
     using ostk::physics::coord::Frame;
     using ostk::physics::coord::Position;

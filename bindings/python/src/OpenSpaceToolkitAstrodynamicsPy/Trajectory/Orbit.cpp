@@ -19,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::core::types::Integer;
     using ostk::core::types::Shared;
 
-    using ostk::physics::env::obj::Celestial;
+    using ostk::physics::environment::object::Celestial;
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;

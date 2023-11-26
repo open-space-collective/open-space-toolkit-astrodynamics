@@ -5,11 +5,11 @@
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
-using ostk::core::fs::File;
+using ostk::core::filesystem::File;
 using ostk::core::types::Real;
 using ostk::core::types::String;
 
-using ostk::math::obj::MatrixXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -606,8 +606,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Parse)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Load)
 {
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
+    using ostk::core::filesystem::File;
+    using ostk::core::filesystem::Path;
 
     {
         const CDM cdm = CDM::Load(

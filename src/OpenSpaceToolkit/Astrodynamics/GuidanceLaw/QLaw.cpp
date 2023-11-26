@@ -14,8 +14,8 @@ namespace astro
 namespace guidancelaw
 {
 
-using ostk::math::obj::Vector6d;
-using ostk::math::obj::VectorXd;
+using ostk::math::object::Vector6d;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;

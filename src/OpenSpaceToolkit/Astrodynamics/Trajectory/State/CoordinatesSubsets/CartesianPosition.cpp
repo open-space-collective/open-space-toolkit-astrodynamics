@@ -15,7 +15,7 @@ namespace state
 namespace coordinatessubsets
 {
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Position;
 

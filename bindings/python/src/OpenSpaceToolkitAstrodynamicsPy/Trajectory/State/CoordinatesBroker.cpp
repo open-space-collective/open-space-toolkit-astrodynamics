@@ -8,7 +8,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
 
     using ostk::core::types::Shared;
 
-    using ostk::math::obj::VectorXd;
+    using ostk::math::object::VectorXd;
 
     using ostk::astro::trajectory::state::CoordinatesBroker;
     using ostk::astro::trajectory::state::CoordinatesSubset;

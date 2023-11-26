@@ -19,10 +19,10 @@ using ostk::core::types::String;
 using ostk::core::ctnr::Table;
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Tuple;
-using ostk::core::fs::Path;
-using ostk::core::fs::File;
+using ostk::core::filesystem::Path;
+using ostk::core::filesystem::File;
 
-using ostk::math::obj::VectorXd;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;

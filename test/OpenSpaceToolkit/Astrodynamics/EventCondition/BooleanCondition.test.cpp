@@ -23,7 +23,7 @@ using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
-using ostk::math::obj::VectorXd;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;

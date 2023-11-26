@@ -20,8 +20,8 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::math::geom::d3::trf::rot::RotationMatrix;
-using ostk::math::geom::d3::trf::rot::Quaternion;
+using ostk::math::geometry::d3::trf::rot::RotationMatrix;
+using ostk::math::geometry::d3::trf::rot::Quaternion;
 
 using ostk::physics::coord::Vector3d;
 using ostk::physics::coord::frame::Transform;

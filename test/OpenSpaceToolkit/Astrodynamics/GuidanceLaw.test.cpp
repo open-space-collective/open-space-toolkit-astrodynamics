@@ -17,7 +17,7 @@ using ostk::core::types::Real;
 using ostk::core::types::String;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
