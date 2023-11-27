@@ -10,7 +10,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Constructor)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -38,7 +38,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, EqualToOperator)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -101,7 +101,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, NotEqualToOperator)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -164,7 +164,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, StreamOperator)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -206,7 +206,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, IsDefined)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -253,7 +253,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Accessors)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -295,7 +295,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Getters)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;
@@ -339,8 +339,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, InFrame)
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
-    using ostk::math::geometry::d3::transformations::rotations::RotationVector;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::RotationVector;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::Frame;

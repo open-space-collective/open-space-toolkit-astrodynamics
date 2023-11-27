@@ -285,7 +285,7 @@ COE::CartesianState COE::getCartesianState(
 {
     using ostk::core::types::Shared;
 
-    using ostk::math::geometry::d3::transformations::rotations::RotationMatrix;
+    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;

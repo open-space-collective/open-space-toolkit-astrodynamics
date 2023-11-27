@@ -14,7 +14,7 @@ try:
 except ImportError:
     ...
 
-from ostk.mathematics.geometry.d3.transformations.rotations import Quaternion
+from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
 from ostk.physics.units import Length
 from ostk.physics.units import Angle

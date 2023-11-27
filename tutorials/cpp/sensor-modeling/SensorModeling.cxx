@@ -35,8 +35,8 @@ int main()
     using LineString3d = ostk::math::geometry::d3::objects::LineString;
     using Polygon3d = ostk::math::geometry::d3::objects::Polygon;
     using ostk::math::geometry::d3::objects::Pyramid;
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
-    using ostk::math::geometry::d3::transformations::rotations::RotationMatrix;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
 
     using ostk::physics::units::Length;
     using ostk::physics::units::Angle;

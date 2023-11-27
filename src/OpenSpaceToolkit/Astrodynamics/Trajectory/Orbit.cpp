@@ -371,9 +371,9 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
 Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) const
 {
-    using ostk::math::geometry::d3::transformations::rotations::Quaternion;
-    using ostk::math::geometry::d3::transformations::rotations::RotationMatrix;
-    using ostk::math::geometry::d3::transformations::rotations::RotationVector;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::math::geometry::d3::transformation::rotation::RotationVector;
     using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::spherical::LLA;

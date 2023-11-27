@@ -22,7 +22,7 @@ namespace profile
 
 using ostk::core::types::Shared;
 
-using ostk::math::geometry::d3::transformations::rotations::Quaternion;
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Frame;
