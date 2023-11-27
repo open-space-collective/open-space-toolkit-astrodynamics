@@ -19,8 +19,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
     using ostk::astro::Dynamics;
     using ostk::astro::flight::system::SatelliteSystem;
 
-    class_<Sequence::Solution>(
+    class_<Sequence> sequence(
         aModule,
+        "Sequence",
+        R"doc(
+                A mission `Sequence`. Consists of a list of `Segment` objects and various configuration parameters.
+
+                Group:
+                    trajectory
+            )doc"
+    );
+
+    class_<Sequence::Solution>(
+        sequence,
         "SequenceSolution",
         R"doc(
             The Solution object that is returned when a `Sequence` is solved.
@@ -150,16 +161,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         ;
 
     {
-        class_<Sequence>(
-            aModule,
-            "Sequence",
-            R"doc(
-                A mission `Sequence`. Consists of a list of `Segment` objects and various configuration parameters.
-
-                Group:
-                    trajectory
-            )doc"
-        )
+        sequence
 
             .def(
                 init<
