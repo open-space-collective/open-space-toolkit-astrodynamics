@@ -217,7 +217,7 @@ class State
     /// @param                  [in] aSubsetSPtr The subset to extract the coordinates for
     /// @return                 The coordinates for the subset
 
-    VectorXd extractCoordinates(const Shared<const CoordinatesSubset>& aSubsetSPtr) const;
+    VectorXd extractCoordinate(const Shared<const CoordinatesSubset>& aSubsetSPtr) const;
 
     /// @brief Extract the coordinates for multiple subsets.
     ///

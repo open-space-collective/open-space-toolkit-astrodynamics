@@ -117,7 +117,7 @@ class CoordinatesBroker
     ///
     /// @return                 The coordinates of the subset
 
-    VectorXd extractCoordinates(const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset)
+    VectorXd extractCoordinate(const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset)
         const;
 
     /// @brief                  Extract the coordinates of a given subset from the full coordinates vector
@@ -127,7 +127,7 @@ class CoordinatesBroker
     ///
     /// @return                 The coordinates of the subset
 
-    VectorXd extractCoordinates(
+    VectorXd extractCoordinate(
         const VectorXd& aFullCoordinatesVector, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
     ) const;
 

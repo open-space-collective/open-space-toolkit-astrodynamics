@@ -61,7 +61,7 @@ Mass Segment::Solution::getInitialMass() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Mass::Kilograms(states.accessFirst().extractCoordinates(CoordinatesSubset::Mass())[0]);
+    return Mass::Kilograms(states.accessFirst().extractCoordinate(CoordinatesSubset::Mass())[0]);
 }
 
 Mass Segment::Solution::getFinalMass() const
@@ -71,7 +71,7 @@ Mass Segment::Solution::getFinalMass() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Mass::Kilograms(states.accessLast().extractCoordinates(CoordinatesSubset::Mass())[0]);
+    return Mass::Kilograms(states.accessLast().extractCoordinate(CoordinatesSubset::Mass())[0]);
 }
 
 Duration Segment::Solution::getPropagationDuration() const

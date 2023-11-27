@@ -34,7 +34,7 @@ VectorXd CartesianPosition::inFrame(
     const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    VectorXd positionCoordinates = aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this);
+    VectorXd positionCoordinates = aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     Vector3d toFrameCoordinates =
         Position::Meters({positionCoordinates(0), positionCoordinates(1), positionCoordinates(2)}, fromFrame)
