@@ -190,7 +190,7 @@ html_theme_options = {
     "icon": {
         "repo": "fontawesome/brands/github",
     },
-    # "site_url": "https://galois.readthedocs.io/",
+    "site_url": "https://open-space-collective.github.io/open-space-toolkit-astrodynamics/html/index.html",
     "repo_url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
     "repo_name": "open-space-toolkit-astrodynamics",
     "social": [
