@@ -149,7 +149,7 @@ class Sequence
     /// @brief                  Solve the sequence given an initial state, for a number of reptitions.
     ///
     /// @param                  [in] aState Initial state for the sequence.
-    /// @param                  [in] aRepetitionCount Number of repetitions. Defaults to 1.
+    /// @param                  [in] aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
     /// @return                 A Solution that contains solutions for each segment.
 
     Solution solve(const State& aState, const Size& aRepetitionCount = 1) const;
@@ -158,9 +158,14 @@ class Sequence
     ///
     /// @param                  [in] aState Initial state for the sequence.
     /// @param                  [in] anEventCondition An event condition.
+    /// @param                  [in] aMaximumPropagationDuration Maximum duration for sequence propagation.
     /// @return                 A Solution that contains solutions for each segment.
 
-    Solution solveToCondition(const State& aState, const EventCondition& anEventCondition) const;
+    Solution solveToCondition(
+        const State& aState,
+        const EventCondition& anEventCondition,
+        const Duration& aMaximumPropagationDuration = Duration::Days(30.0)
+    ) const;
 
     /// @brief                  Print the sequence.
     ///

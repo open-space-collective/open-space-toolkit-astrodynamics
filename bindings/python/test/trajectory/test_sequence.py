@@ -418,3 +418,11 @@ class TestSequence:
         instant_condition: InstantCondition,
     ):
         assert sequence.solve_to_condition(state, instant_condition) is not None
+        assert (
+            sequence.solve_to_condition(
+                state=state,
+                event_condition=instant_condition,
+                maximum_propagation_duration_limit=Duration.hours(1.0),
+            )
+            is not None
+        )

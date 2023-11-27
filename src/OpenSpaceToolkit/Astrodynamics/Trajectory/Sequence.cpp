@@ -221,6 +221,11 @@ void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventCondition
 
 Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionCount) const
 {
+    if (aRepetitionCount <= 0)
+    {
+        throw ostk::core::error::runtime::Wrong("Repetition count.");
+    }
+
     Array<Segment::Solution> segmentSolutions;
 
     State initialState = aState;
@@ -258,44 +263,59 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
     return {segmentSolutions, true};
 }
 
-Sequence::Solution Sequence::solveToCondition(const State& aState, const EventCondition& anEventCondition) const
+Sequence::Solution Sequence::solveToCondition(
+    const State& aState, const EventCondition& anEventCondition, const Duration& aMaximumPropagationDuration
+) const
 {
     Array<Segment::Solution> segmentSolutions;
 
     State initialState = aState;
     State finalState = State::Undefined();
 
-    for (const Segment& segment : segments_)
+    bool eventConditionIsSatisfied = false;
+
+    Duration propagationDuration = Duration::Zero();
+
+    while (!eventConditionIsSatisfied && propagationDuration <= aMaximumPropagationDuration)
     {
-        segment.accessEventCondition()->updateTarget(initialState);
-
-        BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
-
-        Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit_);
-
-        segmentSolution.name = String::Format("{} - {}", segmentSolution.name, segment.getEventCondition()->getName());
-
-        BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
-
-        segmentSolutions.add(segmentSolution);
-
-        // Terminate Sequence unsuccessfully if the segment condition was not satisfied
-        if (!segmentSolution.conditionIsSatisfied)
+        for (const Segment& segment : segments_)
         {
-            BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
+            segment.accessEventCondition()->updateTarget(initialState);
 
-            return {segmentSolutions, false};
+            BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
+
+            const Duration segmentPropagationDurationLimit =
+                std::min(segmentPropagationDurationLimit_, aMaximumPropagationDuration - propagationDuration);
+
+            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit);
+
+            segmentSolution.name =
+                String::Format("{} - {}", segmentSolution.name, segment.getEventCondition()->getName());
+
+            BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
+
+            segmentSolutions.add(segmentSolution);
+
+            // Terminate Sequence unsuccessfully if the segment condition was not satisfied
+            if (!segmentSolution.conditionIsSatisfied)
+            {
+                BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
+
+                return {segmentSolutions, false};
+            }
+
+            eventConditionIsSatisfied = anEventCondition.isSatisfied(segmentSolution.states.accessLast(), initialState);
+
+            // Terminate Sequence successfully if a provided event condition was satisfied
+            if (eventConditionIsSatisfied)
+            {
+                return {segmentSolutions, true};
+            }
+
+            propagationDuration += segmentSolution.getPropagationDuration();
+
+            initialState = segmentSolution.states.accessLast();
         }
-
-        // Terminate Sequence successfully if a provided event condition was satisfied
-        if (anEventCondition.isSatisfied(segmentSolution.states.accessLast(), initialState))
-        {
-            BOOST_LOG_TRIVIAL(debug) << "Sequence Event condition is satisfied." << std::endl;
-
-            return {segmentSolutions, true};
-        }
-
-        initialState = segmentSolution.states.accessLast();
     }
 
     return {segmentSolutions, false};
