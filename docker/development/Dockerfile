@@ -11,7 +11,7 @@ LABEL maintainer="lucas@loftorbital.com"
 ## Zip, jq, & git-lfs
 
 RUN apt-get update \
- && apt-get install -y unzip jq git-lfs \
+ && apt-get install -y unzip jq git-lfs locales \
  && rm -rf /var/lib/apt/lists/*
 
 ## {fmt}
@@ -166,15 +166,17 @@ ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY="/var/cache
 ENV OSTK_PHYSICS_ENVIRONMENT_ATMOSPHERIC_EARTH_MANAGER_LOCAL_REPOSITORY="/var/cache/open-space-toolkit-data/data/environment/atmospheric/earth"
 ENV OSTK_PHYSICS_DATA_MANIFEST_LOCAL_REPOSITORY="/var/cache/open-space-toolkit-data/data"
 
+# Locales
+RUN locale-gen en_US.UTF-8
+ENV LANG="en_US.UTF-8"
+ENV LANGUAGE="en_US:en"
+ENV LC_ALL="en_US.UTF-8"
+
 # Labels
 
 ARG VERSION
 ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
-
-# Environment
-
-ENV LC_ALL="en_US.UTF-8"
 
 # Execution
 
