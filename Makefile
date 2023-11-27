@@ -325,7 +325,7 @@ debug-jupyter-rebuild: build-release-image-jupyter ## Debug jupyter notebook usi
 
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 
-.PHONY: debug-jupyter-standalone
+.PHONY: debug-jupyter-rebuild
 
 debug-development: build-development-image ## Debug development environment
 
