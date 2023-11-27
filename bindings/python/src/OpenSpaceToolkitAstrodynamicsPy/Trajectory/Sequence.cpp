@@ -164,7 +164,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             .def(
                 init<
                     const Array<Segment>&,
-                    const Size&,
                     const NumericalSolver&,
                     const Array<Shared<Dynamics>>&,
                     const Duration&,
@@ -174,7 +173,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                     Args:
                     segments (list[Segment], optional): The segments.
-                    repetition_count (int, optional): The repetition count.
                     numerical_solver (NumericalSolver, optional): The numerical solver.
                     dynamics (list[Dynamics], optional): The dynamics.
                     maximum_propagation_duration (Duration, optional): The maximum propagation duration.
@@ -185,7 +183,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 )doc",
                 arg("segments") = Array<Segment>::Empty(),
-                arg("repetition_count") = 1,
                 arg("numerical_solver") = NumericalSolver::DefaultConditional(),
                 arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
                 arg("maximum_propagation_duration") = Duration::Days(30.0),
@@ -297,22 +294,37 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 R"doc(
                     Solve the sequence.
 
-                    This method will terminate early if the maximum propagation duration is exceeded.
-                    If an event condition is provided, it will terminate if the event condition is met.
-                    In the case that the event condition is not met, it will return the `SequenceSolution` with `executionIsComplete` set to `False`.
-
                     Args:
                         state (State): The state.
-                        maximum_propagation_duration (Duration, optional): The maximum propagation duration.
-                        event_condition (EventCondition, optional): The event condition.
+                        repetition_count (int, optional): The repetition count. Defaults to 1.
 
                     Returns:
                         SequenceSolution: The sequence solution.
 
                 )doc",
                 arg("state"),
-                arg("maximum_propagation_duration") = Duration::Days(30.0),
-                arg("event_condition") = nullptr
+                arg("repetition_count") = 1
+            )
+
+            .def(
+                "solve_to_condition",
+                &Sequence::solveToCondition,
+                R"doc(
+                    Solve the sequence.
+
+                    This method will terminate if the event condition is met.
+                    In the case that the event condition is not met, it will return the `SequenceSolution` with `executionIsComplete` set to `False`.
+
+                    Args:
+                        state (State): The state.
+                        event_condition (EventCondition): The event condition.
+
+                    Returns:
+                        SequenceSolution: The sequence solution.
+
+                )doc",
+                arg("state"),
+                arg("event_condition")
             )
 
             ;
