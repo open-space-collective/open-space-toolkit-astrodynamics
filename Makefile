@@ -307,7 +307,7 @@ debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-
 
 .PHONY: debug-jupyter
 
-debug-jupyter-standalone: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
+debug-jupyter-rebuild: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
