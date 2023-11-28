@@ -336,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 
         const Vector5d dQ_dOE = qlaw.compute_dQ_dOE(currentCOEVector.segment(0, 5), thrustAcceleration);
 
-        // finite differences manually by using sympy
+        // calculated analtyically by using sympy
         const Vector5d expected_dQ_dOE = {
             -4451831.72900846,
             304679993012117.0,

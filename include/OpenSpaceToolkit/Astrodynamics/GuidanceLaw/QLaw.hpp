@@ -235,13 +235,11 @@ class QLaw : public GuidanceLaw
     static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
    private:
-    Parameters parameters_;
+    const Parameters parameters_;
     const double mu_;
     const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;
-
     const GradientStrategy gradientStrategy_;
-
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
 

@@ -2535,7 +2535,7 @@ INSTANTIATE_TEST_SUITE_P(
     QLaw_GradientStrategy,
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw,
     testing::Values(
-        std::make_tuple(QLaw::GradientStrategy::Analytical), std::make_tuple(QLaw::GradientStrategy::FiniteDifference)
+        std::make_tuple(QLaw::GradientStrategy::FiniteDifference), std::make_tuple(QLaw::GradientStrategy::Analytical)
     )
 );
 

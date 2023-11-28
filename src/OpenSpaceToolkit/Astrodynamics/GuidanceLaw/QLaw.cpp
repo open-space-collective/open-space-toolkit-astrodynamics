@@ -170,8 +170,6 @@ Vector5d QLaw::compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustA
 
 Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& aThrustAcceleration) const
 {
-    const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
-
     const Vector5d coeVectorSegment = aCOEVector.segment(0, 5);
 
     const Vector5d deltaCOE = computeDeltaCOE(coeVectorSegment);
@@ -193,8 +191,6 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
     }
 
     const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
-
-    return D;
 
     return D;
 }
@@ -318,6 +314,10 @@ Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, c
                                                semiLatusRectum * semiLatusRectum * cosTheta_xxSquared +
                                                std::pow((semiLatusRectum + r_xx), 2) * (1.0 - cosTheta_xxSquared)
                                            );
+
+    const double argumentOfPeriapsisO_xx = rightAscensionOfAscendingNode_xx * std::abs(std::cos(inclination));
+    const double argumentOfPeriapsis_xx =
+        (argumentOfPeriapsisI_xx + parameters_.b * argumentOfPeriapsisO_xx) / (1.0 + parameters_.b);
 
     return {
         semiMajorAxis_xx,
