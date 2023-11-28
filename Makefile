@@ -287,7 +287,7 @@ start-jupyter: build-release-image-jupyter ## Start Jupyter Notebook environment
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-astro package built from current source code
+debug-jupyter-rebuild: build-development-image ## Debug jupyter notebook using the ostk-astro package built from current source code
 
 	@ echo "Building Python$(jupyter_python_version) packages..."
 
@@ -303,11 +303,11 @@ debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-
 		&& rm -rf /app/packages/python/* \
 		&& cp /app/build/bindings/python/dist/*$(extract_python_package_version)*.whl /app/packages/python"
 
-	@ $(MAKE) debug-jupyter-standalone
+	@ $(MAKE) debug-jupyter
 
-.PHONY: debug-jupyter
+.PHONY: debug-jupyter-rebuild
 
-debug-jupyter-rebuild: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
+debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-astro package from pre-built wheels
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -325,7 +325,7 @@ debug-jupyter-rebuild: build-release-image-jupyter ## Debug jupyter notebook usi
 
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 
-.PHONY: debug-jupyter-rebuild
+.PHONY: debug-jupyter
 
 debug-development: build-development-image ## Debug development environment
 
