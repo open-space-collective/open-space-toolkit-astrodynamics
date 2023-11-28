@@ -112,12 +112,19 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
-                {COE::Element::Raan, 1.0},
-                {COE::Element::Aop, 1.0},
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-3}},
+                {COE::Element::Inclination, {1.0, 1e-4}},
+                {COE::Element::Raan, {1.0, 1e-4}},
+                {COE::Element::Aop, {1.0, 1e-4}},
             },
+            3,
+            4,
+            2,
+            0.01,
+            100,
+            1.0,
+            Length::Kilometers(6578.0),
         };
 
         QLaw qlaw = {
@@ -132,9 +139,16 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 
     const QLaw::Parameters parameters_ = {
         {
-            {COE::Element::SemiMajorAxis, 1.0},
-            {COE::Element::Eccentricity, 1.0},
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            {COE::Element::Eccentricity, {1.0, 1e-3}},
         },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        1.0,
+        Length::Kilometers(6578.0),
     };
 
     const COE targetCOE_ = {
@@ -327,12 +341,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
-                {COE::Element::Raan, 1.0},
-                {COE::Element::Aop, 1.0},
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-4}},
+                {COE::Element::Inclination, {1.0, 1e-4}},
+                {COE::Element::Raan, {1.0, 1e-4}},
+                {COE::Element::Aop, {1.0, 1e-4}},
             },
+            3,
+            4,
+            2,
+            0.01,
+            100,
+            1.0,
+            Length::Kilometers(6578.0),
         };
 
         const QLaw qlaw = {

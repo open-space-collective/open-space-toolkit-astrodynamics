@@ -2538,9 +2538,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
 
     const QLaw::Parameters parameters = {
         {
-            {COE::Element::SemiMajorAxis, 1.0},
-            {COE::Element::Eccentricity, 1.0},
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            {COE::Element::Eccentricity, {1.0, 1e-3}},
         },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        1.0,
+        Length::Kilometers(6578.0)
     };
 
     const Derived gravitationalParameter =
@@ -2632,11 +2639,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
 
     const QLaw::Parameters parameters = {
         {
-            {COE::Element::SemiMajorAxis, 1.0},
-            {COE::Element::Eccentricity, 1.0},
-            {COE::Element::Inclination, 1.0},
-            {COE::Element::Raan, 1.0},
-            {COE::Element::Aop, 1.0},
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            {COE::Element::Eccentricity, {1.0, 1e-3}},
+            {COE::Element::Inclination, {1.0, 1e-4}},
+            {COE::Element::Raan, {1.0, 1e-4}},
+            {COE::Element::Aop, {1.0, 1e-4}},
         },
     };
 
@@ -2759,7 +2766,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
     const NumericalSolver numericalSolver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKutta4,
-        15.0,
+        3.0,
         1e-12,
         1e-12,
     };
@@ -2787,7 +2794,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::SemiMajorAxis, 1.0},
+                {COE::Element::SemiMajorAxis, {1.0, 50.0}},
             },
         };
 
@@ -2825,7 +2832,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::Eccentricity, 1.0},
+                {COE::Element::Eccentricity, {1.0, 1e-4}},
             },
         };
 
@@ -2863,7 +2870,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::Inclination, 1.0},
+                {COE::Element::Inclination, {1.0, 1e-4}},
             },
         };
 
@@ -2885,10 +2892,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
-        EXPECT_LT(std::abs(endCOE.getInclination().inDegrees() - targetCOE.getInclination().inDegrees()), 1e-4);
+        EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
     }
 
-    // Right Ascension of the Ascending Node targeting
+    // // Right Ascension of the Ascending Node targeting
     {
         const COE targetCOE = {
             currentCOE.getSemiMajorAxis(),
@@ -2901,7 +2908,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::Raan, 1.0},
+                {COE::Element::Raan, {1.0, 1e-4}},
             },
         };
 
@@ -2923,7 +2930,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
-        EXPECT_LT(std::abs(endCOE.getRaan().inDegrees() - targetCOE.getRaan().inDegrees()), 1e-3);
+        EXPECT_LT(std::abs(endCOE.getRaan().inRadians() - targetCOE.getRaan().inRadians()), 1e-4);
     }
 
     // Semi-Major Axis + Eccentricity targeting
@@ -2939,8 +2946,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-4}},
             },
         };
 
@@ -2979,9 +2986,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-3}},
+                {COE::Element::Inclination, {1.0, 1e-4}},
             },
         };
 
@@ -3005,7 +3012,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         EXPECT_LT(std::abs(endCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters()), 100.0);
         EXPECT_LT(std::abs(endCOE.getEccentricity() - targetCOE.getEccentricity()), 1e-3);
-        EXPECT_LT(std::abs(endCOE.getInclination().inDegrees() - targetCOE.getInclination().inDegrees()), 1e-4);
+        EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
     }
 
     // Semi-Major Axis + Eccentricity + Inclination + Right Ascension of Ascending Node targeting
@@ -3021,10 +3028,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         const QLaw::Parameters parameters = {
             {
-                {COE::Element::SemiMajorAxis, 1.0},
-                {COE::Element::Eccentricity, 1.0},
-                {COE::Element::Inclination, 1.0},
-                {COE::Element::Raan, 1.0},
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-3}},
+                {COE::Element::Inclination, {1.0, 1e-4}},
+                {COE::Element::Raan, {1.0, 1e-4}},
             },
         };
 
@@ -3048,8 +3055,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SSO_ta
 
         EXPECT_LT(std::abs(endCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters()), 100.0);
         EXPECT_LT(std::abs(endCOE.getEccentricity() - targetCOE.getEccentricity()), 1e-3);
-        EXPECT_LT(std::abs(endCOE.getInclination().inDegrees() - targetCOE.getInclination().inDegrees()), 1e-2);
-        EXPECT_LT(std::abs(endCOE.getRaan().inDegrees() - targetCOE.getRaan().inDegrees()), 1e-2);
+        EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
+        EXPECT_LT(std::abs(endCOE.getRaan().inRadians() - targetCOE.getRaan().inRadians()), 1e-4);
     }
 }
 

@@ -44,7 +44,10 @@ def gravitational_parameter() -> Derived:
 @pytest.fixture
 def parameters() -> QLawParameters:
     return QLawParameters(
-        element_weights={COE.Element.SemiMajorAxis: 1.0, COE.Element.Eccentricity: 1.0},
+        element_weights={
+            COE.Element.SemiMajorAxis: (1.0, 100.0),
+            COE.Element.Eccentricity: (1.0, 1e-3),
+        },
     )
 
 
