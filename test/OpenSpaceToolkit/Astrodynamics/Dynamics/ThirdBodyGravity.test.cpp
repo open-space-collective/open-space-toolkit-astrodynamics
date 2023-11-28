@@ -40,7 +40,7 @@ using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
 using ostk::physics::environment::object::celestial::Sun;
-using ostk::physics::environment::ephem::Analytical;
+using ostk::physics::environment::ephemerides::Analytical;
 using ostk::physics::coord::Frame;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
