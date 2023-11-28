@@ -300,7 +300,7 @@ debug-jupyter-rebuild: build-development-image ## Debug jupyter notebook using t
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DPYTHON_SEARCH_VERSIONS="$(jupyter_python_version)" .. \
-		&& $(MAKE) -j $(shell nproc)
+		&& $(MAKE) -j $(shell nproc)"
 
 	@ $(MAKE) debug-jupyter
 
