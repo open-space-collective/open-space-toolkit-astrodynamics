@@ -2541,6 +2541,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, QLaw_P
             {COE::Element::SemiMajorAxis, {1.0, 100.0}},
             {COE::Element::Eccentricity, {1.0, 1e-3}},
         },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        1.0,
+        Length::Kilometers(6578.0)
     };
 
     const Derived gravitationalParameter =
