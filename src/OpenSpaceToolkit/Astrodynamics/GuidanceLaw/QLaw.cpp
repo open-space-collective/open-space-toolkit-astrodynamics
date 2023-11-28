@@ -141,7 +141,6 @@ Vector3d QLaw::calculateThrustAccelerationAt(
     coeVector[2] = std::max(coeVector[2], 1e-4);
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
-    std::cout << "thrustDirection: " << thrustDirection.transpose() << std::endl;
 
     const Matrix3d R_thetaRH_GCRF = QLaw::ThetaRHToGCRF(aPositionCoordinates, aVelocityCoordinates);
 
@@ -187,6 +186,7 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
         (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
     };
 
+    // Within tolerance of all targeted elements. No need to thrust.
     if ((parameters_.controlWeights_.array() * deltaCOE.array().abs() <= parameters_.convergenceThresholds_.array())
             .all())
     {
