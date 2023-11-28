@@ -40,9 +40,20 @@ class PyEventCondition : public EventCondition
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aModule)
 {
     {
-        class_<EventCondition::Target> eventConditionTarget_class(
+        class_<EventCondition, PyEventCondition, Shared<EventCondition>> eventCondition(
             aModule,
-            "EventConditionTarget",
+            "EventCondition",
+            R"doc(
+                An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times
+
+                Group:
+                    event-condition
+            )doc"
+        );
+
+        class_<EventCondition::Target> eventConditionTarget(
+            eventCondition,
+            "Target",
             R"doc(
                 The Event Condition Target.
 
@@ -52,7 +63,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
         );
 
         enum_<EventCondition::Target::Type>(
-            eventConditionTarget_class,
+            eventConditionTarget,
             "Type",
             R"doc(
                 Event Condition Target type.
@@ -64,7 +75,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             ;
 
-        eventConditionTarget_class
+        eventConditionTarget
 
             .def(
                 init<const Real&, const EventCondition::Target::Type&>(),
@@ -152,18 +163,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             ;
 
-        class_<EventCondition, PyEventCondition, Shared<EventCondition>> eventCondition_class(
-            aModule,
-            "EventCondition",
-            R"doc(
-                An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times
-
-                Group:
-                    event-condition
-            )doc"
-        );
-
-        eventCondition_class
+        eventCondition
 
             .def(
                 init<const String&, const std::function<Real(const State&)>&, const EventCondition::Target&>(),

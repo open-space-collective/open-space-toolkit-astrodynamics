@@ -2,7 +2,7 @@
 
 import pytest
 
-from ostk.astrodynamics import EventCondition, EventConditionTarget
+from ostk.astrodynamics import EventCondition
 
 
 @pytest.fixture
@@ -21,13 +21,13 @@ def target_value() -> float:
 
 
 @pytest.fixture
-def target(target_value: float) -> EventConditionTarget:
-    return EventConditionTarget(target_value, EventConditionTarget.Type.Absolute)
+def target(target_value: float) -> EventCondition.Target:
+    return EventCondition.Target(target_value, EventCondition.Target.Type.Absolute)
 
 
 @pytest.fixture
 def event_condition(
-    name: str, evaluator: callable, target: EventConditionTarget
+    name: str, evaluator: callable, target: EventCondition.Target
 ) -> EventCondition:
     class MyEventCondition(EventCondition):
         def is_satisfied(
@@ -49,6 +49,6 @@ class TestEventCondition:
         assert event_condition.get_evaluator() is not None
 
     def test_get_target(
-        self, event_condition: EventCondition, target: EventConditionTarget
+        self, event_condition: EventCondition, target: EventCondition.Target
     ):
         assert event_condition.get_target() == target

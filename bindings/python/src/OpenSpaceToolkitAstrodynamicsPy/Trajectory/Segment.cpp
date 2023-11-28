@@ -16,9 +16,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using ostk::astro::trajectory::Segment;
     using ostk::astro::Dynamics;
 
-    class_<Segment::Solution>(
+    class_<Segment> segment(
         aModule,
-        "SegmentSolution",
+        "Segment",
+        R"doc(
+                A `Segment` that can be solved provided an initial `State` and termination `Event Condition`.
+
+                Group:
+                    trajectory
+            )doc"
+    );
+
+    class_<Segment::Solution>(
+        segment,
+        "Solution",
         R"doc(
             The Solution object returned when a `Segment` is solved.
 
@@ -163,17 +174,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         ;
 
     {
-        class_<Segment> segment(
-            aModule,
-            "Segment",
-            R"doc(
-                A `Segment` that can be solved provided an initial `State` and termination `Event Condition`.
-
-                Group:
-                    trajectory
-            )doc"
-        );
-
         enum_<Segment::Type>(
             segment,
             "Type",

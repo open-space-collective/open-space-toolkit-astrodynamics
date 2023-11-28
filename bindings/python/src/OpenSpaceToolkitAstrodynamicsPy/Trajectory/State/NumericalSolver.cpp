@@ -21,8 +21,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
     )>
         pythonSystemOfEquationsSignature;
 
-    class_<NumericalSolver::ConditionSolution>(
+    class_<NumericalSolver, MathNumericalSolver> numericalSolver(
         aModule,
+        "NumericalSolver",
+        R"doc(
+                A numerical solver is used to integrate the trajectory of a dynamical system.
+
+                The numerical solver can be used to integrate the trajectory of a dynamical system to a given instant,
+                or to a set of instants, or until an `Event Condition` is met.
+
+                Group:
+                    state
+            )doc"
+    );
+
+    class_<NumericalSolver::ConditionSolution>(
+        numericalSolver,
         "ConditionSolution",
         R"doc(
             The solution to an event condition.
@@ -70,23 +84,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 Type:
                     bool
             )doc"
-        );
+        )
+
+        ;
 
     {
-        class_<NumericalSolver, MathNumericalSolver> numericalSolver(
-            aModule,
-            "NumericalSolver",
-            R"doc(
-                A numerical solver is used to integrate the trajectory of a dynamical system.
-
-                The numerical solver can be used to integrate the trajectory of a dynamical system to a given instant,
-                or to a set of instants, or until an `Event Condition` is met.
-
-                Group:
-                    state
-            )doc"
-        );
-
         numericalSolver
 
             .def(
