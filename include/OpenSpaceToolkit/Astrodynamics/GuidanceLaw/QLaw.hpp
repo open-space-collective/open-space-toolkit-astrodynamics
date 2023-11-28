@@ -227,6 +227,8 @@ class QLaw : public GuidanceLaw
     const Derived gravitationalParameter_;
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
+
+    Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
 };
 
 }  // namespace guidancelaw

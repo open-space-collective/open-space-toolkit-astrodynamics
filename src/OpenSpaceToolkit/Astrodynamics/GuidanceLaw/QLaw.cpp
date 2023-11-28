@@ -172,19 +172,9 @@ Vector5d QLaw::compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustA
 
 Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& aThrustAcceleration) const
 {
-    const Matrix53d derivativeMatrix = QLaw::Compute_dOE_dF(aCOEVector, gravitationalParameter_);
+    const Vector5d coeVectorSegment = aCOEVector.segment(0, 5);
 
-    const Vector5d jacobian = compute_dQ_dOE(aCOEVector.segment(0, 5), aThrustAcceleration);
-
-    const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
-
-    const Vector5d deltaCOE = {
-        (aCOEVector[0] - targetCOEVector_[0]),
-        (aCOEVector[1] - targetCOEVector_[1]),
-        (aCOEVector[2] - targetCOEVector_[2]),
-        (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
-        (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
-    };
+    const Vector5d deltaCOE = computeDeltaCOE(coeVectorSegment);
 
     // Within tolerance of all targeted elements. No need to thrust.
     if ((parameters_.controlWeights_.array() * deltaCOE.array().abs() <= parameters_.convergenceThresholds_.array())
@@ -192,6 +182,12 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
     {
         return {0.0, 0.0, 0.0};
     }
+
+    const Matrix53d derivativeMatrix = QLaw::Compute_dOE_dF(aCOEVector, gravitationalParameter_);
+
+    const Vector5d jacobian = compute_dQ_dOE(coeVectorSegment, aThrustAcceleration);
+
+    const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
 
     return D;
 }
@@ -215,13 +211,7 @@ double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAccelerat
 
     //   ⎛      T⎞
     // d ⎝oe, oe ⎠
-    const Vector5d deltaCOE = {
-        (aCOEVector[0] - targetCOEVector_[0]),
-        (aCOEVector[1] - targetCOEVector_[1]),
-        (aCOEVector[2] - targetCOEVector_[2]),
-        (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
-        (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
-    };
+    const Vector5d deltaCOE = computeDeltaCOE(aCOEVector);
 
     // S_oe
     const Vector5d scalingCOE = {
@@ -396,6 +386,17 @@ Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravi
                              (angularMomentum * std::sin(inclination));
 
     return derivativeMatrix;
+}
+
+Vector5d QLaw::computeDeltaCOE(const Vector5d& aCOEVector) const
+{
+    return {
+        (aCOEVector[0] - targetCOEVector_[0]),
+        (aCOEVector[1] - targetCOEVector_[1]),
+        (aCOEVector[2] - targetCOEVector_[2]),
+        (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
+        (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
+    };
 }
 
 }  // namespace guidancelaw
