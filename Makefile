@@ -1,6 +1,7 @@
 # Apache License 2.0
 
 project_name := astrodynamics
+project_name_camel_case := $(shell echo $(project_name) | sed -r 's/(^|-)([a-z])/\U\2/g')
 project_version := $(shell git describe --tags --always)
 
 docker_registry_path := openspacecollective
@@ -299,10 +300,7 @@ debug-jupyter-rebuild: build-development-image ## Debug jupyter notebook using t
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DPYTHON_SEARCH_VERSIONS="$(jupyter_python_version)" .. \
-		&& $(MAKE) -j $(shell nproc) \
-		&& mkdir -p /app/packages/python \
-		&& rm -rf /app/packages/python/* \
-		&& cp /app/build/bindings/python/dist/*$(extract_python_package_version)*.whl /app/packages/python"
+		&& $(MAKE) -j $(shell nproc)
 
 	@ $(MAKE) debug-jupyter
 
@@ -319,10 +317,10 @@ debug-jupyter: build-release-image-jupyter ## Debug jupyter notebook using the o
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs:delegated" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials:delegated" \
-		--volume="$(CURDIR)/packages/python:/home/jovyan/.packages:delegated" \
+		--volume="$(CURDIR)/build/bindings/python/OpenSpaceToolkit${project_name_camel_case}Py-python-package-$(jupyter_python_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /home/jovyan/.packages/*$(jupyter_python_version_without_dot)*.whl --force-reinstall ; start-notebook.sh --ServerApp.token=''"
+		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/ --force-reinstall ; start-notebook.sh --ServerApp.token=''"
 
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 
