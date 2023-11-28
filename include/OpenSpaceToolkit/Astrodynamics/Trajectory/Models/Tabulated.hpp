@@ -37,7 +37,7 @@ using ostk::core::types::Index;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
 
-using ostk::math::curvefitting::interp::Interpolator;
+using ostk::math::curvefitting::interpolator::Interpolator;
 using ostk::math::object::MatrixXd;
 using ostk::math::object::VectorXd;
 
