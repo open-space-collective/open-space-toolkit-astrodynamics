@@ -1,6 +1,7 @@
 # Apache License 2.0
 
 project_name := astrodynamics
+project_name_camel_case := $(shell echo $(project_name) | sed -r 's/(^|-)([a-z])/\U\2/g')
 project_version := $(shell git describe --tags --always)
 
 docker_registry_path := openspacecollective
@@ -13,8 +14,9 @@ docker_release_image_python_repository := $(docker_image_repository)-python
 docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 
 jupyter_notebook_port := 9005
-jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-3.11.3
 jupyter_python_version := 3.11
+jupyter_python_version_without_dot := $(shell echo $(jupyter_python_version) | sed 's/\.//')
+jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-$(jupyter_python_version).3
 extract_python_package_version := $(shell echo $(project_version) | sed 's/-/./' | sed 's/-.*//')
 
 pull: ## Pull all images
@@ -287,7 +289,7 @@ start-jupyter: build-release-image-jupyter ## Start Jupyter Notebook environment
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-astro package built from current source code
+debug-jupyter-rebuild: build-development-image ## Debug jupyter notebook using the ostk-astro package built from current source code
 
 	@ echo "Building Python$(jupyter_python_version) packages..."
 
@@ -298,16 +300,13 @@ debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DPYTHON_SEARCH_VERSIONS="$(jupyter_python_version)" .. \
-		&& $(MAKE) -j $(shell nproc) \
-		&& mkdir -p /app/packages/python \
-		&& rm -rf /app/packages/python/* \
-		&& cp /app/build/bindings/python/dist/*$(extract_python_package_version)*.whl /app/packages/python"
+		&& $(MAKE) -j $(shell nproc)"
 
-	@ $(MAKE) debug-jupyter-standalone
+	@ $(MAKE) debug-jupyter
 
-.PHONY: debug-jupyter
+.PHONY: debug-jupyter-rebuild
 
-debug-jupyter-rebuild: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code
+debug-jupyter: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package from pre-built wheels
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -318,14 +317,14 @@ debug-jupyter-rebuild: build-release-image-jupyter ## Debug jupyter notebook usi
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs:delegated" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials:delegated" \
-		--volume="$(CURDIR)/packages/python:/home/jovyan/.packages:delegated" \
+		--volume="$(CURDIR)/build/bindings/python/OpenSpaceToolkit${project_name_camel_case}Py-python-package-$(jupyter_python_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /home/jovyan/.packages/*.whl --force-reinstall ; start-notebook.sh --ServerApp.token=''"
+		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/ --force-reinstall ; start-notebook.sh --ServerApp.token=''"
 
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 
-.PHONY: debug-jupyter-rebuild
+.PHONY: debug-jupyter
 
 debug-development: build-development-image ## Debug development environment
 
