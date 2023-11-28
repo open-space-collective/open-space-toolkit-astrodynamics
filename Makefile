@@ -13,8 +13,9 @@ docker_release_image_python_repository := $(docker_image_repository)-python
 docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 
 jupyter_notebook_port := 9005
-jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-3.11.3
 jupyter_python_version := 3.11
+jupyter_python_version_without_dot := $(shell echo $(jupyter_python_version) | sed 's/\.//')
+jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-$(jupyter_python_version).3
 extract_python_package_version := $(shell echo $(project_version) | sed 's/-/./' | sed 's/-.*//')
 
 pull: ## Pull all images
@@ -307,7 +308,7 @@ debug-jupyter-rebuild: build-development-image ## Debug jupyter notebook using t
 
 .PHONY: debug-jupyter-rebuild
 
-debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-astro package from pre-built wheels
+debug-jupyter: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package from pre-built wheels
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -321,7 +322,7 @@ debug-jupyter: build-development-image ## Debug jupyter notebook using the ostk-
 		--volume="$(CURDIR)/packages/python:/home/jovyan/.packages:delegated" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /home/jovyan/.packages/*.whl --force-reinstall ; start-notebook.sh --ServerApp.token=''"
+		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /home/jovyan/.packages/*$(jupyter_python_version_without_dot)*.whl --force-reinstall ; start-notebook.sh --ServerApp.token=''"
 
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 
