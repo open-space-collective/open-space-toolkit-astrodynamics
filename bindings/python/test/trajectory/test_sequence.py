@@ -306,14 +306,12 @@ def repetition_count() -> int:
 @pytest.fixture
 def sequence(
     segments: list[Segment],
-    repetition_count: int,
     numerical_solver: NumericalSolver,
     dynamics: list,
     maximum_propagation_duration: Duration,
 ):
     return Sequence(
         segments=segments,
-        repetition_count=repetition_count,
         dynamics=dynamics,
         numerical_solver=numerical_solver,
         maximum_propagation_duration=maximum_propagation_duration,
@@ -392,11 +390,11 @@ class TestSequence:
     def test_solve(
         self,
         state: State,
+        repetition_count: int,
         sequence: Sequence,
         segments: list[Segment],
-        instant_condition: InstantCondition,
     ):
-        solution = sequence.solve(state)
+        solution = sequence.solve(state, repetition_count)
 
         assert len(solution.segment_solutions) == len(segments)
 
@@ -413,5 +411,18 @@ class TestSequence:
         assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
 
-        assert sequence.solve(state, Duration.minutes(5.0)) is not None
-        assert sequence.solve(state, Duration.hours(5.0), instant_condition) is not None
+    def test_solve_to_condition(
+        self,
+        state: State,
+        sequence: Sequence,
+        instant_condition: InstantCondition,
+    ):
+        assert sequence.solve_to_condition(state, instant_condition) is not None
+        assert (
+            sequence.solve_to_condition(
+                state=state,
+                event_condition=instant_condition,
+                maximum_propagation_duration_limit=Duration.hours(1.0),
+            )
+            is not None
+        )

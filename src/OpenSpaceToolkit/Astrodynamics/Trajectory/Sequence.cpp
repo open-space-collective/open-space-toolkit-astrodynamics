@@ -132,14 +132,12 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Sequence::Solution&
 
 Sequence::Sequence(
     const Array<Segment>& aSegmentArray,
-    const Size& aRepetitionCount,
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Duration& maximumPropagationDuration,
     const Size& verbosity
 )
     : segments_(aSegmentArray),
-      repetitionCount_(aRepetitionCount),
       numericalSolver_(aNumericalSolver),
       dynamics_(aDynamicsArray),
       segmentPropagationDurationLimit_(maximumPropagationDuration)
@@ -171,11 +169,6 @@ Sequence::Sequence(
     else
     {
         throw ostk::core::error::runtime::Wrong("verbosity level");
-    }
-
-    if (repetitionCount_ < 1)
-    {
-        throw ostk::core::error::runtime::Wrong("Repetition count");
     }
 }
 
@@ -226,42 +219,27 @@ void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventCondition
     segments_.add(Segment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_));
 }
 
-Sequence::Solution Sequence::solve(
-    const State& aState,
-    const Duration& sequencePropagationDurationLimit,
-    const Shared<EventCondition>& anEventConditionSPtr
-) const
+Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionCount) const
 {
+    if (aRepetitionCount <= 0)
+    {
+        throw ostk::core::error::runtime::Wrong("Repetition count.");
+    }
+
     Array<Segment::Solution> segmentSolutions;
 
     State initialState = aState;
     State finalState = State::Undefined();
 
-    Duration totalPropagationDuration = Duration::Seconds(0.0);
-
-    for (Size i = 0; i < repetitionCount_; ++i)
+    for (Size i = 0; i < aRepetitionCount; ++i)
     {
         for (const Segment& segment : segments_)
         {
             segment.accessEventCondition()->updateTarget(initialState);
 
-            // Terminate Sequence unsuccessfully if the propagation limit was exceeded
-            if (totalPropagationDuration > sequencePropagationDurationLimit)
-            {
-                BOOST_LOG_TRIVIAL(warning)
-                    << "Terminating Sequence because maximum propagation duration is reached." << std::endl;
-
-                return {segmentSolutions, false};
-            }
-
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
-            // Clip the segment propagation limit if it will exceed the Sequence propagation limit
-            const Duration segmentPropagationDurationLimit = std::min(
-                segmentPropagationDurationLimit_, (sequencePropagationDurationLimit - totalPropagationDuration)
-            );
-
-            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit);
+            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit_);
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
@@ -269,8 +247,6 @@ Sequence::Solution Sequence::solve(
             BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
 
             segmentSolutions.add(segmentSolution);
-
-            totalPropagationDuration += segmentSolution.getPropagationDuration();
 
             // Terminate Sequence unsuccessfully if the segment condition was not satisfied
             if (!segmentSolution.conditionIsSatisfied)
@@ -280,26 +256,68 @@ Sequence::Solution Sequence::solve(
                 return {segmentSolutions, false};
             }
 
-            // Terminate Sequence successfully if a provided event condition was satisfied
-            if (anEventConditionSPtr != nullptr &&
-                anEventConditionSPtr->isSatisfied(segmentSolution.states.accessLast(), initialState))
-            {
-                BOOST_LOG_TRIVIAL(debug) << "Sequence Event condition is satisfied." << std::endl;
+            initialState = segmentSolution.states.accessLast();
+        }
+    }
 
+    return {segmentSolutions, true};
+}
+
+Sequence::Solution Sequence::solveToCondition(
+    const State& aState, const EventCondition& anEventCondition, const Duration& aMaximumPropagationDuration
+) const
+{
+    Array<Segment::Solution> segmentSolutions;
+
+    State initialState = aState;
+    State finalState = State::Undefined();
+
+    bool eventConditionIsSatisfied = false;
+
+    Duration propagationDuration = Duration::Zero();
+
+    while (!eventConditionIsSatisfied && propagationDuration <= aMaximumPropagationDuration)
+    {
+        for (const Segment& segment : segments_)
+        {
+            segment.accessEventCondition()->updateTarget(initialState);
+
+            BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
+
+            const Duration segmentPropagationDurationLimit =
+                std::min(segmentPropagationDurationLimit_, aMaximumPropagationDuration - propagationDuration);
+
+            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit);
+
+            segmentSolution.name =
+                String::Format("{} - {}", segmentSolution.name, segment.getEventCondition()->getName());
+
+            BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
+
+            segmentSolutions.add(segmentSolution);
+
+            // Terminate Sequence unsuccessfully if the segment condition was not satisfied
+            if (!segmentSolution.conditionIsSatisfied)
+            {
+                BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
+
+                return {segmentSolutions, false};
+            }
+
+            eventConditionIsSatisfied = anEventCondition.isSatisfied(segmentSolution.states.accessLast(), initialState);
+
+            // Terminate Sequence successfully if a provided event condition was satisfied
+            if (eventConditionIsSatisfied)
+            {
                 return {segmentSolutions, true};
             }
+
+            propagationDuration += segmentSolution.getPropagationDuration();
 
             initialState = segmentSolution.states.accessLast();
         }
     }
 
-    // No Event Condition was provided, therefore the Sequence has successfully completed
-    if (anEventConditionSPtr == nullptr)
-    {
-        return {segmentSolutions, true};
-    }
-
-    // An Event Condition was provided, however the condition was not met, therefore the completion is unsuccessful
     return {segmentSolutions, false};
 }
 

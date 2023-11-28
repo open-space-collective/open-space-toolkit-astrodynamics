@@ -83,7 +83,6 @@ class Sequence
 
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
-        const Size& aRepetitionCount = 1,
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const Duration& segmentPropagationDurationLimit = Duration::Days(7.0),
@@ -147,18 +146,25 @@ class Sequence
 
     void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster);
 
+    /// @brief                  Solve the sequence given an initial state, for a number of reptitions.
+    ///
+    /// @param                  [in] aState Initial state for the sequence.
+    /// @param                  [in] aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
+    /// @return                 A Solution that contains solutions for each segment.
+
+    Solution solve(const State& aState, const Size& aRepetitionCount = 1) const;
+
     /// @brief                  Solve the sequence given an initial state.
     ///
     /// @param                  [in] aState Initial state for the sequence.
-    /// @param                  [in] sequencePropagationDurationLimit Maximum propagation duration for the Sequence.
-    /// Defaults to 30.0 days.
-    /// @param                  [in] anEventCondition An event condition. Defaults to nullptr.
+    /// @param                  [in] anEventCondition An event condition.
+    /// @param                  [in] aMaximumPropagationDuration Maximum duration for sequence propagation.
     /// @return                 A Solution that contains solutions for each segment.
 
-    Solution solve(
+    Solution solveToCondition(
         const State& aState,
-        const Duration& sequencePropagationDurationLimit = Duration::Days(30.0),
-        const Shared<EventCondition>& anEventConditionSPtr = nullptr
+        const EventCondition& anEventCondition,
+        const Duration& aMaximumPropagationDuration = Duration::Days(30.0)
     ) const;
 
     /// @brief                  Print the sequence.
@@ -170,7 +176,6 @@ class Sequence
 
    private:
     Array<Segment> segments_;
-    Size repetitionCount_;
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
     Duration segmentPropagationDurationLimit_;

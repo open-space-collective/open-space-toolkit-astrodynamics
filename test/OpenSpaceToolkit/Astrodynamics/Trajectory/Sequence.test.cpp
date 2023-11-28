@@ -118,7 +118,6 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
     const Duration defaultMaximumPropagationDuration_ = Duration::Days(7.0);
     Sequence defaultSequence_ = {
         defaultSegments_,
-        defaultRepetitionCount_,
         defaultNumericalSolver_,
         defaultDynamics_,
         defaultMaximumPropagationDuration_,
@@ -176,32 +175,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
     }
 
     {
-        {
-            EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_));
-        }
-
-        {
-            EXPECT_THROW(Sequence sequence(defaultSegments_, 0), ostk::core::error::runtime::Wrong);
-        }
+        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultNumericalSolver_));
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_, defaultNumericalSolver_));
-    }
-
-    {
-        EXPECT_NO_THROW(
-            Sequence sequence(defaultSegments_, defaultRepetitionCount_, defaultNumericalSolver_, defaultDynamics_)
-        );
+        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultNumericalSolver_, defaultDynamics_));
     }
 
     {
         EXPECT_NO_THROW(Sequence sequence(
-            defaultSegments_,
-            defaultRepetitionCount_,
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_
+            defaultSegments_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_
         ));
     }
 
@@ -211,7 +194,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
             {
                 EXPECT_NO_THROW(Sequence sequence(
                     defaultSegments_,
-                    defaultRepetitionCount_,
                     defaultNumericalSolver_,
                     defaultDynamics_,
                     defaultMaximumPropagationDuration_,
@@ -223,12 +205,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
         {
             EXPECT_THROW(
                 Sequence sequence(
-                    defaultSegments_,
-                    defaultRepetitionCount_,
-                    defaultNumericalSolver_,
-                    defaultDynamics_,
-                    defaultMaximumPropagationDuration_,
-                    6
+                    defaultSegments_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_, 6
                 ),
                 ostk::core::error::runtime::Wrong
             );
@@ -323,7 +300,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 {
     // default solve
     {
-        const Sequence::Solution solution = defaultSequence_.solve(defaultState_);
+        EXPECT_THROW(defaultSequence_.solve(defaultState_, 0), ostk::core::error::runtime::Wrong);
+    }
+
+    {
+        const Sequence::Solution solution = defaultSequence_.solve(defaultState_, defaultRepetitionCount_);
 
         EXPECT_TRUE(
             solution.segmentSolutions.getSize() == defaultSequence_.getSegments().getSize() * defaultRepetitionCount_
@@ -347,70 +328,75 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
     {
         Sequence sequence = {
             defaultSegments_,
-            defaultRepetitionCount_,
             defaultNumericalSolver_,
             defaultDynamics_,
             Duration::Seconds(1.0),
         };
 
-        const Sequence::Solution solution = sequence.solve(defaultState_);
+        const Sequence::Solution solution = sequence.solve(defaultState_, defaultRepetitionCount_);
+
+        EXPECT_FALSE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+        EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
+{
+    // sequence completion due to event condition
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_,
+        };
+
+        const InstantCondition eventCondition = InstantCondition(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
+        );
+
+        const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    }
+
+    // sequence failure, segment termination due to maximum propagation duration
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            Duration::Seconds(1.0),
+        };
+
+        const InstantCondition eventCondition = InstantCondition(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
+        );
+
+        const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
 
         EXPECT_FALSE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
     }
 
-    // sequence termination maximum propagation duration
-    {
-        const Sequence sequence = {
-            defaultSegments_,
-            defaultRepetitionCount_,
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_
-        };
-
-        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Seconds(0.1));
-
-        EXPECT_FALSE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
-    }
-
-    // sequence completion due to event condition
-    {
-        const Sequence sequence = {
-            defaultSegments_,
-            defaultRepetitionCount_,
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_
-        };
-
-        Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
-        );
-
-        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Days(1.0), eventCondition);
-
-        EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
-    }
-
     // sequence failure, event condition not met
     {
         const Sequence sequence = {
             defaultSegments_,
-            defaultRepetitionCount_,
             defaultNumericalSolver_,
             defaultDynamics_,
-            defaultMaximumPropagationDuration_
+            defaultMaximumPropagationDuration_,
         };
 
-        Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(30.0)
+        const InstantCondition eventCondition = InstantCondition(
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
         );
 
-        const Sequence::Solution solution = sequence.solve(defaultState_, Duration::Days(30.0), eventCondition);
+        const Sequence::Solution solution =
+            sequence.solveToCondition(defaultState_, eventCondition, Duration::Minutes(1.0));
 
         EXPECT_FALSE(solution.executionIsComplete);
     }
@@ -452,7 +438,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
 
     Sequence sequence = {
         Array<Segment>::Empty(),
-        defaultRepetitionCount_,
         defaultNumericalSolver_,
         dynamics,
         defaultMaximumPropagationDuration_,
@@ -493,7 +478,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         coordinatesBrokerSPtr,
     };
 
-    const Sequence::Solution solution = sequence.solve(state);
+    const Sequence::Solution solution = sequence.solve(state, defaultRepetitionCount_);
 
     EXPECT_TRUE(solution.segmentSolutions.getSize() == 2 * defaultRepetitionCount_);
 
@@ -527,6 +512,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 {
+    const Size reptitionCount = 3;
+
     {
         const Shared<AngularCondition> relativeTrueAnomalyCondition =
             std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
@@ -544,16 +531,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 
         Sequence sequence = {
             segments,
-            3,
             defaultNumericalSolver_,
             defaultDynamics_,
             Duration::Days(1.0),
         };
 
-        const Sequence::Solution solution = sequence.solve(defaultState_);
+        const Sequence::Solution solution = sequence.solve(defaultState_, reptitionCount);
 
         EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), reptitionCount);
 
         COE initialCOE = COE::Cartesian(
             {defaultState_.getPosition(), defaultState_.getVelocity()},
@@ -583,16 +569,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 
         Sequence sequence = {
             segments,
-            3,
             defaultNumericalSolver_,
             defaultDynamics_,
             Duration::Days(1.0),
         };
 
-        const Sequence::Solution solution = sequence.solve(defaultState_);
+        const Sequence::Solution solution = sequence.solve(defaultState_, reptitionCount);
 
         EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), reptitionCount);
 
         Size iter = 1;
         for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
@@ -637,7 +622,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
 
         Sequence sequence = {
             Array<Segment>::Empty(),
-            defaultRepetitionCount_,
             defaultNumericalSolver_,
             defaultDynamics_,
             defaultMaximumPropagationDuration_,
