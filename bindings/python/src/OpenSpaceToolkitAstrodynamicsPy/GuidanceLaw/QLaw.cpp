@@ -64,16 +64,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             )doc"
         )
         .def_readonly(
-            "k",
-            &QLaw::Parameters::r,
-            R"doc(
-                Penalty parameter for periapsis.
-
-                Type:
-                    int
-            )doc"
-        )
-        .def_readonly(
             "b",
             &QLaw::Parameters::b,
             R"doc(
@@ -81,6 +71,16 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
                 Type:
                     float
+            )doc"
+        )
+        .def_readonly(
+            "k",
+            &QLaw::Parameters::r,
+            R"doc(
+                Penalty parameter for periapsis.
+
+                Type:
+                    int
             )doc"
         )
         .def_readonly(
@@ -100,8 +100,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 const Size&,
                 const Size&,
                 const Size&,
-                const Size&,
                 const double&,
+                const Size&,
                 const double&,
                 const Length&>(),
             R"doc(

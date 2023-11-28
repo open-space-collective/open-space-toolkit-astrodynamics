@@ -42,7 +42,7 @@ QLaw::Parameters::Parameters(
       k(aKValue),
       periapsisWeight(aPeriapsisWeight),
       minimumPeriapsisRadius_(minimumPeriapsisradius.inMeters()),
-      convergenceThresholds_(Vector5d::Zero()),
+      convergenceThresholds_(Vector5d::Ones() * 1e-10),
       controlWeights_(Vector5d::Zero())
 {
     if (anElementWeightsMap.empty())
@@ -141,6 +141,7 @@ Vector3d QLaw::calculateThrustAccelerationAt(
     coeVector[2] = std::max(coeVector[2], 1e-4);
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
+    std::cout << "thrustDirection: " << thrustDirection.transpose() << std::endl;
 
     const Matrix3d R_thetaRH_GCRF = QLaw::ThetaRHToGCRF(aPositionCoordinates, aVelocityCoordinates);
 
@@ -178,6 +179,20 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
 
     const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
 
+    const Vector5d deltaCOE = {
+        (aCOEVector[0] - targetCOEVector_[0]),
+        (aCOEVector[1] - targetCOEVector_[1]),
+        (aCOEVector[2] - targetCOEVector_[2]),
+        (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
+        (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
+    };
+
+    if ((parameters_.controlWeights_.array() * deltaCOE.array().abs() <= parameters_.convergenceThresholds_.array())
+            .all())
+    {
+        return {0.0, 0.0, 0.0};
+    }
+
     return D;
 }
 
@@ -200,21 +215,13 @@ double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAccelerat
 
     //   ⎛      T⎞
     // d ⎝oe, oe ⎠
-    Vector5d deltaCOE = {
+    const Vector5d deltaCOE = {
         (aCOEVector[0] - targetCOEVector_[0]),
         (aCOEVector[1] - targetCOEVector_[1]),
         (aCOEVector[2] - targetCOEVector_[2]),
         (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
         (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
     };
-
-    for (Index i = 0; i < 5; ++i)
-    {
-        if (std::abs(deltaCOE[i]) < parameters_.convergenceThresholds_[i])
-        {
-            deltaCOE[i] = 0.0;
-        }
-    }
 
     // S_oe
     const Vector5d scalingCOE = {
