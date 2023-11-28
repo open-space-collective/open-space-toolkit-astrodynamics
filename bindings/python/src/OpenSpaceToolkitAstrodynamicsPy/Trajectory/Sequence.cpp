@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
     class_<Sequence::Solution>(
         sequence,
-        "SequenceSolution",
+        "Solution",
         R"doc(
             The Solution object that is returned when a `Sequence` is solved.
 

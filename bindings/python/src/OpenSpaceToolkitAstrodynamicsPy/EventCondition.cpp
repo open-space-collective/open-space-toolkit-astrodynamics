@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
         class_<EventCondition::Target> eventConditionTarget(
             eventCondition,
-            "EventConditionTarget",
+            "Target",
             R"doc(
                 The Event Condition Target.
 

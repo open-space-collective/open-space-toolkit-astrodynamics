@@ -26,7 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
 
     class_<RootSolver::Solution>(
         rootSolver,
-        "RootSolverSolution",
+        "Solution",
         R"doc(
             A root solver solution.
 

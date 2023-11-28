@@ -29,7 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
     class_<Segment::Solution>(
         segment,
-        "SegmentSolution",
+        "Solution",
         R"doc(
             The Solution object returned when a `Segment` is solved.
 
