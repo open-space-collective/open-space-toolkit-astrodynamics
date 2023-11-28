@@ -19,9 +19,9 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
     : Model(),
       interpolationType_(anInterpolationType)
 {
-    using ostk::math::curvefitting::interp::BarycentricRational;
-    using ostk::math::curvefitting::interp::CubicSpline;
-    using ostk::math::curvefitting::interp::Linear;
+    using ostk::math::curvefitting::interpolator::BarycentricRational;
+    using ostk::math::curvefitting::interpolator::CubicSpline;
+    using ostk::math::curvefitting::interpolator::Linear;
 
     if (aStateArray.getSize() < 2)
     {

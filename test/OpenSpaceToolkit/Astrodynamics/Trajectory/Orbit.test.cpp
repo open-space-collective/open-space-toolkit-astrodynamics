@@ -28,21 +28,21 @@
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;
-using ostk::core::fs::File;
-using ostk::core::fs::Path;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::VectorXd;
-using ostk::math::geom::d3::trf::rot::Quaternion;
+using ostk::math::object::Vector3d;
+using ostk::math::object::VectorXd;
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
-using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -1227,8 +1227,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
 // {
 
 //     using ostk::core::ctnr::Array ;
-//     using ostk::core::fs::Path ;
-//     using ostk::core::fs::File ;
+//     using ostk::core::filesystem::Path ;
+//     using ostk::core::filesystem::File ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::time::Scale ;

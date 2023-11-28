@@ -40,14 +40,14 @@ namespace ctnr = ostk::core::ctnr;
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
-using ostk::core::fs::File;
+using ostk::core::filesystem::File;
 using ostk::core::types::Index;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
-using ostk::math::obj::MatrixXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;

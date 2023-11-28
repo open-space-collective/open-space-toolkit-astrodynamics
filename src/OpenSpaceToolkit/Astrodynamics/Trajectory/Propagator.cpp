@@ -20,9 +20,9 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Index;
 using ostk::core::ctnr::Pair;
 
-using ostk::math::obj::VectorXd;
+using ostk::math::object::VectorXd;
 
-using ostk::physics::env::obj::Celestial;
+using ostk::physics::environment::object::Celestial;
 
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::dynamics::CentralBodyGravity;

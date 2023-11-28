@@ -19,11 +19,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -76,11 +76,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, EqualToOperator)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -127,11 +127,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -178,11 +178,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -215,11 +215,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, StreamOperator)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -256,11 +256,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -297,11 +297,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -334,11 +334,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
     using ostk::core::types::Real;
     using ostk::core::types::String;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Cuboid;
+    using ostk::math::geometry::d3::objects::Point;
+    using ostk::math::object::Matrix3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::units::Mass;
 

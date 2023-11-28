@@ -9,7 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
 {
     using namespace pybind11;
 
-    using ostk::math::geom::d3::objects::Composite;
+    using ostk::math::geometry::d3::objects::Composite;
 
     using ostk::physics::units::Mass;
 

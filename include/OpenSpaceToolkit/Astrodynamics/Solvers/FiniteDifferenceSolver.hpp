@@ -26,8 +26,8 @@ using ostk::core::types::Size;
 using ostk::core::types::String;
 using ostk::core::ctnr::Array;
 
-using ostk::math::obj::VectorXd;
-using ostk::math::obj::MatrixXd;
+using ostk::math::object::VectorXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;

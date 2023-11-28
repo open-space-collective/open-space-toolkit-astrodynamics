@@ -28,15 +28,15 @@ int main()
     using ostk::core::types::Real;
     using ostk::core::ctnr::Array;
 
-    using ostk::math::obj::Vector3d;
-    using Point2d = ostk::math::geom::d2::objects::Point;
-    using Polygon2d = ostk::math::geom::d2::objects::Polygon;
-    using Point3d = ostk::math::geom::d3::objects::Point;
-    using LineString3d = ostk::math::geom::d3::objects::LineString;
-    using Polygon3d = ostk::math::geom::d3::objects::Polygon;
-    using ostk::math::geom::d3::objects::Pyramid;
-    using ostk::math::geom::d3::trf::rot::Quaternion;
-    using ostk::math::geom::d3::trf::rot::RotationMatrix;
+    using ostk::math::object::Vector3d;
+    using Point2d = ostk::math::geometry::d2::objects::Point;
+    using Polygon2d = ostk::math::geometry::d2::objects::Polygon;
+    using Point3d = ostk::math::geometry::d3::objects::Point;
+    using LineString3d = ostk::math::geometry::d3::objects::LineString;
+    using Polygon3d = ostk::math::geometry::d3::objects::Polygon;
+    using ostk::math::geometry::d3::objects::Pyramid;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
 
     using ostk::physics::units::Length;
     using ostk::physics::units::Angle;
@@ -54,9 +54,9 @@ int main()
     using ostk::physics::coord::Velocity;
     using ostk::physics::coord::spherical::LLA;
     using ostk::physics::Environment;
-    using ostk::physics::env::object::Geometry;
-    using ostk::physics::env::obj::Celestial;
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::object::Geometry;
+    using ostk::physics::environment::object::Celestial;
+    using ostk::physics::environment::object::celestial::Earth;
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;

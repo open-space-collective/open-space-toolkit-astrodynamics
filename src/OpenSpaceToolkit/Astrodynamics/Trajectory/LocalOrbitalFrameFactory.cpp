@@ -25,7 +25,7 @@ namespace trajectory
 
 using ostk::core::types::String;
 using ostk::core::types::Shared;
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Frame;
 using FrameManager = ostk::physics::coord::frame::Manager;

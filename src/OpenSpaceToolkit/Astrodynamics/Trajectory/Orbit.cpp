@@ -147,7 +147,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
     using ostk::core::types::Index;
     using ostk::core::types::Real;
 
-    using ostk::math::obj::Vector3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::time::Duration;
     using ostk::physics::time::Interval;
@@ -371,10 +371,10 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
 Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) const
 {
-    using ostk::math::geom::d3::trf::rot::Quaternion;
-    using ostk::math::geom::d3::trf::rot::RotationMatrix;
-    using ostk::math::geom::d3::trf::rot::RotationVector;
-    using ostk::math::obj::Vector3d;
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::math::geometry::d3::transformation::rotation::RotationVector;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::spherical::LLA;
     using ostk::physics::time::Duration;
@@ -775,7 +775,7 @@ Orbit Orbit::GeoSynchronous(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using ostk::math::obj::Vector3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::coord::spherical::LLA;
     using ostk::physics::coord::Position;
@@ -844,12 +844,12 @@ Orbit Orbit::SunSynchronous(
 {
     using ostk::core::types::Uint8;
 
-    using ostk::math::obj::Vector3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::time::Scale;
     using ostk::physics::units::Derived;
     using ostk::physics::units::Mass;
-    using ostk::physics::env::obj::celest::Sun;
+    using ostk::physics::environment::object::celestial::Sun;
 
     using orbit::models::Kepler;
     using orbit::models::kepler::COE;
@@ -1046,7 +1046,7 @@ String Orbit::generateFrameName(const Orbit::FrameType& aFrameType) const
 
 //     using ostk::core::types::Real ;
 
-//     using ostk::math::obj::Vector3d ;
+//     using ostk::math::object::Vector3d ;
 
 //     using ostk::physics::time::Duration ;
 

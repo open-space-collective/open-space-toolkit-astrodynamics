@@ -8,8 +8,8 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::VectorXd;
+using ostk::math::object::Vector3d;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;

@@ -763,8 +763,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 {
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
+    using ostk::core::filesystem::File;
+    using ostk::core::filesystem::Path;
     using ostk::core::types::Integer;
     using ostk::core::types::String;
 
@@ -905,8 +905,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 {
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
+    using ostk::core::filesystem::File;
+    using ostk::core::filesystem::Path;
     using ostk::core::types::Integer;
     using ostk::core::types::String;
 
@@ -1071,8 +1071,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 {
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
+    using ostk::core::filesystem::File;
+    using ostk::core::filesystem::Path;
     using ostk::core::types::String;
 
     using ostk::physics::units::Angle;

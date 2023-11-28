@@ -19,8 +19,8 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::math::obj::VectorXd;
-using ostk::math::obj::Vector3d;
+using ostk::math::object::VectorXd;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::units::Mass;
 

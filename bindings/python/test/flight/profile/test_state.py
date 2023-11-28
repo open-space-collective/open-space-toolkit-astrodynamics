@@ -10,7 +10,7 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
+Quaternion = mathematics.geometry.d3.transformation.rotation.Quaternion
 DateTime = physics.time.DateTime
 Instant = physics.time.Instant
 Scale = physics.time.Scale

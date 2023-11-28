@@ -27,19 +27,19 @@
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;
-using ostk::core::fs::File;
-using ostk::core::fs::Path;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
-using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;

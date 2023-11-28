@@ -10,7 +10,7 @@ using ostk::core::types::String;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::VectorXd;
+using ostk::math::object::VectorXd;
 
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::BooleanCondition;

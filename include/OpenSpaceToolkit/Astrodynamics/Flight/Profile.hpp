@@ -32,8 +32,8 @@ using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::types::Unique;
 
-using ostk::math::geom::d3::trf::rot::Quaternion;
-using ostk::math::obj::Vector3d;
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Axes;
 using ostk::physics::coord::Frame;

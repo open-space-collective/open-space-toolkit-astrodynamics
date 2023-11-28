@@ -33,8 +33,8 @@ using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
-using ostk::math::obj::VectorXd;
-using ostk::math::obj::Vector3d;
+using ostk::math::object::VectorXd;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;

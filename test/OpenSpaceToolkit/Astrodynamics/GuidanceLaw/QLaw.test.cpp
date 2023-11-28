@@ -27,16 +27,16 @@ using ostk::core::types::Shared;
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Tuple;
 
-using ostk::math::obj::Matrix3d;
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::Vector6d;
-using ostk::math::obj::VectorXd;
+using ostk::math::object::Matrix3d;
+using ostk::math::object::Vector3d;
+using ostk::math::object::Vector6d;
+using ostk::math::object::VectorXd;
 using Vector5d = Eigen::Matrix<double, 5, 1>;
 using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
-using ostk::math::geom::d3::objects::Composite;
-using ostk::math::geom::d3::objects::Cuboid;
-using ostk::math::geom::d3::objects::Point;
+using ostk::math::geometry::d3::objects::Composite;
+using ostk::math::geometry::d3::objects::Cuboid;
+using ostk::math::geometry::d3::objects::Point;
 
 using ostk::physics::data::Scalar;
 using ostk::physics::units::Derived;
@@ -46,7 +46,7 @@ using ostk::physics::units::Mass;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::coord::Frame;
-using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::environment::object::celestial::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::guidancelaw::QLaw;

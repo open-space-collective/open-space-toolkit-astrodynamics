@@ -35,7 +35,7 @@ namespace spacex
 namespace ctnr = ostk::core::ctnr;
 
 using ostk::core::ctnr::Array;
-using ostk::core::fs::File;
+using ostk::core::filesystem::File;
 using ostk::core::types::Index;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;

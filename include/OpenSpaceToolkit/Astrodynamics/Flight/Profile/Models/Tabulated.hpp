@@ -27,7 +27,7 @@ namespace models
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Pair;
-using ostk::core::fs::File;
+using ostk::core::filesystem::File;
 using ostk::core::types::Index;
 using ostk::core::types::String;
 

@@ -51,7 +51,7 @@ SGP4::Impl::Impl(const TLE& aTle)
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::math::obj::Vector3d;
+    using ostk::math::object::Vector3d;
 
     using ostk::physics::time::Duration;
 

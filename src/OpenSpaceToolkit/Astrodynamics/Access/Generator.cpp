@@ -11,13 +11,13 @@
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
 
-using ostk::math::geom::d3::objects::Point;
-using ostk::math::geom::d3::objects::Segment;
+using ostk::math::geometry::d3::objects::Point;
+using ostk::math::geometry::d3::objects::Segment;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::spherical::LLA;
-using ostk::physics::env::Object;
-using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::environment::Object;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::astro::solvers::TemporalConditionSolver;
 
 namespace ostk
@@ -254,7 +254,7 @@ Generator Generator::AerMask(
     using ostk::core::ctnr::Map;
     using ostk::core::types::Real;
 
-    using ostk::math::obj::Vector2d;
+    using ostk::math::object::Vector2d;
 
     if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
         (anAzimuthElevationMask.rbegin()->first > 360.0))

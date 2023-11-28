@@ -12,7 +12,7 @@ namespace astro
 namespace eventcondition
 {
 
-using ostk::math::obj::Vector3d;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;

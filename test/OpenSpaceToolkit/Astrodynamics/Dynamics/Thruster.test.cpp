@@ -21,8 +21,8 @@ using ostk::core::types::Real;
 using ostk::core::types::Index;
 using ostk::core::ctnr::Array;
 
-using ostk::math::obj::VectorXd;
-using ostk::math::obj::Vector3d;
+using ostk::math::object::VectorXd;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;

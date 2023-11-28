@@ -7,7 +7,7 @@ import ostk.physics as physics
 import ostk.astrodynamics as astrodynamics
 
 RealInterval = mathematics.objects.RealInterval
-Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
+Quaternion = mathematics.geometry.d3.transformation.rotation.Quaternion
 Length = physics.units.Length
 Angle = physics.units.Angle
 DateTime = physics.time.DateTime

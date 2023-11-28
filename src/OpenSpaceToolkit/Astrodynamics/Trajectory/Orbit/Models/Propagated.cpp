@@ -18,8 +18,8 @@ namespace models
 
 using ostk::core::types::Size;
 
-using ostk::math::obj::Vector3d;
-using ostk::math::obj::VectorXd;
+using ostk::math::object::Vector3d;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;

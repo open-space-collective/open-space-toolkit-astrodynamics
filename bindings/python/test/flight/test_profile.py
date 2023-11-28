@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytest
 
-from ostk.mathematics.geometry.d3.transformations.rotations import Quaternion
+from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
 from ostk.physics import Environment
 from ostk.physics.time import DateTime

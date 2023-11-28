@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 
 import numpy as np
 
-from ostk.mathematics.geometry.d3.transformations.rotations import Quaternion
+from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
