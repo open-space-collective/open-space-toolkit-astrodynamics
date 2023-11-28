@@ -163,9 +163,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a03752b6712854c8369824408bab72e3c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a03752b6712854c8369824408bab72e3c">hasSubset</a> (const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;aCoordinatesSubsetSPtr) const</td></tr>
 <tr class="memdesc:a03752b6712854c8369824408bab72e3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> has a given coordinates subset.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#a03752b6712854c8369824408bab72e3c">More...</a><br /></td></tr>
 <tr class="separator:a03752b6712854c8369824408bab72e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a592f2853a63cfc45c1adec2a0c1118ab"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a592f2853a63cfc45c1adec2a0c1118ab">extractCoordinates</a> (const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;aSubsetSPtr) const</td></tr>
-<tr class="memdesc:a592f2853a63cfc45c1adec2a0c1118ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the coordinates for a single subset.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#a592f2853a63cfc45c1adec2a0c1118ab">More...</a><br /></td></tr>
-<tr class="separator:a592f2853a63cfc45c1adec2a0c1118ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2681f516262a1f851fa91c57c3577cc"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#ae2681f516262a1f851fa91c57c3577cc">extractCoordinate</a> (const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;aSubsetSPtr) const</td></tr>
+<tr class="memdesc:ae2681f516262a1f851fa91c57c3577cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the coordinates for a single subset.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#ae2681f516262a1f851fa91c57c3577cc">More...</a><br /></td></tr>
+<tr class="separator:ae2681f516262a1f851fa91c57c3577cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad1f1b9eeb7118bbe356520d3fe40f03"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#aad1f1b9eeb7118bbe356520d3fe40f03">extractCoordinates</a> (const Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt; &amp;aCoordinatesSubsetsArray) const</td></tr>
 <tr class="memdesc:aad1f1b9eeb7118bbe356520d3fe40f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the coordinates for multiple subsets.  <a href="classostk_1_1astro_1_1trajectory_1_1_state.html#aad1f1b9eeb7118bbe356520d3fe40f03">More...</a><br /></td></tr>
 <tr class="separator:aad1f1b9eeb7118bbe356520d3fe40f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -444,8 +444,35 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ae2681f516262a1f851fa91c57c3577cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2681f516262a1f851fa91c57c3577cc">&#9670;&nbsp;</a></span>extractCoordinate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VectorXd ostk::astro::trajectory::State::extractCoordinate </td>
+          <td>(</td>
+          <td class="paramtype">const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aSubsetSPtr</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extract the coordinates for a single subset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSubsetSPtr</td><td>The subset to extract the coordinates for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates for the subset </dd></dl>
+
+</div>
+</div>
 <a id="aad1f1b9eeb7118bbe356520d3fe40f03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad1f1b9eeb7118bbe356520d3fe40f03">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aad1f1b9eeb7118bbe356520d3fe40f03">&#9670;&nbsp;</a></span>extractCoordinates()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -468,33 +495,6 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The coordinates for the subsets </dd></dl>
-
-</div>
-</div>
-<a id="a592f2853a63cfc45c1adec2a0c1118ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a592f2853a63cfc45c1adec2a0c1118ab">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">VectorXd ostk::astro::trajectory::State::extractCoordinates </td>
-          <td>(</td>
-          <td class="paramtype">const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>aSubsetSPtr</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Extract the coordinates for a single subset. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSubsetSPtr</td><td>The subset to extract the coordinates for </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The coordinates for the subset </dd></dl>
 
 </div>
 </div>

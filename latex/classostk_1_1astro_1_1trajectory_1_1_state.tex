@@ -56,7 +56,7 @@ const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory
 \begin{DoxyCompactList}\small\item\em Get the coordinates subsets of the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a03752b6712854c8369824408bab72e3c}{has\+Subset}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Coordinates\+Subset\+S\+Ptr) const
 \begin{DoxyCompactList}\small\item\em Check if the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} has a given coordinates subset. \end{DoxyCompactList}\item 
-Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a592f2853a63cfc45c1adec2a0c1118ab}{extract\+Coordinates}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Subset\+S\+Ptr) const
+Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ae2681f516262a1f851fa91c57c3577cc}{extract\+Coordinate}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Subset\+S\+Ptr) const
 \begin{DoxyCompactList}\small\item\em Extract the coordinates for a single subset. \end{DoxyCompactList}\item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_aad1f1b9eeb7118bbe356520d3fe40f03}{extract\+Coordinates}} (const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&a\+Coordinates\+Subsets\+Array) const
 \begin{DoxyCompactList}\small\item\em Extract the coordinates for multiple subsets. \end{DoxyCompactList}\item 
@@ -211,10 +211,28 @@ Accessor for the instant.
 \begin{DoxyReturn}{Returns}
 The instant 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_ae2681f516262a1f851fa91c57c3577cc}\label{classostk_1_1astro_1_1trajectory_1_1_state_ae2681f516262a1f851fa91c57c3577cc}} 
+\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!extractCoordinate@{extractCoordinate}}
+\index{extractCoordinate@{extractCoordinate}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
+\doxysubsubsection{\texorpdfstring{extractCoordinate()}{extractCoordinate()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::trajectory\+::\+State\+::extract\+Coordinate (\begin{DoxyParamCaption}\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&}]{a\+Subset\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+
+
+Extract the coordinates for a single subset. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Subset\+S\+Ptr} & The subset to extract the coordinates for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The coordinates for the subset 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_aad1f1b9eeb7118bbe356520d3fe40f03}\label{classostk_1_1astro_1_1trajectory_1_1_state_aad1f1b9eeb7118bbe356520d3fe40f03}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!extractCoordinates@{extractCoordinates}}
 \index{extractCoordinates@{extractCoordinates}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
-\doxysubsubsection{\texorpdfstring{extractCoordinates()}{extractCoordinates()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{extractCoordinates()}{extractCoordinates()}}
 {\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::trajectory\+::\+State\+::extract\+Coordinates (\begin{DoxyParamCaption}\item[{const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&}]{a\+Coordinates\+Subsets\+Array }\end{DoxyParamCaption}) const}
 
 
@@ -228,24 +246,6 @@ Extract the coordinates for multiple subsets.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The coordinates for the subsets 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a592f2853a63cfc45c1adec2a0c1118ab}\label{classostk_1_1astro_1_1trajectory_1_1_state_a592f2853a63cfc45c1adec2a0c1118ab}} 
-\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!extractCoordinates@{extractCoordinates}}
-\index{extractCoordinates@{extractCoordinates}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
-\doxysubsubsection{\texorpdfstring{extractCoordinates()}{extractCoordinates()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::trajectory\+::\+State\+::extract\+Coordinates (\begin{DoxyParamCaption}\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&}]{a\+Subset\+S\+Ptr }\end{DoxyParamCaption}) const}
-
-
-
-Extract the coordinates for a single subset. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Subset\+S\+Ptr} & The subset to extract the coordinates for \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The coordinates for the subset 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}\label{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!getCoordinates@{getCoordinates}}

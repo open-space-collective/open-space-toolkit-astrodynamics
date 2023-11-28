@@ -6,6 +6,7 @@ var NAVTREEINDEX3 =
 "classostk_1_1astro_1_1trajectory_1_1_state.html#ad03f40490dd2a2572284221008be05f5":[4,0,0,0,7,11,11],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#ad5ceac322a929f0f62214a663a21f4ae":[4,0,0,0,7,11,14],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#adece3f2dda107d9178b40648dfbc01d0":[4,0,0,0,7,11,10],
+"classostk_1_1astro_1_1trajectory_1_1_state.html#ae2681f516262a1f851fa91c57c3577cc":[4,0,0,0,7,11,8],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#ae5823b96deced6c95a02eb35b56c396f":[4,0,0,0,7,11,4],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#af1ba3040b895b0963d5fb96a0756cc2b":[4,0,0,0,7,11,13],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#af7aeabb36f72d0a2a9911176d4fe4f7f":[4,0,0,0,7,11,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a54a7a3bca65674d5052031634f900984":[4,0,0,0,7,1,1,2,0,29],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e":[4,0,0,0,7,1,1,2,0,0],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a5e748208f49fc10cc1b925cffa095f67":[4,0,0,0,7,1,1,2,0,11],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a63c9241a31234dd07ee4ca4424a9df5f":[4,0,0,0,7,1,1,2,0,20],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a66f25eab1f7e8f7e511ad0a77da90de7":[4,0,0,0,7,1,1,2,0,22]
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a63c9241a31234dd07ee4ca4424a9df5f":[4,0,0,0,7,1,1,2,0,20]
 };

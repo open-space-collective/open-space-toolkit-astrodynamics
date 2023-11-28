@@ -17,7 +17,7 @@ struct \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solut
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a243c068206b012c4b4b637234244ecf0}{Sequence}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&a\+Segment\+Array=Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$\+::Empty(), const Size \&a\+Repetition\+Count=1, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver=\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a99c4cfab1e84cf56fd2590f242d1c4eb}{Numerical\+Solver\+::\+Undefined}}(), const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array=Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$\+::Empty(), const Duration \&segment\+Propagation\+Duration\+Limit=Duration\+::\+Days(7.\+0), const Size \&verbosity=0)
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}{Sequence}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&a\+Segment\+Array=Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$\+::Empty(), const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver=\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a99c4cfab1e84cf56fd2590f242d1c4eb}{Numerical\+Solver\+::\+Undefined}}(), const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array=Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$\+::Empty(), const Duration \&segment\+Propagation\+Duration\+Limit=Duration\+::\+Days(7.\+0), const Size \&verbosity=0)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_ab501a80ed836c99dfeaac8a24f693681}{get\+Segments}} () const
 \begin{DoxyCompactList}\small\item\em Get segments. \end{DoxyCompactList}\item 
@@ -29,13 +29,15 @@ Duration \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_ac2478f6
 \begin{DoxyCompactList}\small\item\em Get maximum propagation duration. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_adebd566fd90d0638bbe049e6f907af99}{add\+Segment}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} \&a\+Trajectory\+Segment)
 \begin{DoxyCompactList}\small\item\em Add a trajectory segment. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_ae046ef43cc04dbc0587b7048ad70eddd}{add\+Segment}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&a\+Trajectory\+Segment\+Array)
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a084b13574512ade5edf22fe393f3cac4}{add\+Segments}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&a\+Trajectory\+Segment\+Array)
 \begin{DoxyCompactList}\small\item\em Add multiple segments. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a5ccde70df95c29e47cb70e1f2fa2a9d0}{add\+Coast\+Segment}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ \&an\+Event\+Condition\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Add a coast segment. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_ab6a7e40bf334faf78967fff729e4730c}{add\+Maneuver\+Segment}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ \&an\+Event\+Condition\+S\+Ptr, const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster}{Thruster}} $>$ \&a\+Thruster)
 \begin{DoxyCompactList}\small\item\em Add a maneuver segment. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a7bd96d3c8904a0ab62022f6617c5a09a}{solve}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Duration \&sequence\+Propagation\+Duration\+Limit=Duration\+::\+Days(30.\+0), const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ \&an\+Event\+Condition\+S\+Ptr=nullptr) const
+\mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_ad107e919ff1a384fd9e9ec191615029c}{solve}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Size \&a\+Repetition\+Count=1) const
+\begin{DoxyCompactList}\small\item\em Solve the sequence given an initial state, for a number of reptitions. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a1f5e7a6ffecf7e267633b9af6315b45a}{solve\+To\+Condition}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&an\+Event\+Condition, const Duration \&a\+Maximum\+Propagation\+Duration=Duration\+::\+Days(30.\+0)) const
 \begin{DoxyCompactList}\small\item\em Solve the sequence given an initial state. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a5d1d840b12ae6aa36665628cbfd0a372}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print the sequence. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -50,11 +52,11 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence
 Represents a sequence of trajectory segments executed in order. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a243c068206b012c4b4b637234244ecf0}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a243c068206b012c4b4b637234244ecf0}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}} 
 \index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}!Sequence@{Sequence}}
 \index{Sequence@{Sequence}!ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
 \doxysubsubsection{\texorpdfstring{Sequence()}{Sequence()}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Sequence\+::\+Sequence (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&}]{a\+Segment\+Array = {\ttfamily Array$<$\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}}$>$\+:\+:Empty()},  }\item[{const Size \&}]{a\+Repetition\+Count = {\ttfamily 1},  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a99c4cfab1e84cf56fd2590f242d1c4eb}{Numerical\+Solver\+::\+Undefined}}()},  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array = {\ttfamily Array$<$Shared$<$\mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}}$>$$>$\+:\+:Empty()},  }\item[{const Duration \&}]{segment\+Propagation\+Duration\+Limit = {\ttfamily Duration\+:\+:Days(7.0)},  }\item[{const Size \&}]{verbosity = {\ttfamily 0} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Sequence\+::\+Sequence (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&}]{a\+Segment\+Array = {\ttfamily Array$<$\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}}$>$\+:\+:Empty()},  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a99c4cfab1e84cf56fd2590f242d1c4eb}{Numerical\+Solver\+::\+Undefined}}()},  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array = {\ttfamily Array$<$Shared$<$\mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}}$>$$>$\+:\+:Empty()},  }\item[{const Duration \&}]{segment\+Propagation\+Duration\+Limit = {\ttfamily Duration\+:\+:Days(7.0)},  }\item[{const Size \&}]{verbosity = {\ttfamily 0} }\end{DoxyParamCaption})}
 
 
 
@@ -69,7 +71,7 @@ Constructor.
 \DoxyCodeLine{\textcolor{keyword}{const} Duration maximumPropagationDuration = Duration::Days(7.0);}
 \DoxyCodeLine{\textcolor{keyword}{const} Size verbosity = 0;}
 \DoxyCodeLine{}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a243c068206b012c4b4b637234244ecf0}{Sequence}} sequence = \{repetitionCount, numericalSolver, dynamicsArray,}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}{Sequence}} sequence = \{repetitionCount, numericalSolver, dynamicsArray,}
 \DoxyCodeLine{maximumPropagationDuration, verbosity\};}
 \end{DoxyCode}
 
@@ -124,25 +126,10 @@ Add a maneuver segment.
 \mbox{\texttt{ in}}  & {\em a\+Thruster} & A thruster dynamics. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_ae046ef43cc04dbc0587b7048ad70eddd}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_ae046ef43cc04dbc0587b7048ad70eddd}} 
-\index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}!addSegment@{addSegment}}
-\index{addSegment@{addSegment}!ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
-\doxysubsubsection{\texorpdfstring{addSegment()}{addSegment()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Sequence\+::add\+Segment (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&}]{a\+Trajectory\+Segment\+Array }\end{DoxyParamCaption})}
-
-
-
-Add multiple segments. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Trajectory\+Segment\+Array} & An array of trajectory segments. \\
-\hline
-\end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_adebd566fd90d0638bbe049e6f907af99}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_adebd566fd90d0638bbe049e6f907af99}} 
 \index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}!addSegment@{addSegment}}
 \index{addSegment@{addSegment}!ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
-\doxysubsubsection{\texorpdfstring{addSegment()}{addSegment()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\doxysubsubsection{\texorpdfstring{addSegment()}{addSegment()}}
 {\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Sequence\+::add\+Segment (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} \&}]{a\+Trajectory\+Segment }\end{DoxyParamCaption})}
 
 
@@ -152,6 +139,21 @@ Add a trajectory segment.
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em a\+Trajectory\+Segment} & A trajectory segment. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a084b13574512ade5edf22fe393f3cac4}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a084b13574512ade5edf22fe393f3cac4}} 
+\index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}!addSegments@{addSegments}}
+\index{addSegments@{addSegments}!ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
+\doxysubsubsection{\texorpdfstring{addSegments()}{addSegments()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Sequence\+::add\+Segments (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} $>$ \&}]{a\+Trajectory\+Segment\+Array }\end{DoxyParamCaption})}
+
+
+
+Add multiple segments. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Trajectory\+Segment\+Array} & An array of trajectory segments. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a35256e8158329b6e5a5df6bfae26ea34}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a35256e8158329b6e5a5df6bfae26ea34}} 
@@ -223,11 +225,31 @@ Print the sequence.
 \mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a7bd96d3c8904a0ab62022f6617c5a09a}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a7bd96d3c8904a0ab62022f6617c5a09a}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_ad107e919ff1a384fd9e9ec191615029c}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_ad107e919ff1a384fd9e9ec191615029c}} 
 \index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}!solve@{solve}}
 \index{solve@{solve}!ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
 \doxysubsubsection{\texorpdfstring{solve()}{solve()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Sequence\+::\+Solution}} ostk\+::astro\+::trajectory\+::\+Sequence\+::solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Duration \&}]{sequence\+Propagation\+Duration\+Limit = {\ttfamily Duration\+:\+:Days(30.0)},  }\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ \&}]{an\+Event\+Condition\+S\+Ptr = {\ttfamily nullptr} }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Sequence\+::\+Solution}} ostk\+::astro\+::trajectory\+::\+Sequence\+::solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Size \&}]{a\+Repetition\+Count = {\ttfamily 1} }\end{DoxyParamCaption}) const}
+
+
+
+Solve the sequence given an initial state, for a number of reptitions. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & Initial state for the sequence. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Repetition\+Count} & Number of repetitions. Defaults to 1, i.\+e. execute sequence once. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Solution}} that contains solutions for each segment. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a1f5e7a6ffecf7e267633b9af6315b45a}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a1f5e7a6ffecf7e267633b9af6315b45a}} 
+\index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}!solveToCondition@{solveToCondition}}
+\index{solveToCondition@{solveToCondition}!ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
+\doxysubsubsection{\texorpdfstring{solveToCondition()}{solveToCondition()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{Sequence\+::\+Solution}} ostk\+::astro\+::trajectory\+::\+Sequence\+::solve\+To\+Condition (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&}]{an\+Event\+Condition,  }\item[{const Duration \&}]{a\+Maximum\+Propagation\+Duration = {\ttfamily Duration\+:\+:Days(30.0)} }\end{DoxyParamCaption}) const}
 
 
 
@@ -237,9 +259,9 @@ Solve the sequence given an initial state.
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em a\+State} & Initial state for the sequence. \\
 \hline
-\mbox{\texttt{ in}}  & {\em sequence\+Propagation\+Duration\+Limit} & Maximum propagation duration for the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence}{Sequence}}. Defaults to 30.\+0 days. \\
+\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An event condition. \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An event condition. Defaults to nullptr. \\
+\mbox{\texttt{ in}}  & {\em a\+Maximum\+Propagation\+Duration} & Maximum duration for sequence propagation. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
