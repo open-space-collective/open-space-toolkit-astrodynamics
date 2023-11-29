@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1701218851334,
+  "lastUpdate": 1701268980101,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,58 @@ window.BENCHMARK_DATA = {
             "value": 2782091291.0000005,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2781966949.999999 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pau@Paus-MacBook-Pro.local",
+            "name": "Pau Hebrero"
+          },
+          "committer": {
+            "email": "pau@Paus-MacBook-Pro.local",
+            "name": "Pau Hebrero"
+          },
+          "distinct": true,
+          "id": "15bce140a7e6dd12a4a9756e737be52178fd5791",
+          "message": "Revert \"build: update OSTk physics to 4.0.2\"\n\nThis reverts commit 939215672294d407d89309c0b6bb9e409292af19.",
+          "timestamp": "2023-11-29T15:13:03+01:00",
+          "tree_id": "7db09c23160052d85105fcc4a10d23366311bca8",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/15bce140a7e6dd12a4a9756e737be52178fd5791"
+        },
+        "date": 1701268979197,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 545450955.2999923,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 545374759.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 793902037.9000056,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 793864760.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2811363018.5000033,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2811050160 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2804270923.0000014,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2804062330.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2801904267.6000085,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2801796970.0000024 ns\nthreads: 1"
           }
         ]
       }
