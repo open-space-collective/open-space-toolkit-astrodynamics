@@ -1,5 +1,9 @@
 var NAVTREEINDEX3 =
 {
+"classostk_1_1astro_1_1trajectory_1_1_state.html#aad1f1b9eeb7118bbe356520d3fe40f03":[4,0,0,0,7,11,9],
+"classostk_1_1astro_1_1trajectory_1_1_state.html#abba03f039f2534d691a1dc28426e8b89":[4,0,0,0,7,11,26],
+"classostk_1_1astro_1_1trajectory_1_1_state.html#abbaa96f2d2b7f388eb073daab94202b3":[4,0,0,0,7,11,0],
+"classostk_1_1astro_1_1trajectory_1_1_state.html#abd0979467d66ca07b86d5405255d26ed":[4,0,0,0,7,11,22],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#ac4281382f859c517dd6233f341cdac66":[4,0,0,0,7,11,23],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#ac8657234876a3e043bcdfa7f88470e77":[4,0,0,0,7,11,3],
 "classostk_1_1astro_1_1trajectory_1_1_state.html#acd68798b63a7e3a89e61b4b668d8dbb0":[4,0,0,0,7,11,24],
@@ -245,9 +249,5 @@ var NAVTREEINDEX3 =
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a3b15abd9b07fb2a0851b680fe23da8f6":[4,0,0,0,7,1,1,2,0,24],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a3cd38e40cec168239029eeec5bc57c23":[4,0,0,0,7,1,1,2,0,19],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a415bc7b3671eaa616dfd9e82f9fb9520":[4,0,0,0,7,1,1,2,0,25],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a441a9c7ee954d3d97c6d3c6cd5f7cd72":[4,0,0,0,7,1,1,2,0,14],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a54a7a3bca65674d5052031634f900984":[4,0,0,0,7,1,1,2,0,29],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e":[4,0,0,0,7,1,1,2,0,0],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a5e748208f49fc10cc1b925cffa095f67":[4,0,0,0,7,1,1,2,0,11],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a63c9241a31234dd07ee4ca4424a9df5f":[4,0,0,0,7,1,1,2,0,20]
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a441a9c7ee954d3d97c6d3c6cd5f7cd72":[4,0,0,0,7,1,1,2,0,14]
 };

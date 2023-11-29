@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['objecttype_1432',['ObjectType',['../classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#a9ef446f2327904fc0516249120ec9d71',1,'ostk::astro::conjunction::messages::ccsds::CDM']]]
+  ['interpolationtype_1437',['InterpolationType',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77',1,'ostk::astro::trajectory::models::Tabulated']]]
 ];

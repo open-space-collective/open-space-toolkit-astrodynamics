@@ -82,6 +82,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1guidancelaw_1_1_
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -110,11 +111,18 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html">Parameters</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a6b6c584c030257d1a060a69c0f71bf48"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48">GradientStrategy</a> { <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48a607b56b49ff25410a090c25286efb7cc">GradientStrategy::Analytical</a>, 
+<a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23">GradientStrategy::FiniteDifference</a>
+ }</td></tr>
+<tr class="separator:a6b6c584c030257d1a060a69c0f71bf48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0411c9808fc8096d1b489a11044a8a62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a0411c9808fc8096d1b489a11044a8a62">QLaw</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html">COE</a> &amp;aCOE, const Derived &amp;aGravitationalParameter, const <a class="el" href="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html">Parameters</a> &amp;aParameterSet, const <a class="el" href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html">FiniteDifferenceSolver</a> &amp;aFiniteDifferenceSolver)</td></tr>
-<tr class="memdesc:a0411c9808fc8096d1b489a11044a8a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a0411c9808fc8096d1b489a11044a8a62">More...</a><br /></td></tr>
-<tr class="separator:a0411c9808fc8096d1b489a11044a8a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fb73ade7e47bd9ba101bacc316c0638"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a4fb73ade7e47bd9ba101bacc316c0638">QLaw</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html">COE</a> &amp;aCOE, const Derived &amp;aGravitationalParameter, const <a class="el" href="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters.html">Parameters</a> &amp;aParameterSet, const <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48">GradientStrategy</a> &amp;aGradientStrategy=<a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23">GradientStrategy::FiniteDifference</a>)</td></tr>
+<tr class="memdesc:a4fb73ade7e47bd9ba101bacc316c0638"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a4fb73ade7e47bd9ba101bacc316c0638">More...</a><br /></td></tr>
+<tr class="separator:a4fb73ade7e47bd9ba101bacc316c0638"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23e523139e6e0f68549df27edd303eea"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a23e523139e6e0f68549df27edd303eea">~QLaw</a> ()</td></tr>
 <tr class="memdesc:a23e523139e6e0f68549df27edd303eea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a23e523139e6e0f68549df27edd303eea">More...</a><br /></td></tr>
 <tr class="separator:a23e523139e6e0f68549df27edd303eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,6 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3f3d351991b5d218e740916f15be1231"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html">COE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a3f3d351991b5d218e740916f15be1231">getTargetCOE</a> () const</td></tr>
 <tr class="memdesc:a3f3d351991b5d218e740916f15be1231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get target COE.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a3f3d351991b5d218e740916f15be1231">More...</a><br /></td></tr>
 <tr class="separator:a3f3d351991b5d218e740916f15be1231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ae6aef650fd2c82acb7352fec31018c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48">GradientStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a8ae6aef650fd2c82acb7352fec31018c">getGradientStrategy</a> () const</td></tr>
+<tr class="memdesc:a8ae6aef650fd2c82acb7352fec31018c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get Gradient Strategy.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a8ae6aef650fd2c82acb7352fec31018c">More...</a><br /></td></tr>
+<tr class="separator:a8ae6aef650fd2c82acb7352fec31018c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af79760ef166ff0b817beac9981550a41"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#af79760ef166ff0b817beac9981550a41">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const</td></tr>
 <tr class="memdesc:af79760ef166ff0b817beac9981550a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print guidance law.  <a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#af79760ef166ff0b817beac9981550a41">More...</a><br /></td></tr>
 <tr class="separator:af79760ef166ff0b817beac9981550a41"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,9 +187,36 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions for maximum rates of change of the orbit elements and the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target orbit). <a href="https://dataverse.jpl.nasa.gov/api/access/datafile/10307">https://dataverse.jpl.nasa.gov/api/access/datafile/10307</a>?gbrecs=true <a href="https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives">https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives</a> <a href="https://dataverse.jpl.nasa.gov/api/access/datafile/13727">https://dataverse.jpl.nasa.gov/api/access/datafile/13727</a>?gbrecs=true. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0411c9808fc8096d1b489a11044a8a62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0411c9808fc8096d1b489a11044a8a62">&#9670;&nbsp;</a></span>QLaw()</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a6b6c584c030257d1a060a69c0f71bf48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b6c584c030257d1a060a69c0f71bf48">&#9670;&nbsp;</a></span>GradientStrategy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48">ostk::astro::guidancelaw::QLaw::GradientStrategy</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6b6c584c030257d1a060a69c0f71bf48a607b56b49ff25410a090c25286efb7cc"></a>Analytical&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23"></a>FiniteDifference&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4fb73ade7e47bd9ba101bacc316c0638"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fb73ade7e47bd9ba101bacc316c0638">&#9670;&nbsp;</a></span>QLaw()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,8 +242,8 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html">FiniteDifferenceSolver</a> &amp;&#160;</td>
-          <td class="paramname"><em>aFiniteDifferenceSolver</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48">GradientStrategy</a> &amp;&#160;</td>
+          <td class="paramname"><em>aGradientStrategy</em> = <code><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23">GradientStrategy::FiniteDifference</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -221,7 +259,7 @@ Additional Inherited Members</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aCOE</td><td>A target orbit described by Classical Orbital Elements. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aGravitationalParameter</td><td>The gravitational parameter of the central body. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aParameterSet</td><td>A set of parameters for the <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html" title="The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions ...">QLaw</a>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFiniteDifferenceSolver</td><td>The finite difference solver. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aGradientStrategy</td><td>The strategy to compute the gradient of the <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html" title="The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions ...">QLaw</a>. Defaults to FiniteDifference </td></tr>
   </table>
   </dd>
 </dl>
@@ -523,6 +561,26 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a8ae6aef650fd2c82acb7352fec31018c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ae6aef650fd2c82acb7352fec31018c">&#9670;&nbsp;</a></span>getGradientStrategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48">QLaw::GradientStrategy</a> ostk::astro::guidancelaw::QLaw::getGradientStrategy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get Gradient Strategy. </p>
+<dl class="section return"><dt>Returns</dt><dd>Gradient Strategy </dd></dl>
+
+</div>
+</div>
 <a id="a11b114a151863e416e4e318cc6129ff2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11b114a151863e416e4e318cc6129ff2">&#9670;&nbsp;</a></span>getParameters()</h2>
 
@@ -692,7 +750,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Output stream operator. </p>
-<div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a0411c9808fc8096d1b489a11044a8a62">QLaw</a>(...) ;</div>
+<div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a4fb73ade7e47bd9ba101bacc316c0638">QLaw</a>(...) ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
@@ -710,7 +768,7 @@ Additional Inherited Members</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1guidancelaw_1_1_q_law_html_a0411c9808fc8096d1b489a11044a8a62"><div class="ttname"><a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a0411c9808fc8096d1b489a11044a8a62">ostk::astro::guidancelaw::QLaw::QLaw</a></div><div class="ttdeci">QLaw(const COE &amp;aCOE, const Derived &amp;aGravitationalParameter, const Parameters &amp;aParameterSet, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> QLaw.cpp:98</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1guidancelaw_1_1_q_law_html_a4fb73ade7e47bd9ba101bacc316c0638"><div class="ttname"><a href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a4fb73ade7e47bd9ba101bacc316c0638">ostk::astro::guidancelaw::QLaw::QLaw</a></div><div class="ttdeci">QLaw(const COE &amp;aCOE, const Derived &amp;aGravitationalParameter, const Parameters &amp;aParameterSet, const GradientStrategy &amp;aGradientStrategy=GradientStrategy::FiniteDifference)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> QLaw.cpp:84</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

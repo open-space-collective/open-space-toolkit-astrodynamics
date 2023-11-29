@@ -91,9 +91,9 @@ var NAVTREEINDEX =
 "_access_8cpp.html",
 "classostk_1_1astro_1_1_access.html#aac00b1a6ead7db92eba5b71e43235c93a44ffd38a6dea695cbe2b34efdcc6cf27",
 "classostk_1_1astro_1_1flight_1_1profile_1_1_model.html#a0af64ad25ed8d8b2510a70bfe5bcb971",
-"classostk_1_1astro_1_1trajectory_1_1_state.html#ac4281382f859c517dd6233f341cdac66",
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a66f25eab1f7e8f7e511ad0a77da90de7",
-"namespaceostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets.html"
+"classostk_1_1astro_1_1trajectory_1_1_state.html#aad1f1b9eeb7118bbe356520d3fe40f03",
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a54a7a3bca65674d5052031634f900984",
+"namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['interpolationtype_1431',['InterpolationType',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77',1,'ostk::astro::trajectory::models::Tabulated']]]
+  ['gradientstrategy_1436',['GradientStrategy',['../classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a6b6c584c030257d1a060a69c0f71bf48',1,'ostk::astro::guidancelaw::QLaw']]]
 ];

@@ -20,10 +20,17 @@ Inheritance diagram for ostk\+::astro\+::guidancelaw\+::Q\+Law\+:\begin{figure}[
 \item 
 struct \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{Parameters}}
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}{Gradient\+Strategy}} \{ \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a607b56b49ff25410a090c25286efb7cc}{Gradient\+Strategy\+::\+Analytical}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23}{Gradient\+Strategy\+::\+Finite\+Difference}}
+ \}
+\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a0411c9808fc8096d1b489a11044a8a62}{Q\+Law}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&a\+C\+OE, const Derived \&a\+Gravitational\+Parameter, const \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{Parameters}} \&a\+Parameter\+Set, const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{Finite\+Difference\+Solver}} \&a\+Finite\+Difference\+Solver)
+\mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a4fb73ade7e47bd9ba101bacc316c0638}{Q\+Law}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&a\+C\+OE, const Derived \&a\+Gravitational\+Parameter, const \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{Parameters}} \&a\+Parameter\+Set, const \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}{Gradient\+Strategy}} \&a\+Gradient\+Strategy=\mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23}{Gradient\+Strategy\+::\+Finite\+Difference}})
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e6e0f68549df27edd303eea}{$\sim$\+Q\+Law}} ()
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
@@ -31,6 +38,8 @@ virtual \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e
 \begin{DoxyCompactList}\small\item\em Get \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{Parameters}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a3f3d351991b5d218e740916f15be1231}{get\+Target\+C\+OE}} () const
 \begin{DoxyCompactList}\small\item\em Get target C\+OE. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}{Gradient\+Strategy}} \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a8ae6aef650fd2c82acb7352fec31018c}{get\+Gradient\+Strategy}} () const
+\begin{DoxyCompactList}\small\item\em Get Gradient Strategy. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_af79760ef166ff0b817beac9981550a41}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print guidance law. \end{DoxyCompactList}\item 
 virtual Vector3d \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a048346071989ea9da87fdf1991b82ed0}{calculate\+Thrust\+Acceleration\+At}} (const Instant \&an\+Instant, const Vector3d \&a\+Position\+Coordinates, const Vector3d \&a\+Velocity\+Coordinates, const Real \&a\+Thrust\+Acceleration, const Shared$<$ const Frame $>$ \&output\+Frame\+S\+Ptr) const override
@@ -61,12 +70,31 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a
 \doxysubsection{Detailed Description}
 The Q-\/law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions for maximum rates of change of the orbit elements and the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target orbit). \href{https://dataverse.jpl.nasa.gov/api/access/datafile/10307}{\texttt{ https\+://dataverse.\+jpl.\+nasa.\+gov/api/access/datafile/10307}}?gbrecs=true \href{https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives}{\texttt{ https\+://www.\+researchgate.\+net/publication/370849580\+\_\+\+Analytic\+\_\+\+Calculation\+\_\+and\+\_\+\+Application\+\_\+of\+\_\+the\+\_\+\+Q-\/\+Law\+\_\+\+Guidance\+\_\+\+Algorithm\+\_\+\+Partial\+\_\+\+Derivatives}} \href{https://dataverse.jpl.nasa.gov/api/access/datafile/13727}{\texttt{ https\+://dataverse.\+jpl.\+nasa.\+gov/api/access/datafile/13727}}?gbrecs=true. 
 
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!GradientStrategy@{GradientStrategy}}
+\index{GradientStrategy@{GradientStrategy}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{GradientStrategy}{GradientStrategy}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}{ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Gradient\+Strategy}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Analytical@{Analytical}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!Analytical@{Analytical}}}\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a607b56b49ff25410a090c25286efb7cc}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a607b56b49ff25410a090c25286efb7cc}} 
+Analytical&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FiniteDifference@{FiniteDifference}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!FiniteDifference@{FiniteDifference}}}\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23}} 
+Finite\+Difference&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a0411c9808fc8096d1b489a11044a8a62}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a0411c9808fc8096d1b489a11044a8a62}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a4fb73ade7e47bd9ba101bacc316c0638}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a4fb73ade7e47bd9ba101bacc316c0638}} 
 \index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!QLaw@{QLaw}}
 \index{QLaw@{QLaw}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
 \doxysubsubsection{\texorpdfstring{QLaw()}{QLaw()}}
-{\footnotesize\ttfamily ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Q\+Law (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&}]{a\+C\+OE,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{Parameters}} \&}]{a\+Parameter\+Set,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_finite_difference_solver}{Finite\+Difference\+Solver}} \&}]{a\+Finite\+Difference\+Solver }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Q\+Law (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}} \&}]{a\+C\+OE,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters}{Parameters}} \&}]{a\+Parameter\+Set,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}{Gradient\+Strategy}} \&}]{a\+Gradient\+Strategy = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23}{Gradient\+Strategy\+::\+Finite\+Difference}}} }\end{DoxyParamCaption})}
 
 
 
@@ -80,7 +108,7 @@ Constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Parameter\+Set} & A set of parameters for the \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{Q\+Law}}. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Finite\+Difference\+Solver} & The finite difference solver. \\
+\mbox{\texttt{ in}}  & {\em a\+Gradient\+Strategy} & The strategy to compute the gradient of the \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{Q\+Law}}. Defaults to Finite\+Difference \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e6e0f68549df27edd303eea}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e6e0f68549df27edd303eea}} 
@@ -226,6 +254,19 @@ Compute the thrust direction.
 \begin{DoxyReturn}{Returns}
 The thrust direction 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a8ae6aef650fd2c82acb7352fec31018c}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a8ae6aef650fd2c82acb7352fec31018c}} 
+\index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!getGradientStrategy@{getGradientStrategy}}
+\index{getGradientStrategy@{getGradientStrategy}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
+\doxysubsubsection{\texorpdfstring{getGradientStrategy()}{getGradientStrategy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a6b6c584c030257d1a060a69c0f71bf48}{Q\+Law\+::\+Gradient\+Strategy}} ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::get\+Gradient\+Strategy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get Gradient Strategy. 
+
+\begin{DoxyReturn}{Returns}
+Gradient Strategy 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a11b114a151863e416e4e318cc6129ff2}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a11b114a151863e416e4e318cc6129ff2}} 
 \index{ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}!getParameters@{getParameters}}
 \index{getParameters@{getParameters}!ostk::astro::guidancelaw::QLaw@{ostk::astro::guidancelaw::QLaw}}
@@ -308,7 +349,7 @@ Output stream operator.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a0411c9808fc8096d1b489a11044a8a62}{QLaw}}(...) ;}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a4fb73ade7e47bd9ba101bacc316c0638}{QLaw}}(...) ;}
 \end{DoxyCode}
 
 
