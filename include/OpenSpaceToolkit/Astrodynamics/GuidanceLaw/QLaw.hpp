@@ -38,12 +38,13 @@ using ostk::math::object::Vector6d;
 using ostk::math::object::MatrixXd;
 
 using ostk::physics::time::Instant;
+using ostk::physics::time::Duration;
 using ostk::physics::coord::Frame;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::GuidanceLaw;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::solvers::FiniteDifferenceSolver;
 using ostk::astro::trajectory::StateBuilder;
 
@@ -76,9 +77,9 @@ class QLaw : public GuidanceLaw
         Vector5d getControlWeights() const;
         Length getMinimumPeriapsisRadius() const;
 
-        const Size m;
-        const Size n;
-        const Size r;
+        const double m;
+        const double n;
+        const double r;
         const double b;
         const double k;
         const double periapsisWeight;
@@ -98,18 +99,25 @@ class QLaw : public GuidanceLaw
         };
     };
 
+    enum class GradientStrategy
+    {
+        Analytical,
+        FiniteDifference
+    };
+
     /// @brief                  Constructor
     ///
     /// @param                  [in] aCOE A target orbit described by Classical Orbital Elements.
     /// @param                  [in] aGravitationalParameter The gravitational parameter of the central body.
     /// @param                  [in] aParameterSet A set of parameters for the QLaw.
-    /// @param                  [in] aFiniteDifferenceSolver The finite difference solver.
+    /// @param                  [in] aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
+    /// FiniteDifference
 
     QLaw(
         const COE& aCOE,
         const Derived& aGravitationalParameter,
         const Parameters& aParameterSet,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver
+        const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference
     );
 
     /// @brief                  Destructor
@@ -139,6 +147,12 @@ class QLaw : public GuidanceLaw
     /// @return                 target COE
 
     COE getTargetCOE() const;
+
+    /// @brief                  Get Gradient Strategy
+    ///
+    /// @return                 Gradient Strategy
+
+    GradientStrategy getGradientStrategy() const;
 
     /// @brief                  Print guidance law
     ///
@@ -221,14 +235,18 @@ class QLaw : public GuidanceLaw
     static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
    private:
-    Parameters parameters_;
+    const Parameters parameters_;
     const double mu_;
     const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;
+    const GradientStrategy gradientStrategy_;
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
 
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
+
+    Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
+    Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 };
 
 }  // namespace guidancelaw

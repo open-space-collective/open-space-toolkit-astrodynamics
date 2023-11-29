@@ -747,7 +747,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
         const Environment environment = Environment::Default();
 
         const ostk::math::object::Interval<Real> azimuthRange = ostk::math::object::Interval<Real>::Closed(0.0, 360.0);
-        const ostk::math::object::Interval<Real> elevationRange = ostk::math::object::Interval<Real>::Closed(60.0, 90.0);
+        const ostk::math::object::Interval<Real> elevationRange =
+            ostk::math::object::Interval<Real>::Closed(60.0, 90.0);
         const ostk::math::object::Interval<Real> rangeRange = ostk::math::object::Interval<Real>::Closed(0.0, 10000e3);
 
         const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment);
