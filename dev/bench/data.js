@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1701268980101,
+  "lastUpdate": 1701274733783,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -106,6 +106,60 @@ window.BENCHMARK_DATA = {
             "value": 2801904267.6000085,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2801796970.0000024 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ab8fa7368575a3fe8b95bbf5bbdd87b1a0e18e95",
+          "message": "build: update OSTk physics to 4.0.2 (#288)\n\n* build: update OSTk physics to 4.0.2\r\n\r\n* chore: remove wrong licencing\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau@Paus-MacBook-Pro.local>",
+          "timestamp": "2023-11-29T16:50:28+01:00",
+          "tree_id": "30c35000cdebd9fed61f58a691bcf14ef482c866",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ab8fa7368575a3fe8b95bbf5bbdd87b1a0e18e95"
+        },
+        "date": 1701274732694,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 554709989.0000083,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 554691689.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 794493160.0000075,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 794467839.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2786109073.7999973,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2785963790.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2785192270.199991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2784932600.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2784428195.000004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2784277439.9999995 ns\nthreads: 1"
           }
         ]
       }
