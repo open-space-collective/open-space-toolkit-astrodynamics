@@ -1,3 +1,5 @@
+# Copyright © Loft Orbital Solutions Inc.
+
 # Apache License 2.0
 
-open-space-toolkit-physics~=4.0.0
+open-space-toolkit-physics~=4.0.2
