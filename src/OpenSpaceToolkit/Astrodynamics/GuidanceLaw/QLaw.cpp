@@ -34,7 +34,9 @@ QLaw::Parameters::Parameters(
     const double& aBValue,
     const Size& aKValue,
     const double& aPeriapsisWeight,
-    const Length& minimumPeriapsisradius
+    const Length& minimumPeriapsisradius,
+    const Real& anAbsoluteEffectivityThreshold,
+    const Real& aRelativeEffectivityThreshold
 )
     : m(aMValue),
       n(aNValue),
@@ -42,6 +44,8 @@ QLaw::Parameters::Parameters(
       b(aBValue),
       k(aKValue),
       periapsisWeight(aPeriapsisWeight),
+      absoluteEffectivityThreshold(anAbsoluteEffectivityThreshold),
+      relativeEffectivityThreshold(aRelativeEffectivityThreshold),
       minimumPeriapsisRadius_(minimumPeriapsisradius.inMeters()),
       convergenceThresholds_(Vector5d::Ones() * 1e-10),
       controlWeights_(Vector5d::Zero())
@@ -68,6 +72,22 @@ QLaw::Parameters::Parameters(
             convergenceThresholds_(i) = std::get<1>(anElementWeightsMap.at(element));
         }
         ++i;
+    }
+
+    if (anAbsoluteEffectivityThreshold.isDefined())
+    {
+        if (anAbsoluteEffectivityThreshold < 0.0 || anAbsoluteEffectivityThreshold > 1.0)
+        {
+            throw ostk::core::error::RuntimeError("Absolute effectivity threshold must be within range [0.0, 1.0].");
+        }
+    }
+
+    if (aRelativeEffectivityThreshold.isDefined())
+    {
+        if (aRelativeEffectivityThreshold < 0.0 || aRelativeEffectivityThreshold > 1.0)
+        {
+            throw ostk::core::error::RuntimeError("Absolute effectivity threshold must be within range [0.0, 1.0].");
+        }
     }
 }
 
@@ -190,9 +210,29 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
         throw ostk::core::error::RuntimeError("NaN encountered in jacobian calcluation.");
     }
 
-    const Vector3d D = -(jacobian.transpose() * derivativeMatrix).normalized();
+    const Vector3d thrustDirection = -(jacobian.transpose() * derivativeMatrix).normalized();
 
-    return D;
+    double etaRelative = 0.0;
+    double etaAbsolute = 0.0;
+
+    if (parameters_.relativeEffectivityThreshold.isDefined() || parameters_.absoluteEffectivityThreshold.isDefined())
+    {
+        std::tie(etaRelative, etaAbsolute) = computeEffectivity(aCOEVector, thrustDirection, jacobian);
+
+        if ((parameters_.relativeEffectivityThreshold.isDefined()) &&
+            (etaRelative < parameters_.relativeEffectivityThreshold))
+        {
+            return {0.0, 0.0, 0.0};
+        }
+
+        if ((parameters_.absoluteEffectivityThreshold.isDefined()) &&
+            (etaAbsolute < parameters_.absoluteEffectivityThreshold))
+        {
+            return {0.0, 0.0, 0.0};
+        }
+    }
+
+    return thrustDirection;
 }
 
 double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAcceleration) const
@@ -633,6 +673,50 @@ Vector5d QLaw::computeDeltaCOE(const Vector5d& aCOEVector) const
         (aCOEVector[2] - targetCOEVector_[2]),
         (std::acos(std::cos((aCOEVector[3] - targetCOEVector_[3])))),
         (std::acos(std::cos((aCOEVector[4] - targetCOEVector_[4])))),
+    };
+}
+
+Tuple<double, double> QLaw::computeEffectivity(
+    const Vector6d& aCOEVector, const Vector3d& currentThrustDirection, const Vector5d& dQ_dOE
+) const
+{
+    const auto compute_dQn_dt = [](const Vector3d& aThrustDirection)
+    {
+        const double alphaStar = std::atan2(-aThrustDirection[1], -aThrustDirection[0]);
+        const double betaStar = std::atan(
+            -aThrustDirection[2] /
+            std::sqrt(aThrustDirection[0] * aThrustDirection[0] + aThrustDirection[1] * aThrustDirection[1])
+        );
+
+        return aThrustDirection[0] * std::cos(alphaStar) * std::cos(betaStar) +
+               aThrustDirection[1] * std::sin(alphaStar) * std::cos(betaStar) +
+               aThrustDirection[2] * std::sin(betaStar);
+    };
+
+    Vector6d coeVector = aCOEVector;
+
+    VectorXd dQ_dt(trueAnomalyAngles_.size());
+
+    const double dQn_dt = compute_dQn_dt(currentThrustDirection);
+
+    Index i = 0;
+    for (const double& trueAnomalyAngle : trueAnomalyAngles_)
+    {
+        coeVector[5] = trueAnomalyAngle;
+
+        const Matrix53d derivativeMatrix2 = QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
+        const Vector3d thrustDirection = -(dQ_dOE.transpose() * derivativeMatrix2).normalized();
+
+        dQ_dt[i] = compute_dQn_dt(thrustDirection);
+        ++i;
+    }
+
+    const double& dQnn_dt = dQ_dt.minCoeff();
+    const double& dQnx_dt = dQ_dt.maxCoeff();
+
+    return {
+        (dQn_dt / dQnn_dt),
+        (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt),
     };
 }
 

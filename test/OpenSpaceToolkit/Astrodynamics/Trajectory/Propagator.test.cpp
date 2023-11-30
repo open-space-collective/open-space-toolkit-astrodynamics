@@ -2705,7 +2705,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, Q
     const NumericalSolver numericalSolver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKutta4,
-        120.0,
+        5.0,
         1e-12,
         1e-12,
     };
@@ -2737,6 +2737,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, Q
         propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Days(72.49716435185185187));
 
     const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
+
+    std::cout << endCOE << std::endl;
 
     EXPECT_TRUE(std::abs(endCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters()) < 50000.0);
 

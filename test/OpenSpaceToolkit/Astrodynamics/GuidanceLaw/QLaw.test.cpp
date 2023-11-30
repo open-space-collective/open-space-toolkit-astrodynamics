@@ -69,16 +69,8 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 {
     void SetUp() override
     {
-        const COE currentCOE = {
-            Length::Meters(7000.0e3),
-            0.01,
-            Angle::Degrees(0.05),
-            Angle::Degrees(0.0),
-            Angle::Degrees(0.0),
-            Angle::Degrees(0.0),
-        };
-
-        const COE::CartesianState cartesianState = currentCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+        const COE::CartesianState cartesianState =
+            currentCOE_.getCartesianState(gravitationalParameter_, Frame::GCRF());
 
         initialState_ = {
             Instant::J2000(),
@@ -148,6 +140,15 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
         100,
         1.0,
         Length::Kilometers(6578.0),
+    };
+
+    const COE currentCOE_ = {
+        Length::Meters(7000.0e3),
+        0.01,
+        Angle::Degrees(0.05),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
     };
 
     const COE targetCOE_ = {
@@ -298,6 +299,123 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
         for (Size i = 0; i < 3; ++i)
         {
             EXPECT_NEAR(thrustDirection(i), expectedThrustDirection(i), 1e-8);
+        }
+    }
+
+    // expect no thrust when within tolerance of targeted orbital elements
+    {
+        const COE coe = {
+            Length::Meters(26500.0e3),
+            0.7,
+            Angle::Degrees(116.0),
+            Angle::Degrees(180.0),
+            Angle::Degrees(270.0),
+            Angle::Degrees(0.0),
+        };
+        const Vector6d currentCOEVector = coe.getSIVector(COE::AnomalyType::True);
+        const Real thrustAcceleration = 0.1;
+        const QLaw qlaw = {
+            coe,
+            gravitationalParameter_,
+            {
+                {
+                    {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                    {COE::Element::Eccentricity, {1.0, 1e-4}},
+                    {COE::Element::Inclination, {1.0, 1e-4}},
+                    {COE::Element::Raan, {1.0, 1e-4}},
+                    {COE::Element::Aop, {1.0, 1e-4}},
+                },
+                3,
+                4,
+                2,
+                0.01,
+                100,
+                1.0,
+                Length::Kilometers(6578.0),
+            },
+            gradientStrategy_,
+        };
+
+        const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
+
+        const Vector3d expectedThrustDirection = {0.0, 0.0, 0.0};
+
+        for (Size i = 0; i < 3; ++i)
+        {
+            EXPECT_NEAR(thrustDirection(i), expectedThrustDirection(i), 1e-14);
+        }
+    }
+
+    {
+        const Vector6d currentCOEVector = currentCOE_.getSIVector(COE::AnomalyType::True);
+        const Real thrustAcceleration = 0.1;
+        const QLaw qlaw = {
+            currentCOE_,
+            gravitationalParameter_,
+            {
+                {
+                    {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                    {COE::Element::Eccentricity, {1.0, 1e-4}},
+                    {COE::Element::Inclination, {1.0, 1e-4}},
+                    {COE::Element::Raan, {1.0, 1e-4}},
+                    {COE::Element::Aop, {1.0, 1e-4}},
+                },
+                3,
+                4,
+                2,
+                0.01,
+                100,
+                1.0,
+                Length::Kilometers(6578.0),
+                0.8,
+            },
+            gradientStrategy_,
+        };
+
+        const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
+
+        const Vector3d expectedThrustDirection = {0.0, 0.0, 0.0};
+
+        for (Size i = 0; i < 3; ++i)
+        {
+            EXPECT_NEAR(thrustDirection(i), expectedThrustDirection(i), 1e-14);
+        }
+    }
+
+    {
+        const Vector6d currentCOEVector = currentCOE_.getSIVector(COE::AnomalyType::True);
+        const Real thrustAcceleration = 0.1;
+        const QLaw qlaw = {
+            currentCOE_,
+            gravitationalParameter_,
+            {
+                {
+                    {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                    {COE::Element::Eccentricity, {1.0, 1e-4}},
+                    {COE::Element::Inclination, {1.0, 1e-4}},
+                    {COE::Element::Raan, {1.0, 1e-4}},
+                    {COE::Element::Aop, {1.0, 1e-4}},
+                },
+                3,
+                4,
+                2,
+                0.01,
+                100,
+                1.0,
+                Length::Kilometers(6578.0),
+                Real::Undefined(),
+                0.8,
+            },
+            gradientStrategy_,
+        };
+
+        const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
+
+        const Vector3d expectedThrustDirection = {0.0, 0.0, 0.0};
+
+        for (Size i = 0; i < 3; ++i)
+        {
+            EXPECT_NEAR(thrustDirection(i), expectedThrustDirection(i), 1e-14);
         }
     }
 }

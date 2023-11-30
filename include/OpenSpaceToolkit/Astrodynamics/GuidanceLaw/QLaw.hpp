@@ -36,6 +36,7 @@ using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
 using ostk::math::object::Vector6d;
 using ostk::math::object::MatrixXd;
+using ostk::math::object::VectorXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
@@ -71,7 +72,9 @@ class QLaw : public GuidanceLaw
             const double& aBValue = 0.01,
             const Size& aKValue = 100,
             const double& aPeriapsisWeight = 0.0,
-            const Length& minimumPeriapsisradius = Length::Kilometers(6578.0)
+            const Length& minimumPeriapsisradius = Length::Kilometers(6578.0),
+            const Real& absoluteEffectivityThreshold = Real::Undefined(),
+            const Real& relativeEffectivityThreshold = Real::Undefined()
         );
 
         Vector5d getControlWeights() const;
@@ -83,6 +86,8 @@ class QLaw : public GuidanceLaw
         const double b;
         const double k;
         const double periapsisWeight;
+        const Real absoluteEffectivityThreshold;
+        const Real relativeEffectivityThreshold;
 
         friend QLaw;
 
@@ -112,7 +117,6 @@ class QLaw : public GuidanceLaw
     /// @param                  [in] aParameterSet A set of parameters for the QLaw.
     /// @param                  [in] aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
     /// FiniteDifference
-
     QLaw(
         const COE& aCOE,
         const Derived& aGravitationalParameter,
@@ -225,7 +229,7 @@ class QLaw : public GuidanceLaw
 
     static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter);
 
-    /// @brief                  Convert from the theta-RH frame to the GCRF frame
+    /// @brief                  Convert from the theta-R-H frame to the GCRF frame
     ///
     /// @param                  [in] aPositionCoordinates The position coordinates
     /// @param                  [in] aVelocityCoordinates The velocity coordinates
@@ -243,10 +247,16 @@ class QLaw : public GuidanceLaw
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
 
+    const VectorXd trueAnomalyAngles_ = VectorXd::LinSpaced(50, 0.0, 2.0 * M_PI);
+
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
 
     Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
     Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
+
+    Tuple<double, double> computeEffectivity(
+        const Vector6d& aCOEVector, const Vector3d& aThrustDirection, const Vector5d& dQ_dOE
+    ) const;
 };
 
 }  // namespace guidancelaw
