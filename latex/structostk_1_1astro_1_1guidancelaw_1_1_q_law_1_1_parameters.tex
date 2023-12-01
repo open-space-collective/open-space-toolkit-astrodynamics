@@ -7,7 +7,7 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a5669c03cf7ca88d53c46fa6a3a4dd76d}{Parameters}} (const Map$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}}, Tuple$<$ double, double $>$$>$ \&an\+Element\+Weights\+Map, const Size \&a\+M\+Value=3, const Size \&a\+N\+Value=4, const Size \&a\+R\+Value=2, const double \&a\+B\+Value=0.\+01, const Size \&a\+K\+Value=100, const double \&a\+Periapsis\+Weight=0.\+0, const Length \&minimum\+Periapsisradius=Length\+::\+Kilometers(6578.\+0))
+\mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a84f79c7349a001abcad0c046631592cf}{Parameters}} (const Map$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}}, Tuple$<$ double, double $>$$>$ \&an\+Element\+Weights\+Map, const Size \&a\+M\+Value=3, const Size \&a\+N\+Value=4, const Size \&a\+R\+Value=2, const double \&a\+B\+Value=0.\+01, const Size \&a\+K\+Value=100, const double \&a\+Periapsis\+Weight=0.\+0, const Length \&minimum\+Periapsisradius=Length\+::\+Kilometers(6578.\+0), const Real \&\mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a3e25a328c855a3e7a04fb228f9238ded}{absolute\+Effectivity\+Threshold}}=Real\+::\+Undefined(), const Real \&\mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_aeadef81a479748828d3c2084b7a5d4db}{relative\+Effectivity\+Threshold}}=Real\+::\+Undefined())
 \item 
 \mbox{\hyperlink{namespaceostk_1_1astro_1_1guidancelaw_a962bac78289f90d5f0595d01df71287a}{Vector5d}} \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a04f16b6d1fd3fe048600a6af25864b73}{get\+Control\+Weights}} () const
 \item 
@@ -28,16 +28,20 @@ const double \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_p
 \item 
 const double \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a5ed66f443671d098cbcd11def7356268}{periapsis\+Weight}}
 \item 
+const Real \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a3e25a328c855a3e7a04fb228f9238ded}{absolute\+Effectivity\+Threshold}}
+\item 
+const Real \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_aeadef81a479748828d3c2084b7a5d4db}{relative\+Effectivity\+Threshold}}
+\item 
 friend \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a4436cbbe98875cf6482e05dacf48b863}{Q\+Law}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a5669c03cf7ca88d53c46fa6a3a4dd76d}\label{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a5669c03cf7ca88d53c46fa6a3a4dd76d}} 
+\mbox{\Hypertarget{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a84f79c7349a001abcad0c046631592cf}\label{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a84f79c7349a001abcad0c046631592cf}} 
 \index{ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}!Parameters@{Parameters}}
 \index{Parameters@{Parameters}!ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}}
 \doxysubsubsection{\texorpdfstring{Parameters()}{Parameters()}}
-{\footnotesize\ttfamily ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Parameters\+::\+Parameters (\begin{DoxyParamCaption}\item[{const Map$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}}, Tuple$<$ double, double $>$$>$ \&}]{an\+Element\+Weights\+Map,  }\item[{const Size \&}]{a\+M\+Value = {\ttfamily 3},  }\item[{const Size \&}]{a\+N\+Value = {\ttfamily 4},  }\item[{const Size \&}]{a\+R\+Value = {\ttfamily 2},  }\item[{const double \&}]{a\+B\+Value = {\ttfamily 0.01},  }\item[{const Size \&}]{a\+K\+Value = {\ttfamily 100},  }\item[{const double \&}]{a\+Periapsis\+Weight = {\ttfamily 0.0},  }\item[{const Length \&}]{minimum\+Periapsisradius = {\ttfamily Length\+:\+:Kilometers(6578.0)} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Parameters\+::\+Parameters (\begin{DoxyParamCaption}\item[{const Map$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}}, Tuple$<$ double, double $>$$>$ \&}]{an\+Element\+Weights\+Map,  }\item[{const Size \&}]{a\+M\+Value = {\ttfamily 3},  }\item[{const Size \&}]{a\+N\+Value = {\ttfamily 4},  }\item[{const Size \&}]{a\+R\+Value = {\ttfamily 2},  }\item[{const double \&}]{a\+B\+Value = {\ttfamily 0.01},  }\item[{const Size \&}]{a\+K\+Value = {\ttfamily 100},  }\item[{const double \&}]{a\+Periapsis\+Weight = {\ttfamily 0.0},  }\item[{const Length \&}]{minimum\+Periapsisradius = {\ttfamily Length\+:\+:Kilometers(6578.0)},  }\item[{const Real \&}]{absolute\+Effectivity\+Threshold = {\ttfamily Real\+:\+:Undefined()},  }\item[{const Real \&}]{relative\+Effectivity\+Threshold = {\ttfamily Real\+:\+:Undefined()} }\end{DoxyParamCaption})}
 
 
 
@@ -57,6 +61,12 @@ friend \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_paramet
 
 
 \doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a3e25a328c855a3e7a04fb228f9238ded}\label{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a3e25a328c855a3e7a04fb228f9238ded}} 
+\index{ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}!absoluteEffectivityThreshold@{absoluteEffectivityThreshold}}
+\index{absoluteEffectivityThreshold@{absoluteEffectivityThreshold}!ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}}
+\doxysubsubsection{\texorpdfstring{absoluteEffectivityThreshold}{absoluteEffectivityThreshold}}
+{\footnotesize\ttfamily const Real ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Parameters\+::absolute\+Effectivity\+Threshold}
+
 \mbox{\Hypertarget{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a3844538c67133a4a844ecb0bf388337d}\label{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_a3844538c67133a4a844ecb0bf388337d}} 
 \index{ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}!b@{b}}
 \index{b@{b}!ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}}
@@ -98,6 +108,12 @@ friend \mbox{\hyperlink{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_paramet
 \index{r@{r}!ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}}
 \doxysubsubsection{\texorpdfstring{r}{r}}
 {\footnotesize\ttfamily const double ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Parameters\+::r}
+
+\mbox{\Hypertarget{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_aeadef81a479748828d3c2084b7a5d4db}\label{structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_aeadef81a479748828d3c2084b7a5d4db}} 
+\index{ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}!relativeEffectivityThreshold@{relativeEffectivityThreshold}}
+\index{relativeEffectivityThreshold@{relativeEffectivityThreshold}!ostk::astro::guidancelaw::QLaw::Parameters@{ostk::astro::guidancelaw::QLaw::Parameters}}
+\doxysubsubsection{\texorpdfstring{relativeEffectivityThreshold}{relativeEffectivityThreshold}}
+{\footnotesize\ttfamily const Real ostk\+::astro\+::guidancelaw\+::\+Q\+Law\+::\+Parameters\+::relative\+Effectivity\+Threshold}
 
 
 
