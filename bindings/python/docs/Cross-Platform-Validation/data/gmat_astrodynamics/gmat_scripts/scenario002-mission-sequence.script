@@ -1,5 +1,5 @@
 % Copyright Loft Orbital Solutions Inc.
-% Created: 2023-11-24 16:05:19.035419
+% Created: 2023-12-01 12:07:27.075177
 
 
 %----------------------------------------
@@ -61,16 +61,15 @@ GMAT Spacecraft1.EulerAngleSequence = '321';
 Create ForceModel ForceModel1;
 GMAT ForceModel1.CentralBody = Earth;
 GMAT ForceModel1.PrimaryBodies = {Earth};
+GMAT ForceModel1.Drag = None;
 GMAT ForceModel1.SRP = Off;
 GMAT ForceModel1.RelativisticCorrection = Off;
 GMAT ForceModel1.ErrorControl = None;
-GMAT ForceModel1.GravityField.Earth.Degree = 0;
-GMAT ForceModel1.GravityField.Earth.Order = 0;
+GMAT ForceModel1.GravityField.Earth.Degree = 60;
+GMAT ForceModel1.GravityField.Earth.Order = 60;
 GMAT ForceModel1.GravityField.Earth.StmLimit = 100;
 GMAT ForceModel1.GravityField.Earth.PotentialFile = 'EGM96.cof';
 GMAT ForceModel1.GravityField.Earth.TideModel = 'None';
-GMAT ForceModel1.Drag.AtmosphereModel = Exponential;
-GMAT ForceModel1.Drag.DragModel = 'Spherical';
 
 Create Propagator Propagator1;
 GMAT Propagator1.FM = ForceModel1;
@@ -93,9 +92,8 @@ GMAT ReportFile1.UpperLeft = [ 0 0 ];
 GMAT ReportFile1.Size = [ 0 0 ];
 GMAT ReportFile1.RelativeZOrder = 0;
 GMAT ReportFile1.Maximized = false;
-GMAT ReportFile1.Filename = '/builds/loft-orbital/engineering/flight-dynamics/gmat-tooling/app/../gmat/scenario003-mission-sequence.csv';
+GMAT ReportFile1.Filename = '/builds/loft-orbital/engineering/flight-dynamics/gmat-tooling/app/../gmat_astrodynamics/scenario002-mission-sequence.csv';
 GMAT ReportFile1.Precision = 16;
-GMAT ReportFile1.Add = {Spacecraft1.ElapsedSecs, Spacecraft1.EarthICRF.X, Spacecraft1.EarthICRF.Y, Spacecraft1.EarthICRF.Z, Spacecraft1.EarthICRF.VX, Spacecraft1.EarthICRF.VY, Spacecraft1.EarthICRF.VZ};
 GMAT ReportFile1.WriteHeaders = false;
 GMAT ReportFile1.LeftJustify = On;
 GMAT ReportFile1.ZeroFill = On;

@@ -1,5 +1,5 @@
 % Copyright Loft Orbital Solutions Inc.
-% Created: 2023-11-24 16:05:20.374326
+% Created: 2023-12-01 12:07:29.842968
 
 
 %----------------------------------------
@@ -173,9 +173,8 @@ GMAT ReportFile1.UpperLeft = [ 0 0 ];
 GMAT ReportFile1.Size = [ 0 0 ];
 GMAT ReportFile1.RelativeZOrder = 0;
 GMAT ReportFile1.Maximized = false;
-GMAT ReportFile1.Filename = '/builds/loft-orbital/engineering/flight-dynamics/gmat-tooling/app/../gmat/scenario004-mission-sequence.csv';
+GMAT ReportFile1.Filename = '/builds/loft-orbital/engineering/flight-dynamics/gmat-tooling/app/../gmat_astrodynamics/scenario004-mission-sequence.csv';
 GMAT ReportFile1.Precision = 16;
-GMAT ReportFile1.Add = {Spacecraft1.ElapsedSecs, Spacecraft1.EarthICRF.X, Spacecraft1.EarthICRF.Y, Spacecraft1.EarthICRF.Z, Spacecraft1.EarthICRF.VX, Spacecraft1.EarthICRF.VY, Spacecraft1.EarthICRF.VZ, Spacecraft1.ForceModel1.AccelerationX, Spacecraft1.ForceModel1.AccelerationY, Spacecraft1.ForceModel1.AccelerationZ, Spacecraft1.TotalMass, FiniteBurn1.TotalAcceleration1, FiniteBurn1.TotalAcceleration2, FiniteBurn1.TotalAcceleration3};
 GMAT ReportFile1.WriteHeaders = false;
 GMAT ReportFile1.LeftJustify = On;
 GMAT ReportFile1.ZeroFill = On;

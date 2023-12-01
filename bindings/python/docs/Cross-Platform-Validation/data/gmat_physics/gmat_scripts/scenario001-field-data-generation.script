@@ -1,0 +1,222 @@
+% Copyright Loft Orbital Solutions Inc.
+% Created: 2023-12-01 16:16:10.065739
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Spacecraft1;
+GMAT Spacecraft1.DateFormat = TAIModJulian;
+GMAT Spacecraft1.Epoch = '21545';
+GMAT Spacecraft1.CoordinateSystem = EarthMJ2000Eq;
+GMAT Spacecraft1.DisplayStateType = Cartesian;
+GMAT Spacecraft1.X = -999.999;
+GMAT Spacecraft1.Y = -999.999;
+GMAT Spacecraft1.Z = -999.999;
+GMAT Spacecraft1.VX = -999.999;
+GMAT Spacecraft1.VY = -999.999;
+GMAT Spacecraft1.VZ = -999.999;
+GMAT Spacecraft1.DryMass = 850;
+GMAT Spacecraft1.Cd = 2.2;
+GMAT Spacecraft1.Cr = 1.8;
+GMAT Spacecraft1.DragArea = 15;
+GMAT Spacecraft1.SRPArea = 1;
+GMAT Spacecraft1.SPADDragScaleFactor = 1;
+GMAT Spacecraft1.SPADSRPScaleFactor = 1;
+GMAT Spacecraft1.AtmosDensityScaleFactor = 1;
+GMAT Spacecraft1.ExtendedMassPropertiesModel = 'None';
+GMAT Spacecraft1.NAIFId = -10000001;
+GMAT Spacecraft1.NAIFIdReferenceFrame = -9000001;
+GMAT Spacecraft1.OrbitColor = Red;
+GMAT Spacecraft1.TargetColor = Teal;
+GMAT Spacecraft1.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Spacecraft1.CdSigma = 1e+70;
+GMAT Spacecraft1.CrSigma = 1e+70;
+GMAT Spacecraft1.Id = 'SatId';
+GMAT Spacecraft1.Attitude = CoordinateSystemFixed;
+GMAT Spacecraft1.SPADSRPInterpolationMethod = Bilinear;
+GMAT Spacecraft1.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Spacecraft1.SPADDragInterpolationMethod = Bilinear;
+GMAT Spacecraft1.SPADDragScaleFactorSigma = 1e+70;
+GMAT Spacecraft1.AtmosDensityScaleFactorSigma = 1e+70;
+GMAT Spacecraft1.ModelFile = 'aura.3ds';
+GMAT Spacecraft1.ModelOffsetX = 0;
+GMAT Spacecraft1.ModelOffsetY = 0;
+GMAT Spacecraft1.ModelOffsetZ = 0;
+GMAT Spacecraft1.ModelRotationX = 0;
+GMAT Spacecraft1.ModelRotationY = 0;
+GMAT Spacecraft1.ModelRotationZ = 0;
+GMAT Spacecraft1.ModelScale = 1;
+GMAT Spacecraft1.AttitudeDisplayStateType = 'Quaternion';
+GMAT Spacecraft1.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Spacecraft1.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Spacecraft1.EulerAngleSequence = '321';
+
+
+%----------------------------------------
+%---------- Force Model + Prop
+%----------------------------------------
+
+Create ForceModel ForceModel1;
+GMAT ForceModel1.CentralBody = Earth;
+GMAT ForceModel1.PrimaryBodies = {Earth};
+GMAT ForceModel1.SRP = Off;
+GMAT ForceModel1.RelativisticCorrection = Off;
+GMAT ForceModel1.ErrorControl = RSSStep;
+GMAT ForceModel1.GravityField.Earth.Degree = 4;
+GMAT ForceModel1.GravityField.Earth.Order = 4;
+GMAT ForceModel1.GravityField.Earth.StmLimit = 100;
+GMAT ForceModel1.GravityField.Earth.TideModel = 'None';
+GMAT ForceModel1.Drag.AtmosphereModel = Exponential;
+GMAT ForceModel1.Drag.DragModel = 'Spherical';
+
+Create Propagator Propagator1;
+GMAT Propagator1.FM = ForceModel1;
+GMAT Propagator1.Type = RungeKutta89;
+GMAT Propagator1.InitialStepSize = 60;
+GMAT Propagator1.Accuracy = 9.999999999999999e-12;
+GMAT Propagator1.MinStep = 0.001;
+GMAT Propagator1.MaxStep = 2700;
+GMAT Propagator1.MaxStepAttempts = 50;
+GMAT Propagator1.StopIfAccuracyIsViolated = true;
+
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create ReportFile ReportFile1;
+GMAT ReportFile1.SolverIterations = Current;
+GMAT ReportFile1.UpperLeft = [ 0 0 ];
+GMAT ReportFile1.Size = [ 0 0 ];
+GMAT ReportFile1.RelativeZOrder = 0;
+GMAT ReportFile1.Maximized = false;
+GMAT ReportFile1.Filename = '/builds/loft-orbital/engineering/flight-dynamics/gmat-tooling/app/../gmat_physics/scenario001-field-data-generation.csv';
+GMAT ReportFile1.Precision = 16;
+GMAT ReportFile1.WriteHeaders = false;
+GMAT ReportFile1.LeftJustify = On;
+GMAT ReportFile1.ZeroFill = On;
+GMAT ReportFile1.FixedWidth = false;
+GMAT ReportFile1.Delimiter = ',';
+GMAT ReportFile1.ColumnWidth = 23;
+GMAT ReportFile1.WriteReport = false;
+
+
+%----------------------------------------
+%---------- Variables
+%----------------------------------------
+
+Create String headers;
+Create Variable elapsedays;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+
+%---------- Setup Output File Format ----------
+
+headers = 'Spacecraft1.ElapsedSecs,Spacecraft1.Earth.Latitude,Spacecraft1.Earth.Longitude,Spacecraft1.Earth.Altitude,Spacecraft1.ForceModel1.AtmosDensity';
+Write headers {ReportFile = ReportFile1};
+
+%---------- Sweep Through Field Points ----------
+
+
+%-- Point Lat:-80 Lon:-180 Alt:250000 --%
+Spacecraft1.EarthFixed.X = -1154.576915226745;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -6505.744899281743;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:350000 --%
+Spacecraft1.EarthFixed.X = -1171.9417329934383;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -6604.225674582964;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:450000 --%
+Spacecraft1.EarthFixed.X = -1189.3065507601314;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -6702.706449884184;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:550000 --%
+Spacecraft1.EarthFixed.X = -1206.6713685268244;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -6801.187225185405;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:650000 --%
+Spacecraft1.EarthFixed.X = -1224.0361862935174;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -6899.668000486626;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:750000 --%
+Spacecraft1.EarthFixed.X = -1241.4010040602104;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -6998.148775787846;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:850000 --%
+Spacecraft1.EarthFixed.X = -1258.7658218269037;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -7096.629551089067;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:-80 Lon:-180 Alt:950000 --%
+Spacecraft1.EarthFixed.X = -1276.1306395935965;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = -7195.110326390288;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:250000 --%
+Spacecraft1.EarthFixed.X = -1154.576915226745;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 6505.744899281743;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:350000 --%
+Spacecraft1.EarthFixed.X = -1171.9417329934383;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 6604.225674582964;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:450000 --%
+Spacecraft1.EarthFixed.X = -1189.3065507601314;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 6702.706449884184;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:550000 --%
+Spacecraft1.EarthFixed.X = -1206.6713685268244;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 6801.187225185405;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:650000 --%
+Spacecraft1.EarthFixed.X = -1224.0361862935174;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 6899.668000486626;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:750000 --%
+Spacecraft1.EarthFixed.X = -1241.4010040602104;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 6998.148775787846;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:850000 --%
+Spacecraft1.EarthFixed.X = -1258.7658218269037;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 7096.629551089067;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
+
+%-- Point Lat:80 Lon:-180 Alt:950000 --%
+Spacecraft1.EarthFixed.X = -1276.1306395935965;
+Spacecraft1.EarthFixed.Y = -0.0;
+Spacecraft1.EarthFixed.Z = 7195.110326390288;
+Report ReportFile1 Spacecraft1.ElapsedSecs Spacecraft1.Earth.Latitude Spacecraft1.Earth.Longitude Spacecraft1.Earth.Altitude Spacecraft1.ForceModel1.AtmosDensity;
