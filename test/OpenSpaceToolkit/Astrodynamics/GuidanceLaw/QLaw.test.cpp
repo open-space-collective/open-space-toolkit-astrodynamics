@@ -69,8 +69,16 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 {
     void SetUp() override
     {
-        const COE::CartesianState cartesianState =
-            currentCOE_.getCartesianState(gravitationalParameter_, Frame::GCRF());
+        const COE currentCOE = {
+            Length::Meters(7000.0e3),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        const COE::CartesianState cartesianState = currentCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
 
         initialState_ = {
             Instant::J2000(),
@@ -140,15 +148,6 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
         100,
         1.0,
         Length::Kilometers(6578.0),
-    };
-
-    const COE currentCOE_ = {
-        Length::Meters(7000.0e3),
-        0.01,
-        Angle::Degrees(0.05),
-        Angle::Degrees(0.0),
-        Angle::Degrees(0.0),
-        Angle::Degrees(0.0),
     };
 
     const COE targetCOE_ = {
@@ -346,11 +345,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
         }
     }
 
+    /// Absolute effectivity threshold
     {
-        const Vector6d currentCOEVector = currentCOE_.getSIVector(COE::AnomalyType::True);
+        const COE currentCOE = {
+            Length::Meters(7000.0e3),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(90.0),
+        };
+
+        const Vector6d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True);
         const Real thrustAcceleration = 0.1;
         const QLaw qlaw = {
-            currentCOE_,
+            targetCOE_,
             gravitationalParameter_,
             {
                 {
@@ -382,11 +391,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
         }
     }
 
+    /// Relative effectivity threshold
     {
-        const Vector6d currentCOEVector = currentCOE_.getSIVector(COE::AnomalyType::True);
+        const COE currentCOE = {
+            Length::Meters(7000.0e3),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(90.0),
+        };
+
+        const Vector6d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True);
         const Real thrustAcceleration = 0.1;
         const QLaw qlaw = {
-            currentCOE_,
+            targetCOE_,
             gravitationalParameter_,
             {
                 {

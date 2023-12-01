@@ -203,21 +203,21 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
 
     const Matrix53d derivativeMatrix = QLaw::Compute_dOE_dF(aCOEVector, gravitationalParameter_);
 
-    const Vector5d jacobian = compute_dQ_dOE(coeVectorSegment, aThrustAcceleration);
+    const Vector5d dQ_dOE = compute_dQ_dOE(coeVectorSegment, aThrustAcceleration);
 
-    if (jacobian.array().isNaN().any())
+    if (dQ_dOE.array().isNaN().any())
     {
-        throw ostk::core::error::RuntimeError("NaN encountered in jacobian calcluation.");
+        throw ostk::core::error::RuntimeError("NaN encountered in dQ_dOE calcluation.");
     }
 
-    const Vector3d thrustDirection = -(jacobian.transpose() * derivativeMatrix).normalized();
+    const Vector3d thrustDirection = dQ_dOE.transpose() * derivativeMatrix;
 
     double etaRelative = 0.0;
     double etaAbsolute = 0.0;
 
     if (parameters_.relativeEffectivityThreshold.isDefined() || parameters_.absoluteEffectivityThreshold.isDefined())
     {
-        std::tie(etaRelative, etaAbsolute) = computeEffectivity(aCOEVector, thrustDirection, jacobian);
+        std::tie(etaRelative, etaAbsolute) = computeEffectivity(aCOEVector, thrustDirection, dQ_dOE);
 
         if ((parameters_.relativeEffectivityThreshold.isDefined()) &&
             (etaRelative < parameters_.relativeEffectivityThreshold))
@@ -232,7 +232,7 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
         }
     }
 
-    return thrustDirection;
+    return -thrustDirection.normalized();
 }
 
 double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAcceleration) const
@@ -704,10 +704,11 @@ Tuple<double, double> QLaw::computeEffectivity(
     {
         coeVector[5] = trueAnomalyAngle;
 
-        const Matrix53d derivativeMatrix2 = QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
-        const Vector3d thrustDirection = -(dQ_dOE.transpose() * derivativeMatrix2).normalized();
+        const Matrix53d dOE_dF = QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
+        const Vector3d thrustDirection = dQ_dOE.transpose() * dOE_dF;
 
         dQ_dt[i] = compute_dQn_dt(thrustDirection);
+
         ++i;
     }
 
