@@ -254,6 +254,11 @@ class QLaw : public GuidanceLaw
     Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
     Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
+    /// @brief                Compute the effectivity of the guidance law
+    ///
+    /// @ref
+    /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
+
     Tuple<double, double> computeEffectivity(
         const Vector6d& aCOEVector, const Vector3d& aThrustDirection, const Vector5d& dQ_dOE
     ) const;

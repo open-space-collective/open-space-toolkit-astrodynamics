@@ -680,6 +680,9 @@ Tuple<double, double> QLaw::computeEffectivity(
     const Vector6d& aCOEVector, const Vector3d& currentThrustDirection, const Vector5d& dQ_dOE
 ) const
 {
+    // Note: As Q is a Lyapunov function, Q̇ is always negative. Therefore, the most effective thrust direction is the
+    // one that minimizes Q̇.
+    // Q̇ = D1*cos(β)*cos(⍺) + D2*cos(β)*sin(⍺) + D3*sin(β)
     const auto compute_dQn_dt = [](const Vector3d& aThrustDirection)
     {
         const double alphaStar = std::atan2(-aThrustDirection[1], -aThrustDirection[0]);
@@ -694,11 +697,10 @@ Tuple<double, double> QLaw::computeEffectivity(
     };
 
     Vector6d coeVector = aCOEVector;
-
     VectorXd dQ_dt(trueAnomalyAngles_.size());
 
-    const double dQn_dt = compute_dQn_dt(currentThrustDirection);
-
+    // For each true anomaly, compute Q̇
+    // Coarse grid search is sufficient, no need to for finding the exact root.
     Index i = 0;
     for (const double& trueAnomalyAngle : trueAnomalyAngles_)
     {
@@ -712,8 +714,18 @@ Tuple<double, double> QLaw::computeEffectivity(
         ++i;
     }
 
+    // Q̇n = min(Q̇) for ⍺_* and β_* (i.e. the most effective thrust direction at the current true anomaly)
+    const double dQn_dt = compute_dQn_dt(currentThrustDirection);
+
+    // Q̇nn = min(Q̇) for ⍺_* and β_* (i.e. the most effective thrust direction at the true anomaly `n`)
     const double& dQnn_dt = dQ_dt.minCoeff();
+    // Q̇nx = max(Q̇) for ⍺_* and β_* (i.e. the least effective thrust direction at the true anomaly `n`)
     const double& dQnx_dt = dQ_dt.maxCoeff();
+
+    // η = Q̇n / Q̇nn -> current Q̇ / minimum Q̇ value
+    const double etaAbsolute = (dQn_dt / dQnn_dt);
+    // η = (Q̇n - Q̇nx) / (Q̇nn - Q̇nx) -> (current Q̇ - maximum Q̇) / (minimum Q̇ - maximum Q̇)
+    const double etaRelative = (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt);
 
     return {
         (dQn_dt / dQnn_dt),
