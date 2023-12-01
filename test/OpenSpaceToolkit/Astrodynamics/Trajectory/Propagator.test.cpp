@@ -2705,7 +2705,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, Q
     const NumericalSolver numericalSolver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKutta4,
-        120.0,
+        5.0,
         1e-12,
         1e-12,
     };

@@ -113,6 +113,26 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     float
             )doc"
         )
+        .def_readonly(
+            "absolute_effectivity_threshold",
+            &QLaw::Parameters::absoluteEffectivityThreshold,
+            R"doc(
+                Absolute effectivity threshold.
+
+                Type:
+                    Real
+            )doc"
+        )
+        .def_readonly(
+            "relative_effectivity_threshold",
+            &QLaw::Parameters::relativeEffectivityThreshold,
+            R"doc(
+                Relative effectivity threshold.
+
+                Type:
+                    Real
+            )doc"
+        )
 
         .def(
             init<
@@ -123,21 +143,25 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 const double&,
                 const Size&,
                 const double&,
-                const Length&>(),
+                const Length&,
+                const Real&,
+                const Real&>(),
             R"doc(
-            Constructor.
+                Constructor.
 
-            Args:
-                element_weights (dict): Key-value pair of COE elements and the (weights, tolerances) for the targeter.
-                m (int): Scaling parameter for Semi-Major Axis delta. Default to 3.
-                n (int): Scaling parameter for Semi-Major Axis delta. Default to 4.
-                r (int): Scaling parameter for Semi-Major Axis delta. Default to 2.
-                b (float): Scaling parameter for Argument of Periapsis maximal change. Default to 0.01.
-                k (int): Penalty parameter for periapsis. Default to 100.
-                periapsis_weight (float): Periapsis weight. Default to 0.0.
-                minimum_periapsis_radius (Length): Minimum periapsis radius. Default to 6578.0 km.
+                Args:
+                    element_weights (dict): Key-value pair of COE elements and the (weights, tolerances) for the targeter.
+                    m (int): Scaling parameter for Semi-Major Axis delta. Default to 3.
+                    n (int): Scaling parameter for Semi-Major Axis delta. Default to 4.
+                    r (int): Scaling parameter for Semi-Major Axis delta. Default to 2.
+                    b (float): Scaling parameter for Argument of Periapsis maximal change. Default to 0.01.
+                    k (int): Penalty parameter for periapsis. Default to 100.
+                    periapsis_weight (float): Periapsis weight. Default to 0.0.
+                    minimum_periapsis_radius (Length): Minimum periapsis radius. Default to 6578.0 km.
+                    absolute_effectivity_threshold (Real): Absolute effectivity threshold. Default to undefined (not used).
+                    relative_effectivity_threshold (Real): Relative effectivity threshold. Default to undefined (not used).
 
-        )doc",
+            )doc",
             arg("element_weights"),
             arg("m") = 3,
             arg("n") = 4,
@@ -145,7 +169,9 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("b") = 0.01,
             arg("k") = 100,
             arg("periapsis_weight") = 0.0,
-            arg("minimum_periapsis_radius") = Length::Kilometers(6578.0)
+            arg("minimum_periapsis_radius") = Length::Kilometers(6578.0),
+            arg("absolute_effectivity_threshold") = Real::Undefined(),
+            arg("relative_effectivity_threshold") = Real::Undefined()
         )
 
         .def(
