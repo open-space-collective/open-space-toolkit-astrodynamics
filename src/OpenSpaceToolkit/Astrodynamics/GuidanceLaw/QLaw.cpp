@@ -727,10 +727,7 @@ Tuple<double, double> QLaw::computeEffectivity(
     // η = (Q̇n - Q̇nx) / (Q̇nn - Q̇nx) -> (current Q̇ - maximum Q̇) / (minimum Q̇ - maximum Q̇)
     const double etaRelative = (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt);
 
-    return {
-        (dQn_dt / dQnn_dt),
-        (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt),
-    };
+    return {etaAbsolute, etaRelative};
 }
 
 }  // namespace guidancelaw
