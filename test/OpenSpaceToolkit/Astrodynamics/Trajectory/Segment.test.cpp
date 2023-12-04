@@ -26,6 +26,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::Real;
 
 using ostk::math::object::VectorXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
@@ -199,6 +200,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
 
         // 1500 * 9.80665 * ln(200 / 180) -> Rocket equation
         EXPECT_DOUBLE_EQ(1549.850551313734, segmentSolution.computeDeltaV(1500.0));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ComputeAccelerations)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        Array<MatrixXd> accelerations = segmentSolution.computeAccelerations();
+
+        std::cout << accelerations << std::endl;
+    }
+
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        Array<MatrixXd> accelerations = segmentSolution.computeAccelerations();
+
+        std::cout << accelerations << std::endl;
     }
 }
 

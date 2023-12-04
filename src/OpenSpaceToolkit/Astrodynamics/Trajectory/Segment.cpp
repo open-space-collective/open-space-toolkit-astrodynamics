@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <numeric>
+
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -99,6 +101,65 @@ Mass Segment::Solution::computeDeltaMass() const
     }
 
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+Array<MatrixXd> Segment::Solution::computeAccelerations() const
+{
+    // Each MatrixXd contains the acceleration for a single dynamics for all the segment states
+    // TBI: Return contributions in the same order as the dynamics, might want to standardize later OR use a map with
+    // dynamics name (but need to make sure they are unique and existing)
+    Array<MatrixXd> accelerations = Array<MatrixXd>::Empty();
+    Size stateSize = states.getSize();
+
+    for (const auto& singleDynamics : dynamics)
+    {
+        // Extract dynamics context and behavior relative to state
+        Array<Shared<const CoordinatesSubset>> dynamicsReadCoordinatesSubsets =
+            singleDynamics->getReadCoordinatesSubsets();
+        Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
+            singleDynamics->getWriteCoordinatesSubsets();
+
+        // Initialize the singleDynamicsAcceleration matrix
+        // Each row corresponds to a state, each column to a coordinate of the (full or reduced?) State
+        // TBI: Decide if all contributions should be homogenized already
+        Size dynamicsWriteSize = std::accumulate(
+            dynamicsWriteCoordinatesSubsets.begin(),
+            dynamicsWriteCoordinatesSubsets.end(),
+            0,
+            [](int sum, const Shared<const CoordinatesSubset>& subset)
+            {
+                return sum + subset->getSize();
+            }
+        );
+        MatrixXd singleDynamicsAcceleration = MatrixXd::Zero(stateSize, dynamicsWriteSize);
+
+        // Construct the singleDynamicsAcceleration matrix, state by state
+        for (Index stateIndex = 0; stateIndex < stateSize; ++stateIndex)
+        {
+            State state = states[stateIndex];
+
+            Shared<const CoordinatesBroker> coordinatesBroker = state.accessCoordinatesBroker();
+
+            VectorXd readStateCoordinates =
+                coordinatesBroker->extractCoordinates(state.getCoordinates(), dynamicsReadCoordinatesSubsets);
+            VectorXd writeStateCoordinates =
+                coordinatesBroker->extractCoordinates(state.getCoordinates(), dynamicsWriteCoordinatesSubsets);
+
+            VectorXd accelerationContributionAtState = singleDynamics->computeContribution(
+                state.getInstant(),
+                readStateCoordinates,
+                Frame::GCRF()  // TBI: Make more general here
+            );
+
+            singleDynamicsAcceleration.row(stateIndex) = accelerationContributionAtState;
+        }
+
+        accelerations.add(singleDynamicsAcceleration);
+    }
+
+    // TBI: Cache at solution determination time?
+
+    return accelerations;
 }
 
 void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const

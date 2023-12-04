@@ -170,6 +170,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
+        .def(
+            "compute_accelerations",
+            &Segment::Solution::computeAccelerations,
+            R"doc(
+                Compute the accelerations contributions of the involved dynamics.
+
+                Returns:
+                    list[MatrixXd]: The list of acceleration matrices.
+
+            )doc"
+        )
 
         ;
 

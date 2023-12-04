@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Matrix.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -26,6 +28,8 @@ namespace trajectory
 using ostk::core::ctnr::Array;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
+
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
@@ -74,6 +78,8 @@ class Segment
 
         Real computeDeltaV(const Real& aSpecificImpulse) const;
         Mass computeDeltaMass() const;
+
+        Array<MatrixXd> computeAccelerations() const;
 
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
