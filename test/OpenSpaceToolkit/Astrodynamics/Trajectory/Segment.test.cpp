@@ -203,24 +203,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ComputeAccelerations)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDynamicsContributions)
 {
     {
         const Segment::Solution segmentSolution =
             Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
 
-        Array<MatrixXd> accelerations = segmentSolution.computeAccelerations();
-
-        std::cout << accelerations << std::endl;
-    }
-
-    {
-        const Segment::Solution segmentSolution =
-            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
-
-        Array<MatrixXd> accelerations = segmentSolution.computeAccelerations();
-
-        std::cout << accelerations << std::endl;
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+        Array<MatrixXd> contributions = segmentSolution.getDynamicsContributions(stateFrame);
     }
 }
 

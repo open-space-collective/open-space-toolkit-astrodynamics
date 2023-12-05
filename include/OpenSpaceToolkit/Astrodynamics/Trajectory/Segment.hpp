@@ -41,7 +41,7 @@ using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
 
-/// @brief                                  Represent a propagation segment for astrodynamics purposes
+/// @brief                      Represent a propagation segment for astrodynamics purposes
 
 class Segment
 {
@@ -79,7 +79,10 @@ class Segment
         Real computeDeltaV(const Real& aSpecificImpulse) const;
         Mass computeDeltaMass() const;
 
-        Array<MatrixXd> computeAccelerations() const;
+        MatrixXd getDynamicsContribution(
+            const Shared<const Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
+        ) const;
+        Array<MatrixXd> getDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
 
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 

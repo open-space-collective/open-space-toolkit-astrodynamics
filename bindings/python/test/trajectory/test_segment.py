@@ -221,9 +221,4 @@ class TestSegment:
         assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
 
-        accelerations = solution.compute_accelerations()
-
-        print(accelerations[0])
-        print(accelerations[1])
-        print(accelerations[2])
-        # assert solution.compute_accelerations() is not None
+        assert solution.compute_accelerations() is not None
