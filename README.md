@@ -98,10 +98,7 @@ pip install open-space-toolkit-astrodynamics
 
 ## Documentation
 
-Documentation is available here:
-
-- [C++](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
-- [Python](./bindings/python/docs)
+Documentation is available [here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics):
 
 <details>
 <summary>Structure</summary>

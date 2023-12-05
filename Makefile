@@ -170,7 +170,7 @@ build-documentation-standalone: ## Build documentation (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON -DBUILD_BENCHMARK=OFF .. \
-		&& $(MAKE) -j 4 && python3.11 -m pip install -r /app/docs/docs-requirements.txt && ostk-install-python && cd /app/docs/ && sphinx-build -c rst/ rst/ _build"
+		&& $(MAKE) -j 4 && python3.11 -m pip install -r /app/docs/docs-requirements.txt && ostk-install-python && cd /app/docs/ && python3.11 clean_xml.py && sphinx-build -c rst/ rst/ _build"
 
 .PHONY: build-documentation-standalone
 

@@ -13,8 +13,8 @@ Welcome to Open Space Toolkit Astrodynamics's documentation!
 
 .. toctree::
    :caption: C++ API
-   :maxdepth: 1
    :hidden:
+   :maxdepth: 1
 
    cppAPI
 
