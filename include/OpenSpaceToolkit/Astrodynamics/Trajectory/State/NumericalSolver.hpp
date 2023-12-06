@@ -153,6 +153,15 @@ class NumericalSolver : public MathNumericalSolver
 
     static NumericalSolver Default();
 
+    /// @brief Create a fixed step size numerical solver.
+    ///
+    /// @param                  [in] aTimeStep The time step to use for integration.
+    /// @param                  [in] aSystemOfEquations System of equations to integrate.
+    ///
+    /// @return                 A fixed step size numerical solver.
+
+    static NumericalSolver FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep);
+
     /// @brief                  Default conditional
     ///
     /// @param                  [in] stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.

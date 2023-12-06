@@ -292,6 +292,24 @@ NumericalSolver NumericalSolver::Default()
     };
 }
 
+NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep)
+{
+    if (aStepperType != NumericalSolver::StepperType::RungeKutta4)
+    {
+        throw ostk::core::error::runtime::Wrong("Fixed step size is only supported with RungeKutta4 stepper type.");
+    }
+
+    return {
+        NumericalSolver::LogType::NoLog,
+        aStepperType,
+        aTimeStep,
+        1.0,
+        1.0,
+        RootSolver::Default(),
+        nullptr,
+    };
+}
+
 NumericalSolver NumericalSolver::DefaultConditional(const std::function<void(const State&)>& stateLogger)
 {
     return NumericalSolver::Conditional(5.0, 1.0e-12, 1.0e-12, stateLogger);

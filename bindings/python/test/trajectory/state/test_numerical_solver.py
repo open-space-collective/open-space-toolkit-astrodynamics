@@ -33,7 +33,9 @@ def coordinates_subsets() -> list[CoordinatesSubset]:
 
 
 @pytest.fixture
-def coordinates_broker(coordinates_subsets: list[CoordinatesSubset]) -> CoordinatesBroker:
+def coordinates_broker(
+    coordinates_subsets: list[CoordinatesSubset],
+) -> CoordinatesBroker:
     return CoordinatesBroker(coordinates_subsets)
 
 
@@ -72,8 +74,13 @@ def log_type() -> NumericalSolver.LogType:
 
 
 @pytest.fixture
-def stepper_type() -> NumericalSolver.StepperType:
+def variable_size_stepper_type() -> NumericalSolver.StepperType:
     return NumericalSolver.StepperType.RungeKuttaCashKarp54
+
+
+@pytest.fixture
+def fixed_size_stepper_type() -> NumericalSolver.StepperType:
+    return NumericalSolver.StepperType.RungeKutta4
 
 
 @pytest.fixture
@@ -102,14 +109,14 @@ def state_logger() -> callable:
 @pytest.fixture
 def numerical_solver(
     log_type: NumericalSolver.LogType,
-    stepper_type: NumericalSolver.StepperType,
+    variable_size_stepper_type: NumericalSolver.StepperType,
     initial_time_step: float,
     relative_tolerance: float,
     absolute_tolerance: float,
 ) -> NumericalSolver:
     return NumericalSolver(
         log_type=log_type,
-        stepper_type=stepper_type,
+        variable_size_stepper_type=variable_size_stepper_type,
         time_step=initial_time_step,
         relative_tolerance=relative_tolerance,
         absolute_tolerance=absolute_tolerance,
@@ -134,14 +141,14 @@ class TestNumericalSolver:
     def test_get_types(
         self,
         log_type: NumericalSolver.LogType,
-        stepper_type: NumericalSolver.StepperType,
+        variable_size_stepper_type: NumericalSolver.StepperType,
         initial_time_step: float,
         relative_tolerance: float,
         absolute_tolerance: float,
         numerical_solver: NumericalSolver,
     ):
         assert numerical_solver.get_log_type() == log_type
-        assert numerical_solver.get_stepper_type() == stepper_type
+        assert numerical_solver.get_stepper_type() == variable_size_stepper_type
         assert numerical_solver.get_time_step() == initial_time_step
         assert numerical_solver.get_relative_tolerance() == relative_tolerance
         assert numerical_solver.get_absolute_tolerance() == absolute_tolerance
@@ -271,13 +278,26 @@ class TestNumericalSolver:
     def test_default(self):
         assert NumericalSolver.default() is not None
 
-    def test_default_conditional(self, state_logger):
-        assert NumericalSolver.default_conditional() is not None
-        assert NumericalSolver.default_conditional(state_logger) is not None
-
     def test_undefined(self):
         assert NumericalSolver.undefined() is not None
         assert NumericalSolver.undefined().is_defined() is False
+
+    def test_fixed_step_size_factory(
+        self,
+        fixed_size_stepper_type: NumericalSolver.StepperType,
+        variable_size_stepper_type: NumericalSolver.StepperType,
+        initial_time_step: float,
+    ):
+        assert (
+            NumericalSolver.fixed_step_size(fixed_size_stepper_type, initial_time_step)
+            is not None
+        )
+        with pytest.raises(Exception):
+            NumericalSolver.fixed_step_size(variable_size_stepper_type, initial_time_step)
+
+    def test_default_conditional(self, state_logger):
+        assert NumericalSolver.default_conditional() is not None
+        assert NumericalSolver.default_conditional(state_logger) is not None
 
     def test_conditional(
         self,
