@@ -6,7 +6,7 @@ from ostk.physics.environment.gravitational import Earth
 from ostk.physics.units import Derived, Length, Angle
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics import EventConditionTarget
+from ostk.astrodynamics import EventCondition
 from ostk.astrodynamics.event_condition import (
     COECondition,
     AngularCondition,
@@ -35,42 +35,42 @@ class TestCOECondition:
         (
             (
                 COECondition.semi_major_axis,
-                EventConditionTarget(Length.meters(7e6)),
+                EventCondition.Target(Length.meters(7e6)),
                 RealCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.eccentricity,
-                EventConditionTarget(0.1),
+                EventCondition.Target(0.1),
                 RealCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.inclination,
-                EventConditionTarget(Angle.degrees(0.0)),
+                EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.aop,
-                EventConditionTarget(Angle.degrees(0.0)),
+                EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.raan,
-                EventConditionTarget(Angle.degrees(0.0)),
+                EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.true_anomaly,
-                EventConditionTarget(Angle.degrees(0.0)),
+                EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.mean_anomaly,
-                EventConditionTarget(Angle.degrees(0.0)),
+                EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
                 COECondition.eccentric_anomaly,
-                EventConditionTarget(Angle.degrees(0.0)),
+                EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
         ),
