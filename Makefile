@@ -517,7 +517,7 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF .. \
-		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/dist/*311*.whl \
+		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/OpenSpaceToolkit*Py-python-package-3.11 \
 		&& python3.11 -m pip install plotly pandas \
 		&& python3.11 -m pip install git+https://github.com/lucas-bremond/cesiumpy.git#egg=cesiumpy \
 		&& cd /usr/local/lib/python3.11/site-packages/ostk/$(project_name)/ \
