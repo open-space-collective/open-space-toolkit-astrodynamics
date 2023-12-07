@@ -282,7 +282,7 @@ class TestNumericalSolver:
         assert NumericalSolver.undefined() is not None
         assert NumericalSolver.undefined().is_defined() is False
 
-    def test_fixed_step_size_factory(
+    def test_fixed_step_size(
         self,
         fixed_size_stepper_type: NumericalSolver.StepperType,
         variable_size_stepper_type: NumericalSolver.StepperType,

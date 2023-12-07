@@ -296,7 +296,7 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
 {
     if (aStepperType != NumericalSolver::StepperType::RungeKutta4)
     {
-        throw ostk::core::error::runtime::Wrong("Fixed step size is only supported with RungeKutta4 stepper type.");
+        throw ostk::core::error::RuntimeError("Fixed step size is only supported with RungeKutta4 stepper type.");
     }
 
     return {

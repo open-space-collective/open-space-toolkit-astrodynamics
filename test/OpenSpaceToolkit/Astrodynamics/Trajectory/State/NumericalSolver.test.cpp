@@ -393,7 +393,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, FixedSte
     {
         EXPECT_THROW(
             NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKuttaDopri5, 30.0),
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 }

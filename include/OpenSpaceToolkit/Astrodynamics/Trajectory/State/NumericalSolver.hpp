@@ -153,7 +153,7 @@ class NumericalSolver : public MathNumericalSolver
 
     static NumericalSolver Default();
 
-    /// @brief Create a fixed step size numerical solver.
+    /// @brief                  Create a fixed step size numerical solver.
     ///
     /// @param                  [in] aTimeStep The time step to use for integration.
     /// @param                  [in] aSystemOfEquations System of equations to integrate.

@@ -292,10 +292,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 "fixed_step_size",
                 &NumericalSolver::FixedStepSize,
                 R"doc(
-                    Return an undefined numerical solver.
+                    Return a Numerical Solver using a fixed stepper.
 
                     Returns:
-                        NumericalSolver: The undefined numerical solver.
+                        NumericalSolver: The numerical solver.
                 )doc",
                 arg("stepper_type"),
                 arg("time_step")
