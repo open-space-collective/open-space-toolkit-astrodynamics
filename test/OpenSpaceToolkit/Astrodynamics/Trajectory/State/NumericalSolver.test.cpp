@@ -370,6 +370,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Undefined)
+{
+    {
+        EXPECT_NO_THROW(NumericalSolver::Undefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Default)
+{
+    {
+        EXPECT_NO_THROW(NumericalSolver::Default());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, FixedStepSize)
+{
+    {
+        EXPECT_NO_THROW(NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKutta4, 30.0));
+    }
+
+    {
+        EXPECT_THROW(
+            NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKuttaDopri5, 30.0),
+            ostk::core::error::RuntimeError
+        );
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, DefaultConditional)
 {
     {
