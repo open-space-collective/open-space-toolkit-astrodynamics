@@ -116,7 +116,7 @@ def numerical_solver(
 ) -> NumericalSolver:
     return NumericalSolver(
         log_type=log_type,
-        variable_size_stepper_type=variable_size_stepper_type,
+        stepper_type=variable_size_stepper_type,
         time_step=initial_time_step,
         relative_tolerance=relative_tolerance,
         absolute_tolerance=absolute_tolerance,
