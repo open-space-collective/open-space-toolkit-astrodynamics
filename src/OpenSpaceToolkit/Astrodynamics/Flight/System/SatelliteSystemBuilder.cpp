@@ -16,37 +16,37 @@ namespace system
 
 SatelliteSystemBuilder::SatelliteSystemBuilder() {}
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::setDryMass(const Mass& aDryMass)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withDryMass(const Mass& aDryMass)
 {
     dryMass_ = aDryMass;
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::setGeometry(const Composite& aGeometry)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withGeometry(const Composite& aGeometry)
 {
     geometry_ = aGeometry;
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::setInertiaTensor(const Matrix3d& anInertiaTensor)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withInertiaTensor(const Matrix3d& anInertiaTensor)
 {
     inertiaTensor_ = anInertiaTensor;
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::setCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea)
 {
     crossSectionalSurfaceArea_ = aCrossSectionalSurfaceArea;
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::setDragCoefficient(const Real& aDragCoefficient)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withDragCoefficient(const Real& aDragCoefficient)
 {
     dragCoefficient_ = aDragCoefficient;
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::setPropulsionSystem(const PropulsionSystem& aPropulsionSystem)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withPropulsionSystem(const PropulsionSystem& aPropulsionSystem)
 {
     propulsionSystem_ = aPropulsionSystem;
     return *this;

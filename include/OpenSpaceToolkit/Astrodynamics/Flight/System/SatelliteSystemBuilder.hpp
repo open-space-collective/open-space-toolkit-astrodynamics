@@ -52,42 +52,42 @@ class SatelliteSystemBuilder
     /// @param                  [in] aDryMass A dry mass
     /// @return                 The builder
 
-    SatelliteSystemBuilder& setDryMass(const Mass& aDryMass);
+    SatelliteSystemBuilder& withDryMass(const Mass& aDryMass);
 
     /// @brief                  Set the geometry
     ///
     /// @param                  [in] aGeometry A geometry
     /// @return                 The builder
 
-    SatelliteSystemBuilder& setGeometry(const Composite& aGeometry);
+    SatelliteSystemBuilder& withGeometry(const Composite& aGeometry);
 
     /// @brief                  Set the inertia tensor
     ///
     /// @param                  [in] aInertiaTensor A inertia tensor
     /// @return                 The builder
 
-    SatelliteSystemBuilder& setInertiaTensor(const Matrix3d& anInertiaTensor);
+    SatelliteSystemBuilder& withInertiaTensor(const Matrix3d& anInertiaTensor);
 
     /// @brief                  Set the cross-sectional surface area
     ///
     /// @param                  [in] aCrossSectionalSurfaceArea A cross-sectional surface area
     /// @return                 The builder
 
-    SatelliteSystemBuilder& setCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea);
+    SatelliteSystemBuilder& withCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea);
 
     /// @brief                  Set the drag coefficient
     ///
     /// @param                  [in] aDragCoefficient A drag coefficient
     /// @return                 The builder
 
-    SatelliteSystemBuilder& setDragCoefficient(const Real& aDragCoefficient);
+    SatelliteSystemBuilder& withDragCoefficient(const Real& aDragCoefficient);
 
     /// @brief                  Set the propulsion system
     ///
     /// @param                  [in] aPropulsionSystem A Propulsion System
     /// @return                 The builder
 
-    SatelliteSystemBuilder& setPropulsionSystem(const PropulsionSystem& aPropulsionSystem);
+    SatelliteSystemBuilder& withPropulsionSystem(const PropulsionSystem& aPropulsionSystem);
 
     /// @brief                  Builds the satellite system
     ///

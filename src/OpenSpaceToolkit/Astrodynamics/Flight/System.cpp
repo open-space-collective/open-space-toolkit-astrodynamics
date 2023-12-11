@@ -53,6 +53,16 @@ bool System::isDefined() const
     return mass_.isDefined() && geometry_.isDefined();
 }
 
+Mass System::getMass() const
+{
+    if (!mass_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Mass");
+    }
+
+    return mass_;
+}
+
 void System::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "System") : void();
@@ -65,21 +75,11 @@ void System::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Mass System::getMass() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("System");
-    }
-
-    return mass_;
-}
-
 Composite System::getGeometry() const
 {
-    if (!this->isDefined())
+    if (!geometry_.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("System");
+        throw ostk::core::error::runtime::Undefined("Geometry");
     }
 
     return geometry_;

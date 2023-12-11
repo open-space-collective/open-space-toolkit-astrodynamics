@@ -56,7 +56,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry_(satelliteCuboid);
+        satelliteGeometry_ = Composite(satelliteCuboid);
 
         // Define satellite cross sectional surface area
         crossSectionalSurfaceArea_ = 0.8;
@@ -88,38 +88,20 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
     Real crossSectionalSurfaceArea_ = Real::Undefined();
     Real dragCoefficient_ = Real::Undefined();
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    Composite satelliteGeometry_ = Composite::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
 {
-    // Normal constructor
     {
-        // Define satellite mass
-        const Mass satelliteMass = {100.0, Mass::Unit::Kilogram};
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Define satellite cross sectional surface area
-        const Real crossSectionalSurfaceArea = 0.8;
-
-        // Define satellite coefficient of drag
-        const Real dragCoefficient = 1.2;
-
-        // Construct SatelliteSystem object
         EXPECT_NO_THROW(SatelliteSystem satelliteSystem(
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, crossSectionalSurfaceArea, dragCoefficient
+            mass_,
+            satelliteGeometry_,
+            satelliteInertiaTensor_,
+            crossSectionalSurfaceArea_,
+            dragCoefficient_,
+            propulsionSystem_
         ));
     }
 }
@@ -134,123 +116,210 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, CopyConstru
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperator)
 {
     {
-        // Test for all same parameters
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
+        EXPECT_TRUE(
+            satelliteSystem_ == SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Define satellite intertia tensor
-        Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
+    {
+        EXPECT_FALSE(
+            satelliteSystem_ == SatelliteSystem(
+                                    {99.0, Mass::Unit::Kilogram},
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
+    {
+        const Point center = {1.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
+        const Composite anotherSatelliteGeometry(Cuboid(center, axes, extent));
+        EXPECT_FALSE(
+            satelliteSystem_ == SatelliteSystem(
+                                    mass_,
+                                    anotherSatelliteGeometry,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Test for default drag coefficient value
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-        const SatelliteSystem satelliteSystem_0 = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
+    {
+        Matrix3d anotherSatelliteInertiaTensor = satelliteInertiaTensor_;
+        anotherSatelliteInertiaTensor(0, 0) = satelliteInertiaTensor_(0, 0) + 1.0;
+        EXPECT_FALSE(
+            satelliteSystem_ == SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    anotherSatelliteInertiaTensor,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        EXPECT_TRUE(satelliteSystem == satelliteSystem_0);
+    {
+        EXPECT_FALSE(
+            satelliteSystem_ == SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_ + 1.0,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Test for different mass
-        const Mass satelliteMass_1(100.0, Mass::Unit::Kilogram);
-        const SatelliteSystem satelliteSystem_1 = {
-            satelliteMass_1, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2
+    {
+        EXPECT_FALSE(
+            satelliteSystem_ == SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_ + 1.0,
+                                    propulsionSystem_
+                                )
+        );
+    }
+
+    {
+        PropulsionSystem anotherPropulsionSystem = {
+            Scalar(0.099, PropulsionSystem::thrustSIUnit), Scalar(99.0, PropulsionSystem::specificImpulseSIUnit)
         };
-
-        EXPECT_FALSE(satelliteSystem == satelliteSystem_1);
-
-        // Test for different geometry
-        const Point center_0 = {1.0, 0.0, 0.0};
-        const Composite satelliteGeometry_0(Cuboid(center_0, axes, extent));
-        const SatelliteSystem satelliteSystem_3 = {
-            satelliteMass, satelliteGeometry_0, satelliteInertiaTensor, 0.8, 2.2
-        };
-
-        EXPECT_FALSE(satelliteSystem == satelliteSystem_3);
-
-        // Test for different inertia tensor
-        Matrix3d satelliteInertiaTensor_0 = satelliteInertiaTensor;
-        satelliteInertiaTensor_0(0, 0) = 2.0;
-        const SatelliteSystem satelliteSystem_2 = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor_0, 0.8, 2.2
-        };
-
-        EXPECT_FALSE(satelliteSystem == satelliteSystem_2);
-
-        // Test for different area value
-        const SatelliteSystem satelliteSystem_4 = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.9, 2.2};
-        EXPECT_FALSE(satelliteSystem == satelliteSystem_4);
-
-        // Test for different drag coefficient value
-        const SatelliteSystem satelliteSystem_5 = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.3};
-        EXPECT_FALSE(satelliteSystem == satelliteSystem_5);
+        EXPECT_FALSE(
+            satelliteSystem_ == SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    anotherPropulsionSystem
+                                )
+        );
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOperator)
 {
     {
-        // Test for all same parameters
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
+        EXPECT_FALSE(
+            satelliteSystem_ != SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Define satellite intertia tensor // TODO fix this initialization once I implement the Matrix3d class in OSTk
-        // math
-        Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
+    {
+        EXPECT_TRUE(
+            satelliteSystem_ != SatelliteSystem(
+                                    {99.0, Mass::Unit::Kilogram},
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
+    {
+        const Point center = {1.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
+        const Composite anotherSatelliteGeometry(Cuboid(center, axes, extent));
+        EXPECT_TRUE(
+            satelliteSystem_ != SatelliteSystem(
+                                    mass_,
+                                    anotherSatelliteGeometry,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Test for default drag coefficient value
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-        const SatelliteSystem satelliteSystem_0 = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
+    {
+        Matrix3d anotherSatelliteInertiaTensor = satelliteInertiaTensor_;
+        anotherSatelliteInertiaTensor(0, 0) = satelliteInertiaTensor_(0, 0) + 1.0;
+        EXPECT_TRUE(
+            satelliteSystem_ != SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    anotherSatelliteInertiaTensor,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        EXPECT_FALSE(satelliteSystem != satelliteSystem_0);
+    {
+        EXPECT_TRUE(
+            satelliteSystem_ != SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_ + 1.0,
+                                    dragCoefficient_,
+                                    propulsionSystem_
+                                )
+        );
+    }
 
-        // Test for different mass
-        const Mass satelliteMass_1(100.0, Mass::Unit::Kilogram);
-        const SatelliteSystem satelliteSystem_1 = {
-            satelliteMass_1, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2
+    {
+        EXPECT_TRUE(
+            satelliteSystem_ != SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_ + 1.0,
+                                    propulsionSystem_
+                                )
+        );
+    }
+
+    {
+        PropulsionSystem anotherPropulsionSystem = {
+            Scalar(0.099, PropulsionSystem::thrustSIUnit), Scalar(99.0, PropulsionSystem::specificImpulseSIUnit)
         };
-
-        EXPECT_TRUE(satelliteSystem != satelliteSystem_1);
-
-        // Test for different geometry
-        const Point center_0 = {1.0, 0.0, 0.0};
-        const Composite satelliteGeometry_0(Cuboid(center_0, axes, extent));
-        const SatelliteSystem satelliteSystem_3 = {
-            satelliteMass, satelliteGeometry_0, satelliteInertiaTensor, 0.8, 2.2
-        };
-
-        EXPECT_TRUE(satelliteSystem != satelliteSystem_3);
-
-        // Test for different inertia tensor
-        Matrix3d satelliteInertiaTensor_0 = satelliteInertiaTensor;
-        satelliteInertiaTensor_0(0, 0) = 2.0;
-        const SatelliteSystem satelliteSystem_2 = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor_0, 0.8, 2.2
-        };
-
-        EXPECT_TRUE(satelliteSystem != satelliteSystem_2);
-
-        // Test for different area value
-        const SatelliteSystem satelliteSystem_4 = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.9, 2.2};
-        EXPECT_TRUE(satelliteSystem != satelliteSystem_4);
-
-        // Test for different drag coefficient value
-        const SatelliteSystem satelliteSystem_5 = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.3};
-        EXPECT_TRUE(satelliteSystem != satelliteSystem_5);
+        EXPECT_TRUE(
+            satelliteSystem_ != SatelliteSystem(
+                                    mass_,
+                                    satelliteGeometry_,
+                                    satelliteInertiaTensor_,
+                                    crossSectionalSurfaceArea_,
+                                    dragCoefficient_,
+                                    anotherPropulsionSystem
+                                )
+        );
     }
 }
 
@@ -258,6 +327,68 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
 {
     {
         EXPECT_TRUE(satelliteSystem_.isDefined());
+    }
+
+    {
+        EXPECT_FALSE(SatelliteSystem(
+                         Mass::Undefined(),
+                         satelliteGeometry_,
+                         satelliteInertiaTensor_,
+                         crossSectionalSurfaceArea_,
+                         dragCoefficient_,
+                         propulsionSystem_
+        )
+                         .isDefined());
+
+        EXPECT_FALSE(SatelliteSystem(
+                         mass_,
+                         Composite::Undefined(),
+                         satelliteInertiaTensor_,
+                         crossSectionalSurfaceArea_,
+                         dragCoefficient_,
+                         propulsionSystem_
+        )
+                         .isDefined());
+
+        EXPECT_FALSE(SatelliteSystem(
+                         mass_,
+                         satelliteGeometry_,
+                         Matrix3d::Undefined(),
+                         crossSectionalSurfaceArea_,
+                         dragCoefficient_,
+                         propulsionSystem_
+        )
+                         .isDefined());
+
+        EXPECT_FALSE(SatelliteSystem(
+                         mass_,
+                         satelliteGeometry_,
+                         satelliteInertiaTensor_,
+                         Real::Undefined(),
+                         dragCoefficient_,
+                         propulsionSystem_
+        )
+                         .isDefined());
+
+        EXPECT_FALSE(SatelliteSystem(
+                         mass_,
+                         satelliteGeometry_,
+                         satelliteInertiaTensor_,
+                         crossSectionalSurfaceArea_,
+                         Real::Undefined(),
+                         propulsionSystem_
+        )
+                         .isDefined());
+
+        EXPECT_FALSE(SatelliteSystem(
+                         mass_,
+                         satelliteGeometry_,
+                         satelliteInertiaTensor_,
+                         crossSectionalSurfaceArea_,
+                         dragCoefficient_,
+                         PropulsionSystem::Undefined()
+        )
+                         .isDefined());
     }
 }
 
@@ -319,32 +450,103 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetGeometry
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetInertiaTensor)
 {
     {
+        const SatelliteSystem aSatelliteSystem = {
+            Mass::Undefined(),
+            Composite::Undefined(),
+            satelliteInertiaTensor_,
+            Real::Undefined(),
+            Real::Undefined(),
+            PropulsionSystem::Undefined()
+        };
         EXPECT_EQ(satelliteSystem_.getInertiaTensor(), satelliteInertiaTensor_);
+    }
+
+    {
+        const SatelliteSystem aSatelliteSystem = {
+            mass_,
+            satelliteGeometry_,
+            Matrix3d::Undefined(),
+            crossSectionalSurfaceArea_,
+            dragCoefficient_,
+            propulsionSystem_
+        };
+        EXPECT_ANY_THROW(aSatelliteSystem.getInertiaTensor());
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetCrossSectionalSurfaceArea)
 {
     {
+        const SatelliteSystem aSatelliteSystem = {
+            Mass::Undefined(),
+            Composite::Undefined(),
+            Matrix3d::Undefined(),
+            crossSectionalSurfaceArea_,
+            Real::Undefined(),
+            PropulsionSystem::Undefined()
+        };
         EXPECT_EQ(satelliteSystem_.getCrossSectionalSurfaceArea(), crossSectionalSurfaceArea_);
+    }
+
+    {
+        const SatelliteSystem aSatelliteSystem = {
+            mass_, satelliteGeometry_, satelliteInertiaTensor_, Real::Undefined(), dragCoefficient_, propulsionSystem_
+        };
+        EXPECT_ANY_THROW(aSatelliteSystem.getCrossSectionalSurfaceArea());
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetDragCoefficient)
 {
     {
+        const SatelliteSystem aSatelliteSystem = {
+            Mass::Undefined(),
+            Composite::Undefined(),
+            Matrix3d::Undefined(),
+            Real::Undefined(),
+            dragCoefficient_,
+            PropulsionSystem::Undefined()
+        };
         EXPECT_EQ(satelliteSystem_.getDragCoefficient(), dragCoefficient_);
+    }
+
+    {
+        const SatelliteSystem aSatelliteSystem = {
+            mass_,
+            satelliteGeometry_,
+            satelliteInertiaTensor_,
+            crossSectionalSurfaceArea_,
+            Real::Undefined(),
+            propulsionSystem_
+        };
+        EXPECT_ANY_THROW(aSatelliteSystem.getDragCoefficient());
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsionSystem)
 {
     {
+        const SatelliteSystem aSatelliteSystem = {
+            Mass::Undefined(),
+            Composite::Undefined(),
+            Matrix3d::Undefined(),
+            Real::Undefined(),
+            Real::Undefined(),
+            propulsionSystem_
+        };
         EXPECT_EQ(satelliteSystem_.getPropulsionSystem(), propulsionSystem_);
     }
 
     {
-        EXPECT_ANY_THROW(SatelliteSystem::Undefined().getPropulsionSystem());
+        const SatelliteSystem aSatelliteSystem = {
+            mass_,
+            satelliteGeometry_,
+            satelliteInertiaTensor_,
+            crossSectionalSurfaceArea_,
+            dragCoefficient_,
+            PropulsionSystem::Undefined()
+        };
+        EXPECT_ANY_THROW(aSatelliteSystem.getPropulsionSystem());
     }
 }
 

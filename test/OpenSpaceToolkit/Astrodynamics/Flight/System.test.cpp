@@ -202,10 +202,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
 
-        // Construct System object
-        const System system = {systemMass, systemGeometry};
+        EXPECT_TRUE(System(systemMass, systemGeometry).isDefined());
 
-        EXPECT_TRUE(system.isDefined());
+        EXPECT_FALSE(System(Mass::Undefined(), systemGeometry).isDefined());
+
+        EXPECT_FALSE(System(systemMass, Composite::Undefined()).isDefined());
     }
 }
 
@@ -311,7 +312,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
         // Define satellite mass
         const Mass systemMass = {100.0, Mass::Unit::Kilogram};
 
-        // Define satellite geometry
+        // Construct System object
+        const System system = {systemMass, Composite::Undefined()};
+
+        EXPECT_EQ(system.getMass(), systemMass);
+    }
+
+    {  // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
@@ -322,9 +329,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
         const Composite systemGeometry(systemCuboid);
 
         // Construct System object
-        const System system = {systemMass, systemGeometry};
+        const System system = {Mass::Undefined(), systemGeometry};
 
-        EXPECT_EQ(system.getMass(), systemMass);
+        EXPECT_ANY_THROW(system.getMass());
     }
 }
 
@@ -345,9 +352,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
     using ostk::astro::flight::System;
 
     {
-        // Define satellite mass
-        const Mass systemMass = {100.0, Mass::Unit::Kilogram};
-
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
@@ -359,8 +363,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
         const Composite systemGeometry(systemCuboid);
 
         // Construct System object
-        const System system = {systemMass, systemGeometry};
+        const System system = {Mass::Undefined(), systemGeometry};
 
         EXPECT_EQ(system.getGeometry(), systemGeometry);
+    }
+
+    {
+        // Define satellite mass
+        const Mass systemMass = {100.0, Mass::Unit::Kilogram};
+
+        // Construct System object
+        const System system = {systemMass, Composite::Undefined()};
+
+        EXPECT_ANY_THROW(system.getGeometry());
     }
 }
