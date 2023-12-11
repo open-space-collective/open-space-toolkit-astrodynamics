@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
@@ -26,6 +27,7 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
@@ -79,10 +81,16 @@ class Segment
         Real computeDeltaV(const Real& aSpecificImpulse) const;
         Mass computeDeltaMass() const;
 
+        Map<Shared<Dynamics>, MatrixXd> getDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
         MatrixXd getDynamicsContribution(
-            const Shared<const Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
+            const Shared<Dynamics>& aDynamicsSPtr,
+            const Shared<const Frame>& aFrameSPtr,
+            const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray =
+                Array<Shared<const CoordinatesSubset>>::Empty()
         ) const;
-        Array<MatrixXd> getDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
+        MatrixXd getDynamicsAccelerationContribution(
+            const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
+        ) const;
 
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
