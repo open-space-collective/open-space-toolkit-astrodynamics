@@ -172,6 +172,30 @@ ARG VERSION
 ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
 
-# Execution
+# Install dev utilities
 
-CMD [ "/bin/bash" ]
+RUN apt-get update \
+ && apt-get install -y zsh sudo \
+ && rm -rf /var/lib/apt/lists/*
+
+## Create non-root user and group
+
+ARG USERNAME="vscode"
+ARG USER_UID="1000"
+ARG USER_GID=${USER_UID}
+RUN groupadd --gid ${USER_GID} ${USERNAME} || true \
+ && adduser --uid ${USER_UID} --gid ${USER_GID} ${USERNAME}
+
+## Use non-root user
+
+USER ${USERNAME}
+
+## Install shell utilities
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+ && git clone https://github.com/bhilburn/powerlevel9k.git /home/${USERNAME}/.oh-my-zsh/custom/themes/powerlevel9k \
+ && git clone https://github.com/zsh-users/zsh-autosuggestions /home/${USERNAME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
+ && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/${USERNAME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
+ && mkdir -p /home/${USERNAME}/.vscode-server/extensions /home/${USERNAME}/.vscode-server-insiders/extensions
+
+# Fix python installation location, and ipython installation

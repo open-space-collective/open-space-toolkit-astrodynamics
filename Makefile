@@ -19,6 +19,8 @@ jupyter_python_version_without_dot := $(shell echo $(jupyter_python_version) | s
 jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-$(jupyter_python_version).3
 extract_python_package_version := $(shell echo $(project_version) | sed 's/-/./' | sed 's/-.*//')
 
+dev_username := vscode
+
 pull: ## Pull all images
 
 	@ echo "Pulling images..."
@@ -96,6 +98,8 @@ build-development-image: pull-development-image ## Build development image
 		--tag=$(docker_development_image_repository):$(docker_image_version) \
 		--tag=$(docker_development_image_repository):latest \
 		--build-arg="VERSION=$(docker_image_version)" \
+		--build-arg="USER_UID=$(shell id -u)" \
+		--build-arg="USER_GID=$(shell id -g)" \
 		"$(CURDIR)"
 
 .PHONY: build-development-image
@@ -234,13 +238,15 @@ start-development-no-link: build-development-image ## Start development environm
 	@ echo "Starting development environment..."
 
 	docker run \
+		--name=open-space-toolkit-$(project_name)-dev \
 		-it \
 		--rm \
-		--privileged \
-		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR):/app" \
+		--volume="$(HOME)/.ssh:/home/$(dev_username)/.ssh:ro" \
+		--volume="$(HOME)/.gitconfig:/home/$(dev_username)/.gitconfig:ro" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash
+		/bin/zsh
 
 .PHONY: start-development-no-link
 
