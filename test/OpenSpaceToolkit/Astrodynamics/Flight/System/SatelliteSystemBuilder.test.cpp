@@ -48,9 +48,10 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder : publ
     Matrix3d inertiaTensor_ = Matrix3d::Identity();
     Real crossSectionalSurfaceArea_ = 0.8;
     Real dragCoefficient_ = 1.2;
-    Cuboid geometry_ = Cuboid(
+    Composite geometry_ = Composite(Cuboid(
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    );
+    ));
+
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
 };
 
@@ -61,6 +62,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Cons
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Build)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder();
+        SatelliteSystem system = builder.build();
+
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, WithDryMass)
 {
     {
@@ -68,5 +79,72 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, With
         const SatelliteSystem system = builder.build();
 
         EXPECT_EQ(system.getMass(), dryMass_);
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, WithGeometry)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder().withGeometry(geometry_);
+        const SatelliteSystem system = builder.build();
+
+        EXPECT_EQ(system.getGeometry(), geometry_);
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, WithInertiaTensor)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder().withInertiaTensor(inertiaTensor_);
+        const SatelliteSystem system = builder.build();
+
+        EXPECT_EQ(system.getInertiaTensor(), inertiaTensor_);
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, WithCrossSectionalSurfaceArea)
+{
+    {
+        SatelliteSystemBuilder builder =
+            SatelliteSystemBuilder().withCrossSectionalSurfaceArea(crossSectionalSurfaceArea_);
+        const SatelliteSystem system = builder.build();
+
+        EXPECT_EQ(system.getCrossSectionalSurfaceArea(), crossSectionalSurfaceArea_);
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, WithDragCoefficient)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder().withDragCoefficient(dragCoefficient_);
+        const SatelliteSystem system = builder.build();
+
+        EXPECT_EQ(system.getDragCoefficient(), dragCoefficient_);
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, WithPropulsionSystem)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder().withPropulsionSystem(propulsionSystem_);
+        const SatelliteSystem system = builder.build();
+
+        EXPECT_EQ(system.getPropulsionSystem(), propulsionSystem_);
+        EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Default)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder::Default();
+        SatelliteSystem system = builder.build();
+
+        EXPECT_TRUE(system.isDefined());
     }
 }

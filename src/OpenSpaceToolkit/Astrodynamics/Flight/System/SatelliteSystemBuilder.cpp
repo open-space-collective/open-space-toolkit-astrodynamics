@@ -99,6 +99,19 @@ void SatelliteSystemBuilder::print(std::ostream& anOutputStream, bool displayDec
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+SatelliteSystemBuilder SatelliteSystemBuilder::Default()
+{
+    const SatelliteSystem defaultSatelliteSystem = SatelliteSystem::Default();
+
+    return SatelliteSystemBuilder()
+        .withDryMass(defaultSatelliteSystem.getMass())
+        .withGeometry(defaultSatelliteSystem.getGeometry())
+        .withInertiaTensor(defaultSatelliteSystem.getInertiaTensor())
+        .withCrossSectionalSurfaceArea(defaultSatelliteSystem.getCrossSectionalSurfaceArea())
+        .withDragCoefficient(defaultSatelliteSystem.getDragCoefficient())
+        .withPropulsionSystem(defaultSatelliteSystem.getPropulsionSystem());
+}
+
 }  // namespace system
 }  // namespace flight
 }  // namespace astro

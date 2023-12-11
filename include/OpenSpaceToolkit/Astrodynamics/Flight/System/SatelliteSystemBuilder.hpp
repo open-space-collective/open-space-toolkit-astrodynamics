@@ -121,10 +121,20 @@ class SatelliteSystemBuilder
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief                  Satellite system builder with default values
+    ///
+    /// @code
+    ///                         SatelliteSystemBuilder satelliteSystemBuilder = SatelliteSystemBuilder::Default();
+    /// @endcode
+    ///
+    /// @return                 Satellite system builder with default values
+
+    static SatelliteSystemBuilder Default();
+
    private:
     Mass dryMass_ = Mass::Undefined();
     Composite geometry_ = Composite::Undefined();
-    Matrix3d inertiaTensor_;
+    Matrix3d inertiaTensor_ = Matrix3d::Undefined();
     Real crossSectionalSurfaceArea_ = Real::Undefined();
     Real dragCoefficient_ = Real::Undefined();
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
