@@ -66,7 +66,7 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
 
     done
 
-    command="${command} /bin/bash"
+    command="${command} /bin/zsh"
 
 fi
 
@@ -75,10 +75,9 @@ fi
 docker run \
     -it \
     --rm \
-    --privileged \
     "${options[@]}" \
     --volume="${project_directory}:/app:delegated" \
     --env="deps=${deps}" \
     --workdir="/app/build" \
     ${docker_development_image_repository}:${docker_image_version} \
-    /bin/bash -c "${command}"
+    /bin/zsh -c "${command}"

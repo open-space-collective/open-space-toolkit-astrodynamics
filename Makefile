@@ -236,12 +236,13 @@ build-packages-python-standalone: ## Build Python packages (standalone)
 start-development-no-link: build-development-image ## Start development environment
 
 	@ echo "Starting development environment..."
+	@ mkdir -p $(CURDIR)/build
 
 	docker run \
 		--name=open-space-toolkit-$(project_name)-dev \
 		-it \
 		--rm \
-		--volume="$(CURDIR):/app" \
+		--volume="$(CURDIR):/app:delegated" \
 		--volume="$(HOME)/.ssh:/home/$(dev_username)/.ssh:ro" \
 		--volume="$(HOME)/.gitconfig:/home/$(dev_username)/.gitconfig:ro" \
 		--workdir=/app/build \

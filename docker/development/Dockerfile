@@ -2,7 +2,7 @@
 
 ARG BASE_IMAGE_VERSION="latest"
 
-FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION}
+FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION} as base
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -184,7 +184,8 @@ ARG USERNAME="vscode"
 ARG USER_UID="1000"
 ARG USER_GID=${USER_UID}
 RUN groupadd --gid ${USER_GID} ${USERNAME} || true \
- && adduser --uid ${USER_UID} --gid ${USER_GID} ${USERNAME}
+ && adduser --uid ${USER_UID} --gid ${USER_GID} ${USERNAME} \
+ && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/${USERNAME}
 
 ## Use non-root user
 
@@ -198,4 +199,6 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
  && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/${USERNAME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
  && mkdir -p /home/${USERNAME}/.vscode-server/extensions /home/${USERNAME}/.vscode-server-insiders/extensions
 
-# Fix python installation location, and ipython installation
+# Fix python installation location, and ipython installation by coping the ipython kernel to the python installation location
+
+# COPY --from=base /usr/local/lib/python3.11/site-packages/ostk /usr/local/lib/python3.11/site-packages/ostk
