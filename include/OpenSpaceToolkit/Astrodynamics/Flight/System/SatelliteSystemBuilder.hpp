@@ -45,7 +45,28 @@ class SatelliteSystemBuilder
 {
    public:
     /// @brief                  Constructor
+
     SatelliteSystemBuilder();
+
+    /// @brief                  Destructor
+
+    ~SatelliteSystemBuilder();
+
+    /// @brief                  Clone satellite system builder
+    ///
+    /// @return                 Pointer to cloned satellite system builder
+
+    SatelliteSystemBuilder* clone() const;
+
+    /// @brief                  Output stream operator
+    ///
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] aSatelliteSystemBuilder A satellite system builder
+    /// @return                 A reference to output stream
+
+    friend std::ostream& operator<<(
+        std::ostream& anOutputStream, const SatelliteSystemBuilder& aSatelliteSystemBuilder
+    );
 
     /// @brief                  Set the dry mass
     ///
@@ -92,27 +113,8 @@ class SatelliteSystemBuilder
     /// @brief                  Builds the satellite system
     ///
     /// @return                 A new satellite system
+
     const SatelliteSystem build() const;
-
-    /// @brief                  Destructor
-
-    ~SatelliteSystemBuilder();
-
-    /// @brief                  Clone satellite system builder
-    ///
-    /// @return                 Pointer to cloned satellite system builder
-
-    SatelliteSystemBuilder* clone() const;
-
-    /// @brief                  Output stream operator
-    ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aSatelliteSystemBuilder A satellite system builder
-    /// @return                 A reference to output stream
-
-    friend std::ostream& operator<<(
-        std::ostream& anOutputStream, const SatelliteSystemBuilder& aSatelliteSystemBuilder
-    );
 
     /// @brief                  Print satellite system builder
     ///

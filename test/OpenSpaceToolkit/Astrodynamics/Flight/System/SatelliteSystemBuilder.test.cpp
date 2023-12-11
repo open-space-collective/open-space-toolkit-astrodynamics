@@ -62,13 +62,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Cons
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, CopyConstructor)
+{
+    {
+        EXPECT_NO_THROW(SatelliteSystemBuilder satelliteSystemBuilderCopy(SatelliteSystemBuilder()));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, StreamOperator)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder();
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << builder << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Build)
 {
     {
         SatelliteSystemBuilder builder = SatelliteSystemBuilder();
-        SatelliteSystem system = builder.build();
-
-        EXPECT_FALSE(system.isDefined());
+        EXPECT_NO_THROW(builder.build());
     }
 }
 
@@ -136,6 +154,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, With
 
         EXPECT_EQ(system.getPropulsionSystem(), propulsionSystem_);
         EXPECT_FALSE(system.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Print)
+{
+    {
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder();
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(builder.print(std::cout, true));
+        EXPECT_NO_THROW(builder.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 

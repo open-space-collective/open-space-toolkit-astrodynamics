@@ -16,6 +16,20 @@ namespace system
 
 SatelliteSystemBuilder::SatelliteSystemBuilder() {}
 
+SatelliteSystemBuilder::~SatelliteSystemBuilder() {}
+
+SatelliteSystemBuilder* SatelliteSystemBuilder::clone() const
+{
+    return new SatelliteSystemBuilder(*this);
+}
+
+std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystemBuilder& aSatelliteSystemBuilder)
+{
+    aSatelliteSystemBuilder.print(anOutputStream);
+
+    return anOutputStream;
+}
+
 SatelliteSystemBuilder& SatelliteSystemBuilder::withDryMass(const Mass& aDryMass)
 {
     dryMass_ = aDryMass;
@@ -62,20 +76,6 @@ const SatelliteSystem SatelliteSystemBuilder::build() const
         dragCoefficient_,
         propulsionSystem_,
     };
-}
-
-SatelliteSystemBuilder::~SatelliteSystemBuilder() {}
-
-SatelliteSystemBuilder* SatelliteSystemBuilder::clone() const
-{
-    return new SatelliteSystemBuilder(*this);
-}
-
-std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystemBuilder& aSatelliteSystemBuilder)
-{
-    aSatelliteSystemBuilder.print(anOutputStream);
-
-    return anOutputStream;
 }
 
 void SatelliteSystemBuilder::print(std::ostream& anOutputStream, bool displayDecorator) const
