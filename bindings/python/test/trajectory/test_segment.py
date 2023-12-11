@@ -1,6 +1,7 @@
 # Apache License 2.0
 
 import pytest
+import numpy as np
 
 from ostk.physics import Environment
 from ostk.physics.time import Instant
@@ -221,4 +222,50 @@ class TestSegment:
         assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
 
-        assert solution.compute_accelerations() is not None
+        state_frame: Frame = state.get_frame()
+
+        first_dynamics_contribution = solution.get_dynamics_contribution(
+            solution.dynamics[0], state_frame
+        )
+
+        second_dynamics_contribution = solution.get_dynamics_contribution(
+            solution.dynamics[1], state_frame
+        )
+
+        third_dynamics_contribution = solution.get_dynamics_contribution(
+            solution.dynamics[2], state_frame
+        )
+
+        assert first_dynamics_contribution is not None
+        assert second_dynamics_contribution is not None
+        assert third_dynamics_contribution is not None
+        assert first_dynamics_contribution.shape == (len(solution.states), 3)
+        assert second_dynamics_contribution.shape == (len(solution.states), 3)
+        assert third_dynamics_contribution.shape == (len(solution.states), 4)
+
+        all_contributions = solution.get_dynamics_contributions(state_frame)
+        assert len(all_contributions) == len(solution.dynamics)
+
+        assert all_contributions is not None
+        assert isinstance(all_contributions, dict)
+        assert np.array_equal(
+            all_contributions[solution.dynamics[0]], first_dynamics_contribution
+        )
+        assert np.array_equal(
+            all_contributions[solution.dynamics[1]], second_dynamics_contribution
+        )
+        assert np.array_equal(
+            all_contributions[solution.dynamics[2]], third_dynamics_contribution
+        )
+
+        acceleration_contribution = solution.get_dynamics_acceleration_contribution(
+            solution.dynamics[1], state_frame
+        )
+        assert acceleration_contribution is not None
+        assert acceleration_contribution.shape == (len(solution.states), 3)
+        assert isinstance(acceleration_contribution, np.ndarray)
+
+        with pytest.raises(Exception):
+            solution.get_dynamics_acceleration_contribution(
+                third_dynamics_contribution, state_frame
+            )
