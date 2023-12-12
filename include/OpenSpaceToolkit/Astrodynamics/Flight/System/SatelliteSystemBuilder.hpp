@@ -84,7 +84,7 @@ class SatelliteSystemBuilder
 
     /// @brief                  Set the inertia tensor
     ///
-    /// @param                  [in] aInertiaTensor A inertia tensor
+    /// @param                  [in] anInertiaTensor An inertia tensor
     /// @return                 The builder
 
     SatelliteSystemBuilder& withInertiaTensor(const Matrix3d& anInertiaTensor);
