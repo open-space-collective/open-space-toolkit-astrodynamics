@@ -17,6 +17,7 @@ Point = mathematics.geometry.d3.objects.Point
 Mass = physics.units.Mass
 
 SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
+PropulsionSystem = astrodynamics.flight.system.PropulsionSystem
 
 
 @pytest.fixture
@@ -32,8 +33,19 @@ def satellite_system_default_inputs():
     inertia_tensor = np.ndarray(shape=(3, 3))
     surface_area = 0.8
     drag_coefficient = 2.2
+    propulsion_system = PropulsionSystem(
+        1.0,
+        150.0,
+    )
 
-    return (mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient)
+    return (
+        mass,
+        satellite_geometry,
+        inertia_tensor,
+        surface_area,
+        drag_coefficient,
+        propulsion_system,
+    )
 
 
 @pytest.fixture
@@ -68,6 +80,7 @@ class TestSatelliteSystem:
             inertia_tensor,
             surface_area,
             drag_coefficient,
+            propulsion_system,
         ) = satellite_system_default_inputs
 
         assert satellite_system.get_mass() == mass
@@ -75,3 +88,4 @@ class TestSatelliteSystem:
         assert np.array_equal(satellite_system.get_inertia_tensor(), inertia_tensor)
         assert satellite_system.get_cross_sectional_surface_area() == surface_area
         assert satellite_system.get_drag_coefficient() == drag_coefficient
+        assert satellite_system.get_propulsion_system() == propulsion_system

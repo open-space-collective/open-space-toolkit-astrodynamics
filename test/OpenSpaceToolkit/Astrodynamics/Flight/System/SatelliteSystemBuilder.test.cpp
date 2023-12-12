@@ -65,7 +65,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Cons
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, CopyConstructor)
 {
     {
-        EXPECT_NO_THROW(SatelliteSystemBuilder satelliteSystemBuilderCopy(SatelliteSystemBuilder()));
+        SatelliteSystemBuilder builder = SatelliteSystemBuilder();
+        EXPECT_NO_THROW(SatelliteSystemBuilder satelliteSystemBuilderCopy(builder));
     }
 }
 
