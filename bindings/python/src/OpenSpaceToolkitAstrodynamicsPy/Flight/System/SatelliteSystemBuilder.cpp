@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -16,6 +16,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
     using ostk::astro::flight::System;
     using ostk::astro::flight::system::PropulsionSystem;
     using ostk::astro::flight::system::SatelliteSystem;
+    using ostk::astro::flight::system::SatelliteSystemBuilder;
 
     {
         class_<SatelliteSystemBuilder>(
