@@ -46,7 +46,8 @@ bool SatelliteSystem::operator==(const SatelliteSystem& aSatelliteSystem) const
 
     return (System::operator==(aSatelliteSystem)) && (inertiaTensor_ == aSatelliteSystem.inertiaTensor_) &&
            (crossSectionalSurfaceArea_ == aSatelliteSystem.crossSectionalSurfaceArea_) &&
-           (dragCoefficient_ == aSatelliteSystem.dragCoefficient_);
+           (dragCoefficient_ == aSatelliteSystem.dragCoefficient_ &&
+            propulsionSystem_ == aSatelliteSystem.propulsionSystem_);
 }
 
 bool SatelliteSystem::operator!=(const SatelliteSystem& aSatelliteSystem) const
@@ -64,7 +65,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aS
 bool SatelliteSystem::isDefined() const
 {
     return System::isDefined() && inertiaTensor_.isDefined() && crossSectionalSurfaceArea_.isDefined() &&
-           dragCoefficient_.isDefined();
+           dragCoefficient_.isDefined() && propulsionSystem_.isDefined();
 }
 
 void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -91,7 +92,7 @@ const PropulsionSystem& SatelliteSystem::accessPropulsionSystem() const
 {
     if (!propulsionSystem_.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("PropulsionSystem");
+        throw ostk::core::error::runtime::Undefined("Propulsion System");
     }
 
     return this->propulsionSystem_;
@@ -99,9 +100,9 @@ const PropulsionSystem& SatelliteSystem::accessPropulsionSystem() const
 
 Matrix3d SatelliteSystem::getInertiaTensor() const
 {
-    if (!this->isDefined())
+    if (!inertiaTensor_.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("SatelliteSystem");
+        throw ostk::core::error::runtime::Undefined("Inertia Tensor");
     }
 
     return inertiaTensor_;
@@ -109,9 +110,9 @@ Matrix3d SatelliteSystem::getInertiaTensor() const
 
 Real SatelliteSystem::getCrossSectionalSurfaceArea() const
 {
-    if (!this->isDefined())
+    if (!crossSectionalSurfaceArea_.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("SatelliteSystem");
+        throw ostk::core::error::runtime::Undefined("Cross-Sectional Surface Area");
     }
 
     return crossSectionalSurfaceArea_;
@@ -119,9 +120,9 @@ Real SatelliteSystem::getCrossSectionalSurfaceArea() const
 
 Real SatelliteSystem::getDragCoefficient() const
 {
-    if (!this->isDefined())
+    if (!dragCoefficient_.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("SatelliteSystem");
+        throw ostk::core::error::runtime::Undefined("Drag Coefficient");
     }
 
     return dragCoefficient_;
@@ -137,7 +138,7 @@ SatelliteSystem SatelliteSystem::Undefined()
     return {
         Mass::Undefined(),
         Composite::Undefined(),
-        Matrix3d::Zero(),
+        Matrix3d::Undefined(),
         Real::Undefined(),
         Real::Undefined(),
         PropulsionSystem::Undefined(),
