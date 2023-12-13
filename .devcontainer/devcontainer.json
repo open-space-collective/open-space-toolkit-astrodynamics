@@ -25,7 +25,8 @@
                 "ms-python.black-formatter",
                 "mhutchie.git-graph",
                 "ms-vscode.cpptools-extension-pack",
-                "mechatroner.rainbow-csv"
+                "mechatroner.rainbow-csv",
+                "twxs.cmake"
             ],
             "settings": {
                 "C_Cpp.clang_format_style": "file:/app/thirdparty/clang/.clang-format",
