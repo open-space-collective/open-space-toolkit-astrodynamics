@@ -89,20 +89,35 @@ build-images: ## Build development and release images
 
 .PHONY: build-images
 
-build-development-image: pull-development-image ## Build development image
+build-development-image: ## Build development image
 
-	@ echo "Building development image..."
+	@ echo "Building development image with root user..."
 
 	docker build \
 		--file="$(CURDIR)/docker/development/Dockerfile" \
 		--tag=$(docker_development_image_repository):$(docker_image_version) \
 		--tag=$(docker_development_image_repository):latest \
 		--build-arg="VERSION=$(docker_image_version)" \
-		--build-arg="USER_UID=$(shell id -u)" \
-		--build-arg="USER_GID=$(shell id -g)" \
+		--target=root-user \
 		"$(CURDIR)"
 
 .PHONY: build-development-image
+
+build-development-image-non-root: ## Build development image for humans
+
+	@ echo "Building development image for humans with non-root user..."
+
+	docker build \
+		--file="$(CURDIR)/docker/development/Dockerfile" \
+		--tag=$(docker_development_image_repository)-non-root:$(docker_image_version) \
+		--tag=$(docker_development_image_repository)-non-root:latest \
+		--build-arg="VERSION=$(docker_image_version)" \
+		--build-arg="USER_UID=$(shell id -u)" \
+		--build-arg="USER_GID=$(shell id -g)" \
+		--target=non-root-user \
+		"$(CURDIR)"
+
+.PHONY: build-development-image-non-root
 
 build-release-images: ## Build release images
 
@@ -233,20 +248,20 @@ build-packages-python-standalone: ## Build Python packages (standalone)
 
 .PHONY: build-packages-python-standalone
 
-start-development-no-link: build-development-image ## Start development environment
+start-development-no-link: build-development-image-non-root ## Start development environment
 
 	@ echo "Starting development environment..."
 	@ mkdir -p $(CURDIR)/build
 
 	docker run \
-		--name=open-space-toolkit-$(project_name)-dev \
+		--name=open-space-toolkit-$(project_name)-dev-non-root \
 		-it \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
 		--volume="$(HOME)/.ssh:/home/$(dev_username)/.ssh:ro" \
 		--volume="$(HOME)/.gitconfig:/home/$(dev_username)/.gitconfig:ro" \
 		--workdir=/app/build \
-		$(docker_development_image_repository):$(docker_image_version) \
+		$(docker_development_image_repository)-non-root:$(docker_image_version) \
 		/bin/zsh
 
 .PHONY: start-development-no-link
@@ -257,7 +272,9 @@ start-development-link: build-development-image ## Start linked development envi
 
 	@ echo "Starting development environment (linked)..."
 
+	@ mkdir -p $(CURDIR)/build
 	@ docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
+	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 
 .PHONY: start-development-link
 
@@ -292,7 +309,7 @@ start-jupyter: build-release-image-jupyter ## Start Jupyter Notebook environment
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "start-notebook.sh --ServerApp.token=''"
+		/bin/bash -c "start-notebook.sh --ServerApp.token=''"
 
 .PHONY: start-jupyter-notebook
 
@@ -327,7 +344,7 @@ debug-jupyter: build-release-image-jupyter ## Debug jupyter notebook using the o
 		--volume="$(CURDIR)/build/bindings/python/OpenSpaceToolkit${project_name_camel_case}Py-python-package-$(jupyter_python_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/ --force-reinstall ; start-notebook.sh --ServerApp.token=''"
+		/bin/bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/ --force-reinstall ; start-notebook.sh --ServerApp.token=''"
 
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 

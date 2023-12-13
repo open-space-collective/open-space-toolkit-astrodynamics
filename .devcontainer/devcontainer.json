@@ -1,19 +1,20 @@
 {
     "name": "Open Space Toolkit Astrodynamics",
-    "image": "openspacecollective/open-space-toolkit-astrodynamics-development:latest",
-    "initializeCommand": "make build-development-image",
+    "image": "openspacecollective/open-space-toolkit-astrodynamics-development-non-root:latest",
+    "initializeCommand": "make build-development-image-non-root && mkdir -p ${localWorkspaceFolder}/build",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
     "workspaceFolder": "/app",
     "containerUser": "vscode",
     "updateRemoteUserUID": true,
     "runArgs": [
         "--name",
-        "open-space-toolkit-astrodynamics-dev",
-        "--privileged"
+        "open-space-toolkit-astrodynamics-dev-non-root"
+
     ],
     "mounts": [
         "source=ostk_astrodynamics_vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
-        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly"
+        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly",
+        "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly"
     ],
     "shutdownAction": "stopContainer",
     "customizations": {

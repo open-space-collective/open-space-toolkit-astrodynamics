@@ -2,7 +2,9 @@
 
 ARG BASE_IMAGE_VERSION="latest"
 
-FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION} as base
+# General purpose development image (root user)
+
+FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION} as root-user
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -172,6 +174,10 @@ ARG VERSION
 ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
 
+# Development image for humans (non-root user)
+
+FROM root-user as non-root-user
+
 # Install dev utilities
 
 RUN apt-get update \
@@ -199,6 +205,6 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
  && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/${USERNAME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
  && mkdir -p /home/${USERNAME}/.vscode-server/extensions /home/${USERNAME}/.vscode-server-insiders/extensions
 
-# Fix python installation location, and ipython installation by coping the ipython kernel to the python installation location
+## Configure environment
 
-# COPY --from=base /usr/local/lib/python3.11/site-packages/ostk /usr/local/lib/python3.11/site-packages/ostk
+ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"

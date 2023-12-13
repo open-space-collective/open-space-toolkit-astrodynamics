@@ -15,6 +15,7 @@ if [[ -z ${docker_image_version} ]]; then
 fi
 
 project_directory=$(git rev-parse --show-toplevel)
+project_name="astrodynamics"
 
 # Initialize variables
 
@@ -66,7 +67,7 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
 
     done
 
-    command="${command} /bin/zsh"
+    command="${command} /bin/bash"
 
 fi
 
@@ -75,9 +76,10 @@ fi
 docker run \
     -it \
     --rm \
+    --name=open-space-toolkit-${project_name}-dev \
     "${options[@]}" \
     --volume="${project_directory}:/app:delegated" \
     --env="deps=${deps}" \
     --workdir="/app/build" \
     ${docker_development_image_repository}:${docker_image_version} \
-    /bin/zsh -c "${command}"
+    /bin/bash -c "${command}"
