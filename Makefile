@@ -399,7 +399,6 @@ format-cpp: build-development-image ## Format all of the source code with the ru
 
 	docker run \
 		--rm \
-		--user="$(shell id -u):$(shell id -g)" \
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
@@ -439,7 +438,6 @@ format-check-cpp-standalone:
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
-		--user="$(shell id -u):$(shell id -g)" \
 		$(docker_development_image_repository):$(docker_image_version) \
 		ostk-check-format-cpp
 
@@ -517,7 +515,6 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--volume="$(CURDIR):/app:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
-		--entrypoint="" \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF .. \
 		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/dist/*311*.whl \
