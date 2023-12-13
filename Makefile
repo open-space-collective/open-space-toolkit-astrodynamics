@@ -19,7 +19,7 @@ jupyter_python_version_without_dot := $(shell echo $(jupyter_python_version) | s
 jupyter_notebook_image_repository := jupyter/scipy-notebook:x86_64-python-$(jupyter_python_version).3
 extract_python_package_version := $(shell echo $(project_version) | sed 's/-/./' | sed 's/-.*//')
 
-dev_username := vscode
+dev_username := developer
 
 pull: ## Pull all images
 

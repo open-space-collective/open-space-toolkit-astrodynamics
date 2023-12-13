@@ -186,7 +186,7 @@ RUN apt-get update \
 
 ## Create non-root user and group
 
-ARG USERNAME="vscode"
+ARG USERNAME="developer"
 ARG USER_UID="1000"
 ARG USER_GID=${USER_UID}
 RUN groupadd --gid ${USER_GID} ${USERNAME} || true \

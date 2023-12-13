@@ -4,7 +4,7 @@
     "initializeCommand": "make build-development-image-non-root && mkdir -p ${localWorkspaceFolder}/build",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
     "workspaceFolder": "/app",
-    "containerUser": "vscode",
+    "containerUser": "developer",
     "updateRemoteUserUID": true,
     "runArgs": [
         "--name",
@@ -12,9 +12,9 @@
 
     ],
     "mounts": [
-        "source=ostk_astrodynamics_vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
-        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly",
-        "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly"
+        "source=ostk_astrodynamics_vscode_extensions,target=/home/developer/.vscode-server/extensions,type=volume",
+        "source=${localEnv:HOME}/.ssh,target=/home/developer/.ssh,type=bind,readonly",
+        "source=${localEnv:HOME}/.gitconfig,target=/home/developer/.gitconfig,type=bind,readonly"
     ],
     "shutdownAction": "stopContainer",
     "customizations": {
