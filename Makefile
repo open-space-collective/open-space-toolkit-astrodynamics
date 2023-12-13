@@ -89,7 +89,7 @@ build-images: ## Build development and release images
 
 .PHONY: build-images
 
-build-development-image: ## Build development image
+build-development-image: pull-development-image ## Build development image
 
 	@ echo "Building development image with root user..."
 
@@ -103,7 +103,7 @@ build-development-image: ## Build development image
 
 .PHONY: build-development-image
 
-build-development-image-non-root: ## Build development image for humans
+build-development-image-non-root: pull-development-image ## Build development image for humans
 
 	@ echo "Building development image for humans with non-root user..."
 
