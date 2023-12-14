@@ -4,8 +4,11 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Objects/Matrix.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -24,8 +27,11 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
+
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
@@ -37,7 +43,7 @@ using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
 
-/// @brief                                  Represent a propagation segment for astrodynamics purposes
+/// @brief                      Represent a propagation segment for astrodynamics purposes
 
 class Segment
 {
@@ -51,6 +57,15 @@ class Segment
     struct Solution
     {
        public:
+        /// @brief              Constructor
+        ///
+        /// @param              [in] aName Name of the segment
+        /// @param              [in] aDynamicsArray Array of dynamics
+        /// @param              [in] aStates Array of states for the segment
+        /// @param              [in] aConditionIsSatisfied True if the event condition is satisfied
+        /// @param              [in] aSegmentType Type of segment
+        /// @return             An instance of Solution
+
         Solution(
             const String& aName,
             const Array<Shared<Dynamics>>& aDynamicsArray,
@@ -59,25 +74,94 @@ class Segment
             const Segment::Type& aSegmentType
         );
 
+        /// @brief              Access Start Instant
+        /// @return             Start Instant
+
+        const Instant& accessStartInstant() const;
+
+        /// @brief              Access end instant
+        /// @return             End Instant
+
+        const Instant& accessEndInstant() const;
+
+        /// @brief              Get initial mass
+        /// @return             Initial mass
+
+        Mass getInitialMass() const;
+
+        /// @brief              Get final mass
+        /// @return             Final mass
+
+        Mass getFinalMass() const;
+
+        /// @brief              Get propagation duration
+        /// @return             Propagation duration
+
+        Duration getPropagationDuration() const;
+
+        /// @brief              Compute delta V
+        ///
+        /// @param              [in] aSpecificImpulse Specific impulse
+        /// @return             Delta V
+
+        Real computeDeltaV(const Real& aSpecificImpulse) const;
+
+        /// @brief              Compute delta mass
+        /// @return             Delta mass
+
+        Mass computeDeltaMass() const;
+
+        /// @brief              Get dynamics contribution
+        ///
+        /// @param              [in] aDynamicsSPtr Dynamics
+        /// @param              [in] aFrameSPtr Frame
+        /// @param              [in] aCoordinatesSubsetSPtrArray Array of coordinates subsets
+        /// @return             Dynamics contribution
+
+        MatrixXd getDynamicsContribution(
+            const Shared<Dynamics>& aDynamicsSPtr,
+            const Shared<const Frame>& aFrameSPtr,
+            const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray =
+                Array<Shared<const CoordinatesSubset>>::Empty()
+        ) const;
+
+        /// @brief              Get dynamics acceleration contribution
+        ///
+        /// @param              [in] aDynamicsSPtr Dynamics
+        /// @param              [in] aFrameSPtr Frame
+        /// @return             Dynamics acceleration contribution
+
+        MatrixXd getDynamicsAccelerationContribution(
+            const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
+        ) const;
+
+        /// @brief              Get all segment dynamics contributions
+        ///
+        /// @param              [in] aFrameSPtr Frame
+        /// @return             All segment dynamics contributions
+
+        Map<Shared<Dynamics>, MatrixXd> getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
+
+        /// @brief              Print the segment solution
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] (optional) displayDecorators If true, display decorators
+
+        void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+        /// @brief              Output stream operator
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] aSolution A Solution
+        /// @return             An output stream
+
+        friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
+
         String name;                       /// Name of the segment.
         Array<Shared<Dynamics>> dynamics;  /// List of dynamics used.
         Array<State> states;               /// Array of states for the segment.
         bool conditionIsSatisfied;         /// True if the event condition is satisfied.
         Segment::Type segmentType;         /// Type of segment.
-
-        const Instant& accessStartInstant() const;
-        const Instant& accessEndInstant() const;
-
-        Mass getInitialMass() const;
-        Mass getFinalMass() const;
-        Duration getPropagationDuration() const;
-
-        Real computeDeltaV(const Real& aSpecificImpulse) const;
-        Mass computeDeltaMass() const;
-
-        void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-        friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
     };
 
     /// @brief                  Output stream operator

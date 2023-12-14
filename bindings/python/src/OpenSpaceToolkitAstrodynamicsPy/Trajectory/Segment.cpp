@@ -13,6 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using ostk::physics::time::Duration;
 
     using ostk::astro::trajectory::state::NumericalSolver;
+    using ostk::astro::trajectory::state::CoordinatesSubset;
     using ostk::astro::trajectory::Segment;
     using ostk::astro::Dynamics;
 
@@ -167,6 +168,57 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                 Returns:
                     float: The delta V.
+
+            )doc"
+        )
+        .def(
+            "get_dynamics_contribution",
+            &Segment::Solution::getDynamicsContribution,
+            arg("dynamics"),
+            arg("frame"),
+            arg("coordinates_subsets") = Array<Shared<const CoordinatesSubset>>::Empty(),
+            R"doc(
+                Compute the contribution of the provided dynamics in the provided frame for all states associated with the segment.
+
+                Args:
+                    dynamics (Dynamics): The dynamics.
+                    frame (Frame): The frame.
+                    coordinates_subsets (list[CoordinatesSubset], optional): A subset of the dynamics writing coordinates subsets to consider.
+
+                Returns:
+                    MatrixXd: The matrix of dynamics contributions for the selected coordinates subsets of the dynamics.
+
+            )doc"
+        )
+        .def(
+            "get_dynamics_acceleration_contribution",
+            &Segment::Solution::getDynamicsAccelerationContribution,
+            arg("dynamics"),
+            arg("frame"),
+            R"doc(
+                Compute the contribution of the provided dynamics to the acceleration in the provided frame for all states associated with the segment.
+
+                Args:
+                    dynamics (Dynamics): The dynamics.
+                    frame (Frame): The frame.
+
+                Returns:
+                    np.ndarray: The matrix of dynamics contributions to acceleration.
+
+            )doc"
+        )
+        .def(
+            "get_all_dynamics_contributions",
+            &Segment::Solution::getAllDynamicsContributions,
+            arg("frame"),
+            R"doc(
+                Compute the contributions of all segment's dynamics in the provided frame for all states assocated with the segment.
+
+                Args:
+                    frame (Frame): The frame.
+
+                Returns:
+                    dict[Dynamics, np.ndarray]: The list of matrices with individual dynamics contributions.
 
             )doc"
         )

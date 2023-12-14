@@ -1,10 +1,13 @@
 /// Apache License 2.0
 
+#include <numeric>
+
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -18,6 +21,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 Segment::Solution::Solution(
     const String& aName,
@@ -99,6 +103,105 @@ Mass Segment::Solution::computeDeltaMass() const
     }
 
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+MatrixXd Segment::Solution::getDynamicsContribution(
+    const Shared<Dynamics>& aDynamicsSPtr,
+    const Shared<const Frame>& aFrameSPtr,
+    const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray
+) const
+{
+    // Check dynamics is part of the segment dynamics
+    if (!dynamics.contains(aDynamicsSPtr))
+    {
+        throw ostk::core::error::RuntimeError("Provided dynamics is not part of the segment dynamics.");
+    }
+
+    // Extract write coordinates subsets from dynamics
+    const Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
+        aDynamicsSPtr->getWriteCoordinatesSubsets();
+
+    // Check that the provided coordinates subsets are part of the dynamics write coordinates subsets
+    for (auto aCoordinatesSubsetSPtr : aCoordinatesSubsetSPtrArray)
+    {
+        if (!dynamicsWriteCoordinatesSubsets.contains(aCoordinatesSubsetSPtr))
+        {
+            throw ostk::core::error::RuntimeError(String::Format(
+                "Provided coordinates subset [{}] is not part of the dynamics write coordinates subsets.",
+                aCoordinatesSubsetSPtr->getName()
+            ));
+        }
+    }
+
+    // Initialize the definitive coordinate subset array
+    Array<Shared<const CoordinatesSubset>> definitiveCoordinateSubsetArray = aCoordinatesSubsetSPtrArray;
+
+    // Check value for aCoordinatesSubsetSPtrArray
+    if (aCoordinatesSubsetSPtrArray.isEmpty())
+    {
+        definitiveCoordinateSubsetArray = aDynamicsSPtr->getWriteCoordinatesSubsets();
+    }
+
+    // Extract states size
+    const Size numberOfstates = this->states.getSize();
+
+    // Extract dynamics context and behavior relative to state
+    Array<Shared<const CoordinatesSubset>> dynamicsReadCoordinatesSubsets = aDynamicsSPtr->getReadCoordinatesSubsets();
+
+    // Construct state builder
+    const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinatesSubsets);
+
+    // Compute the size of dynamicsContributionMatrix
+    Size dynamicsWriteSize = std::accumulate(
+        definitiveCoordinateSubsetArray.begin(),
+        definitiveCoordinateSubsetArray.end(),
+        0,
+        [](int sum, const Shared<const CoordinatesSubset>& subset)
+        {
+            return sum + subset->getSize();
+        }
+    );
+
+    // Initialize the dynamicsContributionMatrix
+    MatrixXd dynamicsContributionMatrix = MatrixXd::Zero(numberOfstates, dynamicsWriteSize);
+
+    // Construct the dynamicsContributionMatrix, state by state (a.k.a row by row)
+    for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
+    {
+        const State& state = states[stateIndex];
+
+        VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
+            state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
+        );
+
+        dynamicsContributionMatrix.row(stateIndex) = dynamicsContributionAtState;
+    }
+
+    return dynamicsContributionMatrix;
+}
+
+MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
+    const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
+) const
+{
+    return this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
+}
+
+Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
+) const
+{
+    // TBI: Use smart caching for multiple calls in the future
+
+    // Each MatrixXd contains the contribution of a single dynamics for all the segment states
+    Map<Shared<Dynamics>, MatrixXd> dynamicsContributionsMap = Map<Shared<Dynamics>, MatrixXd>();
+
+    for (const Shared<Dynamics>& aDynamicsSPtr : this->dynamics)
+    {
+        MatrixXd dynamicsContribution = this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr);
+        dynamicsContributionsMap.emplace(aDynamicsSPtr, dynamicsContribution);
+    }
+
+    return dynamicsContributionsMap;
 }
 
 void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const

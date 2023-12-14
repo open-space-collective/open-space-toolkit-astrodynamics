@@ -8,6 +8,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
@@ -20,18 +21,21 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Map;
 using ostk::core::ctnr::Array;
 using ostk::core::types::String;
 using ostk::core::types::Shared;
 using ostk::core::types::Real;
 
 using ostk::math::object::VectorXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Scale;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -46,6 +50,8 @@ using ostk::astro::guidancelaw::ConstantThrust;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::Dynamics;
+using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::eventcondition::InstantCondition;
@@ -56,6 +62,9 @@ using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
+using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
@@ -199,6 +208,205 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
 
         // 1500 * 9.80665 * ln(200 / 180) -> Rocket equation
         EXPECT_DOUBLE_EQ(1549.850551313734, segmentSolution.computeDeltaV(1500.0));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDynamicsContribution)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+        for (const Shared<Dynamics>& dynamics : defaultDynamics_)
+        {
+            EXPECT_NO_THROW(segmentSolution.getDynamicsContribution(dynamics, stateFrame));
+        }
+    }
+
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+        for (const Shared<Dynamics>& dynamics : defaultDynamics_)
+        {
+            const MatrixXd contributionDefault = segmentSolution.getDynamicsContribution(dynamics, stateFrame);
+            const Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
+                dynamics->getWriteCoordinatesSubsets();
+            const MatrixXd contributionExplicit =
+                segmentSolution.getDynamicsContribution(dynamics, stateFrame, dynamicsWriteCoordinatesSubsets);
+            EXPECT_EQ(contributionDefault, contributionExplicit);
+        }
+    }
+
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+
+        for (const Shared<Dynamics>& dynamics : defaultDynamics_)
+        {
+            const Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
+                dynamics->getWriteCoordinatesSubsets();
+            const Shared<const CoordinatesSubset> dynamicsWriteCoordinatesSubset = dynamicsWriteCoordinatesSubsets[0];
+            const MatrixXd contribution =
+                segmentSolution.getDynamicsContribution(dynamics, stateFrame, {dynamicsWriteCoordinatesSubset});
+            EXPECT_EQ(contribution.cols(), dynamicsWriteCoordinatesSubset->getSize());
+            EXPECT_EQ(contribution.rows(), segmentSolution.states.getSize());
+        }
+    }
+
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+
+        // Construct a coordinatesSubset not part of the dynamics for which the contribution is requested
+        const Shared<Dynamics> dynamics = defaultDynamics_[0];
+        const Shared<const CoordinatesSubset> coordinatesSubset = CoordinatesSubset::DragCoefficient();
+
+        EXPECT_FALSE(dynamics->getWriteCoordinatesSubsets().contains(coordinatesSubset));
+
+        const String expectedString =
+            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
+            {
+                try
+                {
+                    MatrixXd contribution =
+                        segmentSolution.getDynamicsContribution(dynamics, stateFrame, {coordinatesSubset});
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ(expectedString, e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        // Construct a dynamics not part of the segment
+        const Earth earth = Earth::FromModels(
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+        );
+        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+        const Shared<Dynamics> atmosphericDragDynamics = std::make_shared<AtmosphericDrag>(earthSPtr);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+
+        const String expectedString = "Provided dynamics is not part of the segment dynamics.";
+
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
+            {
+                try
+                {
+                    MatrixXd contribution =
+                        segmentSolution.getDynamicsContribution(atmosphericDragDynamics, stateFrame);
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ(expectedString, e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDynamicsAccelerationContribution)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+
+        // Check error for PositionDerivative
+        const String expectedString =
+            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
+            {
+                try
+                {
+                    MatrixXd accelerationContribution =
+                        segmentSolution.getDynamicsAccelerationContribution(defaultDynamics_[0], stateFrame);
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ(expectedString, e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+
+        // Check output for Gravity
+        MatrixXd accelerationContribution =
+            segmentSolution.getDynamicsAccelerationContribution(defaultDynamics_[1], stateFrame);
+        EXPECT_EQ(accelerationContribution.cols(), 3);
+        EXPECT_EQ(accelerationContribution.rows(), segmentSolution.states.getSize());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAllDynamicsContributions)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+        Map<Shared<Dynamics>, MatrixXd> contributions = segmentSolution.getAllDynamicsContributions(stateFrame);
+
+        EXPECT_EQ(defaultDynamics_.getSize(), contributions.size());
+        for (const Shared<Dynamics>& dynamics : defaultDynamics_)
+        {
+            EXPECT_EQ(1, contributions.count(dynamics));  // Check all dynamics are present
+            EXPECT_EQ(
+                segmentSolution.states.getSize(), contributions.at(dynamics).rows()
+            );  // Check the number of rows corresponds to the number of states
+            EXPECT_GT(
+                contributions.at(dynamics).cols(), dynamics->getWriteCoordinatesSubsets().getSize()
+            );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
+                // writes
+        }
+    }
+
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Maneuver
+        );
+
+        const Shared<const Frame> stateFrame = initialStateWithMass_.accessFrame();
+        Map<Shared<Dynamics>, MatrixXd> contributions = segmentSolution.getAllDynamicsContributions(stateFrame);
+
+        EXPECT_EQ(defaultDynamics_.getSize(), contributions.size());
+        for (const Shared<Dynamics>& dynamics : defaultDynamics_)
+        {
+            EXPECT_EQ(1, contributions.count(dynamics));  // Check all dynamics are present
+            EXPECT_EQ(
+                segmentSolution.states.getSize(), contributions.at(dynamics).rows()
+            );  // Check the number of rows corresponds to the number of states
+            EXPECT_GT(
+                contributions.at(dynamics).cols(), dynamics->getWriteCoordinatesSubsets().getSize()
+            );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
+                // writes
+        }
     }
 }
 
