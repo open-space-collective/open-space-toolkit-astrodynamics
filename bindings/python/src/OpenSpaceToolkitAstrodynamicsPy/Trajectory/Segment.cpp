@@ -203,13 +203,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     frame (Frame): The frame.
 
                 Returns:
-                    MatrixXd: The matrix of dynamics contributions to acceleration.
+                    np.ndarray: The matrix of dynamics contributions to acceleration.
 
             )doc"
         )
         .def(
-            "get_dynamics_contributions",
-            &Segment::Solution::getDynamicsContributions,
+            "get_all_dynamics_contributions",
+            &Segment::Solution::getAllDynamicsContributions,
             arg("frame"),
             R"doc(
                 Compute the contributions of all segment's dynamics in the provided frame for all states assocated with the segment.
@@ -218,7 +218,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     frame (Frame): The frame.
 
                 Returns:
-                    list[MatrixXd]: The list of matrices with individual dynamics contributions.
+                    dict[Dynamics, np.ndarray]: The list of matrices with individual dynamics contributions.
 
             )doc"
         )

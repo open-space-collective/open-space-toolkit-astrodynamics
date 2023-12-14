@@ -126,9 +126,10 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     {
         if (!dynamicsWriteCoordinatesSubsets.contains(aCoordinatesSubsetSPtr))
         {
-            throw ostk::core::error::RuntimeError(
-                "Provided coordinates subset is not part of the dynamics write coordinates subsets."
-            );
+            throw ostk::core::error::RuntimeError(String::Format(
+                "Provided coordinates subset [{}] is not part of the dynamics write coordinates subsets.",
+                aCoordinatesSubsetSPtr->getName()
+            ));
         }
     }
 
@@ -142,7 +143,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     }
 
     // Extract states size
-    const Size stateSize = this->states.getSize();
+    const Size numberOfstates = this->states.getSize();
 
     // Extract dynamics context and behavior relative to state
     Array<Shared<const CoordinatesSubset>> dynamicsReadCoordinatesSubsets = aDynamicsSPtr->getReadCoordinatesSubsets();
@@ -159,22 +160,18 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     );
 
     // Initialize the dynamicsContributionMatrix
-    MatrixXd dynamicsContributionMatrix = MatrixXd::Zero(stateSize, dynamicsWriteSize);
+    MatrixXd dynamicsContributionMatrix = MatrixXd::Zero(numberOfstates, dynamicsWriteSize);
 
     // Construct the dynamicsContributionMatrix, state by state (a.k.a row by row)
-    for (Index stateIndex = 0; stateIndex < stateSize; ++stateIndex)
+    for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
     {
-        const State state = states[stateIndex];
+        const State& state = states[stateIndex];
 
-        Shared<const CoordinatesBroker> coordinatesBrokerSPtr = state.accessCoordinatesBroker();
+        const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinatesSubsets);
 
-        VectorXd readStateCoordinates =
-            coordinatesBrokerSPtr->extractCoordinates(state.getCoordinates(), dynamicsReadCoordinatesSubsets);
-        VectorXd writeStateCoordinates =
-            coordinatesBrokerSPtr->extractCoordinates(state.getCoordinates(), definitiveCoordinateSubsetArray);
-
-        VectorXd dynamicsContributionAtState =
-            aDynamicsSPtr->computeContribution(state.getInstant(), readStateCoordinates, aFrameSPtr);
+        VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
+            state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
+        );
 
         dynamicsContributionMatrix.row(stateIndex) = dynamicsContributionAtState;
     }
@@ -186,12 +183,11 @@ MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
     const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    const MatrixXd accelerationContribution =
-        this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
-    return accelerationContribution;
+    return this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
 }
 
-Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const
+Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
+) const
 {
     // TBI: Use smart caching for multiple calls in the future
 

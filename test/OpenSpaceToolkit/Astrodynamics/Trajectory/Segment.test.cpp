@@ -334,7 +334,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
             Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
 
         const Shared<const Frame> stateFrame = defaultState_.accessFrame();
-        Map<Shared<Dynamics>, MatrixXd> contributions = segmentSolution.getDynamicsContributions(stateFrame);
+        Map<Shared<Dynamics>, MatrixXd> contributions = segmentSolution.getAllDynamicsContributions(stateFrame);
 
         EXPECT_EQ(defaultDynamics_.getSize(), contributions.size());
         for (const Shared<Dynamics>& dynamics : defaultDynamics_)
@@ -366,7 +366,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
         );
 
         const Shared<const Frame> stateFrame = initialStateWithMass_.accessFrame();
-        Map<Shared<Dynamics>, MatrixXd> contributions = segmentSolution.getDynamicsContributions(stateFrame);
+        Map<Shared<Dynamics>, MatrixXd> contributions = segmentSolution.getAllDynamicsContributions(stateFrame);
 
         EXPECT_EQ(defaultDynamics_.getSize(), contributions.size());
         for (const Shared<Dynamics>& dynamics : defaultDynamics_)

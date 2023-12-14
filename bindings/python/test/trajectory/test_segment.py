@@ -243,7 +243,7 @@ class TestSegment:
         assert second_dynamics_contribution.shape == (len(solution.states), 3)
         assert third_dynamics_contribution.shape == (len(solution.states), 4)
 
-        all_contributions = solution.get_dynamics_contributions(state_frame)
+        all_contributions = solution.get_all_dynamics_contributions(state_frame)
         assert len(all_contributions) == len(solution.dynamics)
 
         assert all_contributions is not None
