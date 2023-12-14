@@ -184,7 +184,7 @@ RUN apt-get update \
  && apt-get install -y zsh sudo \
  && rm -rf /var/lib/apt/lists/*
 
-## Create non-root user and group
+# Create non-root user and group
 
 ARG USERNAME="developer"
 ARG USER_UID="1000"
@@ -193,11 +193,11 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} || true \
  && adduser --uid ${USER_UID} --gid ${USER_GID} ${USERNAME} \
  && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/${USERNAME}
 
-## Use non-root user
+# Use non-root user
 
 USER ${USERNAME}
 
-## Install shell utilities
+# Install shell utilities
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
  && git clone https://github.com/bhilburn/powerlevel9k.git /home/${USERNAME}/.oh-my-zsh/custom/themes/powerlevel9k \
@@ -208,3 +208,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 ## Configure environment
 
 ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"
+
+# Entrypoint
+
+CMD [ "/bin/bash" ]
