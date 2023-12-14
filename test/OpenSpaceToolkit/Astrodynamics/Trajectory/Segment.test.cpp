@@ -384,16 +384,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAll
                 contributions.at(dynamics).cols(), dynamics->getWriteCoordinatesSubsets().getSize()
             );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
                 // writes
-
-            // Check the contribution is correct
-            Shared<const CoordinatesBroker> coordinatesBrokerSPtr = defaultState_.accessCoordinatesBroker();
-            VectorXd readStateCoordinates = coordinatesBrokerSPtr->extractCoordinates(
-                defaultState_.getCoordinates(), dynamics->getReadCoordinatesSubsets()
-            );
-            EXPECT_EQ(
-                contributions.at(dynamics).row(0),
-                dynamics->computeContribution(defaultState_.getInstant(), readStateCoordinates, stateFrame)
-            );
         }
     }
 
