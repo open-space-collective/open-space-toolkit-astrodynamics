@@ -108,6 +108,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                 )doc"
             )
 
+            .def(
+                "get_propulsion_system",
+                &SatelliteSystem::getPropulsionSystem,
+                R"doc(
+                    Get the propulsion system of the satellite system.
+
+                    Returns:
+                        PropulsionSystem: The propulsion system of the satellite system.
+
+                )doc"
+            )
+
             .def_static(
                 "undefined",
                 &SatelliteSystem::Undefined,
