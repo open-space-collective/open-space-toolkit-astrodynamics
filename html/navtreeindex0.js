@@ -173,6 +173,10 @@ var NAVTREEINDEX0 =
 "_satellite_system_8cpp.html#a170560632b71f8d3ec7f36e6c021d123":[5,0,2,0,0,4,1,1,0],
 "_satellite_system_8hpp.html":[5,0,1,0,0,4,1,1],
 "_satellite_system_8hpp_source.html":[5,0,1,0,0,4,1,1],
+"_satellite_system_builder_8cpp.html":[5,0,2,0,0,4,1,2],
+"_satellite_system_builder_8cpp.html#a801161ae3c6a1d0d56cbc635b06563e3":[5,0,2,0,0,4,1,2,0],
+"_satellite_system_builder_8hpp.html":[5,0,1,0,0,4,1,2],
+"_satellite_system_builder_8hpp_source.html":[5,0,1,0,0,4,1,2],
 "_segment_8cpp.html":[5,0,2,0,0,7,9],
 "_segment_8cpp.html#a59bebb823f66be1052f4f1e3078fd9c2":[5,0,2,0,0,7,9,1],
 "_segment_8cpp.html#a6e88ddc263235b654d26ed19701e34e1":[5,0,2,0,0,7,9,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX0 =
 "classostk_1_1astro_1_1_access.html#a44d8162ed0ea9bd599fe351639364ee0":[4,0,0,0,8,4],
 "classostk_1_1astro_1_1_access.html#a48ecec813c4e317da2613eef8b107193":[4,0,0,0,8,1],
 "classostk_1_1astro_1_1_access.html#a4e336578930e1e1d49b7bdc279af4bdf":[4,0,0,0,8,12],
-"classostk_1_1astro_1_1_access.html#a84eabd1ef8d3eeff0b6a80851727a2b4":[4,0,0,0,8,13],
-"classostk_1_1astro_1_1_access.html#aa46499cf112a00ce3be12b4b8f23527c":[4,0,0,0,8,6],
-"classostk_1_1astro_1_1_access.html#aa5be394928873c5795cfb068b1e5bfb6":[4,0,0,0,8,7],
-"classostk_1_1astro_1_1_access.html#aa88d0d19a9386b9748f87263289195a2":[4,0,0,0,8,8],
-"classostk_1_1astro_1_1_access.html#aac00b1a6ead7db92eba5b71e43235c93":[4,0,0,0,8,0]
+"classostk_1_1astro_1_1_access.html#a84eabd1ef8d3eeff0b6a80851727a2b4":[4,0,0,0,8,13]
 };

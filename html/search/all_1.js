@@ -18,5 +18,5 @@ var searchData=
   ['brouwerlyddanemeanshort_71',['BrouwerLyddaneMeanShort',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short.html',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short.html#a8072527ba1f688a6715f4cbcd5ee2a23',1,'ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort::BrouwerLyddaneMeanShort()']]],
   ['brouwerlyddanemeanshort_2ecpp_72',['BrouwerLyddaneMeanShort.cpp',['../_brouwer_lyddane_mean_short_8cpp.html',1,'']]],
   ['brouwerlyddanemeanshort_2ehpp_73',['BrouwerLyddaneMeanShort.hpp',['../_brouwer_lyddane_mean_short_8hpp.html',1,'']]],
-  ['build_74',['build',['../classostk_1_1astro_1_1trajectory_1_1_state_builder.html#a92447e2878550d3f1be85e339842dcde',1,'ostk::astro::trajectory::StateBuilder']]]
+  ['build_74',['build',['../classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder.html#ae518d836651d9dc24d74e28ecfd47682',1,'ostk::astro::flight::system::SatelliteSystemBuilder::build()'],['../classostk_1_1astro_1_1trajectory_1_1_state_builder.html#a92447e2878550d3f1be85e339842dcde',1,'ostk::astro::trajectory::StateBuilder::build()']]]
 ];

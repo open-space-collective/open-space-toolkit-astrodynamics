@@ -1,0 +1,274 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{}\doxysection{ostk\+::astro\+::flight\+::system\+::Satellite\+System\+Builder Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+
+
+Satellite \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} builder.  
+
+
+
+
+{\ttfamily \#include $<$Satellite\+System\+Builder.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}{Satellite\+System\+Builder}} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a769082477398f0910b1ec78c4b1ae3ea}{$\sim$\+Satellite\+System\+Builder}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} $\ast$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_acf34b4476f8d61cf1fa3c70da534c035}{clone}} () const
+\begin{DoxyCompactList}\small\item\em Clone satellite system builder. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a155489432c18de5cfc76241e1d0f19c5}{with\+Dry\+Mass}} (const Mass \&a\+Dry\+Mass)
+\begin{DoxyCompactList}\small\item\em Set the dry mass. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab054323b4973df77f81bcd09d8c51bc0}{with\+Geometry}} (const Composite \&a\+Geometry)
+\begin{DoxyCompactList}\small\item\em Set the geometry. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a7cbb5e1a2169248c64385ce05ece7e30}{with\+Inertia\+Tensor}} (const Matrix3d \&an\+Inertia\+Tensor)
+\begin{DoxyCompactList}\small\item\em Set the inertia tensor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a29e1055bec2e456a2a711199331286e6}{with\+Cross\+Sectional\+Surface\+Area}} (const Real \&a\+Cross\+Sectional\+Surface\+Area)
+\begin{DoxyCompactList}\small\item\em Set the cross-\/sectional surface area. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ad0166faf845c37496871403fa00ca53f}{with\+Drag\+Coefficient}} (const Real \&a\+Drag\+Coefficient)
+\begin{DoxyCompactList}\small\item\em Set the drag coefficient. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a5ac72090f5099ec018a0ad66193b2728}{with\+Propulsion\+System}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&a\+Propulsion\+System)
+\begin{DoxyCompactList}\small\item\em Set the propulsion system. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ae518d836651d9dc24d74e28ecfd47682}{build}} () const
+\begin{DoxyCompactList}\small\item\em Builds the satellite system. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a7c4e22c0a8ace600452a9ac0f2c6e121}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print satellite system builder. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab8a8c4f0ba1cc956ec28a135c402a7bf}{Default}} ()
+\begin{DoxyCompactList}\small\item\em Satellite system builder with default values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_aa6b9ba20b8ee31d727250fcf6f2de53f}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \&a\+Satellite\+System\+Builder)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Satellite \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} builder. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!SatelliteSystemBuilder@{SatelliteSystemBuilder}}
+\index{SatelliteSystemBuilder@{SatelliteSystemBuilder}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{SatelliteSystemBuilder()}{SatelliteSystemBuilder()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::\+Satellite\+System\+Builder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a769082477398f0910b1ec78c4b1ae3ea}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a769082477398f0910b1ec78c4b1ae3ea}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!````~SatelliteSystemBuilder@{$\sim$SatelliteSystemBuilder}}
+\index{````~SatelliteSystemBuilder@{$\sim$SatelliteSystemBuilder}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{$\sim$SatelliteSystemBuilder()}{~SatelliteSystemBuilder()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::$\sim$\+Satellite\+System\+Builder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ae518d836651d9dc24d74e28ecfd47682}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ae518d836651d9dc24d74e28ecfd47682}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!build@{build}}
+\index{build@{build}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::build (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Builds the satellite system. 
+
+\begin{DoxyReturn}{Returns}
+A new satellite system 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_acf34b4476f8d61cf1fa3c70da534c035}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_acf34b4476f8d61cf1fa3c70da534c035}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!clone@{clone}}
+\index{clone@{clone}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} $\ast$ ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Clone satellite system builder. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned satellite system builder 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab8a8c4f0ba1cc956ec28a135c402a7bf}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab8a8c4f0ba1cc956ec28a135c402a7bf}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!Default@{Default}}
+\index{Default@{Default}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{Default()}{Default()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::\+Default (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Satellite system builder with default values. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}{SatelliteSystemBuilder}} satelliteSystemBuilder = \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab8a8c4f0ba1cc956ec28a135c402a7bf}{SatelliteSystemBuilder::Default}}();}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Satellite system builder with default values 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a7c4e22c0a8ace600452a9ac0f2c6e121}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a7c4e22c0a8ace600452a9ac0f2c6e121}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!print@{print}}
+\index{print@{print}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+Print satellite system builder. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a29e1055bec2e456a2a711199331286e6}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a29e1055bec2e456a2a711199331286e6}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!withCrossSectionalSurfaceArea@{withCrossSectionalSurfaceArea}}
+\index{withCrossSectionalSurfaceArea@{withCrossSectionalSurfaceArea}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{withCrossSectionalSurfaceArea()}{withCrossSectionalSurfaceArea()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::with\+Cross\+Sectional\+Surface\+Area (\begin{DoxyParamCaption}\item[{const Real \&}]{a\+Cross\+Sectional\+Surface\+Area }\end{DoxyParamCaption})}
+
+
+
+Set the cross-\/sectional surface area. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Cross\+Sectional\+Surface\+Area} & A cross-\/sectional surface area \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The builder 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ad0166faf845c37496871403fa00ca53f}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ad0166faf845c37496871403fa00ca53f}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!withDragCoefficient@{withDragCoefficient}}
+\index{withDragCoefficient@{withDragCoefficient}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{withDragCoefficient()}{withDragCoefficient()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::with\+Drag\+Coefficient (\begin{DoxyParamCaption}\item[{const Real \&}]{a\+Drag\+Coefficient }\end{DoxyParamCaption})}
+
+
+
+Set the drag coefficient. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Drag\+Coefficient} & A drag coefficient \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The builder 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a155489432c18de5cfc76241e1d0f19c5}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a155489432c18de5cfc76241e1d0f19c5}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!withDryMass@{withDryMass}}
+\index{withDryMass@{withDryMass}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{withDryMass()}{withDryMass()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::with\+Dry\+Mass (\begin{DoxyParamCaption}\item[{const Mass \&}]{a\+Dry\+Mass }\end{DoxyParamCaption})}
+
+
+
+Set the dry mass. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Dry\+Mass} & A dry mass \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The builder 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab054323b4973df77f81bcd09d8c51bc0}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab054323b4973df77f81bcd09d8c51bc0}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!withGeometry@{withGeometry}}
+\index{withGeometry@{withGeometry}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{withGeometry()}{withGeometry()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::with\+Geometry (\begin{DoxyParamCaption}\item[{const Composite \&}]{a\+Geometry }\end{DoxyParamCaption})}
+
+
+
+Set the geometry. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Geometry} & A geometry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The builder 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a7cbb5e1a2169248c64385ce05ece7e30}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a7cbb5e1a2169248c64385ce05ece7e30}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!withInertiaTensor@{withInertiaTensor}}
+\index{withInertiaTensor@{withInertiaTensor}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{withInertiaTensor()}{withInertiaTensor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::with\+Inertia\+Tensor (\begin{DoxyParamCaption}\item[{const Matrix3d \&}]{an\+Inertia\+Tensor }\end{DoxyParamCaption})}
+
+
+
+Set the inertia tensor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Inertia\+Tensor} & An inertia tensor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The builder 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a5ac72090f5099ec018a0ad66193b2728}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a5ac72090f5099ec018a0ad66193b2728}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!withPropulsionSystem@{withPropulsionSystem}}
+\index{withPropulsionSystem@{withPropulsionSystem}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{withPropulsionSystem()}{withPropulsionSystem()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+Builder\+::with\+Propulsion\+System (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&}]{a\+Propulsion\+System }\end{DoxyParamCaption})}
+
+
+
+Set the propulsion system. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Propulsion\+System} & A Propulsion \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The builder 
+\end{DoxyReturn}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_aa6b9ba20b8ee31d727250fcf6f2de53f}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_aa6b9ba20b8ee31d727250fcf6f2de53f}} 
+\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}{Satellite\+System\+Builder}} \&}]{a\+Satellite\+System\+Builder }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Satellite\+System\+Builder} & A satellite system builder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\mbox{\hyperlink{_satellite_system_builder_8hpp}{Satellite\+System\+Builder.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\mbox{\hyperlink{_satellite_system_builder_8cpp}{Satellite\+System\+Builder.\+cpp}}\end{DoxyCompactItemize}

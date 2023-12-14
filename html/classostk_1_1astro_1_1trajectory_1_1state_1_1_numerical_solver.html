@@ -152,6 +152,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8484b5f856c8686284f55a17c1557f34"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a8484b5f856c8686284f55a17c1557f34">Default</a> ()</td></tr>
 <tr class="memdesc:a8484b5f856c8686284f55a17c1557f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a8484b5f856c8686284f55a17c1557f34">More...</a><br /></td></tr>
 <tr class="separator:a8484b5f856c8686284f55a17c1557f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a6e0adbea2e2fefe08087f3e074355"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#ae2a6e0adbea2e2fefe08087f3e074355">FixedStepSize</a> (const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep)</td></tr>
+<tr class="memdesc:ae2a6e0adbea2e2fefe08087f3e074355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a fixed step size numerical solver.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#ae2a6e0adbea2e2fefe08087f3e074355">More...</a><br /></td></tr>
+<tr class="separator:ae2a6e0adbea2e2fefe08087f3e074355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1686435e045ab321599c6912524d208a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a1686435e045ab321599c6912524d208a">DefaultConditional</a> (const std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt; &amp;stateLogger=nullptr)</td></tr>
 <tr class="memdesc:a1686435e045ab321599c6912524d208a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default conditional.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a1686435e045ab321599c6912524d208a">More...</a><br /></td></tr>
 <tr class="separator:a1686435e045ab321599c6912524d208a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -396,6 +399,52 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A default conditional numerical solver. </dd></dl>
+
+</div>
+</div>
+<a id="ae2a6e0adbea2e2fefe08087f3e074355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2a6e0adbea2e2fefe08087f3e074355">&#9670;&nbsp;</a></span>FixedStepSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a> ostk::astro::trajectory::state::NumericalSolver::FixedStepSize </td>
+          <td>(</td>
+          <td class="paramtype">const NumericalSolver::StepperType &amp;&#160;</td>
+          <td class="paramname"><em>aStepperType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aTimeStep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a fixed step size numerical solver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeStep</td><td>The time step to use for integration. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A fixed step size numerical solver. </dd></dl>
 
 </div>
 </div>

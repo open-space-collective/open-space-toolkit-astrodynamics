@@ -5,5 +5,8 @@ var dir_eee819c86c87366664d9efab74531b31 =
     ] ],
     [ "SatelliteSystem.hpp", "_satellite_system_8hpp.html", [
       [ "SatelliteSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" ]
+    ] ],
+    [ "SatelliteSystemBuilder.hpp", "_satellite_system_builder_8hpp.html", [
+      [ "SatelliteSystemBuilder", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder.html", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder" ]
     ] ]
 ];

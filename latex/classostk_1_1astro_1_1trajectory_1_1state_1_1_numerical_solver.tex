@@ -56,6 +56,8 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_
 \begin{DoxyCompactList}\small\item\em Undefined. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a8484b5f856c8686284f55a17c1557f34}{Default}} ()
 \begin{DoxyCompactList}\small\item\em Default. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_ae2a6e0adbea2e2fefe08087f3e074355}{Fixed\+Step\+Size}} (const Numerical\+Solver\+::\+Stepper\+Type \&a\+Stepper\+Type, const Real \&a\+Time\+Step)
+\begin{DoxyCompactList}\small\item\em Create a fixed step size numerical solver. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a1686435e045ab321599c6912524d208a}{Default\+Conditional}} (const std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&state\+Logger=nullptr)
 \begin{DoxyCompactList}\small\item\em Default conditional. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a33d2951730a0e0241264f85136341778}{Conditional}} (const Real \&a\+Time\+Step, const Real \&a\+Relative\+Tolerance, const Real \&an\+Absolute\+Tolerance, const std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \&state\+Logger)
@@ -180,6 +182,26 @@ Default conditional.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 A default conditional numerical solver. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_ae2a6e0adbea2e2fefe08087f3e074355}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_ae2a6e0adbea2e2fefe08087f3e074355}} 
+\index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}!FixedStepSize@{FixedStepSize}}
+\index{FixedStepSize@{FixedStepSize}!ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}}
+\doxysubsubsection{\texorpdfstring{FixedStepSize()}{FixedStepSize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver\+::\+Fixed\+Step\+Size (\begin{DoxyParamCaption}\item[{const Numerical\+Solver\+::\+Stepper\+Type \&}]{a\+Stepper\+Type,  }\item[{const Real \&}]{a\+Time\+Step }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Create a fixed step size numerical solver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Time\+Step} & The time step to use for integration. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+System\+Of\+Equations} & System of equations to integrate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A fixed step size numerical solver. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_abc7b65d3487049605e36d70e3b76dd4c}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_abc7b65d3487049605e36d70e3b76dd4c}} 
 \index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}!getObservedStates@{getObservedStates}}

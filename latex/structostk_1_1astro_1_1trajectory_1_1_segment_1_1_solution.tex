@@ -8,23 +8,29 @@
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad95e22cec62e36f4c89d68ce25320599}{Solution}} (const String \&a\+Name, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array, const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+States, const bool \&a\+Condition\+Is\+Satisfied, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment_a5889e20c1d83004b7b2bd77602ae9c2f}{Segment\+::\+Type}} \&a\+Segment\+Type)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 const Instant \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4ba4fc26ecc269d19c45635ef9a12ea3}{access\+Start\+Instant}} () const
-\begin{DoxyCompactList}\small\item\em Type of segment. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} Start Instant. \end{DoxyCompactList}\item 
 const Instant \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aac24d3daad0746e310a5463be89782c6}{access\+End\+Instant}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} end instant. \end{DoxyCompactList}\item 
 Mass \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a19ce5cf2de1256666d5f252dfa720947}{get\+Initial\+Mass}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get initial mass. \end{DoxyCompactList}\item 
 Mass \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad3b03495aace95722394f490e22f7ea8}{get\+Final\+Mass}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get final mass. \end{DoxyCompactList}\item 
 Duration \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_adb6430c603a6693a94ada60e63953956}{get\+Propagation\+Duration}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Get propagation duration. \end{DoxyCompactList}\item 
 Real \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_af105a18a6705eba38a8da9101f58a253}{compute\+DeltaV}} (const Real \&a\+Specific\+Impulse) const
-\item 
+\begin{DoxyCompactList}\small\item\em Compute delta V. \end{DoxyCompactList}\item 
 Mass \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a76458d29b4c6a74c9bd4c633c16e41c4}{compute\+Delta\+Mass}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Compute delta mass. \end{DoxyCompactList}\item 
+Matrix\+Xd \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a1223863c48c31e62f6dff650b82993c9}{get\+Dynamics\+Contribution}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics\+S\+Ptr, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&a\+Coordinates\+Subset\+S\+Ptr\+Array=Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$\+::Empty()) const
+\begin{DoxyCompactList}\small\item\em Get dynamics contribution. \end{DoxyCompactList}\item 
+Matrix\+Xd \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a652a3f68fae0827489801bfb532cf6c5}{get\+Dynamics\+Acceleration\+Contribution}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics\+S\+Ptr, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\begin{DoxyCompactList}\small\item\em Get dynamics acceleration contribution. \end{DoxyCompactList}\item 
+Map$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$, Matrix\+Xd $>$ \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4495cb99ae85ed752f6fd462e05ae273}{get\+All\+Dynamics\+Contributions}} (const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\begin{DoxyCompactList}\small\item\em Get all segment dynamics contributions. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a9729dd1994f7692972abf07fa25b7a44}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Print the segment solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -42,7 +48,7 @@ bool \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution
 \begin{DoxyCompactItemize}
 \item 
 std\+::ostream \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aca78b91909896a040a271510c450caee}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}} \&a\+Solution)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
@@ -54,6 +60,26 @@ std\+::ostream \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment
 
 
 
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & Name of the segment \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+Array} & Array of dynamics \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+States} & Array of states for the segment \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Condition\+Is\+Satisfied} & True if the event condition is satisfied \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Segment\+Type} & Type of segment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}} 
+\end{DoxyReturn}
+
+
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aac24d3daad0746e310a5463be89782c6}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_aac24d3daad0746e310a5463be89782c6}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!accessEndInstant@{accessEndInstant}}
@@ -61,6 +87,13 @@ std\+::ostream \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment
 \doxysubsubsection{\texorpdfstring{accessEndInstant()}{accessEndInstant()}}
 {\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::access\+End\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} end instant. 
+
+\begin{DoxyReturn}{Returns}
+End Instant 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4ba4fc26ecc269d19c45635ef9a12ea3}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4ba4fc26ecc269d19c45635ef9a12ea3}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!accessStartInstant@{accessStartInstant}}
 \index{accessStartInstant@{accessStartInstant}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
@@ -69,44 +102,158 @@ std\+::ostream \& \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment
 
 
 
-Type of segment. 
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} Start Instant. 
 
+\begin{DoxyReturn}{Returns}
+Start Instant 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a76458d29b4c6a74c9bd4c633c16e41c4}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a76458d29b4c6a74c9bd4c633c16e41c4}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!computeDeltaMass@{computeDeltaMass}}
 \index{computeDeltaMass@{computeDeltaMass}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{computeDeltaMass()}{computeDeltaMass()}}
 {\footnotesize\ttfamily Mass ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::compute\+Delta\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Compute delta mass. 
+
+\begin{DoxyReturn}{Returns}
+Delta mass 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_af105a18a6705eba38a8da9101f58a253}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_af105a18a6705eba38a8da9101f58a253}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!computeDeltaV@{computeDeltaV}}
 \index{computeDeltaV@{computeDeltaV}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{computeDeltaV()}{computeDeltaV()}}
 {\footnotesize\ttfamily Real ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::compute\+DeltaV (\begin{DoxyParamCaption}\item[{const Real \&}]{a\+Specific\+Impulse }\end{DoxyParamCaption}) const}
 
+
+
+Compute delta V. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Specific\+Impulse} & Specific impulse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Delta V 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4495cb99ae85ed752f6fd462e05ae273}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a4495cb99ae85ed752f6fd462e05ae273}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getAllDynamicsContributions@{getAllDynamicsContributions}}
+\index{getAllDynamicsContributions@{getAllDynamicsContributions}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{getAllDynamicsContributions()}{getAllDynamicsContributions()}}
+{\footnotesize\ttfamily Map$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$, Matrix\+Xd $>$ ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+All\+Dynamics\+Contributions (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+
+
+Get all segment dynamics contributions. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & Frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+All segment dynamics contributions 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a652a3f68fae0827489801bfb532cf6c5}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a652a3f68fae0827489801bfb532cf6c5}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getDynamicsAccelerationContribution@{getDynamicsAccelerationContribution}}
+\index{getDynamicsAccelerationContribution@{getDynamicsAccelerationContribution}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{getDynamicsAccelerationContribution()}{getDynamicsAccelerationContribution()}}
+{\footnotesize\ttfamily Matrix\+Xd ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Dynamics\+Acceleration\+Contribution (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics\+S\+Ptr,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+
+
+Get dynamics acceleration contribution. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+S\+Ptr} & \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & Frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} acceleration contribution 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a1223863c48c31e62f6dff650b82993c9}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a1223863c48c31e62f6dff650b82993c9}} 
+\index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getDynamicsContribution@{getDynamicsContribution}}
+\index{getDynamicsContribution@{getDynamicsContribution}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
+\doxysubsubsection{\texorpdfstring{getDynamicsContribution()}{getDynamicsContribution()}}
+{\footnotesize\ttfamily Matrix\+Xd ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Dynamics\+Contribution (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics\+S\+Ptr,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&}]{a\+Coordinates\+Subset\+S\+Ptr\+Array = {\ttfamily Array$<$Shared$<$const~\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}}$>$$>$\+:\+:Empty()} }\end{DoxyParamCaption}) const}
+
+
+
+Get dynamics contribution. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+S\+Ptr} & \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & Frame \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset\+S\+Ptr\+Array} & Array of coordinates subsets \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} contribution 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad3b03495aace95722394f490e22f7ea8}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_ad3b03495aace95722394f490e22f7ea8}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getFinalMass@{getFinalMass}}
 \index{getFinalMass@{getFinalMass}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{getFinalMass()}{getFinalMass()}}
 {\footnotesize\ttfamily Mass ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Final\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get final mass. 
+
+\begin{DoxyReturn}{Returns}
+Final mass 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a19ce5cf2de1256666d5f252dfa720947}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a19ce5cf2de1256666d5f252dfa720947}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getInitialMass@{getInitialMass}}
 \index{getInitialMass@{getInitialMass}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{getInitialMass()}{getInitialMass()}}
 {\footnotesize\ttfamily Mass ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Initial\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get initial mass. 
+
+\begin{DoxyReturn}{Returns}
+Initial mass 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_adb6430c603a6693a94ada60e63953956}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_adb6430c603a6693a94ada60e63953956}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!getPropagationDuration@{getPropagationDuration}}
 \index{getPropagationDuration@{getPropagationDuration}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{getPropagationDuration()}{getPropagationDuration()}}
 {\footnotesize\ttfamily Duration ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::get\+Propagation\+Duration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+Get propagation duration. 
+
+\begin{DoxyReturn}{Returns}
+Propagation duration 
+\end{DoxyReturn}
 \mbox{\Hypertarget{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a9729dd1994f7692972abf07fa25b7a44}\label{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution_a9729dd1994f7692972abf07fa25b7a44}} 
 \index{ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}!print@{print}}
 \index{print@{print}!ostk::astro::trajectory::Segment::Solution@{ostk::astro::trajectory::Segment::Solution}}
 \doxysubsubsection{\texorpdfstring{print()}{print()}}
 {\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
 
+
+
+Print the segment solution. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
 
 
 \doxysubsection{Friends And Related Function Documentation}
@@ -116,6 +263,20 @@ Type of segment.
 \doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
 {\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}} \&}]{a\+Solution }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Solution} & A \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An output stream 
+\end{DoxyReturn}
 
 
 \doxysubsection{Member Data Documentation}
