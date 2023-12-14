@@ -14,7 +14,15 @@ namespace flight
 namespace system
 {
 
-SatelliteSystemBuilder::SatelliteSystemBuilder() {}
+SatelliteSystemBuilder::SatelliteSystemBuilder()
+    : dryMass_(Mass::Undefined()),
+      geometry_(Composite::Undefined()),
+      inertiaTensor_(Matrix3d::Undefined()),
+      crossSectionalSurfaceArea_(Real::Undefined()),
+      dragCoefficient_(Real::Undefined()),
+      propulsionSystem_(PropulsionSystem::Undefined())
+{
+}
 
 SatelliteSystemBuilder::~SatelliteSystemBuilder() {}
 

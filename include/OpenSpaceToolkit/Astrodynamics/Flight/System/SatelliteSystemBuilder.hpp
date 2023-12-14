@@ -134,12 +134,12 @@ class SatelliteSystemBuilder
     static SatelliteSystemBuilder Default();
 
    private:
-    Mass dryMass_ = Mass::Undefined();
-    Composite geometry_ = Composite::Undefined();
-    Matrix3d inertiaTensor_ = Matrix3d::Undefined();
-    Real crossSectionalSurfaceArea_ = Real::Undefined();
-    Real dragCoefficient_ = Real::Undefined();
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    Mass dryMass_;
+    Composite geometry_;
+    Matrix3d inertiaTensor_;
+    Real crossSectionalSurfaceArea_;
+    Real dragCoefficient_;
+    PropulsionSystem propulsionSystem_;
 };
 
 }  // namespace system
