@@ -327,7 +327,44 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDynamicsContributions)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDynamicsAccelerationContribution)
+{
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
+
+        // Check error for PositionDerivative
+        const String expectedString =
+            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
+            {
+                try
+                {
+                    MatrixXd accelerationContribution =
+                        segmentSolution.getDynamicsAccelerationContribution(defaultDynamics_[0], stateFrame);
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ(expectedString, e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+
+        // Check output for Gravity
+        MatrixXd accelerationContribution =
+            segmentSolution.getDynamicsAccelerationContribution(defaultDynamics_[1], stateFrame);
+        EXPECT_EQ(accelerationContribution.cols(), 3);
+        EXPECT_EQ(accelerationContribution.rows(), segmentSolution.states.getSize());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAllDynamicsContributions)
 {
     {
         const Segment::Solution segmentSolution =
@@ -394,43 +431,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
                 dynamics->computeContribution(finalStateWithMass_.getInstant(), readStateCoordinates, stateFrame)
             );
         }
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDynamicsAccelerationContribution)
-{
-    {
-        const Segment::Solution segmentSolution =
-            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
-
-        const Shared<const Frame> stateFrame = defaultState_.accessFrame();
-
-        // Check error for PositionDerivative
-        const String expectedString =
-            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
-
-        // Test the throw and the message that is thrown
-        EXPECT_THROW(
-            {
-                try
-                {
-                    MatrixXd accelerationContribution =
-                        segmentSolution.getDynamicsAccelerationContribution(defaultDynamics_[0], stateFrame);
-                }
-                catch (const ostk::core::error::runtime::Undefined& e)
-                {
-                    EXPECT_EQ(expectedString, e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-
-        // Check output for Gravity
-        MatrixXd accelerationContribution =
-            segmentSolution.getDynamicsAccelerationContribution(defaultDynamics_[1], stateFrame);
-        EXPECT_EQ(accelerationContribution.cols(), 3);
-        EXPECT_EQ(accelerationContribution.rows(), segmentSolution.states.getSize());
     }
 }
 

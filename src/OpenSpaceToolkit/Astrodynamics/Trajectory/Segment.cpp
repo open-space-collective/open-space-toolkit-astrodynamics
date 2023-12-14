@@ -148,6 +148,9 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     // Extract dynamics context and behavior relative to state
     Array<Shared<const CoordinatesSubset>> dynamicsReadCoordinatesSubsets = aDynamicsSPtr->getReadCoordinatesSubsets();
 
+    // Construct state builder
+    const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinatesSubsets);
+
     // Compute the size of dynamicsContributionMatrix
     Size dynamicsWriteSize = std::accumulate(
         definitiveCoordinateSubsetArray.begin(),
@@ -166,8 +169,6 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
     {
         const State& state = states[stateIndex];
-
-        const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinatesSubsets);
 
         VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
             state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
