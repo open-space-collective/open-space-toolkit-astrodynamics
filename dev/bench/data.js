@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1702391462734,
+  "lastUpdate": 1702571621886,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 2785007710.7000003,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2784880569.999997 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43561754+Derollez@users.noreply.github.com",
+            "name": "Remy Derollez",
+            "username": "Derollez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f37a2ad76d33f87b28544765f2d3be8b79b8e4ae",
+          "message": "feat: add dynamics contribution getters to segment solution (#291)\n\n* feat: add first version to compute accelerations in segment solution\r\n\r\n* refactor: address comments on structure and naming\r\n\r\n* refactor: functions and args\r\n\r\n* test: add cpp tests\r\n\r\n* feat: add bindings and test\r\n\r\n* cfeat: address great feedback and use statebuilder\r\n\r\n* chore: reoorg + suggestion\r\n\r\n* test: reduce test with eigen\r\n\r\n* test: try once more",
+          "timestamp": "2023-12-14T17:05:58+01:00",
+          "tree_id": "5c3f5d6cc93c8d1d63a7bcea69937d1bdaaae519",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/f37a2ad76d33f87b28544765f2d3be8b79b8e4ae"
+        },
+        "date": 1702571621236,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 550715877.7000029,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 550692400 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 799308906.600004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 799273540.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2788302147.6000013,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2788222050 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2789782804.2000074,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2789527429.999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2785852230.300003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2785725070.000001 ns\nthreads: 1"
           }
         ]
       }
