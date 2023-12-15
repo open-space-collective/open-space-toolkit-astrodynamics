@@ -15,6 +15,7 @@ if [[ -z ${docker_image_version} ]]; then
 fi
 
 project_directory=$(git rev-parse --show-toplevel)
+project_name="astrodynamics"
 
 # Initialize variables
 
@@ -75,7 +76,7 @@ fi
 docker run \
     -it \
     --rm \
-    --privileged \
+    --name=open-space-toolkit-${project_name}-dev \
     "${options[@]}" \
     --volume="${project_directory}:/app:delegated" \
     --env="deps=${deps}" \
