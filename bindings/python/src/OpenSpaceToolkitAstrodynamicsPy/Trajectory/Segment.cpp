@@ -39,6 +39,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )doc"
     )
 
+        .def(
+            init<const String&, const Array<Shared<Dynamics>>&, const Array<State>&, const bool&, const Segment::Type&>(
+            ),
+            arg("name"),
+            arg("dynamics"),
+            arg("states"),
+            arg("condition_is_satisfied"),
+            arg("segment_type"),
+            R"doc(
+                Construct a Segment Solution.
+
+                Args:
+                    name (str): The name of the segment.
+                    dynamics (list[Dynamics]): The dynamics.
+                    states (list[State]): The states.
+                    condition_is_satisfied (bool): Whether the event condition is satisfied.
+                    segment_type (Type): The type of the segment.
+
+            )doc"
+        )
+
         .def("__str__", &(shiftToString<Segment::Solution>))
         .def("__repr__", &(shiftToString<Segment::Solution>))
 
@@ -225,143 +246,141 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
         ;
 
-    {
-        enum_<Segment::Type>(
-            segment,
-            "Type",
+    enum_<Segment::Type>(
+        segment,
+        "Type",
+        R"doc(
+            Segment type.
+        )doc"
+    )
+
+        .value("Coast", Segment::Type::Coast, "Coast")
+        .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
+
+        ;
+
+    segment
+
+        .def("__str__", &(shiftToString<Segment>))
+        .def("__repr__", &(shiftToString<Segment>))
+
+        .def(
+            "get_name",
+            &Segment::getName,
             R"doc(
-                Segment type.
+                Get the name of the segment.
+
+                Returns:
+                    str: The name of the segment.
+
+            )doc"
+        )
+        .def(
+            "get_event_condition",
+            &Segment::getEventCondition,
+            R"doc(
+                Get the event condition.
+
+                Returns:
+                    EventCondition: The event condition.
+
+            )doc"
+        )
+        .def(
+            "get_dynamics",
+            &Segment::getDynamics,
+            R"doc(
+                Get the dynamics.
+
+                Returns:
+                    Dynamics: The dynamics.
+
+            )doc"
+        )
+        .def(
+            "get_numerical_solver",
+            &Segment::getNumericalSolver,
+            R"doc(
+                Get the numerical solver.
+
+                Returns:
+                    NumericalSolver: The numerical solver.
+
+            )doc"
+        )
+        .def(
+            "get_type",
+            &Segment::getType,
+            R"doc(
+                Get the type of the segment.
+
+                Returns:
+                    Type: The type of the segment.
+
             )doc"
         )
 
-            .value("Coast", Segment::Type::Coast, "Coast")
-            .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
+        .def(
+            "solve",
+            &Segment::solve,
+            arg("state"),
+            arg("maximum_propagation_duration") = Duration::Days(30.0),
+            R"doc(
+                Solve the segment.
 
-            ;
+                Args:
+                    state (State): The state.
+                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
 
-        segment
+                Returns:
+                    SegmentSolution: The segment solution.
 
-            .def("__str__", &(shiftToString<Segment>))
-            .def("__repr__", &(shiftToString<Segment>))
+            )doc"
+        )
 
-            .def(
-                "get_name",
-                &Segment::getName,
-                R"doc(
-                    Get the name of the segment.
+        .def_static(
+            "coast",
+            &Segment::Coast,
+            arg("name"),
+            arg("event_condition"),
+            arg("dynamics"),
+            arg("numerical_solver"),
+            R"doc(
+                Create a coast segment.
 
-                    Returns:
-                        str: The name of the segment.
+                Args:
+                    name (str): The name of the segment.
+                    event_condition (EventCondition): The event condition.
+                    dynamics (Dynamics): The dynamics.
+                    numerical_solver (NumericalSolver): The numerical solver.
 
-                )doc"
-            )
-            .def(
-                "get_event_condition",
-                &Segment::getEventCondition,
-                R"doc(
-                    Get the event condition.
+                Returns:
+                    Segment: The coast segment.
+            )doc"
+        )
 
-                    Returns:
-                        EventCondition: The event condition.
+        .def_static(
+            "maneuver",
+            &Segment::Maneuver,
+            arg("name"),
+            arg("event_condition"),
+            arg("thruster_dynamics"),
+            arg("dynamics"),
+            arg("numerical_solver"),
+            R"doc(
+                Create a maneuver segment.
 
-                )doc"
-            )
-            .def(
-                "get_dynamics",
-                &Segment::getDynamics,
-                R"doc(
-                    Get the dynamics.
+                Args:
+                    name (str): The name of the segment.
+                    event_condition (EventCondition): The event condition.
+                    thruster_dynamics (ThrusterDynamics): The thruster dynamics.
+                    dynamics (Dynamics): The dynamics.
+                    numerical_solver (NumericalSolver): The numerical solver.
 
-                    Returns:
-                        Dynamics: The dynamics.
+                Returns:
+                    Segment: The maneuver segment.
+            )doc"
+        )
 
-                )doc"
-            )
-            .def(
-                "get_numerical_solver",
-                &Segment::getNumericalSolver,
-                R"doc(
-                    Get the numerical solver.
-
-                    Returns:
-                        NumericalSolver: The numerical solver.
-
-                )doc"
-            )
-            .def(
-                "get_type",
-                &Segment::getType,
-                R"doc(
-                    Get the type of the segment.
-
-                    Returns:
-                        Type: The type of the segment.
-
-                )doc"
-            )
-
-            .def(
-                "solve",
-                &Segment::solve,
-                arg("state"),
-                arg("maximum_propagation_duration") = Duration::Days(30.0),
-                R"doc(
-                    Solve the segment.
-
-                    Args:
-                        state (State): The state.
-                        maximum_propagation_duration (Duration, optional): The maximum propagation duration.
-
-                    Returns:
-                        SegmentSolution: The segment solution.
-
-                )doc"
-            )
-
-            .def_static(
-                "coast",
-                &Segment::Coast,
-                arg("name"),
-                arg("event_condition"),
-                arg("dynamics"),
-                arg("numerical_solver"),
-                R"doc(
-                    Create a coast segment.
-
-                    Args:
-                        name (str): The name of the segment.
-                        event_condition (EventCondition): The event condition.
-                        dynamics (Dynamics): The dynamics.
-                        numerical_solver (NumericalSolver): The numerical solver.
-
-                    Returns:
-                        Segment: The coast segment.
-                )doc"
-            )
-
-            .def_static(
-                "maneuver",
-                &Segment::Maneuver,
-                arg("name"),
-                arg("event_condition"),
-                arg("thruster_dynamics"),
-                arg("dynamics"),
-                arg("numerical_solver"),
-                R"doc(
-                    Create a maneuver segment.
-
-                    Args:
-                        name (str): The name of the segment.
-                        event_condition (EventCondition): The event condition.
-                        thruster_dynamics (ThrusterDynamics): The thruster dynamics.
-                        dynamics (Dynamics): The dynamics.
-                        numerical_solver (NumericalSolver): The numerical solver.
-
-                    Returns:
-                        Segment: The maneuver segment.
-                )doc"
-            )
-
-            ;
-    }
+        ;
 }
