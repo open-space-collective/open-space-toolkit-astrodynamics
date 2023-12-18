@@ -168,7 +168,8 @@ class TestSegment:
         numerical_solver: NumericalSolver,
     ):
         assert (
-            Segment.coast(name, instant_condition, dynamics, numerical_solver) is not None
+            Segment.coast(name, instant_condition, dynamics, numerical_solver)
+            is not None
         )
 
     def test_maneuver(
@@ -189,6 +190,23 @@ class TestSegment:
             )
             is not None
         )
+
+    def test_create_solution(
+        self,
+        dynamics: list,
+        state: State,
+    ):
+        segment_solution: Segment.Solution = Segment.Solution(
+            name="A Segment",
+            dynamics=dynamics,
+            states=[
+                state,
+            ],
+            condition_is_satisfied=True,
+            segment_type=Segment.Type.Coast,
+        )
+
+        assert segment_solution is not None
 
     def test_solve(
         self,
@@ -267,5 +285,5 @@ class TestSegment:
 
         with pytest.raises(Exception):
             solution.get_dynamics_acceleration_contribution(
-                third_dynamics_contribution, state_frame
+                solution.dynamics[0], state_frame
             )
