@@ -20,7 +20,9 @@ def cartesian_position() -> CartesianPosition:
 
 
 @pytest.fixture
-def coordinates_subsets(cartesian_position: CartesianPosition) -> list[CoordinatesSubset]:
+def coordinates_subsets(
+    cartesian_position: CartesianPosition,
+) -> list[CoordinatesSubset]:
     return [cartesian_position]
 
 
@@ -35,7 +37,9 @@ def frame() -> Frame:
 
 
 @pytest.fixture
-def coordinates_broker(coordinates_subsets: list[CoordinatesSubset]) -> CoordinatesBroker:
+def coordinates_broker(
+    coordinates_subsets: list[CoordinatesSubset],
+) -> CoordinatesBroker:
     return CoordinatesBroker(coordinates_subsets)
 
 

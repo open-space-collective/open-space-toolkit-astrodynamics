@@ -63,6 +63,9 @@ class TestSatelliteSystemBuilder:
         assert satellite_system.get_mass() == dry_mass
         assert satellite_system.get_geometry() == geometry
         assert np.array_equal(satellite_system.get_inertia_tensor(), inertia_tensor)
-        assert satellite_system.get_cross_sectional_surface_area() == cross_sectional_surface_area
+        assert (
+            satellite_system.get_cross_sectional_surface_area()
+            == cross_sectional_surface_area
+        )
         assert satellite_system.get_drag_coefficient() == drag_coefficient
         assert satellite_system.get_propulsion_system() == propulsion_system
