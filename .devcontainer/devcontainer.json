@@ -1,47 +1,44 @@
 {
     "name": "Open Space Toolkit Astrodynamics",
-    "image": "openspacecollective/open-space-toolkit-astrodynamics-development-non-root:latest",
-    "initializeCommand": "make build-development-image-non-root && mkdir -p ${localWorkspaceFolder}/build",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
-    "workspaceFolder": "/app",
-    "containerUser": "developer",
-    "updateRemoteUserUID": true,
+    "mounts": [
+        "source=ostk_astrodynamics_vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume"
+    ],
     "runArgs": [
         "--name",
-        "open-space-toolkit-astrodynamics-dev-non-root"
-
+        "open-space-toolkit-astrodynamics-dev",
+        "--privileged"
     ],
-    "mounts": [
-        "source=ostk_astrodynamics_vscode_extensions,target=/home/developer/.vscode-server/extensions,type=volume",
-        "source=${localEnv:HOME}/.ssh,target=/home/developer/.ssh,type=bind,readonly",
-        "source=${localEnv:HOME}/.gitconfig,target=/home/developer/.gitconfig,type=bind,readonly"
-    ],
+    "containerEnv": {
+        "PACKAGE_DEPLOY_TOKEN": "${localEnv:PACKAGE_DEPLOY_TOKEN}"
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+    "workspaceFolder": "/app",
+    "updateRemoteUserUID": true,
+    "image": "openspacecollective/open-space-toolkit-astrodynamics-development:latest",
+    "initializeCommand": "make build-development-image",
     "shutdownAction": "stopContainer",
     "customizations": {
         "vscode": {
+            "settings": {
+                "C_Cpp.clang_format_style": "file:/app/thirdparty/clang/.clang-format",
+                "terminal.integrated.cwd": "/app/build",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash",
+                        "icon": "terminal-bash"
+                    }
+                },
+                "python.analysis.diagnosticSeverityOverrides": {
+                    "reportMissingModuleSource": "none"
+                }
+            },
             "extensions": [
                 "ms-vscode.cpptools",
                 "ms-python.python",
                 "ms-python.black-formatter",
                 "mhutchie.git-graph",
-                "ms-vscode.cpptools-extension-pack",
-                "mechatroner.rainbow-csv",
-                "twxs.cmake"
-            ],
-            "settings": {
-                "C_Cpp.clang_format_style": "file:/app/thirdparty/clang/.clang-format",
-                "terminal.integrated.cwd": "/app/build",
-                "terminal.integrated.profile.linux": {
-                    "zsh": {
-                        "path": "/bin/zsh"
-                    }
-                },
-                "terminal.integrated.defaultProfile.linux": "zsh",
-                "python.defaultInterpreterPath": "/usr/local/bin/python3.11",
-                "python.analysis.diagnosticSeverityOverrides": {
-                    "reportMissingModuleSource": "none"
-                }
-            }
+                "ms-vscode.cpptools-extension-pack"
+            ]
         }
     }
 }
