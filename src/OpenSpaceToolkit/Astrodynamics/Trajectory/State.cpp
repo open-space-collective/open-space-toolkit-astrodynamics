@@ -5,6 +5,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
@@ -18,6 +20,8 @@ namespace trajectory
 using ostk::core::types::Index;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity;
+using ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
@@ -78,6 +82,60 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
         }));
+
+    this->coordinates_ = coordinates;
+    this->frameSPtr_ = aPosition.accessFrame();
+    this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
+}
+
+State::State(
+    const Instant& anInstant,
+    const Position& aPosition,
+    const Velocity& aVelocity,
+    const Quaternion& anAttitude,
+    const Vector3d& anAngularVelocity,
+    const Shared<const Frame>& aReferenceFrame
+)
+    : instant_(anInstant)
+{
+    if (!aPosition.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Position");
+    }
+
+    if (!aVelocity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Velocity");
+    }
+
+    if (!anAttitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Attitude");
+    }
+
+    if (!anAngularVelocity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Angular Velocity");
+    }
+
+    if ((aPosition.accessFrame() != aVelocity.accessFrame()) || (aPosition.accessFrame() != aReferenceFrame))
+    {
+        throw ostk::core::error::runtime::Wrong("Position-Velocity-Attitude Frames");
+    }
+
+    VectorXd coordinates(13);
+    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
+    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+    coordinates.segment(6, 4) = AttitudeQuaternion::quaterionToCoordinates(anAttitude);
+    coordinates.segment(10, 3) = anAngularVelocity;
+
+    static const Shared<CoordinatesBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+            {CartesianPosition::Default(),
+             CartesianVelocity::Default(),
+             AttitudeQuaternion::Default(),
+             AngularVelocity::Default()}
+        ));
 
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();
@@ -328,6 +386,26 @@ Velocity State::getVelocity() const
     }
 
     return Velocity::MetersPerSecond(this->extractCoordinate(CartesianVelocity::Default()), this->frameSPtr_);
+}
+
+Quaternion State::getAttitude() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return AttitudeQuaternion::coordinatesToQuaternion(this->extractCoordinate(AttitudeQuaternion::Default()));
+}
+
+Vector3d State::getAngularVelocity() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->extractCoordinate(AngularVelocity::Default());
 }
 
 VectorXd State::getCoordinates() const

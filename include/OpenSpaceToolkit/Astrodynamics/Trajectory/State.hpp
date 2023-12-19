@@ -7,6 +7,7 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -28,6 +29,8 @@ using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
 
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Frame;
@@ -78,10 +81,30 @@ class State
     /// @brief                  Utility constructor for Position/Velocity only.
     ///
     /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPosition The cartesian position at the instant in International System of Units
-    /// @param                  [in] aVelocity The cartesian velocity at the instant in International System of Units
+    /// @param                  [in] aPosition The Cartesian position at the instant
+    /// @param                  [in] aVelocity The Cartesian velocity at the instant
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
+
+    /// @brief                  Utility constructor for Position/Velocity/Attitude only.
+    ///
+    /// @param                  [in] anInstant An instant
+    /// @param                  [in] aPosition The Cartesian position at the instant
+    /// @param                  [in] aVelocity The Cartesian velocity at the instant
+    /// @param                  [in] anAttitude The attitude at the instant in International System of Units
+    /// @param                  [in] anAngularVelocity The angular velocity at the instant in International System of
+    /// Units
+    /// @param                  [in] aReferenceFrame The reference frame in which the attitude and angular velocity are
+    /// referenced to and resolved in
+
+    State(
+        const Instant& anInstant,
+        const Position& aPosition,
+        const Velocity& aVelocity,
+        const Quaternion& anAttitude,
+        const Vector3d& anAngularVelocity,
+        const Shared<const Frame>& aReferenceFrame
+    );
 
     /// @brief                  Copy constructor.
     ///
@@ -180,17 +203,29 @@ class State
 
     Shared<const Frame> getFrame() const;
 
-    /// @brief                  Get the cartesian position associated with the State (if present).
+    /// @brief                  Get the Cartesian position associated with the State (if present).
     ///
-    /// @return                 The cartesian position
+    /// @return                 The Cartesian position
 
     Position getPosition() const;
 
-    /// @brief                  Get the cartesian velocity associated with the State (if present).
+    /// @brief                  Get the Cartesian velocity associated with the State (if present).
     ///
-    /// @return                 The cartesian velocity
+    /// @return                 The Cartesian velocity
 
     Velocity getVelocity() const;
+
+    /// @brief                  Get the attitude quaternion associated with the State (if present).
+    ///
+    /// @return                 The attitude quaternion
+
+    Quaternion getAttitude() const;
+
+    /// @brief                  Get the angular velocity associated with the State (if present).
+    ///
+    /// @return                 The angular velocity
+
+    Vector3d getAngularVelocity() const;
 
     /// @brief                  Get the coordinates of the State.
     ///
