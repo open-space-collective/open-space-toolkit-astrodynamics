@@ -35,10 +35,10 @@ class CartesianVelocity : public CoordinatesSubset
     /// @brief              Constructor
     ///
     /// @code
-    ///                     CartesianVelocity velocity = {aCartesianPositionSPtr, aName};
+    ///                     CartesianVelocity cartesianVelocity = {aCartesianPositionSPtr, aName};
     /// @endcode
     ///
-    /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
+    /// @param              [in] aCartesianPositionSPtr the associated Cartesian Position
     /// @param              [in] aName a name
 
     CartesianVelocity(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName);
@@ -47,7 +47,7 @@ class CartesianVelocity : public CoordinatesSubset
 
     ~CartesianVelocity();
 
-    /// @brief              Transforms the coordinate subset from one frame to another
+    /// @brief              Transform the coordinate subset from one frame to another
     ///
     /// @param              [in] anInstant the reference frame associated to the coordinates
     /// @param              [in] aFullCoordinatesVector all coordinates

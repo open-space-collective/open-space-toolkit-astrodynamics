@@ -1,7 +1,11 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion__
+
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
@@ -19,29 +23,32 @@ namespace coordinatessubsets
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+
+using ostk::physics::coord::Transform;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 
-/// @brief  Cartesian Position.
+/// @brief  Attitude Quaternion (XYZS format).
 
-class CartesianPosition : public CoordinatesSubset
+class AttitudeQuaternion : public CoordinatesSubset
 {
    public:
     /// @brief              Constructor
     ///
     /// @code
-    ///                     CartesianPosition cartesianPosition = {aName};
+    ///                     AttitudeQuaternion attitudeQuaternion = {aName};
     /// @endcode
     ///
     /// @param              [in] aName a name
 
-    CartesianPosition(const String& aName);
+    AttitudeQuaternion(const String& aName);
 
     /// @brief              Destructor
 
-    ~CartesianPosition();
+    ~AttitudeQuaternion();
 
     /// @brief              Transform the coordinate subset from one frame to another
     ///
@@ -65,7 +72,21 @@ class CartesianPosition : public CoordinatesSubset
     ///
     /// @return             The default instance
 
-    static Shared<const CartesianPosition> Default();
+    static Shared<const AttitudeQuaternion> Default();
+
+    /// @brief              Return a Quaternion from coordinates.
+    ///
+    /// @param              [in] coordinates coordinates vector
+    ///
+    /// @return
+    static Quaternion coordinatesToQuaternion(const VectorXd& coordinates);
+
+    /// @brief              Return coordinates from a Quaternion.
+    ///
+    /// @param              [in] quaterion quaternion
+    ///
+    /// @return
+    static VectorXd quaterionToCoordinates(const Quaternion& quaternion);
 };
 
 }  // namespace coordinatessubsets
