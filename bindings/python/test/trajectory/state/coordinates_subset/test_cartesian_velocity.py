@@ -45,7 +45,9 @@ def frame() -> Frame:
 
 
 @pytest.fixture
-def coordinates_broker(coordinates_subsets: list[CoordinatesSubset]) -> CoordinatesBroker:
+def coordinates_broker(
+    coordinates_subsets: list[CoordinatesSubset],
+) -> CoordinatesBroker:
     return CoordinatesBroker(coordinates_subsets)
 
 

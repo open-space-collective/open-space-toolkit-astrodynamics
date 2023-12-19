@@ -251,7 +251,7 @@ build-packages-python-standalone: ## Build Python packages (standalone)
 start-development-no-link: build-development-image-non-root ## Start development environment
 
 	@ echo "Starting development environment..."
-	@ mkdir -p $(CURDIR)/build
+	@ mkdir -p "$(CURDIR)/build"
 
 	docker run \
 		--name=open-space-toolkit-$(project_name)-dev-non-root \
@@ -272,7 +272,7 @@ start-development-link: build-development-image ## Start linked development envi
 
 	@ echo "Starting development environment (linked)..."
 
-	@ mkdir -p $(CURDIR)/build
+	@ mkdir -p "$(CURDIR)/build"
 	@ docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
 	@ sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)
 

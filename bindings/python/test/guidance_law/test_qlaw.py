@@ -35,7 +35,8 @@ def target_COE() -> COE:
 @pytest.fixture
 def gravitational_parameter() -> Derived:
     return Derived(
-        3.986004418e14, EarthGravitationalModel.EGM2008.gravitational_parameter.get_unit()
+        3.986004418e14,
+        EarthGravitationalModel.EGM2008.gravitational_parameter.get_unit(),
     )
 
 

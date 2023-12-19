@@ -103,7 +103,8 @@ class TestViewer:
         assert "Cesium.IonResource.fromAssetId(123)" in rendered_html
         assert "widget.entities.add({polyline:" in rendered_html
         assert (
-            "widget.entities.add({position: widget.star_tracker_position" in rendered_html
+            "widget.entities.add({position: widget.star_tracker_position"
+            in rendered_html
         )
         assert rendered_html.endswith("</script>")
 

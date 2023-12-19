@@ -31,7 +31,11 @@ def event_condition(
 ) -> EventCondition:
     class MyEventCondition(EventCondition):
         def is_satisfied(
-            self, current_state_vector, current_time, previous_state_vector, previous_time
+            self,
+            current_state_vector,
+            current_time,
+            previous_state_vector,
+            previous_time,
         ):
             return current_state_vector[0] > 0.0 and previous_state_vector[0] < 0.0
 

@@ -231,7 +231,9 @@ def _generate_sampled_orientation(states: list[State]) -> cesiumpy.SampledProper
         samples=[
             (
                 coerce_to_datetime(state.get_instant()),
-                _cesium_from_ostk_quaternion(state.in_frame(Frame.ITRF()).get_attitude()),
+                _cesium_from_ostk_quaternion(
+                    state.in_frame(Frame.ITRF()).get_attitude()
+                ),
                 None,
             )
             for state in states
