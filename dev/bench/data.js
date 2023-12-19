@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1702641359032,
+  "lastUpdate": 1702982722140,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 2782541853.5999975,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2782385360.000001 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43561754+Derollez@users.noreply.github.com",
+            "name": "Remy Derollez",
+            "username": "Derollez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9f026667b95fffbf620865addf42ce7b6f6d7efe",
+          "message": "feat: add segment solution constructor (#304)\n\n* build: support space separated paths in Makefile\r\n\r\n* feat: add bindings for segment solution constructor\r\n\r\n* test: add test and fix old test\r\n\r\n* chore: style",
+          "timestamp": "2023-12-19T11:17:40+01:00",
+          "tree_id": "20af3d447cadcff65bccd7a3cd35a328bcd2131b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/9f026667b95fffbf620865addf42ce7b6f6d7efe"
+        },
+        "date": 1702982721406,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 547279630.5000031,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 547248860.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 798667561.0000077,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 798627540.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2787820351.300013,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2787670910 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2789531030.3999906,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2789140340.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2788398550.1999917,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2788208759.999999 ns\nthreads: 1"
           }
         ]
       }
