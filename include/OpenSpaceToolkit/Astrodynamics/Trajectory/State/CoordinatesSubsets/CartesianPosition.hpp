@@ -43,6 +43,42 @@ class CartesianPosition : public CoordinatesSubset
 
     ~CartesianPosition();
 
+    /// @brief              Add two coordinates subsets
+    ///
+    /// @param              [in] anInstant the instant associated to the coordinates
+    /// @param              [in] aFullCoordinatesVector first set of all coordinates
+    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
+    /// @param              [in] aFrameSPtr the reference frame in which the coordinates are resolved
+    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value (subset_1 + subset_2)
+
+    virtual VectorXd add(
+        const Instant& anInstant,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    ) const override;
+
+    /// @brief              Subtract two coordinates subsets
+    ///
+    /// @param              [in] anInstant the instant associated to the coordinates
+    /// @param              [in] aFullCoordinatesVector first set of all coordinates
+    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
+    /// @param              [in] aFrameSPtr the reference frame associated to the coordinates
+    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value (subset_1 - subset_2)
+
+    virtual VectorXd subtract(
+        const Instant& anInstant,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    ) const override;
+
     /// @brief              Transform the coordinate subset from one frame to another
     ///
     /// @param              [in] anInstant the reference frame associated to the coordinates

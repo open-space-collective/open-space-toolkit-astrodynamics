@@ -85,6 +85,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Getter
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Add)
 {
+    const Instant instant = Instant::J2000();
+    const Shared<const Frame> frame = Frame::GCRF();
     VectorXd input1(4);
     VectorXd input2(4);
 
@@ -92,21 +94,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Add)
     input2 << 2.0, 7.0, 3.0, 4.0;
 
     {
-        VectorXd expected(1);
-        VectorXd actual(1);
-
-        expected << 3.0;
-
-        actual = defaultCoordinateSubset_.add(
-            Instant::Undefined(), input1, input2, Frame::Undefined(), defaultCoordinatesBroker_
-        );
-
-        EXPECT_EQ(expected, actual);
+        EXPECT_ANY_THROW(defaultCoordinateSubset_.add(instant, input1, input2, frame, defaultCoordinatesBroker_));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Subtract)
 {
+    const Instant instant = Instant::J2000();
+    const Shared<const Frame> frame = Frame::GCRF();
     VectorXd input1(4);
     VectorXd input2(4);
 
@@ -114,16 +109,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Subtra
     input2 << 2.0, 7.0, 3.0, 4.0;
 
     {
-        VectorXd expected(1);
-        VectorXd actual(1);
-
-        expected << -1.0;
-
-        actual = defaultCoordinateSubset_.subtract(
-            Instant::Undefined(), input1, input2, Frame::Undefined(), defaultCoordinatesBroker_
-        );
-
-        EXPECT_EQ(expected, actual);
+        EXPECT_ANY_THROW(defaultCoordinateSubset_.subtract(instant, input1, input2, frame, defaultCoordinatesBroker_));
     }
 }
 
@@ -152,5 +138,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Mass)
 {
     {
         EXPECT_NO_THROW(CoordinatesSubset::Mass());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, SurfaceArea)
+{
+    {
+        EXPECT_NO_THROW(CoordinatesSubset::SurfaceArea());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, DragCoefficient)
+{
+    {
+        EXPECT_NO_THROW(CoordinatesSubset::DragCoefficient());
     }
 }

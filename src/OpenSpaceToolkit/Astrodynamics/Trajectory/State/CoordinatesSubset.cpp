@@ -57,26 +57,24 @@ Size CoordinatesSubset::getSize() const
 
 VectorXd CoordinatesSubset::add(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinatesVector,
-    const VectorXd& anotherFullCoordinatesVector,
+    [[maybe_unused]] const VectorXd& aFullCoordinatesVector,
+    [[maybe_unused]] const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    return aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) +
-           aCoordinatesBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
+    throw ostk::core::error::runtime::Wrong("Addition operation");
 }
 
 VectorXd CoordinatesSubset::subtract(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinatesVector,
-    const VectorXd& anotherFullCoordinatesVector,
+    [[maybe_unused]] const VectorXd& aFullCoordinatesVector,
+    [[maybe_unused]] const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    return aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) -
-           aCoordinatesBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
+    throw ostk::core::error::runtime::Wrong("Subtraction operation");
 }
 
 VectorXd CoordinatesSubset::inFrame(

@@ -45,13 +45,6 @@ VectorXd AttitudeQuaternion::inFrame(
     return quaterionToCoordinates(quaternionInFrame);
 }
 
-Shared<const AttitudeQuaternion> AttitudeQuaternion::Default()
-{
-    static const Shared<const AttitudeQuaternion> attitudeQuaternion =
-        std::make_shared<AttitudeQuaternion>("ATTITUDE_QUATERNION");
-    return attitudeQuaternion;
-}
-
 Quaternion AttitudeQuaternion::coordinatesToQuaternion(const VectorXd& coordinates)
 {
     return {coordinates(0), coordinates(1), coordinates(2), coordinates(3), Quaternion::Format::XYZS};
@@ -63,6 +56,13 @@ VectorXd AttitudeQuaternion::quaterionToCoordinates(const Quaternion& quaternion
     coordinates << quaternion.x(), quaternion.y(), quaternion.z(), quaternion.s();
 
     return coordinates;
+}
+
+Shared<const AttitudeQuaternion> AttitudeQuaternion::Default()
+{
+    static const Shared<const AttitudeQuaternion> attitudeQuaternion =
+        std::make_shared<AttitudeQuaternion>("ATTITUDE_QUATERNION");
+    return attitudeQuaternion;
 }
 
 }  // namespace coordinatessubsets
