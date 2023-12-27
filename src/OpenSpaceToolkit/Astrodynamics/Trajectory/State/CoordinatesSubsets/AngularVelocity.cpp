@@ -21,7 +21,7 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
 AngularVelocity::AngularVelocity(const Shared<const AttitudeQuaternion>& aAttitudeQuaternionSPtr, const String& aName)
-    : CoordinatesSubset(aName, aAttitudeQuaternionSPtr->getSize()),
+    : CoordinatesSubset(aName, 3),
       attitudeQuaternionSPtr_(aAttitudeQuaternionSPtr)
 {
 }
