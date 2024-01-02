@@ -39,7 +39,15 @@ using ostk::astro::flight::System;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 
-/// @brief                      Satellite System builder
+/// @brief                      Satellite System builder, meant to simplify creation of a SatelliteSystem, by allowing 
+///                             you to only specify the parameters you want. There are two ways of doing this:
+///                             
+///                             Chaining together your desired parameters like so:
+///                             SatelliteSystemBuilder().withDryMass(X).withArea(Y)
+///
+///                             Using the default SatelliteSystem and changing one parameters like so:
+///                             SatelliteSystemBuilder::Default().withDryMass(X)
+
 
 class SatelliteSystemBuilder
 {
