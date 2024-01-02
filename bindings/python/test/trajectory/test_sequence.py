@@ -324,7 +324,7 @@ def segment_solution(
     state: State,
 ):
     return Segment.Solution(
-        name="A Segment",
+        name="A Segment Solution",
         dynamics=dynamics,
         states=[
             state,
