@@ -4434,8 +4434,8 @@ INSTANTIATE_TEST_SUITE_P(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Failure,
     testing::Values(
         std::make_tuple(
-            Instant::Now() - Duration::Weeks(52 * 6.0),
-            Instant::Now() - Duration::Weeks(52 * 5.9),
+            Instant::Now() - Duration::Weeks(52 * 6.2),
+            Instant::Now() - Duration::Weeks(52 * 6.3),
             Duration::Days(7),
             "NRLMSISE Past Data limit fail"
         ),
