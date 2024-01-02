@@ -318,6 +318,22 @@ def sequence(
     )
 
 
+@pytest.fixture
+def segment_solution(
+    dynamics: list,
+    state: State,
+):
+    return Segment.Solution(
+        name="A Segment",
+        dynamics=dynamics,
+        states=[
+            state,
+        ],
+        condition_is_satisfied=True,
+        segment_type=Segment.Type.Maneuver,
+    )
+
+
 class TestSequence:
     def test_get_segments(
         self,
@@ -388,6 +404,21 @@ class TestSequence:
         sequence.add_maneuver_segment(instant_condition, thruster_dynamics)
 
         assert len(sequence.get_segments()) == segments_count + 1
+
+    def test_create_sequence_solution(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        solution: Sequence.Solution = Sequence.Solution(
+            segment_solutions=[
+                segment_solution,
+            ],
+            execution_is_complete=True,
+        )
+
+        assert solution is not None
+        assert len(solution.segment_solutions) == 1
+        assert solution.execution_is_complete
 
     def test_solve(
         self,
