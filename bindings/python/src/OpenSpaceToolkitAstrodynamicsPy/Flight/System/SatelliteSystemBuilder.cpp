@@ -23,7 +23,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
             aModule,
             "SatelliteSystemBuilder",
             R"doc(
-                A Satellite System Builder.
+                A Satellite System Builder, meant to simplify creation of a SatelliteSystem, by allowing 
+                you to only specify the parameters you want. There are two ways of doing this:
+                
+                Chaining together your desired parameters like so:
+                SatelliteSystemBuilder().withDryMass(X).withArea(Y)
+
+                Using the default SatelliteSystem and changing one parameters like so:
+                SatelliteSystemBuilder::Default().withDryMass(X)
 
                 Group:
                     system
