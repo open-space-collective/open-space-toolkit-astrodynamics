@@ -41,6 +41,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         )doc"
     )
 
+        .def(
+            init<Array<Segment::Solution>, bool>(),
+            R"doc(
+                Construct a new `Sequence.Solution` object.
+
+                Args:
+                segment_solutions (list[Segment.Solution]): The segment solutions.
+                execution_is_complete (bool): Whether the execution is complete.
+
+                Returns:
+                    Sequence: The new `Sequence.Solution` object.
+
+            )doc",
+            arg("segment_solutions"),
+            arg("execution_is_complete")
+        )
+
         .def("__str__", &(shiftToString<Sequence::Solution>))
         .def("__repr__", &(shiftToString<Sequence::Solution>))
 
