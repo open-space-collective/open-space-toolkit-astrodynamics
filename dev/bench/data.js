@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704288412435,
+  "lastUpdate": 1704295924684,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 2784675636.5000143,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2784574330.000001 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ef5c48643ed69aaaab9a93749668a0f1414835ea",
+          "message": "docs: align sequence api docs with function definition (#311)",
+          "timestamp": "2024-01-03T16:04:06+01:00",
+          "tree_id": "605618b82cfb5791edf552bf586ac8309968b4e0",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ef5c48643ed69aaaab9a93749668a0f1414835ea"
+        },
+        "date": 1704295923368,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 550052204.4999912,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 550027029.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 793176627.0000026,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 793137909.9999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2792031427.5000067,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2791903670.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2787992248.6,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2787862190.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2788998041.0000024,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2788917470.000001 ns\nthreads: 1"
           }
         ]
       }
