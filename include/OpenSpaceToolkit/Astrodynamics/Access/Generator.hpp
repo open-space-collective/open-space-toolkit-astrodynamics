@@ -115,7 +115,7 @@ class Generator
         const Environment& anEnvironment
     );
 
-    /// @brief Constructs an access generator with a defined AER mask
+    /// @brief Construct an access generator with a defined AER mask
     ///
     /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
     /// @param aRangeRange A range interval [m]
