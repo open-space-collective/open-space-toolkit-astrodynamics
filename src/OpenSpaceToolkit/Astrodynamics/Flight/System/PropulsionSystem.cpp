@@ -68,13 +68,6 @@ PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecifi
             aThrust.getValue() / (aSpecificImpulse.getValue() * Earth::gravityConstant), massFlowRateSIUnit
         };
     }
-
-    else
-    {
-        thrust_ = aThrust;
-        thrust_ = aSpecificImpulse;
-        massFlowRate_ = Scalar::Undefined();
-    }
 }
 
 PropulsionSystem::PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpecificImpulseInSIUnit)
