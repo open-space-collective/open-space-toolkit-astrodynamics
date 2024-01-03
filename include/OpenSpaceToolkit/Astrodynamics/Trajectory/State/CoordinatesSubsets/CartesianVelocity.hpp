@@ -78,7 +78,6 @@ class CartesianVelocity : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override;
 
-    /// @brief              Transform the coordinate subset from one frame to another
     /// @brief Transforms the coordinate subset from one frame to another
     ///
     /// @param anInstant the reference frame associated to the coordinates

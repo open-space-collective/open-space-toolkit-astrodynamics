@@ -37,7 +37,7 @@ using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Model;
 using ostk::astro::Dynamics;
 
-/// @brief     Defines an orbit model that is propagated using numerical propagation
+/// @brief     Define an orbit model that is propagated using numerical propagation
 class Propagated : public ostk::astro::trajectory::orbit::Model
 {
    public:

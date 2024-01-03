@@ -101,7 +101,7 @@ class Generator
 
     static Generator Undefined();
 
-    /// @brief Constructs an access generator with defined AER ranges
+    /// @brief Construct an access generator with defined AER ranges
     ///
     /// @param anAzimuthRange An azimuth interval [deg]
     /// @param anElevationRange An elevation interval [deg]
