@@ -43,7 +43,7 @@ using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
 
-/// @brief     Represent a propagation segment for astrodynamics purposes
+/// @brief Represent a propagation segment for astrodynamics purposes
 class Segment
 {
    public:

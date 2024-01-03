@@ -24,7 +24,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 
-/// @brief     Local Orbital Frame Direction
+/// @brief Local Orbital Frame Direction
 ///
 /// @note                       A unit vector, expressed with a Local Orbital Frame Factory.
 class LocalOrbitalFrameDirection

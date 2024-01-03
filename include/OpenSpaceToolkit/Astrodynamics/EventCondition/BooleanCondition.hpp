@@ -20,7 +20,7 @@ using ostk::core::types::String;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
 
-/// @brief     An Event Condition that can evaluate each state to a boolean.
+/// @brief An Event Condition that can evaluate each state to a boolean.
 class BooleanCondition : public RealCondition
 {
    public:

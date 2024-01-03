@@ -30,7 +30,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 
-/// @brief     A local orbital frame factory
+/// @brief A local orbital frame factory
 ///
 /// @note                       Allows to generate Frames based on instant, position, velocity.
 class LocalOrbitalFrameFactory

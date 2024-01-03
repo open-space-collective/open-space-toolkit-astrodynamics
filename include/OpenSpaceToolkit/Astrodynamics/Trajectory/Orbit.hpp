@@ -51,7 +51,7 @@ using ostk::astro::Trajectory;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Pass;
 
-/// @brief     Gravitationally curved trajectory of an object
+/// @brief Gravitationally curved trajectory of an object
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Orbit
 class Orbit : public Trajectory

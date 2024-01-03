@@ -52,7 +52,7 @@ using ostk::physics::units::Length;
 using classicalOE = ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
 
-/// @brief     Brouwer-Lyddane Mean Short Orbital Elements. Short periodic variations are averaged.
+/// @brief Brouwer-Lyddane Mean Short Orbital Elements. Short periodic variations are averaged.
 ///
 /// @ref
 /// https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l

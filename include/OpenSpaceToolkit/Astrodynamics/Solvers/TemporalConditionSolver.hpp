@@ -26,7 +26,7 @@ using ostk::physics::time::Interval;
 
 #define DEFAULT_MAXIMUM_ITERATION_COUNT 500
 
-/// @brief     Given a set of conditions and a time interval,
+/// @brief Given a set of conditions and a time interval,
 ///                      this solver computes all sub-intervals over which conditions are met.
 class TemporalConditionSolver
 {

@@ -34,7 +34,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 
-/// @brief     A Two-Line Element set (TLE) is data format encoding a list of orbital elements
+/// @brief A Two-Line Element set (TLE) is data format encoding a list of orbital elements
 ///                      of an Earth-orbiting object for a given point in time
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Two-line_element_set

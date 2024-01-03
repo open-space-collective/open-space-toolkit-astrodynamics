@@ -39,7 +39,7 @@ using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::trajectory::State;
 
-/// @brief     A Classical Orbital Element based event condition
+/// @brief A Classical Orbital Element based event condition
 class COECondition
 {
    public:

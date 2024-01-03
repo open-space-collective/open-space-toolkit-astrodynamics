@@ -22,7 +22,7 @@ using ostk::core::types::Shared;
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
 
-/// @brief     A logical connective event condition.
+/// @brief A logical connective event condition.
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Logical_connective
 class LogicalCondition : public EventCondition

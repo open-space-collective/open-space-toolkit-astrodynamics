@@ -28,7 +28,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::flight::profile::State;
 
-/// @brief     Profile model (abstract)
+/// @brief Profile model (abstract)
 class Model
 {
    public:

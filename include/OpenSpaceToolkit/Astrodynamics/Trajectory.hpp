@@ -31,7 +31,7 @@ using ostk::physics::time::Interval;
 using ostk::astro::trajectory::Model;
 using ostk::astro::trajectory::State;
 
-/// @brief     Path followed by an object through space as a function of time
+/// @brief Path followed by an object through space as a function of time
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Trajectory
 class Trajectory

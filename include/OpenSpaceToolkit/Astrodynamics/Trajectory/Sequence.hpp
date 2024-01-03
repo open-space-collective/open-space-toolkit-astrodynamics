@@ -32,7 +32,7 @@ using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::dynamics::Thruster;
 
-/// @brief     Represent a sequence of trajectory segments executed in order.
+/// @brief Represent a sequence of trajectory segments executed in order.
 class Sequence
 {
    public:

@@ -41,7 +41,7 @@ using ostk::physics::time::Instant;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-/// @brief     Trajectory State
+/// @brief Trajectory State
 class State
 {
    public:

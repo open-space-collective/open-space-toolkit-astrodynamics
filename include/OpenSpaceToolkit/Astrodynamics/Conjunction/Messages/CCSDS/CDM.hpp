@@ -60,15 +60,14 @@ using ostk::physics::units::Mass;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     CCSDS Conjunction Data Message (CDM)
+/// @brief CCSDS Conjunction Data Message (CDM)
+/// General content sections:
+/// - Header
+/// - Event Relative Metadata
+/// - Objects Metadata
+/// - Objects Data
 ///
-///                      General content sections:
-///                      - Header
-///                      - Event Relative Metadata
-///                      - Objects Metadata
-///                      - Objects Data
-///
-/// @ref                        https://public.ccsds.org/Pubs/508x0b1e2c2.pdf
+/// @ref https://public.ccsds.org/Pubs/508x0b1e2c2.pdf
 // TBI: Figure out how to adapt based on providers
 // TBI: Find a good way to handle comments and extra fields
 // TBI: Self-contained, create a RSO class to hold Object data

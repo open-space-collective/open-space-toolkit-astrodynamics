@@ -26,7 +26,7 @@ using ostk::physics::units::Angle;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     An Event Condition that works with angles. Handles wrapping angle to [0,360).
+/// @brief An Event Condition that works with angles. Handles wrapping angle to [0,360).
 class AngularCondition : public EventCondition
 {
    public:

@@ -18,7 +18,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::eventcondition::RealCondition;
 
-/// @brief     A duration based event condition
+/// @brief A duration based event condition
 class InstantCondition : public RealCondition
 {
    public:

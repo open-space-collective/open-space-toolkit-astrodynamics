@@ -50,7 +50,7 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
-/// @brief     Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
+/// @brief Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
 /// averaged.
 ///
 /// @ref

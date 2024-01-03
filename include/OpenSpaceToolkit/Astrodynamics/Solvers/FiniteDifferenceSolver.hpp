@@ -34,7 +34,7 @@ using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     Finite Difference solver
+/// @brief Finite Difference solver
 class FiniteDifferenceSolver
 {
    public:

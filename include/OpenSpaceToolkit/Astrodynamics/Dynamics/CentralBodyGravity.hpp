@@ -25,7 +25,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::Dynamics;
 
-/// @brief     Define the acceleration experienced by a point mass due to gravity
+/// @brief Define the acceleration experienced by a point mass due to gravity
 class CentralBodyGravity : public Dynamics
 {
    public:

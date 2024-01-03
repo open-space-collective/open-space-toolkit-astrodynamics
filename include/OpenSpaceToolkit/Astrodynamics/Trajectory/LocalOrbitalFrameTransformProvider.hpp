@@ -30,7 +30,7 @@ using ostk::physics::coord::Vector3d;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
-/// @brief     Local orbital frame transform provider, frame provider
+/// @brief Local orbital frame transform provider, frame provider
 ///
 /// @note                       Generates a specific transform based on instant, position, velocity and a LOF type.
 class LocalOrbitalFrameTransformProvider : public Provider

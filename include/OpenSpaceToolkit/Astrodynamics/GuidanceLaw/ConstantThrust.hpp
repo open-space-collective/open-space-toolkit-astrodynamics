@@ -28,7 +28,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
-/// @brief     Define the acceleration experienced by a point mass due to a constant thrust
+/// @brief Define the acceleration experienced by a point mass due to a constant thrust
 /// guidance law
 class ConstantThrust : public GuidanceLaw
 {

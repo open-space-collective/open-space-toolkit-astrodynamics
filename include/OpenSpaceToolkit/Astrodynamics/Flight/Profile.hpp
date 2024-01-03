@@ -45,7 +45,7 @@ using ostk::astro::Trajectory;
 using ostk::astro::flight::profile::Model;
 using ostk::astro::flight::profile::State;
 
-/// @brief     Spacecraft flight profile
+/// @brief Spacecraft flight profile
 class Profile
 {
    public:

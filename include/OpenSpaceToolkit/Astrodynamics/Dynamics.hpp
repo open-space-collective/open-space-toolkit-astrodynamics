@@ -44,7 +44,7 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-/// @brief     Define a dynamical system subject to equations of motion
+/// @brief Define a dynamical system subject to equations of motion
 class Dynamics
 {
    public:

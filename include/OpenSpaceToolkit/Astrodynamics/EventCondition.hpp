@@ -24,7 +24,7 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     An Event Condition defines a criterion that can be evaluated
+/// @brief An Event Condition defines a criterion that can be evaluated
 ///                      based on a current/previous state vectors and times
 class EventCondition
 {

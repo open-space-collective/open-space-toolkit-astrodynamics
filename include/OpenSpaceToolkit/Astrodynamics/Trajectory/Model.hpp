@@ -22,7 +22,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     Trajectory model (abstract)
+/// @brief Trajectory model (abstract)
 class Model
 {
    public:

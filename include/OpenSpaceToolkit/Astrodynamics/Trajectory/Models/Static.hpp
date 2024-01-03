@@ -25,7 +25,7 @@ using ostk::physics::time::Interval;
 using ostk::astro::trajectory::Model;
 using ostk::astro::trajectory::State;
 
-/// @brief     Static trajectory model
+/// @brief Static trajectory model
 class Static : public virtual Model
 {
    public:

@@ -27,7 +27,7 @@ using ostk::physics::coord::Frame;
 
 using ostk::physics::time::Instant;
 
-/// @brief     An interface for a Guidance Law that can compute an acceleration contribution. To be
+/// @brief An interface for a Guidance Law that can compute an acceleration contribution. To be
 /// used in conjunction with a Thruster class to propagate a satellite to a target orbit.
 class GuidanceLaw
 {

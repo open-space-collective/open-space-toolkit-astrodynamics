@@ -60,7 +60,7 @@ using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
-/// @brief     Define a propagator to be used for numerical propagation
+/// @brief Define a propagator to be used for numerical propagation
 class Propagator
 {
    public:

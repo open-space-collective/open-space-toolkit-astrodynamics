@@ -37,7 +37,7 @@ using ostk::physics::units::Mass;
 using ostk::astro::flight::System;
 using ostk::astro::flight::system::PropulsionSystem;
 
-/// @brief     Define the dynamics system who's motion is being studied, in particular this is a
+/// @brief Define the dynamics system who's motion is being studied, in particular this is a
 /// satellite system
 class SatelliteSystem : public System
 {

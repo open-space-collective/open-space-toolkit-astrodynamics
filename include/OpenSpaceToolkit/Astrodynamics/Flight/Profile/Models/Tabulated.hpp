@@ -39,7 +39,7 @@ using ostk::physics::time::Interval;
 using ostk::astro::flight::profile::Model;
 using ostk::astro::flight::profile::State;
 
-/// @brief     Tabulated profile model
+/// @brief Tabulated profile model
 class Tabulated : public virtual Model
 {
    public:

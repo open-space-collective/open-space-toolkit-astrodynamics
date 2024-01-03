@@ -14,7 +14,7 @@ namespace astro
 using ostk::core::types::Size;
 using ostk::core::types::Real;
 
-/// @brief     A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.
+/// @brief A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.
 class RootSolver
 {
    public:

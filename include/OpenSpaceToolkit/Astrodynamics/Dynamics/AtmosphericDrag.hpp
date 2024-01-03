@@ -29,7 +29,7 @@ using ostk::physics::units::Mass;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
-/// @brief     Define the acceleration experienced by a spacecraft due to atmospheric drag
+/// @brief Define the acceleration experienced by a spacecraft due to atmospheric drag
 class AtmosphericDrag : public Dynamics
 {
    public:

@@ -50,7 +50,7 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     SpaceX Orbital Parameter Message (OPM)
+/// @brief SpaceX Orbital Parameter Message (OPM)
 ///
 ///                      # SpaceX OPM output for XXX Mission
 ///                      # Notes:

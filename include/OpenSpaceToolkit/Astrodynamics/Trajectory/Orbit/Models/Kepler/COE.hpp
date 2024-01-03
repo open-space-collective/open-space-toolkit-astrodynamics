@@ -49,7 +49,7 @@ using ostk::physics::units::Length;
 class BrouwerLyddaneMeanLong;   // Forward declaration
 class BrouwerLyddaneMeanShort;  // Forward declaration
 
-/// @brief     Classical Orbital Elements (COE)
+/// @brief Classical Orbital Elements (COE)
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Orbital_elements
 /// @ref                        http://help.agi.com/stk/index.htm#stk/vehSat_coordType_classical.htm

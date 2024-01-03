@@ -37,7 +37,7 @@ using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
 using ostk::astro::flight::profile::Model;
 using ostk::astro::flight::profile::State;
 
-/// @brief     Transform provided profile model
+/// @brief Transform provided profile model
 class Transform : public virtual Model
 {
    public:

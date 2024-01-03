@@ -39,7 +39,7 @@ using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-/// @brief     Factory class to generate States with common reference frame and coordinates subsets
+/// @brief Factory class to generate States with common reference frame and coordinates subsets
 class StateBuilder
 {
    public:

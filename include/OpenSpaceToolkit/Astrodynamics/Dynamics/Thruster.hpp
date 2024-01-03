@@ -28,7 +28,7 @@ using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::GuidanceLaw;
 
-/// @brief     Define the acceleration experienced by a point mass due to thrust
+/// @brief Define the acceleration experienced by a point mass due to thrust
 class Thruster : public Dynamics
 {
    public:

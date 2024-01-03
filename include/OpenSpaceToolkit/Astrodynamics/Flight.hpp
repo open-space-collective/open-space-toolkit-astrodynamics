@@ -11,7 +11,7 @@ namespace ostk
 namespace astro
 {
 
-/// @brief     Spacecraft flight
+/// @brief Spacecraft flight
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Flight_dynamics_(spacecraft)
 }

@@ -32,7 +32,7 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::Unit;
 
-/// @brief     Define a propulsion system (constant thrust, constant Isp for now)
+/// @brief Define a propulsion system (constant thrust, constant Isp for now)
 class PropulsionSystem
 {
    public:

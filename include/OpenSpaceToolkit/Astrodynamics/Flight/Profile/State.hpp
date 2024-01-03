@@ -30,7 +30,7 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
-/// @brief     Spacecraft flight profile state
+/// @brief Spacecraft flight profile state
 class State
 {
    public:

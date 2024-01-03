@@ -22,7 +22,7 @@ using ostk::core::types::Integer;
 
 using ostk::astro::Dynamics;
 
-/// @brief     Define the contribution to the position due to velocity
+/// @brief Define the contribution to the position due to velocity
 class PositionDerivative : public Dynamics
 {
    public:

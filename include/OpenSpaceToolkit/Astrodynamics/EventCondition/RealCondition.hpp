@@ -24,7 +24,7 @@ using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::State;
 
-/// @brief     An Event Condition that can evaluate each state to a real number. Meant for non-cyclic
+/// @brief An Event Condition that can evaluate each state to a real number. Meant for non-cyclic
 /// continuous real numbers. For cyclic numbers (like angles), use AngularCondition.
 class RealCondition : public EventCondition
 {
