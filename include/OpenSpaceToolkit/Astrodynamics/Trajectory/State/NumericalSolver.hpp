@@ -31,8 +31,7 @@ using ostk::astro::trajectory::State;
 using ostk::astro::RootSolver;
 using MathNumericalSolver = ostk::math::solvers::NumericalSolver;
 
-/// @brief     Define an astrodynamics state contextual Numerical Solver. This class inherits from the
-///                      OSTk Mathematics Numerical Solver.
+/// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics Numerical Solver.
 class NumericalSolver : public MathNumericalSolver
 {
    public:
