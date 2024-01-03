@@ -61,20 +61,18 @@ class Sequence
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         const Size repetitionCount = 1;
     ///                         const NumericalSolver numericalSolver = NumericalSolver::Default();
     ///                         const Array<Shared<Dynamics>> dynamicsArray =
     ///                         {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
     ///                         const Duration maximumPropagationDuration = Duration::Days(7.0);
     ///                         const Size verbosity = 0;
     ///
-    ///                         Sequence sequence = {repetitionCount, numericalSolver, dynamicsArray,
+    ///                         Sequence sequence = {numericalSolver, dynamicsArray,
     ///                         maximumPropagationDuration, verbosity};
     ///
     /// @endcode
     ///
     /// @param                  [in] aSegmentArray An array of segments. Defaults to empty.
-    /// @param                  [in] aRepetitionCount A repetition count. Defaults to 1.
     /// @param                  [in] aNumericalSolver A Numerical Solver. Defaults to Undefined.
     /// @param                  [in] aDynamicsArray An array of shared dynamics. Defaults to empty.
     /// @param                  [in] segmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
