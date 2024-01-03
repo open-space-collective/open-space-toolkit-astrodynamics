@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704276958961,
+  "lastUpdate": 1704288412435,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 2789630181.3999853,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2789576149.999999 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "376e4da24941bb426b1322f1896407c1e80f2ffd",
+          "message": "fix: py unit test packaging and enhance dev container formatting (#296)\n\n* chore: add pyproject file in bindings directory\r\n\r\n* fix: remove lines that exclude unit tests from setup.cfg.in\r\n\r\n* fix: change setup.cfg packages setting from find: to find_namespace:\r\n\r\n* fix: make test-unit-python command\r\n\r\n* refactor: remove find_namespace from setup.cfg",
+          "timestamp": "2024-01-03T13:58:21+01:00",
+          "tree_id": "6651505857ab3da2aa506961d822940f0898e2b3",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/376e4da24941bb426b1322f1896407c1e80f2ffd"
+        },
+        "date": 1704288411848,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 555687755.6000131,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 555420859.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 793371779.5000007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 793336149.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2786747598.1999917,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2786644689.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2790643601.499994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2790362540.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2784675636.5000143,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2784574330.000001 ns\nthreads: 1"
           }
         ]
       }
