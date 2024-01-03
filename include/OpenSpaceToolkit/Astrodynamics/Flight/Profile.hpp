@@ -45,8 +45,7 @@ using ostk::astro::Trajectory;
 using ostk::astro::flight::profile::Model;
 using ostk::astro::flight::profile::State;
 
-/// @brief                      Spacecraft flight profile
-
+/// @brief     Spacecraft flight profile
 class Profile
 {
    public:
@@ -58,132 +57,118 @@ class Profile
         Nadir,      ///< Nadir pointing mode (the spacecraft points points "directly down")
         Target,     ///< Target pointing mode (the spacecraft points to a given target position)
         Custom      ///< Custom pointing mode
-
     };
 
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
-    /// @param              [in] aModel A model
-
+    /// @param aModel A model
     Profile(const Model& aModel);
 
-    /// @brief              Copy constructor
+    /// @brief Copy constructor
     ///
-    /// @param              [in] aProfile A flight profile
-
+    /// @param aProfile A flight profile
     Profile(const Profile& aProfile);
 
-    /// @brief              Copy assignment operator
+    /// @brief Copy assignment operator
     ///
-    /// @param              [in] aProfile A flight profile
-    /// @return             Reference to flight profile
-
+    /// @param aProfile A flight profile
+    /// @return Reference to flight profile
     Profile& operator=(const Profile& aProfile);
 
-    /// @brief              Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @code
-    ///                     std::cout << Profile(...) ;
+    /// @code{.cpp}
+    ///              std::cout << Profile(...) ;
     /// @endcode
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aProfile A flight profile
-    /// @return             A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aProfile A flight profile
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Profile& aProfile);
 
-    /// @brief              Check if profile is defined
+    /// @brief Check if profile is defined
     ///
-    /// @code
-    ///                     Profile(...).isDefined() ;
+    /// @code{.cpp}
+    ///              Profile(...).isDefined() ;
     /// @endcode
     ///
-    /// @return             True if profile is defined
-
+    /// @return True if profile is defined
     bool isDefined() const;
 
-    /// @brief              Get state at a given instant
+    /// @brief Get state at a given instant
     ///
-    /// @code
-    ///                     Profile profile = { ... } ;
-    ///                     Instant instant = { ... } ;
-    ///                     State state = profile.getStateAt(instant) ;
+    /// @code{.cpp}
+    ///              Profile profile = { ... } ;
+    ///              Instant instant = { ... } ;
+    ///              State state = profile.getStateAt(instant) ;
     /// @endcode
     ///
-    /// @param              [in] anInstant An instant
-    /// @return             State
-
+    /// @param anInstant An instant
+    /// @return State
     State getStateAt(const Instant& anInstant) const;
 
-    /// @brief              Get states at a given instants
+    /// @brief Get states at a given instants
     ///
-    /// @code
-    ///                     Profile profile = { ... } ;
-    ///                     Array<Instant> instants = { ... } ;
-    ///                     Array<State> state = profile.getStatesAt(instants) ;
+    /// @code{.cpp}
+    ///              Profile profile = { ... } ;
+    ///              Array<Instant> instants = { ... } ;
+    ///              Array<State> state = profile.getStatesAt(instants) ;
     /// @endcode
     ///
-    /// @param              [in] anInstantArray An array of instants
-    /// @return             Array of states
-
+    /// @param anInstantArray An array of instants
+    /// @return Array of states
     Array<State> getStatesAt(const Array<Instant>& anInstantArray) const;
 
-    /// @brief              Get axes at a given instant
+    /// @brief Get axes at a given instant
     ///
-    /// @code
-    ///                     Profile profile = { ... } ;
-    ///                     Instant instant = { ... } ;
-    ///                     Axes axes = profile.getAxesAt(instant) ;
+    /// @code{.cpp}
+    ///              Profile profile = { ... } ;
+    ///              Instant instant = { ... } ;
+    ///              Axes axes = profile.getAxesAt(instant) ;
     /// @endcode
     ///
-    /// @param              [in] anInstant An instant
-    /// @return             Axes
-
+    /// @param anInstant An instant
+    /// @return Axes
     Axes getAxesAt(const Instant& anInstant) const;
 
-    /// @brief              Get body frame
+    /// @brief Get body frame
     ///
-    /// @param              [in] aFrameName A body frame name
-    /// @return             Shared pointer to body frame
-
+    /// @param aFrameName A body frame name
+    /// @return Shared pointer to body frame
     Shared<const Frame> getBodyFrame(const String& aFrameName) const;
 
-    /// @brief              Print flight profile to output stream
+    /// @brief Print flight profile to output stream
     ///
-    /// @code
-    ///                     Profile profile = { ... } ;
-    ///                     profile.print(std::cout, true) ;
+    /// @code{.cpp}
+    ///              Profile profile = { ... } ;
+    ///              profile.print(std::cout, true) ;
     /// @endcode
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] displayDecorator If true, display decorator
-
+    /// @param anOutputStream An output stream
+    /// @param displayDecorator If true, display decorator
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Constructs an undefined flight profile
+    /// @brief Constructs an undefined flight profile
     ///
-    /// @code
-    ///                     Profile profile = Profile::Undefined() ; // Undefined
+    /// @code{.cpp}
+    ///              Profile profile = Profile::Undefined() ; // Undefined
     /// @endcode
     ///
-    /// @return             Undefined profile
-
+    /// @return Undefined profile
     static Profile Undefined();
 
-    /// @brief              Constructs a flight profile with inertial pointing
+    /// @brief Constructs a flight profile with inertial pointing
     ///
-    /// @param              [in] aTrajectory A trajectory
-    /// @param              [in] aQuaternion A pointing in GCRF
-    /// @return             Flight profile
-
+    /// @param aTrajectory A trajectory
+    /// @param aQuaternion A pointing in GCRF
+    /// @return Flight profile
     static Profile InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion);
 
-    /// @brief              Constructs a flight profile with nadir pointing
+    /// @brief Constructs a flight profile with nadir pointing
     ///
-    /// @param              [in] anOrbit An orbit
-    /// @param              [in] anOrbitalFrameType An orbital frame type
-    /// @return             Flight profile
-
+    /// @param anOrbit An orbit
+    /// @param anOrbitalFrameType An orbital frame type
+    /// @return Flight profile
     static Profile NadirPointing(
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );

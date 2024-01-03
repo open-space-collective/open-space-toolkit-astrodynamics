@@ -22,10 +22,9 @@ using ostk::core::types::String;
 
 using ostk::physics::time::Interval;
 
-/// @brief                      A revolution of an orbiting object
+/// @brief     A revolution of an orbiting object
 ///
 /// @ref                        http://help.agi.com/stk/11.3.0/index.htm#vo/sat_pass.htm
-
 class Pass
 {
    public:

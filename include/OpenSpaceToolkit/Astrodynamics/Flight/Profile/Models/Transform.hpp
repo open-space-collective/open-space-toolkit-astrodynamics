@@ -37,8 +37,7 @@ using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
 using ostk::astro::flight::profile::Model;
 using ostk::astro::flight::profile::State;
 
-/// @brief                      Transform provided profile model
-
+/// @brief     Transform provided profile model
 class Transform : public virtual Model
 {
    public:
@@ -60,20 +59,18 @@ class Transform : public virtual Model
 
     static Transform Undefined();
 
-    /// @brief              Constructs a flight profile with inertial pointing
+    /// @brief Constructs a flight profile with inertial pointing
     ///
-    /// @param              [in] aTrajectory A trajectory
-    /// @param              [in] aQuaternion A pointing in GCRF
-    /// @return             Flight profile
-
+    /// @param aTrajectory A trajectory
+    /// @param aQuaternion A pointing in GCRF
+    /// @return Flight profile
     static Transform InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion);
 
-    /// @brief              Constructs a flight profile with nadir pointing
+    /// @brief Constructs a flight profile with nadir pointing
     ///
-    /// @param              [in] anOrbit An orbit
-    /// @param              [in] anOrbitalFrameType An orbital frame type
-    /// @return             Flight profile
-
+    /// @param anOrbit An orbit
+    /// @param anOrbitalFrameType An orbital frame type
+    /// @return Flight profile
     static Transform NadirPointing(
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );

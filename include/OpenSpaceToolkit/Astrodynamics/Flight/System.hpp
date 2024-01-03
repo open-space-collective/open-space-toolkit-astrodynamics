@@ -20,88 +20,77 @@ using ostk::math::object::Vector3d;
 
 using ostk::physics::units::Mass;
 
-/// @brief                      Defines the generic physical system that has a mass and a certain geometry that can be
+/// @brief     Defines the generic physical system that has a mass and a certain geometry that can be
 /// composed of multiple subgeometries
-
 class System
 {
    public:
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                     Mass mass = { ... } ;
-    ///                     Composite composite ( ... ) ;
-    ///                     System system = { mass, composite } ;
+    /// @code{.cpp}
+    ///              Mass mass = { ... } ;
+    ///              Composite composite ( ... ) ;
+    ///              System system = { mass, composite } ;
     /// @endcode
     ///
-    /// @param              [in] aMass A mass
-    /// @param              [in] aGeometry A geometry
-
+    /// @param aMass A mass
+    /// @param aGeometry A geometry
     System(const Mass& aMass, const Composite& aGeometry);
 
-    /// @brief              Destructor
-
+    /// @brief Destructor
     virtual ~System();
 
-    /// @brief              Clone system
+    /// @brief Clone system
     ///
-    /// @return             Pointer to cloned system
-
+    /// @return Pointer to cloned system
     System* clone() const;
 
-    /// @brief              Equal to operator
+    /// @brief Equal to operator
     ///
-    /// @param              [in] aSystem A system
-    /// @return             True if systems are equal
-
+    /// @param aSystem A system
+    /// @return True if systems are equal
     bool operator==(const System& aSystem) const;
 
-    /// @brief              Not equal to operator
+    /// @brief Not equal to operator
     ///
-    /// @param              [in] aSystem A system
-    /// @return             True if systems are not equal
-
+    /// @param aSystem A system
+    /// @return True if systems are not equal
     bool operator!=(const System& aSystem) const;
 
-    /// @brief              Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aSystem A system
-    /// @return             A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aSystem A system
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const System& aSystem);
 
-    /// @brief              Check if system is defined
+    /// @brief Check if system is defined
     ///
-    /// @return             True if system is defined
-
+    /// @return True if system is defined
     virtual bool isDefined() const;
 
-    /// @brief              Print system
+    /// @brief Print system
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Get system's mass
+    /// @brief Get system's mass
     ///
-    /// @code
-    ///                     Mass mass = system.getMass() ;
+    /// @code{.cpp}
+    ///              Mass mass = system.getMass() ;
     /// @endcode
     ///
-    /// @return             Mass
-
+    /// @return Mass
     Mass getMass() const;
 
-    /// @brief              Get system's geometry
+    /// @brief Get system's geometry
     ///
-    /// @code
-    ///                     Mass mass = system.getGeometry() ;
+    /// @code{.cpp}
+    ///              Mass mass = system.getGeometry() ;
     /// @endcode
     ///
-    /// @return             Composite
-
+    /// @return Composite
     Composite getGeometry() const;
 
     static System Undefined();

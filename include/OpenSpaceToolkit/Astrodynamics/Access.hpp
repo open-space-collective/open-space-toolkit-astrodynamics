@@ -25,8 +25,7 @@ using ostk::physics::time::Interval;
 
 using ostk::physics::units::Angle;
 
-/// @brief                      Object-to-object visibility
-
+/// @brief     Object-to-object visibility
 class Access
 {
    public:

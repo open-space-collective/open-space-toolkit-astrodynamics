@@ -20,24 +20,22 @@ using ostk::core::types::String;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
 
-/// @brief                      An Event Condition that can evaluate each state to a boolean.
-
+/// @brief     An Event Condition that can evaluate each state to a boolean.
 class BooleanCondition : public RealCondition
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         BooleanCondition booleanCondition = {aName, aCriterion, anEvaluator,
-    ///                         anInverseFlag};
+    /// @code{.cpp}
+    ///                  BooleanCondition booleanCondition = {aName, aCriterion, anEvaluator,
+    ///                  anInverseFlag};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Boolean Event Condition
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Boolean Event
+    /// @param aName A string representing the name of the Boolean Event Condition
+    /// @param aCriterion An enum indicating the criterion used to determine if the Boolean Event
     /// Condition is met
-    /// @param                  [in] anEvaluator A function evaluating a state
-    /// @param                  [in] anInverseFlag A flag indicating whether the condition is inverted
-
+    /// @param anEvaluator A function evaluating a state
+    /// @param anInverseFlag A flag indicating whether the condition is inverted
     BooleanCondition(
         const String& aName,
         const Criterion& aCriterion,
@@ -45,23 +43,20 @@ class BooleanCondition : public RealCondition
         const bool& anInverseFlag = false
     );
 
-    /// @brief                  Virtual destructor
-
+    /// @brief Virtual destructor
     virtual ~BooleanCondition();
 
-    /// @brief                  Check if the condition is inversed
+    /// @brief Check if the condition is inversed
     ///
-    /// @return                 Boolean value indicating whether the condition is inversed
-
+    /// @return Boolean value indicating whether the condition is inversed
     bool isInversed() const;
 
-    /// @brief                  Print the Boolean Event Condition
+    /// @brief Print the Boolean Event Condition
     ///
-    /// @param                  [in, out] anOutputStream The output stream where the Boolean Event Condition will be
+    /// @param [in, out] anOutputStream The output stream where the Boolean Event Condition will be
     /// printed
-    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
+    /// @param displayDecorator A boolean indicating whether or not to display decorator during
     /// printing
-
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:

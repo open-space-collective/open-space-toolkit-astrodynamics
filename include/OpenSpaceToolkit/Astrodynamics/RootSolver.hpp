@@ -14,7 +14,7 @@ namespace astro
 using ostk::core::types::Size;
 using ostk::core::types::Real;
 
-/// @brief                      A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.
+/// @brief     A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.
 class RootSolver
 {
    public:
@@ -25,50 +25,44 @@ class RootSolver
         bool hasConverged;
     };
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         RootSolver rootSolver = {aMaximumIterationCount, aTolerance};
+    /// @code{.cpp}
+    ///                  RootSolver rootSolver = {aMaximumIterationCount, aTolerance};
     /// @endcode
     ///
-    /// @param                  [in] aMaximumIterationCount The maximum iteration count for the solver
-    /// @param                  [in] aTolerance The tolerance
-
+    /// @param aMaximumIterationCount The maximum iteration count for the solver
+    /// @param aTolerance The tolerance
     RootSolver(const Size& aMaximumIterationCount, const Real& aTolerance);
 
-    /// @brief                  Virtual destructor
-
+    /// @brief Virtual destructor
     virtual ~RootSolver();
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aRootSolver A Root Solver
-    /// @return                 An output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aRootSolver A Root Solver
+    /// @return An output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const RootSolver& aRootSolver);
 
-    /// @brief                  Get maximum iterations count
+    /// @brief Get maximum iterations count
     ///
-    /// @return                 Maximum iterations count
-
+    /// @return Maximum iterations count
     Size getMaximumIterationCount() const;
 
-    /// @brief                  Get number of digits of precision
+    /// @brief Get number of digits of precision
     ///
-    /// @return                 Number of digits of precision
-
+    /// @return Number of digits of precision
     Real getTolerance() const;
 
-    /// @brief                  Solve for root given a function, an initial guess and function direction
+    /// @brief Solve for root given a function, an initial guess and function direction
     ///
-    /// @param                  [in] aFunction A function
-    /// @param                  [in] anInitialGuess An initial guess
-    /// @param                  [in] isRising A boolean indicating whether the function is rising
-    /// @param                  [in] (optional) aFactor A factor
+    /// @param aFunction A function
+    /// @param anInitialGuess An initial guess
+    /// @param isRising A boolean indicating whether the function is rising
+    /// @param (optional) aFactor A factor
     ///
-    /// @return                 The solution
-
+    /// @return The solution
     Solution bracketAndSolve(
         const std::function<double(const double&)>& aFunction,
         const double& anInitialGuess,
@@ -76,41 +70,37 @@ class RootSolver
         const double& aFactor = 2.0
     ) const;
 
-    /// @brief                  Solve for root given a function, and bounds
+    /// @brief Solve for root given a function, and bounds
     ///
-    /// @param                  [in] aFunction A function
-    /// @param                  [in] aLowerBound A lower bound
-    /// @param                  [in] anUpperBound An upper bound
+    /// @param aFunction A function
+    /// @param aLowerBound A lower bound
+    /// @param anUpperBound An upper bound
     ///
-    /// @return                 The solution
-
+    /// @return The solution
     Solution solve(
         const std::function<double(const double&)>& aFunction, const double& aLowerBound, const double& anUpperBound
     ) const;
 
-    /// @brief                  Bisection solve for root given a function, and bounds
+    /// @brief Bisection solve for root given a function, and bounds
     ///
-    /// @param                  [in] aFunction A function
-    /// @param                  [in] aLowerBound A lower bound
-    /// @param                  [in] anUpperBound An upper bound
+    /// @param aFunction A function
+    /// @param aLowerBound A lower bound
+    /// @param anUpperBound An upper bound
     ///
-    /// @return                 The solution
-
+    /// @return The solution
     Solution bisection(
         const std::function<double(const double&)>& aFunction, const double& aLowerBound, const double& anUpperBound
     ) const;
 
-    /// @brief                  Print root solver
+    /// @brief Print root solver
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Default root solver
+    /// @brief Default root solver
     ///
-    /// @return                 Default root solver
-
+    /// @return Default root solver
     static RootSolver Default();
 
    private:

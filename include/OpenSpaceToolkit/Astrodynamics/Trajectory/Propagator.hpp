@@ -60,172 +60,151 @@ using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
-/// @brief                      Define a propagator to be used for numerical propagation
-
+/// @brief     Define a propagator to be used for numerical propagation
 class Propagator
 {
    public:
     static const Shared<const Frame> IntegrationFrameSPtr;
 
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                     Propagator propagator = { aNumericalSolver, aDynamicsArray } ;
+    /// @code{.cpp}
+    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray } ;
     /// @endcode
     ///
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @param              [in] aDynamicsArray A dynamics array
-
+    /// @param aNumericalSolver A numerical solver
+    /// @param aDynamicsArray A dynamics array
     Propagator(
         const NumericalSolver& aNumericalSolver,
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
     );
 
-    /// @brief              Equal to operator
+    /// @brief Equal to operator
     ///
-    /// @param              [in] aPropagator A propagator
-    /// @return             True if propagators are equal
-
+    /// @param aPropagator A propagator
+    /// @return True if propagators are equal
     bool operator==(const Propagator& aPropagator) const;
 
-    /// @brief              Not equal to operator
+    /// @brief Not equal to operator
     ///
-    /// @param              [in] aPropagator A propagator
-    /// @return             True if propagators are not equal
-
+    /// @param aPropagator A propagator
+    /// @return True if propagators are not equal
     bool operator!=(const Propagator& aPropagator) const;
 
-    /// @brief              Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aPropagator A propagator
-    /// @return             A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aPropagator A propagator
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Propagator& aPropagator);
 
-    /// @brief              Check if propagator is defined
+    /// @brief Check if propagator is defined
     ///
-    /// @return             True if propagator is defined
-
+    /// @return True if propagator is defined
     bool isDefined() const;
 
-    /// @brief              Access the coordinates broker
+    /// @brief Access the coordinates broker
     ///
-    /// @return             The coordinates broker
-
+    /// @return The coordinates broker
     const Shared<CoordinatesBroker>& accessCoordinatesBroker() const;
 
-    /// @brief              Access the numerical solver
+    /// @brief Access the numerical solver
     ///
-    /// @return             The numerical solver
-
+    /// @return The numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
-    /// @brief              Get the number of propagated coordinates
+    /// @brief Get the number of propagated coordinates
     ///
-    /// @return             The number of propagated coordinates
-
+    /// @return The number of propagated coordinates
     Size getNumberOfCoordinates() const;
 
-    /// @brief              Get the dynamics array
-    /// @code
-    ///                     Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
+    /// @brief Get the dynamics array
+    /// @code{.cpp}
+    ///              Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
     /// @endcode
-    /// @return             An array of dynamics shared pointers
-
+    /// @return An array of dynamics shared pointers
     Array<Shared<Dynamics>> getDynamics() const;
 
-    /// @brief              Set the dynamics array
-    /// @code
-    ///                     propagator.setDynamics(aDynamicsArray);
+    /// @brief Set the dynamics array
+    /// @code{.cpp}
+    ///              propagator.setDynamics(aDynamicsArray);
     /// @endcode
-    /// @param              [in] aDynamicsArray A dynamics array
-
+    /// @param aDynamicsArray A dynamics array
     void setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
 
-    /// @brief              Add a dynamics to the array of shared pointers to dynamics
-    /// @code
-    ///                     propagator.addDynamics(aDynamicsSPtr);
+    /// @brief Add a dynamics to the array of shared pointers to dynamics
+    /// @code{.cpp}
+    ///              propagator.addDynamics(aDynamicsSPtr);
     /// @endcode
-    /// @param              [in] aDynamicsSPtr A Dynamics shared pointer
-
+    /// @param aDynamicsSPtr A Dynamics shared pointer
     void addDynamics(const Shared<Dynamics>& aDynamicsSPtr);
 
-    /// @brief              Clear the dynamics array
-    /// @code
-    ///                     propagator.clearDynamics();
+    /// @brief Clear the dynamics array
+    /// @code{.cpp}
+    ///              propagator.clearDynamics();
     /// @endcode
-
     void clearDynamics();
 
-    /// @brief              Calculate the state at an instant, given initial state
-    /// @code
-    ///                     State state = propagator.calculateStateAt(aState, anInstant);
+    /// @brief Calculate the state at an instant, given initial state
+    /// @code{.cpp}
+    ///              State state = propagator.calculateStateAt(aState, anInstant);
     /// @endcode
-    /// @param              [in] aState An initial state
-    /// @param              [in] anInstant An instant
-    /// @return             State
-
+    /// @param aState An initial state
+    /// @param anInstant An instant
+    /// @return State
     State calculateStateAt(const State& aState, const Instant& anInstant) const;
 
-    /// @brief              Calculate the state subject to an Event Condition, given initial state and maximum end time
-    /// @code
-    ///                     NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,
-    ///                     anEventCondition);
+    /// @brief Calculate the state subject to an Event Condition, given initial state and maximum end time
+    /// @code{.cpp}
+    ///              NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,
+    ///              anEventCondition);
     /// @endcode
-    /// @param              [in] aState An initial state
-    /// @param              [in] anInstant An instant
-    /// @param              [in] anEventCondition An event condition
-    /// @return             NumericalSolver::ConditionSolution
-
+    /// @param aState An initial state
+    /// @param anInstant An instant
+    /// @param anEventCondition An event condition
+    /// @return NumericalSolver::ConditionSolution
     NumericalSolver::ConditionSolution calculateStateToCondition(
         const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
     ) const;
 
-    /// @brief              Calculate the states at an array of instants, given an initial state
-    /// @brief              Can only be used with sorted instants array
-    /// @code
-    ///                     Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);
+    /// @brief Calculate the states at an array of instants, given an initial state
+    /// @brief Can only be used with sorted instants array
+    /// @code{.cpp}
+    ///              Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);
     /// @endcode
-    /// @param              [in] anInstantArray An instant array
-    /// @return             Array<State>
-
+    /// @param anInstantArray An instant array
+    /// @return Array<State>
     Array<State> calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const;
 
-    /// @brief              Print propagator
+    /// @brief Print propagator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Undefined
+    /// @brief Undefined
     ///
-    /// @return             An undefined propagator
-
+    /// @return An undefined propagator
     static Propagator Undefined();
 
-    /// @brief              Default
+    /// @brief Default
     ///
-    /// @return             A default propagator (with position derivative dynamics included)
-
+    /// @return A default propagator (with position derivative dynamics included)
     static Propagator Default();
 
-    /// @brief              Default from environment
+    /// @brief Default from environment
     ///
-    /// @param              [in] anEnvironment An environment
+    /// @param anEnvironment An environment
     ///
-    /// @return             A default propagator from environment
-
+    /// @return A default propagator from environment
     static Propagator Default(const Environment& anEnvironment);
 
-    /// @brief              From environment
+    /// @brief From environment
     ///
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @param              [in] anEnvironment An environment
+    /// @param aNumericalSolver A numerical solver
+    /// @param anEnvironment An environment
     ///
-    /// @return             A propagator from environment
-
+    /// @return A propagator from environment
     static Propagator FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment);
 
    private:

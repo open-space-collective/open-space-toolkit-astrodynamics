@@ -28,8 +28,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::flight::profile::State;
 
-/// @brief                      Profile model (abstract)
-
+/// @brief     Profile model (abstract)
 class Model
 {
    public:
@@ -47,20 +46,18 @@ class Model
 
     virtual bool isDefined() const = 0;
 
-    /// @brief              Returns true if model can be converted to type
+    /// @brief Returns true if model can be converted to type
     ///
-    /// @return             True if model can be converted to type
-
+    /// @return True if model can be converted to type
     template <class Type>
     bool is() const
     {
         return dynamic_cast<const Type*>(this) != nullptr;
     }
 
-    /// @brief              Access model as its underlying type
+    /// @brief Access model as its underlying type
     ///
-    /// @return             Reference to underlying type
-
+    /// @return Reference to underlying type
     template <class Type>
     const Type& as() const
     {
