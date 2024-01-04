@@ -61,7 +61,7 @@ def another_coordinates() -> list[float]:
     return [0.0, 7000000.0, 0.0, 5335.865450622126, 0.0, 0.0]
 
 
-class TestCoordinatesSubset:
+class TestCartesianVelocity:
     def test_constructor(self, name: str):
         assert CartesianVelocity(CartesianPosition.default(), name) is not None
 

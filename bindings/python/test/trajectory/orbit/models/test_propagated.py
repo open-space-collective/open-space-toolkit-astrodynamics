@@ -63,9 +63,7 @@ def numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def propagator(
-    numerical_solver: NumericalSolver, dynamics: list[Dynamics]
-) -> Propagator:
+def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> Propagator:
     return Propagator(numerical_solver, dynamics)
 
 

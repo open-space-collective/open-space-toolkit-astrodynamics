@@ -88,6 +88,4 @@ class TestConstantThrust:
         )
 
         assert len(contribution) == 3
-        assert contribution == pytest.approx(
-            [0.0, 0.009523809523809525, 0.0], abs=5e-11
-        )
+        assert contribution == pytest.approx([0.0, 0.009523809523809525, 0.0], abs=5e-11)

@@ -4,6 +4,8 @@ import pytest
 
 import numpy as np
 
+from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
+
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
@@ -39,6 +41,16 @@ def velocity(frame: Frame) -> Velocity:
     return Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
 
 
+@pytest.fixture()
+def attitude() -> Quaternion:
+    return Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+
+
+@pytest.fixture()
+def angular_velocity() -> np.ndarray:
+    return np.array([-1.0, -2.0, -3.0])
+
+
 @pytest.fixture
 def state(
     instant: Instant, position: Position, velocity: Velocity, frame: Frame
@@ -52,13 +64,27 @@ def coordinates_broker() -> CoordinatesBroker:
 
 
 class TestState:
-    def test_constructor(
+    def test_constructor_position_velocity(
         self,
         instant: Instant,
         position: Position,
         velocity: Velocity,
     ):
         state = State(instant, position, velocity)
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.is_defined()
+
+    def test_constructor_position_velocity_attitude_angular_velocity(
+        self,
+        instant: Instant,
+        frame: Frame,
+        position: Position,
+        velocity: Velocity,
+        attitude: Quaternion,
+        angular_velocity: np.ndarray,
+    ):
+        state = State(instant, position, velocity, attitude, angular_velocity, frame)
         assert state is not None
         assert isinstance(state, State)
         assert state.is_defined()

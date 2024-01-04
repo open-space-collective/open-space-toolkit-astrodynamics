@@ -53,7 +53,7 @@ def another_coordinates() -> list[float]:
     return [0.0, 7000000.0, 0.0]
 
 
-class TestCoordinatesSubset:
+class TestCartesianPosition:
     def test_constructor(self, name: str):
         assert CartesianPosition(name) is not None
 

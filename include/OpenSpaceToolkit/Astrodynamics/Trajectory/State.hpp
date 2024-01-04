@@ -78,7 +78,7 @@ class State
         const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
     );
 
-    /// @brief                  Utility constructor for Position/Velocity only.
+    /// @brief                  Utility constructor for Position/Velocity.
     ///
     /// @param                  [in] anInstant An instant
     /// @param                  [in] aPosition The Cartesian position at the instant
@@ -86,16 +86,15 @@ class State
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
-    /// @brief                  Utility constructor for Position/Velocity/Attitude only.
+    /// @brief                  Utility constructor for Position/Velocity/Attitude/Angular Velocity.
     ///
     /// @param                  [in] anInstant An instant
     /// @param                  [in] aPosition The Cartesian position at the instant
     /// @param                  [in] aVelocity The Cartesian velocity at the instant
-    /// @param                  [in] anAttitude The attitude at the instant in International System of Units,
+    /// @param                  [in] anAttitude The attitude at the instant,
     /// representing the rotation required to go from the attitude reference frame to the satellite body frame
-    /// @param                  [in] anAngularVelocity The angular velocity at the instant in International System of
-    /// Units, representing the angular velocity of the satellite body frame with respect to the attitude frame,
-    /// expressed in satellite body frame
+    /// @param                  [in] anAngularVelocity The angular velocity at the instant, representing the angular
+    /// velocity of the satellite body frame with respect to the attitude frame, expressed, in satellite body frame
     /// @param                  [in] anAttitudeReferenceFrame The attitude reference frame
 
     State(

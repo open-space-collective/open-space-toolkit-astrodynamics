@@ -12,6 +12,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 
     using ostk::core::types::Shared;
 
+    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::math::object::Vector3d;
+
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
     using ostk::physics::coord::Frame;
@@ -44,6 +47,32 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("instant"),
             arg("position"),
             arg("velocity")
+        )
+        .def(
+            init<
+                const Instant&,
+                const Position&,
+                const Velocity&,
+                const Quaternion&,
+                const Vector3d&,
+                const Shared<const Frame>&>(),
+            R"doc(
+                 Utility constructor for Position/Velocity/Attitude/Angular velocity.
+                 
+                 Args:
+                     instant (Instant): An instant
+                     position (Position): The cartesian position at the instant
+                     velocity (Velocity): The cartesian velocity at the instant
+                     attitude (Quaternion): The attitude at the instant, representing the rotation required to go from the attitude reference frame to the satellite body frame
+                     angular_velocity (numpy.ndarray): The angular velocity at the instant, representing the angular velocity of the satellite body frame with respect ot teh attitude frame, expressed in body frame
+                     attitude_frame (Frame): The attitude reference frame
+             )doc",
+            arg("instant"),
+            arg("position"),
+            arg("velocity"),
+            arg("attitude"),
+            arg("angular_velocity"),
+            arg("attitude_frame")
         )
         .def(
             init<const Instant&, const VectorXd&, const Shared<const Frame>&, const Shared<const CoordinatesBroker>&>(),

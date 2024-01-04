@@ -241,9 +241,7 @@ def event_condition(state: State) -> InstantCondition:
 
 
 @pytest.fixture
-def propagator(
-    numerical_solver: NumericalSolver, dynamics: list[Dynamics]
-) -> Propagator:
+def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> Propagator:
     return Propagator(numerical_solver, dynamics)
 
 

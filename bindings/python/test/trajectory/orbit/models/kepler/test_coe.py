@@ -103,9 +103,7 @@ class TestCOE:
         assert coe.get_apoapsis_radius() is not None
         assert coe.get_semi_latus_rectum() is not None
         assert coe.get_radial_distance() is not None
-        assert (
-            coe.get_angular_momentum(Earth.EGM2008.gravitational_parameter) is not None
-        )
+        assert coe.get_angular_momentum(Earth.EGM2008.gravitational_parameter) is not None
         assert coe.get_SI_vector(COE.AnomalyType.TrueAnomaly) is not None
         assert coe.get_SI_vector(COE.AnomalyType.MeanAnomaly) is not None
         assert coe.get_SI_vector(COE.AnomalyType.EccentricAnomaly) is not None

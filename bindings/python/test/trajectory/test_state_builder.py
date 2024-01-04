@@ -125,9 +125,7 @@ class TestStateBuilder:
         assert state.get_instant() == instant
         assert (state.get_coordinates() == coordinates).all()
         assert state.get_frame() == state_builder.get_frame()
-        assert (
-            state.get_coordinates_subsets() == state_builder.get_coordinates_subsets()
-        )
+        assert state.get_coordinates_subsets() == state_builder.get_coordinates_subsets()
 
     def test_reduce(
         self,
@@ -170,6 +168,4 @@ class TestStateBuilder:
         coordinates_broker: CoordinatesBroker,
     ):
         assert state_builder.get_frame() == frame
-        assert (
-            state_builder.get_coordinates_subsets() == coordinates_broker.get_subsets()
-        )
+        assert state_builder.get_coordinates_subsets() == coordinates_broker.get_subsets()
