@@ -188,6 +188,10 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} || true \
  && adduser --uid ${USER_UID} --gid ${USER_GID} ${USERNAME} \
  && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/${USERNAME}
 
+# Change ownership of OSTK_PHYSICS_DATA_LOCAL_REPOSITORY
+
+RUN chown -R ${USERNAME}:${USERNAME} ${OSTK_PHYSICS_DATA_LOCAL_REPOSITORY}
+
 # Use non-root user
 
 USER ${USERNAME}
