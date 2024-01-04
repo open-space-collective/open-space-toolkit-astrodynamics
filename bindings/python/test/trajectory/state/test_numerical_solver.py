@@ -175,8 +175,7 @@ class TestNumericalSolver:
             == "RungeKuttaFehlberg78"
         )
         assert (
-            NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog)
-            == "NoLog"
+            NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog) == "NoLog"
         )
         assert (
             NumericalSolver.string_from_log_type(NumericalSolver.LogType.LogConstant)
@@ -294,9 +293,7 @@ class TestNumericalSolver:
             is not None
         )
         with pytest.raises(Exception):
-            NumericalSolver.fixed_step_size(
-                variable_size_stepper_type, initial_time_step
-            )
+            NumericalSolver.fixed_step_size(variable_size_stepper_type, initial_time_step)
 
     def test_default_conditional(self, state_logger):
         assert NumericalSolver.default_conditional() is not None

@@ -168,8 +168,7 @@ class TestSegment:
         numerical_solver: NumericalSolver,
     ):
         assert (
-            Segment.coast(name, instant_condition, dynamics, numerical_solver)
-            is not None
+            Segment.coast(name, instant_condition, dynamics, numerical_solver) is not None
         )
 
     def test_maneuver(

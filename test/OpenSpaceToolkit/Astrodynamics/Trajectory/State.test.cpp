@@ -1,6 +1,10 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
@@ -9,6 +13,8 @@
 using ostk::core::types::Shared;
 using ostk::core::ctnr::Array;
 
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Frame;
@@ -17,10 +23,13 @@ using ostk::physics::coord::Velocity;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::units::Angle;
 using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity;
+using ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::trajectory::State;
@@ -82,9 +91,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
     }
 
     {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant instant = Instant::Undefined();
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::ITRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
 
         EXPECT_ANY_THROW(State state(instant, position, velocity););
     }
@@ -103,6 +112,86 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         const Velocity velocity = Velocity::Undefined();
 
         EXPECT_ANY_THROW(State state(instant, position, velocity););
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_NO_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::ITRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::ITRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::ITRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::Undefined();
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Undefined();
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::Undefined();
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::X();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Quaternion attitude = Quaternion::Unit();
+        const VectorXd angularVelocity = Vector3d::Undefined();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity, attitude, angularVelocity, Frame::GCRF()));
     }
 
     {
@@ -891,16 +980,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
     }
 
     {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-        const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
-
-        EXPECT_TRUE(position.accessCoordinates().isApprox(state.getPosition().accessCoordinates(), 1e-16));
-    }
-
-    {
         EXPECT_ANY_THROW(State::Undefined().accessInstant());
         EXPECT_ANY_THROW(State::Undefined().accessCoordinates());
         EXPECT_ANY_THROW(State::Undefined().accessFrame());
@@ -914,22 +993,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
-        VectorXd coordinates(6);
-        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-        );
+        const Quaternion attitude = Quaternion(-0.003, -0.904, 0.301, 0.304, Quaternion::Format::XYZS);
+        const Vector3d angularVelocity = {-1.0, -2.0, -3.0};
+
+        VectorXd coordinates(13);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, -0.003, -0.904, 0.301, 0.304, -1.0, -2.0, -3.0;
+        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+            {CartesianPosition::Default(),
+             CartesianVelocity::Default(),
+             AttitudeQuaternion::Default(),
+             AngularVelocity::Default()}
+        ));
 
         const State state = State(instant, coordinates, Frame::GCRF(), brokerSPtr);
 
-        EXPECT_EQ(6, state.getSize());
+        EXPECT_EQ(13, state.getSize());
         EXPECT_EQ(instant, state.getInstant());
         EXPECT_EQ(position, state.getPosition());
         EXPECT_EQ(velocity, state.getVelocity());
+        EXPECT_EQ(attitude, state.getAttitude());
+        EXPECT_EQ(angularVelocity, state.getAngularVelocity());
         EXPECT_EQ(coordinates, state.getCoordinates());
         EXPECT_EQ(state.getCoordinatesSubsets(), brokerSPtr->getSubsets());
         EXPECT_TRUE(state.hasSubset(CartesianPosition::Default()));
         EXPECT_TRUE(state.hasSubset(CartesianVelocity::Default()));
+        EXPECT_TRUE(state.hasSubset(AttitudeQuaternion::Default()));
+        EXPECT_TRUE(state.hasSubset(AngularVelocity::Default()));
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
 
@@ -946,8 +1035,36 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(instant, state.getInstant());
         EXPECT_EQ(position, state.getPosition());
         EXPECT_EQ(velocity, state.getVelocity());
+        EXPECT_ANY_THROW(state.getAttitude());
+        EXPECT_ANY_THROW(state.getAngularVelocity());
         EXPECT_TRUE(state.hasSubset(CartesianPosition::Default()));
         EXPECT_TRUE(state.hasSubset(CartesianVelocity::Default()));
+        EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_EQ(Frame::GCRF(), state.getFrame());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+        const Quaternion attitude = Quaternion(-0.003, -0.904, 0.301, 0.304, Quaternion::Format::XYZS);
+        const Vector3d angularVelocity = {-1.0, -2.0, -3.0};
+
+        VectorXd coordinates(13);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, -0.003, -0.904, 0.301, 0.304, -1.0, -2.0, -3.0;
+
+        const State state = {instant, position, velocity, attitude, angularVelocity, Frame::GCRF()};
+
+        EXPECT_EQ(13, state.getSize());
+        EXPECT_EQ(instant, state.getInstant());
+        EXPECT_EQ(position, state.getPosition());
+        EXPECT_EQ(velocity, state.getVelocity());
+        EXPECT_EQ(attitude, state.getAttitude());
+        EXPECT_EQ(angularVelocity, state.getAngularVelocity());
+        EXPECT_TRUE(state.hasSubset(CartesianPosition::Default()));
+        EXPECT_TRUE(state.hasSubset(CartesianVelocity::Default()));
+        EXPECT_TRUE(state.hasSubset(AttitudeQuaternion::Default()));
+        EXPECT_TRUE(state.hasSubset(AngularVelocity::Default()));
         EXPECT_EQ(coordinates, state.getCoordinates());
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
@@ -974,6 +1091,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getInstant());
         EXPECT_ANY_THROW(State::Undefined().getPosition());
         EXPECT_ANY_THROW(State::Undefined().getVelocity());
+        EXPECT_ANY_THROW(State::Undefined().getAttitude());
+        EXPECT_ANY_THROW(State::Undefined().getAngularVelocity());
         EXPECT_ANY_THROW(State::Undefined().getCoordinates());
         EXPECT_ANY_THROW(State::Undefined().getCoordinatesSubsets());
         EXPECT_ANY_THROW(State::Undefined().hasSubset(CartesianPosition::Default()));
@@ -1042,16 +1161,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
     }
 
     {
-        const Instant instant = Instant::Undefined();
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-        const State state = {instant, position, velocity};
-
-        EXPECT_FALSE(state.isDefined());
-    }
-
-    {
         EXPECT_FALSE(State::Undefined().isDefined());
     }
 }
@@ -1110,10 +1219,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Position position = Position::Meters({7.0e6, 0, 0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({0, 8.0e3, 0}, Frame::GCRF());
+        const Quaternion attitude = Quaternion(-0.003, -0.904, 0.301, 0.304, Quaternion::Format::XYZS);
+        const Vector3d angularVelocity = {-1.0, -2.0, -3.0};
 
-        const State stateGCRF1 = {instant, position, velocity};
+        const State stateGCRF1 = {instant, position, velocity, attitude, angularVelocity, Frame::GCRF()};
 
         const State stateGCRF2 = stateGCRF1.inFrame(Frame::GCRF());
 
@@ -1122,33 +1233,50 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Position position = Position::Meters({7.0e6, 0, 0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({0, 8.0e3, 0}, Frame::GCRF());
+        const Quaternion attitude = Quaternion(-0.003, -0.904, 0.301, 0.304, Quaternion::Format::XYZS);
+        const Vector3d angularVelocity = {-1.0, -2.0, -3.0};
 
-        const State stateGCRF1 = {instant, position, velocity};
+        const State stateGCRF = {instant, position, velocity, attitude, angularVelocity, Frame::GCRF()};
 
-        const State stateGCRF2 = stateGCRF1.inFrame(Frame::ITRF());
+        const State stateITRF = stateGCRF.inFrame(Frame::ITRF());
 
-        EXPECT_EQ(stateGCRF2.getInstant(), stateGCRF1.getInstant());
-        EXPECT_EQ(Frame::ITRF(), stateGCRF2.getFrame());
+        EXPECT_EQ(stateITRF.getInstant(), stateGCRF.getInstant());
+        EXPECT_EQ(Frame::ITRF(), stateITRF.getFrame());
 
-        EXPECT_TRUE(
-            stateGCRF2.getPosition().getCoordinates().isNear({3.130432245445, -1.782920894026, 5.601927082917}, 1e-12)
-        );
-        EXPECT_TRUE(
-            stateGCRF2.getVelocity().getCoordinates().isNear({7.449331963058, -9.290756194490, 1.213098202596}, 1e-12)
-        );
+        // Reference numbers obtained from Orekit
+        EXPECT_TRUE(stateITRF.getPosition().getCoordinates().isNear(
+            {-1259967.7426724238, -6885661.583104378, 12076.853293084983}, 1e-1
+        ));
+        EXPECT_TRUE(stateITRF.getVelocity().getCoordinates().isNear(
+            {7367.228766065452, -1348.0875171584087, -0.3170883426267612}, 1e-4
+        ));
+        EXPECT_TRUE(stateITRF.getAttitude().toNormalized().isNear(
+            Quaternion(
+                0.6966619559964469,
+                0.5764994153890691,
+                0.04016298268235078,
+                -0.4253698131571204,
+                Quaternion::Format::XYZS
+            )
+                .toNormalized(),
+            Angle::Degrees(1e-12)
+        ));
+        EXPECT_TRUE(stateITRF.getAngularVelocity().isNear({-1.0000398449, -1.9999601581, -2.9999537027}, 1e-7));
 
-        EXPECT_EQ(stateGCRF2.getPosition().accessFrame(), Frame::ITRF());
-        EXPECT_EQ(stateGCRF2.getVelocity().accessFrame(), Frame::ITRF());
+        EXPECT_EQ(stateITRF.getPosition().accessFrame(), Frame::ITRF());
+        EXPECT_EQ(stateITRF.getVelocity().accessFrame(), Frame::ITRF());
     }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const Position position = Position::Meters({7.0e6, 0, 0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({0, 8.0e3, 0}, Frame::GCRF());
+        const Quaternion attitude = Quaternion(-0.003, -0.904, 0.301, 0.304, Quaternion::Format::XYZS);
+        const Vector3d angularVelocity = {-1.0, -2.0, -3.0};
 
-        const State state = {instant, position, velocity};
+        const State state = {instant, position, velocity, attitude, angularVelocity, Frame::GCRF()};
 
         EXPECT_ANY_THROW(State::Undefined().inFrame(Frame::GCRF()));
         EXPECT_ANY_THROW(state.inFrame(Frame::Undefined()));

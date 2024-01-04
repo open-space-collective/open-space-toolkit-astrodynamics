@@ -83,7 +83,5 @@ class TestCOECondition:
         frame: Frame,
         gravitational_parameter: Derived,
     ):
-        condition = static_constructor(
-            criterion, frame, target, gravitational_parameter
-        )
+        condition = static_constructor(criterion, frame, target, gravitational_parameter)
         assert condition is not None

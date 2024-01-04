@@ -2,6 +2,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubsets/AngularVelocity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubsets/CartesianPosition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubsets/CartesianVelocity.cpp>
 
@@ -257,6 +259,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
     coordinates_subset.attr("__path__") = "ostk.astrodynamics.trajectory.state.coordinates_subset";
 
     // Add objects to "coordinates_subset" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_AngularVelocity(coordinates_subset);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion(coordinates_subset);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_CartesianPosition(coordinates_subset);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_CartesianVelocity(coordinates_subset);
 }

@@ -361,9 +361,7 @@ class TestSequence:
         sequence: Sequence,
         maximum_propagation_duration: Duration,
     ):
-        assert (
-            sequence.get_maximum_propagation_duration() == maximum_propagation_duration
-        )
+        assert sequence.get_maximum_propagation_duration() == maximum_propagation_duration
 
     def test_add_segment(
         self,

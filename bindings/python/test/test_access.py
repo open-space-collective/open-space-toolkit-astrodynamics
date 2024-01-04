@@ -38,9 +38,7 @@ Access = astrodynamics.Access
 
 def test_access_constructors():
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    time_at_closest_approach = Instant.date_time(
-        DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC
-    )
+    time_at_closest_approach = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
     loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
     max_elevation = Angle.degrees(54.3)
 
@@ -66,9 +64,7 @@ def test_access_undefined():
 
 def test_access_getters():
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    time_at_closest_approach = Instant.date_time(
-        DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC
-    )
+    time_at_closest_approach = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
     loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
     max_elevation = Angle.degrees(54.3)
 
