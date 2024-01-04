@@ -58,6 +58,11 @@ State::State(
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
 {
+    if (!anInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Instant");
+    }
+
     if (!aPosition.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Position");
@@ -94,10 +99,15 @@ State::State(
     const Velocity& aVelocity,
     const Quaternion& anAttitude,
     const Vector3d& anAngularVelocity,
-    const Shared<const Frame>& aReferenceFrame
+    const Shared<const Frame>& anAttitudeReferenceFrame
 )
     : instant_(anInstant)
 {
+    if (!anInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Instant");
+    }
+
     if (!aPosition.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Position");
@@ -118,7 +128,7 @@ State::State(
         throw ostk::core::error::runtime::Undefined("Angular Velocity");
     }
 
-    if ((aPosition.accessFrame() != aVelocity.accessFrame()) || (aPosition.accessFrame() != aReferenceFrame))
+    if ((aPosition.accessFrame() != aVelocity.accessFrame()) || (aPosition.accessFrame() != anAttitudeReferenceFrame))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity-Attitude Frames");
     }

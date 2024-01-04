@@ -91,11 +91,12 @@ class State
     /// @param                  [in] anInstant An instant
     /// @param                  [in] aPosition The Cartesian position at the instant
     /// @param                  [in] aVelocity The Cartesian velocity at the instant
-    /// @param                  [in] anAttitude The attitude at the instant in International System of Units
+    /// @param                  [in] anAttitude The attitude at the instant in International System of Units,
+    /// representing the rotation required to go from the attitude reference frame to the satellite body frame
     /// @param                  [in] anAngularVelocity The angular velocity at the instant in International System of
-    /// Units
-    /// @param                  [in] aReferenceFrame The reference frame in which the attitude and angular velocity are
-    /// referenced to and resolved in
+    /// Units, representing the angular velocity of the satellite body frame with respect to the attitude frame,
+    /// expressed in satellite body frame
+    /// @param                  [in] anAttitudeReferenceFrame The attitude reference frame
 
     State(
         const Instant& anInstant,
@@ -103,7 +104,7 @@ class State
         const Velocity& aVelocity,
         const Quaternion& anAttitude,
         const Vector3d& anAngularVelocity,
-        const Shared<const Frame>& aReferenceFrame
+        const Shared<const Frame>& anAttitudeReferenceFrame
     );
 
     /// @brief                  Copy constructor.

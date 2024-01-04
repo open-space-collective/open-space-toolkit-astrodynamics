@@ -41,7 +41,8 @@ VectorXd AngularVelocity::inFrame(
     const VectorXd attitudeCoordinatesInFrame = this->attitudeQuaternionSPtr_->inFrame(
         anInstant, aFullCoordinatesVector, fromFrame, toFrame, aCoordinatesBrokerSPtr
     );
-    const Quaternion quaternionInFrame = AttitudeQuaternion::coordinatesToQuaternion(attitudeCoordinatesInFrame);
+    const Quaternion quaternionInFrame =
+        AttitudeQuaternion::coordinatesToQuaternion(attitudeCoordinatesInFrame).toNormalized();
 
     const Transform transform = fromFrame->getTransformTo(toFrame, anInstant);
 
