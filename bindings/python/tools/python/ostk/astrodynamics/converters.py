@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+from typing import Union
+
 from datetime import datetime, timedelta, timezone
 
 import numpy as np
@@ -15,12 +17,12 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 
-def coerce_to_datetime(value: Instant | datetime) -> datetime:
+def coerce_to_datetime(value: Union[Instant, datetime, str]) -> datetime:
     """
     Return datetime from value.
 
     Args:
-        value (Instant | datetime): A value to coerce.
+        value (Instant | datetime | str): A value to coerce.
 
     Returns:
         datetime: The coerced datetime.
@@ -29,15 +31,22 @@ def coerce_to_datetime(value: Instant | datetime) -> datetime:
     if isinstance(value, datetime):
         return value
 
-    return value.get_date_time(Scale.UTC).replace(tzinfo=timezone.utc)
+    elif isinstance(value, Instant):
+        return value.get_date_time(Scale.UTC).replace(tzinfo=timezone.utc)
+
+    elif isinstance(value, str):
+        return datetime.fromisoformat(value)
+
+    else:
+        raise TypeError("Argument must be a datetime, an Instant, or a str.")
 
 
-def coerce_to_instant(value: Instant | datetime) -> Instant:
+def coerce_to_instant(value: Union[Instant, datetime, str]) -> Instant:
     """
     Return Instant from value.
 
     Args:
-        value (Instant | datetime): A value to coerce.
+        value (Instant | datetime | str): A value to coerce.
 
     Returns:
         Instant: The coerced Instant.
@@ -46,7 +55,41 @@ def coerce_to_instant(value: Instant | datetime) -> Instant:
     if isinstance(value, Instant):
         return value
 
-    return Instant.date_time(value, Scale.UTC)
+    elif isinstance(value, datetime):
+        return Instant.date_time(value.astimezone(tz=timezone.utc), Scale.UTC)
+
+    elif isinstance(value, str):
+        return coerce_to_instant(coerce_to_datetime(value))
+
+    else:
+        raise TypeError("Argument must be a datetime, an Instant, or a str.")
+
+
+def coerce_to_iso(
+    value: Union[Instant, datetime, str], timespec: str = "microseconds"
+) -> Instant:
+    """
+    Return an ISO string from value.
+
+    Args:
+        value (Instant | datetime | str): A value to coerce.
+        timespec (str): A time resolution ("microseconds" by default).
+
+    Returns:
+        Instant: The coerced ISO string.
+    """
+
+    if isinstance(value, str):
+        return coerce_to_iso(coerce_to_datetime(value), timespec=timespec)
+
+    elif isinstance(value, datetime):
+        return value.isoformat(timespec=timespec)
+
+    elif isinstance(value, Instant):
+        return coerce_to_iso(coerce_to_datetime(value), timespec=timespec)
+
+    else:
+        raise TypeError("Argument must be a datetime, an Instant, or a str.")
 
 
 def coerce_to_interval(
