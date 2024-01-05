@@ -76,7 +76,7 @@ def coerce_to_iso(
         timespec (str): A time resolution ("microseconds" by default).
 
     Returns:
-        Instant: The coerced ISO string.
+        str: The coerced ISO string.
     """
 
     if isinstance(value, str):
