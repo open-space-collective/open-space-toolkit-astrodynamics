@@ -61,7 +61,10 @@ def test_coerce_to_datetime_success_iso():
     )
 
 
-def test_coerce_to_datetime_failure_iso():
+def test_coerce_to_datetime_failure():
+    with pytest.raises(TypeError):
+        coerce_to_datetime(False)
+
     with pytest.raises(Exception):
         coerce_to_datetime("some_ill_formed_iso")
 
@@ -100,7 +103,10 @@ def test_coerce_to_instant_success_iso():
     )
 
 
-def test_coerce_to_instant_failure_iso():
+def test_coerce_to_instant_failure():
+    with pytest.raises(TypeError):
+        coerce_to_instant(False)
+
     with pytest.raises(Exception):
         coerce_to_instant("some_ill_formed_iso")
 
@@ -176,9 +182,12 @@ def test_coerce_to_iso_success_iso():
     )
 
 
-def test_coerce_to_iso_failure_iso():
+def test_coerce_to_iso_failure():
+    with pytest.raises(TypeError):
+        coerce_to_iso(False)
+
     with pytest.raises(Exception):
-        coerce_to_instant("some_ill_formed_iso")
+        coerce_to_iso("some_ill_formed_iso")
 
 
 def test_coerce_to_interval_success_interval():
