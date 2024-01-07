@@ -16,6 +16,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -42,6 +44,8 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::InstantCondition;
+using ostk::astro::eventcondition::RealCondition;
 
 /// @brief                      Represent a propagation segment for astrodynamics purposes
 

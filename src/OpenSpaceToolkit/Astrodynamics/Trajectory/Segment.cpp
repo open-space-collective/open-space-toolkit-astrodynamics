@@ -342,23 +342,47 @@ Segment::Solution Segment::solveWhileObservingStatesAtFixedIntervals(
     const State& aState, const Duration& aStep, const Duration& maximumPropagationDuration
 ) const
 {
+    // Only support InstantCondition event conditions for now
+    // TBI: make this type check more robust in the future
+    if (eventCondition_->getName() !=
+        "Instant Condition")  //||
+                              //(eventCondition_->getCriterion() != RealCondition::Criterion::StrictlyPositive))
+    {
+        throw ostk::core::error::RuntimeError(
+            "Only Instant Condition event conditions with StrictlyPositive criterions are supported for now with this "
+            "method."
+        );
+    }
+
     const Propagator propagator = {
         numericalSolver_,
         dynamics_,
     };
 
-    // Do logic to determine instant array to propagate to with reportStep, and make sure its before
-    // maximumPropagationDuration
-    // Use eventCondition_ to determine the end of the propagation?
-    Array<Instant> instants = Array<Instant>::Empty();
+    bool conditionIsSatisfied = false;
+    State previousState = aState;
+    // TBI: ensure that this can handle backwards propagation through segments as well (take logic from
+    // NumericalSolver.integrateTime() for this)
+    for (Instant currentInstant = aState.accessInstant() + aStep;
+         currentInstant < aState.accessInstant() + maximumPropagationDuration;
+         currentInstant += aStep)
+    {
+        const State currentState = propagator.calculateStateAt(previousState, currentInstant);
 
-    const Array<State> states = propagator.calculateStatesAt(aState, instants);
+        if (eventCondition_->isSatisfied(currentState, previousState))
+        {
+            conditionIsSatisfied = true;
+            break;
+        }
+
+        previousState = currentState;
+    }
 
     return {
         name_,
         dynamics_,
         propagator.accessNumericalSolver().accessObservedStates(),
-        true,  // TBI: do a check on whether or not the condition was actually met in the future
+        conditionIsSatisfied,  // TBI: do a check on whether or not the condition was actually met in the future
         type_,
     };
 }
