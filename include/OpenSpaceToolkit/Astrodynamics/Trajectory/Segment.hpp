@@ -220,6 +220,17 @@ class Segment
 
     Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
 
+    /// @brief                  Solve the segment while reporting observed states at user defined intervals
+    ///
+    /// @param                  [in] aState Initial state for the segment
+    /// @param                  [in] aStep Interval between observed states
+    /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
+    /// @return                 A Solution representing the result of the solve
+
+    Solution solveWhileObservingStatesAtFixedIntervals(
+        const State& aState, const Duration& aStep, const Duration& maximumPropagationDuration = Duration::Days(30.0)
+    ) const;
+
     /// @brief                  Print the segment
     ///
     /// @param                  [in] anOutputStream An output stream

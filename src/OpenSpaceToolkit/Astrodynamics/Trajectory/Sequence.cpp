@@ -263,6 +263,54 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
     return {segmentSolutions, true};
 }
 
+Sequence::Solution Sequence::solveWhileObservingStatesAtFixedIntervals(
+    const State& aState, const Duration& aStep, const Size& aRepetitionCount
+) const
+{
+    if (aRepetitionCount <= 0)
+    {
+        throw ostk::core::error::runtime::Wrong("Repetition count.");
+    }
+
+    Array<Segment::Solution> segmentSolutions;
+
+    State initialState = aState;
+    State finalState = State::Undefined();
+
+    for (Size i = 0; i < aRepetitionCount; ++i)
+    {
+        for (const Segment& segment : segments_)
+        {
+            segment.accessEventCondition()->updateTarget(initialState);
+
+            BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
+
+            Segment::Solution segmentSolution = segment.solveWhileObservingStatesAtFixedIntervals(
+                initialState, aStep, segmentPropagationDurationLimit_
+            );
+
+            segmentSolution.name =
+                String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
+
+            BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
+
+            segmentSolutions.add(segmentSolution);
+
+            // Terminate Sequence unsuccessfully if the segment condition was not satisfied
+            if (!segmentSolution.conditionIsSatisfied)
+            {
+                BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
+
+                return {segmentSolutions, false};
+            }
+
+            initialState = segmentSolution.states.accessLast();
+        }
+    }
+
+    return {segmentSolutions, true};
+}
+
 Sequence::Solution Sequence::solveToCondition(
     const State& aState, const EventCondition& anEventCondition, const Duration& aMaximumPropagationDuration
 ) const

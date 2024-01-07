@@ -338,6 +338,31 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
     };
 }
 
+Segment::Solution Segment::solveWhileObservingStatesAtFixedIntervals(
+    const State& aState, const Duration& aStep, const Duration& maximumPropagationDuration
+) const
+{
+    const Propagator propagator = {
+        numericalSolver_,
+        dynamics_,
+    };
+
+    // Do logic to determine instant array to propagate to with reportStep, and make sure its before
+    // maximumPropagationDuration
+    // Use eventCondition_ to determine the end of the propagation?
+    Array<Instant> instants = Array<Instant>::Empty();
+
+    const Array<State> states = propagator.calculateStatesAt(aState, instants);
+
+    return {
+        name_,
+        dynamics_,
+        propagator.accessNumericalSolver().accessObservedStates(),
+        true,  // TBI: do a check on whether or not the condition was actually met in the future
+        type_,
+    };
+}
+
 void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     if (displayDecorator)

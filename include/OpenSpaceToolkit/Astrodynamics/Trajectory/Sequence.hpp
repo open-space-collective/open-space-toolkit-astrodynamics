@@ -144,13 +144,25 @@ class Sequence
 
     void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster);
 
-    /// @brief                  Solve the sequence given an initial state, for a number of reptitions.
+    /// @brief                  Solve the sequence given an initial state, for a number of repititions.
     ///
     /// @param                  [in] aState Initial state for the sequence.
     /// @param                  [in] aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
     /// @return                 A Solution that contains solutions for each segment.
 
     Solution solve(const State& aState, const Size& aRepetitionCount = 1) const;
+
+    /// @brief                  Solve the sequence given an initial state, for a number of repititions. While solving,
+    /// report observed states at user defined intervals.
+    ///
+    /// @param                  [in] aState Initial state for the sequence.
+    /// @param                  [in] aStep Interval between observed states.
+    /// @param                  [in] aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
+    /// @return                 A Solution that contains solutions for each segment.
+
+    Solution solveWhileObservingStatesAtFixedIntervals(
+        const State& aState, const Duration& aStep, const Size& aRepetitionCount = 1
+    ) const;
 
     /// @brief                  Solve the sequence given an initial state.
     ///
