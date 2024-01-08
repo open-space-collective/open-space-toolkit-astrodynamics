@@ -55,10 +55,21 @@ def test_coerce_to_datetime_success_iso():
         2020, 1, 2, 3, 4, 5, 123456, tzinfo=timezone.utc
     )
 
+    value = "2020-01-02T03:04:05+00:00"
+    assert coerce_to_datetime(value) == datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
+
     value = "2020-01-02T03:04:05.123456+01:00"
     assert coerce_to_datetime(value) == datetime(
         2020, 1, 2, 3, 4, 5, 123456, tzinfo=timezone(timedelta(seconds=3600))
     )
+
+    value = "2020-01-02T03:04:05.123456Z"
+    assert coerce_to_datetime(value) == datetime(
+        2020, 1, 2, 3, 4, 5, 123456, tzinfo=timezone.utc
+    )
+
+    value = "2020-01-02T03:04:05Z"
+    assert coerce_to_datetime(value) == datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
 
 
 def test_coerce_to_datetime_failure():
@@ -97,9 +108,32 @@ def test_coerce_to_instant_success_iso():
         DateTime(2020, 1, 2, 3, 4, 5, 123, 456), Scale.UTC
     )
 
+    value = "2020-01-02T03:04:05+00:00"
+    assert coerce_to_instant(value) == Instant.date_time(
+        DateTime(2020, 1, 2, 3, 4, 5), Scale.UTC
+    )
+
     value = "2020-01-02T03:04:05.123456+01:00"
     assert coerce_to_instant(value) == Instant.date_time(
         DateTime(2020, 1, 2, 2, 4, 5, 123, 456), Scale.UTC
+    )
+
+    value = "2020-01-02T03:04:05.123456Z"
+    assert coerce_to_instant(value) == Instant.date_time(
+        DateTime(2020, 1, 2, 3, 4, 5, 123, 456), Scale.UTC
+    )
+
+    value = "2020-01-02T03:04:05Z"
+    assert coerce_to_instant(value) == Instant.date_time(
+        DateTime(
+            2020,
+            1,
+            2,
+            3,
+            4,
+            5,
+        ),
+        Scale.UTC,
     )
 
 
@@ -179,6 +213,35 @@ def test_coerce_to_iso_success_iso():
     assert (
         coerce_to_iso(value, timespec="microseconds")
         == "2020-01-02T03:04:05.123000+00:00"
+    )
+
+    value = "2020-01-02T03:04:05+00:00"
+    assert (
+        coerce_to_iso(value, timespec="microseconds")
+        == "2020-01-02T03:04:05.000000+00:00"
+    )
+
+    value = "2020-01-02T03:04:05.123456Z"
+    assert (
+        coerce_to_iso(value, timespec="microseconds")
+        == "2020-01-02T03:04:05.123456+00:00"
+    )
+
+    value = "2020-01-02T03:04:05.123456Z"
+    assert (
+        coerce_to_iso(value, timespec="milliseconds") == "2020-01-02T03:04:05.123+00:00"
+    )
+
+    value = "2020-01-02T03:04:05.123Z"
+    assert (
+        coerce_to_iso(value, timespec="microseconds")
+        == "2020-01-02T03:04:05.123000+00:00"
+    )
+
+    value = "2020-01-02T03:04:05Z"
+    assert (
+        coerce_to_iso(value, timespec="microseconds")
+        == "2020-01-02T03:04:05.000000+00:00"
     )
 
 
