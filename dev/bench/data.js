@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704702659807,
+  "lastUpdate": 1704717016370,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -378,6 +378,60 @@ window.BENCHMARK_DATA = {
             "value": 2814991687.199995,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2814904490.0000024 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2bb01def8b08940e7f5dd5716c50d91b828f090a",
+          "message": "feat: enrich and fix time conversion functions (#313)\n\n* feat: enrich and fix time conversion functions\r\n\r\n* test: enrich time conversion test to consider different time scales\r\n\r\n* docs: fix type\r\n\r\n* test: add time conversion type error test cases\r\n\r\n* chore: apply PR suggestions\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2024-01-08T13:01:21+01:00",
+          "tree_id": "f3396b95501eec43df3b7367c9740c3a0d16f5a0",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/2bb01def8b08940e7f5dd5716c50d91b828f090a"
+        },
+        "date": 1704717015466,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 556427848.299998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 556407500 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 796472888.5,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 796443850.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2782695396.5999904,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2782626090.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2782533416.2000103,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2782450590 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2780842549.60001,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2780765079.999999 ns\nthreads: 1"
           }
         ]
       }
