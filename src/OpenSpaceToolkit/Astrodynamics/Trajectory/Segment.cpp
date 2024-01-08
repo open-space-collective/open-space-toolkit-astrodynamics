@@ -4,6 +4,8 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
@@ -22,6 +24,8 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astro::trajectory::orbit::models::Propagated;
+using ostk::astro::trajectory::orbit::models::Tabulated;
 
 Segment::Solution::Solution(
     const String& aName,
@@ -81,6 +85,31 @@ Mass Segment::Solution::getFinalMass() const
 Duration Segment::Solution::getPropagationDuration() const
 {
     return accessEndInstant() - accessStartInstant();
+}
+
+Array<State> Segment::Solution::getStatesAt(const NumericalSolver& numericalSolver, const Array<Instant>& instants)
+    const
+{
+    Propagated propagated = {
+        {
+            numericalSolver,
+            dynamics,
+        },
+        states,
+    };
+
+    return propagated.calculateStatesAt(instants);
+}
+
+Array<State> Segment::Solution::interpolateStatesAt(const Array<Instant>& instants) const
+{
+    Tabulated tabulated = {
+        states,
+        0,
+        Tabulated::InterpolationType::BarycentricRational,
+    };
+
+    return tabulated.calculateStatesAt(instants);
 }
 
 Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const

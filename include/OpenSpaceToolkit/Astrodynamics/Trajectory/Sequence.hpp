@@ -48,6 +48,8 @@ class Sequence
         Mass getInitialMass() const;
         Mass getFinalMass() const;
         Duration getPropagationDuration() const;
+        Array<State> getStatesAt(const NumericalSolver& numericalSolver, const Array<Instant>& instants) const;
+        Array<State> approximateStatesAt(const Array<Instant>& instants) const;
 
         Mass computeDeltaMass() const;
         Real computeDeltaV(const Real& aSpecificImpulse) const;

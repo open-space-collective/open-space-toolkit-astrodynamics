@@ -6,6 +6,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 namespace ostk
@@ -16,6 +17,8 @@ namespace trajectory
 {
 
 using ostk::physics::time::Duration;
+
+using ostk::astro::trajectory::orbit::models::Tabulated;
 
 const Instant& Sequence::Solution::accessStartInstant() const
 {
@@ -45,6 +48,38 @@ Array<State> Sequence::Solution::getStates() const
     }
 
     return states;
+}
+
+Array<State> Sequence::Solution::getStatesAt(const NumericalSolver& numericalSolver, const Array<Instant>& instants)
+    const
+{
+    if (segmentSolutions.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Segment solutions are empty.");
+    }
+
+    Array<State> states = Array<State>::Empty();
+
+    for (const auto& segmentSolution : segmentSolutions)
+    {
+        states.add(segmentSolution.getStatesAt(numericalSolver, instants));
+    }
+
+    return states;
+}
+
+Array<State> Sequence::Solution::approximateStatesAt(const Array<Instant>& instants) const
+{
+    if (segmentSolutions.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Segment solutions are empty.");
+    }
+
+    const Array<State> states = getStates();
+
+    const Tabulated tabulated = {states, 0, Tabulated::InterpolationType::BarycentricRational};
+
+    return tabulated.calculateStatesAt(instants);
 }
 
 Mass Sequence::Solution::getInitialMass() const

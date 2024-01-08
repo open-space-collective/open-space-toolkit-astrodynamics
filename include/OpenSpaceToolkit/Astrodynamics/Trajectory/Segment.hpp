@@ -92,6 +92,14 @@ class Segment
         /// @return Propagation duration
         Duration getPropagationDuration() const;
 
+        /// @brief Get states at specified instants
+        /// @return States at specified instants
+        Array<State> getStatesAt(const NumericalSolver& numericalSolver, const Array<Instant>& instants) const;
+
+        /// @brief interpolate states at specified instants
+        /// @return Interpolated states at specified instants
+        Array<State> Segment::Solution::interpolateStatesAt(const Array<Instant>& instants) const;
+
         /// @brief Compute delta V
         ///
         /// @param aSpecificImpulse Specific impulse
@@ -143,11 +151,11 @@ class Segment
         /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
 
-        String name;                       /// Name of the segment.
-        Array<Shared<Dynamics>> dynamics;  /// List of dynamics used.
-        Array<State> states;               /// Array of states for the segment.
-        bool conditionIsSatisfied;         /// True if the event condition is satisfied.
-        Segment::Type segmentType;         /// Type of segment.
+        String name;                       // Name of the segment.
+        Array<Shared<Dynamics>> dynamics;  // List of dynamics used.
+        Array<State> states;               // Array of states for the segment.
+        bool conditionIsSatisfied;         // True if the event condition is satisfied.
+        Segment::Type segmentType;         // Type of segment.
     };
 
     /// @brief Output stream operator
