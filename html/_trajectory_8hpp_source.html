@@ -116,65 +116,50 @@ $(document).ready(function(){initNavTree('_trajectory_8hpp_source.html',''); ini
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_model.html">ostk::astro::trajectory::Model</a>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a>;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1_trajectory.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1_trajectory.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_model.html">Model</a>&amp; aModel);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_model.html">Model</a>&amp; aModel);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>(<span class="keyword">const</span> Array&lt;State&gt;&amp; aStateArray);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#aa8229045bd7cf0696b8cd235cc3837a8">operator=</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a13b1a0621195ed85aa3df0da5ae935f2">operator==</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#abb524dcee260456d546f5e01ee9c228c">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#aef0327f0240dc2d71eca34dc287f88ea">operator&lt;&lt;</a>(std::ostream&amp; anOutputStream, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#ab0c02a9844e584b50da35df710b71e81">isDefined</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_model.html">Model</a>&amp; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a7a5e15ddb0b4e1a1546615840610252c">accessModel</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a0814d622d4bfb55cedb3d8eafd39f640">getStateAt</a>(<span class="keyword">const</span> Instant&amp; anInstant) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    Array&lt;State&gt; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a31f02515d567ac57c8d5e06d47da08a8">getStatesAt</a>(<span class="keyword">const</span> Array&lt;Instant&gt;&amp; anInstantArray) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#aac11fb7c53f4cf970f52f681a75c5261">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a87873d63cae80dff7e43c97dc9b3668f">Undefined</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>(<span class="keyword">const</span> Array&lt;State&gt;&amp; aStateArray);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#aa8229045bd7cf0696b8cd235cc3837a8">operator=</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a13b1a0621195ed85aa3df0da5ae935f2">operator==</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#abb524dcee260456d546f5e01ee9c228c">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#aef0327f0240dc2d71eca34dc287f88ea">operator&lt;&lt;</a>(std::ostream&amp; anOutputStream, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aTrajectory);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#ab0c02a9844e584b50da35df710b71e81">isDefined</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_model.html">Model</a>&amp; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a7a5e15ddb0b4e1a1546615840610252c">accessModel</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a0814d622d4bfb55cedb3d8eafd39f640">getStateAt</a>(<span class="keyword">const</span> Instant&amp; anInstant) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    Array&lt;State&gt; <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a31f02515d567ac57c8d5e06d47da08a8">getStatesAt</a>(<span class="keyword">const</span> Array&lt;Instant&gt;&amp; anInstantArray) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#aac11fb7c53f4cf970f52f681a75c5261">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#a87873d63cae80dff7e43c97dc9b3668f">Undefined</a>();</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#ae98d1466450030f73a83567c8cc1471a">Position</a>(<span class="keyword">const</span> physics::coord::Position&amp; aPosition);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    Unique&lt;Model&gt; modelUPtr_;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> <a class="code" href="classostk_1_1astro_1_1_trajectory.html#ae98d1466450030f73a83567c8cc1471a">Position</a>(<span class="keyword">const</span> physics::coord::Position&amp; aPosition);</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    Unique&lt;Model&gt; modelUPtr_;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>();</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;};</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;};</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;}  <span class="comment">// namespace ostk</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html">ostk::astro::Trajectory</a></div><div class="ttdoc">Path followed by an object through space as a function of time.</div><div class="ttdef"><b>Definition:</b> Trajectory.hpp:38</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html">ostk::astro::Trajectory</a></div><div class="ttdoc">Path followed by an object through space as a function of time.</div><div class="ttdef"><b>Definition:</b> Trajectory.hpp:37</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_a87873d63cae80dff7e43c97dc9b3668f"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#a87873d63cae80dff7e43c97dc9b3668f">ostk::astro::Trajectory::Undefined</a></div><div class="ttdeci">static Trajectory Undefined()</div><div class="ttdoc">Constructs an undefined trajectory.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:115</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_a7a5e15ddb0b4e1a1546615840610252c"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#a7a5e15ddb0b4e1a1546615840610252c">ostk::astro::Trajectory::accessModel</a></div><div class="ttdeci">const Model &amp; accessModel() const</div><div class="ttdoc">Access trajectory model.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:69</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_aa8229045bd7cf0696b8cd235cc3837a8"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#aa8229045bd7cf0696b8cd235cc3837a8">ostk::astro::Trajectory::operator=</a></div><div class="ttdeci">Trajectory &amp; operator=(const Trajectory &amp;aTrajectory)</div><div class="ttdoc">Copy assignment operator.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:32</div></div>
@@ -185,10 +170,10 @@ $(document).ready(function(){initNavTree('_trajectory_8hpp_source.html',''); ini
 <div class="ttc" id="a_trajectory_2_state_8hpp_html"><div class="ttname"><a href="_trajectory_2_state_8hpp.html">State.hpp</a></div></div>
 <div class="ttc" id="a_trajectory_2_model_8hpp_html"><div class="ttname"><a href="_trajectory_2_model_8hpp.html">Model.hpp</a></div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_ab0c02a9844e584b50da35df710b71e81"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#ab0c02a9844e584b50da35df710b71e81">ostk::astro::Trajectory::isDefined</a></div><div class="ttdeci">bool isDefined() const</div><div class="ttdoc">Check if trajectory is defined.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:64</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_model_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_model.html">ostk::astro::trajectory::Model</a></div><div class="ttdoc">Trajectory model (abstract)</div><div class="ttdef"><b>Definition:</b> Model.hpp:27</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_model_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_model.html">ostk::astro::trajectory::Model</a></div><div class="ttdoc">Trajectory model (abstract)</div><div class="ttdef"><b>Definition:</b> Model.hpp:26</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_aef0327f0240dc2d71eca34dc287f88ea"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#aef0327f0240dc2d71eca34dc287f88ea">ostk::astro::Trajectory::operator&lt;&lt;</a></div><div class="ttdeci">friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp;anOutputStream, const Trajectory &amp;aTrajectory)</div><div class="ttdoc">Output stream operator.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:57</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_a13b1a0621195ed85aa3df0da5ae935f2"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#a13b1a0621195ed85aa3df0da5ae935f2">ostk::astro::Trajectory::operator==</a></div><div class="ttdeci">bool operator==(const Trajectory &amp;aTrajectory) const</div><div class="ttdoc">Equal to operator.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:42</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_state_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a></div><div class="ttdoc">Trajectory State.</div><div class="ttdef"><b>Definition:</b> State.hpp:43</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_state_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a></div><div class="ttdoc">Trajectory State.</div><div class="ttdef"><b>Definition:</b> State.hpp:45</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_a0814d622d4bfb55cedb3d8eafd39f640"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#a0814d622d4bfb55cedb3d8eafd39f640">ostk::astro::Trajectory::getStateAt</a></div><div class="ttdeci">State getStateAt(const Instant &amp;anInstant) const</div><div class="ttdoc">Get state at a given instant.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:84</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html_a31f02515d567ac57c8d5e06d47da08a8"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html#a31f02515d567ac57c8d5e06d47da08a8">ostk::astro::Trajectory::getStatesAt</a></div><div class="ttdeci">Array&lt; State &gt; getStatesAt(const Array&lt; Instant &gt; &amp;anInstantArray) const</div><div class="ttdoc">Get states at a given instants.</div><div class="ttdef"><b>Definition:</b> Trajectory.cpp:94</div></div>
 <!-- HTML footer for doxygen 1.8.7-->

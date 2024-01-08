@@ -178,7 +178,7 @@ Friends</h2></td></tr>
 <p>Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A name </td></tr>
+    <tr><td class="paramname">aName</td><td>A name </td></tr>
   </table>
   </dd>
 </dl>
@@ -256,9 +256,9 @@ Friends</h2></td></tr>
 <p>Compute the contribution to the state derivative. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The reduced state vector (this vector will follow the structure determined by the 'read' coordinate subsets) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>The frame in which the state vector is expressed</td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">x</td><td>The reduced state vector (this vector will follow the structure determined by the 'read' coordinate subsets) </td></tr>
+    <tr><td class="paramname">aFrameSPtr</td><td>The frame in which the state vector is expressed</td></tr>
   </table>
   </dd>
 </dl>
@@ -295,7 +295,7 @@ Friends</h2></td></tr>
 <p>Get a list of dynamics from the envrionment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEnvironment</td><td>An environment</td></tr>
+    <tr><td class="paramname">anEnvironment</td><td>An environment</td></tr>
   </table>
   </dd>
 </dl>
@@ -396,9 +396,9 @@ Friends</h2></td></tr>
 <p>Get system of equations wrapper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aContextArray</td><td>An array of <a class="el" href="classostk_1_1astro_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> Information </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>The reference frame in which dynamic equations are resolved</td></tr>
+    <tr><td class="paramname">aContextArray</td><td>An array of <a class="el" href="classostk_1_1astro_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> Information </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">aFrameSPtr</td><td>The reference frame in which dynamic equations are resolved</td></tr>
   </table>
   </dd>
 </dl>
@@ -462,7 +462,7 @@ Friends</h2></td></tr>
 <p>Check if dynamics is defined (pure virtual) </p>
 <dl class="section return"><dt>Returns</dt><dd>True if dynamics is defined </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad7e1160f12df4226de431b29bf56ae69">ostk::astro::dynamics::Thruster</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a8cd7da63d6416e7208393903ffb40ba3">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#ad8009887dd5ff11a1e0be78f949c3317">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#af8dd288ea8d53c2ad3af6af8b47ae97f">ostk::astro::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#ad0d1367f1436871298e39b44b8771f03">ostk::astro::dynamics::PositionDerivative</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html#a8cd7da63d6416e7208393903ffb40ba3">ostk::astro::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_thruster.html#ad7e1160f12df4226de431b29bf56ae69">ostk::astro::dynamics::Thruster</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html#ad8009887dd5ff11a1e0be78f949c3317">ostk::astro::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html#af8dd288ea8d53c2ad3af6af8b47ae97f">ostk::astro::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1dynamics_1_1_position_derivative.html#ad0d1367f1436871298e39b44b8771f03">ostk::astro::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
@@ -503,8 +503,8 @@ Friends</h2></td></tr>
 <p>Print dynamics. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
   </table>
   </dd>
 </dl>
@@ -552,8 +552,8 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="classostk_1_1astro_1_1_dynamics.html#a7f186c02659534b19b6321c4d301d204">Dynamics</a>(...) ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamics</td><td>A <a class="el" href="classostk_1_1astro_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">aDynamics</td><td>A <a class="el" href="classostk_1_1astro_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> </td></tr>
   </table>
   </dd>
 </dl>

@@ -71,10 +71,10 @@ Factory class to generate States with common reference frame and coordinates sub
 Constructor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subsets\+Array} & The array of coordinates subsets defining the output States \\
+{\em a\+Coordinates\+Subsets\+Array} & The array of coordinates subsets defining the output States \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_builder_a6af3a84b936149fa261c7776cb7c6c1f}\label{classostk_1_1astro_1_1trajectory_1_1_state_builder_a6af3a84b936149fa261c7776cb7c6c1f}} 
@@ -88,10 +88,10 @@ Constructor.
 Constructor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Broker} & Shared pointer to an existing Coordinates Broker \\
+{\em a\+Coordinates\+Broker} & Shared pointer to an existing Coordinates Broker \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_builder_ad62117aa86e9159ae18ab7cad303c131}\label{classostk_1_1astro_1_1trajectory_1_1_state_builder_ad62117aa86e9159ae18ab7cad303c131}} 
@@ -105,8 +105,8 @@ Constructor.
 Constructor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & The state to be used as a template \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & The state to be used as a template \\
 \hline
 \end{DoxyParams}
 
@@ -162,10 +162,10 @@ A \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} linked to
 Produce a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} with the Coordinates\+Subsets specified by the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}}. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & the state from which the coordinates will be taken. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & the state from which the coordinates will be taken. \\
 \hline
-\mbox{\texttt{ in}}  & {\em default\+State} & the state from which missing coordinates will be taken. \\
+{\em default\+State} & the state from which missing coordinates will be taken. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -221,8 +221,8 @@ True if the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}
 Inequality operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State\+Builder} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to compare to \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State\+Builder} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to compare to \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -239,8 +239,8 @@ True if the State\+Builders are not equal, false otherwise
 Return a new \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} with the additional Coordinates\+Subset. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset\+S\+Ptr} & The Coordinates\+Subset to append\\
+\begin{DoxyParams}{Parameters}
+{\em a\+Coordinates\+Subset\+S\+Ptr} & The Coordinates\+Subset to append\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -257,8 +257,8 @@ A new \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State
 Return a new \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} without the given Coordinates\+Subset. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset\+S\+Ptr} & The Coordinates\+Subset to remove\\
+\begin{DoxyParams}{Parameters}
+{\em a\+Coordinates\+Subset\+S\+Ptr} & The Coordinates\+Subset to remove\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -275,8 +275,8 @@ A new \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State
 Equality operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State\+Builder} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to compare to \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State\+Builder} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to compare to \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -293,10 +293,10 @@ True if the State\+Builders are equal, false otherwise
 Print the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to an output stream. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & The output stream to print to \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & The output stream to print to \\
 \hline
-\mbox{\texttt{ in}}  & {\em display\+Decorator} & Whether or not to display the decorator \\
+{\em display\+Decorator} & Whether or not to display the decorator \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_builder_a2ca89b4d74f67cbf0f5de5d0214727d1}\label{classostk_1_1astro_1_1trajectory_1_1_state_builder_a2ca89b4d74f67cbf0f5de5d0214727d1}} 
@@ -310,8 +310,8 @@ Print the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{S
 Produce a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} with the Coordinates\+Subsets specified by the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}}. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & the state from which the coordinates will be taken. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & the state from which the coordinates will be taken. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -344,10 +344,10 @@ An undefined \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder
 Stream insertion operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & The output stream to insert into \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & The output stream to insert into \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+State\+Builder} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to insert \\
+{\em a\+State\+Builder} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to insert \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

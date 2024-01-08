@@ -259,10 +259,10 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a05493e147fcf674ba15f617bd69cac86">RealCondition</a> <a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a05493e147fcf674ba15f617bd69cac86">RealCondition</a> = {aName, aCriterion, anEvaluator, aTargetValue};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A string representing the name of the Real Event Condition </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCriterion</td><td>An enum indicating the criterion used to determine if the Real Event Condition is met </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEvaluator</td><td>A function evaluating a state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTargetValue</td><td>A target value associated with the Real Event Condition </td></tr>
+    <tr><td class="paramname">aName</td><td>A string representing the name of the Real Event Condition </td></tr>
+    <tr><td class="paramname">aCriterion</td><td>An enum indicating the criterion used to determine if the Real Event Condition is met </td></tr>
+    <tr><td class="paramname">anEvaluator</td><td>A function evaluating a state </td></tr>
+    <tr><td class="paramname">aTargetValue</td><td>A target value associated with the Real Event Condition </td></tr>
   </table>
   </dd>
 </dl>
@@ -311,10 +311,10 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a05493e147fcf674ba15f617bd69cac86">RealCondition</a> <a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a05493e147fcf674ba15f617bd69cac86">RealCondition</a> = {aName, aCriterion, anEvaluator, aTarget};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A string representing the name of the Real Event Condition </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCriterion</td><td>An enum indicating the criterion used to determine if the Real Event Condition is met </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEvaluator</td><td>A function evaluating a state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTarget</td><td>A target associated with the Real Event Condition </td></tr>
+    <tr><td class="paramname">aName</td><td>A string representing the name of the Real Event Condition </td></tr>
+    <tr><td class="paramname">aCriterion</td><td>An enum indicating the criterion used to determine if the Real Event Condition is met </td></tr>
+    <tr><td class="paramname">anEvaluator</td><td>A function evaluating a state </td></tr>
+    <tr><td class="paramname">aTarget</td><td>A target associated with the Real Event Condition </td></tr>
   </table>
   </dd>
 </dl>
@@ -386,8 +386,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Generate a Duration based condition. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCriterion</td><td>An enum representing the criterion </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aDuration</td><td>A duration</td></tr>
+    <tr><td class="paramname">aCriterion</td><td>An enum representing the criterion </td></tr>
+    <tr><td class="paramname">aDuration</td><td>A duration</td></tr>
   </table>
   </dd>
 </dl>
@@ -414,7 +414,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Evaluate the Event Condition. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>The current state</td></tr>
+    <tr><td class="paramname">aState</td><td>The current state</td></tr>
   </table>
   </dd>
 </dl>
@@ -479,8 +479,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Check if the Event Condition is satisfied based on current state and previous state/time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">currentState</td><td>The current state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">previousState</td><td>The previous state</td></tr>
+    <tr><td class="paramname">currentState</td><td>The current state </td></tr>
+    <tr><td class="paramname">previousState</td><td>The previous state</td></tr>
   </table>
   </dd>
 </dl>
@@ -528,7 +528,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">anOutputStream</td><td>The output stream where the Event Condition will be printed </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">displayDecorator</td><td>A boolean indicating whether or not to display decorator during printing </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">displayDecorator</td><td>A boolean indicating whether or not to display decorator during printing </td></tr>
   </table>
   </dd>
 </dl>
@@ -566,7 +566,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Convert criterion to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCriterion</td><td>An enum representing the criterion</td></tr>
+    <tr><td class="paramname">aCriterion</td><td>An enum representing the criterion</td></tr>
   </table>
   </dd>
 </dl>

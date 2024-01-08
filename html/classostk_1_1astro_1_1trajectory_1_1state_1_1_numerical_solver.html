@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1st
 </div><!--header-->
 <div class="contents">
 
-<p>Defines an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics Numerical Solver.  
+<p>Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics Numerical Solver.  
  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_numerical_solver_8hpp_source.html">NumericalSolver.hpp</a>&gt;</code></p>
@@ -163,7 +163,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a33d2951730a0e0241264f85136341778"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics Numerical Solver. </p>
+<div class="textblock"><p>Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics Numerical Solver. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af3766411fd7d0da4181c251a7c866255"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af3766411fd7d0da4181c251a7c866255">&#9670;&nbsp;</a></span>NumericalSolver()</h2>
@@ -220,12 +220,12 @@ Static Public Member Functions</h2></td></tr>
 <div class="line">aRelativeTolerance, anAbsoluteTolerance };</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aLogType</td><td>An enum indicating the amount of verbosity wanted to be logged during numerical integration </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aStepperType</td><td>An enum indicating the type of numerical stepper used to perform integration </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeStep</td><td>A number indicating the initial guess time step the numerical solver will take </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aRelativeTolerance</td><td>A number indicating the relative integration tolerance </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anAbsoluteTolerance</td><td>A number indicating the absolute integration tolerance </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aRootSolver</td><td>A root solver to be used to solve the event condition </td></tr>
+    <tr><td class="paramname">aLogType</td><td>An enum indicating the amount of verbosity wanted to be logged during numerical integration </td></tr>
+    <tr><td class="paramname">aStepperType</td><td>An enum indicating the type of numerical stepper used to perform integration </td></tr>
+    <tr><td class="paramname">aTimeStep</td><td>A number indicating the initial guess time step the numerical solver will take </td></tr>
+    <tr><td class="paramname">aRelativeTolerance</td><td>A number indicating the relative integration tolerance </td></tr>
+    <tr><td class="paramname">anAbsoluteTolerance</td><td>A number indicating the absolute integration tolerance </td></tr>
+    <tr><td class="paramname">aRootSolver</td><td>A root solver to be used to solve the event condition </td></tr>
   </table>
   </dd>
 </dl>
@@ -328,10 +328,10 @@ Static Public Member Functions</h2></td></tr>
 <p>Create a conditional numerical solver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeStep</td><td>The initial time step to use. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aRelativeTolerance</td><td>The relative tolerance to use. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anAbsoluteTolerance</td><td>The absolute tolerance to use. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">stateLogger</td><td>A function that takes a <code><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a></code> object and logs.</td></tr>
+    <tr><td class="paramname">aTimeStep</td><td>The initial time step to use. </td></tr>
+    <tr><td class="paramname">aRelativeTolerance</td><td>The relative tolerance to use. </td></tr>
+    <tr><td class="paramname">anAbsoluteTolerance</td><td>The absolute tolerance to use. </td></tr>
+    <tr><td class="paramname">stateLogger</td><td>A function that takes a <code><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a></code> object and logs.</td></tr>
   </table>
   </dd>
 </dl>
@@ -394,7 +394,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Default conditional. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stateLogger</td><td>A function that takes a <code><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a></code> object and logs. Defaults to <code>nullptr</code>. </td></tr>
+    <tr><td class="paramname">stateLogger</td><td>A function that takes a <code><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a></code> object and logs. Defaults to <code>nullptr</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -439,8 +439,8 @@ Static Public Member Functions</h2></td></tr>
 <p>Create a fixed step size numerical solver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeStep</td><td>The time step to use for integration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate.</td></tr>
+    <tr><td class="paramname">aTimeStep</td><td>The time step to use for integration. </td></tr>
+    <tr><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate.</td></tr>
   </table>
   </dd>
 </dl>
@@ -732,9 +732,9 @@ Static Public Member Functions</h2></td></tr>
 <p>Perform numerical integration for a given array of time instants. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>Initial state for integration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeArray</td><td>Array of time instants. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate. </td></tr>
+    <tr><td class="paramname">aState</td><td>Initial state for integration. </td></tr>
+    <tr><td class="paramname">aTimeArray</td><td>Array of time instants. </td></tr>
+    <tr><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate. </td></tr>
   </table>
   </dd>
 </dl>
@@ -777,9 +777,9 @@ Static Public Member Functions</h2></td></tr>
 <p>Perform numerical integration from a start time to an end time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>Initial state for integration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>Time to integrate to. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate. </td></tr>
+    <tr><td class="paramname">aState</td><td>Initial state for integration. </td></tr>
+    <tr><td class="paramname">anInstant</td><td>Time to integrate to. </td></tr>
+    <tr><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate. </td></tr>
   </table>
   </dd>
 </dl>
@@ -828,10 +828,10 @@ Static Public Member Functions</h2></td></tr>
 <p>Perform numerical integration from a start time until either a condition or an end time is reached. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>Initial state for integration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>Maximum time to integrate to. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>Condition to be checked. </td></tr>
+    <tr><td class="paramname">aState</td><td>Initial state for integration. </td></tr>
+    <tr><td class="paramname">anInstant</td><td>Maximum time to integrate to. </td></tr>
+    <tr><td class="paramname">aSystemOfEquations</td><td>System of equations to integrate. </td></tr>
+    <tr><td class="paramname">anEventCondition</td><td>Condition to be checked. </td></tr>
   </table>
   </dd>
 </dl>

@@ -203,8 +203,8 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a6e34bb630b6a9531603899e4844035aa">Propagator</a> propagator = { aNumericalSolver, aDynamicsArray } ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsArray</td><td>A dynamics array </td></tr>
+    <tr><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
+    <tr><td class="paramname">aDynamicsArray</td><td>A dynamics array </td></tr>
   </table>
   </dd>
 </dl>
@@ -272,7 +272,7 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line">propagator.addDynamics(aDynamicsSPtr);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsSPtr</td><td>A <a class="el" href="classostk_1_1astro_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> shared pointer </td></tr>
+    <tr><td class="paramname">aDynamicsSPtr</td><td>A <a class="el" href="classostk_1_1astro_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> shared pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -309,8 +309,8 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line">State state = propagator.calculateStateAt(aState, anInstant);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An initial state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">aState</td><td>An initial state </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>
@@ -348,7 +348,7 @@ Friends</h2></td></tr>
 <p>Can only be used with sorted instants array </p><div class="fragment"><div class="line">Array&lt;State&gt; states = propagator.calculateStatesAt(aState, anInstantArray);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstantArray</td><td>An instant array </td></tr>
+    <tr><td class="paramname">anInstantArray</td><td>An instant array </td></tr>
   </table>
   </dd>
 </dl>
@@ -393,9 +393,9 @@ Friends</h2></td></tr>
 <div class="line">anEventCondition);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An initial state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An event condition </td></tr>
+    <tr><td class="paramname">aState</td><td>An initial state </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">anEventCondition</td><td>An event condition </td></tr>
   </table>
   </dd>
 </dl>
@@ -478,7 +478,7 @@ Friends</h2></td></tr>
 <p>Default from environment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEnvironment</td><td>An environment</td></tr>
+    <tr><td class="paramname">anEnvironment</td><td>An environment</td></tr>
   </table>
   </dd>
 </dl>
@@ -523,8 +523,8 @@ Friends</h2></td></tr>
 <p>From environment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEnvironment</td><td>An environment</td></tr>
+    <tr><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
+    <tr><td class="paramname">anEnvironment</td><td>An environment</td></tr>
   </table>
   </dd>
 </dl>
@@ -612,7 +612,7 @@ Friends</h2></td></tr>
 <p>Not equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagator</td><td>A propagator </td></tr>
+    <tr><td class="paramname">aPropagator</td><td>A propagator </td></tr>
   </table>
   </dd>
 </dl>
@@ -639,7 +639,7 @@ Friends</h2></td></tr>
 <p>Equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagator</td><td>A propagator </td></tr>
+    <tr><td class="paramname">aPropagator</td><td>A propagator </td></tr>
   </table>
   </dd>
 </dl>
@@ -676,8 +676,8 @@ Friends</h2></td></tr>
 <p>Print propagator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
   </table>
   </dd>
 </dl>
@@ -704,7 +704,7 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line">propagator.setDynamics(aDynamicsArray);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsArray</td><td>A dynamics array </td></tr>
+    <tr><td class="paramname">aDynamicsArray</td><td>A dynamics array </td></tr>
   </table>
   </dd>
 </dl>
@@ -777,8 +777,8 @@ Friends</h2></td></tr>
 <p>Output stream operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagator</td><td>A propagator </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">aPropagator</td><td>A propagator </td></tr>
   </table>
   </dd>
 </dl>

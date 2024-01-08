@@ -99,8 +99,10 @@ Inheritance diagram for ostk::astro::trajectory::state::CoordinatesSubset:</div>
  <div class="center">
   <img src="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.png" usemap="#ostk::astro::trajectory::state::CoordinatesSubset_map" alt=""/>
   <map id="ostk::astro::trajectory::state::CoordinatesSubset_map" name="ostk::astro::trajectory::state::CoordinatesSubset_map">
-<area href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html" title="Cartesian Position." alt="ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition" shape="rect" coords="0,56,380,80"/>
-<area href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html" title="Cartesian Velocity." alt="ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity" shape="rect" coords="390,56,770,80"/>
+<area href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity.html" title="Angular Velocity." alt="ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity" shape="rect" coords="0,56,385,80"/>
+<area href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion.html" title="Attitude Quaternion (XYZS format)." alt="ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion" shape="rect" coords="395,56,780,80"/>
+<area href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html" title="Cartesian Position." alt="ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition" shape="rect" coords="790,56,1175,80"/>
+<area href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html" title="Cartesian Velocity." alt="ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity" shape="rect" coords="1185,56,1570,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -176,13 +178,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<pre class="fragment">                The default CoordinatesSubset instance is frame-invariant and implements element-wise
-                addition/subtraction.
+<pre class="fragment">         The default CoordinatesSubset instance is frame-invariant and implements element-wise
+         addition/subtraction.
 </pre> <div class="fragment"><div class="line">CoordinateSubset coordinateSubset = {aName, aSize};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A name </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSize</td><td>A size (i.e. dimension) </td></tr>
+    <tr><td class="paramname">aName</td><td>A name </td></tr>
+    <tr><td class="paramname">aSize</td><td>A size (i.e. dimension) </td></tr>
   </table>
   </dd>
 </dl>
@@ -245,15 +247,17 @@ Static Public Member Functions</h2></td></tr>
 <p>Add two coordinates subsets. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>the instant associated to the coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFullCoordinatesVector</td><td>first set of all coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anotherFullCoordinatesVector</td><td>second set of all coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>the reference frame in which the coordinates are resolved </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
+    <tr><td class="paramname">anInstant</td><td>the instant associated to the coordinates </td></tr>
+    <tr><td class="paramname">aFullCoordinatesVector</td><td>first set of all coordinates </td></tr>
+    <tr><td class="paramname">anotherFullCoordinatesVector</td><td>second set of all coordinates </td></tr>
+    <tr><td class="paramname">aFrameSPtr</td><td>the reference frame in which the coordinates are resolved </td></tr>
+    <tr><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting coordinates subset value (subset_1 + subset_2) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#a87e8d0e6f0e3c7763f0bf830bb344905">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#a7e4ee70f049a63d75479d07a0d0c114b">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>.</p>
 
 </div>
 </div>
@@ -400,17 +404,17 @@ Static Public Member Functions</h2></td></tr>
 <p>Transform the coordinate subset from one frame to another. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>the reference frame associated to the coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFullCoordinatesVector</td><td>all coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fromFrameSPtr</td><td>the reference frame associated to the coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">toFrameSPtr</td><td>the reference frame in which the coordinates are to be transformed </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
+    <tr><td class="paramname">anInstant</td><td>the reference frame associated to the coordinates </td></tr>
+    <tr><td class="paramname">aFullCoordinatesVector</td><td>all coordinates </td></tr>
+    <tr><td class="paramname">fromFrameSPtr</td><td>the reference frame associated to the coordinates </td></tr>
+    <tr><td class="paramname">toFrameSPtr</td><td>the reference frame in which the coordinates are to be transformed </td></tr>
+    <tr><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting coordinates subset value expressed in the desired reference frame </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#aec01ab36d8a242de350dc5ea44720c8b">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#af772163bb8a848905c6a2d4d56286723">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>.</p>
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#aec01ab36d8a242de350dc5ea44720c8b">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion.html#a10aab9197d407eeaa5f3a45281d483fc">ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion</a>, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#af772163bb8a848905c6a2d4d56286723">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity.html#a4c692f418e5cc44bf6892edf07dbaa1b">ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity</a>.</p>
 
 </div>
 </div>
@@ -461,7 +465,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Not equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesSubset</td><td>The coordinate subset to compare it to</td></tr>
+    <tr><td class="paramname">aCoordinatesSubset</td><td>The coordinate subset to compare it to</td></tr>
   </table>
   </dd>
 </dl>
@@ -488,7 +492,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesSubset</td><td>The coordinate subset to compare it to</td></tr>
+    <tr><td class="paramname">aCoordinatesSubset</td><td>The coordinate subset to compare it to</td></tr>
   </table>
   </dd>
 </dl>
@@ -551,15 +555,17 @@ Static Public Member Functions</h2></td></tr>
 <p>Subtract two coordinates subsets. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>the instant associated to the coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFullCoordinatesVector</td><td>first set of all coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anotherFullCoordinatesVector</td><td>second set of all coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFrameSPtr</td><td>the reference frame associated to the coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
+    <tr><td class="paramname">anInstant</td><td>the instant associated to the coordinates </td></tr>
+    <tr><td class="paramname">aFullCoordinatesVector</td><td>first set of all coordinates </td></tr>
+    <tr><td class="paramname">anotherFullCoordinatesVector</td><td>second set of all coordinates </td></tr>
+    <tr><td class="paramname">aFrameSPtr</td><td>the reference frame associated to the coordinates </td></tr>
+    <tr><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting coordinates subset value (subset_1 - subset_2) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#a997ac7bf6115ef1e05342eb335cc4a31">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#a99d337d020bd0eeb2bef8832f7f5c6b5">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>.</p>
 
 </div>
 </div>

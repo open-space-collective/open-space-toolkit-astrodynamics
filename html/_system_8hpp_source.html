@@ -105,52 +105,41 @@ $(document).ready(function(){initNavTree('_system_8hpp_source.html',''); initRes
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using</span> ostk::physics::units::Mass;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1_system.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1_system.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#afac17c0d5e2b1fb9416babf240a1aa65">System</a>(<span class="keyword">const</span> Mass&amp; aMass, <span class="keyword">const</span> Composite&amp; aGeometry);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#afac17c0d5e2b1fb9416babf240a1aa65">System</a>(<span class="keyword">const</span> Mass&amp; aMass, <span class="keyword">const</span> Composite&amp; aGeometry);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a465eb91f18cbc10466b30694daab39fd">~System</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>* <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#ade321754db6db7f635def34cb137d9c4">clone</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a8d8602da9451044f9810eaf22076b852">operator==</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>&amp; aSystem) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a5426b85c139cf30be998e0a983fe5978">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>&amp; aSystem) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a465eb91f18cbc10466b30694daab39fd">~System</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>* <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#ade321754db6db7f635def34cb137d9c4">clone</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a8d8602da9451044f9810eaf22076b852">operator==</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>&amp; aSystem) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a5426b85c139cf30be998e0a983fe5978">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>&amp; aSystem) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#aaf88422b640217e9e1c2c354a7e05634">operator&lt;&lt;</a>(std::ostream&amp; anOutputStream, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>&amp; aSystem);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a45d6ad6bca50c0d9cb9b50135ed2efa3">isDefined</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#aaf88422b640217e9e1c2c354a7e05634">operator&lt;&lt;</a>(std::ostream&amp; anOutputStream, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a>&amp; aSystem);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a24d1aacf9355f5ee56fa56eeabe231ab">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a45d6ad6bca50c0d9cb9b50135ed2efa3">isDefined</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a24d1aacf9355f5ee56fa56eeabe231ab">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Mass <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a5c83b22d462c5d4b3f9766430c17d646">getMass</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    Mass <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#a5c83b22d462c5d4b3f9766430c17d646">getMass</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    Composite <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#ac50685f33e3442384ed41b3b8c2d6549">getGeometry</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    Composite <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#ac50685f33e3442384ed41b3b8c2d6549">getGeometry</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#abb1e68e42b4791d7268e18608c8909af">Undefined</a>();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    Mass mass_;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    Composite geometry_;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}  <span class="comment">// namespace flight</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}  <span class="comment">// namespace ostk</span></div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a> <a class="code" href="classostk_1_1astro_1_1flight_1_1_system.html#abb1e68e42b4791d7268e18608c8909af">Undefined</a>();</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    Mass mass_;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    Composite geometry_;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;};</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}  <span class="comment">// namespace flight</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1_system_html_a45d6ad6bca50c0d9cb9b50135ed2efa3"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1_system.html#a45d6ad6bca50c0d9cb9b50135ed2efa3">ostk::astro::flight::System::isDefined</a></div><div class="ttdeci">virtual bool isDefined() const</div><div class="ttdoc">Check if system is defined.</div><div class="ttdef"><b>Definition:</b> System.cpp:51</div></div>
@@ -165,7 +154,7 @@ $(document).ready(function(){initNavTree('_system_8hpp_source.html',''); initRes
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1_system_html_a5c83b22d462c5d4b3f9766430c17d646"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1_system.html#a5c83b22d462c5d4b3f9766430c17d646">ostk::astro::flight::System::getMass</a></div><div class="ttdeci">Mass getMass() const</div><div class="ttdoc">Get system's mass.</div><div class="ttdef"><b>Definition:</b> System.cpp:56</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1_system_html_abb1e68e42b4791d7268e18608c8909af"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1_system.html#abb1e68e42b4791d7268e18608c8909af">ostk::astro::flight::System::Undefined</a></div><div class="ttdeci">static System Undefined()</div><div class="ttdef"><b>Definition:</b> System.cpp:88</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1_system_html_ade321754db6db7f635def34cb137d9c4"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1_system.html#ade321754db6db7f635def34cb137d9c4">ostk::astro::flight::System::clone</a></div><div class="ttdeci">System * clone() const</div><div class="ttdoc">Clone system.</div><div class="ttdef"><b>Definition:</b> System.cpp:24</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1_system_html"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1_system.html">ostk::astro::flight::System</a></div><div class="ttdoc">Defines the generic physical system that has a mass and a certain geometry that can be composed of mu...</div><div class="ttdef"><b>Definition:</b> System.hpp:26</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1_system_html"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1_system.html">ostk::astro::flight::System</a></div><div class="ttdoc">Defines the generic physical system that has a mass and a certain geometry that can be composed of mu...</div><div class="ttdef"><b>Definition:</b> System.hpp:25</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

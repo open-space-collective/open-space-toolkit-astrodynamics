@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1_s
 </div><!--header-->
 <div class="contents">
 
-<p>Represents a sequence of trajectory segments executed in order.  
+<p>Represent a sequence of trajectory segments executed in order.  
  <a href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_sequence_8hpp_source.html">Sequence.hpp</a>&gt;</code></p>
@@ -146,7 +146,7 @@ Friends</h2></td></tr>
 <tr class="separator:a718db987eeeebb152959b4a77c4b4018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents a sequence of trajectory segments executed in order. </p>
+<div class="textblock"><p>Represent a sequence of trajectory segments executed in order. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3b1f0be91dd0860976dad9e54ada8cb2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b1f0be91dd0860976dad9e54ada8cb2">&#9670;&nbsp;</a></span>Sequence()</h2>
@@ -193,23 +193,22 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line"><span class="keyword">const</span> Size repetitionCount = 1;</div>
+<div class="fragment"><div class="line"><span class="keyword">const</span> Array&lt;Segment&gt; segmentArray = {};</div>
 <div class="line"><span class="keyword">const</span> NumericalSolver numericalSolver = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a8484b5f856c8686284f55a17c1557f34">NumericalSolver::Default</a>();</div>
 <div class="line"><span class="keyword">const</span> Array&lt;Shared&lt;Dynamics&gt;&gt; dynamicsArray =</div>
 <div class="line">{std::make_shared&lt;CentralBodyGravity&gt;(Earth::GravitationalParameter())};</div>
 <div class="line"><span class="keyword">const</span> Duration maximumPropagationDuration = Duration::Days(7.0);</div>
 <div class="line"><span class="keyword">const</span> Size verbosity = 0;</div>
 <div class="line"> </div>
-<div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#a3b1f0be91dd0860976dad9e54ada8cb2">Sequence</a> sequence = {repetitionCount, numericalSolver, dynamicsArray,</div>
+<div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#a3b1f0be91dd0860976dad9e54ada8cb2">Sequence</a> sequence = {segmentArray, numericalSolver, dynamicsArray,</div>
 <div class="line">maximumPropagationDuration, verbosity};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSegmentArray</td><td>An array of segments. Defaults to empty. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aRepetitionCount</td><td>A repetition count. Defaults to 1. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A Numerical Solver. Defaults to Undefined. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsArray</td><td>An array of shared dynamics. Defaults to empty. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">segmentPropagationDurationLimit</td><td>Maximum duration for propagation. Defaults to 7.0 days. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">verbosity</td><td>Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0. </td></tr>
+    <tr><td class="paramname">aSegmentArray</td><td>An array of segments. Defaults to empty. </td></tr>
+    <tr><td class="paramname">aNumericalSolver</td><td>A Numerical Solver. Defaults to Undefined. </td></tr>
+    <tr><td class="paramname">aDynamicsArray</td><td>An array of shared dynamics. Defaults to empty. </td></tr>
+    <tr><td class="paramname">segmentPropagationDurationLimit</td><td>Maximum duration for propagation. Defaults to 7.0 days. </td></tr>
+    <tr><td class="paramname">verbosity</td><td>Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0. </td></tr>
   </table>
   </dd>
 </dl>
@@ -236,7 +235,7 @@ Friends</h2></td></tr>
 <p>Add a coast segment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventConditionSPtr</td><td>An event condition. </td></tr>
+    <tr><td class="paramname">anEventConditionSPtr</td><td>An event condition. </td></tr>
   </table>
   </dd>
 </dl>
@@ -272,8 +271,8 @@ Friends</h2></td></tr>
 <p>Add a maneuver segment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventConditionSPtr</td><td>An event condition. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aThruster</td><td>A thruster dynamics. </td></tr>
+    <tr><td class="paramname">anEventConditionSPtr</td><td>An event condition. </td></tr>
+    <tr><td class="paramname">aThruster</td><td>A thruster dynamics. </td></tr>
   </table>
   </dd>
 </dl>
@@ -299,7 +298,7 @@ Friends</h2></td></tr>
 <p>Add a trajectory segment. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTrajectorySegment</td><td>A trajectory segment. </td></tr>
+    <tr><td class="paramname">aTrajectorySegment</td><td>A trajectory segment. </td></tr>
   </table>
   </dd>
 </dl>
@@ -325,7 +324,7 @@ Friends</h2></td></tr>
 <p>Add multiple segments. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aTrajectorySegmentArray</td><td>An array of trajectory segments. </td></tr>
+    <tr><td class="paramname">aTrajectorySegmentArray</td><td>An array of trajectory segments. </td></tr>
   </table>
   </dd>
 </dl>
@@ -441,8 +440,8 @@ Friends</h2></td></tr>
 <p>Print the sequence. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
   </table>
   </dd>
 </dl>
@@ -478,8 +477,8 @@ Friends</h2></td></tr>
 <p>Solve the sequence given an initial state, for a number of reptitions. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>Initial state for the sequence. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aRepetitionCount</td><td>Number of repetitions. Defaults to 1, i.e. execute sequence once. </td></tr>
+    <tr><td class="paramname">aState</td><td>Initial state for the sequence. </td></tr>
+    <tr><td class="paramname">aRepetitionCount</td><td>Number of repetitions. Defaults to 1, i.e. execute sequence once. </td></tr>
   </table>
   </dd>
 </dl>
@@ -522,9 +521,9 @@ Friends</h2></td></tr>
 <p>Solve the sequence given an initial state. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>Initial state for the sequence. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An event condition. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aMaximumPropagationDuration</td><td>Maximum duration for sequence propagation. </td></tr>
+    <tr><td class="paramname">aState</td><td>Initial state for the sequence. </td></tr>
+    <tr><td class="paramname">anEventCondition</td><td>An event condition. </td></tr>
+    <tr><td class="paramname">aMaximumPropagationDuration</td><td>Maximum duration for sequence propagation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -570,8 +569,8 @@ Friends</h2></td></tr>
 <p>Output stream operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSequence</td><td>A sequence. </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream. </td></tr>
+    <tr><td class="paramname">aSequence</td><td>A sequence. </td></tr>
   </table>
   </dd>
 </dl>

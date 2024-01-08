@@ -86,10 +86,10 @@ Constructor.
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Numerical\+Solver} & A numerical solver \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Dynamics\+Array} & A dynamics array \\
+{\em a\+Dynamics\+Array} & A dynamics array \\
 \hline
 \end{DoxyParams}
 
@@ -136,8 +136,8 @@ Add a dynamics to the array of shared pointers to dynamics.
 \DoxyCodeLine{propagator.addDynamics(aDynamicsSPtr);}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Dynamics\+S\+Ptr} & A \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} shared pointer \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Dynamics\+S\+Ptr} & A \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} shared pointer \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}} 
@@ -155,10 +155,10 @@ Calculate the state at an instant, given initial state.
 \DoxyCodeLine{State state = propagator.calculateStateAt(aState, anInstant);}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & An initial state \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & An initial state \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+{\em an\+Instant} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -179,8 +179,8 @@ Can only be used with sorted instants array
 \DoxyCodeLine{Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant\+Array} & An instant array \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant\+Array} & An instant array \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -202,12 +202,12 @@ Calculate the state subject to an Event Condition, given initial state and maxim
 \DoxyCodeLine{anEventCondition);}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & An initial state \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & An initial state \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An event condition \\
+{\em an\+Event\+Condition} & An event condition \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -251,8 +251,8 @@ A default propagator (with position derivative dynamics included)
 Default from environment. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+\begin{DoxyParams}{Parameters}
+{\em an\+Environment} & An environment\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -269,10 +269,10 @@ A default propagator from environment
 From environment. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Numerical\+Solver} & A numerical solver \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+{\em an\+Environment} & An environment\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -332,8 +332,8 @@ True if propagator is defined
 Not equal to operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propagator} & A propagator \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -350,8 +350,8 @@ True if propagators are not equal
 Equal to operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propagator} & A propagator \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -368,10 +368,10 @@ True if propagators are equal
 Print propagator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+{\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}} 
@@ -389,8 +389,8 @@ Set the dynamics array.
 \DoxyCodeLine{propagator.setDynamics(aDynamicsArray);}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Dynamics\+Array} & A dynamics array \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Dynamics\+Array} & A dynamics array \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_abecfbaa1fe9f43e21984b9a8cd3f4e83}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_abecfbaa1fe9f43e21984b9a8cd3f4e83}} 
@@ -420,10 +420,10 @@ An undefined propagator
 Output stream operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
+{\em a\+Propagator} & A propagator \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

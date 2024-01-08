@@ -68,8 +68,8 @@ Define a dynamical system subject to equations of motion.
 Constructor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Name} & A name \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_ac40f08ea4bd324c8828e8ae60421a808}\label{classostk_1_1astro_1_1_dynamics_ac40f08ea4bd324c8828e8ae60421a808}} 
@@ -96,12 +96,12 @@ Destructor.
 Compute the contribution to the state derivative. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
+{\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
+{\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -122,8 +122,8 @@ Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_d
 Get a list of dynamics from the envrionment. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+\begin{DoxyParams}{Parameters}
+{\em an\+Environment} & An environment\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -170,12 +170,12 @@ Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_d
 Get system of equations wrapper. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Context\+Array} & An array of \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} Information \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Context\+Array} & An array of \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} Information \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame in which dynamic equations are resolved\\
+{\em a\+Frame\+S\+Ptr} & The reference frame in which dynamic equations are resolved\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -213,7 +213,7 @@ True if dynamics is defined
 \end{DoxyReturn}
 
 
-Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad7e1160f12df4226de431b29bf56ae69}{ostk\+::astro\+::dynamics\+::\+Thruster}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a8cd7da63d6416e7208393903ffb40ba3}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_ad8009887dd5ff11a1e0be78f949c3317}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_af8dd288ea8d53c2ad3af6af8b47ae97f}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_ad0d1367f1436871298e39b44b8771f03}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}.
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a8cd7da63d6416e7208393903ffb40ba3}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad7e1160f12df4226de431b29bf56ae69}{ostk\+::astro\+::dynamics\+::\+Thruster}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_ad8009887dd5ff11a1e0be78f949c3317}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_af8dd288ea8d53c2ad3af6af8b47ae97f}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_ad0d1367f1436871298e39b44b8771f03}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}\label{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}} 
 \index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!print@{print}}
@@ -226,10 +226,10 @@ Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad7e
 Print dynamics. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+{\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
 
@@ -256,10 +256,10 @@ Output stream operator.
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Dynamics} & A \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \\
+{\em a\+Dynamics} & A \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

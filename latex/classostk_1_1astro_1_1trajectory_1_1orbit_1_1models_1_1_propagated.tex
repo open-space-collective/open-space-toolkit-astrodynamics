@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}\index{ostk::astro::trajectory::orbit::models::Propagated@{ostk::astro::trajectory::orbit::models::Propagated}}
 
 
-Defines an orbit model that is propagated using numerical propagation.  
+Define an orbit model that is propagated using numerical propagation.  
 
 
 
@@ -63,7 +63,7 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1
 
 
 \doxysubsection{Detailed Description}
-Defines an orbit model that is propagated using numerical propagation. 
+Define an orbit model that is propagated using numerical propagation. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}} 
@@ -83,10 +83,10 @@ Constructor.
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propagator} & A propagator \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+State} & A state \\
+{\em a\+State} & A state \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aea48e20ef7b8c5fdcf1a6be94f63d83c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aea48e20ef7b8c5fdcf1a6be94f63d83c}} 
@@ -106,10 +106,10 @@ Constructor with a cached state array.
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propagator} & A propagator \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Cached\+State\+Array} & A state array \\
+{\em a\+Cached\+State\+Array} & A state array \\
 \hline
 \end{DoxyParams}
 
@@ -166,8 +166,8 @@ Calculate the revolution number at an instant.
 \DoxyCodeLine{Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -192,8 +192,8 @@ Does not have macro-\/level sorting optimization, should not be used with disord
 \DoxyCodeLine{State state = propagated.calculateStateAt(anInstant) ;}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -218,10 +218,10 @@ Calculate the state at an instant, given initial state.
 \DoxyCodeLine{State state = propagated.calculateStateAt(aState, anInstant) ;}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & An initial state \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & An initial state \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+{\em an\+Instant} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -322,8 +322,8 @@ Implements \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_
 Not equal to operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propagated\+Model} & A propagated \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propagated\+Model} & A propagated \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -340,8 +340,8 @@ True if propagateds are not equal
 Not equal to operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Model} & A model \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Model} & A model \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -362,8 +362,8 @@ Implements \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a2dd77b9f
 Equal to operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propagated\+Model} & A propagated \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propagated\+Model} & A propagated \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -380,8 +380,8 @@ True if propagateds are equal
 Equal to operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Model} & A model \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Model} & A model \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -402,10 +402,10 @@ Implements \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a874f7984
 Print propagated. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+{\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
 
@@ -428,8 +428,8 @@ Set internal cached state array manually.
 \DoxyCodeLine{propagated.setCachedStateArray(stateArray) ;}
 \end{DoxyCode}
  
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State\+Array} & A state array \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State\+Array} & A state array \\
 \hline
 \end{DoxyParams}
 
@@ -446,10 +446,10 @@ Set internal cached state array manually.
 Output stream operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Propagated\+Model} & A propagated model \\
+{\em a\+Propagated\+Model} & A propagated model \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

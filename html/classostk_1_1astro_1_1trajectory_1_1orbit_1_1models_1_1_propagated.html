@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1or
 </div><!--header-->
 <div class="contents">
 
-<p>Defines an orbit model that is propagated using numerical propagation.  
+<p>Define an orbit model that is propagated using numerical propagation.  
  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_propagated_8hpp_source.html">Propagated.hpp</a>&gt;</code></p>
@@ -185,7 +185,7 @@ Friends</h2></td></tr>
 <tr class="separator:aa61df3429a00e0f64a497af2c81075c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines an orbit model that is propagated using numerical propagation. </p>
+<div class="textblock"><p>Define an orbit model that is propagated using numerical propagation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa7cbaccadc0e9cad5062545ef58cc439"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa7cbaccadc0e9cad5062545ef58cc439">&#9670;&nbsp;</a></span>Propagated() <span class="overload">[1/2]</span></h2>
@@ -217,8 +217,8 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#aa7cbaccadc0e9cad5062545ef58cc439">Propagated</a> propagated = { aPropagator, aState } ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagator</td><td>A propagator </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A state </td></tr>
+    <tr><td class="paramname">aPropagator</td><td>A propagator </td></tr>
+    <tr><td class="paramname">aState</td><td>A state </td></tr>
   </table>
   </dd>
 </dl>
@@ -255,8 +255,8 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#aa7cbaccadc0e9cad5062545ef58cc439">Propagated</a> propagated = { aPropagator, aCachedStateArray } ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagator</td><td>A propagator </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCachedStateArray</td><td>A state array </td></tr>
+    <tr><td class="paramname">aPropagator</td><td>A propagator </td></tr>
+    <tr><td class="paramname">aCachedStateArray</td><td>A state array </td></tr>
   </table>
   </dd>
 </dl>
@@ -334,7 +334,7 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line">Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>
@@ -372,7 +372,7 @@ Friends</h2></td></tr>
 <p>Does not have macro-level sorting optimization, should not be used with disorded instant array </p><div class="fragment"><div class="line">State state = propagated.calculateStateAt(anInstant) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>
@@ -410,8 +410,8 @@ Friends</h2></td></tr>
 <div class="fragment"><div class="line">State state = propagated.calculateStateAt(aState, anInstant) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An initial state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">aState</td><td>An initial state </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>
@@ -562,7 +562,7 @@ Friends</h2></td></tr>
 <p>Not equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagatedModel</td><td>A propagated </td></tr>
+    <tr><td class="paramname">aPropagatedModel</td><td>A propagated </td></tr>
   </table>
   </dd>
 </dl>
@@ -597,7 +597,7 @@ Friends</h2></td></tr>
 <p>Not equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aModel</td><td>A model </td></tr>
+    <tr><td class="paramname">aModel</td><td>A model </td></tr>
   </table>
   </dd>
 </dl>
@@ -626,7 +626,7 @@ Friends</h2></td></tr>
 <p>Equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagatedModel</td><td>A propagated </td></tr>
+    <tr><td class="paramname">aPropagatedModel</td><td>A propagated </td></tr>
   </table>
   </dd>
 </dl>
@@ -661,7 +661,7 @@ Friends</h2></td></tr>
 <p>Equal to operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aModel</td><td>A model </td></tr>
+    <tr><td class="paramname">aModel</td><td>A model </td></tr>
   </table>
   </dd>
 </dl>
@@ -708,8 +708,8 @@ Friends</h2></td></tr>
 <p>Print propagated. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
   </table>
   </dd>
 </dl>
@@ -739,7 +739,7 @@ Friends</h2></td></tr>
 <div class="line">propagated.setCachedStateArray(stateArray) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aStateArray</td><td>A state array </td></tr>
+    <tr><td class="paramname">aStateArray</td><td>A state array </td></tr>
   </table>
   </dd>
 </dl>
@@ -784,8 +784,8 @@ Friends</h2></td></tr>
 <p>Output stream operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPropagatedModel</td><td>A propagated model </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">aPropagatedModel</td><td>A propagated model </td></tr>
   </table>
   </dd>
 </dl>

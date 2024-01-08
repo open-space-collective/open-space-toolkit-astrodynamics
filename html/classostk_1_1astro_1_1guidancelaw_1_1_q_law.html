@@ -256,10 +256,10 @@ Additional Inherited Members</h2></td></tr>
 <p>Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCOE</td><td>A target orbit described by Classical Orbital Elements. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aGravitationalParameter</td><td>The gravitational parameter of the central body. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aParameterSet</td><td>A set of parameters for the <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html" title="The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions ...">QLaw</a>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aGradientStrategy</td><td>The strategy to compute the gradient of the <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html" title="The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions ...">QLaw</a>. Defaults to FiniteDifference </td></tr>
+    <tr><td class="paramname">aCOE</td><td>A target orbit described by Classical Orbital Elements. </td></tr>
+    <tr><td class="paramname">aGravitationalParameter</td><td>The gravitational parameter of the central body. </td></tr>
+    <tr><td class="paramname">aParameterSet</td><td>A set of parameters for the <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html" title="The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions ...">QLaw</a>. </td></tr>
+    <tr><td class="paramname">aGradientStrategy</td><td>The strategy to compute the gradient of the <a class="el" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html" title="The Q-law is a Lyapunov feedback control law developed by Petropoulos, based on analytic expressions ...">QLaw</a>. Defaults to FiniteDifference </td></tr>
   </table>
   </dd>
 </dl>
@@ -349,11 +349,11 @@ Additional Inherited Members</h2></td></tr>
 <p>Compute the acceleration at the provided coordinates based on logic specific to the guidance law. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPositionCoordinates</td><td>The position coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aVelocityCoordinates</td><td>The velocity coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">outputFrame</td><td>The output frame</td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">aPositionCoordinates</td><td>The position coordinates </td></tr>
+    <tr><td class="paramname">aVelocityCoordinates</td><td>The velocity coordinates </td></tr>
+    <tr><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration </td></tr>
+    <tr><td class="paramname">outputFrame</td><td>The output frame</td></tr>
   </table>
   </dd>
 </dl>
@@ -400,8 +400,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Compute the derivative of the orbital elements with respect to the thrust vectors. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>A vector of classical orbital elements </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aGravitationalParameter</td><td>The gravitational parameter</td></tr>
+    <tr><td class="paramname">aCOEVector</td><td>A vector of classical orbital elements </td></tr>
+    <tr><td class="paramname">aGravitationalParameter</td><td>The gravitational parameter</td></tr>
   </table>
   </dd>
 </dl>
@@ -438,8 +438,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Compute the derivative of Q with respect to the orbital elements. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>The current vector of classical orbital elements </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+    <tr><td class="paramname">aCOEVector</td><td>The current vector of classical orbital elements </td></tr>
+    <tr><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
   </table>
   </dd>
 </dl>
@@ -476,8 +476,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Compute the maximal change in orbital elements. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>A vector of classical orbital elements </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+    <tr><td class="paramname">aCOEVector</td><td>A vector of classical orbital elements </td></tr>
+    <tr><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
   </table>
   </dd>
 </dl>
@@ -514,8 +514,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Compute the Proximity Quotient value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>The vector of classical orbital elements </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+    <tr><td class="paramname">aCOEVector</td><td>The vector of classical orbital elements </td></tr>
+    <tr><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
   </table>
   </dd>
 </dl>
@@ -552,8 +552,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Compute the thrust direction. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCOEVector</td><td>The current vector of classical orbital elements </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
+    <tr><td class="paramname">aCOEVector</td><td>The current vector of classical orbital elements </td></tr>
+    <tr><td class="paramname">aThrustAcceleration</td><td>The thrust acceleration</td></tr>
   </table>
   </dd>
 </dl>
@@ -658,8 +658,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Print guidance law. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">(optional)</td><td>displayDecorators If true, display decorators </td></tr>
   </table>
   </dd>
 </dl>
@@ -705,8 +705,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Convert from the theta-R-H frame to the GCRF frame. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aPositionCoordinates</td><td>The position coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aVelocityCoordinates</td><td>The velocity coordinates</td></tr>
+    <tr><td class="paramname">aPositionCoordinates</td><td>The position coordinates </td></tr>
+    <tr><td class="paramname">aVelocityCoordinates</td><td>The velocity coordinates</td></tr>
   </table>
   </dd>
 </dl>
@@ -753,8 +753,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="classostk_1_1astro_1_1guidancelaw_1_1_q_law.html#a4fb73ade7e47bd9ba101bacc316c0638">QLaw</a>(...) ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aGuidanceLaw</td><td>A guidance Law </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramname">aGuidanceLaw</td><td>A guidance Law </td></tr>
   </table>
   </dd>
 </dl>

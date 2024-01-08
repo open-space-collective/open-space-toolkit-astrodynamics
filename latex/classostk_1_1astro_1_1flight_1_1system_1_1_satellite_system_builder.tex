@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder}\index{ostk::astro::flight::system::SatelliteSystemBuilder@{ostk::astro::flight::system::SatelliteSystemBuilder}}
 
 
-Satellite \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} builder.  
+Satellite \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} builder, meant to simplify creation of a \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}}, by allowing you to only specify the parameters you want. There are two ways of doing this\+:  
 
 
 
@@ -47,7 +47,15 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_sa
 
 
 \doxysubsection{Detailed Description}
-Satellite \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} builder. 
+Satellite \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} builder, meant to simplify creation of a \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}}, by allowing you to only specify the parameters you want. There are two ways of doing this\+: 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}{SatelliteSystemBuilder}}().withDryMass(X).withArea(Y)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_ab8a8c4f0ba1cc956ec28a135c402a7bf}{SatelliteSystemBuilder::Default}}().\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a155489432c18de5cfc76241e1d0f19c5}{withDryMass}}(X)}
+\end{DoxyCode}
+ 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a1399b4dc78f0ef716417bc8e80a1db7d}} 
@@ -129,10 +137,10 @@ Satellite system builder with default values
 Print satellite system builder. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+{\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a29e1055bec2e456a2a711199331286e6}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_a29e1055bec2e456a2a711199331286e6}} 
@@ -146,8 +154,8 @@ Print satellite system builder.
 Set the cross-\/sectional surface area. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Cross\+Sectional\+Surface\+Area} & A cross-\/sectional surface area \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Cross\+Sectional\+Surface\+Area} & A cross-\/sectional surface area \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -164,8 +172,8 @@ The builder
 Set the drag coefficient. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Drag\+Coefficient} & A drag coefficient \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Drag\+Coefficient} & A drag coefficient \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -182,8 +190,8 @@ The builder
 Set the dry mass. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Dry\+Mass} & A dry mass \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Dry\+Mass} & A dry mass \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -200,8 +208,8 @@ The builder
 Set the geometry. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Geometry} & A geometry \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Geometry} & A geometry \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -218,8 +226,8 @@ The builder
 Set the inertia tensor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Inertia\+Tensor} & An inertia tensor \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Inertia\+Tensor} & An inertia tensor \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -236,8 +244,8 @@ The builder
 Set the propulsion system. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Propulsion\+System} & A Propulsion \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Propulsion\+System} & A Propulsion \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}} \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -257,10 +265,10 @@ The builder
 Output stream operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Satellite\+System\+Builder} & A satellite system builder \\
+{\em a\+Satellite\+System\+Builder} & A satellite system builder \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

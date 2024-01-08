@@ -1,0 +1,122 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity}{}\doxysection{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::Angular\+Velocity Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity}\index{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}}
+
+
+Angular Velocity.  
+
+
+
+
+{\ttfamily \#include $<$Angular\+Velocity.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::Angular\+Velocity\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_ab3b7fed79162a038384efa5c24a820d5}{Angular\+Velocity}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion}{Attitude\+Quaternion}} $>$ \&an\+Attitude\+Quaternion\+S\+Ptr, const String \&a\+Name)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a91228c47f0f546a75da560cfad3f283d}{$\sim$\+Angular\+Velocity}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a4c692f418e5cc44bf6892edf07dbaa1b}{in\+Frame}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Full\+Coordinates\+Vector, const Shared$<$ const Frame $>$ \&from\+Frame, const Shared$<$ const Frame $>$ \&to\+Frame, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&a\+Coordinates\+Broker\+S\+Ptr) const
+\begin{DoxyCompactList}\small\item\em Transform the coordinate subset from one frame to another. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity}{Angular\+Velocity}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a1edf9a5ccaac636552cd692f527d758b}{Default}} ()
+\begin{DoxyCompactList}\small\item\em Return the default instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Angular Velocity. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_ab3b7fed79162a038384efa5c24a820d5}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_ab3b7fed79162a038384efa5c24a820d5}} 
+\index{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}!AngularVelocity@{AngularVelocity}}
+\index{AngularVelocity@{AngularVelocity}!ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}}
+\doxysubsubsection{\texorpdfstring{AngularVelocity()}{AngularVelocity()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Angular\+Velocity\+::\+Angular\+Velocity (\begin{DoxyParamCaption}\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion}{Attitude\+Quaternion}} $>$ \&}]{an\+Attitude\+Quaternion\+S\+Ptr,  }\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_ab3b7fed79162a038384efa5c24a820d5}{AngularVelocity}} angularVelocity = \{anAttitudeQuaternionSPtr, aName\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Attitude\+Quaternion\+S\+Ptr} & the associated Attitude Quaternion \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Name} & a name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a91228c47f0f546a75da560cfad3f283d}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a91228c47f0f546a75da560cfad3f283d}} 
+\index{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}!````~AngularVelocity@{$\sim$AngularVelocity}}
+\index{````~AngularVelocity@{$\sim$AngularVelocity}!ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}}
+\doxysubsubsection{\texorpdfstring{$\sim$AngularVelocity()}{~AngularVelocity()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Angular\+Velocity\+::$\sim$\+Angular\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a1edf9a5ccaac636552cd692f527d758b}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a1edf9a5ccaac636552cd692f527d758b}} 
+\index{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}!Default@{Default}}
+\index{Default@{Default}!ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}}
+\doxysubsubsection{\texorpdfstring{Default()}{Default()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity}{Angular\+Velocity}} $>$ ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Angular\+Velocity\+::\+Default (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return the default instance. 
+
+\begin{DoxyReturn}{Returns}
+The default instance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a4c692f418e5cc44bf6892edf07dbaa1b}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_a4c692f418e5cc44bf6892edf07dbaa1b}} 
+\index{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}!inFrame@{inFrame}}
+\index{inFrame@{inFrame}!ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity@{ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity}}
+\doxysubsubsection{\texorpdfstring{inFrame()}{inFrame()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Angular\+Velocity\+::in\+Frame (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Full\+Coordinates\+Vector,  }\item[{const Shared$<$ const Frame $>$ \&}]{from\+Frame,  }\item[{const Shared$<$ const Frame $>$ \&}]{to\+Frame,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&}]{a\+Coordinates\+Broker\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Transform the coordinate subset from one frame to another. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & the reference frame associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Full\+Coordinates\+Vector} & all coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em from\+Frame} & the reference frame associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em to\+Frame} & the reference frame in which the coordinates are to be transformed \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Broker\+S\+Ptr} & a coordinates broker\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting coordinates subset value expressed in the desired reference frame 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a45305e29e0e31f9dc346713352f8e778}{ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\+Coordinates\+Subsets/\mbox{\hyperlink{_angular_velocity_8hpp}{Angular\+Velocity.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\+Coordinates\+Subsets/\mbox{\hyperlink{_angular_velocity_8cpp}{Angular\+Velocity.\+cpp}}\end{DoxyCompactItemize}

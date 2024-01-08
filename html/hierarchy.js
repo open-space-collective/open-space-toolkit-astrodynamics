@@ -13,6 +13,8 @@ var hierarchy =
     [ "ostk::astro::Dynamics::Context", "structostk_1_1astro_1_1_dynamics_1_1_context.html", null ],
     [ "ostk::astro::trajectory::state::CoordinatesBroker", "classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html", null ],
     [ "ostk::astro::trajectory::state::CoordinatesSubset", "classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html", [
+      [ "ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity", "classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity.html", null ],
+      [ "ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion", "classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion.html", null ],
       [ "ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition", "classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html", null ],
       [ "ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity", "classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html", null ]
     ] ],
@@ -76,8 +78,8 @@ var hierarchy =
     [ "ostk::astro::trajectory::Segment", "classostk_1_1astro_1_1trajectory_1_1_segment.html", null ],
     [ "ostk::astro::trajectory::Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html", null ],
     [ "ostk::astro::trajectory::Sequence::Solution", "structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution.html", null ],
-    [ "ostk::astro::trajectory::Segment::Solution", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html", null ],
     [ "ostk::astro::RootSolver::Solution", "structostk_1_1astro_1_1_root_solver_1_1_solution.html", null ],
+    [ "ostk::astro::trajectory::Segment::Solution", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html", null ],
     [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
     [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::trajectory::StateBuilder", "classostk_1_1astro_1_1trajectory_1_1_state_builder.html", null ],

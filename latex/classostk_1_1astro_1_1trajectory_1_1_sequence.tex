@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1trajectory_1_1_sequence}\index{ostk::astro::trajectory::Sequence@{ostk::astro::trajectory::Sequence}}
 
 
-Represents a sequence of trajectory segments executed in order.  
+Represent a sequence of trajectory segments executed in order.  
 
 
 
@@ -49,7 +49,7 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence
 
 
 \doxysubsection{Detailed Description}
-Represents a sequence of trajectory segments executed in order. 
+Represent a sequence of trajectory segments executed in order. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}} 
@@ -64,31 +64,29 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{const} Size repetitionCount = 1;}
+\DoxyCodeLine{\textcolor{keyword}{const} Array<Segment> segmentArray = \{\};}
 \DoxyCodeLine{\textcolor{keyword}{const} NumericalSolver numericalSolver = \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_a8484b5f856c8686284f55a17c1557f34}{NumericalSolver::Default}}();}
 \DoxyCodeLine{\textcolor{keyword}{const} Array<Shared<Dynamics>> dynamicsArray =}
 \DoxyCodeLine{\{std::make\_shared<CentralBodyGravity>(Earth::GravitationalParameter())\};}
 \DoxyCodeLine{\textcolor{keyword}{const} Duration maximumPropagationDuration = Duration::Days(7.0);}
 \DoxyCodeLine{\textcolor{keyword}{const} Size verbosity = 0;}
 \DoxyCodeLine{}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}{Sequence}} sequence = \{repetitionCount, numericalSolver, dynamicsArray,}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence_a3b1f0be91dd0860976dad9e54ada8cb2}{Sequence}} sequence = \{segmentArray, numericalSolver, dynamicsArray,}
 \DoxyCodeLine{maximumPropagationDuration, verbosity\};}
 \end{DoxyCode}
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Segment\+Array} & An array of segments. Defaults to empty. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Segment\+Array} & An array of segments. Defaults to empty. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Repetition\+Count} & A repetition count. Defaults to 1. \\
+{\em a\+Numerical\+Solver} & A Numerical Solver. Defaults to Undefined. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A Numerical Solver. Defaults to Undefined. \\
+{\em a\+Dynamics\+Array} & An array of shared dynamics. Defaults to empty. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Dynamics\+Array} & An array of shared dynamics. Defaults to empty. \\
+{\em segment\+Propagation\+Duration\+Limit} & Maximum duration for propagation. Defaults to 7.\+0 days. \\
 \hline
-\mbox{\texttt{ in}}  & {\em segment\+Propagation\+Duration\+Limit} & Maximum duration for propagation. Defaults to 7.\+0 days. \\
-\hline
-\mbox{\texttt{ in}}  & {\em verbosity} & Verbosity level for the solver \mbox{[}0 (low) -\/ 5 (high)\mbox{]}. Defaults to 0. \\
+{\em verbosity} & Verbosity level for the solver \mbox{[}0 (low) -\/ 5 (high)\mbox{]}. Defaults to 0. \\
 \hline
 \end{DoxyParams}
 
@@ -105,8 +103,8 @@ Constructor.
 Add a coast segment. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition\+S\+Ptr} & An event condition. \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Event\+Condition\+S\+Ptr} & An event condition. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_ab6a7e40bf334faf78967fff729e4730c}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_ab6a7e40bf334faf78967fff729e4730c}} 
@@ -120,10 +118,10 @@ Add a coast segment.
 Add a maneuver segment. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition\+S\+Ptr} & An event condition. \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Event\+Condition\+S\+Ptr} & An event condition. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Thruster} & A thruster dynamics. \\
+{\em a\+Thruster} & A thruster dynamics. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_adebd566fd90d0638bbe049e6f907af99}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_adebd566fd90d0638bbe049e6f907af99}} 
@@ -137,8 +135,8 @@ Add a maneuver segment.
 Add a trajectory segment. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Trajectory\+Segment} & A trajectory segment. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Trajectory\+Segment} & A trajectory segment. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a084b13574512ade5edf22fe393f3cac4}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a084b13574512ade5edf22fe393f3cac4}} 
@@ -152,8 +150,8 @@ Add a trajectory segment.
 Add multiple segments. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Trajectory\+Segment\+Array} & An array of trajectory segments. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Trajectory\+Segment\+Array} & An array of trajectory segments. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_a35256e8158329b6e5a5df6bfae26ea34}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_a35256e8158329b6e5a5df6bfae26ea34}} 
@@ -219,10 +217,10 @@ Array of segments.
 Print the sequence. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+{\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_sequence_ad107e919ff1a384fd9e9ec191615029c}\label{classostk_1_1astro_1_1trajectory_1_1_sequence_ad107e919ff1a384fd9e9ec191615029c}} 
@@ -236,10 +234,10 @@ Print the sequence.
 Solve the sequence given an initial state, for a number of reptitions. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & Initial state for the sequence. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & Initial state for the sequence. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Repetition\+Count} & Number of repetitions. Defaults to 1, i.\+e. execute sequence once. \\
+{\em a\+Repetition\+Count} & Number of repetitions. Defaults to 1, i.\+e. execute sequence once. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -256,12 +254,12 @@ A \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{
 Solve the sequence given an initial state. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & Initial state for the sequence. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & Initial state for the sequence. \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An event condition. \\
+{\em an\+Event\+Condition} & An event condition. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Maximum\+Propagation\+Duration} & Maximum duration for sequence propagation. \\
+{\em a\+Maximum\+Propagation\+Duration} & Maximum duration for sequence propagation. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -281,10 +279,10 @@ A \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution}{
 Output stream operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream. \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Sequence} & A sequence. \\
+{\em a\+Sequence} & A sequence. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

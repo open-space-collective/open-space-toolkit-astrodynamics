@@ -16,6 +16,8 @@
 \begin{DoxyCompactList}\small\item\em Constructor with a pre-\/defined Coordinates Broker. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a9774b1ddfacd2707986066f5f0650368}{State}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Coordinates, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&a\+Coordinates\+Subsets\+Array)
 \begin{DoxyCompactList}\small\item\em Constructor. This constructor makes a new Coordinates Broker under the hood for every \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. When possible, users should prefer passing in an existing Coordinates Broker or using a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to reduce memory footprint when constructing many states. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a01ef71cfac563cfbc8b5082ccd379227}{State}} (const Instant \&an\+Instant, const Position \&a\+Position, const Velocity \&a\+Velocity, const Quaternion \&an\+Attitude, const Vector3d \&an\+Angular\+Velocity, const Shared$<$ const Frame $>$ \&an\+Attitude\+Reference\+Frame)
+\begin{DoxyCompactList}\small\item\em Utility constructor for Position/\+Velocity/\+Attitude/\+Angular Velocity. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a8628aceae903c9492f0fb269888434b0}{State}} (const Instant \&an\+Instant, const Position \&a\+Position, const Velocity \&a\+Velocity)
 \begin{DoxyCompactList}\small\item\em Utility constructor for Position/\+Velocity only. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ac8657234876a3e043bcdfa7f88470e77}{State}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State)
@@ -47,9 +49,13 @@ Instant \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_af1ba3040b89
 Shared$<$ const Frame $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a73f836fe73cf4a2829a2151ddac47477}{get\+Frame}} () const
 \begin{DoxyCompactList}\small\item\em Get the reference frame associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\item 
 Position \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ad5ceac322a929f0f62214a663a21f4ae}{get\+Position}} () const
-\begin{DoxyCompactList}\small\item\em Get the cartesian position associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Get the coordinates of the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\item 
 Velocity \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a1a992dcad42fb3094766907a9472e7e0}{get\+Velocity}} () const
 \begin{DoxyCompactList}\small\item\em Get the cartesian velocity associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). \end{DoxyCompactList}\item 
+Quaternion \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a715f423e24053bee743631bd1ded8af2}{get\+Attitude}} () const
+\begin{DoxyCompactList}\small\item\em Get the attitude quaternion associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). \end{DoxyCompactList}\item 
+Vector3d \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a0220561e712152e60371d7ce203d50ca}{get\+Angular\+Velocity}} () const
+\begin{DoxyCompactList}\small\item\em Get the angular velocity associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). \end{DoxyCompactList}\item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}{get\+Coordinates}} () const
 \begin{DoxyCompactList}\small\item\em Get the coordinates of the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\item 
 const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ad03f40490dd2a2572284221008be05f5}{get\+Coordinates\+Subsets}} () const
@@ -83,7 +89,7 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ab
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_abbaa96f2d2b7f388eb073daab94202b3}\label{classostk_1_1astro_1_1trajectory_1_1_state_abbaa96f2d2b7f388eb073daab94202b3}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!State@{State}}
 \index{State@{State}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
-\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
 {\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Coordinates,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&}]{a\+Coordinates\+Broker\+S\+Ptr }\end{DoxyParamCaption})}
 
 
@@ -91,20 +97,20 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ab
 Constructor with a pre-\/defined Coordinates Broker. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Coordinates} & The coordinates at the instant in International System of Units \\
+{\em a\+Coordinates} & The coordinates at the instant in International System of Units \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
+{\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Broker\+S\+Ptr} & The coordinates broker associated to the coordinates \\
+{\em a\+Coordinates\+Broker\+S\+Ptr} & The coordinates broker associated to the coordinates \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a9774b1ddfacd2707986066f5f0650368}\label{classostk_1_1astro_1_1trajectory_1_1_state_a9774b1ddfacd2707986066f5f0650368}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!State@{State}}
 \index{State@{State}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
-\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
 {\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Coordinates,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&}]{a\+Coordinates\+Subsets\+Array }\end{DoxyParamCaption})}
 
 
@@ -112,20 +118,45 @@ Constructor with a pre-\/defined Coordinates Broker.
 Constructor. This constructor makes a new Coordinates Broker under the hood for every \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. When possible, users should prefer passing in an existing Coordinates Broker or using a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_builder}{State\+Builder}} to reduce memory footprint when constructing many states. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Coordinates} & The coordinates at the instant in International System of Units \\
+{\em a\+Coordinates} & The coordinates at the instant in International System of Units \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
+{\em a\+Frame\+S\+Ptr} & The reference frame in which the coordinates are referenced to and resolved in \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subsets\+Array} & The coordinates subsets associated to the coordinates \\
+{\em a\+Coordinates\+Subsets\+Array} & The coordinates subsets associated to the coordinates \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a01ef71cfac563cfbc8b5082ccd379227}\label{classostk_1_1astro_1_1trajectory_1_1_state_a01ef71cfac563cfbc8b5082ccd379227}} 
+\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!State@{State}}
+\index{State@{State}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
+\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Position \&}]{a\+Position,  }\item[{const Velocity \&}]{a\+Velocity,  }\item[{const Quaternion \&}]{an\+Attitude,  }\item[{const Vector3d \&}]{an\+Angular\+Velocity,  }\item[{const Shared$<$ const Frame $>$ \&}]{an\+Attitude\+Reference\+Frame }\end{DoxyParamCaption})}
+
+
+
+Utility constructor for Position/\+Velocity/\+Attitude/\+Angular Velocity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
+\hline
+{\em a\+Position} & The Cartesian position at the instant \\
+\hline
+{\em a\+Velocity} & The Cartesian velocity at the instant \\
+\hline
+{\em an\+Attitude} & The attitude at the instant, representing the rotation required to go from the attitude reference frame to the satellite body frame \\
+\hline
+{\em an\+Angular\+Velocity} & The angular velocity at the instant, representing the angular velocity of the satellite body frame with respect to the attitude frame, expressed, in satellite body frame \\
+\hline
+{\em an\+Attitude\+Reference\+Frame} & The attitude reference frame \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a8628aceae903c9492f0fb269888434b0}\label{classostk_1_1astro_1_1trajectory_1_1_state_a8628aceae903c9492f0fb269888434b0}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!State@{State}}
 \index{State@{State}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
-\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
 {\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Position \&}]{a\+Position,  }\item[{const Velocity \&}]{a\+Velocity }\end{DoxyParamCaption})}
 
 
@@ -133,18 +164,18 @@ Constructor. This constructor makes a new Coordinates Broker under the hood for 
 Utility constructor for Position/\+Velocity only. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Position} & The cartesian position at the instant in International System of Units \\
+{\em a\+Position} & The cartesian position at the instant in International System of Units \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Velocity} & The cartesian velocity at the instant in International System of Units \\
+{\em a\+Velocity} & The cartesian velocity at the instant in International System of Units \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_ac8657234876a3e043bcdfa7f88470e77}\label{classostk_1_1astro_1_1trajectory_1_1_state_ac8657234876a3e043bcdfa7f88470e77}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!State@{State}}
 \index{State@{State}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
-\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+\doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
 {\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})}
 
 
@@ -152,8 +183,8 @@ Utility constructor for Position/\+Velocity only.
 Copy constructor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & An existing \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & An existing \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
 \hline
 \end{DoxyParams}
 
@@ -222,8 +253,8 @@ The instant
 Extract the coordinates for a single subset. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Subset\+S\+Ptr} & The subset to extract the coordinates for \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Subset\+S\+Ptr} & The subset to extract the coordinates for \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -240,12 +271,38 @@ The coordinates for the subset
 Extract the coordinates for multiple subsets. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subsets\+Array} & The array of subsets to extract the coordinates for \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Coordinates\+Subsets\+Array} & The array of subsets to extract the coordinates for \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The coordinates for the subsets 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a0220561e712152e60371d7ce203d50ca}\label{classostk_1_1astro_1_1trajectory_1_1_state_a0220561e712152e60371d7ce203d50ca}} 
+\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!getAngularVelocity@{getAngularVelocity}}
+\index{getAngularVelocity@{getAngularVelocity}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
+\doxysubsubsection{\texorpdfstring{getAngularVelocity()}{getAngularVelocity()}}
+{\footnotesize\ttfamily Vector3d ostk\+::astro\+::trajectory\+::\+State\+::get\+Angular\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the angular velocity associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). 
+
+\begin{DoxyReturn}{Returns}
+The angular velocity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a715f423e24053bee743631bd1ded8af2}\label{classostk_1_1astro_1_1trajectory_1_1_state_a715f423e24053bee743631bd1ded8af2}} 
+\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!getAttitude@{getAttitude}}
+\index{getAttitude@{getAttitude}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
+\doxysubsubsection{\texorpdfstring{getAttitude()}{getAttitude()}}
+{\footnotesize\ttfamily Quaternion ostk\+::astro\+::trajectory\+::\+State\+::get\+Attitude (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the attitude quaternion associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). 
+
+\begin{DoxyReturn}{Returns}
+The attitude quaternion 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}\label{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!getCoordinates@{getCoordinates}}
@@ -307,7 +364,9 @@ The instant
 
 
 
-Get the cartesian position associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present). 
+Get the coordinates of the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. 
+
+Get the cartesian position associated with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} (if present).
 
 \begin{DoxyReturn}{Returns}
 The cartesian position 
@@ -349,8 +408,8 @@ The cartesian velocity
 Check if the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} has a given coordinates subset. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset\+S\+Ptr} & the coordinates subset to be checked\\
+\begin{DoxyParams}{Parameters}
+{\em a\+Coordinates\+Subset\+S\+Ptr} & the coordinates subset to be checked\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -367,8 +426,8 @@ True if the coordinates subset is included in the \mbox{\hyperlink{classostk_1_1
 Transform the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to a different reference frame. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame to transform to \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Frame\+S\+Ptr} & The reference frame to transform to \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -398,8 +457,8 @@ True if the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}
 Inequality operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to compare to \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to compare to \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -416,8 +475,8 @@ True if the States are not equal, false otherwise
 Addition operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to add to this \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to add to this \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -434,8 +493,8 @@ The sum of the two States
 Subtraction operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to subtract from this \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to subtract from this \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -452,8 +511,8 @@ The difference between the two States
 Copy-\/assignment operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to copy \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to copy \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -470,8 +529,8 @@ The modified \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}
 Equality operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to compare to \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to compare to \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -488,10 +547,10 @@ True if the States are equal, false otherwise
 Print the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to an output stream. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & The output stream to print to \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & The output stream to print to \\
 \hline
-\mbox{\texttt{ in}}  & {\em display\+Decorator} & Whether or not to display the decorator \\
+{\em display\+Decorator} & Whether or not to display the decorator \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_ab6ed6a252eeac1d24cf3b5c65ec0c6b6}\label{classostk_1_1astro_1_1trajectory_1_1_state_ab6ed6a252eeac1d24cf3b5c65ec0c6b6}} 
@@ -521,10 +580,10 @@ An undefined \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}
 Stream insertion operator. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & The output stream to insert into \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & The output stream to insert into \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to insert \\
+{\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to insert \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

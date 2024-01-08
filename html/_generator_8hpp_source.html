@@ -186,108 +186,106 @@ $(document).ready(function(){initNavTree('_generator_8hpp_source.html',''); init
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html#a1fb2dd3d88187da24482168337a23ade">Undefined</a>();</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995">AerRanges</a>(</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; anAzimuthRange,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; anElevationRange,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; aRangeRange,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keyword">const</span> Environment&amp; anEnvironment</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    );</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f">AerMask</a>(</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">const</span> Map&lt;Real, Real&gt;&amp; anAzimuthElevationMask,</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; aRangeRange,</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keyword">const</span> Environment&amp; anEnvironment</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    );</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    Environment environment_;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    Duration step_;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    Duration tolerance_;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    std::function&lt;bool(<span class="keyword">const</span> AER&amp;)&gt; aerFilter_;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    std::function&lt;bool(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_access.html">Access</a>&amp;)&gt; accessFilter_;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    std::function&lt;bool(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp;, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp;)&gt; stateFilter_;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_access.html">Access</a> GenerateAccess(</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keyword">const</span> physics::time::Interval&amp; anAccessInterval,</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keyword">const</span> physics::time::Interval&amp; aGlobalInterval,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keyword">const</span> Shared&lt;const Celestial&gt; anEarthSPtr,</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keyword">const</span> Duration&amp; aTolerance</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    );</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">static</span> Instant FindTimeOfClosestApproach(</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">const</span> physics::time::Interval&amp; anAccessInterval,</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keyword">const</span> Duration&amp; aTolerance</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    );</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keyword">static</span> Angle CalculateElevationAt(</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant,</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keyword">const</span> Shared&lt;const Celestial&gt; anEarthSPtr</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    );</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;};</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1access_1_1_generator_context.html">  166</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html">GeneratorContext</a></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;{</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;   <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#a87a74a431a7883ebf23048ccd071414f">GeneratorContext</a>(</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keyword">const</span> Environment&amp; anEnvironment,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a>&amp; aGenerator</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    );</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995">AerRanges</a>(</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; anAzimuthRange,</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; anElevationRange,</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; aRangeRange,</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">const</span> Environment&amp; anEnvironment</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    );</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f">AerMask</a>(</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keyword">const</span> Map&lt;Real, Real&gt;&amp; anAzimuthElevationMask,</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keyword">const</span> Interval&lt;Real&gt;&amp; aRangeRange,</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">const</span> Environment&amp; anEnvironment</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    );</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    Environment environment_;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    Duration step_;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    Duration tolerance_;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    std::function&lt;bool(<span class="keyword">const</span> AER&amp;)&gt; aerFilter_;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    std::function&lt;bool(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_access.html">Access</a>&amp;)&gt; accessFilter_;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    std::function&lt;bool(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp;, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp;)&gt; stateFilter_;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_access.html">Access</a> GenerateAccess(</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keyword">const</span> physics::time::Interval&amp; anAccessInterval,</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keyword">const</span> physics::time::Interval&amp; aGlobalInterval,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keyword">const</span> Shared&lt;const Celestial&gt; anEarthSPtr,</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keyword">const</span> Duration&amp; aTolerance</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    );</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">static</span> Instant FindTimeOfClosestApproach(</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keyword">const</span> physics::time::Interval&amp; anAccessInterval,</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keyword">const</span> Duration&amp; aTolerance</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    );</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">static</span> Angle CalculateElevationAt(</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant,</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keyword">const</span> Shared&lt;const Celestial&gt; anEarthSPtr</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    );</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;};</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1access_1_1_generator_context.html">  164</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html">GeneratorContext</a></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;{</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#a87a74a431a7883ebf23048ccd071414f">GeneratorContext</a>(</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory,</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory,</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keyword">const</span> Environment&amp; anEnvironment,</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a>&amp; aGenerator</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    );</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#a11928386e0a276ddbf0139af1f030e59">isAccessActive</a>(<span class="keyword">const</span> Instant&amp; anInstant);</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#a11928386e0a276ddbf0139af1f030e59">isAccessActive</a>(<span class="keyword">const</span> Instant&amp; anInstant);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keyword">static</span> Pair&lt;State, State&gt; <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#af24cf3609f57fe5aeebef9cc1c1514ff">GetStatesAt</a>(</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    );</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keyword">static</span> Pair&lt;State, State&gt; <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#af24cf3609f57fe5aeebef9cc1c1514ff">GetStatesAt</a>(</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aFromTrajectory, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a>&amp; aToTrajectory</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    );</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keyword">static</span> Pair&lt;Position, Position&gt; <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#ac51db2b5d540cecf5fb430235922a40b">GetPositionsFromStates</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp; aFromState, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp; aToState);</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">static</span> Pair&lt;Position, Position&gt; <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#ac51db2b5d540cecf5fb430235922a40b">GetPositionsFromStates</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp; aFromState, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&amp; aToState);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keyword">static</span> AER <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#a5c6ad05cc1745352125643b0d435fd70">CalculateAer</a>(</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant,</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keyword">const</span> Position&amp; aFromPosition,</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keyword">const</span> Position&amp; aToPosition,</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keyword">const</span> Shared&lt;const Celestial&gt; anEarthSPtr</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    );</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> fromTrajectory_;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> toTrajectory_;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    Environment environment_;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keyword">const</span> Shared&lt;const Celestial&gt; earthSPtr_;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> generator_;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;};</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}  <span class="comment">// namespace access</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">static</span> AER <a class="code" href="classostk_1_1astro_1_1access_1_1_generator_context.html#a5c6ad05cc1745352125643b0d435fd70">CalculateAer</a>(</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant,</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keyword">const</span> Position&amp; aFromPosition,</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keyword">const</span> Position&amp; aToPosition,</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keyword">const</span> Shared&lt;const Celestial&gt; anEarthSPtr</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    );</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> fromTrajectory_;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> toTrajectory_;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    Environment environment_;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keyword">const</span> Shared&lt;const Celestial&gt; earthSPtr_;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <a class="code" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> generator_;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;};</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}  <span class="comment">// namespace access</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}  <span class="comment">// namespace ostk</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a4d82f15eb2da1fbf7c74b3136eed3301"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a4d82f15eb2da1fbf7c74b3136eed3301">ostk::astro::access::Generator::setAerFilter</a></div><div class="ttdeci">void setAerFilter(const std::function&lt; bool(const AER &amp;)&gt; &amp;anAerFilter)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:194</div></div>
 <div class="ttc" id="a_trajectory_8hpp_html"><div class="ttname"><a href="_trajectory_8hpp.html">Trajectory.hpp</a></div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a4c0cb8f1e59364029e88078c423cd96b"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a4c0cb8f1e59364029e88078c423cd96b">ostk::astro::access::Generator::setStep</a></div><div class="ttdeci">void setStep(const Duration &amp;aStep)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:174</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_aa736cafa8eeabeeff9be4468ec9bfed1"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#aa736cafa8eeabeeff9be4468ec9bfed1">ostk::astro::access::Generator::getConditionFunction</a></div><div class="ttdeci">std::function&lt; bool(const Instant &amp;)&gt; getConditionFunction(const Trajectory &amp;aFromTrajectory, const Trajectory &amp;aToTrajectory) const</div><div class="ttdef"><b>Definition:</b> Generator.cpp:112</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html">ostk::astro::Trajectory</a></div><div class="ttdoc">Path followed by an object through space as a function of time.</div><div class="ttdef"><b>Definition:</b> Trajectory.hpp:38</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_trajectory_html"><div class="ttname"><a href="classostk_1_1astro_1_1_trajectory.html">ostk::astro::Trajectory</a></div><div class="ttdoc">Path followed by an object through space as a function of time.</div><div class="ttdef"><b>Definition:</b> Trajectory.hpp:37</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a1fa5d363b74c6badf4f925174affd91c"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a1fa5d363b74c6badf4f925174affd91c">ostk::astro::access::Generator::getStep</a></div><div class="ttdeci">Duration getStep() const</div><div class="ttdef"><b>Definition:</b> Generator.cpp:62</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a009da655bc3cc6232cd9986275cc5731"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a009da655bc3cc6232cd9986275cc5731">ostk::astro::access::Generator::Generator</a></div><div class="ttdeci">Generator(const Environment &amp;anEnvironment, const Duration &amp;aStep=DEFAULT_STEP, const Duration &amp;aTolerance=DEFAULT_TOLERANCE)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:30</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a023edbe897ad6db339dce2107821442f"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f">ostk::astro::access::Generator::AerMask</a></div><div class="ttdeci">static Generator AerMask(const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</div><div class="ttdoc">Constructs an access generator with a defined AER mask.</div><div class="ttdef"><b>Definition:</b> Generator.cpp:250</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a023edbe897ad6db339dce2107821442f"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f">ostk::astro::access::Generator::AerMask</a></div><div class="ttdeci">static Generator AerMask(const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</div><div class="ttdoc">Construct an access generator with a defined AER mask.</div><div class="ttdef"><b>Definition:</b> Generator.cpp:250</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html">ostk::astro::access::Generator</a></div><div class="ttdef"><b>Definition:</b> Generator.hpp:54</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html_a5c6ad05cc1745352125643b0d435fd70"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html#a5c6ad05cc1745352125643b0d435fd70">ostk::astro::access::GeneratorContext::CalculateAer</a></div><div class="ttdeci">static AER CalculateAer(const Instant &amp;anInstant, const Position &amp;aFromPosition, const Position &amp;aToPosition, const Shared&lt; const Celestial &gt; anEarthSPtr)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:537</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html_a87a74a431a7883ebf23048ccd071414f"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html#a87a74a431a7883ebf23048ccd071414f">ostk::astro::access::GeneratorContext::GeneratorContext</a></div><div class="ttdeci">GeneratorContext(const Trajectory &amp;aFromTrajectory, const Trajectory &amp;aToTrajectory, const Environment &amp;anEnvironment, const Generator &amp;aGenerator)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:448</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html">ostk::astro::access::GeneratorContext</a></div><div class="ttdef"><b>Definition:</b> Generator.hpp:166</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html">ostk::astro::access::GeneratorContext</a></div><div class="ttdef"><b>Definition:</b> Generator.hpp:164</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a2e67d180ec17450e460be15f24a1d84d"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a2e67d180ec17450e460be15f24a1d84d">ostk::astro::access::Generator::setStateFilter</a></div><div class="ttdeci">void setStateFilter(const std::function&lt; bool(const State &amp;, const State &amp;)&gt; &amp;aStateFilter)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:204</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a1fb2dd3d88187da24482168337a23ade"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a1fb2dd3d88187da24482168337a23ade">ostk::astro::access::Generator::Undefined</a></div><div class="ttdeci">static Generator Undefined()</div><div class="ttdef"><b>Definition:</b> Generator.cpp:209</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a419cec65ec7e9c86c57daf853ce74047"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a419cec65ec7e9c86c57daf853ce74047">ostk::astro::access::Generator::getAccessFilter</a></div><div class="ttdeci">std::function&lt; bool(const Access &amp;)&gt; getAccessFilter() const</div><div class="ttdef"><b>Definition:</b> Generator.cpp:92</div></div>
@@ -301,12 +299,12 @@ $(document).ready(function(){initNavTree('_generator_8hpp_source.html',''); init
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_a36d805bcebc2997daa0a1d89f5240277"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#a36d805bcebc2997daa0a1d89f5240277">ostk::astro::access::Generator::isDefined</a></div><div class="ttdeci">bool isDefined() const</div><div class="ttdef"><b>Definition:</b> Generator.cpp:57</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html_a11928386e0a276ddbf0139af1f030e59"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html#a11928386e0a276ddbf0139af1f030e59">ostk::astro::access::GeneratorContext::isAccessActive</a></div><div class="ttdeci">bool isAccessActive(const Instant &amp;anInstant)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:462</div></div>
 <div class="ttc" id="anamespaceostk_html"><div class="ttname"><a href="namespaceostk.html">ostk</a></div><div class="ttdoc">Apache License 2.0.</div><div class="ttdef"><b>Definition:</b> Generator.hpp:23</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_aececdcffcfea35feb07d9214752e6995"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995">ostk::astro::access::Generator::AerRanges</a></div><div class="ttdeci">static Generator AerRanges(const Interval&lt; Real &gt; &amp;anAzimuthRange, const Interval&lt; Real &gt; &amp;anElevationRange, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</div><div class="ttdoc">Constructs an access generator with defined AER ranges.</div><div class="ttdef"><b>Definition:</b> Generator.cpp:214</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_access_html"><div class="ttname"><a href="classostk_1_1astro_1_1_access.html">ostk::astro::Access</a></div><div class="ttdoc">Object-to-object visibility.</div><div class="ttdef"><b>Definition:</b> Access.hpp:30</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_html_aececdcffcfea35feb07d9214752e6995"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995">ostk::astro::access::Generator::AerRanges</a></div><div class="ttdeci">static Generator AerRanges(const Interval&lt; Real &gt; &amp;anAzimuthRange, const Interval&lt; Real &gt; &amp;anElevationRange, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</div><div class="ttdoc">Construct an access generator with defined AER ranges.</div><div class="ttdef"><b>Definition:</b> Generator.cpp:214</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_access_html"><div class="ttname"><a href="classostk_1_1astro_1_1_access.html">ostk::astro::Access</a></div><div class="ttdoc">Object-to-object visibility.</div><div class="ttdef"><b>Definition:</b> Access.hpp:29</div></div>
 <div class="ttc" id="a_access_8hpp_html"><div class="ttname"><a href="_access_8hpp.html">Access.hpp</a></div></div>
 <div class="ttc" id="a_generator_8hpp_html_a7ce1d4cc8c33e65c078f721b17b975ea"><div class="ttname"><a href="_generator_8hpp.html#a7ce1d4cc8c33e65c078f721b17b975ea">DEFAULT_STEP</a></div><div class="ttdeci">#define DEFAULT_STEP</div><div class="ttdef"><b>Definition:</b> Generator.hpp:51</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html_af24cf3609f57fe5aeebef9cc1c1514ff"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html#af24cf3609f57fe5aeebef9cc1c1514ff">ostk::astro::access::GeneratorContext::GetStatesAt</a></div><div class="ttdeci">static Pair&lt; State, State &gt; GetStatesAt(const Instant &amp;anInstant, const Trajectory &amp;aFromTrajectory, const Trajectory &amp;aToTrajectory)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:512</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_state_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a></div><div class="ttdoc">Trajectory State.</div><div class="ttdef"><b>Definition:</b> State.hpp:43</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_state_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_state.html">ostk::astro::trajectory::State</a></div><div class="ttdoc">Trajectory State.</div><div class="ttdef"><b>Definition:</b> State.hpp:45</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1access_1_1_generator_context_html_ac51db2b5d540cecf5fb430235922a40b"><div class="ttname"><a href="classostk_1_1astro_1_1access_1_1_generator_context.html#ac51db2b5d540cecf5fb430235922a40b">ostk::astro::access::GeneratorContext::GetPositionsFromStates</a></div><div class="ttdeci">static Pair&lt; Position, Position &gt; GetPositionsFromStates(const State &amp;aFromState, const State &amp;aToState)</div><div class="ttdef"><b>Definition:</b> Generator.cpp:522</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->

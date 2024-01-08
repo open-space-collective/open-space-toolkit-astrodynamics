@@ -112,51 +112,44 @@ $(document).ready(function(){initNavTree('_guidance_law_8hpp_source.html',''); i
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> ostk::physics::time::Instant;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1_guidance_law.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1_guidance_law.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#a690e3ba56c09d422b192e0d541cceeaa">GuidanceLaw</a>(<span class="keyword">const</span> String&amp; aName);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#a690e3ba56c09d422b192e0d541cceeaa">GuidanceLaw</a>(<span class="keyword">const</span> String&amp; aName);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ac967db2634a494bd10c5b93e367d6060">~GuidanceLaw</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ae4a58ea6d1ff7c6c6b4eb47701c9be38">operator&lt;&lt;</a>(std::ostream&amp; anOutputStream, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a>&amp; aGuidanceLaw);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    String <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ac21e2c422bb4c427c66d6f392f5e2d4b">getName</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#a231006fc7a751b9eee38856790fd664a">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">virtual</span> Vector3d <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#af8828ad685afba9cf252d3e0975e71cd">calculateThrustAccelerationAt</a>(</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">const</span> Vector3d&amp; aPositionCoordinates,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">const</span> Vector3d&amp; aVelocityCoordinates,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keyword">const</span> Real&amp; aThrustAcceleration,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">const</span> Shared&lt;const Frame&gt;&amp; outputFrameSPtr</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ac967db2634a494bd10c5b93e367d6060">~GuidanceLaw</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ae4a58ea6d1ff7c6c6b4eb47701c9be38">operator&lt;&lt;</a>(std::ostream&amp; anOutputStream, <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html">GuidanceLaw</a>&amp; aGuidanceLaw);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    String <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ac21e2c422bb4c427c66d6f392f5e2d4b">getName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#a231006fc7a751b9eee38856790fd664a">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">virtual</span> Vector3d <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#af8828ad685afba9cf252d3e0975e71cd">calculateThrustAccelerationAt</a>(</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">const</span> Vector3d&amp; aPositionCoordinates,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">const</span> Vector3d&amp; aVelocityCoordinates,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keyword">const</span> Real&amp; aThrustAcceleration,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keyword">const</span> Shared&lt;const Frame&gt;&amp; outputFrameSPtr</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;   <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1_guidance_law.html#ad71b1cfdadfed25f05974f8c00671ccf">   84</a></span>&#160;    <span class="keyword">const</span> String <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ad71b1cfdadfed25f05974f8c00671ccf">name_</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}  <span class="comment">// namespace ostk</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;   <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1_guidance_law.html#ad71b1cfdadfed25f05974f8c00671ccf">   91</a></span>&#160;    <span class="keyword">const</span> String <a class="code" href="classostk_1_1astro_1_1_guidance_law.html#ad71b1cfdadfed25f05974f8c00671ccf">name_</a>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;};</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_ac21e2c422bb4c427c66d6f392f5e2d4b"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#ac21e2c422bb4c427c66d6f392f5e2d4b">ostk::astro::GuidanceLaw::getName</a></div><div class="ttdeci">String getName() const</div><div class="ttdoc">Get name.</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.cpp:24</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_ac967db2634a494bd10c5b93e367d6060"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#ac967db2634a494bd10c5b93e367d6060">ostk::astro::GuidanceLaw::~GuidanceLaw</a></div><div class="ttdeci">virtual ~GuidanceLaw()</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.cpp:16</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_af8828ad685afba9cf252d3e0975e71cd"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#af8828ad685afba9cf252d3e0975e71cd">ostk::astro::GuidanceLaw::calculateThrustAccelerationAt</a></div><div class="ttdeci">virtual Vector3d calculateThrustAccelerationAt(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, const Real &amp;aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const =0</div><div class="ttdoc">Compute the acceleration at the provided coordinates based on logic specific to the guidance law.</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html">ostk::astro::GuidanceLaw</a></div><div class="ttdoc">An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunct...</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.hpp:33</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html">ostk::astro::GuidanceLaw</a></div><div class="ttdoc">An interface for a Guidance Law that can compute an acceleration contribution. To be used in conjunct...</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.hpp:32</div></div>
 <div class="ttc" id="anamespaceostk_html"><div class="ttname"><a href="namespaceostk.html">ostk</a></div><div class="ttdoc">Apache License 2.0.</div><div class="ttdef"><b>Definition:</b> Generator.hpp:23</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_a690e3ba56c09d422b192e0d541cceeaa"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#a690e3ba56c09d422b192e0d541cceeaa">ostk::astro::GuidanceLaw::GuidanceLaw</a></div><div class="ttdeci">GuidanceLaw(const String &amp;aName)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.cpp:11</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_ad71b1cfdadfed25f05974f8c00671ccf"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#ad71b1cfdadfed25f05974f8c00671ccf">ostk::astro::GuidanceLaw::name_</a></div><div class="ttdeci">const String name_</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.hpp:91</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_ad71b1cfdadfed25f05974f8c00671ccf"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#ad71b1cfdadfed25f05974f8c00671ccf">ostk::astro::GuidanceLaw::name_</a></div><div class="ttdeci">const String name_</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.hpp:84</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_a231006fc7a751b9eee38856790fd664a"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#a231006fc7a751b9eee38856790fd664a">ostk::astro::GuidanceLaw::print</a></div><div class="ttdeci">virtual void print(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</div><div class="ttdoc">Print guidance law.</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.cpp:29</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_guidance_law_html_ae4a58ea6d1ff7c6c6b4eb47701c9be38"><div class="ttname"><a href="classostk_1_1astro_1_1_guidance_law.html#ae4a58ea6d1ff7c6c6b4eb47701c9be38">ostk::astro::GuidanceLaw::operator&lt;&lt;</a></div><div class="ttdeci">friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp;anOutputStream, const GuidanceLaw &amp;aGuidanceLaw)</div><div class="ttdoc">Output stream operator.</div><div class="ttdef"><b>Definition:</b> GuidanceLaw.cpp:18</div></div>
 <!-- HTML footer for doxygen 1.8.7-->

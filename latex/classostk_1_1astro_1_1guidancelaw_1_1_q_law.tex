@@ -101,14 +101,14 @@ Finite\+Difference&\\
 Constructor. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+C\+OE} & A target orbit described by Classical Orbital Elements. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+C\+OE} & A target orbit described by Classical Orbital Elements. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & The gravitational parameter of the central body. \\
+{\em a\+Gravitational\+Parameter} & The gravitational parameter of the central body. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Parameter\+Set} & A set of parameters for the \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{Q\+Law}}. \\
+{\em a\+Parameter\+Set} & A set of parameters for the \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{Q\+Law}}. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Gradient\+Strategy} & The strategy to compute the gradient of the \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{Q\+Law}}. Defaults to Finite\+Difference \\
+{\em a\+Gradient\+Strategy} & The strategy to compute the gradient of the \mbox{\hyperlink{classostk_1_1astro_1_1guidancelaw_1_1_q_law}{Q\+Law}}. Defaults to Finite\+Difference \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e6e0f68549df27edd303eea}\label{classostk_1_1astro_1_1guidancelaw_1_1_q_law_a23e523139e6e0f68549df27edd303eea}} 
@@ -135,16 +135,16 @@ Destructor.
 Compute the acceleration at the provided coordinates based on logic specific to the guidance law. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Position\+Coordinates} & The position coordinates \\
+{\em a\+Position\+Coordinates} & The position coordinates \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Velocity\+Coordinates} & The velocity coordinates \\
+{\em a\+Velocity\+Coordinates} & The velocity coordinates \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration \\
+{\em a\+Thrust\+Acceleration} & The thrust acceleration \\
 \hline
-\mbox{\texttt{ in}}  & {\em output\+Frame} & The output frame\\
+{\em output\+Frame} & The output frame\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -165,10 +165,10 @@ Implements \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_af8828ad685afba9
 Compute the derivative of the orbital elements with respect to the thrust vectors. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & A vector of classical orbital elements \\
+\begin{DoxyParams}{Parameters}
+{\em a\+C\+O\+E\+Vector} & A vector of classical orbital elements \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & The gravitational parameter\\
+{\em a\+Gravitational\+Parameter} & The gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -185,10 +185,10 @@ The derivative of the orbital elements with respect to the thrust vectors
 Compute the derivative of Q with respect to the orbital elements. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & The current vector of classical orbital elements \\
+\begin{DoxyParams}{Parameters}
+{\em a\+C\+O\+E\+Vector} & The current vector of classical orbital elements \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+{\em a\+Thrust\+Acceleration} & The thrust acceleration\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -205,10 +205,10 @@ The derivative of Q with respect to the orbital elements
 Compute the maximal change in orbital elements. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & A vector of classical orbital elements \\
+\begin{DoxyParams}{Parameters}
+{\em a\+C\+O\+E\+Vector} & A vector of classical orbital elements \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+{\em a\+Thrust\+Acceleration} & The thrust acceleration\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -225,10 +225,10 @@ The maximal change in orbital elements
 Compute the Proximity Quotient value. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & The vector of classical orbital elements \\
+\begin{DoxyParams}{Parameters}
+{\em a\+C\+O\+E\+Vector} & The vector of classical orbital elements \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+{\em a\+Thrust\+Acceleration} & The thrust acceleration\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -245,10 +245,10 @@ The Q value
 Compute the thrust direction. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+C\+O\+E\+Vector} & The current vector of classical orbital elements \\
+\begin{DoxyParams}{Parameters}
+{\em a\+C\+O\+E\+Vector} & The current vector of classical orbital elements \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Thrust\+Acceleration} & The thrust acceleration\\
+{\em a\+Thrust\+Acceleration} & The thrust acceleration\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -304,10 +304,10 @@ target C\+OE
 Print guidance law. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+{\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
 
@@ -325,10 +325,10 @@ Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_guidance_law_a231006f
 Convert from the theta-\/\+R-\/H frame to the G\+C\+RF frame. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Position\+Coordinates} & The position coordinates \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Position\+Coordinates} & The position coordinates \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Velocity\+Coordinates} & The velocity coordinates\\
+{\em a\+Velocity\+Coordinates} & The velocity coordinates\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -354,10 +354,10 @@ Output stream operator.
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Guidance\+Law} & A guidance Law \\
+{\em a\+Guidance\+Law} & A guidance Law \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

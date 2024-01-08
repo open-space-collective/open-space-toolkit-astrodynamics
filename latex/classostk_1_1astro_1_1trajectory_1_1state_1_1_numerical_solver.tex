@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}\index{ostk::astro::trajectory::state::NumericalSolver@{ostk::astro::trajectory::state::NumericalSolver}}
 
 
-Defines an astrodynamics state contextual Numerical Solver. This class inherits from the O\+S\+Tk Mathematics Numerical Solver.  
+Define an astrodynamics state contextual Numerical Solver. This class inherits from the O\+S\+Tk Mathematics Numerical Solver.  
 
 
 
@@ -65,7 +65,7 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_
 
 
 \doxysubsection{Detailed Description}
-Defines an astrodynamics state contextual Numerical Solver. This class inherits from the O\+S\+Tk Mathematics Numerical Solver. 
+Define an astrodynamics state contextual Numerical Solver. This class inherits from the O\+S\+Tk Mathematics Numerical Solver. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_af3766411fd7d0da4181c251a7c866255}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_af3766411fd7d0da4181c251a7c866255}} 
@@ -86,18 +86,18 @@ Constructor.
 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Log\+Type} & An enum indicating the amount of verbosity wanted to be logged during numerical integration \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Log\+Type} & An enum indicating the amount of verbosity wanted to be logged during numerical integration \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Stepper\+Type} & An enum indicating the type of numerical stepper used to perform integration \\
+{\em a\+Stepper\+Type} & An enum indicating the type of numerical stepper used to perform integration \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Time\+Step} & A number indicating the initial guess time step the numerical solver will take \\
+{\em a\+Time\+Step} & A number indicating the initial guess time step the numerical solver will take \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Relative\+Tolerance} & A number indicating the relative integration tolerance \\
+{\em a\+Relative\+Tolerance} & A number indicating the relative integration tolerance \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Absolute\+Tolerance} & A number indicating the absolute integration tolerance \\
+{\em an\+Absolute\+Tolerance} & A number indicating the absolute integration tolerance \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Root\+Solver} & A root solver to be used to solve the event condition \\
+{\em a\+Root\+Solver} & A root solver to be used to solve the event condition \\
 \hline
 \end{DoxyParams}
 
@@ -139,14 +139,14 @@ Observed states
 Create a conditional numerical solver. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Time\+Step} & The initial time step to use. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Time\+Step} & The initial time step to use. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Relative\+Tolerance} & The relative tolerance to use. \\
+{\em a\+Relative\+Tolerance} & The relative tolerance to use. \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Absolute\+Tolerance} & The absolute tolerance to use. \\
+{\em an\+Absolute\+Tolerance} & The absolute tolerance to use. \\
 \hline
-\mbox{\texttt{ in}}  & {\em state\+Logger} & A function that takes a {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}} object and logs.\\
+{\em state\+Logger} & A function that takes a {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}} object and logs.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -176,8 +176,8 @@ A default numerical solver
 Default conditional. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em state\+Logger} & A function that takes a {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}} object and logs. Defaults to {\ttfamily nullptr}. \\
+\begin{DoxyParams}{Parameters}
+{\em state\+Logger} & A function that takes a {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}} object and logs. Defaults to {\ttfamily nullptr}. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -194,10 +194,10 @@ A default conditional numerical solver.
 Create a fixed step size numerical solver. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Time\+Step} & The time step to use for integration. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+Time\+Step} & The time step to use for integration. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+System\+Of\+Equations} & System of equations to integrate.\\
+{\em a\+System\+Of\+Equations} & System of equations to integrate.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -286,12 +286,12 @@ Delete undesired methods from parent.
 Perform numerical integration for a given array of time instants. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & Initial state for integration. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & Initial state for integration. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Time\+Array} & Array of time instants. \\
+{\em a\+Time\+Array} & Array of time instants. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+System\+Of\+Equations} & System of equations to integrate. \\
+{\em a\+System\+Of\+Equations} & System of equations to integrate. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -308,12 +308,12 @@ Array of states for each time instant.
 Perform numerical integration from a start time to an end time. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & Initial state for integration. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & Initial state for integration. \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & Time to integrate to. \\
+{\em an\+Instant} & Time to integrate to. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+System\+Of\+Equations} & System of equations to integrate. \\
+{\em a\+System\+Of\+Equations} & System of equations to integrate. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -330,14 +330,14 @@ Final state after integration.
 Perform numerical integration from a start time until either a condition or an end time is reached. 
 
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & Initial state for integration. \\
+\begin{DoxyParams}{Parameters}
+{\em a\+State} & Initial state for integration. \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & Maximum time to integrate to. \\
+{\em an\+Instant} & Maximum time to integrate to. \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+System\+Of\+Equations} & System of equations to integrate. \\
+{\em a\+System\+Of\+Equations} & System of equations to integrate. \\
 \hline
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & Condition to be checked. \\
+{\em an\+Event\+Condition} & Condition to be checked. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

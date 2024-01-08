@@ -217,9 +217,9 @@ Friends</h2></td></tr>
 <div class="line"><a class="code" href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html#a048458b38fd02b216262d9d6c0f59819">FiniteDifferenceSolver</a> finiteDifferenceSolver = {aType};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aType</td><td>A Finite Difference type. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aStepPercentage</td><td>The step percentage to use for computing the STM. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aStepDuration</td><td>The step duration to use for computing the gradient. </td></tr>
+    <tr><td class="paramname">aType</td><td>A Finite Difference type. </td></tr>
+    <tr><td class="paramname">aStepPercentage</td><td>The step percentage to use for computing the STM. </td></tr>
+    <tr><td class="paramname">aStepDuration</td><td>The step duration to use for computing the gradient. </td></tr>
   </table>
   </dd>
 </dl>
@@ -256,8 +256,8 @@ Friends</h2></td></tr>
 <p>Compute the gradient. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>The state to compute the gradient of. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">generateStateCoordinates</td><td>Callable to generate coordinates of a State at the requested Instant.</td></tr>
+    <tr><td class="paramname">aState</td><td>The state to compute the gradient of. </td></tr>
+    <tr><td class="paramname">generateStateCoordinates</td><td>Callable to generate coordinates of a State at the requested Instant.</td></tr>
   </table>
   </dd>
 </dl>
@@ -306,10 +306,10 @@ Friends</h2></td></tr>
 <p>Compute the Jacobian by perturbing the coordinates. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A state. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstantArray</td><td>An array of instants. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">generateStateCoordinates</td><td>Callable to generate coordinates of States at the requested Instants. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesDimension</td><td>The dimension of the coordinates produced by <code>generateStateCoordinates</code>.</td></tr>
+    <tr><td class="paramname">aState</td><td>A state. </td></tr>
+    <tr><td class="paramname">anInstantArray</td><td>An array of instants. </td></tr>
+    <tr><td class="paramname">generateStateCoordinates</td><td>Callable to generate coordinates of States at the requested Instants. </td></tr>
+    <tr><td class="paramname">aCoordinatesDimension</td><td>The dimension of the coordinates produced by <code>generateStateCoordinates</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -358,10 +358,10 @@ Friends</h2></td></tr>
 <p>Compute the Jacobian by perturbing the coordinates. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A state. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">generateStateCoordinates</td><td>Callable to generate coordinates of a State at the requested Instant. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesDimension</td><td>The dimension of the coordinates produced by <code>generateStateCoordinates</code>. </td></tr>
+    <tr><td class="paramname">aState</td><td>A state. </td></tr>
+    <tr><td class="paramname">anInstant</td><td>An instant. </td></tr>
+    <tr><td class="paramname">generateStateCoordinates</td><td>Callable to generate coordinates of a State at the requested Instant. </td></tr>
+    <tr><td class="paramname">aCoordinatesDimension</td><td>The dimension of the coordinates produced by <code>generateStateCoordinates</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -486,8 +486,8 @@ Friends</h2></td></tr>
 <p>Print the solver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(optional)</td><td>displayDecorators if true, display decorators. </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream. </td></tr>
+    <tr><td class="paramname">(optional)</td><td>displayDecorators if true, display decorators. </td></tr>
   </table>
   </dd>
 </dl>
@@ -521,7 +521,7 @@ Friends</h2></td></tr>
 <p>Convert a type to string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aType</td><td>A type.</td></tr>
+    <tr><td class="paramname">aType</td><td>A type.</td></tr>
   </table>
   </dd>
 </dl>
@@ -567,8 +567,8 @@ Friends</h2></td></tr>
 <p>Output stream operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aFiniteDifference</td><td>A finite difference solver. </td></tr>
+    <tr><td class="paramname">anOutputStream</td><td>An output stream. </td></tr>
+    <tr><td class="paramname">aFiniteDifference</td><td>A finite difference solver. </td></tr>
   </table>
   </dd>
 </dl>
@@ -584,7 +584,7 @@ Friends</h2></td></tr>
 </div><!-- doc-content -->
 <div class="ttc" id="aclassostk_1_1astro_1_1solvers_1_1_finite_difference_solver_html_a48c233ddd923ee50188c62b08a5f47bda67d2f6740a8eaebf4d5c6f79be8da481"><div class="ttname"><a href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html#a48c233ddd923ee50188c62b08a5f47bda67d2f6740a8eaebf4d5c6f79be8da481">ostk::astro::solvers::FiniteDifferenceSolver::Type::Forward</a></div><div class="ttdeci">@ Forward</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1solvers_1_1_finite_difference_solver_html_a048458b38fd02b216262d9d6c0f59819"><div class="ttname"><a href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html#a048458b38fd02b216262d9d6c0f59819">ostk::astro::solvers::FiniteDifferenceSolver::FiniteDifferenceSolver</a></div><div class="ttdeci">FiniteDifferenceSolver(const Type &amp;aType, const Real &amp;aStepPercentage, const Duration &amp;aStepDuration)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> FiniteDifferenceSolver.cpp:22</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1solvers_1_1_finite_difference_solver_html_a48c233ddd923ee50188c62b08a5f47bd"><div class="ttname"><a href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html#a48c233ddd923ee50188c62b08a5f47bd">ostk::astro::solvers::FiniteDifferenceSolver::Type</a></div><div class="ttdeci">Type</div><div class="ttdef"><b>Definition:</b> FiniteDifferenceSolver.hpp:42</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1solvers_1_1_finite_difference_solver_html_a48c233ddd923ee50188c62b08a5f47bd"><div class="ttname"><a href="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver.html#a48c233ddd923ee50188c62b08a5f47bd">ostk::astro::solvers::FiniteDifferenceSolver::Type</a></div><div class="ttdeci">Type</div><div class="ttdef"><b>Definition:</b> FiniteDifferenceSolver.hpp:41</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

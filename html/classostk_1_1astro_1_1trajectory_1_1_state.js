@@ -2,6 +2,7 @@ var classostk_1_1astro_1_1trajectory_1_1_state =
 [
     [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#abbaa96f2d2b7f388eb073daab94202b3", null ],
     [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#a9774b1ddfacd2707986066f5f0650368", null ],
+    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#a01ef71cfac563cfbc8b5082ccd379227", null ],
     [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#a8628aceae903c9492f0fb269888434b0", null ],
     [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html#ac8657234876a3e043bcdfa7f88470e77", null ],
     [ "accessCoordinates", "classostk_1_1astro_1_1trajectory_1_1_state.html#ae5823b96deced6c95a02eb35b56c396f", null ],
@@ -10,6 +11,8 @@ var classostk_1_1astro_1_1trajectory_1_1_state =
     [ "accessInstant", "classostk_1_1astro_1_1trajectory_1_1_state.html#afc21870411eef52ce1293e31eda16d3c", null ],
     [ "extractCoordinate", "classostk_1_1astro_1_1trajectory_1_1_state.html#ae2681f516262a1f851fa91c57c3577cc", null ],
     [ "extractCoordinates", "classostk_1_1astro_1_1trajectory_1_1_state.html#aad1f1b9eeb7118bbe356520d3fe40f03", null ],
+    [ "getAngularVelocity", "classostk_1_1astro_1_1trajectory_1_1_state.html#a0220561e712152e60371d7ce203d50ca", null ],
+    [ "getAttitude", "classostk_1_1astro_1_1trajectory_1_1_state.html#a715f423e24053bee743631bd1ded8af2", null ],
     [ "getCoordinates", "classostk_1_1astro_1_1trajectory_1_1_state.html#adece3f2dda107d9178b40648dfbc01d0", null ],
     [ "getCoordinatesSubsets", "classostk_1_1astro_1_1trajectory_1_1_state.html#ad03f40490dd2a2572284221008be05f5", null ],
     [ "getFrame", "classostk_1_1astro_1_1trajectory_1_1_state.html#a73f836fe73cf4a2829a2151ddac47477", null ],
