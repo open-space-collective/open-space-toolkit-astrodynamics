@@ -30,114 +30,100 @@ using ostk::core::types::String;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-/// @brief  State coordinates broker.
-
+/// @brief State coordinates broker.
 class CoordinatesBroker
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         CoordinatesBroker coordinatesBroker();
+    /// @code{.cpp}
+    ///                  CoordinatesBroker coordinatesBroker();
     /// @endcode
-
     CoordinatesBroker();
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         CoordinatesBroker coordinatesBroker({asubsetSPtr, anotherSubsetSPtr});
+    /// @code{.cpp}
+    ///                  CoordinatesBroker coordinatesBroker({asubsetSPtr, anotherSubsetSPtr});
     /// @endcode
     ///
-    /// @param                  [in] aCoordinatesSubsetsArray the coordinates subsets to consider
-
+    /// @param aCoordinatesSubsetsArray the coordinates subsets to consider
     CoordinatesBroker(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray);
 
-    /// @brief                  Equal to operator
+    /// @brief Equal to operator
     ///
-    /// @param                  [in] aCoordinatesBroker A coordinates broker
+    /// @param aCoordinatesBroker A coordinates broker
     ///
-    /// @return                 True if CoordinateBrokers equal
-
+    /// @return True if CoordinateBrokers equal
     bool operator==(const CoordinatesBroker& aCoordinatesBroker) const;
 
-    /// @brief                  Not equal to operator
+    /// @brief Not equal to operator
     ///
-    /// @param                  [in] aCoordinatesBroker A coordinates broker
+    /// @param aCoordinatesBroker A coordinates broker
     ///
-    /// @return                 True if CoordinateBrokers are not equal
-
+    /// @return True if CoordinateBrokers are not equal
     bool operator!=(const CoordinatesBroker& aCoordinatesBroker) const;
 
-    /// @brief                  Return the considered coordinate subsets
+    /// @brief Return the considered coordinate subsets
     ///
-    /// @return                 The considered coordinate subsets
-
+    /// @return The considered coordinate subsets
     const Array<Shared<const CoordinatesSubset>>& accessSubsets() const;
 
-    /// @brief                  Return the total number of coordinates
+    /// @brief Return the total number of coordinates
     ///
-    /// @return                 The total number of coordinates
-
+    /// @return The total number of coordinates
     Size getNumberOfCoordinates() const;
 
-    /// @brief                  Return the total number of coordinate subsets
+    /// @brief Return the total number of coordinate subsets
     ///
-    /// @return                 The total number of coordinate subsets
-
+    /// @return The total number of coordinate subsets
     Size getNumberOfSubsets() const;
 
-    /// @brief                  Return the considered coordinate subsets
+    /// @brief Return the considered coordinate subsets
     ///
-    /// @return                 The considered coordinate subsets
-
+    /// @return The considered coordinate subsets
     Array<Shared<const CoordinatesSubset>> getSubsets() const;
 
-    /// @brief                  Add a coordinates subset to be considered, returning the starting index it will occupy
+    /// @brief Add a coordinates subset to be considered, returning the starting index it will occupy
     /// (or that it occupies if it was already added) in the state coordinates
     ///
-    /// @param                  [in] aCoordinatesSubsetSPtr a coordinates subset to be considered
+    /// @param aCoordinatesSubsetSPtr a coordinates subset to be considered
     ///
-    /// @return                 The starting index of the subset in the state coordinates
-
+    /// @return The starting index of the subset in the state coordinates
     Index addSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr);
 
-    /// @brief                  Check if a coordinates subset has already been considered
+    /// @brief Check if a coordinates subset has already been considered
     ///
-    /// @param                  [in] aCoordinatesSubsetSPtr the coordinates subset to be checked
+    /// @param aCoordinatesSubsetSPtr the coordinates subset to be checked
     ///
-    /// @return                 True if the coordinates subset is already considered
-
+    /// @return True if the coordinates subset is already considered
     bool hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
-    /// @brief                  Extract the coordinates of a given subset from the full coordinates vector
+    /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
-    /// @param                  [in] aFullCoordinatesVector the full coordinates vecctor
-    /// @param                  [in] aCoordinatesSubset the coordinates subsets of interest
+    /// @param aFullCoordinatesVector the full coordinates vecctor
+    /// @param aCoordinatesSubset the coordinates subsets of interest
     ///
-    /// @return                 The coordinates of the subset
-
+    /// @return The coordinates of the subset
     VectorXd extractCoordinate(const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset)
         const;
 
-    /// @brief                  Extract the coordinates of a given subset from the full coordinates vector
+    /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
-    /// @param                  [in] aFullCoordinatesVector the full coordinates vecctor
-    /// @param                  [in] aCoordinatesSubsetSPtr the coordinates subsets of interest
+    /// @param aFullCoordinatesVector the full coordinates vecctor
+    /// @param aCoordinatesSubsetSPtr the coordinates subsets of interest
     ///
-    /// @return                 The coordinates of the subset
-
+    /// @return The coordinates of the subset
     VectorXd extractCoordinate(
         const VectorXd& aFullCoordinatesVector, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
     ) const;
 
-    /// @brief                  Extract the coordinates of an array of subsets from the full coordinates vector
+    /// @brief Extract the coordinates of an array of subsets from the full coordinates vector
     ///
-    /// @param                  [in] aFullCoordinatesVector the full coordinates vecctor
-    /// @param                  [in] aCoordinatesSubsetsArray the array of coordinates subsets of interest
+    /// @param aFullCoordinatesVector the full coordinates vecctor
+    /// @param aCoordinatesSubsetsArray the array of coordinates subsets of interest
     ///
-    /// @return                 The coordinates of the array of subsets in the same order as the input subsets
-
+    /// @return The coordinates of the array of subsets in the same order as the input subsets
     VectorXd extractCoordinates(
         const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
     ) const;

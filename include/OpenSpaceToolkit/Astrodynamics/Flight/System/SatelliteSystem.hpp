@@ -37,32 +37,30 @@ using ostk::physics::units::Mass;
 using ostk::astro::flight::System;
 using ostk::astro::flight::system::PropulsionSystem;
 
-/// @brief                      Define the dynamics system who's motion is being studied, in particular this is a
+/// @brief Define the dynamics system who's motion is being studied, in particular this is a
 /// satellite system
-
 class SatelliteSystem : public System
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         Mass mass = { ... } ;
-    ///                         Composite composite ( ... ) ;
-    ///                         Matrix3d intertiaTensor ( ... ) ;
-    ///                         Real crossSectionalSurfaceArea = 0.8 ;
-    ///                         Real dragCoefficient = 2.2 ;
-    ///                         PropulsionSystem propulsionSystem = { ... } ;
-    ///                         System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
-    ///                         dragCoefficient, propulsionSystem } ;
+    /// @code{.cpp}
+    ///                  Mass mass = { ... } ;
+    ///                  Composite composite ( ... ) ;
+    ///                  Matrix3d intertiaTensor ( ... ) ;
+    ///                  Real crossSectionalSurfaceArea = 0.8 ;
+    ///                  Real dragCoefficient = 2.2 ;
+    ///                  PropulsionSystem propulsionSystem = { ... } ;
+    ///                  System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
+    ///                  dragCoefficient, propulsionSystem } ;
     /// @endcode
     ///
-    /// @param                  [in] aDryMass A dry mass (without propellant)
-    /// @param                  [in] aCompositeGeometry A composite geometry
-    /// @param                  [in] anInertiaTensor An inertia tensor
-    /// @param                  [in] aCrossSectionalSurfaceArea A cross sectional surface area
-    /// @param                  [in] aDragCoefficient A drag coefficient
-    /// @param                  [in] aPropulsionSystem A propulsion system (optional)
-
+    /// @param aDryMass A dry mass (without propellant)
+    /// @param aCompositeGeometry A composite geometry
+    /// @param anInertiaTensor An inertia tensor
+    /// @param aCrossSectionalSurfaceArea A cross sectional surface area
+    /// @param aDragCoefficient A drag coefficient
+    /// @param aPropulsionSystem A propulsion system (optional)
     SatelliteSystem(
         const Mass& aDryMass,
         const Composite& aSatelliteGeometry,
@@ -72,119 +70,105 @@ class SatelliteSystem : public System
         const PropulsionSystem& aPropulsionSystem = PropulsionSystem::Undefined()
     );
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     virtual ~SatelliteSystem() override;
 
-    /// @brief                  Clone satellite system
+    /// @brief Clone satellite system
     ///
-    /// @return                 Pointer to cloned satellite system
-
+    /// @return Pointer to cloned satellite system
     SatelliteSystem* clone() const;
 
-    /// @brief                  Equal to operator
+    /// @brief Equal to operator
     ///
-    /// @param                  [in] aSatelliteSystem A satellite system
-    /// @return                 True if satellite systems are equal
-
+    /// @param aSatelliteSystem A satellite system
+    /// @return True if satellite systems are equal
     bool operator==(const SatelliteSystem& aSatelliteSystem) const;
 
-    /// @brief                  Not equal to operator
+    /// @brief Not equal to operator
     ///
-    /// @param                  [in] aSatelliteSystem A satellite system
-    /// @return                 True if satellite systems are not equal
-
+    /// @param aSatelliteSystem A satellite system
+    /// @return True if satellite systems are not equal
     bool operator!=(const SatelliteSystem& aSatelliteSystem) const;
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aSatelliteSystem A satellite system
-    /// @return                 A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aSatelliteSystem A satellite system
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aSatelliteSystem);
 
-    /// @brief                  Check if satellite system is defined
+    /// @brief Check if satellite system is defined
     ///
-    /// @return                 True if satellite system is defined
-
+    /// @return True if satellite system is defined
     virtual bool isDefined() const override;
 
-    /// @brief                  Access satellite system's propulsion system
+    /// @brief Access satellite system's propulsion system
     ///
-    /// @code
-    ///                         PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem() ;
+    /// @code{.cpp}
+    ///                  PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem() ;
     /// @endcode
     ///
-    /// @return                 PropulsionSystem
-
+    /// @return PropulsionSystem
     const PropulsionSystem& accessPropulsionSystem() const;
 
-    /// @brief                  Get satellite system's inertia tensor
+    /// @brief Get satellite system's inertia tensor
     ///
-    /// @code
-    ///                         Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
+    /// @code{.cpp}
+    ///                  Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
     /// @endcode
     ///
-    /// @return                 Matrix3d
-
+    /// @return Matrix3d
     Matrix3d getInertiaTensor() const;
 
-    /// @brief                  Get satellite system's surface area
+    /// @brief Get satellite system's surface area
     ///
-    /// @code
-    ///                         Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
+    /// @code{.cpp}
+    ///                  Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
     /// @endcode
     ///
-    /// @return                 Real
-
+    /// @return Real
     Real getCrossSectionalSurfaceArea() const;
 
-    /// @brief                  Get satellite system's drag coefficient
+    /// @brief Get satellite system's drag coefficient
     ///
-    /// @code
-    ///                         Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
+    /// @code{.cpp}
+    ///                  Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
     /// @endcode
     ///
-    /// @return                 Real
-
+    /// @return Real
     Real getDragCoefficient() const;
 
-    /// @brief                  Get satellite system's propulsion system
+    /// @brief Get satellite system's propulsion system
     ///
-    /// @code
-    ///                         PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem() ;
+    /// @code{.cpp}
+    ///                  PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem() ;
     /// @endcode
     ///
-    /// @return                 PropulsionSystem
-
+    /// @return PropulsionSystem
     PropulsionSystem getPropulsionSystem() const;
 
-    /// @brief                  Print satellite system
+    /// @brief Print satellite system
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-    /// @brief                  Undefined satellite system
+    /// @brief Undefined satellite system
     ///
-    /// @code
-    ///                         SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
+    /// @code{.cpp}
+    ///                  SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
     /// @endcode
     ///
-    /// @return                 Undefined satellite system
-
+    /// @return Undefined satellite system
     static SatelliteSystem Undefined();
 
-    /// @brief                  Default satellite system
+    /// @brief Default satellite system
     ///
-    /// @code
-    ///                         SatelliteSystem satelliteSystem = SatelliteSystem::Default();
+    /// @code{.cpp}
+    ///                  SatelliteSystem satelliteSystem = SatelliteSystem::Default();
     /// @endcode
     ///
-    /// @return                 Default satellite system
-
+    /// @return Default satellite system
     static SatelliteSystem Default();
 
    private:

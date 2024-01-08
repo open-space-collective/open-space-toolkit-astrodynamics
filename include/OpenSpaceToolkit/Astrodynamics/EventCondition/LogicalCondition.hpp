@@ -22,10 +22,9 @@ using ostk::core::types::Shared;
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
 
-/// @brief                      A logical connective event condition.
+/// @brief A logical connective event condition.
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Logical_connective
-
 class LogicalCondition : public EventCondition
 {
    public:
@@ -35,62 +34,55 @@ class LogicalCondition : public EventCondition
         Or
     };
 
-    /// @brief                  Constructor.
+    /// @brief Constructor.
     ///
-    /// @code
-    ///                         LogicalCondition logicalCondition = {aName, eventConditions, aConnective};
+    /// @code{.cpp}
+    ///                  LogicalCondition logicalCondition = {aName, eventConditions, aConnective};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Logical Connective Event Condition.
-    /// @param                  [in] aConnective A logical connective to apply to the Event Condition instances.
-    /// @param                  [in] eventConditions An Array of shared pointers to Event Condition instances,
-    ///                         representing the individual event conditions to be evaluated.
-
+    /// @param aName A string representing the name of the Logical Connective Event Condition.
+    /// @param aConnective A logical connective to apply to the Event Condition instances.
+    /// @param eventConditions An Array of shared pointers to Event Condition instances,
+    ///                  representing the individual event conditions to be evaluated.
     LogicalCondition(
         const String& aName,
         const LogicalCondition::Type& aConnective,
         const Array<Shared<EventCondition>>& eventConditions
     );
 
-    /// @brief                  Destructor.
-
+    /// @brief Destructor.
     ~LogicalCondition();
 
-    /// @brief                  Get the type of the logical connective.
+    /// @brief Get the type of the logical connective.
     ///
-    /// @return                 The type.
-
+    /// @return The type.
     LogicalCondition::Type getType() const;
 
-    /// @brief                  Update the target of the individual event conditions composing the Logical Connective
+    /// @brief Update the target of the individual event conditions composing the Logical Connective
     /// Event Condition.
     ///
-    /// @param                  [in] aState
-
+    /// @param aState
     virtual void updateTarget(const State& aState) override;
 
-    /// @brief                  Get the individual event conditions composing the Logical Connective Event Condition.
+    /// @brief Get the individual event conditions composing the Logical Connective Event Condition.
     ///
-    /// @return                 An Array of shared pointers to EventCondition instances,
-    ///                         representing the individual event conditions.
-
+    /// @return An Array of shared pointers to EventCondition instances,
+    ///                  representing the individual event conditions.
     Array<Shared<EventCondition>> getEventConditions() const;
 
-    /// @brief                  Check if the Logical Connective Event Condition is satisfied.
+    /// @brief Check if the Logical Connective Event Condition is satisfied.
     ///
-    /// @param                  [in] currentState A state.
-    /// @param                  [in] previousState A state.
+    /// @param currentState A state.
+    /// @param previousState A state.
     ///
-    /// @return                 True if the Logical Connective Event Condition is satisfied.
-
+    /// @return True if the Logical Connective Event Condition is satisfied.
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
-    /// @brief                  Print the Logical Connective Event Condition.
+    /// @brief Print the Logical Connective Event Condition.
     ///
-    /// @param                  [in] anOutputStream An output stream.
-    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
-    ///                         the printing process.
-
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator A boolean indicating whether or not to display decorator during
+    ///                  the printing process.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:

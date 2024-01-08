@@ -50,12 +50,11 @@ using ostk::astro::trajectory::State;
 
 #define DEFAULT_TABULATED_INTERPOLATION_TYPE Tabulated::InterpolationType::Linear
 
-/// @brief                      Tabulated trajectory model
+/// @brief Tabulated trajectory model
 ///
-///                             Interpolation is performed between states using the specified interpolation scheme.
-///                             For now, linear, barycentric rational and cubic spline interpolation schemes are
-///                             supported.
-
+///                      Interpolation is performed between states using the specified interpolation scheme.
+///                      For now, linear, barycentric rational and cubic spline interpolation schemes are
+///                      supported.
 class Tabulated : public virtual Model
 {
    public:

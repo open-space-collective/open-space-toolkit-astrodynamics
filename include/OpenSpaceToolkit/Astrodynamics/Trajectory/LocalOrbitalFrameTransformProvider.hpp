@@ -30,10 +30,9 @@ using ostk::physics::coord::Vector3d;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
-/// @brief                      Local orbital frame transform provider, frame provider
+/// @brief Local orbital frame transform provider, frame provider
 ///
 /// @note                       Generates a specific transform based on instant, position, velocity and a LOF type.
-
 class LocalOrbitalFrameTransformProvider : public Provider
 {
    public:
@@ -52,39 +51,34 @@ class LocalOrbitalFrameTransformProvider : public Provider
              ///< momentum)
     };
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     virtual ~LocalOrbitalFrameTransformProvider() override;
 
-    /// @brief                  Clone
+    /// @brief Clone
     ///
-    /// @return                 Pointer to local orbital frame transform provider
-
+    /// @return Pointer to local orbital frame transform provider
     virtual LocalOrbitalFrameTransformProvider* clone() const override;
 
-    /// @brief                  Check if local orbital frame transform provider is defined
+    /// @brief Check if local orbital frame transform provider is defined
     ///
-    /// @return                 True if local orbital frame transform provider is defined
-
+    /// @return True if local orbital frame transform provider is defined
     virtual bool isDefined() const override;
 
-    /// @brief                  Get the transform of the local orbital frame transform provider at a given instant
+    /// @brief Get the transform of the local orbital frame transform provider at a given instant
     ///
-    /// @param                  [in] anInstant An instant
+    /// @param anInstant An instant
     ///
-    /// @return                 The transform from the provider at provided instant
-
+    /// @return The transform from the provider at provided instant
     virtual Transform getTransformAt(const Instant& anInstant) const override;
 
-    /// @brief                  Construct a local orbital frame transform provider shared pointed
+    /// @brief Construct a local orbital frame transform provider shared pointed
     ///
-    /// @param                  [in] aType A local orbital frame provider type
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPosition A position vector
-    /// @param                  [in] aVelocity A velocity vector
+    /// @param aType A local orbital frame provider type
+    /// @param anInstant An instant
+    /// @param aPosition A position vector
+    /// @param aVelocity A velocity vector
     ///
-    /// @return                 The shared pointer to the local orbital frame transform provider constructed
-
+    /// @return The shared pointer to the local orbital frame transform provider constructed
     static Shared<const LocalOrbitalFrameTransformProvider> Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType,
         const Instant& anInstant,
@@ -92,34 +86,31 @@ class LocalOrbitalFrameTransformProvider : public Provider
         const Vector3d& aVelocity
     );
 
-    /// @brief                  Convert local orbital frame transform provider type to string
+    /// @brief Convert local orbital frame transform provider type to string
     ///
-    /// @param                  [in] aType A local orbital frame provider type
+    /// @param aType A local orbital frame provider type
     ///
-    /// @return                 The string corresponding to the local orbital frame transform provider type
-
+    /// @return The string corresponding to the local orbital frame transform provider type
     static String StringFromType(const LocalOrbitalFrameTransformProvider::Type& aType);
 
    private:
     Transform transform_;
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aTransform A transform
+    /// @param aTransform A transform
     ///
-    /// @return                 A local orbital frame transform provider
-
+    /// @return A local orbital frame transform provider
     LocalOrbitalFrameTransformProvider(const Transform& aTransform);
 
-    /// @brief                  Generate a transform based on current state and LOF type
+    /// @brief Generate a transform based on current state and LOF type
     ///
-    /// @param                  [in] aType A local orbital frame provider type
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPosition A position vector
-    /// @param                  [in] aVelocity A velocity vector
+    /// @param aType A local orbital frame provider type
+    /// @param anInstant An instant
+    /// @param aPosition A position vector
+    /// @param aVelocity A velocity vector
     ///
-    /// @return                 The transform generated
-
+    /// @return The transform generated
     static Transform generateTransform(
         const LocalOrbitalFrameTransformProvider::Type& aType,
         const Instant& anInstant,

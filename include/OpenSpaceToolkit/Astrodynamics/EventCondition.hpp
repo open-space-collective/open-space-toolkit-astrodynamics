@@ -24,9 +24,8 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::State;
 
-/// @brief                      An Event Condition defines a criterion that can be evaluated
-///                             based on a current/previous state vectors and times
-
+/// @brief An Event Condition defines a criterion that can be evaluated
+///                      based on a current/previous state vectors and times
 class EventCondition
 {
    public:
@@ -54,88 +53,78 @@ class EventCondition
         mutable Real valueOffset = 0.0;
     };
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         EventCondition eventCondition = {aName, anEvaluator, aTarget};
+    /// @code{.cpp}
+    ///                  EventCondition eventCondition = {aName, anEvaluator, aTarget};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Real Event Condition
-    /// @param                  [in] anEvaluator A function evaluating a state
-    /// @param                  [in] aTarget A target associated with the Real Event Condition
-
+    /// @param aName A string representing the name of the Real Event Condition
+    /// @param anEvaluator A function evaluating a state
+    /// @param aTarget A target associated with the Real Event Condition
     EventCondition(
         const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget
     );
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         EventCondition eventCondition = {aName, anEvaluator, aTargetValue};
+    /// @code{.cpp}
+    ///                  EventCondition eventCondition = {aName, anEvaluator, aTargetValue};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Real Event Condition
-    /// @param                  [in] anEvaluator A function evaluating a state
-    /// @param                  [in] aTargetValue A target value associated with the Real Event Condition
-
+    /// @param aName A string representing the name of the Real Event Condition
+    /// @param anEvaluator A function evaluating a state
+    /// @param aTargetValue A target value associated with the Real Event Condition
     EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const Real& aTargetValue);
 
-    /// @brief                  Virtual destructor
-
+    /// @brief Virtual destructor
     virtual ~EventCondition();
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @code
-    ///                         std::cout << EventCondition(...) ;
+    /// @code{.cpp}
+    ///                  std::cout << EventCondition(...) ;
     /// @endcode
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] anEventCondition An EventCondition
-    /// @return                 A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param anEventCondition An EventCondition
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const EventCondition& anEventCondition);
 
-    /// @brief                  Get the name of the Event Condition
+    /// @brief Get the name of the Event Condition
     ///
-    /// @return                 String representing the name of the Event Condition
-
+    /// @return String representing the name of the Event Condition
     String getName() const;
 
-    /// @brief                  Get evaluator
+    /// @brief Get evaluator
     ///
-    /// @return                 Evaluator
-
+    /// @return Evaluator
     std::function<Real(const State&)> getEvaluator() const;
 
-    /// @brief                  Get the target
+    /// @brief Get the target
     ///
-    /// @return                 Target
-
+    /// @return Target
     Target getTarget() const;
 
-    /// @brief                  Update the target value if the Event Condition is relative
+    /// @brief Update the target value if the Event Condition is relative
     ///
-    /// @param                  [in] aState A state to calculate the relative target from
-
+    /// @param aState A state to calculate the relative target from
     virtual void updateTarget(const State& aState);
 
-    /// @brief                  Print the Event Condition
+    /// @brief Print the Event Condition
     ///
-    /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
-    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
-    ///                         printing
-
+    /// @param [in, out] anOutputStream The output stream where the Event Condition will be printed
+    /// @param displayDecorator A boolean indicating whether or not to display decorator during
+    ///                  printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Check if the Event Condition is satisfied based on current state and previous
-    ///                         state/time
+    /// @brief Check if the Event Condition is satisfied based on current state and previous
+    ///                  state/time
     ///
-    /// @param                  [in] currentState The current state
-    /// @param                  [in] previousState The previous state
+    /// @param currentState The current state
+    /// @param previousState The previous state
     ///
-    /// @return                 Boolean value indicating if the Event Condition is met
-
+    /// @return Boolean value indicating if the Event Condition is met
     virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
 
    protected:

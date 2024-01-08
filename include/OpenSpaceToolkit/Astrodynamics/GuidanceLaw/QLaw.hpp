@@ -49,7 +49,7 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::solvers::FiniteDifferenceSolver;
 using ostk::astro::trajectory::StateBuilder;
 
-/// @brief                     The Q-law is a Lyapunov feedback control law developed by Petropoulos,
+/// @brief    The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
 ///    the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov
 ///    function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target
@@ -58,7 +58,6 @@ using ostk::astro::trajectory::StateBuilder;
 /// @ref
 /// https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives
 /// @ref                        https://dataverse.jpl.nasa.gov/api/access/datafile/13727?gbrecs=true
-
 class QLaw : public GuidanceLaw
 {
    public:
@@ -110,12 +109,12 @@ class QLaw : public GuidanceLaw
         FiniteDifference
     };
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aCOE A target orbit described by Classical Orbital Elements.
-    /// @param                  [in] aGravitationalParameter The gravitational parameter of the central body.
-    /// @param                  [in] aParameterSet A set of parameters for the QLaw.
-    /// @param                  [in] aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
+    /// @param aCOE A target orbit described by Classical Orbital Elements.
+    /// @param aGravitationalParameter The gravitational parameter of the central body.
+    /// @param aParameterSet A set of parameters for the QLaw.
+    /// @param aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
     /// FiniteDifference
     QLaw(
         const COE& aCOE,
@@ -124,58 +123,51 @@ class QLaw : public GuidanceLaw
         const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference
     );
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     virtual ~QLaw();
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @code
-    ///                         std::cout << QLaw(...) ;
+    /// @code{.cpp}
+    ///                  std::cout << QLaw(...) ;
     /// @endcode
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aGuidanceLaw A guidance Law
-    /// @return                 A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aGuidanceLaw A guidance Law
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const QLaw& aGuidanceLaw);
 
-    /// @brief                  Get Parameters
+    /// @brief Get Parameters
     ///
-    /// @return                 Parameters
-
+    /// @return Parameters
     Parameters getParameters() const;
 
-    /// @brief                  Get target COE
+    /// @brief Get target COE
     ///
-    /// @return                 target COE
-
+    /// @return target COE
     COE getTargetCOE() const;
 
-    /// @brief                  Get Gradient Strategy
+    /// @brief Get Gradient Strategy
     ///
-    /// @return                 Gradient Strategy
-
+    /// @return Gradient Strategy
     GradientStrategy getGradientStrategy() const;
 
-    /// @brief                  Print guidance law
+    /// @brief Print guidance law
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Compute the acceleration at the provided coordinates based on logic specific to the
+    /// @brief Compute the acceleration at the provided coordinates based on logic specific to the
     /// guidance law
     ///
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPositionCoordinates The position coordinates
-    /// @param                  [in] aVelocityCoordinates The velocity coordinates
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
-    /// @param                  [in] outputFrame The output frame
+    /// @param anInstant An instant
+    /// @param aPositionCoordinates The position coordinates
+    /// @param aVelocityCoordinates The velocity coordinates
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param outputFrame The output frame
     ///
-    /// @return                 The acceleration at the provided coordinates
-
+    /// @return The acceleration at the provided coordinates
     virtual Vector3d calculateThrustAccelerationAt(
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
@@ -184,58 +176,52 @@ class QLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief                  Compute the maximal change in orbital elements
+    /// @brief Compute the maximal change in orbital elements
     ///
-    /// @param                  [in] aCOEVector A vector of classical orbital elements
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
+    /// @param aCOEVector A vector of classical orbital elements
+    /// @param aThrustAcceleration The thrust acceleration
     ///
-    /// @return                 The maximal change in orbital elements
-
+    /// @return The maximal change in orbital elements
     Vector5d computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
-    /// @brief                  Compute the Proximity Quotient value
+    /// @brief Compute the Proximity Quotient value
     ///
-    /// @param                  [in] aCOEVector The vector of classical orbital elements
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
+    /// @param aCOEVector The vector of classical orbital elements
+    /// @param aThrustAcceleration The thrust acceleration
     ///
-    /// @return                 The Q value
-
+    /// @return The Q value
     double computeQ(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
-    /// @brief                  Compute the derivative of Q with respect to the orbital elements
+    /// @brief Compute the derivative of Q with respect to the orbital elements
     ///
-    /// @param                  [in] aCOEVector The current vector of classical orbital elements
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
+    /// @param aCOEVector The current vector of classical orbital elements
+    /// @param aThrustAcceleration The thrust acceleration
     ///
-    /// @return                 The derivative of Q with respect to the orbital elements
-
+    /// @return The derivative of Q with respect to the orbital elements
     Vector5d compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
-    /// @brief                  Compute the thrust direction
+    /// @brief Compute the thrust direction
     ///
-    /// @param                  [in] aCOEVector The current vector of classical orbital elements
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
+    /// @param aCOEVector The current vector of classical orbital elements
+    /// @param aThrustAcceleration The thrust acceleration
     ///
-    /// @return                 The thrust direction
-
+    /// @return The thrust direction
     Vector3d computeThrustDirection(const Vector6d& aCOEVector, const double& aThrustAcceleration) const;
 
-    /// @brief                  Compute the derivative of the orbital elements with respect to the thrust vectors
+    /// @brief Compute the derivative of the orbital elements with respect to the thrust vectors
     ///
-    /// @param                  [in] aCOEVector A vector of classical orbital elements
-    /// @param                  [in] aGravitationalParameter The gravitational parameter
+    /// @param aCOEVector A vector of classical orbital elements
+    /// @param aGravitationalParameter The gravitational parameter
     ///
-    /// @return                 The derivative of the orbital elements with respect to the thrust vectors
-
+    /// @return The derivative of the orbital elements with respect to the thrust vectors
     static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter);
 
-    /// @brief                  Convert from the theta-R-H frame to the GCRF frame
+    /// @brief Convert from the theta-R-H frame to the GCRF frame
     ///
-    /// @param                  [in] aPositionCoordinates The position coordinates
-    /// @param                  [in] aVelocityCoordinates The velocity coordinates
+    /// @param aPositionCoordinates The position coordinates
+    /// @param aVelocityCoordinates The velocity coordinates
     ///
-    /// @return                 The coordinates in the GCRF frame
-
+    /// @return The coordinates in the GCRF frame
     static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
    private:
@@ -254,11 +240,10 @@ class QLaw : public GuidanceLaw
     Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
     Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
-    /// @brief                Compute the effectivity of the guidance law
+    /// @brief Compute the effectivity of the guidance law
     ///
     /// @ref
     /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
-
     Tuple<double, double> computeEffectivity(
         const Vector6d& aCOEVector, const Vector3d& aThrustDirection, const Vector5d& dQ_dOE
     ) const;

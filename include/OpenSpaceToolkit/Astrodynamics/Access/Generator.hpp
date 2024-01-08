@@ -101,14 +101,13 @@ class Generator
 
     static Generator Undefined();
 
-    /// @brief                  Constructs an access generator with defined AER ranges
+    /// @brief Construct an access generator with defined AER ranges
     ///
-    /// @param                  [in] anAzimuthRange An azimuth interval [deg]
-    /// @param                  [in] anElevationRange An elevation interval [deg]
-    /// @param                  [in] aRangeRange A range interval [m]
-    /// @param                  [in] anEnvironment An environment
-    /// @return                 An access generator
-
+    /// @param anAzimuthRange An azimuth interval [deg]
+    /// @param anElevationRange An elevation interval [deg]
+    /// @param aRangeRange A range interval [m]
+    /// @param anEnvironment An environment
+    /// @return An access generator
     static Generator AerRanges(
         const Interval<Real>& anAzimuthRange,
         const Interval<Real>& anElevationRange,
@@ -116,13 +115,12 @@ class Generator
         const Environment& anEnvironment
     );
 
-    /// @brief                  Constructs an access generator with a defined AER mask
+    /// @brief Construct an access generator with a defined AER mask
     ///
-    /// @param                  [in] anAzimuthElevationMask An azimuth-elevation mask [deg]
-    /// @param                  [in] aRangeRange A range interval [m]
-    /// @param                  [in] anEnvironment An environment
-    /// @return                 An access generator
-
+    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
+    /// @param aRangeRange A range interval [m]
+    /// @param anEnvironment An environment
+    /// @return An access generator
     static Generator AerMask(
         const Map<Real, Real>& anAzimuthElevationMask,
         const Interval<Real>& aRangeRange,

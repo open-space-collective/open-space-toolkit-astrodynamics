@@ -18,30 +18,26 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::eventcondition::RealCondition;
 
-/// @brief                      A duration based event condition
-
+/// @brief A duration based event condition
 class InstantCondition : public RealCondition
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         InstantCondition instantCondition = {aCriterion, anInstant};
+    /// @code{.cpp}
+    ///                  InstantCondition instantCondition = {aCriterion, anInstant};
     /// @endcode
     ///
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
-    /// @param                  [in] aDuration An instantn
-
+    /// @param aCriterion An enum indicating the criterion used to determine the Event Condition
+    /// @param aDuration An instantn
     InstantCondition(const Criterion& aCriterion, const Instant& anInstant);
 
-    /// @brief                  Virtual destructor
-
+    /// @brief Virtual destructor
     virtual ~InstantCondition();
 
-    /// @brief                  Get instant
+    /// @brief Get instant
     ///
-    /// @return                 Instant
-
+    /// @return Instant
     Instant getInstant() const;
 };
 

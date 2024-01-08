@@ -27,8 +27,7 @@ struct ToDictConverter
 
 struct MapConverter
 {
-    /// @brief                  Registers converter from a python iterable type to the provided type
-
+    /// @brief Registers converter from a python iterable type to the provided type
     template <typename Container>
     MapConverter& from_python()
     {
@@ -39,8 +38,7 @@ struct MapConverter
         return *this;
     }
 
-    /// @brief                  Registers converter from the provided type to a python iterable type
-
+    /// @brief Registers converter from the provided type to a python iterable type
     template <typename Container>
     MapConverter& to_python()
     {
@@ -49,8 +47,7 @@ struct MapConverter
         return *this;
     }
 
-    /// @brief                  Check if PyObject is iterable
-
+    /// @brief Check if PyObject is iterable
     static void* convertible(PyObject* anObject)
     {
         auto* iterator = PyObject_GetIter(anObject);
@@ -69,7 +66,6 @@ struct MapConverter
     /// Container Concept requirements:
     ///
     ///   * Container to be constructed is a map.
-
     template <typename Container>
     static void construct(PyObject* object, boost::python::converter::rvalue_from_python_stage1_data* data)
     {

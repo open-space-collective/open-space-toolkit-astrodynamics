@@ -26,8 +26,7 @@ using ostk::physics::units::Angle;
 
 using ostk::astro::trajectory::State;
 
-/// @brief                      An Event Condition that works with angles. Handles wrapping angle to [0,360).
-
+/// @brief An Event Condition that works with angles. Handles wrapping angle to [0,360).
 class AngularCondition : public EventCondition
 {
    public:
@@ -39,18 +38,17 @@ class AngularCondition : public EventCondition
         WithinRange
     };
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetAngle};
+    /// @code{.cpp}
+    ///                  AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTargetAngle};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Angular Event Condition
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Angular Event
+    /// @param aName A string representing the name of the Angular Event Condition
+    /// @param aCriterion An enum indicating the criterion used to determine if the Angular Event
     /// Condition is met
-    /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
-    /// @param                  [in] aTargetAngle A target angle
-
+    /// @param anEvaluator A function evaluating a state to an angle in radians
+    /// @param aTargetAngle A target angle
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
@@ -58,18 +56,17 @@ class AngularCondition : public EventCondition
         const Angle& aTargetAngle
     );
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTarget};
+    /// @code{.cpp}
+    ///                  AngularCondition angularCondition = {aName, aCriterion, anEvaluator, aTarget};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Angular Event Condition
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Angular Event
+    /// @param aName A string representing the name of the Angular Event Condition
+    /// @param aCriterion An enum indicating the criterion used to determine if the Angular Event
     /// Condition is met
-    /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
-    /// @param                  [in] aTarget A target
-
+    /// @param anEvaluator A function evaluating a state to an angle in radians
+    /// @param aTarget A target
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
@@ -77,65 +74,57 @@ class AngularCondition : public EventCondition
         const Target& aTarget
     );
 
-    /// @brief                  Virtual destructor
-
+    /// @brief Virtual destructor
     virtual ~AngularCondition();
 
-    /// @brief                  Get the criterion of the Event Condition
+    /// @brief Get the criterion of the Event Condition
     ///
-    /// @return                 Enum representing the criterion of the Event Condition
-
+    /// @return Enum representing the criterion of the Event Condition
     Criterion getCriterion() const;
 
-    /// @brief                  Get target
+    /// @brief Get target
     ///
-    /// @return                 Target
-
+    /// @return Target
     Angle getTargetAngle() const;
 
-    /// @brief                  Get target range
+    /// @brief Get target range
     ///
-    /// @return                 Target range
-
+    /// @return Target range
     Pair<Angle, Angle> getTargetRange() const;
 
-    /// @brief                  Print the Event Condition
+    /// @brief Print the Event Condition
     ///
-    /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
-    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
+    /// @param [in, out] anOutputStream The output stream where the Event Condition will be printed
+    /// @param displayDecorator A boolean indicating whether or not to display decorator during
     /// printing
-
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Check if the Event Condition is satisfied based on current state and previous
-    ///                         state/time
+    /// @brief Check if the Event Condition is satisfied based on current state and previous
+    ///                  state/time
     ///
-    /// @param                  [in] currentState The current state
-    /// @param                  [in] previousState The previous state
+    /// @param currentState The current state
+    /// @param previousState The previous state
     ///
-    /// @return                 Boolean value indicating if the Event Condition is met
-
+    /// @return Boolean value indicating if the Event Condition is met
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
-    /// @brief                  Create an angular condition that is satisfied when the angle is within a range
+    /// @brief Create an angular condition that is satisfied when the angle is within a range
     ///
-    /// @param                  [in] aName A string representing the name of the Angular Event Condition
-    /// @param                  [in] anEvaluator A function evaluating a state to an angle in radians
-    /// @param                  [in] aTargetRange A pair of angles representing the range of angles that satisfy the
-    /// @return                 Angular Event Condition
-
+    /// @param aName A string representing the name of the Angular Event Condition
+    /// @param anEvaluator A function evaluating a state to an angle in radians
+    /// @param aTargetRange A pair of angles representing the range of angles that satisfy the
+    /// @return Angular Event Condition
     static AngularCondition WithinRange(
         const String& aName,
         const std::function<Real(const State&)>& anEvaluator,
         const Pair<Angle, Angle>& aTargetRange
     );
 
-    /// @brief                  Convert criterion to string
+    /// @brief Convert criterion to string
     ///
-    /// @param                  [in] aCriterion An enum representing the criterion
+    /// @param aCriterion An enum representing the criterion
     ///
-    /// @return                 String representing the given criterion
-
+    /// @return String representing the given criterion
     static String StringFromCriterion(const Criterion& aCriterion);
 
    private:

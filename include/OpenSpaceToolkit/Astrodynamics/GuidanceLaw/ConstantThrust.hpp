@@ -28,56 +28,50 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
-/// @brief                      Define the acceleration experienced by a point mass due to a constant thrust
+/// @brief Define the acceleration experienced by a point mass due to a constant thrust
 /// guidance law
-
 class ConstantThrust : public GuidanceLaw
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         const LocalOrbitalFrameDirection aThrustDirection = { ... };
-    ///                         ConstantThrust constantThrust = {aThrustDirection};
+    /// @code{.cpp}
+    ///                  const LocalOrbitalFrameDirection aThrustDirection = { ... };
+    ///                  ConstantThrust constantThrust = {aThrustDirection};
     /// @endcode
     ///
-    /// @param                  [in] aThrustDirection A local orbital frame thrust direction
-
+    /// @param aThrustDirection A local orbital frame thrust direction
     ConstantThrust(const LocalOrbitalFrameDirection& aThrustDirection);
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     virtual ~ConstantThrust() override;
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param                  in] anOutputStream An output stream
-    /// @param                  [in] aThruster A constant thrust thruster dynamics
-    /// @return                 A reference to output stream
-
+    /// @param in] anOutputStream An output stream
+    /// @param aThruster A constant thrust thruster dynamics
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aConstantThrust);
 
-    /// @brief                  Get local thrust direction
+    /// @brief Get local thrust direction
     ///
-    /// @code
-    ///                         LocalOrbitalFrameDirection localThrustDirection =
-    ///                         constantThrustThruster.getLocalThrustDirection();
+    /// @code{.cpp}
+    ///                  LocalOrbitalFrameDirection localThrustDirection =
+    ///                  constantThrustThruster.getLocalThrustDirection();
     /// @endcode
     ///
-    /// @return                 Local orbital frame direction
-
+    /// @return Local orbital frame direction
     LocalOrbitalFrameDirection getLocalThrustDirection() const;
 
-    /// @brief                  Compute acceleration
+    /// @brief Compute acceleration
     ///
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPositionCoordinates The position coordinates
-    /// @param                  [in] aVelocityCoordinates The velocity coordinates
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
-    /// @param                  [in] outputFrameSPtr The frame in which the acceleration is expressed
+    /// @param anInstant An instant
+    /// @param aPositionCoordinates The position coordinates
+    /// @param aVelocityCoordinates The velocity coordinates
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param outputFrameSPtr The frame in which the acceleration is expressed
     ///
-    /// @return                 Acceleration
-
+    /// @return Acceleration
     virtual Vector3d calculateThrustAccelerationAt(
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
@@ -86,21 +80,19 @@ class ConstantThrust : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief                  Print constant thrust thruster dynamics
+    /// @brief Print constant thrust thruster dynamics
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] displayDecorator A boolean indicating whether or not to display the decorator
+    /// @param anOutputStream An output stream
+    /// @param displayDecorator A boolean indicating whether or not to display the decorator
     /// during printing
-
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-    /// @brief                  Intrack Constant thrust dynamics
+    /// @brief Intrack Constant thrust dynamics
     ///
-    /// @param                  [in] velocityDirection A bool representing the direction of the thrust, with true
+    /// @param velocityDirection A bool representing the direction of the thrust, with true
     /// meaning along the velocity direction. Defaults to true.
     ///
-    /// @return                 Constant Thrust dynamics
-
+    /// @return Constant Thrust dynamics
     static ConstantThrust Intrack(const bool& velocityDirection = true);
 
    private:

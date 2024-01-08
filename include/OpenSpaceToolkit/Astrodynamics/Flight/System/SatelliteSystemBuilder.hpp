@@ -39,104 +39,92 @@ using ostk::astro::flight::System;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 
-/// @brief                      Satellite System builder, meant to simplify creation of a SatelliteSystem, by allowing
-///                             you to only specify the parameters you want. There are two ways of doing this:
-/// @code
-///                             SatelliteSystemBuilder().withDryMass(X).withArea(Y)
+/// @brief Satellite System builder, meant to simplify creation of a SatelliteSystem, by allowing
+/// you to only specify the parameters you want. There are two ways of doing this:
 ///
-///                             SatelliteSystemBuilder::Default().withDryMass(X)
+/// @code{.cpp}
+///                      SatelliteSystemBuilder().withDryMass(X).withArea(Y)
+///
+///                      SatelliteSystemBuilder::Default().withDryMass(X)
 /// @endcode
 
 class SatelliteSystemBuilder
 {
    public:
-    /// @brief                  Constructor
-
+    /// @brief Constructor
     SatelliteSystemBuilder();
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     ~SatelliteSystemBuilder();
 
-    /// @brief                  Clone satellite system builder
+    /// @brief Clone satellite system builder
     ///
-    /// @return                 Pointer to cloned satellite system builder
-
+    /// @return Pointer to cloned satellite system builder
     SatelliteSystemBuilder* clone() const;
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aSatelliteSystemBuilder A satellite system builder
-    /// @return                 A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aSatelliteSystemBuilder A satellite system builder
+    /// @return A reference to output stream
     friend std::ostream& operator<<(
         std::ostream& anOutputStream, const SatelliteSystemBuilder& aSatelliteSystemBuilder
     );
 
-    /// @brief                  Set the dry mass
+    /// @brief Set the dry mass
     ///
-    /// @param                  [in] aDryMass A dry mass
-    /// @return                 The builder
-
+    /// @param aDryMass A dry mass
+    /// @return The builder
     SatelliteSystemBuilder& withDryMass(const Mass& aDryMass);
 
-    /// @brief                  Set the geometry
+    /// @brief Set the geometry
     ///
-    /// @param                  [in] aGeometry A geometry
-    /// @return                 The builder
-
+    /// @param aGeometry A geometry
+    /// @return The builder
     SatelliteSystemBuilder& withGeometry(const Composite& aGeometry);
 
-    /// @brief                  Set the inertia tensor
+    /// @brief Set the inertia tensor
     ///
-    /// @param                  [in] anInertiaTensor An inertia tensor
-    /// @return                 The builder
-
+    /// @param anInertiaTensor An inertia tensor
+    /// @return The builder
     SatelliteSystemBuilder& withInertiaTensor(const Matrix3d& anInertiaTensor);
 
-    /// @brief                  Set the cross-sectional surface area
+    /// @brief Set the cross-sectional surface area
     ///
-    /// @param                  [in] aCrossSectionalSurfaceArea A cross-sectional surface area
-    /// @return                 The builder
-
+    /// @param aCrossSectionalSurfaceArea A cross-sectional surface area
+    /// @return The builder
     SatelliteSystemBuilder& withCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea);
 
-    /// @brief                  Set the drag coefficient
+    /// @brief Set the drag coefficient
     ///
-    /// @param                  [in] aDragCoefficient A drag coefficient
-    /// @return                 The builder
-
+    /// @param aDragCoefficient A drag coefficient
+    /// @return The builder
     SatelliteSystemBuilder& withDragCoefficient(const Real& aDragCoefficient);
 
-    /// @brief                  Set the propulsion system
+    /// @brief Set the propulsion system
     ///
-    /// @param                  [in] aPropulsionSystem A Propulsion System
-    /// @return                 The builder
-
+    /// @param aPropulsionSystem A Propulsion System
+    /// @return The builder
     SatelliteSystemBuilder& withPropulsionSystem(const PropulsionSystem& aPropulsionSystem);
 
-    /// @brief                  Builds the satellite system
+    /// @brief Builds the satellite system
     ///
-    /// @return                 A new satellite system
-
+    /// @return A new satellite system
     const SatelliteSystem build() const;
 
-    /// @brief                  Print satellite system builder
+    /// @brief Print satellite system builder
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Satellite system builder with default values
+    /// @brief Satellite system builder with default values
     ///
-    /// @code
-    ///                         SatelliteSystemBuilder satelliteSystemBuilder = SatelliteSystemBuilder::Default();
+    /// @code{.cpp}
+    /// SatelliteSystemBuilder satelliteSystemBuilder = SatelliteSystemBuilder::Default();
     /// @endcode
     ///
-    /// @return                 Satellite system builder with default values
-
+    /// @return Satellite system builder with default values
     static SatelliteSystemBuilder Default();
 
    private:

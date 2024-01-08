@@ -29,90 +29,79 @@ using ostk::physics::units::Mass;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
-/// @brief                      Define the acceleration experienced by a spacecraft due to atmospheric drag
-
+/// @brief Define the acceleration experienced by a spacecraft due to atmospheric drag
 class AtmosphericDrag : public Dynamics
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         const Celestial = { ... };
-    ///                         AtmosphericDrag atmosphericDrag = { aCelestial };
+    /// @code{.cpp}
+    ///                  const Celestial = { ... };
+    ///                  AtmosphericDrag atmosphericDrag = { aCelestial };
     /// @endcode
     ///
-    /// @param                  [in] aCelestial A celestial object
-
+    /// @param aCelestial A celestial object
     AtmosphericDrag(const Shared<const Celestial>& aCelestial);
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         const Celestial = { ... };
-    ///                         const aName = { ... };
-    ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aName };
+    /// @code{.cpp}
+    ///                  const Celestial = { ... };
+    ///                  const aName = { ... };
+    ///                  AtmosphericDrag atmosphericDrag = { aCelestial, aName };
     /// @endcode
     ///
-    /// @param                  [in] aCelestial A celestial object
-    /// @param                  [in] aName A name
-
+    /// @param aCelestial A celestial object
+    /// @param aName A name
     AtmosphericDrag(const Shared<const Celestial>& aCelestial, const String& aName);
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     virtual ~AtmosphericDrag() override;
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] anAtmosphericDrag An atmospheric drag dynamics
-    /// @return                 A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param anAtmosphericDrag An atmospheric drag dynamics
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag);
 
-    /// @brief                  Check if atmospheric drag dynamics is defined
+    /// @brief Check if atmospheric drag dynamics is defined
     ///
-    /// @return                 True if atmospheric drag dynamics is defined
-
+    /// @return True if atmospheric drag dynamics is defined
     virtual bool isDefined() const override;
 
-    /// @brief                  Get celestial
+    /// @brief Get celestial
     ///
-    /// @return                 A celestial object
-
+    /// @return A celestial object
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief                  Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinates subsets that the instance reads from
     ///
-    /// @return                 The coordinates subsets that the instance reads from
-
+    /// @return The coordinates subsets that the instance reads from
     virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
 
-    /// @brief                  Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinates subsets that the instance writes to
     ///
-    /// @return                 The coordinates subsets that the instance writes to
-
+    /// @return The coordinates subsets that the instance writes to
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
 
-    /// @brief                  Compute the contribution to the state derivative.
+    /// @brief Compute the contribution to the state derivative.
     ///
     /// @param anInstant        An instant
     /// @param x                The reduced state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
     /// @param aFrameSPtr       The frame in which the state vector is expressed
     ///
-    /// @return                 The reduced derivative state vector (this vector must follow the structure determined by
+    /// @return The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
-
     virtual VectorXd computeContribution(
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
 
-    /// @brief                  Print atmospheric drag dynamics
+    /// @brief Print atmospheric drag dynamics
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:

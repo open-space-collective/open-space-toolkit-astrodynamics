@@ -43,8 +43,7 @@ using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
 
-/// @brief                      Represent a propagation segment for astrodynamics purposes
-
+/// @brief Represent a propagation segment for astrodynamics purposes
 class Segment
 {
    public:
@@ -57,15 +56,14 @@ class Segment
     struct Solution
     {
        public:
-        /// @brief              Constructor
+        /// @brief Constructor
         ///
-        /// @param              [in] aName Name of the segment
-        /// @param              [in] aDynamicsArray Array of dynamics
-        /// @param              [in] aStates Array of states for the segment
-        /// @param              [in] aConditionIsSatisfied True if the event condition is satisfied
-        /// @param              [in] aSegmentType Type of segment
-        /// @return             An instance of Solution
-
+        /// @param aName Name of the segment
+        /// @param aDynamicsArray Array of dynamics
+        /// @param aStates Array of states for the segment
+        /// @param aConditionIsSatisfied True if the event condition is satisfied
+        /// @param aSegmentType Type of segment
+        /// @return An instance of Solution
         Solution(
             const String& aName,
             const Array<Shared<Dynamics>>& aDynamicsArray,
@@ -74,50 +72,42 @@ class Segment
             const Segment::Type& aSegmentType
         );
 
-        /// @brief              Access Start Instant
-        /// @return             Start Instant
-
+        /// @brief Access Start Instant
+        /// @return Start Instant
         const Instant& accessStartInstant() const;
 
-        /// @brief              Access end instant
-        /// @return             End Instant
-
+        /// @brief Access end instant
+        /// @return End Instant
         const Instant& accessEndInstant() const;
 
-        /// @brief              Get initial mass
-        /// @return             Initial mass
-
+        /// @brief Get initial mass
+        /// @return Initial mass
         Mass getInitialMass() const;
 
-        /// @brief              Get final mass
-        /// @return             Final mass
-
+        /// @brief Get final mass
+        /// @return Final mass
         Mass getFinalMass() const;
 
-        /// @brief              Get propagation duration
-        /// @return             Propagation duration
-
+        /// @brief Get propagation duration
+        /// @return Propagation duration
         Duration getPropagationDuration() const;
 
-        /// @brief              Compute delta V
+        /// @brief Compute delta V
         ///
-        /// @param              [in] aSpecificImpulse Specific impulse
-        /// @return             Delta V
-
+        /// @param aSpecificImpulse Specific impulse
+        /// @return Delta V
         Real computeDeltaV(const Real& aSpecificImpulse) const;
 
-        /// @brief              Compute delta mass
-        /// @return             Delta mass
-
+        /// @brief Compute delta mass
+        /// @return Delta mass
         Mass computeDeltaMass() const;
 
-        /// @brief              Get dynamics contribution
+        /// @brief Get dynamics contribution
         ///
-        /// @param              [in] aDynamicsSPtr Dynamics
-        /// @param              [in] aFrameSPtr Frame
-        /// @param              [in] aCoordinatesSubsetSPtrArray Array of coordinates subsets
-        /// @return             Dynamics contribution
-
+        /// @param aDynamicsSPtr Dynamics
+        /// @param aFrameSPtr Frame
+        /// @param aCoordinatesSubsetSPtrArray Array of coordinates subsets
+        /// @return Dynamics contribution
         MatrixXd getDynamicsContribution(
             const Shared<Dynamics>& aDynamicsSPtr,
             const Shared<const Frame>& aFrameSPtr,
@@ -125,36 +115,32 @@ class Segment
                 Array<Shared<const CoordinatesSubset>>::Empty()
         ) const;
 
-        /// @brief              Get dynamics acceleration contribution
+        /// @brief Get dynamics acceleration contribution
         ///
-        /// @param              [in] aDynamicsSPtr Dynamics
-        /// @param              [in] aFrameSPtr Frame
-        /// @return             Dynamics acceleration contribution
-
+        /// @param aDynamicsSPtr Dynamics
+        /// @param aFrameSPtr Frame
+        /// @return Dynamics acceleration contribution
         MatrixXd getDynamicsAccelerationContribution(
             const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
         ) const;
 
-        /// @brief              Get all segment dynamics contributions
+        /// @brief Get all segment dynamics contributions
         ///
-        /// @param              [in] aFrameSPtr Frame
-        /// @return             All segment dynamics contributions
-
+        /// @param aFrameSPtr Frame
+        /// @return All segment dynamics contributions
         Map<Shared<Dynamics>, MatrixXd> getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
 
-        /// @brief              Print the segment solution
+        /// @brief Print the segment solution
         ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] (optional) displayDecorators If true, display decorators
-
+        /// @param anOutputStream An output stream
+        /// @param (optional) displayDecorators If true, display decorators
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief              Output stream operator
+        /// @brief Output stream operator
         ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSolution A Solution
-        /// @return             An output stream
-
+        /// @param anOutputStream An output stream
+        /// @param aSolution A Solution
+        /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
 
         String name;                       /// Name of the segment.
@@ -164,77 +150,65 @@ class Segment
         Segment::Type segmentType;         /// Type of segment.
     };
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aSegment A Segment
-    /// @return                 An output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aSegment A Segment
+    /// @return An output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Segment& aSegment);
 
-    /// @brief                  Get name
-    /// @return                 Name of the segment
-
+    /// @brief Get name
+    /// @return Name of the segment
     String getName() const;
 
-    /// @brief                  Get event condition
-    /// @return                 Event condition
-
+    /// @brief Get event condition
+    /// @return Event condition
     Shared<EventCondition> getEventCondition() const;
 
-    /// @brief                  Get dynamics
-    /// @return                 Dynamics
-
+    /// @brief Get dynamics
+    /// @return Dynamics
     Array<Shared<Dynamics>> getDynamics() const;
 
-    /// @brief                  Get numerical solver
-    /// @return                 Numerical solver
-
+    /// @brief Get numerical solver
+    /// @return Numerical solver
     NumericalSolver getNumericalSolver() const;
 
-    /// @brief                  Get type
-    /// @return                 Type of segment
-
+    /// @brief Get type
+    /// @return Type of segment
     Type getType() const;
 
-    /// @brief                  Access event condition
-    /// @return                 Event condition
-
+    /// @brief Access event condition
+    /// @return Event condition
     const Shared<EventCondition>& accessEventCondition() const;
 
-    /// @brief                  Access dynamics
-    /// @return                 Dynamics
-
+    /// @brief Access dynamics
+    /// @return Dynamics
     const Array<Shared<Dynamics>>& accessDynamics() const;
 
-    /// @brief                  Access numerical solver
-    /// @return                 Numerical solver
-
+    /// @brief Access numerical solver
+    /// @return Numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
-    /// @brief                  Solve the segment
+    /// @brief Solve the segment
     ///
-    /// @param                  [in] aState Initial state for the segment
-    /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
-    /// @return                 A Solution representing the result of the solve
-
+    /// @param aState Initial state for the segment
+    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
+    /// @return A Solution representing the result of the solve
     Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
 
-    /// @brief                  Print the segment
+    /// @brief Print the segment
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Create a coasting segment
+    /// @brief Create a coasting segment
     ///
-    /// @param                  [in] aName A name
-    /// @param                  [in] anEventConditionSPtr An event condition
-    /// @param                  [in] aDynamicsArray Array of dynamics
-    /// @param                  [in] aNumericalSolver Numerical solver
-    /// @return                 A Segment for coasting
-
+    /// @param aName A name
+    /// @param anEventConditionSPtr An event condition
+    /// @param aDynamicsArray Array of dynamics
+    /// @param aNumericalSolver Numerical solver
+    /// @return A Segment for coasting
     static Segment Coast(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
@@ -242,15 +216,14 @@ class Segment
         const NumericalSolver& aNumericalSolver
     );
 
-    /// @brief                  Create a maneuvering segment
+    /// @brief Create a maneuvering segment
     ///
-    /// @param                  [in] aName A name
-    /// @param                  [in] anEventConditionSPtr An event condition
-    /// @param                  [in] aThrusterDynamics Dynamics for the thruster
-    /// @param                  [in] aDynamicsArray Array of dynamics
-    /// @param                  [in] aNumericalSolver Numerical solver
-    /// @return                 A Segment for maneuvering
-
+    /// @param aName A name
+    /// @param anEventConditionSPtr An event condition
+    /// @param aThrusterDynamics Dynamics for the thruster
+    /// @param aDynamicsArray Array of dynamics
+    /// @param aNumericalSolver Numerical solver
+    /// @return A Segment for maneuvering
     static Segment Maneuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,

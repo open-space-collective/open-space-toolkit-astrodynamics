@@ -50,37 +50,36 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::State;
 
-/// @brief                      SpaceX Orbital Parameter Message (OPM)
+/// @brief SpaceX Orbital Parameter Message (OPM)
 ///
-///                             # SpaceX OPM output for XXX Mission
-///                             # Notes:
-///                             # - ECEF velocity is Earth relative
-///                             # - Apogee/Perigee altitude assumes a spherical Earth, 6378.137 km radius
-///                             # - Orbital elements are computed in an inertial frame realized by inertially
-///                             # freezing the WGS84 ECEF frame at time of current state
-///                             # - State is post-deployment, so includes separation delta-velocity
+///                      # SpaceX OPM output for XXX Mission
+///                      # Notes:
+///                      # - ECEF velocity is Earth relative
+///                      # - Apogee/Perigee altitude assumes a spherical Earth, 6378.137 km radius
+///                      # - Orbital elements are computed in an inertial frame realized by inertially
+///                      # freezing the WGS84 ECEF frame at time of current state
+///                      # - State is post-deployment, so includes separation delta-velocity
 ///
-///                             header:
-///                               generation_date: YYYY-MM-DD-Day-HH-MM-SS
-///                               launch_date: YYYY-MM-DD-Day-HH-MM-SS
-///                             deployments:
-///                               - name: payload-xxx
-///                                 sequence_number: 1
-///                                 mission_time_s: +XX.XX
-///                                 date: YYYY-MM-DD-Day-HH-MM-SS
-///                                 r_ecef_m: [+XXXXXX.XXX, +XXXXXX.XXX, +XXXXXX.XXX]
-///                                 v_ecef_m_per_s: [+XXXX.XXX, +XXXX.XXX, +XXXX.XXX]
-///                                 mean_perigee_altitude_km: +XXX.XXX
-///                                 mean_apogee_altitude_km: +XXX.XXX
-///                                 mean_inclination_deg: +XX.XXX
-///                                 mean_argument_of_perigee_deg: +XXX.XXX
-///                                 mean_longitude_ascending_node_deg: +XXX.XXX
-///                                 mean_mean_anomaly_deg: +XX.XXX
-///                                 ballistic_coef_kg_per_m2: +XX.XX
+///                      header:
+///                        generation_date: YYYY-MM-DD-Day-HH-MM-SS
+///                        launch_date: YYYY-MM-DD-Day-HH-MM-SS
+///                      deployments:
+///                        - name: payload-xxx
+///                          sequence_number: 1
+///                          mission_time_s: +XX.XX
+///                          date: YYYY-MM-DD-Day-HH-MM-SS
+///                          r_ecef_m: [+XXXXXX.XXX, +XXXXXX.XXX, +XXXXXX.XXX]
+///                          v_ecef_m_per_s: [+XXXX.XXX, +XXXX.XXX, +XXXX.XXX]
+///                          mean_perigee_altitude_km: +XXX.XXX
+///                          mean_apogee_altitude_km: +XXX.XXX
+///                          mean_inclination_deg: +XX.XXX
+///                          mean_argument_of_perigee_deg: +XXX.XXX
+///                          mean_longitude_ascending_node_deg: +XXX.XXX
+///                          mean_mean_anomaly_deg: +XX.XXX
+///                          ballistic_coef_kg_per_m2: +XX.XX
 ///
 /// @ref                        Appendix E: Delivery Format Of Separation State Vector
-///                             https://storage.googleapis.com/rideshare-static/Rideshare_Payload_Users_Guide.pdf
-
+///                      https://storage.googleapis.com/rideshare-static/Rideshare_Payload_Users_Guide.pdf
 class OPM
 {
    public:

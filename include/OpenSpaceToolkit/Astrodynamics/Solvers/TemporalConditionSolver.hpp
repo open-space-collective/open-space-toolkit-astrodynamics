@@ -26,64 +26,58 @@ using ostk::physics::time::Interval;
 
 #define DEFAULT_MAXIMUM_ITERATION_COUNT 500
 
-/// @brief                      Given a set of conditions and a time interval,
-///                             this solver computes all sub-intervals over which conditions are met.
+/// @brief Given a set of conditions and a time interval,
+///                      this solver computes all sub-intervals over which conditions are met.
 class TemporalConditionSolver
 {
    public:
     typedef std::function<bool(const Instant&)> Condition;
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         TemporalConditionSolver temporalConditionSolver = { Duration::Minutes(1.0),
-    ///                         Duration::Microseconds(1.0) };
+    /// @code{.cpp}
+    ///                  TemporalConditionSolver temporalConditionSolver = { Duration::Minutes(1.0),
+    ///                  Duration::Microseconds(1.0) };
     /// @endcode
     ///
-    /// @param                  [in] aTimeStep A time step used to generate the temporal grid.
-    /// @param                  [in] aTolerance A temporal tolerance used to determine the switching instant.
-    /// @param                  [in] aMaximumIterationCount The maximum iteration count for the solver.
-
+    /// @param aTimeStep A time step used to generate the temporal grid.
+    /// @param aTolerance A temporal tolerance used to determine the switching instant.
+    /// @param aMaximumIterationCount The maximum iteration count for the solver.
     TemporalConditionSolver(
         const Duration& aTimeStep,
         const Duration& aTolerance,
         const Size& aMaximumIterationCount = DEFAULT_MAXIMUM_ITERATION_COUNT
     );
 
-    /// @brief                  Get the time step.
+    /// @brief Get the time step.
     ///
-    /// @return                 Time step.
-
+    /// @return Time step.
     Duration getTimeStep() const;
 
-    /// @brief                  Get the tolerance.
+    /// @brief Get the tolerance.
     ///
-    /// @return                 Tolerance.
-
+    /// @return Tolerance.
     Duration getTolerance() const;
 
-    /// @brief                  Get the maximum iteration count.
+    /// @brief Get the maximum iteration count.
     ///
-    /// @return                 Maximum iteration count.
-
+    /// @return Maximum iteration count.
     Size getMaximumIterationCount() const;
 
-    /// @brief                  Find the intervals over which the provided condition is true.
+    /// @brief Find the intervals over which the provided condition is true.
     ///
-    /// @param                  [in] aCondition A temporal condition.
-    /// @param                  [in] anInterval A time interval within which to perform the search.
+    /// @param aCondition A temporal condition.
+    /// @param anInterval A time interval within which to perform the search.
     ///
-    /// @return                 An array of time intervals.
-
+    /// @return An array of time intervals.
     Array<Interval> solve(const TemporalConditionSolver::Condition& aCondition, const Interval& anInterval) const;
 
-    /// @brief                  Find the intervals over which all provided conditions are true.
+    /// @brief Find the intervals over which all provided conditions are true.
     ///
-    /// @param                  [in] aConditionArray An array of temporal conditions.
-    /// @param                  [in] anInterval A time interval within which to perform the search.
+    /// @param aConditionArray An array of temporal conditions.
+    /// @param anInterval A time interval within which to perform the search.
     ///
-    /// @return                 An array of time intervals.
-
+    /// @return An array of time intervals.
     Array<Interval> solve(const Array<TemporalConditionSolver::Condition>& aConditionArray, const Interval& anInterval)
         const;
 

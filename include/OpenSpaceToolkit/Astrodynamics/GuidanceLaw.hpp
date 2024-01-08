@@ -27,58 +27,51 @@ using ostk::physics::coord::Frame;
 
 using ostk::physics::time::Instant;
 
-/// @brief                      An interface for a Guidance Law that can compute an acceleration contribution. To be
+/// @brief An interface for a Guidance Law that can compute an acceleration contribution. To be
 /// used in conjunction with a Thruster class to propagate a satellite to a target orbit.
-
 class GuidanceLaw
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aName A name
-
+    /// @param aName A name
     GuidanceLaw(const String& aName);
 
-    /// @brief                  Destructor
-
+    /// @brief Destructor
     virtual ~GuidanceLaw();
 
-    /// @brief                  Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @code
-    ///                         std::cout << GuidanceLaw(...) ;
+    /// @code{.cpp}
+    ///                  std::cout << GuidanceLaw(...) ;
     /// @endcode
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aGuidanceLaw A guidance Law
-    /// @return                 A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aGuidanceLaw A guidance Law
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const GuidanceLaw& aGuidanceLaw);
 
-    /// @brief                  Get name
+    /// @brief Get name
     ///
-    /// @return                 The name
-
+    /// @return The name
     String getName() const;
 
-    /// @brief                  Print guidance law
+    /// @brief Print guidance law
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Compute the acceleration at the provided coordinates based on logic specific to the
+    /// @brief Compute the acceleration at the provided coordinates based on logic specific to the
     /// guidance law
     ///
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPositionCoordinates The position coordinates
-    /// @param                  [in] aVelocityCoordinates The velocity coordinates
-    /// @param                  [in] aThrustAcceleration The thrust acceleration
-    /// @param                  [in] outputFrameSPtr The frame in which the acceleration is expressed
+    /// @param anInstant An instant
+    /// @param aPositionCoordinates The position coordinates
+    /// @param aVelocityCoordinates The velocity coordinates
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param outputFrameSPtr The frame in which the acceleration is expressed
     ///
-    /// @return                 The acceleration at the provided coordinates
-
+    /// @return The acceleration at the provided coordinates
     virtual Vector3d calculateThrustAccelerationAt(
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,

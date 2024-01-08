@@ -37,169 +37,149 @@ using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Model;
 using ostk::astro::Dynamics;
 
-/// @brief                      Defines an orbit model that is propagated using numerical propagation
-
+/// @brief Define an orbit model that is propagated using numerical propagation
 class Propagated : public ostk::astro::trajectory::orbit::Model
 {
    public:
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                     Propagated propagated = { aPropagator, aState } ;
+    /// @code{.cpp}
+    ///              Propagated propagated = { aPropagator, aState } ;
     /// @endcode
     ///
-    /// @param              [in] aPropagator A propagator
-    /// @param              [in] aState A state
-
+    /// @param aPropagator A propagator
+    /// @param aState A state
     Propagated(const Propagator& aPropagator, const State& aState);
 
-    /// @brief              Constructor with a cached state array
+    /// @brief Constructor with a cached state array
     ///
-    /// @code
-    ///                     Propagated propagated = { aPropagator, aCachedStateArray } ;
+    /// @code{.cpp}
+    ///              Propagated propagated = { aPropagator, aCachedStateArray } ;
     /// @endcode
     ///
-    /// @param              [in] aPropagator A propagator
-    /// @param              [in] aCachedStateArray A state array
-
+    /// @param aPropagator A propagator
+    /// @param aCachedStateArray A state array
     Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray);
 
-    /// @brief              Clone propagated
+    /// @brief Clone propagated
     ///
-    /// @return             Pointer to cloned propagated
-
+    /// @return Pointer to cloned propagated
     virtual Propagated* clone() const override;
 
-    /// @brief              Equal to operator
+    /// @brief Equal to operator
     ///
-    /// @param              [in] aPropagatedModel A propagated
-    /// @return             True if propagateds are equal
-
+    /// @param aPropagatedModel A propagated
+    /// @return True if propagateds are equal
     bool operator==(const Propagated& aPropagatedModel) const;
 
-    /// @brief              Not equal to operator
+    /// @brief Not equal to operator
     ///
-    /// @param              [in] aPropagatedModel A propagated
-    /// @return             True if propagateds are not equal
-
+    /// @param aPropagatedModel A propagated
+    /// @return True if propagateds are not equal
     bool operator!=(const Propagated& aPropagatedModel) const;
 
-    /// @brief              Output stream operator
+    /// @brief Output stream operator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aPropagatedModel A propagated model
-    /// @return             A reference to output stream
-
+    /// @param anOutputStream An output stream
+    /// @param aPropagatedModel A propagated model
+    /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Propagated& aPropagatedModel);
 
-    /// @brief              Check if propagated model is defined
+    /// @brief Check if propagated model is defined
     ///
-    /// @return             True if propagated model is defined
-
+    /// @return True if propagated model is defined
     virtual bool isDefined() const override;
 
-    /// @brief              Get epoch (in this case it is the first instant in the cached state array)
+    /// @brief Get epoch (in this case it is the first instant in the cached state array)
     ///
-    /// @code
-    ///                     Instant instant = propagated.getEpoch() ;
+    /// @code{.cpp}
+    ///              Instant instant = propagated.getEpoch() ;
     /// @endcode
     ///
-    /// @return             Instant
-
+    /// @return Instant
     virtual Instant getEpoch() const override;
 
-    /// @brief              Get revolution number at epoch (it is equal to 1)
+    /// @brief Get revolution number at epoch (it is equal to 1)
     ///
-    /// @code
-    ///                     Real real = propagated.getRevolutionNumberAtEpoch() ;
+    /// @code{.cpp}
+    ///              Real real = propagated.getRevolutionNumberAtEpoch() ;
     /// @endcode
     ///
-    /// @return             Integer
-
+    /// @return Integer
     virtual Integer getRevolutionNumberAtEpoch() const override;
 
-    /// @brief              Calculate the state at an instant, utilizing internal cached state array to propagated
+    /// @brief Calculate the state at an instant, utilizing internal cached state array to propagated
     /// shortest amount of time
-    /// @brief              Does not have macro-level sorting optimization, should not be used with disorded instant
+    /// @brief Does not have macro-level sorting optimization, should not be used with disorded instant
     /// array
-    /// @code
-    ///                     State state = propagated.calculateStateAt(anInstant) ;
+    /// @code{.cpp}
+    ///              State state = propagated.calculateStateAt(anInstant) ;
     /// @endcode
-    /// @param              [in] anInstant An instant
-    /// @return             State
-
+    /// @param anInstant An instant
+    /// @return State
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
-    /// @brief              Calculate the state at an instant, given initial state
-    /// @code
-    ///                     State state = propagated.calculateStateAt(aState, anInstant) ;
+    /// @brief Calculate the state at an instant, given initial state
+    /// @code{.cpp}
+    ///              State state = propagated.calculateStateAt(aState, anInstant) ;
     /// @endcode
-    /// @param              [in] aState An initial state
-    /// @param              [in] anInstant An instant
-    /// @return             State
-
+    /// @param aState An initial state
+    /// @param anInstant An instant
+    /// @return State
     virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;
 
-    /// @brief              Calculate the revolution number at an instant
+    /// @brief Calculate the revolution number at an instant
     ///
-    /// @code
-    ///                     Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;
+    /// @code{.cpp}
+    ///              Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;
     /// @endcode
-    /// @param              [in] anInstant An instant
-    /// @return             Integer
-
+    /// @param anInstant An instant
+    /// @return Integer
     virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const override;
 
-    /// @brief              Fetch internal cached state array
+    /// @brief Fetch internal cached state array
     ///
-    /// @code
-    ///                     Array<State> stateArray = propagated.accessCachedStateArray() ;
+    /// @code{.cpp}
+    ///              Array<State> stateArray = propagated.accessCachedStateArray() ;
     /// @endcode
-
-    /// @return             Array<State>&
-
+    /// @return Array<State>&
     const Array<State>& accessCachedStateArray() const;
 
-    /// @brief              Access propagator
+    /// @brief Access propagator
     ///
-    /// @code
-    ///                     Propagator propagator = propagated.accessPropagator() ;
+    /// @code{.cpp}
+    ///              Propagator propagator = propagated.accessPropagator() ;
     /// @endcode
     ///
-    /// @return             Propagator
-
+    /// @return Propagator
     const Propagator& accessPropagator() const;
 
-    /// @brief              Set internal cached state array manually
+    /// @brief Set internal cached state array manually
     ///
-    /// @code
-    ///                     Array<State> stateArray = { ... } ;
-    ///                     propagated.setCachedStateArray(stateArray) ;
+    /// @code{.cpp}
+    ///              Array<State> stateArray = { ... } ;
+    ///              propagated.setCachedStateArray(stateArray) ;
     /// @endcode
-    /// @param              [in] aStateArray A state array
-
+    /// @param aStateArray A state array
     void setCachedStateArray(const Array<State>& aStateArray);
 
-    /// @brief              Print propagated
+    /// @brief Print propagated
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    protected:
-    /// @brief              Equal to operator
+    /// @brief Equal to operator
     ///
-    /// @param              [in] aModel A model
-    /// @return             True if models are equal
-
+    /// @param aModel A model
+    /// @return True if models are equal
     virtual bool operator==(const trajectory::Model& aModel) const override;
 
-    /// @brief              Not equal to operator
+    /// @brief Not equal to operator
     ///
-    /// @param              [in] aModel A model
-    /// @return             True if models are not equal
-
+    /// @param aModel A model
+    /// @return True if models are not equal
     virtual bool operator!=(const trajectory::Model& aModel) const override;
 
    private:

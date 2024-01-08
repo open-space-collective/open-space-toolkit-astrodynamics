@@ -52,23 +52,21 @@ using ostk::physics::units::Length;
 using classicalOE = ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
 
-/// @brief                      Brouwer-Lyddane Mean Short Orbital Elements. Short periodic variations are averaged.
+/// @brief Brouwer-Lyddane Mean Short Orbital Elements. Short periodic variations are averaged.
 ///
 /// @ref
 /// https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l
-
 class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aSemiMajorAxis A semi-major axis
-    /// @param                  [in] anEccentricity An eccentricity
-    /// @param                  [in] anInclination An inclination
-    /// @param                  [in] aRaan A raan
-    /// @param                  [in] anAop An aop
-    /// @param                  [in] aMeanAnomaly A mean anomaly
-
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
+    /// @param anInclination An inclination
+    /// @param aRaan A raan
+    /// @param anAop An aop
+    /// @param aMeanAnomaly A mean anomaly
     BrouwerLyddaneMeanShort(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
@@ -78,39 +76,34 @@ class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
         const Angle &aMeanAnomaly
     );
 
-    /// @brief                  Construct from a COE
+    /// @brief Construct from a COE
     ///
-    /// @param                  [in] aCOE A COE
-    /// @return                 Brouwer-Lyddane Mean Short
-
+    /// @param aCOE A COE
+    /// @return Brouwer-Lyddane Mean Short
     static BrouwerLyddaneMeanShort COE(const classicalOE &aCOE);
 
-    /// @brief                  Convert Brouwer-Lyddane Mean Short to COE
+    /// @brief Convert Brouwer-Lyddane Mean Short to COE
     ///
-    /// @return                 COE
-
+    /// @return COE
     virtual classicalOE toCOE() const override;
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aCartesianState A cartesian state
-    /// @param                  [in] aGravitationalParameter A gravitational parameter
-
+    /// @param aCartesianState A cartesian state
+    /// @param aGravitationalParameter A gravitational parameter
     static BrouwerLyddaneMeanShort Cartesian(
         const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
     );
 
-    /// @brief                  Construct an undefined BrouwerLyddaneMeanShort
+    /// @brief Construct an undefined BrouwerLyddaneMeanShort
     ///
-    /// @return                 Undefined BrouwerLyddaneMeanLong
-
+    /// @return Undefined BrouwerLyddaneMeanLong
     static BrouwerLyddaneMeanShort Undefined();
 
    private:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aVector A vector
-
+    /// @param aVector A vector
     static BrouwerLyddaneMeanShort FromSIVector(const Vector6d &aVector);
 };
 

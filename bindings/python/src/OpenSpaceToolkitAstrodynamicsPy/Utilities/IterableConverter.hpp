@@ -23,8 +23,7 @@ struct ToListConverter
 
 struct IterableConverter
 {
-    /// @brief                  Registers converter from a python iterable type to the provided type
-
+    /// @brief Registers converter from a python iterable type to the provided type
     template <typename Container>
     IterableConverter& from_python()
     {
@@ -37,8 +36,7 @@ struct IterableConverter
         return *this;
     }
 
-    /// @brief                  Registers converter from the provided type to a python iterable type
-
+    /// @brief Registers converter from the provided type to a python iterable type
     template <typename Container>
     IterableConverter& to_python()
     {
@@ -47,8 +45,7 @@ struct IterableConverter
         return *this;
     }
 
-    /// @brief                  Check if PyObject is iterable
-
+    /// @brief Check if PyObject is iterable
     static void* convertible(PyObject* anObject)
     {
         auto* iterator = PyObject_GetIter(anObject);
@@ -69,7 +66,6 @@ struct IterableConverter
     ///   * Container::value_type is CopyConstructable.
     ///   * Container can be constructed and populated with two iterators.
     ///     I.e. Container(begin, end)
-
     template <typename Container>
     static void construct(PyObject* object, boost::python::converter::rvalue_from_python_stage1_data* data)
     {

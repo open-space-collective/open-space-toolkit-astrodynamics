@@ -24,35 +24,31 @@ using ostk::physics::time::Instant;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 
-/// @brief  Cartesian Position.
-
+/// @brief Cartesian Position.
 class CartesianPosition : public CoordinatesSubset
 {
    public:
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                     CartesianPosition cartesianPosition = {aName};
+    /// @code{.cpp}
+    ///     CartesianPosition cartesianPosition = {aName};
     /// @endcode
     ///
-    /// @param              [in] aName a name
-
+    /// @param aName a name
     CartesianPosition(const String& aName);
 
-    /// @brief              Destructor
-
+    /// @brief Destructor
     ~CartesianPosition();
 
-    /// @brief              Add two coordinates subsets
+    /// @brief Add two coordinates subsets
     ///
-    /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] aFullCoordinatesVector first set of all coordinates
-    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
-    /// @param              [in] aFrameSPtr the reference frame in which the coordinates are resolved
-    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    /// @param anInstant the instant associated to the coordinates
+    /// @param aFullCoordinatesVector first set of all coordinates
+    /// @param anotherFullCoordinatesVector second set of all coordinates
+    /// @param aFrameSPtr the reference frame in which the coordinates are resolved
+    /// @param aCoordinatesBrokerSPtr a coordinates broker
     ///
-    /// @return             The resulting coordinates subset value (subset_1 + subset_2)
-
+    /// @return The resulting coordinates subset value (subset_1 + subset_2)
     virtual VectorXd add(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -61,16 +57,15 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override;
 
-    /// @brief              Subtract two coordinates subsets
+    /// @brief Subtract two coordinates subsets
     ///
-    /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] aFullCoordinatesVector first set of all coordinates
-    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
-    /// @param              [in] aFrameSPtr the reference frame associated to the coordinates
-    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    /// @param anInstant the instant associated to the coordinates
+    /// @param aFullCoordinatesVector first set of all coordinates
+    /// @param anotherFullCoordinatesVector second set of all coordinates
+    /// @param aFrameSPtr the reference frame associated to the coordinates
+    /// @param aCoordinatesBrokerSPtr a coordinates broker
     ///
-    /// @return             The resulting coordinates subset value (subset_1 - subset_2)
-
+    /// @return The resulting coordinates subset value (subset_1 - subset_2)
     virtual VectorXd subtract(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -79,16 +74,15 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override;
 
-    /// @brief              Transform the coordinate subset from one frame to another
+    /// @brief Transforms the coordinate subset from one frame to another
     ///
-    /// @param              [in] anInstant the reference frame associated to the coordinates
-    /// @param              [in] aFullCoordinatesVector all coordinates
-    /// @param              [in] fromFrame the reference frame associated to the coordinates
-    /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    /// @param anInstant the reference frame associated to the coordinates
+    /// @param aFullCoordinatesVector all coordinates
+    /// @param fromFrame the reference frame associated to the coordinates
+    /// @param toFrame the reference frame in which the coordinates are to be transformed
+    /// @param aCoordinatesBrokerSPtr a coordinates broker
     ///
-    /// @return             The resulting coordinates subset value expressed in the desired reference frame
-
+    /// @return The resulting coordinates subset value expressed in the desired reference frame
     VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -97,10 +91,9 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override;
 
-    /// @brief              Return the default instance
+    /// @brief Return the default instance
     ///
-    /// @return             The default instance
-
+    /// @return The default instance
     static Shared<const CartesianPosition> Default();
 };
 

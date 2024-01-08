@@ -30,95 +30,83 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 
-/// @brief                      A local orbital frame factory
+/// @brief A local orbital frame factory
 ///
 /// @note                       Allows to generate Frames based on instant, position, velocity.
-
 class LocalOrbitalFrameFactory
 {
    public:
-    /// @brief                  Generate a frame shared pointer based on current state input
+    /// @brief Generate a frame shared pointer based on current state input
     ///
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPosition A position vector
-    /// @param                  [in] aVelocity A velocity vector
+    /// @param anInstant An instant
+    /// @param aPosition A position vector
+    /// @param aVelocity A velocity vector
     ///
-    /// @return                 A shared pointer to the frame created
-
+    /// @return A shared pointer to the frame created
     Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity)
         const;
 
-    /// @brief                  Check if local orbital frame factory is defined
+    /// @brief Check if local orbital frame factory is defined
     ///
-    /// @return                 True if local orbital frame factory is defined
-
+    /// @return True if local orbital frame factory is defined
     bool isDefined() const;
 
-    /// @brief                  Get type
+    /// @brief Get type
     ///
-    /// @return                 Type
-
+    /// @return Type
     LocalOrbitalFrameTransformProvider::Type getProviderType() const;
 
-    /// @brief                  NED Constructor
+    /// @brief NED Constructor
     ///
-    /// @param                  [in] aParentFrame A parent frame
+    /// @param aParentFrame A parent frame
     ///
-    /// @return                 A shared pointer to a LocalOrbitalFrameFactory
-
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> NED(const Shared<const Frame>& aParentFrame);
 
-    /// @brief                  LVLH Constructor
+    /// @brief LVLH Constructor
     ///
-    /// @param                  [in] aParentFrame A parent frame
+    /// @param aParentFrame A parent frame
     ///
-    /// @return                 A shared pointer to a LocalOrbitalFrameFactory
-
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> LVLH(const Shared<const Frame>& aParentFrame);
 
-    /// @brief                  VVLH Constructor
+    /// @brief VVLH Constructor
     ///
-    /// @param                  [in] aParentFrame A parent frame
+    /// @param aParentFrame A parent frame
     ///
-    /// @return                 A shared pointer to a LocalOrbitalFrameFactory
-
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> VVLH(const Shared<const Frame>& aParentFrame);
 
-    /// @brief                  QSW Constructor
+    /// @brief QSW Constructor
     ///
-    /// @param                  [in] aParentFrame A parent frame
+    /// @param aParentFrame A parent frame
     ///
-    /// @return                 A shared pointer to a LocalOrbitalFrameFactory
-
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> QSW(const Shared<const Frame>& aParentFrame);
 
-    /// @brief                  TNW Constructor
+    /// @brief TNW Constructor
     ///
-    /// @param                  [in] aParentFrame A parent frame
+    /// @param aParentFrame A parent frame
     ///
-    /// @return                 A shared pointer to a LocalOrbitalFrameFactory
-
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> TNW(const Shared<const Frame>& aParentFrame);
 
-    /// @brief                  VNC Constructor
+    /// @brief VNC Constructor
     ///
-    /// @param                  [in] aParentFrame A parent frame
+    /// @param aParentFrame A parent frame
     ///
-    /// @return                 A shared pointer to a LocalOrbitalFrameFactory
-
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
 
-    /// @brief                  Undefined local orbital frame factory constructor
+    /// @brief Undefined local orbital frame factory constructor
     ///
-    /// @return                 Undefined local orbital frame factory shared pointer
-
+    /// @return Undefined local orbital frame factory shared pointer
     static Shared<const LocalOrbitalFrameFactory> Undefined();
 
-    /// @brief                  Construct function
+    /// @brief Construct function
     ///
-    /// @param                  [in] aType The type of local orbital frame transform provider
-    /// @param                  [in] aParentFrame The parent frame of the local orbital frame factory
-
+    /// @param aType The type of local orbital frame transform provider
+    /// @param aParentFrame The parent frame of the local orbital frame factory
     static Shared<const LocalOrbitalFrameFactory> Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
@@ -127,27 +115,25 @@ class LocalOrbitalFrameFactory
     LocalOrbitalFrameTransformProvider::Type type_;
     Shared<const Frame> parentFrameSPtr_;
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         LocalOrbitalFrameFactory localOrbitalFrameFactory = {aType, aParentFrame};
+    /// @code{.cpp}
+    ///                  LocalOrbitalFrameFactory localOrbitalFrameFactory = {aType, aParentFrame};
     /// @endcode
     ///
-    /// @param                  [in] aType The type of local orbital frame transform provider
-    /// @param                  [in] aParentFrame The parent frame of the local orbital frame factory
-
+    /// @param aType The type of local orbital frame transform provider
+    /// @param aParentFrame The parent frame of the local orbital frame factory
     LocalOrbitalFrameFactory(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
 
-    /// @brief                  Generate a frame name based on current state
+    /// @brief Generate a frame name based on current state
     ///
-    /// @param                  [in] anInstant An instant
-    /// @param                  [in] aPosition A position vector
-    /// @param                  [in] aVelocity A velocity vector
+    /// @param anInstant An instant
+    /// @param aPosition A position vector
+    /// @param aVelocity A velocity vector
     ///
-    /// @return                 A frame name
-
+    /// @return A frame name
     String generateFrameName(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
 };
 

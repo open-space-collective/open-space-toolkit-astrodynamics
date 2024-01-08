@@ -50,24 +50,22 @@ using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
-/// @brief                      Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
+/// @brief Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
 /// averaged.
 ///
 /// @ref
 /// https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l
-
 class BrouwerLyddaneMean : public COE
 {
    public:
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @param                  [in] aSemiMajorAxis A semi-major axis
-    /// @param                  [in] anEccentricity An eccentricity
-    /// @param                  [in] anInclination An inclination
-    /// @param                  [in] aRaan A raan
-    /// @param                  [in] anAop An aop
-    /// @param                  [in] aMeanAnomaly A mean anomaly
-
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
+    /// @param anInclination An inclination
+    /// @param aRaan A raan
+    /// @param anAop An aop
+    /// @param aMeanAnomaly A mean anomaly
     BrouwerLyddaneMean(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
@@ -77,42 +75,37 @@ class BrouwerLyddaneMean : public COE
         const Angle &aMeanAnomaly
     );
 
-    /// @brief                  Get Mean anomaly
+    /// @brief Get Mean anomaly
     ///
-    /// @return                 Mean anomaly
-
+    /// @return Mean anomaly
     virtual Angle getMeanAnomaly() const override;
 
-    /// @brief                  Get True anomaly
+    /// @brief Get True anomaly
     ///
-    /// @return                 True anomaly
-
+    /// @return True anomaly
     virtual Angle getTrueAnomaly() const override;
 
-    /// @brief                  Get Eccentric anomaly
+    /// @brief Get Eccentric anomaly
     ///
-    /// @return                 Eccentric anomaly
-
+    /// @return Eccentric anomaly
     virtual Angle getEccentricAnomaly() const override;
 
-    /// @brief                  Get cartesian state
+    /// @brief Get cartesian state
     ///
-    /// @param                  [in] aGravitationalParameter A gravitational parameter
-    /// @param                  [in] aFrameSPtr A frame
-    /// @return                 Cartesian state
-
+    /// @param aGravitationalParameter A gravitational parameter
+    /// @param aFrameSPtr A frame
+    /// @return Cartesian state
     COE::CartesianState getCartesianState(const Derived &aGravitationalParameter, const Shared<const Frame> &aFrameSPtr)
         const;
 
     virtual COE toCOE() const = 0;
 
    protected:
-    /// @brief                  Convert cartesian state to Vector
+    /// @brief Convert cartesian state to Vector
     ///
-    /// @param                  [in] aCartesianState A cartesian state
-    /// @param                  [in] aGravitationalParameter A gravitational parameter
-    /// @param                  [in] toCOEVector A converting function
-
+    /// @param aCartesianState A cartesian state
+    /// @param aGravitationalParameter A gravitational parameter
+    /// @param toCOEVector A converting function
     static Vector6d Cartesian(
         const COE::CartesianState &aCartesianState,
         const Derived &aGravitationalParameter,

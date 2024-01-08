@@ -32,8 +32,7 @@ using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::dynamics::Thruster;
 
-/// @brief                      Represents a sequence of trajectory segments executed in order.
-
+/// @brief Represent a sequence of trajectory segments executed in order.
 class Sequence
 {
    public:
@@ -58,27 +57,27 @@ class Sequence
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
     };
 
-    /// @brief                  Constructor
+    /// @brief Constructor
     ///
-    /// @code
-    ///                         const NumericalSolver numericalSolver = NumericalSolver::Default();
-    ///                         const Array<Shared<Dynamics>> dynamicsArray =
-    ///                         {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
-    ///                         const Duration maximumPropagationDuration = Duration::Days(7.0);
-    ///                         const Size verbosity = 0;
+    /// @code{.cpp}
+    ///                  const Array<Segment> segmentArray = {};
+    ///                  const NumericalSolver numericalSolver = NumericalSolver::Default();
+    ///                  const Array<Shared<Dynamics>> dynamicsArray =
+    ///                  {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
+    ///                  const Duration maximumPropagationDuration = Duration::Days(7.0);
+    ///                  const Size verbosity = 0;
     ///
-    ///                         Sequence sequence = {numericalSolver, dynamicsArray,
-    ///                         maximumPropagationDuration, verbosity};
+    ///                  Sequence sequence = {segmentArray, numericalSolver, dynamicsArray,
+    ///                  maximumPropagationDuration, verbosity};
     ///
     /// @endcode
     ///
-    /// @param                  [in] aSegmentArray An array of segments. Defaults to empty.
-    /// @param                  [in] aNumericalSolver A Numerical Solver. Defaults to Undefined.
-    /// @param                  [in] aDynamicsArray An array of shared dynamics. Defaults to empty.
-    /// @param                  [in] segmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
+    /// @param aSegmentArray An array of segments. Defaults to empty.
+    /// @param aNumericalSolver A Numerical Solver. Defaults to Undefined.
+    /// @param aDynamicsArray An array of shared dynamics. Defaults to empty.
+    /// @param segmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
     /// days.
-    /// @param                  [in] verbosity Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
-
+    /// @param verbosity Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
@@ -87,89 +86,77 @@ class Sequence
         const Size& verbosity = 0
     );
 
-    /// @brief                  Output stream operator.
+    /// @brief Output stream operator.
     ///
-    /// @param                  [in] anOutputStream An output stream.
-    /// @param                  [in] aSequence A sequence.
-    /// @return                 An output stream.
-
+    /// @param anOutputStream An output stream.
+    /// @param aSequence A sequence.
+    /// @return An output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence);
 
-    /// @brief                  Get segments.
+    /// @brief Get segments.
     ///
-    /// @return                 Array of segments.
-
+    /// @return Array of segments.
     Array<Segment> getSegments() const;
 
-    /// @brief                  Get numerical solver.
+    /// @brief Get numerical solver.
     ///
-    /// @return                 Numerical solver.
-
+    /// @return Numerical solver.
     NumericalSolver getNumericalSolver() const;
 
-    /// @brief                  Get dynamics.
+    /// @brief Get dynamics.
     ///
-    /// @return                 Dynamics.
-
+    /// @return Dynamics.
     Array<Shared<Dynamics>> getDynamics() const;
 
-    /// @brief                  Get maximum propagation duration.
+    /// @brief Get maximum propagation duration.
     ///
-    /// @return                 Maximum propagation duration.
-
+    /// @return Maximum propagation duration.
     Duration getMaximumPropagationDuration() const;
 
-    /// @brief                  Add a trajectory segment.
+    /// @brief Add a trajectory segment.
     ///
-    /// @param                  [in] aTrajectorySegment A trajectory segment.
-
+    /// @param aTrajectorySegment A trajectory segment.
     void addSegment(const Segment& aTrajectorySegment);
 
-    /// @brief                  Add multiple segments.
+    /// @brief Add multiple segments.
     ///
-    /// @param                  [in] aTrajectorySegmentArray An array of trajectory segments.
-
+    /// @param aTrajectorySegmentArray An array of trajectory segments.
     void addSegments(const Array<Segment>& aTrajectorySegmentArray);
 
-    /// @brief                  Add a coast segment.
+    /// @brief Add a coast segment.
     ///
-    /// @param                  [in] anEventConditionSPtr An event condition.
-
+    /// @param anEventConditionSPtr An event condition.
     void addCoastSegment(const Shared<EventCondition>& anEventConditionSPtr);
 
-    /// @brief                  Add a maneuver segment.
+    /// @brief Add a maneuver segment.
     ///
-    /// @param                  [in] anEventConditionSPtr An event condition.
-    /// @param                  [in] aThruster A thruster dynamics.
-
+    /// @param anEventConditionSPtr An event condition.
+    /// @param aThruster A thruster dynamics.
     void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster);
 
-    /// @brief                  Solve the sequence given an initial state, for a number of reptitions.
+    /// @brief Solve the sequence given an initial state, for a number of reptitions.
     ///
-    /// @param                  [in] aState Initial state for the sequence.
-    /// @param                  [in] aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
-    /// @return                 A Solution that contains solutions for each segment.
-
+    /// @param aState Initial state for the sequence.
+    /// @param aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
+    /// @return A Solution that contains solutions for each segment.
     Solution solve(const State& aState, const Size& aRepetitionCount = 1) const;
 
-    /// @brief                  Solve the sequence given an initial state.
+    /// @brief Solve the sequence given an initial state.
     ///
-    /// @param                  [in] aState Initial state for the sequence.
-    /// @param                  [in] anEventCondition An event condition.
-    /// @param                  [in] aMaximumPropagationDuration Maximum duration for sequence propagation.
-    /// @return                 A Solution that contains solutions for each segment.
-
+    /// @param aState Initial state for the sequence.
+    /// @param anEventCondition An event condition.
+    /// @param aMaximumPropagationDuration Maximum duration for sequence propagation.
+    /// @return A Solution that contains solutions for each segment.
     Solution solveToCondition(
         const State& aState,
         const EventCondition& anEventCondition,
         const Duration& aMaximumPropagationDuration = Duration::Days(30.0)
     ) const;
 
-    /// @brief                  Print the sequence.
+    /// @brief Print the sequence.
     ///
-    /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] (optional) displayDecorators If true, display decorators
-
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
