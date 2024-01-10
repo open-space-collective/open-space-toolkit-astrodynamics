@@ -51,16 +51,16 @@ class Tabulated : public Dynamics
         const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets
     );
 
-    // /// @brief Output stream operator
-    // ///
-    // /// @code{.cpp}
-    // ///                  std::cout << Dynamics(...) ;
-    // /// @endcode
-    // ///
-    // /// @param anOutputStream An output stream
-    // /// @param aDynamics A guidance Law
-    // /// @return A reference to output stream
-    // friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aDynamics);
+    /// @brief Output stream operator
+    ///
+    /// @code{.cpp}
+    ///                  std::cout << Dynamics(...) ;
+    /// @endcode
+    ///
+    /// @param anOutputStream An output stream
+    /// @param aTabulated A Tabulated dynamics
+    /// @return A reference to output stream
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aDynamics);
 
     /// @brief Get contribution profile
     ///
@@ -71,12 +71,6 @@ class Tabulated : public Dynamics
     ///
     /// @return The contribution profile
     MatrixXd getContributionProfile() const;
-
-    // /// @brief Print guidance law
-    // ///
-    // /// @param anOutputStream An output stream
-    // /// @param (optional) displayDecorators If true, display decorators
-    // virtual void print(std::ostream & anOutputStream, bool displayDecorator = true) const;
 
     /// @brief Check if dynamics is defined (pure virtual)
     ///
@@ -105,6 +99,12 @@ class Tabulated : public Dynamics
     virtual VectorXd computeContribution(
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
+
+    /// @brief Print Tabulated dynamics
+    ///
+    /// @param anOutputStream An output stream
+    /// @param (optional) displayDecorators If true, display decorators
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
     const MatrixXd contributionProfile_;

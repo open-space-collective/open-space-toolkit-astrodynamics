@@ -109,24 +109,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Constructor)
     }
 }
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, StreamOperator)
-// {
-//     testing::internal::CaptureStdout();
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, StreamOperator)
+{
+    testing::internal::CaptureStdout();
 
-//     EXPECT_NO_THROW(std::cout << defaultDynamics_ << std::endl);
+    Tabulated tabulated = {
+        defaultInstants_,
+        contributionProfile_,
+        defaultWriteCoordinatesSubsets_,
+    };
 
-//     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-// }
+    EXPECT_NO_THROW(std::cout << tabulated << std::endl);
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Print)
-// {
-//     testing::internal::CaptureStdout();
+    EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+}
 
-//     EXPECT_NO_THROW(defaultDynamics_.print(std::cout, true));
-//     EXPECT_NO_THROW(defaultDynamics_.print(std::cout, false));
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Print)
+{
+    testing::internal::CaptureStdout();
 
-//     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-// }
+    Tabulated tabulated = {
+        defaultInstants_,
+        contributionProfile_,
+        defaultWriteCoordinatesSubsets_,
+    };
+
+    EXPECT_NO_THROW(tabulated.print(std::cout, true));
+    EXPECT_NO_THROW(tabulated.print(std::cout, false));
+
+    EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, AccessContributionProfile)
 {
@@ -173,7 +185,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
             const VectorXd computedContribution = tabulated.computeContribution(expectedInstants[i], x, Frame::GCRF());
             const VectorXd expectedContribution = expectedProfile.row(i);
 
-            for (Index j = 0; j < computedContribution.size(); ++j)
+            for (Index j = 0; j < (Index)computedContribution.size(); ++j)
             {
                 EXPECT_NEAR(computedContribution(j), expectedContribution(j), 1e-8);
             }

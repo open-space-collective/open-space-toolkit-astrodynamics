@@ -22,7 +22,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             aModule,
             "Tabulated",
             R"doc(
-                The tabulated dynamics model.
+                The tabulated dynamics.
 
                 Group:
                     dynamics
@@ -31,15 +31,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             .def(
                 init<const Array<Instant>&, const MatrixXd&, const Array<Shared<const CoordinatesSubset>>&>(),
                 arg("instants"),
-                arg("acceleration_profile"),
-                arg("write_coordinates_subsets"),
+                arg("contribution_profile"),
+                arg("coordinates_subsets"),
                 R"doc(
                     Constructor.
 
                     Args:
                         instants (Array<Instant>): An array of instants.
-                        acceleration_profile (numpy.ndarray): An acceleration profile.
-                        write_coordinates_subsets (Array<Shared<CoordinatesSubset>>): An array of coordinates subsets to write to.
+                        contribution_profile (numpy.ndarray): A contribution profile.
+                        coordinates_subsets (Array<Shared<CoordinatesSubset>>): An array of coordinates subsets related to the contribution profile.
 
                 )doc"
             )
@@ -51,10 +51,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                 "is_defined",
                 &Tabulated::isDefined,
                 R"doc(
-                    Check if the tabulated model is defined.
+                    Check if the tabulated dynamics is defined.
 
                     Returns:
-                        bool: True if the tabulated model is defined, False otherwise.
+                        bool: True if the tabulated dynamics is defined, False otherwise.
 
                 )doc"
             )

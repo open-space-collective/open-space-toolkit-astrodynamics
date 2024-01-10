@@ -64,6 +64,13 @@ Tabulated::Tabulated(
     }
 }
 
+std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulated)
+{
+    aTabulated.print(anOutputStream);
+
+    return anOutputStream;
+}
+
 const MatrixXd& Tabulated::accessContributionProfile() const
 {
     return contributionProfile_;
@@ -102,6 +109,29 @@ VectorXd Tabulated::computeContribution(
     }
 
     return contribution;
+}
+
+void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated Dynamics") : void();
+
+    Dynamics::print(anOutputStream, false);
+
+    for (const auto& subset : writeCoordinatesSubsets_)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << subset->getName() << subset->getSize();
+    }
+
+    const String profileDimensions = String::Format("{}x{}", contributionProfile_.rows(), contributionProfile_.cols());
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Contribution Profile:" << profileDimensions;
+
+    const String interval =
+        String::Format("[{}, {}]", instants_.accessFirst().toString(), instants_.accessLast().toString());
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Interval:" << interval;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace dynamics
