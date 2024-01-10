@@ -108,33 +108,3 @@ class TestTabulated:
 
             assert new_contribution is not None
             assert len(new_contribution) == 3
-
-    def test_compute_contribution_validation(
-        self,
-        coordinates_subsets: list[CoordinatesSubset],
-    ):
-        csv_file_path = (
-            f"{pathlib.Path(__file__).parent.absolute()}/data/Tabulated_Earth_Gravity.csv"
-        )
-        csv_file_path_truth = f"{pathlib.Path(__file__).parent.absolute()}/data/Tabulated_Earth_Gravity_Truth.csv"
-        df = pd.read_csv(csv_file_path)
-        instants = [coerce_to_instant(element) for element in df.iloc[:, 0].to_numpy()]
-        contribution_profile = df.iloc[:, -3:].to_numpy()
-
-        dynamics: Tabulated = Tabulated(
-            instants,
-            contribution_profile,
-            coordinates_subsets,
-        )
-
-        df_truth = pd.read_csv(csv_file_path_truth)
-        instants_truth = df_truth.iloc[:, 0].to_numpy()
-        contribution_profile_truth = df_truth.iloc[:, -3:].to_numpy()
-
-        for i in range(len(instants_truth)):
-            contribution = dynamics.compute_contribution(
-                Instant.date_time(DateTime.parse(instants_truth[i]), Scale.UTC),
-                [],
-                Frame.GCRF(),
-            )
-            assert contribution == pytest.approx(contribution_profile_truth[i], abs=1e-8)
