@@ -168,7 +168,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Print)
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, AccessInstants)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Accessors)
 {
     Tabulated tabulated = {
         defaultInstants_,
@@ -176,10 +176,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, AccessInstants)
         defaultWriteCoordinatesSubsets_,
         defaultFrameSPtr_,
     };
-    EXPECT_EQ(tabulated.accessInstants(), defaultInstants_);
+
+    {
+        EXPECT_EQ(tabulated.accessInstants(), defaultInstants_);
+    }
+
+    {
+        EXPECT_EQ(tabulated.accessContributionProfile(), contributionProfile_);
+    }
+
+    {
+        EXPECT_EQ(tabulated.accessFrame(), defaultFrameSPtr_);
+    }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, GetInstants)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Getters)
 {
     Tabulated tabulated = {
         defaultInstants_,
@@ -187,29 +198,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, GetInstants)
         defaultWriteCoordinatesSubsets_,
         defaultFrameSPtr_,
     };
-    EXPECT_EQ(tabulated.getInstants(), defaultInstants_);
-}
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, AccessContributionProfile)
-{
-    Tabulated tabulated = {
-        defaultInstants_,
-        contributionProfile_,
-        defaultWriteCoordinatesSubsets_,
-        defaultFrameSPtr_,
-    };
-    EXPECT_EQ(tabulated.accessContributionProfile(), contributionProfile_);
-}
+    {
+        EXPECT_EQ(tabulated.getInstants(), defaultInstants_);
+    }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, GetContributionProfile)
-{
-    Tabulated tabulated = {
-        defaultInstants_,
-        contributionProfile_,
-        defaultWriteCoordinatesSubsets_,
-        defaultFrameSPtr_,
-    };
-    EXPECT_EQ(tabulated.getContributionProfile(), contributionProfile_);
+    {
+        EXPECT_EQ(tabulated.getContributionProfile(), contributionProfile_);
+    }
+
+    {
+        EXPECT_EQ(tabulated.getFrame(), defaultFrameSPtr_);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)

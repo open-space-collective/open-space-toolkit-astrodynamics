@@ -85,6 +85,16 @@ class Tabulated : public Dynamics
     /// @return The contribution profile
     MatrixXd getContributionProfile() const;
 
+    /// @brief Access the frame
+    ///
+    /// @return The frame
+    const Shared<const Frame>& accessFrame() const;
+
+    /// @brief Get the frame
+    ///
+    /// @return The frame
+    Shared<const Frame> getFrame() const;
+
     /// @brief Check if dynamics is defined (pure virtual)
     ///
     /// @return True if dynamics is defined
@@ -125,8 +135,6 @@ class Tabulated : public Dynamics
     const Array<Shared<const CoordinatesSubset>> writeCoordinatesSubsets_;
     const Shared<const Frame> frameSPtr_;
     Array<BarycentricRational> interpolators_;
-
-    const double stepTolerance_ = 15.0;  // seconds
 };
 
 }  // namespace dynamics

@@ -91,6 +91,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
+                "get_frame",
+                &Tabulated::getFrame,
+                R"doc(
+                    Get the reference frame.
+
+                    Returns:
+                        Frame: The reference frame.
+                
+                )doc"
+            )
+
+            .def(
                 "compute_contribution",
                 &Tabulated::computeContribution,
                 arg("instant"),

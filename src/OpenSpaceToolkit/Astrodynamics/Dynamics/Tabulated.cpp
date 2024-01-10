@@ -95,6 +95,16 @@ MatrixXd Tabulated::getContributionProfile() const
     return accessContributionProfile();
 }
 
+const Shared<const Frame>& Tabulated::accessFrame() const
+{
+    return frameSPtr_;
+}
+
+Shared<const Frame> Tabulated::getFrame() const
+{
+    return accessFrame();
+}
+
 bool Tabulated::isDefined() const
 {
     return true;

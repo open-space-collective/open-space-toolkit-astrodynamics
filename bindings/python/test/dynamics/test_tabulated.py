@@ -3,23 +3,17 @@
 import pytest
 
 import numpy as np
-import pathlib
-import pandas as pd
 
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
 from ostk.physics.time import Scale
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset
 from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import Tabulated
-
-from ostk.astrodynamics.converters import coerce_to_instant
 
 
 @pytest.fixture
@@ -64,12 +58,18 @@ def coordinates_subsets() -> list[CoordinatesSubset]:
 
 
 @pytest.fixture
+def frame() -> Frame:
+    return Frame.GCRF()
+
+
+@pytest.fixture
 def dynamics(
     instants: list[Instant],
     contribution_profile: np.ndarray,
     coordinates_subsets: list[CoordinatesSubset],
+    frame: Frame,
 ) -> Tabulated:
-    return Tabulated(instants, contribution_profile, coordinates_subsets)
+    return Tabulated(instants, contribution_profile, coordinates_subsets, frame)
 
 
 class TestTabulated:
@@ -87,10 +87,13 @@ class TestTabulated:
         dynamics: Tabulated,
         instants: list[Instant],
         contribution_profile: np.ndarray,
+        frame: Frame,
     ):
         assert np.array_equal(dynamics.get_contribution_profile(), contribution_profile)
 
         assert dynamics.get_instants() == instants
+
+        assert dynamics.get_frame() == frame
 
     def test_compute_contribution(
         self,
