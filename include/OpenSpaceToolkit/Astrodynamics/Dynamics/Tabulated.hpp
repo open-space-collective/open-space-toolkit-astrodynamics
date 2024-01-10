@@ -62,7 +62,17 @@ class Tabulated : public Dynamics
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aDynamics);
 
-    /// @brief Get contribution profile
+    /// @brief Access instants
+    ///
+    /// @return The instants
+    const Array<Instant>& accessInstants() const;
+
+    /// @brief Get instants
+    ///
+    /// @return The instants
+    Array<Instant> getInstants() const;
+
+    /// @brief Access contribution profile
     ///
     /// @return The contribution profile
     const MatrixXd& accessContributionProfile() const;

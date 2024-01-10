@@ -71,6 +71,16 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
     return anOutputStream;
 }
 
+const Array<Instant>& Tabulated::accessInstants() const
+{
+    return instants_;
+}
+
+Array<Instant> Tabulated::getInstants() const
+{
+    return accessInstants();
+}
+
 const MatrixXd& Tabulated::accessContributionProfile() const
 {
     return contributionProfile_;
