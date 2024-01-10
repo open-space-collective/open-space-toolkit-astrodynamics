@@ -42,10 +42,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
     void SetUp() override
     {
         contributionProfile_.resize(defaultInstants_.getSize(), 3);
-        contributionProfile_ << 1.0, 0.0, 0.0;
-        contributionProfile_ << 0.0, 1.0, 0.0;
-        contributionProfile_ << 0.0, 0.0, 1.0;
-        contributionProfile_ << 0.0, 0.0, 0.0;
+        contributionProfile_ << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0;
     }
 
    protected:
