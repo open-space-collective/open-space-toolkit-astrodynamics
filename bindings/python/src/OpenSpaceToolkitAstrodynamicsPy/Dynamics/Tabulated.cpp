@@ -12,6 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
     using ostk::math::object::MatrixXd;
 
     using ostk::physics::time::Instant;
+    using ostk::physics::coord::Frame;
 
     using ostk::astro::Dynamics;
     using ostk::astro::dynamics::Tabulated;
@@ -29,10 +30,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )doc"
         )
             .def(
-                init<const Array<Instant>&, const MatrixXd&, const Array<Shared<const CoordinatesSubset>>&>(),
+                init<
+                    const Array<Instant>&,
+                    const MatrixXd&,
+                    const Array<Shared<const CoordinatesSubset>>&,
+                    const Shared<const Frame>>(),
                 arg("instants"),
                 arg("contribution_profile"),
                 arg("coordinates_subsets"),
+                arg("frame"),
                 R"doc(
                     Constructor.
 
@@ -40,6 +46,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                         instants (list[Instant]): An array of instants.
                         contribution_profile (numpy.ndarray): A contribution profile.
                         coordinates_subsets (list[CoordinatesSubset]): An array of coordinates subsets related to the contribution profile.
+                        frame (Frame): A frame.
 
                 )doc"
             )

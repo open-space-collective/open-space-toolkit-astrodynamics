@@ -3156,6 +3156,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Tabula
         instants,
         contributions,
         {CartesianVelocity::Default(), CoordinatesSubset::Mass()},
+        gcrfSPtr_,
     };
 
     // Re-propagate with tabulated dynamics
@@ -3180,7 +3181,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Tabula
 
     for (Size i = 0; i < endStateTabulated.getSize(); ++i)
     {
-        EXPECT_NEAR(endStatePropagated.accessCoordinates()[i], endStateTabulated.accessCoordinates()[i], 1e-6);
+        EXPECT_NEAR(endStatePropagated.accessCoordinates()[i], endStateTabulated.accessCoordinates()[i], 1e-14);
     }
 }
 

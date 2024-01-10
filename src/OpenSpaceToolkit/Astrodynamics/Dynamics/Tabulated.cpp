@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <numeric>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
 
@@ -19,12 +21,14 @@ using ostk::math::object::VectorXd;
 Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,
     const MatrixXd& aContributionProfile,
-    const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets
+    const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets,
+    const Shared<const Frame>& aFrameSPtr
 )
     : Dynamics("Tabulated"),
       contributionProfile_(aContributionProfile),
       instants_(anInstantArray),
-      writeCoordinatesSubsets_(aWriteCoordinatesSubsets)
+      writeCoordinatesSubsets_(aWriteCoordinatesSubsets),
+      frameSPtr_(aFrameSPtr)
 {
     if (anInstantArray.getSize() != (Index)aContributionProfile.rows())
     {
@@ -52,7 +56,7 @@ Tabulated::Tabulated(
     Index i = 0;
     for (const auto& instant : anInstantArray)
     {
-        timestamps(i) = (instant - Instant::J2000()).inSeconds();
+        timestamps(i) = (instant - anInstantArray.accessFirst()).inSeconds();
         ++i;
     }
 
@@ -110,7 +114,13 @@ VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    const double epoch = (anInstant - Instant::J2000()).inSeconds();
+    // TBI: Eventually we can check if the values can be converted using the subset inFrame methods.
+    if (aFrameSPtr != frameSPtr_)
+    {
+        throw ostk::core::error::runtime::Wrong("Frame");
+    }
+
+    const double epoch = (anInstant - instants_.accessFirst()).inSeconds();
 
     VectorXd contribution(interpolators_.getSize());
     for (Index i = 0; i < interpolators_.getSize(); ++i)
@@ -140,6 +150,8 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
         String::Format("[{}, {}]", instants_.accessFirst().toString(), instants_.accessLast().toString());
 
     ostk::core::utils::Print::Line(anOutputStream) << "Interval:" << interval;
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:" << frameSPtr_->getName();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

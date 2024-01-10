@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <gmock/gmock.h>
-
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
@@ -48,11 +46,12 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
    protected:
     const Array<Instant> defaultInstants_ = {
         Instant::DateTime(DateTime(2018, 01, 01, 0, 0, 0, 000), Scale::UTC),
-        Instant::DateTime(DateTime(2018, 01, 01, 0, 1, 0, 000), Scale::UTC),
-        Instant::DateTime(DateTime(2018, 01, 01, 0, 2, 0, 000), Scale::UTC),
-        Instant::DateTime(DateTime(2018, 01, 01, 0, 3, 0, 000), Scale::UTC),
+        Instant::DateTime(DateTime(2018, 01, 01, 0, 0, 5, 000), Scale::UTC),
+        Instant::DateTime(DateTime(2018, 01, 01, 0, 0, 10, 000), Scale::UTC),
+        Instant::DateTime(DateTime(2018, 01, 01, 0, 0, 15, 000), Scale::UTC),
     };
     const Array<Shared<const CoordinatesSubset>> defaultWriteCoordinatesSubsets_ = {CartesianVelocity::Default()};
+    const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
 
     MatrixXd contributionProfile_;
 
@@ -73,7 +72,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
             instants.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
             VectorXd row(contributionProfile.cols());
-            for (Index j = 0; j < row.size(); ++j)
+            for (Index j = 0; j < (Index)row.size(); ++j)
             {
                 row[j] = referenceRow[j + 1].accessReal();
             }
@@ -89,18 +88,48 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Constructor)
 {
     {
-        EXPECT_NO_THROW(Tabulated(defaultInstants_, contributionProfile_, defaultWriteCoordinatesSubsets_));
-    }
-
-    {
-        EXPECT_THROW(
-            Tabulated({}, contributionProfile_, defaultWriteCoordinatesSubsets_), ostk::core::error::RuntimeError
+        EXPECT_NO_THROW(
+            Tabulated(defaultInstants_, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_)
         );
     }
 
     {
         EXPECT_THROW(
-            Tabulated(defaultInstants_, contributionProfile_, {CoordinatesSubset::Mass()}),
+            {
+                try
+                {
+                    Tabulated({}, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_);
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Contribution profile must have the same number of rows as the number of instants.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Tabulated(defaultInstants_, contributionProfile_, {CoordinatesSubset::Mass()}, defaultFrameSPtr_);
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Contribution profile must have the same number of columns as the sum of the sizes of the "
+                        "write coordinates subsets.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
             ostk::core::error::RuntimeError
         );
     }
@@ -114,6 +143,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, StreamOperator)
         defaultInstants_,
         contributionProfile_,
         defaultWriteCoordinatesSubsets_,
+        defaultFrameSPtr_,
     };
 
     EXPECT_NO_THROW(std::cout << tabulated << std::endl);
@@ -129,6 +159,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Print)
         defaultInstants_,
         contributionProfile_,
         defaultWriteCoordinatesSubsets_,
+        defaultFrameSPtr_,
     };
 
     EXPECT_NO_THROW(tabulated.print(std::cout, true));
@@ -143,6 +174,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, AccessInstants)
         defaultInstants_,
         contributionProfile_,
         defaultWriteCoordinatesSubsets_,
+        defaultFrameSPtr_,
     };
     EXPECT_EQ(tabulated.accessInstants(), defaultInstants_);
 }
@@ -153,6 +185,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, GetInstants)
         defaultInstants_,
         contributionProfile_,
         defaultWriteCoordinatesSubsets_,
+        defaultFrameSPtr_,
     };
     EXPECT_EQ(tabulated.getInstants(), defaultInstants_);
 }
@@ -163,6 +196,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, AccessContributionProf
         defaultInstants_,
         contributionProfile_,
         defaultWriteCoordinatesSubsets_,
+        defaultFrameSPtr_,
     };
     EXPECT_EQ(tabulated.accessContributionProfile(), contributionProfile_);
 }
@@ -173,12 +207,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, GetContributionProfile
         defaultInstants_,
         contributionProfile_,
         defaultWriteCoordinatesSubsets_,
+        defaultFrameSPtr_,
     };
     EXPECT_EQ(tabulated.getContributionProfile(), contributionProfile_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
 {
+    {
+        Tabulated tabulated = {
+            defaultInstants_, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_
+        };
+
+        const VectorXd x;  // Not used
+        EXPECT_THROW(
+            tabulated.computeContribution(defaultInstants_[0], x, Frame::ITRF()), ostk::core::error::runtime::Wrong
+        );
+    }
+
     {
         MatrixXd contributionProfile;
         Array<Instant> instants;
@@ -189,6 +235,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
             instants,
             contributionProfile,
             defaultWriteCoordinatesSubsets_,
+            defaultFrameSPtr_,
         };
 
         MatrixXd expectedProfile;

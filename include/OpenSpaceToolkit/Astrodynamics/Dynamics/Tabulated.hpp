@@ -33,22 +33,25 @@ using ostk::math::curvefitting::interpolator::BarycentricRational;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-/// @brief A tabulated dynamics that accepts a list of acceleration vectors and times.
+/// @brief A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics.
 class Tabulated : public Dynamics
 {
    public:
     /// @brief Constructor
     ///
-    /// @param anInstantArray An array of instants
-    /// @param anAccelerationProfile An acceleration profile
+    /// @param anInstantArray An array of instants, must be sorted
+    /// @param aContributionProfile A contribution profile, one row for each instant
     /// @param aWriteCoordinatesSubsets An array of coordinates subsets to write to
+    /// @param aFrameSPtr A frame
     Tabulated(
         const Array<Instant>& anInstantArray,
-        const MatrixXd& anAccelerationProfile,
-        const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets
+        const MatrixXd& aContributionProfile,
+        const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets,
+        const Shared<const Frame>& aFrameSPtr
     );
 
     /// @brief Output stream operator
@@ -119,8 +122,11 @@ class Tabulated : public Dynamics
    private:
     const MatrixXd contributionProfile_;
     const Array<Instant> instants_;
-    Array<Shared<const CoordinatesSubset>> writeCoordinatesSubsets_;
+    const Array<Shared<const CoordinatesSubset>> writeCoordinatesSubsets_;
+    const Shared<const Frame> frameSPtr_;
     Array<BarycentricRational> interpolators_;
+
+    const double stepTolerance_ = 15.0;  // seconds
 };
 
 }  // namespace dynamics
