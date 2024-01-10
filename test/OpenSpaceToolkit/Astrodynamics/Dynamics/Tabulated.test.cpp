@@ -72,13 +72,13 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
         {
             instants.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
-            VectorXd row(referenceData.getColumnCount());
-            for (Index j = 1; j < referenceData.getColumnCount(); ++j)
+            VectorXd row(contributionProfile.cols());
+            for (Index j = 0; j < row.size(); ++j)
             {
-                row[j - 1] = referenceRow[j].accessReal();
+                row[j] = referenceRow[j + 1].accessReal();
             }
 
-            contributionProfile.row(i) = row;
+            contributionProfile.row(i) = row.transpose();
             ++i;
         }
 
