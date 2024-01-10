@@ -37,9 +37,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                     Constructor.
 
                     Args:
-                        instants (Array<Instant>): An array of instants.
+                        instants (list[Instant]): An array of instants.
                         contribution_profile (numpy.ndarray): A contribution profile.
-                        coordinates_subsets (Array<Shared<CoordinatesSubset>>): An array of coordinates subsets related to the contribution profile.
+                        coordinates_subsets (list[CoordinatesSubset]): An array of coordinates subsets related to the contribution profile.
 
                 )doc"
             )
@@ -55,6 +55,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
 
                     Returns:
                         bool: True if the tabulated dynamics is defined, False otherwise.
+
+                )doc"
+            )
+
+            .def(
+                "get_instants",
+                &Tabulated::getInstants,
+                R"doc(
+                    Get the contribution instants.
+
+                    Returns:
+                        list[Instant]: The contribution instants.
 
                 )doc"
             )
