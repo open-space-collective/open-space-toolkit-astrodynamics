@@ -183,7 +183,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
         MatrixXd contributionProfile;
         Array<Instant> instants;
         std::tie(instants, contributionProfile) =
-            loadData("test/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated_Earth_Gravity.csv");
+            loadData("/app/test/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated_Earth_Gravity.csv");
 
         const Tabulated tabulated = {
             instants,
@@ -194,7 +194,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
         MatrixXd expectedProfile;
         Array<Instant> expectedInstants;
         std::tie(expectedInstants, expectedProfile) =
-            loadData("test/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated_Earth_Gravity_Truth.csv");
+            loadData("/app/test/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated_Earth_Gravity_Truth.csv");
 
         const VectorXd x;  // Not used
         for (Index i = 0; i < expectedInstants.getSize(); ++i)
