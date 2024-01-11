@@ -1,0 +1,291 @@
+\hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated}{}\doxysection{ostk\+::astro\+::dynamics\+::Tabulated Class Reference}
+\label{classostk_1_1astro_1_1dynamics_1_1_tabulated}\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+
+
+A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics.  
+
+
+
+
+{\ttfamily \#include $<$Tabulated.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::dynamics\+::Tabulated\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1dynamics_1_1_tabulated}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a465b61e5dc2c83d4a4b0ba783130f4e4}{Tabulated}} (const Array$<$ Instant $>$ \&an\+Instant\+Array, const Matrix\+Xd \&a\+Contribution\+Profile, const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&a\+Write\+Coordinates\+Subsets, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+const Array$<$ Instant $>$ \& \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a09c275112c33d469d10754c411424cbc}{access\+Instants}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} instants. \end{DoxyCompactList}\item 
+Array$<$ Instant $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a0d1d43df76fd5cb0f2e1b3d4f3f42921}{get\+Instants}} () const
+\begin{DoxyCompactList}\small\item\em Get instants. \end{DoxyCompactList}\item 
+const Matrix\+Xd \& \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a3b941360f204e0f1ac1b0e6a2e7fda18}{access\+Contribution\+Profile}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} contribution profile. \end{DoxyCompactList}\item 
+Matrix\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a56b71048029a8b6629ae8727f025586c}{get\+Contribution\+Profile}} () const
+\begin{DoxyCompactList}\small\item\em Get contribution profile. \end{DoxyCompactList}\item 
+const Shared$<$ const Frame $>$ \& \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a1ba9458218e2b80d1e047ae70d35c4d3}{access\+Frame}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the frame. \end{DoxyCompactList}\item 
+Shared$<$ const Frame $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a8f88fb8afff72772cc495511947f622c}{get\+Frame}} () const
+\begin{DoxyCompactList}\small\item\em Get the frame. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_acd7cffab7dc3cdd51881e2ecbc24f7b8}{is\+Defined}} () const override
+\begin{DoxyCompactList}\small\item\em Check if dynamics is defined (pure virtual) \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_aed60753aed7d84eef835648ead9a1683}{get\+Read\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a2b0d7003cf3973a76dc923c0b1dc7426}{get\+Write\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance writes to. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a0d21a4f23bec0f141c554a80016ff76b}{compute\+Contribution}} (const Instant \&an\+Instant, const Vector\+Xd \&x, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const override
+\begin{DoxyCompactList}\small\item\em Compute the contribution to the state derivative. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_af43e2f9c1048a0622ab3bdb4bd04bece}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\begin{DoxyCompactList}\small\item\em Print \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated_a73bc3943f6add9f3f9bafe8d26f1243b}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} \&a\+Dynamics)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a465b61e5dc2c83d4a4b0ba783130f4e4}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a465b61e5dc2c83d4a4b0ba783130f4e4}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!Tabulated@{Tabulated}}
+\index{Tabulated@{Tabulated}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{Tabulated()}{Tabulated()}}
+{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Tabulated\+::\+Tabulated (\begin{DoxyParamCaption}\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array,  }\item[{const Matrix\+Xd \&}]{a\+Contribution\+Profile,  }\item[{const Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$$>$ \&}]{a\+Write\+Coordinates\+Subsets,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant\+Array} & An array of instants, must be sorted \\
+\hline
+{\em a\+Contribution\+Profile} & A contribution profile, one row for each instant \\
+\hline
+{\em a\+Write\+Coordinates\+Subsets} & An array of coordinates subsets to write to \\
+\hline
+{\em a\+Frame\+S\+Ptr} & A frame \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a3b941360f204e0f1ac1b0e6a2e7fda18}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a3b941360f204e0f1ac1b0e6a2e7fda18}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!accessContributionProfile@{accessContributionProfile}}
+\index{accessContributionProfile@{accessContributionProfile}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{accessContributionProfile()}{accessContributionProfile()}}
+{\footnotesize\ttfamily const Matrix\+Xd \& ostk\+::astro\+::dynamics\+::\+Tabulated\+::access\+Contribution\+Profile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} contribution profile. 
+
+\begin{DoxyReturn}{Returns}
+The contribution profile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a1ba9458218e2b80d1e047ae70d35c4d3}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a1ba9458218e2b80d1e047ae70d35c4d3}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!accessFrame@{accessFrame}}
+\index{accessFrame@{accessFrame}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{accessFrame()}{accessFrame()}}
+{\footnotesize\ttfamily const Shared$<$ const Frame $>$ \& ostk\+::astro\+::dynamics\+::\+Tabulated\+::access\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the frame. 
+
+\begin{DoxyReturn}{Returns}
+The frame 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a09c275112c33d469d10754c411424cbc}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a09c275112c33d469d10754c411424cbc}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!accessInstants@{accessInstants}}
+\index{accessInstants@{accessInstants}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{accessInstants()}{accessInstants()}}
+{\footnotesize\ttfamily const Array$<$ Instant $>$ \& ostk\+::astro\+::dynamics\+::\+Tabulated\+::access\+Instants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} instants. 
+
+\begin{DoxyReturn}{Returns}
+The instants 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a0d21a4f23bec0f141c554a80016ff76b}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a0d21a4f23bec0f141c554a80016ff76b}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!computeContribution@{computeContribution}}
+\index{computeContribution@{computeContribution}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{computeContribution()}{computeContribution()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::dynamics\+::\+Tabulated\+::compute\+Contribution (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{x,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Compute the contribution to the state derivative. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
+\hline
+{\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
+\hline
+{\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The reduced derivative state vector (this vector must follow the structure determined by the \textquotesingle{}write\textquotesingle{} coordinate subsets) expressed in the given frame 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a625e6436f0874734702c9ace5674a924}{ostk\+::astro\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a56b71048029a8b6629ae8727f025586c}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a56b71048029a8b6629ae8727f025586c}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!getContributionProfile@{getContributionProfile}}
+\index{getContributionProfile@{getContributionProfile}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{getContributionProfile()}{getContributionProfile()}}
+{\footnotesize\ttfamily Matrix\+Xd ostk\+::astro\+::dynamics\+::\+Tabulated\+::get\+Contribution\+Profile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get contribution profile. 
+
+\begin{DoxyReturn}{Returns}
+The contribution profile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a8f88fb8afff72772cc495511947f622c}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a8f88fb8afff72772cc495511947f622c}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!getFrame@{getFrame}}
+\index{getFrame@{getFrame}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{getFrame()}{getFrame()}}
+{\footnotesize\ttfamily Shared$<$ const Frame $>$ ostk\+::astro\+::dynamics\+::\+Tabulated\+::get\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the frame. 
+
+\begin{DoxyReturn}{Returns}
+The frame 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a0d1d43df76fd5cb0f2e1b3d4f3f42921}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a0d1d43df76fd5cb0f2e1b3d4f3f42921}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!getInstants@{getInstants}}
+\index{getInstants@{getInstants}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{getInstants()}{getInstants()}}
+{\footnotesize\ttfamily Array$<$ Instant $>$ ostk\+::astro\+::dynamics\+::\+Tabulated\+::get\+Instants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get instants. 
+
+\begin{DoxyReturn}{Returns}
+The instants 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_aed60753aed7d84eef835648ead9a1683}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_aed60753aed7d84eef835648ead9a1683}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!getReadCoordinatesSubsets@{getReadCoordinatesSubsets}}
+\index{getReadCoordinatesSubsets@{getReadCoordinatesSubsets}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{getReadCoordinatesSubsets()}{getReadCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::dynamics\+::\+Tabulated\+::get\+Read\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance reads from. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance reads from 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_abad8ede80d4404db1adf272f137760b0}{ostk\+::astro\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a2b0d7003cf3973a76dc923c0b1dc7426}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a2b0d7003cf3973a76dc923c0b1dc7426}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}}
+\index{getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{getWriteCoordinatesSubsets()}{getWriteCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::dynamics\+::\+Tabulated\+::get\+Write\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance writes to. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance writes to 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_abd3fe0e2bb0feb82e109d569d39cafff}{ostk\+::astro\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_acd7cffab7dc3cdd51881e2ecbc24f7b8}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_acd7cffab7dc3cdd51881e2ecbc24f7b8}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::dynamics\+::\+Tabulated\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if dynamics is defined (pure virtual) 
+
+\begin{DoxyReturn}{Returns}
+True if dynamics is defined 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a41b321dd678aa88df95f8a7c9fb5eba8}{ostk\+::astro\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_af43e2f9c1048a0622ab3bdb4bd04bece}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_af43e2f9c1048a0622ab3bdb4bd04bece}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!print@{print}}
+\index{print@{print}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::dynamics\+::\+Tabulated\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} dynamics. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
+\hline
+{\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}{ostk\+::astro\+::\+Dynamics}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_tabulated_a73bc3943f6add9f3f9bafe8d26f1243b}\label{classostk_1_1astro_1_1dynamics_1_1_tabulated_a73bc3943f6add9f3f9bafe8d26f1243b}} 
+\index{ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::dynamics::Tabulated@{ostk::astro::dynamics::Tabulated}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} \&}]{a\+Dynamics }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a7f186c02659534b19b6321c4d301d204}{Dynamics}}(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
+\hline
+{\em a\+Tabulated} & A \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Dynamics/\mbox{\hyperlink{_dynamics_2_tabulated_8hpp}{Tabulated.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Dynamics/\mbox{\hyperlink{_dynamics_2_tabulated_8cpp}{Tabulated.\+cpp}}\end{DoxyCompactItemize}

@@ -9,6 +9,8 @@ class \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity}{
 \begin{DoxyCompactList}\small\item\em Define the acceleration experienced by a point mass due to gravity. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative}{Position\+Derivative}}
 \begin{DoxyCompactList}\small\item\em Define the contribution to the position due to velocity. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}}
+\begin{DoxyCompactList}\small\item\em A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity}{Third\+Body\+Gravity}}
 \begin{DoxyCompactList}\small\item\em Define the acceleration experienced by a point mass due to gravity. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster}{Thruster}}
@@ -22,6 +24,8 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1dynamics_ae92913a77
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1dynamics_a90e4a754fa0d55087f7f3ba2d9f31e96}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative}{Position\+Derivative}} \&a\+Position\+Derivative)
 \item 
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1dynamics_abe6f24c4246b5faf02e23b04d9b5e719}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} \&a\+Tabulated)
+\item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1dynamics_ad320888d072559f534722e01f893798e}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity}{Third\+Body\+Gravity}} \&a\+Third\+Body\+Gravity)
 \end{DoxyCompactItemize}
 
@@ -30,7 +34,7 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1dynamics_ad320888d0
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1dynamics_ad6f7a481bf1e3797adefb38c8676b0aa}\label{namespaceostk_1_1astro_1_1dynamics_ad6f7a481bf1e3797adefb38c8676b0aa}} 
 \index{ostk::astro::dynamics@{ostk::astro::dynamics}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::dynamics@{ostk::astro::dynamics}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::dynamics\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag}{Atmospheric\+Drag}} \&}]{an\+Atmospheric\+Drag }\end{DoxyParamCaption})}
 
 
@@ -46,7 +50,7 @@ A reference to output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1dynamics_ae92913a77f01a31cacf31ca762b612e8}\label{namespaceostk_1_1astro_1_1dynamics_ae92913a77f01a31cacf31ca762b612e8}} 
 \index{ostk::astro::dynamics@{ostk::astro::dynamics}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::dynamics@{ostk::astro::dynamics}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::dynamics\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity}{Central\+Body\+Gravity}} \&}]{a\+Central\+Body\+Gravity }\end{DoxyParamCaption})}
 
 
@@ -62,7 +66,7 @@ A reference to output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1dynamics_a90e4a754fa0d55087f7f3ba2d9f31e96}\label{namespaceostk_1_1astro_1_1dynamics_a90e4a754fa0d55087f7f3ba2d9f31e96}} 
 \index{ostk::astro::dynamics@{ostk::astro::dynamics}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::dynamics@{ostk::astro::dynamics}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::dynamics\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative}{Position\+Derivative}} \&}]{a\+Position\+Derivative }\end{DoxyParamCaption})}
 
 
@@ -75,10 +79,32 @@ A reference to output stream
 \begin{DoxyReturn}{Returns}
 A reference to output stream 
 \end{DoxyReturn}
+\mbox{\Hypertarget{namespaceostk_1_1astro_1_1dynamics_abe6f24c4246b5faf02e23b04d9b5e719}\label{namespaceostk_1_1astro_1_1dynamics_abe6f24c4246b5faf02e23b04d9b5e719}} 
+\index{ostk::astro::dynamics@{ostk::astro::dynamics}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::dynamics@{ostk::astro::dynamics}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::dynamics\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} \&}]{a\+Tabulated }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << Dynamics(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Output\+Stream} & An output stream \\
+\hline
+{\em a\+Tabulated} & A \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_tabulated}{Tabulated}} dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1dynamics_ad320888d072559f534722e01f893798e}\label{namespaceostk_1_1astro_1_1dynamics_ad320888d072559f534722e01f893798e}} 
 \index{ostk::astro::dynamics@{ostk::astro::dynamics}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::dynamics@{ostk::astro::dynamics}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::dynamics\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity}{Third\+Body\+Gravity}} \&}]{a\+Third\+Body\+Gravity }\end{DoxyParamCaption})}
 
 

@@ -24,6 +24,7 @@ var hierarchy =
       [ "ostk::astro::dynamics::AtmosphericDrag", "classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag.html", null ],
       [ "ostk::astro::dynamics::CentralBodyGravity", "classostk_1_1astro_1_1dynamics_1_1_central_body_gravity.html", null ],
       [ "ostk::astro::dynamics::PositionDerivative", "classostk_1_1astro_1_1dynamics_1_1_position_derivative.html", null ],
+      [ "ostk::astro::dynamics::Tabulated", "classostk_1_1astro_1_1dynamics_1_1_tabulated.html", null ],
       [ "ostk::astro::dynamics::ThirdBodyGravity", "classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html", null ],
       [ "ostk::astro::dynamics::Thruster", "classostk_1_1astro_1_1dynamics_1_1_thruster.html", null ]
     ] ],
@@ -42,8 +43,8 @@ var hierarchy =
       [ "ostk::astro::guidancelaw::ConstantThrust", "classostk_1_1astro_1_1guidancelaw_1_1_constant_thrust.html", null ],
       [ "ostk::astro::guidancelaw::QLaw", "classostk_1_1astro_1_1guidancelaw_1_1_q_law.html", null ]
     ] ],
-    [ "ostk::astro::trajectory::orbit::messages::spacex::OPM::Header", "structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::Header", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header.html", null ],
+    [ "ostk::astro::trajectory::orbit::messages::spacex::OPM::Header", "structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header.html", null ],
     [ "ostk::astro::trajectory::LocalOrbitalFrameDirection", "classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction.html", null ],
     [ "ostk::astro::trajectory::LocalOrbitalFrameFactory", "classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory.html", null ],
     [ "MathNumericalSolver", null, [

@@ -9,6 +9,9 @@ var dir_0b6608e3d374155cbf0f51bbaa9dd801 =
     [ "PositionDerivative.hpp", "_position_derivative_8hpp.html", [
       [ "PositionDerivative", "classostk_1_1astro_1_1dynamics_1_1_position_derivative.html", "classostk_1_1astro_1_1dynamics_1_1_position_derivative" ]
     ] ],
+    [ "Tabulated.hpp", "_dynamics_2_tabulated_8hpp.html", [
+      [ "Tabulated", "classostk_1_1astro_1_1dynamics_1_1_tabulated.html", "classostk_1_1astro_1_1dynamics_1_1_tabulated" ]
+    ] ],
     [ "ThirdBodyGravity.hpp", "_third_body_gravity_8hpp.html", [
       [ "ThirdBodyGravity", "classostk_1_1astro_1_1dynamics_1_1_third_body_gravity.html", "classostk_1_1astro_1_1dynamics_1_1_third_body_gravity" ]
     ] ],
