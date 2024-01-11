@@ -42,9 +42,11 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
@@ -67,6 +69,7 @@ using ostk::core::ctnr::Table;
 using ostk::core::ctnr::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
+using ostk::core::filesystem::Directory;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
@@ -77,6 +80,7 @@ using ostk::math::geometry::d3::objects::Composite;
 using ostk::math::geometry::d3::objects::Cuboid;
 using ostk::math::geometry::d3::objects::Point;
 using ostk::math::object::Matrix3d;
+using ostk::math::object::MatrixXd;
 using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
 
@@ -124,11 +128,13 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::flight::system::SatelliteSystemBuilder;
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::ThirdBodyGravity;
 using ostk::astro::dynamics::AtmosphericDrag;
 using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamics::Tabulated;
 using ostk::astro::guidancelaw::ConstantThrust;
 using ostk::astro::guidancelaw::QLaw;
 using ostk::astro::solvers::FiniteDifferenceSolver;
@@ -3073,6 +3079,109 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_QLaw, S
         EXPECT_LT(std::abs(endCOE.getEccentricity() - targetCOE.getEccentricity()), 1e-3);
         EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
         EXPECT_LT(std::abs(endCOE.getRaan().inRadians() - targetCOE.getRaan().inRadians()), 1e-4);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, TabulatedDynamics_ConstantThrust)
+{
+    VectorXd coordinates(9);
+    coordinates << 1204374.4983743676, -6776950.422456586, 0.0, -967.6410027260863, -171.96557073856417,
+        7546.1119092033205, 110.0, 500.0, 2.2;
+
+    const State initialState = {
+        Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0, 0), Scale::UTC),
+        coordinates,
+        Frame::GCRF(),
+        dragCoordinatesBrokerSPtr_,
+    };
+
+    const Earth earth = Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 20, 20),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+    );
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+
+    const PropulsionSystem propulsionSystem = {
+        Scalar(1e-1, PropulsionSystem::thrustSIUnit),
+        Scalar(3000.0, PropulsionSystem::specificImpulseSIUnit),
+    };
+
+    const SatelliteSystem satelliteSystem = SatelliteSystemBuilder::Default()
+                                                .withPropulsionSystem(propulsionSystem)
+                                                .withDryMass(Mass::Kilograms(100.0))
+                                                .build();
+
+    const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
+
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+        std::make_shared<AtmosphericDrag>(earthSPtr),
+        std::make_shared<Thruster>(satelliteSystem, constantThrustSPtr),
+    };
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        1.0,
+        1e-12,
+        1e-12,
+    };
+
+    // Create contribution profile
+    Propagator propagator = {numericalSolver, dynamics};
+    const State endStatePropagated =
+        propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.5));
+
+    // TBI: For some reason it's pushing the initial state twice
+    const Array<State> tmpStates = propagator.accessNumericalSolver().getObservedStates();
+    const Array<State> states(tmpStates.begin() + 1, tmpStates.end());
+
+    MatrixXd contributions(states.getSize(), 4);
+    for (Size i = 0; i < states.getSize(); ++i)
+    {
+        const VectorXd contribution =
+            dynamics[3]->computeContribution(states[i].accessInstant(), states[i].accessCoordinates(), Frame::GCRF());
+        contributions.row(i) = contribution;
+    }
+    const Array<Instant> instants = states.map<Instant>(
+        [](const auto& state)
+        {
+            return state.accessInstant();
+        }
+    );
+
+    const Tabulated tabulated = {
+        instants,
+        contributions,
+        {CartesianVelocity::Default(), CoordinatesSubset::Mass()},
+        gcrfSPtr_,
+    };
+
+    // Re-propagate with tabulated dynamics
+    const Array<Shared<Dynamics>> tabulatedDynamics = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+        std::make_shared<AtmosphericDrag>(earthSPtr),
+        std::make_shared<Tabulated>(tabulated),
+    };
+
+    const NumericalSolver tabulatedNumericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKutta4,
+        3.0,
+        1e-12,
+        1e-12,
+    };
+
+    Propagator tabulatedPropagator = {tabulatedNumericalSolver, tabulatedDynamics};
+    const State endStateTabulated =
+        propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.5));
+
+    for (Size i = 0; i < endStateTabulated.getSize(); ++i)
+    {
+        EXPECT_NEAR(endStatePropagated.accessCoordinates()[i], endStateTabulated.accessCoordinates()[i], 1e-14);
     }
 }
 
