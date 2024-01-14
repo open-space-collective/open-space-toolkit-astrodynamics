@@ -1186,7 +1186,11 @@ Instant Orbit::GetCrossingInstant(
         throw ostk::core::error::RuntimeError("Root solver did not converge.");
     }
 
+<<<<<<< HEAD
     return anEpoch + Duration::Seconds(solution.root);
+=======
+    return J2000Epoch + Duration::Seconds(solution.root);
+>>>>>>> feat: add orbit pass computation logic
 }
 
 }  // namespace trajectory

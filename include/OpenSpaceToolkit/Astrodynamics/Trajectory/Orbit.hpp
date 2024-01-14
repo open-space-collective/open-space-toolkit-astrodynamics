@@ -197,6 +197,7 @@ class Orbit : public Trajectory
 
    private:
     const orbit::Model* modelPtr_;
+    const Instant J2000Epoch_ = Instant::J2000();
 
     Shared<const Celestial> celestialObjectSPtr_;
 
