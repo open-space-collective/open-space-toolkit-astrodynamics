@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
@@ -28,11 +29,13 @@
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;
+using ostk::core::ctnr::Map;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
+using ostk::core::types::Index;
 
 using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
@@ -342,6 +345,85 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
                 Duration::Microseconds(1.0),
                 Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
             );
+        }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
+{
+    {
+        // Environment setup
+
+        const Environment environment = Environment::Default();
+
+        // Orbit setup
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(45.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        // Reference data setup
+
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
+
+        // Pass test
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
+        const Instant endInstant = Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC);
+        const Array<Instant> instants =
+            Interval::Closed(startInstant, endInstant).generateGrid(Duration::Seconds(20.0));
+        const Array<State> states = orbit.getStatesAt(instants);
+
+        const Map<Index, Pass> passMap = Orbit::GeneratePassMap(states, 1);
+
+        EXPECT_EQ(referenceData.getRowCount(), passMap.size() - 1);  // We're generating 1 pass over the reference data
+
+        Index i = 0;
+        for (const auto& row : passMap)
+        {
+            // Ignore the lass pass, as it is not complete
+            if (i > referenceData.getRowCount() - 1)
+            {
+                break;
+            }
+
+            const Pass& pass = row.second;
+
+            const auto& referenceRow = referenceData[i];
+
+            const Instant referencePassStartInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            const Instant referencePassEndInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+
+            EXPECT_TRUE(pass.isDefined());
+
+            EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
+            EXPECT_LT(std::abs((referencePassStartInstant - pass.getInterval().getStart()).inSeconds()), 1e-6);
+            EXPECT_LT(std::abs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
+            ++i;
         }
     }
 }

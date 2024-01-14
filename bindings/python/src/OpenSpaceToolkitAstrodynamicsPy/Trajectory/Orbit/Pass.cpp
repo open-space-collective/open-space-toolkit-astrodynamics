@@ -70,10 +70,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
     pass_class
 
         .def(
-            init<const Pass::Type&, const Integer&, const Interval&>(),
+            init<const Pass::Type&, const Integer&, const Interval&, const Instant&, const Instant&>(),
             arg("type"),
             arg("revolution_number"),
             arg("interval"),
+            arg("north_point"),
+            arg("south_point"),
             R"doc(
                 Constructor.
 
@@ -81,6 +83,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
                     type (Pass.Type): The type of the pass.
                     revolution_number (int): The revolution number of the pass.
                     interval (Interval): The interval of the pass.
+                    north_point (Instant): The north point of the pass.
+                    south_point (Instant): The south point of the pass.
 
             )doc"
         )
@@ -144,6 +148,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
                 Returns:
                     Interval: The interval of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_north_point",
+            &Pass::accessNorthPoint,
+            R"doc(
+                Get the north point of the pass.
+
+                Returns:
+                    Instant: The north point of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_south_point",
+            &Pass::accessSouthPoint,
+            R"doc(
+                Get the south point of the pass.
+
+                Returns:
+                    Instant: The south point of the pass.
 
             )doc"
         )

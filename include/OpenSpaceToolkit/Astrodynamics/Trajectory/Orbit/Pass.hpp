@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 namespace ostk
@@ -21,6 +22,7 @@ using ostk::core::types::Integer;
 using ostk::core::types::String;
 
 using ostk::physics::time::Interval;
+using ostk::physics::time::Instant;
 
 /// @brief A revolution of an orbiting object
 ///
@@ -57,7 +59,13 @@ class Pass
 
     };
 
-    Pass(const Pass::Type& aType, const Integer& aRevolutionNumber, const Interval& anInterval);
+    Pass(
+        const Pass::Type& aType,
+        const Integer& aRevolutionNumber,
+        const Interval& anInterval,
+        const Instant& aNorthPoint,
+        const Instant& aSouthPoint
+    );
 
     bool operator==(const Pass& aPass) const;
 
@@ -75,6 +83,10 @@ class Pass
 
     Interval getInterval() const;
 
+    const Instant& accessNorthPoint() const;
+
+    const Instant& accessSouthPoint() const;
+
     static Pass Undefined();
 
     static String StringFromType(const Pass::Type& aType);
@@ -88,6 +100,8 @@ class Pass
 
     Integer revolutionNumber_;
     Interval interval_;
+    Instant northPoint_;
+    Instant southPoint_;
 };
 
 }  // namespace orbit

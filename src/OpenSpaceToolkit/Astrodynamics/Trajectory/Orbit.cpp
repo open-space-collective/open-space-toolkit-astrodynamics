@@ -19,6 +19,8 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Time.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
@@ -31,10 +33,13 @@ namespace trajectory
 {
 
 using ostk::core::types::Uint8;
+using ostk::core::types::Real;
+using ostk::core::types::Index;
 
 using ostk::math::object::Vector3d;
 
-using ostk::physics::time::Scale;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Interval;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Mass;
 using ostk::physics::units::Length;
@@ -42,8 +47,13 @@ using ostk::physics::environment::object::celestial::Sun;
 using orbit::models::Kepler;
 using orbit::models::kepler::COE;
 
+using ostk::astro::RootSolver;
+
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
+
+static const Instant J2000Epoch = Instant::J2000();
+static const RootSolver rootSolver = RootSolver::Default();
 
 Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr)
     : Trajectory(aModel),
@@ -153,14 +163,6 @@ Pass Orbit::getPassAt(const Instant& anInstant) const
 
 Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 {
-    using ostk::core::types::Index;
-    using ostk::core::types::Real;
-
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Interval;
-
     // [TBI] Dead with equatorial case
 
     // std::cout << "aRevolutionNumber = " << aRevolutionNumber.toString() << std::endl ;
@@ -222,98 +224,78 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
             currentPass = *closestPassPtr;
         }
 
+        const auto getZ = [this](const double& aDurationInSeconds) -> Real
+        {
+            return this->modelPtr_->calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+                .getPosition()
+                .accessCoordinates()[2];
+        };
+
+        const auto getZDot = [this](const double& aDurationInSeconds) -> Real
+        {
+            return this->modelPtr_->calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+                .getVelocity()
+                .accessCoordinates()[2];
+        };
+
         while ((!currentPass.isDefined()) || (currentPass.getRevolutionNumber() != aRevolutionNumber))
         {
-            // std::cout << "currentPass = " << currentPass << std::endl ;
-            static const Real tolerance = 1e-3;  // [TBM] Param
-
             Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber()
                                                                       : this->modelPtr_->getRevolutionNumberAtEpoch();
-            // std::cout << "currentRevolutionNumber = " << currentRevolutionNumber.toString() << std::endl ;
+            Instant previousInstant = currentPass.isDefined()
+                                        ? (currentPass.getInterval().accessEnd() + Duration::Microseconds(1.0))
+                                        : this->modelPtr_->getEpoch();
 
-            Instant currentInstant =
-                currentPass.isDefined() ? currentPass.getInterval().accessEnd() : this->modelPtr_->getEpoch();
-            // std::cout << "currentInstant = " << currentInstant.toString() << std::endl ;
             Duration stepDuration = currentPass.isDefined() ? currentPass.getInterval().getDuration() / 5.0
                                                             : Duration::Minutes(10.0);  // [TBM] param
-            // std::cout << "stepDuration = " << stepDuration.toString() << std::endl ;
 
             if (currentRevolutionNumber <= aRevolutionNumber)  // Forward propagation
             {
-                Real previousStateCoordinates_ECI_z =
-                    this->modelPtr_->calculateStateAt(currentInstant).getPosition().accessCoordinates().z();
-                // std::cout << "previousStateCoordinates_ECI_z = " << previousStateCoordinates_ECI_z << std::endl ;
+                const State previousState = this->modelPtr_->calculateStateAt(previousInstant);
+                Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
+                Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
 
-                Real residual = Real::Undefined();
-                // std::cout << "residual = " << residual << std::endl ;
-                Index iterationCount = 0;
-                static const Index maxIterationCount = 1000;  // [TBM] Param
-                // std::cout << "iterationCount = " << iterationCount << std::endl ;
+                Instant northPointCrossing = Instant::Undefined();
+                Instant southPointCrossing = Instant::Undefined();
 
-                bool equatorCrossingDetected = false;
-                // std::cout << "equatorCrossingDetected = " << equatorCrossingDetected << std::endl ;
-
-                while (((!residual.isDefined()) || (residual < 0.0) || (residual.abs() > tolerance)) &&
-                       (iterationCount < maxIterationCount))
+                while (true)
                 {
-                    currentInstant += stepDuration;
+                    const Instant currentInstant = previousInstant + stepDuration;
 
-                    const Real currentStateCoordinates_ECI_z =
-                        this->modelPtr_->calculateStateAt(currentInstant).getPosition().accessCoordinates().z();
-                    // std::cout << "currentStateCoordinates_ECI_z = " << currentStateCoordinates_ECI_z << std::endl ;
+                    const State currentState = this->modelPtr_->calculateStateAt(currentInstant);
+                    const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
+                    const Real currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
 
                     if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
                     {
                         throw ostk::core::error::runtime::ToBeImplemented("Equatorial orbit support.");
                     }
 
+                    southPointCrossing = Orbit::GetSouthCrossing(
+                        previousStateCoordinates_ECI_zdot,
+                        previousInstant,
+                        currentStateCoordinates_ECI_zdot,
+                        currentInstant,
+                        getZDot
+                    );
+
+                    northPointCrossing = Orbit::GetNorthCrossing(
+                        previousStateCoordinates_ECI_zdot,
+                        previousInstant,
+                        currentStateCoordinates_ECI_zdot,
+                        currentInstant,
+                        getZDot
+                    );
+
                     if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
                     {
-                        equatorCrossingDetected = true;
-                        // std::cout << "equatorCrossingDetected = " << equatorCrossingDetected << std::endl ;
-                    }
-
-                    if (equatorCrossingDetected)
-                    {
-                        // const Real& z1_m = previousStateCoordinates_ECI_z ;
-                        // const Real& z2_m = currentStateCoordinates_ECI_z ;
-                        // const Real dz_m = currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z ;
-                        // std::cout << "z1_m = " << z1_m.toString() << std::endl ;
-                        // std::cout << "z2_m = " << z2_m.toString() << std::endl ;
-                        // std::cout << "dz_m = " << dz_m.toString() << std::endl ;
-
-                        // const Real dt_s = stepDuration.inSeconds() ;
-                        // std::cout << "dt_s = " << dt_s.toString() << std::endl ;
-                        // std::cout << "-z2_m * dt_s / dz_m = " << (-z2_m * dt_s / dz_m).toString(15) << std::endl ;
-
-                        if ((currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z) != 0.0)
-                        {
-                            stepDuration = Duration::Seconds(
-                                -currentStateCoordinates_ECI_z * stepDuration.inSeconds() /
-                                (currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z)
-                            );
-                        }
-
-                        if (stepDuration.isZero())
-                        {
-                            stepDuration = (currentStateCoordinates_ECI_z < 0.0) ? Duration::Nanoseconds(+1.0)
-                                                                                 : Duration::Nanoseconds(-1.0);
-                        }
-
-                        // std::cout << "stepDuration = " << stepDuration.toString() << std::endl ;
-
-                        residual = currentStateCoordinates_ECI_z;
-                        // std::cout << "residual= " << residual.toString() << std::endl ;
+                        previousInstant = Orbit::GetPassCrossing(previousInstant, currentInstant, getZ);
+                        break;
                     }
 
                     previousStateCoordinates_ECI_z = currentStateCoordinates_ECI_z;
-
-                    iterationCount++;
-                }
-
-                if (iterationCount > maxIterationCount)
-                {
-                    throw ostk::core::error::RuntimeError("Maximum iteration count reached.");
+                    previousStateCoordinates_ECI_zdot = currentStateCoordinates_ECI_zdot;
+                    previousInstant = currentInstant;
                 }
 
                 if (currentPass.isDefined())
@@ -321,7 +303,9 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                     currentPass = {
                         Pass::Type::Complete,
                         currentRevolutionNumber + 1,
-                        Interval::Closed(currentPass.getInterval().accessEnd(), currentInstant)
+                        Interval::Closed(currentPass.getInterval().accessEnd(), previousInstant),
+                        northPointCrossing,
+                        southPointCrossing,
                     };
                 }
                 else
@@ -334,7 +318,9 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                         currentPass = {
                             Pass::Type::Complete,
                             currentRevolutionNumber,
-                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)
+                            Interval::Closed(this->modelPtr_->getEpoch(), previousInstant),
+                            northPointCrossing,
+                            southPointCrossing,
                         };
                     }
                     else
@@ -342,15 +328,12 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                         currentPass = {
                             Pass::Type::Partial,
                             currentRevolutionNumber,
-                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)
+                            Interval::Closed(this->modelPtr_->getEpoch(), previousInstant),
+                            northPointCrossing,
+                            southPointCrossing,
                         };
                     }
                 }
-
-                // std::cout << "currentPass = " << currentPass << std::endl ;
-                // previousStateCoordinates_ECI_z = tolerance * 2.0 ;
-
-                currentRevolutionNumber++;
             }
             else  // Reverse propagation
             {
@@ -1042,99 +1025,213 @@ String Orbit::generateFrameName(const Orbit::FrameType& aFrameType) const
     return String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), fmt::ptr(this));
 }
 
-// Map<Index, Pass>                Orbit::GeneratePassMap                      (   const   Array<State>& aStateArray,
-//                                                                                 const   Integer&
-//                                                                                 anInitialRevolutionNumber )
-// {
+Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
+{
+    if (!anInitialRevolutionNumber.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Initial revolution number");
+    }
 
-//     using ostk::core::types::Real ;
+    // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
 
-//     using ostk::math::object::Vector3d ;
+    Map<Index, Pass> passMap;
 
-//     using ostk::physics::time::Duration ;
+    Index index = 0;
+    Integer revolutionNumber = anInitialRevolutionNumber;
+    Instant previousPassEndInstant = Instant::Undefined();
 
-//     if (!anInitialRevolutionNumber.isDefined())
-//     {
-//         throw ostk::core::error::runtime::Undefined("Initial revolution number") ;
-//     }
+    Index currentIndex = 0;
+    State const* previousStatePtr = nullptr;
 
-//     // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
+    for (Index i = 1; i < aStateArray.getSize(); ++i)
+    {
+        if (aStateArray[i - 1].accessInstant() > aStateArray[i].accessInstant())
+        {
+            throw ostk::core::error::RuntimeError("States are not in chronological order.");
+        }
+    }
 
-//     Map<Index, Pass> passMap ;
+    const models::Tabulated tabulated =
+        models::Tabulated(aStateArray, models::Tabulated::InterpolationType::BarycentricRational);
 
-//     Index index = 0 ;
-//     Integer revolutionNumber = anInitialRevolutionNumber ;
-//     Instant previousPassEndInstant = Instant::Undefined() ;
+    const auto getZ = [&tabulated](const double& aDurationInSeconds) -> double
+    {
+        return tabulated.calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+            .getPosition()
+            .accessCoordinates()
+            .z();
+    };
 
-//     Index currentIndex = 0 ;
-//     State const* previousStatePtr = nullptr ;
+    const auto getZDot = [&tabulated](const double& aDurationInSeconds) -> double
+    {
+        return tabulated.calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+            .getVelocity()
+            .accessCoordinates()
+            .z();
+    };
 
-//     for (const auto& state : aStateArray)
-//     {
+    Instant southPointCrossing = Instant::Undefined();
+    Instant northPointCrossing = Instant::Undefined();
 
-//         bool passHasBeenAdded = false ;
+    for (const auto& state : aStateArray)
+    {
+        bool passHasBeenAdded = false;
 
-//         if (previousStatePtr != nullptr)
-//         {
+        if (previousStatePtr != nullptr)
+        {
+            const VectorXd& previousStateCoordinates_ECI = previousStatePtr->accessCoordinates();
+            const VectorXd& currentStateCoordinates_ECI = state.accessCoordinates();
 
-//             const Vector3d& previousStateCoordinates_ECI = previousStatePtr->accessPosition().accessCoordinates() ;
-//             const Vector3d& currentStateCoordinates_ECI = state.accessPosition().accessCoordinates() ;
+            // South point crossing
+            southPointCrossing = Orbit::GetSouthCrossing(
+                previousStateCoordinates_ECI[5],
+                previousStatePtr->accessInstant(),
+                currentStateCoordinates_ECI[5],
+                state.accessInstant(),
+                getZDot
+            );
 
-//             if ((previousStateCoordinates_ECI.z() < 0.0) && (currentStateCoordinates_ECI.z() >= 0.0))
-//             {
+            // North point crossing
+            northPointCrossing = Orbit::GetNorthCrossing(
+                previousStateCoordinates_ECI[5],
+                previousStatePtr->accessInstant(),
+                currentStateCoordinates_ECI[5],
+                state.accessInstant(),
+                getZDot
+            );
 
-//                 const Pass::Type passType = ((!previousPassEndInstant.isDefined()) &&
-//                 aStateArray.accessFirst().accessPosition().accessCoordinates().z() != 0.0) ? Pass::Type::Partial :
-//                 Pass::Type::Complete ;
+            // Pass crossing
+            if ((previousStateCoordinates_ECI[2] < 0.0) && (currentStateCoordinates_ECI[2] >= 0.0))
+            {
+                const Pass::Type passType =
+                    ((!previousPassEndInstant.isDefined()) && aStateArray.accessFirst().accessCoordinates()[2] != 0.0)
+                        ? Pass::Type::Partial
+                        : Pass::Type::Complete;
 
-//                 const Instant passStartInstant = previousPassEndInstant.isDefined() ? previousPassEndInstant :
-//                 aStateArray.accessFirst().accessInstant() ; const Instant passEndInstant =
-//                 previousStatePtr->accessInstant() - Duration::Between(previousStatePtr->accessInstant(),
-//                 state.accessInstant()) * (previousStateCoordinates_ECI.z() / (currentStateCoordinates_ECI.z() -
-//                 previousStateCoordinates_ECI.z())) ;
+                const Instant passStartInstant = previousPassEndInstant.isDefined()
+                                                   ? previousPassEndInstant
+                                                   : aStateArray.accessFirst().accessInstant();
 
-//                 const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant) ;
+                const Instant passEndInstant =
+                    Orbit::GetPassCrossing(previousStatePtr->accessInstant(), state.accessInstant(), getZ);
 
-//                 const Pass pass = { passType, revolutionNumber, passInterval } ;
+                const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant);
 
-//                 passMap.insert({ index, pass }) ;
+                const Pass pass = {
+                    passType,
+                    revolutionNumber,
+                    passInterval,
+                    southPointCrossing,
+                    northPointCrossing,
+                };
 
-//                 index = currentIndex ;
-//                 revolutionNumber++ ;
+                passMap.insert({index, pass});
 
-//                 previousPassEndInstant = passEndInstant ;
-//                 passHasBeenAdded = true ;
+                index = currentIndex;
+                revolutionNumber++;
 
-//             }
+                previousPassEndInstant = passEndInstant;
+                passHasBeenAdded = true;
+            }
+        }
 
-//         }
+        if ((!passHasBeenAdded) && (&state == &aStateArray.accessLast()))  // Last state
+        {
+            const Pass::Type passType =
+                ((previousStatePtr != nullptr) && (previousStatePtr->accessCoordinates()[2] < 0.0) &&
+                 (state.accessCoordinates()[2] == 0.0))
+                    ? Pass::Type::Complete
+                    : Pass::Type::Partial;
 
-//         if ((!passHasBeenAdded) && (&state == &aStateArray.accessLast())) // Last state
-//         {
+            const Instant passStartInstant =
+                previousPassEndInstant.isDefined() ? previousPassEndInstant : aStateArray.accessFirst().accessInstant();
+            const Instant passEndInstant = state.accessInstant();
 
-//             const Pass::Type passType = ((previousStatePtr != nullptr) &&
-//             (previousStatePtr->accessPosition().accessCoordinates().z() < 0.0) &&
-//             (state.accessPosition().accessCoordinates().z() == 0.0)) ? Pass::Type::Complete : Pass::Type::Partial ;
+            const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant);
 
-//             const Instant passStartInstant = previousPassEndInstant.isDefined() ? previousPassEndInstant :
-//             aStateArray.accessFirst().accessInstant() ; const Instant passEndInstant = state.accessInstant() ;
+            const Pass pass = {
+                passType,
+                revolutionNumber,
+                passInterval,
+                northPointCrossing,
+                southPointCrossing,
+            };
 
-//             const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant) ;
+            passMap.insert({index, pass});
+        }
 
-//             const Pass pass = { passType, revolutionNumber, passInterval } ;
+        previousStatePtr = &state;
+        currentIndex++;
+    }
 
-//             passMap.insert({ index, pass }) ;
+    return passMap;
+}
 
-//         }
+Instant Orbit::GetSouthCrossing(
+    const double& previousZDot,
+    const Instant& previousInstant,
+    const double& currentZDot,
+    const Instant& currentInstant,
+    const std::function<double(double)>& getZDot
+)
+{
+    if (!((previousZDot < 0.0) && (currentZDot >= 0.0)))
+    {
+        return Instant::Undefined();
+    }
 
-//         previousStatePtr = &state ;
-//         currentIndex++ ;
+    const RootSolver::Solution solution = rootSolver.bisection(
+        getZDot, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
+    );
 
-//     }
+    if (!solution.hasConverged)
+    {
+        throw ostk::core::error::RuntimeError("Root solver did not converge when finding South point crossing.");
+    }
 
-//     return passMap ;
+    return J2000Epoch + Duration::Seconds(solution.root);
+}
 
-// }
+Instant Orbit::GetNorthCrossing(
+    const double& previousZDot,
+    const Instant& previousInstant,
+    const double& currentZDot,
+    const Instant& currentInstant,
+    const std::function<double(double)>& getZDot
+)
+{
+    if (!((previousZDot > 0.0) && (currentZDot <= 0.0)))
+    {
+        return Instant::Undefined();
+    }
+
+    const RootSolver::Solution solution = rootSolver.bisection(
+        getZDot, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
+    );
+
+    if (!solution.hasConverged)
+    {
+        throw ostk::core::error::RuntimeError("Root solver did not converge when finding North point crossing.");
+    }
+
+    return J2000Epoch + Duration::Seconds(solution.root);
+}
+
+Instant Orbit::GetPassCrossing(
+    const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getZ
+)
+{
+    const RootSolver::Solution solution = rootSolver.bisection(
+        getZ, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
+    );
+
+    if (!solution.hasConverged)
+    {
+        throw ostk::core::error::RuntimeError("Root solver did not converge.");
+    }
+
+    return J2000Epoch + Duration::Seconds(solution.root);
+}
 
 // Array<State>                    Orbit::GenerateStates                       (   const   Model& aModel,
 //                                                                                 const   Array<Instant>& anInstantGrid

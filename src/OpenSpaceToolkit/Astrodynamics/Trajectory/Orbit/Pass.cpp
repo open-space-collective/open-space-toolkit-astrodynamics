@@ -14,10 +14,18 @@ namespace trajectory
 namespace orbit
 {
 
-Pass::Pass(const Pass::Type& aType, const Integer& aRevolutionNumber, const Interval& anInterval)
+Pass::Pass(
+    const Pass::Type& aType,
+    const Integer& aRevolutionNumber,
+    const Interval& anInterval,
+    const Instant& aNorthPoint,
+    const Instant& aSouthPoint
+)
     : type_(aType),
       revolutionNumber_(aRevolutionNumber),
-      interval_(anInterval)
+      interval_(anInterval),
+      northPoint_(aNorthPoint),
+      southPoint_(aSouthPoint)
 {
 }
 
@@ -28,7 +36,8 @@ bool Pass::operator==(const Pass& aPass) const
         return false;
     }
 
-    return (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) && (interval_ == aPass.interval_);
+    return (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) && (interval_ == aPass.interval_) &&
+           (northPoint_ == aPass.northPoint_) && (southPoint_ == aPass.southPoint_);
 }
 
 bool Pass::operator!=(const Pass& aPass) const
@@ -100,9 +109,45 @@ Interval Pass::getInterval() const
     return interval_;
 }
 
+const Instant& Pass::accessNorthPoint() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    if (!northPoint_.isDefined() && this->isComplete())
+    {
+        throw ostk::core::error::runtime::Undefined("North point");
+    }
+
+    return northPoint_;
+}
+
+const Instant& Pass::accessSouthPoint() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    if (!southPoint_.isDefined() && this->isComplete())
+    {
+        throw ostk::core::error::runtime::Undefined("South point");
+    }
+
+    return southPoint_;
+}
+
 Pass Pass::Undefined()
 {
-    return Pass(Pass::Type::Undefined, Integer::Undefined(), Interval::Undefined());
+    return {
+        Pass::Type::Undefined,
+        Integer::Undefined(),
+        Interval::Undefined(),
+        Instant::Undefined(),
+        Instant::Undefined(),
+    };
 }
 
 String Pass::StringFromType(const Pass::Type& aType)

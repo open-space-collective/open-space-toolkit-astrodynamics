@@ -190,8 +190,11 @@ class Orbit : public Trajectory
 
     static String StringFromFrameType(const Orbit::FrameType& aFrameType);
 
+    static Map<Index, Pass> GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber);
+
    private:
     const orbit::Model* modelPtr_;
+    const Instant J2000Epoch_ = Instant::J2000();
 
     Shared<const Celestial> celestialObjectSPtr_;
 
@@ -200,7 +203,25 @@ class Orbit : public Trajectory
 
     String generateFrameName(const Orbit::FrameType& aFrameType) const;
 
-    static Map<Index, Pass> GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber);
+    static Instant GetNorthCrossing(
+        const double& previousZDot,
+        const Instant& previousInstant,
+        const double& currentZDot,
+        const Instant& currentInstant,
+        const std::function<double(double)>& getZDot
+    );
+
+    static Instant GetSouthCrossing(
+        const double& previousZDot,
+        const Instant& previousInstant,
+        const double& currentZDot,
+        const Instant& currentInstant,
+        const std::function<double(double)>& getZDot
+    );
+
+    static Instant GetPassCrossing(
+        const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getZ
+    );
 
     static Array<State> GenerateStates(const Model& aModel, const Array<Instant>& anInstantGrid);
 };
