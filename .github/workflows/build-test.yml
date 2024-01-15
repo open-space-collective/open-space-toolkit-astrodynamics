@@ -84,3 +84,25 @@ jobs:
           auto-push: ${{ github.ref == 'refs/heads/main' }}
           alert-threshold: "200%"
           comment-on-alert: true
+
+  validation-cpp:
+    name: Run C++ Validation Tests
+    runs-on: ubuntu-latest
+    needs:
+      - prepare-environment
+      - build-and-test
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Pull Development Image
+        run: docker pull openspacecollective/${{ needs.prepare-environment.outputs.project_name }}-development:${{ needs.prepare-environment.outputs.project_version }}
+      - name: Run C++ Validation Tests
+        run: make validation-cpp-standalone

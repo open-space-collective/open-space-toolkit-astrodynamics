@@ -188,7 +188,7 @@ build-documentation-standalone: ## Build documentation (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_DOCUMENTATION=ON .. \
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_DOCUMENTATION=ON .. \
 		&& $(MAKE) docs"
 
 .PHONY: build-documentation-standalone
@@ -218,7 +218,7 @@ build-packages-cpp-standalone: ## Build C++ packages (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DCPACK_GENERATOR=DEB .. \
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DCPACK_GENERATOR=DEB .. \
 		&& $(MAKE) package \
 		&& mkdir -p /app/packages/cpp \
 		&& mv /app/build/*.deb /app/packages/cpp"
@@ -241,7 +241,7 @@ build-packages-python-standalone: ## Build Python packages (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON .. \
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON .. \
 		&& $(MAKE) -j 4 \
 		&& mkdir -p /app/packages/python \
 		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
@@ -323,7 +323,7 @@ debug-jupyter-rebuild: build-development-image ## Debug jupyter notebook using t
 		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DPYTHON_SEARCH_VERSIONS="$(jupyter_python_version)" .. \
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DPYTHON_SEARCH_VERSIONS="$(jupyter_python_version)" .. \
 		&& $(MAKE) -j $(shell nproc)"
 
 	@ $(MAKE) debug-jupyter
@@ -516,7 +516,7 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF .. \
+		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF .. \
 		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/OpenSpaceToolkit*Py-python-package-3.11 \
 		&& python3.11 -m pip install plotly pandas \
 		&& python3.11 -m pip install git+https://github.com/lucas-bremond/cesiumpy.git#egg=cesiumpy \
@@ -582,11 +582,41 @@ benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
+		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
 		&& $(MAKE) -j 4 \
 		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=./../bin/benchmark_result.json"
 
 .PHONY: benchmark-cpp-standalone
+
+validation: ## Run validation tests
+
+	@ echo "Running validation tests..."
+
+	@ $(MAKE) validation-cpp
+
+.PHONY: validation
+
+validation-cpp: build-development-image ## Run C++ validation tests
+
+	@ $(MAKE) validation-cpp-standalone
+
+.PHONY: validation-cpp
+
+validation-cpp-standalone: ## Run C++ validation tests (standalone)
+
+	@ echo "Running C++ validation..."
+
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/build" \
+		--workdir=/app/build \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=ON .. \
+		&& $(MAKE) -j 4 \
+		&& ./../bin/open-space-toolkit-$(project_name).validation"
+
+.PHONY: validation-cpp-standalone
 
 clean: ## Clean
 
