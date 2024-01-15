@@ -21,7 +21,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::units::Angle;
-    using ostk::physics::units::Time;
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;
@@ -348,7 +347,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("argument_of_latitude") = Angle::Zero(),
                 R"doc(
                     Create a sun-synchronous `Orbit` object.
-                    Note: Only one of `local_time_at_ascending_node` or `local_time_at_descending_node` must be provided.
 
                     Args:
                         epoch (Instant): The epoch.
