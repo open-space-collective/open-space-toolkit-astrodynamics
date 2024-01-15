@@ -178,12 +178,14 @@ class Orbit : public Trajectory
     /// @param anAltitude An orbit altitude (wrt. equatorial radius)
     /// @param aLocalTimeAtDescendingNode A local time at descending node
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param anArgumentOfLatitude An argument of latitude
     /// @return Sun-synchronous orbit
     static Orbit SunSynchronous(
         const Instant& anEpoch,
         const Length& anAltitude,
         const Time& aLocalTimeAtDescendingNode,
-        const Shared<const Celestial>& aCelestialObjectSPtr
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
     static String StringFromFrameType(const Orbit::FrameType& aFrameType);

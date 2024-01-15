@@ -30,8 +30,17 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::types::Uint8;
+
+using ostk::math::object::Vector3d;
+
+using ostk::physics::time::Scale;
 using ostk::physics::units::Derived;
+using ostk::physics::units::Mass;
 using ostk::physics::units::Length;
+using ostk::physics::environment::object::celestial::Sun;
+using orbit::models::Kepler;
+using orbit::models::kepler::COE;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
@@ -839,21 +848,10 @@ Orbit Orbit::SunSynchronous(
     const Instant& anEpoch,
     const Length& anAltitude,
     const Time& aLocalTimeAtDescendingNode,
-    const Shared<const Celestial>& aCelestialObjectSPtr
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Angle& anArgumentOfLatitude
 )
 {
-    using ostk::core::types::Uint8;
-
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Mass;
-    using ostk::physics::environment::object::celestial::Sun;
-
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
-
     if (!anEpoch.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Epoch");
@@ -872,6 +870,11 @@ Orbit Orbit::SunSynchronous(
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (!anArgumentOfLatitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Argument of latitude");
     }
 
     const auto calculateSunSynchronousInclination = [&aCelestialObjectSPtr](const Length& aSemiMajorAxis) -> Angle
@@ -986,7 +989,7 @@ Orbit Orbit::SunSynchronous(
     const Angle inclination = calculateSunSynchronousInclination(semiMajorAxis);
     const Angle raan = calculateRaan(calculateLocalTimeAtAscendingNode());
     const Angle aop = Angle::Zero();
-    const Angle trueAnomaly = Angle::Zero();
+    const Angle trueAnomaly = anArgumentOfLatitude - aop;
 
     const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 

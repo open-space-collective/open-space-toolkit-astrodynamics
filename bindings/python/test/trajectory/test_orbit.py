@@ -90,3 +90,11 @@ class TestOrbit:
         assert orbit is not None
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
+
+        assert Orbit.sun_synchronous(
+            epoch=epoch,
+            altitude=altitude,
+            local_time_at_descending_node=local_time_at_descending_node,
+            celestial_object=earth,
+            argument_of_latitude=Angle.degrees(50.0),
+        ).is_defined()
