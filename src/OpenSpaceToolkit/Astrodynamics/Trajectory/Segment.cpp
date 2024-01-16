@@ -105,7 +105,7 @@ Mass Segment::Solution::computeDeltaMass() const
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
-MatrixXd Segment::Solution::getDynamicsContribution(
+Array<VectorXd> Segment::Solution::getDynamicsContributions(
     const Shared<Dynamics>& aDynamicsSPtr,
     const Shared<const Frame>& aFrameSPtr,
     const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray
@@ -151,21 +151,9 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     // Construct state builder
     const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinatesSubsets);
 
-    // Compute the size of dynamicsContributionMatrix
-    Size dynamicsWriteSize = std::accumulate(
-        definitiveCoordinateSubsetArray.begin(),
-        definitiveCoordinateSubsetArray.end(),
-        0,
-        [](int sum, const Shared<const CoordinatesSubset>& subset)
-        {
-            return sum + subset->getSize();
-        }
-    );
+    Array<VectorXd> dynamicsContributions = Array<VectorXd>::Empty();
 
-    // Initialize the dynamicsContributionMatrix
-    MatrixXd dynamicsContributionMatrix = MatrixXd::Zero(numberOfstates, dynamicsWriteSize);
-
-    // Construct the dynamicsContributionMatrix, state by state (a.k.a row by row)
+    // Construct the dynamicsContributions, state by state
     for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
     {
         const State& state = states[stateIndex];
@@ -173,35 +161,58 @@ MatrixXd Segment::Solution::getDynamicsContribution(
         VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
             state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
         );
-
-        dynamicsContributionMatrix.row(stateIndex) = dynamicsContributionAtState;
+        dynamicsContributions.add(dynamicsContributionAtState);
     }
 
-    return dynamicsContributionMatrix;
+    return dynamicsContributions;
 }
 
-MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
+Array<Vector3d> Segment::Solution::getDynamicsAccelerationContributions(
     const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    return this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
+    const Array<VectorXd> dynamicsAccelerationContributions =
+        this->getDynamicsContributions(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
+
+    Array<Vector3d> accelerationContributions = Array<Vector3d>::Empty();
+    for (const VectorXd& dynamicsAccelerationContribution : dynamicsAccelerationContributions)
+    {
+        accelerationContributions.add(dynamicsAccelerationContribution.head<3>());
+    }
+
+    return accelerationContributions;
 }
 
-Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
+Array<Map<Shared<Dynamics>, VectorXd>> Segment::Solution::getAllDynamicsContributions(
+    const Shared<const Frame>& aFrameSPtr
 ) const
 {
     // TBI: Use smart caching for multiple calls in the future
 
-    // Each MatrixXd contains the contribution of a single dynamics for all the segment states
-    Map<Shared<Dynamics>, MatrixXd> dynamicsContributionsMap = Map<Shared<Dynamics>, MatrixXd>();
+    Map<Shared<Dynamics>, Array<VectorXd>> dynamicsContributionsMap = Map<Shared<Dynamics>, Array<VectorXd>>();
 
+    // Create map for each dynamics
     for (const Shared<Dynamics>& aDynamicsSPtr : this->dynamics)
     {
-        MatrixXd dynamicsContribution = this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr);
-        dynamicsContributionsMap.emplace(aDynamicsSPtr, dynamicsContribution);
+        Array<VectorXd> dynamicsContributions = this->getDynamicsContributions(aDynamicsSPtr, aFrameSPtr);
+        dynamicsContributionsMap.emplace(aDynamicsSPtr, dynamicsContributions);
     }
 
-    return dynamicsContributionsMap;
+    Array<Map<Shared<Dynamics>, VectorXd>> dynamicsContributionsMaps = Array<Map<Shared<Dynamics>, VectorXd>>::Empty();
+
+    const Size numberOfstates = this->states.getSize();
+    for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
+    {
+        // Create map for each state and fill it with the dynamics contributions
+        Map<Shared<Dynamics>, VectorXd> dynamicsContributionMapAtState = Map<Shared<Dynamics>, VectorXd>();
+        for (const Shared<Dynamics>& aDynamicsSPtr : this->dynamics)
+        {
+            dynamicsContributionMapAtState.emplace(aDynamicsSPtr, dynamicsContributionsMap[aDynamicsSPtr][stateIndex]);
+        }
+        dynamicsContributionsMaps.add(dynamicsContributionMapAtState);
+    }
+
+    return dynamicsContributionsMaps;
 }
 
 void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const

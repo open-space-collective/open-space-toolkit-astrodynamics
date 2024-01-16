@@ -108,7 +108,7 @@ class Segment
         /// @param aFrameSPtr Frame
         /// @param aCoordinatesSubsetSPtrArray Array of coordinates subsets
         /// @return Dynamics contribution
-        MatrixXd getDynamicsContribution(
+        Array<VectorXd> getDynamicsContributions(
             const Shared<Dynamics>& aDynamicsSPtr,
             const Shared<const Frame>& aFrameSPtr,
             const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray =
@@ -120,7 +120,7 @@ class Segment
         /// @param aDynamicsSPtr Dynamics
         /// @param aFrameSPtr Frame
         /// @return Dynamics acceleration contribution
-        MatrixXd getDynamicsAccelerationContribution(
+        Array<Vector3d> getDynamicsAccelerationContributions(
             const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
         ) const;
 
@@ -128,7 +128,7 @@ class Segment
         ///
         /// @param aFrameSPtr Frame
         /// @return All segment dynamics contributions
-        Map<Shared<Dynamics>, MatrixXd> getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
+        Array<Map<Shared<Dynamics>, VectorXd>> getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
 
         /// @brief Print the segment solution
         ///
