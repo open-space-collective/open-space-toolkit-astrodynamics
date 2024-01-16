@@ -20,6 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::core::types::Shared;
 
     using ostk::physics::environment::object::Celestial;
+    using ostk::physics::units::Angle;
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;
@@ -266,8 +267,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         epoch (Instant): The epoch.
-                        altitude (double): The altitude.
-                        inclination (double): The inclination.
+                        altitude (Length): The altitude.
+                        inclination (Angle): The inclination.
                         celestial_object (Celestial): The celestial object.
 
                     Returns:
@@ -287,8 +288,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         epoch (Instant): The epoch.
-                        apoapsis_altitude (double): The apoapsis altitude.
-                        periapsis_altitude (double): The periapsis altitude.
+                        apoapsis_altitude (Length): The apoapsis altitude.
+                        periapsis_altitude (Length): The periapsis altitude.
                         celestial_object (Celestial): The celestial object.
 
                     Returns:
@@ -307,7 +308,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         epoch (Instant): The epoch.
-                        altitude (double): The altitude.
+                        altitude (Length): The altitude.
                         celestial_object (Celestial): The celestial object.
 
                     Returns:
@@ -327,7 +328,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         epoch (Instant): The epoch.
-                        inclination (double): The inclination.
+                        inclination (Angle): The inclination.
                         longitude (double): The longitude.
                         celestial_object (Celestial): The celestial object.
 
@@ -343,14 +344,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("altitude"),
                 arg("local_time_at_descending_node"),
                 arg("celestial_object"),
+                arg("argument_of_latitude") = Angle::Zero(),
                 R"doc(
                     Create a sun-synchronous `Orbit` object.
 
                     Args:
                         epoch (Instant): The epoch.
-                        altitude (double): The altitude.
-                        local_time_at_descending_node (double): The local time at descending node.
+                        altitude (Length): The altitude.
+                        local_time_at_descending_node (Time): The local time at descending node.
                         celestial_object (Celestial): The celestial object.
+                        argument_of_latitude (Angle): The argument of latitude.
 
                     Returns:
                         Orbit: The sun-synchronous `Orbit` object.

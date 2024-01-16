@@ -42,12 +42,14 @@ using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
+using ostk::physics::time::Time;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
@@ -1223,79 +1225,174 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
     }
 }
 
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
-// {
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
+{
+    {
+        {
+            const Orbit orbit = Orbit::SunSynchronous(
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Time::Parse("12:00:00"),
+                Environment::Default().accessCelestialObjectWithName("Earth")
+            );
 
-//     using ostk::core::ctnr::Array ;
-//     using ostk::core::filesystem::Path ;
-//     using ostk::core::filesystem::File ;
+            EXPECT_TRUE(orbit.isDefined());
+        }
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::time::Scale ;
-//     using ostk::physics::time::Instant ;
-//     using ostk::physics::time::DateTime ;
-//     using ostk::physics::time::Time ;
-//     using ostk::physics::Environment ;
+        {
+            const Angle angle = Angle::Degrees(50.0);
+            const Orbit orbit = Orbit::SunSynchronous(
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Time::Parse("12:00:00"),
+                Environment::Default().accessCelestialObjectWithName("Earth"),
+                angle
+            );
 
-//     using ostk::astro::trajectory::Orbit ;
+            EXPECT_TRUE(orbit.isDefined());
+            EXPECT_EQ(orbit.accessModel().as<Kepler>().getClassicalOrbitalElements().getTrueAnomaly(), angle);
+        }
+    }
 
-//     {
+    {
+        {
+            EXPECT_THROW(
+                Orbit::SunSynchronous(
+                    Instant::Undefined(),
+                    Length::Kilometers(500.0),
+                    Time::Parse("12:00:00"),
+                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Angle::Degrees(50.0)
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+        }
 
-//         struct Scenario
-//         {
+        {
+            EXPECT_THROW(
+                Orbit::SunSynchronous(
+                    Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                    Length::Undefined(),
+                    Time::Parse("12:00:00"),
+                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Angle::Degrees(50.0)
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+        }
 
-//             String identifier ;
-//             Instant epoch ;
-//             Length altitude ;
-//             Time localTimeAtDescendingNode ;
-//             File referenceDataFile ;
-//             Real positionTolerance_GCRF_m ;
-//             Real velocityTolerance_GCRF_mps ;
-//             Real positionTolerance_ITRF_m ;
-//             Real velocityTolerance_ITRF_mps ;
+        {
+            EXPECT_THROW(
+                Orbit::SunSynchronous(
+                    Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                    Length::Kilometers(500.0),
+                    Time::Undefined(),
+                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Angle::Degrees(50.0)
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+        }
 
-//         } ;
+        {
+            {
+                EXPECT_THROW(
+                    Orbit::SunSynchronous(
+                        Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                        Length::Kilometers(500.0),
+                        Time::Parse("12:00:00"),
+                        nullptr,
+                        Angle::Degrees(50.0)
+                    ),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
 
-//         const Array<Scenario> scenarios =
-//         {
-//             {
-//                 "Scenario 1",
-//                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-//                 Length::Kilometers(500.0),
-//                 Time::Parse("12:00:00"),
-//                 File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/SunSynchronous/Scenario
-//                 1.csv")), 100.0, 1.0, 100.0, 1.0
-//                 // 1e-3,
-//                 // 1e-6,
-//                 // 1e-1,
-//                 // 1e-4
-//             }
-//         } ;
+            {
+                EXPECT_THROW(
+                    Orbit::SunSynchronous(
+                        Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                        Length::Kilometers(500.0),
+                        Time::Parse("12:00:00"),
+                        std::make_shared<Celestial>(Celestial::Undefined()),
+                        Angle::Degrees(50.0)
+                    ),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
+        }
 
-//         for (const auto& scenario : scenarios)
-//         {
+        {
+            EXPECT_THROW(
+                Orbit::SunSynchronous(
+                    Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                    Length::Kilometers(500.0),
+                    Time::Parse("12:00:00"),
+                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Angle::Undefined()
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+        }
+    }
+    // {
+    //     struct Scenario
+    //     {
+    //         String identifier;
+    //         Instant epoch;
+    //         Length altitude;
+    //         Time localTimeAtDescendingNode;
+    //         File referenceDataFile;
+    //         Real positionTolerance_GCRF_m;
+    //         Real velocityTolerance_GCRF_mps;
+    //         Real positionTolerance_ITRF_m;
+    //         Real velocityTolerance_ITRF_mps;
+    //     };
 
-//             // Environment setup
+    //     const Array<Scenario> scenarios = {{
+    //         "Scenario 1",
+    //         Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+    //         Length::Kilometers(500.0),
+    //         Time::Parse("12:00:00"),
+    //         File::Path(
+    //             Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/SunSynchronous/Scenario 1.csv")
+    //         ),
+    //         100.0,
+    //         1.0,
+    //         100.0,
+    //         1.0
+    //         // 1e-3,
+    //         // 1e-6,
+    //         // 1e-1,
+    //         // 1e-4
+    //     }};
 
-//             const Environment environment = Environment::Default() ;
+    //     for (const auto& scenario : scenarios)
+    //     {
+    //         // Environment setup
 
-//             // Orbit setup
+    //         const Environment environment = Environment::Default();
 
-//             const Orbit orbit = Orbit::SunSynchronous(scenario.epoch, scenario.altitude,
-//             scenario.localTimeAtDescendingNode, environment.accessCelestialObjectWithName("Earth")) ;
+    //         // Orbit setup
 
-//             // Test
+    //         const Orbit orbit = Orbit::SunSynchronous(
+    //             scenario.epoch,
+    //             scenario.altitude,
+    //             scenario.localTimeAtDescendingNode,
+    //             environment.accessCelestialObjectWithName("Earth")
+    //         );
 
-//             testOrbit(scenario.identifier,
-//                       scenario.referenceDataFile,
-//                       orbit,
-//                       scenario.positionTolerance_GCRF_m,
-//                       scenario.velocityTolerance_GCRF_mps,
-//                       scenario.positionTolerance_ITRF_m,
-//                       scenario.velocityTolerance_ITRF_mps) ;
+    //         // Test
 
-//         }
-
-//     }
-
-// }
+    //         testOrbit(
+    //             scenario.identifier,
+    //             scenario.referenceDataFile,
+    //             orbit,
+    //             scenario.positionTolerance_GCRF_m,
+    //             scenario.velocityTolerance_GCRF_mps,
+    //             scenario.positionTolerance_ITRF_m,
+    //             scenario.velocityTolerance_ITRF_mps
+    //         );
+    //     }
+    // }
+}
