@@ -539,7 +539,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
             EXPECT_TRUE(referencePassEndInstant >= states[endStateIndex - 1].accessInstant());
 
             stateIndex = endStateIndex;
-
             ++i;
         }
     }
