@@ -74,7 +74,7 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbo
 \begin{DoxyCompactList}\small\item\em Constructs a circular-\/equatorial orbit. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a24492769b1948a354dab07958a0f134c}{Geo\+Synchronous}} (const Instant \&an\+Epoch, const Angle \&an\+Inclination, const Angle \&a\+Longitude, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Constructs a geosynchronous orbit. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_aaf0e7e3140ba78c06cc590f37ba680a5}{Sun\+Synchronous}} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Time \&a\+Local\+Time\+At\+Descending\+Node, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_abd4a56f774275d0555d1d66a8ffc03dd}{Sun\+Synchronous}} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Time \&a\+Local\+Time\+At\+Descending\+Node, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr, const Angle \&an\+Argument\+Of\+Latitude=Angle\+::\+Zero())
 \begin{DoxyCompactList}\small\item\em Constructs a Sun-\/synchronous orbit. \end{DoxyCompactList}\item 
 static String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a329934037eb9eb4cacfcb2a5774753ed}{String\+From\+Frame\+Type}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a1cc449ad56374471a8ab4300dde979e7}{Orbit\+::\+Frame\+Type}} \&a\+Frame\+Type)
 \end{DoxyCompactItemize}
@@ -357,11 +357,11 @@ Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_aac11fb7c5
 \doxysubsubsection{\texorpdfstring{StringFromFrameType()}{StringFromFrameType()}}
 {\footnotesize\ttfamily String ostk\+::astro\+::trajectory\+::\+Orbit\+::\+String\+From\+Frame\+Type (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a1cc449ad56374471a8ab4300dde979e7}{Orbit\+::\+Frame\+Type}} \&}]{a\+Frame\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_orbit_aaf0e7e3140ba78c06cc590f37ba680a5}\label{classostk_1_1astro_1_1trajectory_1_1_orbit_aaf0e7e3140ba78c06cc590f37ba680a5}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_orbit_abd4a56f774275d0555d1d66a8ffc03dd}\label{classostk_1_1astro_1_1trajectory_1_1_orbit_abd4a56f774275d0555d1d66a8ffc03dd}} 
 \index{ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}!SunSynchronous@{SunSynchronous}}
 \index{SunSynchronous@{SunSynchronous}!ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}}
 \doxysubsubsection{\texorpdfstring{SunSynchronous()}{SunSynchronous()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} ostk\+::astro\+::trajectory\+::\+Orbit\+::\+Sun\+Synchronous (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Length \&}]{an\+Altitude,  }\item[{const Time \&}]{a\+Local\+Time\+At\+Descending\+Node,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} ostk\+::astro\+::trajectory\+::\+Orbit\+::\+Sun\+Synchronous (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Length \&}]{an\+Altitude,  }\item[{const Time \&}]{a\+Local\+Time\+At\+Descending\+Node,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr,  }\item[{const Angle \&}]{an\+Argument\+Of\+Latitude = {\ttfamily Angle\+:\+:Zero()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -380,6 +380,8 @@ Constructs a Sun-\/synchronous orbit.
 {\em a\+Local\+Time\+At\+Descending\+Node} & A local time at descending node \\
 \hline
 {\em a\+Celestial\+Object\+S\+Ptr} & A shared pointer to a central celestial body \\
+\hline
+{\em an\+Argument\+Of\+Latitude} & An argument of latitude \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
