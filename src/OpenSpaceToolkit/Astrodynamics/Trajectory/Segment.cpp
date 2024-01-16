@@ -40,42 +40,42 @@ Segment::Solution::Solution(
 
 const Instant& Segment::Solution::accessStartInstant() const
 {
-    if (states.isEmpty())
+    if (this->states.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return states.accessFirst().accessInstant();
+    return this->states.accessFirst().accessInstant();
 }
 
 const Instant& Segment::Solution::accessEndInstant() const
 {
-    if (states.isEmpty())
+    if (this->states.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return states.accessLast().accessInstant();
+    return this->states.accessLast().accessInstant();
 }
 
 Mass Segment::Solution::getInitialMass() const
 {
-    if (states.isEmpty())
+    if (this->states.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Mass::Kilograms(states.accessFirst().extractCoordinate(CoordinatesSubset::Mass())[0]);
+    return Mass::Kilograms(this->states.accessFirst().extractCoordinate(CoordinatesSubset::Mass())[0]);
 }
 
 Mass Segment::Solution::getFinalMass() const
 {
-    if (states.isEmpty())
+    if (this->states.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Mass::Kilograms(states.accessLast().extractCoordinate(CoordinatesSubset::Mass())[0]);
+    return Mass::Kilograms(this->states.accessLast().extractCoordinate(CoordinatesSubset::Mass())[0]);
 }
 
 Duration Segment::Solution::getPropagationDuration() const
@@ -86,7 +86,7 @@ Duration Segment::Solution::getPropagationDuration() const
 Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
 {
     // TBM: This is only valid for constant thrust, constant Isp
-    if (segmentType != Segment::Type::Maneuver)
+    if (this->segmentType != Segment::Type::Maneuver)
     {
         return 0.0;
     }
@@ -97,12 +97,55 @@ Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
 
 Mass Segment::Solution::computeDeltaMass() const
 {
-    if (segmentType != Segment::Type::Maneuver)
+    if (this->segmentType != Segment::Type::Maneuver)
     {
         return Mass::Kilograms(0.0);
     }
 
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+Array<State> Segment::Solution::reComputeStatesAt(
+    const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
+) const
+{
+    if (this->states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No states available.");
+    }
+
+    if (anInstantArray.isEmpty())
+    {
+        return Array<State>::Empty();
+    }
+
+    for (Size k = 0; k < anInstantArray.getSize() - 1; ++k)
+    {
+        if (anInstantArray[k] > anInstantArray[k + 1])
+        {
+            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array");
+        }
+    }
+
+    if ((accessStartInstant() > anInstantArray.accessLast()) || (accessEndInstant() < anInstantArray.accessFirst()))
+    {
+        throw ostk::core::error::RuntimeError(
+            "Trying to calculate state outside of segment bounds. No solution available."
+        );
+    }
+
+    const Propagated propagated = {
+        {
+            aNumericalSolver,
+            this->dynamics,
+        },
+        this->states,
+    };
+
+    // TBI: Implement proper caching during dynamics contribution observing MR
+    // this->states = propagated.calculateStatesAt(anInstantArray);
+
+    return propagated.calculateStatesAt(anInstantArray);
 }
 
 MatrixXd Segment::Solution::getDynamicsContribution(
@@ -112,7 +155,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
 ) const
 {
     // Check dynamics is part of the segment dynamics
-    if (!dynamics.contains(aDynamicsSPtr))
+    if (!this->dynamics.contains(aDynamicsSPtr))
     {
         throw ostk::core::error::RuntimeError("Provided dynamics is not part of the segment dynamics.");
     }
@@ -168,7 +211,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     // Construct the dynamicsContributionMatrix, state by state (a.k.a row by row)
     for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
     {
-        const State& state = states[stateIndex];
+        const State& state = this->states[stateIndex];
 
         VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
             state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
@@ -211,18 +254,18 @@ void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorato
         ostk::core::utils::Print::Header(anOutputStream, "Segment Solution");
     }
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name;
+    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << this->name;
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Condition satisfied:" << (conditionIsSatisfied ? "True" : "False");
+        << "Condition satisfied:" << (this->conditionIsSatisfied ? "True" : "False");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Segment type:" << (segmentType == Segment::Type::Coast ? "Coast" : "Maneuver");
+        << "Segment type:" << (this->segmentType == Segment::Type::Coast ? "Coast" : "Maneuver");
 
     ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << accessStartInstant().toString();
     ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << accessEndInstant().toString();
     ostk::core::utils::Print::Line(anOutputStream)
         << "Propagation duration:" << (accessEndInstant() - accessStartInstant()).toString();
 
-    if (segmentType == Segment::Type::Maneuver)
+    if (this->segmentType == Segment::Type::Maneuver)
     {
         ostk::core::utils::Print::Line(anOutputStream) << "Initial mass:" << getInitialMass().toString();
         ostk::core::utils::Print::Line(anOutputStream) << "Final mass:" << getFinalMass().toString();

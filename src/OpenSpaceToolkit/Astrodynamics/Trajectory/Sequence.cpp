@@ -17,29 +17,35 @@ namespace trajectory
 
 using ostk::physics::time::Duration;
 
+Sequence::Solution::Solution(const Array<Segment::Solution>& aSegmentSolutionArray, const bool& anExecutionIsComplete)
+    : segmentSolutions(aSegmentSolutionArray),
+      executionIsComplete(anExecutionIsComplete)
+{
+}
+
 const Instant& Sequence::Solution::accessStartInstant() const
 {
-    return segmentSolutions.accessFirst().accessStartInstant();
+    return this->segmentSolutions.accessFirst().accessStartInstant();
 }
 
 const Instant& Sequence::Solution::accessEndInstant() const
 {
-    return segmentSolutions.accessLast().accessEndInstant();
+    return this->segmentSolutions.accessLast().accessEndInstant();
 }
 
 Array<State> Sequence::Solution::getStates() const
 {
-    if (segmentSolutions.isEmpty())
+    if (this->segmentSolutions.isEmpty())
     {
         throw ostk::core::error::RuntimeError("Segment solutions are empty.");
     }
 
-    Array<State> states = segmentSolutions.accessFirst().states;
+    Array<State> states = this->segmentSolutions.accessFirst().states;
 
-    for (Index i = 1; i < segmentSolutions.getSize(); ++i)
+    for (Index i = 1; i < this->segmentSolutions.getSize(); ++i)
     {
         const Array<State>& segmentStates =
-            Array<State>(segmentSolutions[i].states.begin() + 1, segmentSolutions[i].states.end());
+            Array<State>(this->segmentSolutions[i].states.begin() + 1, this->segmentSolutions[i].states.end());
 
         states.add(segmentStates);
     }
@@ -49,17 +55,29 @@ Array<State> Sequence::Solution::getStates() const
 
 Mass Sequence::Solution::getInitialMass() const
 {
-    return segmentSolutions.accessFirst().getInitialMass();
+    return this->segmentSolutions.accessFirst().getInitialMass();
 }
 
 Mass Sequence::Solution::getFinalMass() const
 {
-    return segmentSolutions.accessLast().getFinalMass();
+    return this->segmentSolutions.accessLast().getFinalMass();
 }
 
 Duration Sequence::Solution::getPropagationDuration() const
 {
-    return accessEndInstant() - accessStartInstant();
+    return this->accessEndInstant() - this->accessStartInstant();
+}
+
+Real Sequence::Solution::computeDeltaV(const Real& aSpecificImpulse) const
+{
+    Real deltaV = 0.0;
+
+    for (const auto& segmentSolution : this->segmentSolutions)
+    {
+        deltaV += segmentSolution.computeDeltaV(aSpecificImpulse);
+    }
+
+    return deltaV;
 }
 
 Mass Sequence::Solution::computeDeltaMass() const
@@ -67,16 +85,41 @@ Mass Sequence::Solution::computeDeltaMass() const
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
-Real Sequence::Solution::computeDeltaV(const Real& aSpecificImpulse) const
+Array<State> Sequence::Solution::reComputeStatesAt(
+    const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
+) const
 {
-    Real deltaV = 0.0;
-
-    for (const auto& segmentSolution : segmentSolutions)
+    if (this->segmentSolutions.isEmpty())
     {
-        deltaV += segmentSolution.computeDeltaV(aSpecificImpulse);
+        throw ostk::core::error::RuntimeError("Segment solutions are empty.");
     }
 
-    return deltaV;
+    Array<State> intermediateStates = Array<State>::Empty();
+
+    // Process the instant array so that it is done segment by segment
+    for (Size i = 0; i < this->segmentSolutions.getSize(); i++)
+    {
+        const Segment::Solution segmentSolution = this->segmentSolutions[i];
+        // Get the segment start and end instants and only keep the instants that are within the segment
+        Array<Instant> instantsPerSegment = Array<Instant>::Empty();
+
+        for (const Instant& instant : anInstantArray)
+        {
+            // If the instant is within the segment (closed on left, open on right), add it
+            if ((instant >= segmentSolution.accessStartInstant()) && (instant < segmentSolution.accessEndInstant()))
+            {
+                instantsPerSegment.add(instant);
+            }
+            // If we are on the last segment and the instant is the last instant, add it
+            else if ((i == this->segmentSolutions.getSize() - 1) && (instant == this->accessEndInstant()))
+            {
+                instantsPerSegment.add(instant);
+            }
+        }
+        intermediateStates.add(segmentSolution.reComputeStatesAt(instantsPerSegment, aNumericalSolver));
+    }
+
+    return intermediateStates;
 }
 
 void Sequence::Solution::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -87,12 +130,12 @@ void Sequence::Solution::print(std::ostream& anOutputStream, bool displayDecorat
     }
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Execution is complete: " << (executionIsComplete ? "True" : "False");
+        << "Execution is complete: " << (this->executionIsComplete ? "True" : "False");
 
     ostk::core::utils::Print::Separator(anOutputStream, "Segment Solutions");
 
     bool hasManeuver = false;
-    for (const auto& segmentSolution : segmentSolutions)
+    for (const auto& segmentSolution : this->segmentSolutions)
     {
         segmentSolution.print(anOutputStream, false);
 
@@ -226,7 +269,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
         throw ostk::core::error::runtime::Wrong("Repetition count.");
     }
 
-    Array<Segment::Solution> segmentSolutions;
+    Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
 
     State initialState = aState;
     State finalState = State::Undefined();
@@ -267,7 +310,7 @@ Sequence::Solution Sequence::solveToCondition(
     const State& aState, const EventCondition& anEventCondition, const Duration& aMaximumPropagationDuration
 ) const
 {
-    Array<Segment::Solution> segmentSolutions;
+    Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
 
     State initialState = aState;
     State finalState = State::Undefined();

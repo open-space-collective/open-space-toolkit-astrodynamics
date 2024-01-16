@@ -425,7 +425,10 @@ class TestSequence:
         sequence: Sequence,
         segments: list[Segment],
     ):
-        solution = sequence.solve(state, repetition_count)
+        solution = sequence.solve(
+            state=state,
+            repetition_count=repetition_count,
+        )
 
         assert len(solution.segment_solutions) == len(segments)
 

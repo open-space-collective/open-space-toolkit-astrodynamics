@@ -26,6 +26,7 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::String;
 using ostk::core::types::Shared;
 using ostk::core::types::Real;
+using ostk::core::types::Size;
 
 using ostk::math::object::VectorXd;
 using ostk::math::object::MatrixXd;
@@ -208,6 +209,57 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
 
         // 1500 * 9.80665 * ln(200 / 180) -> Rocket equation
         EXPECT_DOUBLE_EQ(1549.850551313734, segmentSolution.computeDeltaV(1500.0));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ReComputeStatesAt)
+{
+    {  // Test that the function throws when the segment has no states
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+
+        EXPECT_THROW(
+            segmentSolution.reComputeStatesAt({Instant::J2000()}, defaultNumericalSolver_),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {  // Test that the function throws when an instant outside the segment is desired
+        const Array<Instant> instantArrayOutsideSegment = {
+            defaultState_.getInstant(), defaultState_.getInstant() + Duration::Minutes(1.0)
+        };
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+
+        EXPECT_THROW(
+            segmentSolution.reComputeStatesAt(instantArrayOutsideSegment, defaultNumericalSolver_),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {  // Test successfull result for propagation to states within segment including bounds
+        const Array<Instant> instantArray = {
+            defaultState_.getInstant(),
+            defaultState_.getInstant() + Duration::Minutes(1.0),
+            defaultState_.getInstant() + Duration::Minutes(2.0)
+        };
+
+        const State state1 = {
+            defaultState_.getInstant() + Duration::Minutes(2.0),
+            defaultState_.getPosition(),
+            defaultState_.getVelocity(),
+        };
+
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_, state1}, true, Segment::Type::Coast);
+
+        const Array<State> propagatedStates = segmentSolution.reComputeStatesAt(instantArray, defaultNumericalSolver_);
+
+        for (Size i = 0; i < instantArray.getSize(); i++)
+        {
+            EXPECT_EQ(instantArray[i], propagatedStates[i].getInstant());
+        }
+        EXPECT_EQ(defaultState_, propagatedStates[0]);
     }
 }
 
