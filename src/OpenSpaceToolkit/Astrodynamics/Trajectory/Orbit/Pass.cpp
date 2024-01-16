@@ -75,6 +75,10 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Pass& aPass)
         << "End time:" << (aPass.interval_.isDefined() ? aPass.interval_.accessEnd().toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Duration:" << (aPass.interval_.isDefined() ? aPass.interval_.getDuration().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "North point:" << (aPass.northPoint_.isDefined() ? aPass.northPoint_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "South point:" << (aPass.southPoint_.isDefined() ? aPass.southPoint_.toString() : "Undefined");
 
     ostk::core::utils::Print::Footer(anOutputStream);
 

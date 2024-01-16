@@ -203,24 +203,8 @@ class Orbit : public Trajectory
 
     String generateFrameName(const Orbit::FrameType& aFrameType) const;
 
-    static Instant GetNorthCrossing(
-        const double& previousZDot,
-        const Instant& previousInstant,
-        const double& currentZDot,
-        const Instant& currentInstant,
-        const std::function<double(double)>& getZDot
-    );
-
-    static Instant GetSouthCrossing(
-        const double& previousZDot,
-        const Instant& previousInstant,
-        const double& currentZDot,
-        const Instant& currentInstant,
-        const std::function<double(double)>& getZDot
-    );
-
-    static Instant GetPassCrossing(
-        const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getZ
+    static Instant GetCrossingInstant(
+        const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getValue
     );
 
     static Array<State> GenerateStates(const Model& aModel, const Array<Instant>& anInstantGrid);

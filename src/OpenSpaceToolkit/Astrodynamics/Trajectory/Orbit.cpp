@@ -272,25 +272,22 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                         throw ostk::core::error::runtime::ToBeImplemented("Equatorial orbit support.");
                     }
 
-                    southPointCrossing = Orbit::GetSouthCrossing(
-                        previousStateCoordinates_ECI_zdot,
-                        previousInstant,
-                        currentStateCoordinates_ECI_zdot,
-                        currentInstant,
-                        getZDot
-                    );
-
-                    northPointCrossing = Orbit::GetNorthCrossing(
-                        previousStateCoordinates_ECI_zdot,
-                        previousInstant,
-                        currentStateCoordinates_ECI_zdot,
-                        currentInstant,
-                        getZDot
-                    );
+                    if (((previousStateCoordinates_ECI_zdot > 0.0) && (currentStateCoordinates_ECI_zdot <= 0.0)) ||
+                        ((previousStateCoordinates_ECI_zdot < 0.0) && (currentStateCoordinates_ECI_zdot >= 0.0)))
+                    {
+                        if (currentStateCoordinates_ECI_z > 0.0)
+                        {
+                            northPointCrossing = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZDot);
+                        }
+                        else
+                        {
+                            southPointCrossing = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZDot);
+                        }
+                    }
 
                     if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
                     {
-                        previousInstant = Orbit::GetPassCrossing(previousInstant, currentInstant, getZ);
+                        previousInstant = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZ);
                         break;
                     }
 
@@ -1080,29 +1077,29 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
 
         if (previousStatePtr != nullptr)
         {
-            const VectorXd& previousStateCoordinates_ECI = previousStatePtr->accessCoordinates();
-            const VectorXd& currentStateCoordinates_ECI = state.accessCoordinates();
+            const Vector3d previousPositionCoordinates_ECI = previousStatePtr->getPosition().accessCoordinates();
+            const Vector3d previousVelocityCoordinates_ECI = previousStatePtr->getVelocity().accessCoordinates();
+            const Vector3d currentPositionCoordinates_ECI = state.getPosition().accessCoordinates();
+            const Vector3d currentVelocityCoordinates_ECI = state.getVelocity().accessCoordinates();
 
-            // South point crossing
-            southPointCrossing = Orbit::GetSouthCrossing(
-                previousStateCoordinates_ECI[5],
-                previousStatePtr->accessInstant(),
-                currentStateCoordinates_ECI[5],
-                state.accessInstant(),
-                getZDot
-            );
-
-            // North point crossing
-            northPointCrossing = Orbit::GetNorthCrossing(
-                previousStateCoordinates_ECI[5],
-                previousStatePtr->accessInstant(),
-                currentStateCoordinates_ECI[5],
-                state.accessInstant(),
-                getZDot
-            );
+            // North & South point crossings
+            if (((previousVelocityCoordinates_ECI.z() > 0.0) && (currentVelocityCoordinates_ECI.z() <= 0.0)) ||
+                ((previousVelocityCoordinates_ECI.z() < 0.0) && (currentVelocityCoordinates_ECI.z() >= 0.0)))
+            {
+                if (currentPositionCoordinates_ECI.z() > 0.0)
+                {
+                    northPointCrossing =
+                        Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZDot);
+                }
+                else
+                {
+                    southPointCrossing =
+                        Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZDot);
+                }
+            }
 
             // Pass crossing
-            if ((previousStateCoordinates_ECI[2] < 0.0) && (currentStateCoordinates_ECI[2] >= 0.0))
+            if ((previousPositionCoordinates_ECI.z() < 0.0) && (currentPositionCoordinates_ECI.z() >= 0.0))
             {
                 const Pass::Type passType =
                     ((!previousPassEndInstant.isDefined()) && aStateArray.accessFirst().accessCoordinates()[2] != 0.0)
@@ -1114,7 +1111,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                                                    : aStateArray.accessFirst().accessInstant();
 
                 const Instant passEndInstant =
-                    Orbit::GetPassCrossing(previousStatePtr->accessInstant(), state.accessInstant(), getZ);
+                    Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZ);
 
                 const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant);
 
@@ -1122,8 +1119,8 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                     passType,
                     revolutionNumber,
                     passInterval,
-                    southPointCrossing,
                     northPointCrossing,
+                    southPointCrossing,
                 };
 
                 passMap.insert({index, pass});
@@ -1168,62 +1165,12 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
     return passMap;
 }
 
-Instant Orbit::GetSouthCrossing(
-    const double& previousZDot,
-    const Instant& previousInstant,
-    const double& currentZDot,
-    const Instant& currentInstant,
-    const std::function<double(double)>& getZDot
-)
-{
-    if (!((previousZDot < 0.0) && (currentZDot >= 0.0)))
-    {
-        return Instant::Undefined();
-    }
-
-    const RootSolver::Solution solution = rootSolver.bisection(
-        getZDot, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
-    );
-
-    if (!solution.hasConverged)
-    {
-        throw ostk::core::error::RuntimeError("Root solver did not converge when finding South point crossing.");
-    }
-
-    return J2000Epoch + Duration::Seconds(solution.root);
-}
-
-Instant Orbit::GetNorthCrossing(
-    const double& previousZDot,
-    const Instant& previousInstant,
-    const double& currentZDot,
-    const Instant& currentInstant,
-    const std::function<double(double)>& getZDot
-)
-{
-    if (!((previousZDot > 0.0) && (currentZDot <= 0.0)))
-    {
-        return Instant::Undefined();
-    }
-
-    const RootSolver::Solution solution = rootSolver.bisection(
-        getZDot, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
-    );
-
-    if (!solution.hasConverged)
-    {
-        throw ostk::core::error::RuntimeError("Root solver did not converge when finding North point crossing.");
-    }
-
-    return J2000Epoch + Duration::Seconds(solution.root);
-}
-
-Instant Orbit::GetPassCrossing(
-    const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getZ
+Instant Orbit::GetCrossingInstant(
+    const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getValue
 )
 {
     const RootSolver::Solution solution = rootSolver.bisection(
-        getZ, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
+        getValue, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
     );
 
     if (!solution.hasConverged)

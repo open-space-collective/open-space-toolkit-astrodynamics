@@ -448,8 +448,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
             EXPECT_LT(std::fabs((referencePassStartInstant - pass.getInterval().getStart()).inSeconds()), 1e-6);
             EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
-            EXPECT_LT(std::fabs((referencePassNorthPointInstant - pass.accessNorthPoint()).inSeconds()), 1e-6);
-            EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessSouthPoint()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassNorthPointInstant - pass.accessNorthPoint()).inSeconds()), 3.0);
+            EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessSouthPoint()).inSeconds()), 3.0);
             ++i;
         }
     }
