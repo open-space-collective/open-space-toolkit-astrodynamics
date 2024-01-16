@@ -352,6 +352,26 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
 {
     {
+        EXPECT_THROW(Orbit::GeneratePassMap({}, Integer::Undefined()), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        const Array<State> states = {
+            {
+                Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+                Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF()),
+            },
+            {
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+                Position::Meters({1.0, 0.0, 0.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF()),
+            }
+        };
+        EXPECT_THROW(Orbit::GeneratePassMap(states, 1), ostk::core::error::RuntimeError);
+    }
+
+    {
         // Environment setup
 
         const Environment environment = Environment::Default();
@@ -418,11 +438,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             const Instant referencePassEndInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
 
+            const Instant referencePassNorthPointInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[4].accessString()), Scale::UTC);
+            const Instant referencePassSouthPointInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[6].accessString()), Scale::UTC);
+
             EXPECT_TRUE(pass.isDefined());
 
             EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
-            EXPECT_LT(std::abs((referencePassStartInstant - pass.getInterval().getStart()).inSeconds()), 1e-6);
-            EXPECT_LT(std::abs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassStartInstant - pass.getInterval().getStart()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassNorthPointInstant - pass.accessNorthPoint()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessSouthPoint()).inSeconds()), 1e-6);
             ++i;
         }
     }

@@ -2,54 +2,61 @@
 
 import pytest
 
-import ostk.physics as physics
+from ostk.physics.time import Scale
+from ostk.physics.time import Instant
+from ostk.physics.time import Interval
+from ostk.physics.time import DateTime
+from ostk.physics import Environment
 
-import ostk.astrodynamics as astrodynamics
-
-Length = physics.units.Length
-Angle = physics.units.Angle
-Scale = physics.time.Scale
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-DateTime = physics.time.DateTime
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-Environment = physics.Environment
-
-Trajectory = astrodynamics.Trajectory
-Model = astrodynamics.trajectory.Model
-Orbit = astrodynamics.trajectory.Orbit
-Pass = astrodynamics.trajectory.orbit.Pass
-Kepler = astrodynamics.trajectory.orbit.models.Kepler
-COE = astrodynamics.trajectory.orbit.models.kepler.COE
-SGP4 = astrodynamics.trajectory.orbit.models.SGP4
-TLE = astrodynamics.trajectory.orbit.models.sgp4.TLE
-State = astrodynamics.trajectory.State
-Access = astrodynamics.Access
+from ostk.astrodynamics.trajectory.orbit import Pass
 
 earth = Environment.default().access_celestial_object_with_name("Earth")
 
 
-def test_trajectory_orbit_pass():
-    pass_type = Pass.Type.Partial
-    pass_revolution_number = 123
-    pass_start_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    pass_end_instant = Instant.date_time(DateTime(2018, 1, 1, 1, 0, 0), Scale.UTC)
-    pass_interval = Interval.closed(pass_start_instant, pass_end_instant)
+@pytest.fixture
+def pass_() -> Pass:
+    return Pass(
+        Pass.Type.Partial,
+        123,
+        Interval.closed(
+            Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 1, 0, 0), Scale.UTC),
+        ),
+        Instant.date_time(DateTime(2018, 1, 1, 0, 15, 0), Scale.UTC),
+        Instant.date_time(DateTime(2018, 1, 1, 0, 45, 0), Scale.UTC),
+    )
 
-    pass_ = Pass(pass_type, pass_revolution_number, pass_interval)
 
-    assert pass_ is not None
-    assert isinstance(pass_, Pass)
+class TestPass:
+    def test_is_defined(self, pass_):
+        assert pass_.is_defined()
 
-    assert pass_.is_defined()
-    assert pass_.is_complete() is not None
-    assert pass_.get_type() is not None
-    assert pass_.get_revolution_number() is not None
-    # Interval conversion to Python type of issue
-    # assert pass_.get_interval() is not None
+    def test_is_complete(self, pass_):
+        assert pass_.is_complete() is not None
 
-    assert Pass.string_from_type(Pass.Type.Complete) is not None
-    assert Pass.string_from_phase(Pass.Phase.Ascending) is not None
-    assert Pass.string_from_quarter(Pass.Quarter.First) is not None
+    def test_get_type(self, pass_):
+        assert pass_.get_type() is not None
+
+    def test_get_revolution_number(self, pass_):
+        assert pass_.get_revolution_number() is not None
+
+    def test_get_interval(self, pass_):
+        assert pass_.get_interval() is not None
+
+    def test_get_north_point(self, pass_):
+        assert pass_.get_north_point() is not None
+
+    def test_get_south_point(self, pass_):
+        assert pass_.get_south_point() is not None
+
+    def test_undefined(self):
+        assert Pass.undefined().is_defined() is False
+
+    def test_string_from_type(self):
+        assert Pass.string_from_type(Pass.Type.Complete) is not None
+
+    def test_string_from_phase(self):
+        assert Pass.string_from_phase(Pass.Phase.Ascending) is not None
+
+    def test_string_from_quarter(self):
+        assert Pass.string_from_quarter(Pass.Quarter.First) is not None

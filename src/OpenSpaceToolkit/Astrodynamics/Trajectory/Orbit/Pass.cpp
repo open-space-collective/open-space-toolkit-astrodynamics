@@ -27,6 +27,10 @@ Pass::Pass(
       northPoint_(aNorthPoint),
       southPoint_(aSouthPoint)
 {
+    if ((aType == Pass::Type::Complete) && (!aNorthPoint.isDefined() || !aSouthPoint.isDefined()))
+    {
+        throw ostk::core::error::RuntimeError("Complete pass must have both north and south points defined.");
+    }
 }
 
 bool Pass::operator==(const Pass& aPass) const
@@ -36,8 +40,21 @@ bool Pass::operator==(const Pass& aPass) const
         return false;
     }
 
-    return (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) && (interval_ == aPass.interval_) &&
-           (northPoint_ == aPass.northPoint_) && (southPoint_ == aPass.southPoint_);
+    bool isEqual = (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) &&
+                   (interval_ == aPass.interval_) && (northPoint_.isDefined() == aPass.northPoint_.isDefined()) &&
+                   (southPoint_.isDefined() == aPass.southPoint_.isDefined());
+
+    if (northPoint_.isDefined() && aPass.northPoint_.isDefined())
+    {
+        isEqual = isEqual && (northPoint_ == aPass.northPoint_);
+    }
+
+    if (southPoint_.isDefined() && aPass.southPoint_.isDefined())
+    {
+        isEqual = isEqual && (southPoint_ == aPass.southPoint_);
+    }
+
+    return isEqual;
 }
 
 bool Pass::operator!=(const Pass& aPass) const
@@ -116,11 +133,6 @@ const Instant& Pass::accessNorthPoint() const
         throw ostk::core::error::runtime::Undefined("Pass");
     }
 
-    if (!northPoint_.isDefined() && this->isComplete())
-    {
-        throw ostk::core::error::runtime::Undefined("North point");
-    }
-
     return northPoint_;
 }
 
@@ -129,11 +141,6 @@ const Instant& Pass::accessSouthPoint() const
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
-    if (!southPoint_.isDefined() && this->isComplete())
-    {
-        throw ostk::core::error::runtime::Undefined("South point");
     }
 
     return southPoint_;

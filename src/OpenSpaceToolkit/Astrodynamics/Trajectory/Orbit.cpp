@@ -40,6 +40,7 @@ using ostk::math::object::Vector3d;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Mass;
 using ostk::physics::units::Length;
