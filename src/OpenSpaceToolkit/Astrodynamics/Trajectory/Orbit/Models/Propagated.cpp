@@ -153,7 +153,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
     Array<Instant> instants = Array<Instant>::Empty();
     for (; j < anInstantArray.getSize(); ++j)
     {
-        if (anInstantArray[j] > this->cachedStateArray_.accessFirst().getInstant())
+        if (anInstantArray[j] > this->cachedStateArray_.accessFirst().accessInstant())
         {
             break;
         }
@@ -167,8 +167,8 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
 
     for (Size i = 0; i < this->cachedStateArray_.getSize() - 1; ++i)
     {
-        const Instant thisStateInstant = this->cachedStateArray_[i].getInstant();
-        const Instant nextStateInstant = this->cachedStateArray_[i + 1].getInstant();
+        const Instant& thisStateInstant = this->cachedStateArray_[i].accessInstant();
+        const Instant& nextStateInstant = this->cachedStateArray_[i + 1].accessInstant();
 
         instants = Array<Instant>::Empty();
 
@@ -247,7 +247,7 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    if (anInstant == cachedStateArray_[0].getInstant())
+    if (anInstant == cachedStateArray_[0].accessInstant())
     {
         return this->getRevolutionNumberAtEpoch();
     }
@@ -297,7 +297,7 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
         // Propagate for duration of this orbital period
         const State currentState = propagator_.calculateStateAt(
-            cachedStateArray_[0], cachedStateArray_[0].getInstant() + (durationSign * orbitalPeriod)
+            cachedStateArray_[0], cachedStateArray_[0].accessInstant() + (durationSign * orbitalPeriod)
         );
 
         // Update the current instant position and velocity coordinates
@@ -380,7 +380,7 @@ void Propagated::sanitizeCachedArray() const
         cachedStateArray_.end(),
         [](const auto& lhs, const auto& rhs)
         {
-            return lhs.getInstant() < rhs.getInstant();
+            return lhs.accessInstant() < rhs.accessInstant();
         }
     );
 
@@ -394,7 +394,7 @@ void Propagated::sanitizeCachedArray() const
             cachedStateArrayUnique.end(),
             [](const auto& lhs, const auto& rhs)
             {
-                return lhs.getInstant() == rhs.getInstant();
+                return lhs.accessInstant() == rhs.accessInstant();
             }
         ),
         cachedStateArrayUnique.end()

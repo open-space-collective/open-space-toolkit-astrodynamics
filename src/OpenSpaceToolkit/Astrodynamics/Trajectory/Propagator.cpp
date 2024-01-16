@@ -169,7 +169,7 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const Instant startInstant = aState.getInstant();
+    const Instant& startInstant = aState.accessInstant();
 
     const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
 
@@ -218,7 +218,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
-    const Instant startInstant = solverInputState.accessInstant();
+    const Instant& startInstant = solverInputState.accessInstant();
 
     Array<Instant> forwardInstants;
     forwardInstants.reserve(anInstantArray.getSize());

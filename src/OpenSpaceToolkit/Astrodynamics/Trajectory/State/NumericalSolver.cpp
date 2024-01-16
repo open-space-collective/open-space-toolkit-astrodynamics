@@ -86,11 +86,12 @@ Array<State> NumericalSolver::integrateTime(
 
     Array<State> states;
     states.reserve(solutions.getSize());
-    for (const auto& stateVector : solutions)
+    for (Index i = 0; i < solutions.getSize(); ++i)
     {
+        const NumericalSolver::Solution& solution = solutions.at(i);
         const State state = {
-            aState.accessInstant() + Duration::Seconds(stateVector.second),
-            stateVector.first,
+            anInstantArray[i],
+            solution.first,
             aState.accessFrame(),
             aState.accessCoordinatesBroker(),
         };
@@ -117,7 +118,7 @@ State NumericalSolver::integrateTime(
         observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
     }
 
-    return stateBuilder.build(aState.accessInstant() + Duration::Seconds(solution.second), solution.first);
+    return stateBuilder.build(anEndTime, solution.first);
 }
 
 NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
