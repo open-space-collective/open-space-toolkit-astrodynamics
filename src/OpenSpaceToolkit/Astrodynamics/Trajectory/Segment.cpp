@@ -111,7 +111,7 @@ Array<State> Segment::Solution::reComputeStatesAt(
 {
     if (this->states.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("No states available.");
+        throw ostk::core::error::RuntimeError("No states exist within segment.");
     }
 
     if (anInstantArray.isEmpty())

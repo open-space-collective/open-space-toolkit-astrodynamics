@@ -147,18 +147,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc"
         )
-
-        .def(
-            "compute_delta_mass",
-            &Sequence::Solution::computeDeltaMass,
-            R"doc(
-                Compute the delta mass.
-
-                Returns:
-                    float: The delta mass.
-
-            )doc"
-        )
         .def(
             "compute_delta_v",
             &Sequence::Solution::computeDeltaV,
@@ -173,6 +161,34 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc",
             arg("specific_impulse")
+        )
+        .def(
+            "compute_delta_mass",
+            &Sequence::Solution::computeDeltaMass,
+            R"doc(
+                Compute the delta mass.
+
+                Returns:
+                    float: The delta mass.
+
+            )doc"
+        )
+
+        .def(
+            "re_compute_states_at",
+            &Sequence::Solution::reComputeStatesAt,
+            R"doc(
+                Recompute states in this sequence's solution at given instants.
+
+                Args:
+                    instants (list[Instant]): The instants.
+                    numerical_solver (NumericalSolver): The numerical solver to use to recompute the states.
+
+                Returns:
+                    list[State]: The states at the desired instants.
+                )doc",
+            arg("instants"),
+            arg("numerical_solver")
         )
 
         ;
