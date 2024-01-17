@@ -258,6 +258,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
                 Instant northPointCrossing = Instant::Undefined();
                 Instant southPointCrossing = Instant::Undefined();
+                Instant descendingNodeCrossing = Instant::Undefined();
 
                 while (true)
                 {
@@ -285,6 +286,11 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                         }
                     }
 
+                    if ((previousStateCoordinates_ECI_z > 0.0) && (currentStateCoordinates_ECI_z <= 0.0))
+                    {
+                        descendingNodeCrossing = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZ);
+                    }
+
                     if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
                     {
                         previousInstant = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZ);
@@ -302,35 +308,27 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                         Pass::Type::Complete,
                         currentRevolutionNumber + 1,
                         Interval::Closed(currentPass.getInterval().accessEnd(), previousInstant),
+                        descendingNodeCrossing,
                         northPointCrossing,
                         southPointCrossing,
                     };
                 }
                 else
                 {
-                    if (this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch())
-                            .getPosition()
-                            .accessCoordinates()
-                            .z() == 0.0)
-                    {
-                        currentPass = {
-                            Pass::Type::Complete,
-                            currentRevolutionNumber,
-                            Interval::Closed(this->modelPtr_->getEpoch(), previousInstant),
-                            northPointCrossing,
-                            southPointCrossing,
-                        };
-                    }
-                    else
-                    {
-                        currentPass = {
-                            Pass::Type::Partial,
-                            currentRevolutionNumber,
-                            Interval::Closed(this->modelPtr_->getEpoch(), previousInstant),
-                            northPointCrossing,
-                            southPointCrossing,
-                        };
-                    }
+                    const Pass::Type passType = (this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch())
+                                                     .getPosition()
+                                                     .accessCoordinates()
+                                                     .z() == 0.0)
+                                                  ? Pass::Type::Complete
+                                                  : Pass::Type::Partial;
+                    currentPass = {
+                        passType,
+                        currentRevolutionNumber,
+                        Interval::Closed(this->modelPtr_->getEpoch(), previousInstant),
+                        descendingNodeCrossing,
+                        northPointCrossing,
+                        southPointCrossing,
+                    };
                 }
             }
             else  // Reverse propagation
@@ -1070,6 +1068,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
 
     Instant southPointCrossing = Instant::Undefined();
     Instant northPointCrossing = Instant::Undefined();
+    Instant descendingNodeCrossing = Instant::Undefined();
 
     for (const auto& state : aStateArray)
     {
@@ -1098,6 +1097,13 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                 }
             }
 
+            // Descending node
+            if ((previousPositionCoordinates_ECI.z() > 0.0) && (currentPositionCoordinates_ECI.z() <= 0.0))
+            {
+                descendingNodeCrossing =
+                    Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZ);
+            }
+
             // Pass crossing
             if ((previousPositionCoordinates_ECI.z() < 0.0) && (currentPositionCoordinates_ECI.z() >= 0.0))
             {
@@ -1119,6 +1125,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                     passType,
                     revolutionNumber,
                     passInterval,
+                    descendingNodeCrossing,
                     northPointCrossing,
                     southPointCrossing,
                 };
@@ -1127,6 +1134,10 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
 
                 index = currentIndex;
                 revolutionNumber++;
+
+                southPointCrossing = Instant::Undefined();
+                northPointCrossing = Instant::Undefined();
+                descendingNodeCrossing = Instant::Undefined();
 
                 previousPassEndInstant = passEndInstant;
                 passHasBeenAdded = true;
@@ -1151,6 +1162,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                 passType,
                 revolutionNumber,
                 passInterval,
+                descendingNodeCrossing,
                 northPointCrossing,
                 southPointCrossing,
             };

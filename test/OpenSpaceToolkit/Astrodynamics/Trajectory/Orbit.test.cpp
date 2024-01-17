@@ -371,6 +371,68 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
         EXPECT_THROW(Orbit::GeneratePassMap(states, 1), ostk::core::error::RuntimeError);
     }
 
+    // partial revolution
+    {
+        // Environment setup
+
+        const Environment environment = Environment::Default();
+
+        // Orbit setup
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(45.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        // Pass test
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
+        const Instant endInstant = Instant::DateTime(DateTime::Parse("2018-01-01 02:30:00"), Scale::UTC);
+        const Array<Instant> instants =
+            Interval::Closed(startInstant, endInstant).generateGrid(Duration::Seconds(20.0));
+        const Array<State> states = orbit.getStatesAt(instants);
+
+        const Map<Index, Pass> passMap = Orbit::GeneratePassMap(states, 1);
+
+        for (const auto& row : passMap)
+        {
+            const Pass& pass = row.second;
+
+            EXPECT_TRUE(pass.isDefined());
+
+            if (pass.accessInstantAtNorthPoint().isDefined())
+            {
+                EXPECT_LT(pass.accessInstantAtAscendingNode(), pass.accessInstantAtNorthPoint());
+
+                if (pass.accessInstantAtDescendingNode().isDefined())
+                {
+                    EXPECT_LT(pass.accessInstantAtNorthPoint(), pass.accessInstantAtDescendingNode());
+
+                    if (pass.accessInstantAtSouthPoint().isDefined())
+                    {
+                        EXPECT_LT(pass.accessInstantAtDescendingNode(), pass.accessInstantAtSouthPoint());
+                        EXPECT_LT(pass.accessInstantAtSouthPoint(), pass.getInterval().getEnd());
+                    }
+                }
+            }
+        }
+    }
+
     {
         // Environment setup
 
@@ -402,9 +464,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
-            )),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -438,6 +499,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             const Instant referencePassEndInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
 
+            const Instant referencePassAscendingNodeInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[3].accessString()), Scale::UTC);
+            const Instant referencePassDescendingNodeInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[5].accessString()), Scale::UTC);
+
             const Instant referencePassNorthPointInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[4].accessString()), Scale::UTC);
             const Instant referencePassSouthPointInstant =
@@ -445,11 +511,34 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
 
             EXPECT_TRUE(pass.isDefined());
 
+            if (pass.accessInstantAtNorthPoint().isDefined())
+            {
+                EXPECT_LT(pass.accessInstantAtAscendingNode(), pass.accessInstantAtNorthPoint());
+
+                if (pass.accessInstantAtDescendingNode().isDefined())
+                {
+                    EXPECT_LT(pass.accessInstantAtNorthPoint(), pass.accessInstantAtDescendingNode());
+
+                    if (pass.accessInstantAtSouthPoint().isDefined())
+                    {
+                        EXPECT_LT(pass.accessInstantAtDescendingNode(), pass.accessInstantAtSouthPoint());
+                        EXPECT_LT(pass.accessInstantAtSouthPoint(), pass.getInterval().getEnd());
+                    }
+                }
+            }
+
             EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
             EXPECT_LT(std::fabs((referencePassStartInstant - pass.getInterval().getStart()).inSeconds()), 1e-6);
             EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
-            EXPECT_LT(std::fabs((referencePassNorthPointInstant - pass.accessNorthPoint()).inSeconds()), 3.0);
-            EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessSouthPoint()).inSeconds()), 3.0);
+            EXPECT_LT(
+                std::fabs((referencePassAscendingNodeInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6
+            );
+            EXPECT_LT(
+                std::fabs((referencePassDescendingNodeInstant - pass.accessInstantAtDescendingNode()).inSeconds()), 1e-6
+            );
+            EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassNorthPointInstant - pass.accessInstantAtNorthPoint()).inSeconds()), 3.0);
+            EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessInstantAtSouthPoint()).inSeconds()), 3.0);
             ++i;
         }
     }
@@ -488,9 +577,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
-            )),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -553,9 +641,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Passes.csv"
-            )),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -618,9 +705,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Passes.csv"
-            )),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -804,29 +890,33 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
     //     // std::cout << "Origin:" << std::endl << lvlhOrbitalFrameSPtr->getOriginIn(Frame::GCRF(), epoch) <<
     //     std::endl ;
 
-    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::ITRF(), epoch) << std::endl ;
-    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::GCRF(), epoch) << std::endl ;
+    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::ITRF(), epoch) <<
+    //     std::endl ;
+    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::GCRF(), epoch) <<
+    //     std::endl ;
 
     //     // for (const auto& referenceRow : referenceData)
     //     // {
 
-    //     //     const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)
+    //     //     const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()),
+    //     Scale::UTC)
     //     ;
 
     //     //     const Vector3d x_NED_ITRF_ref = { referenceRow[1].accessReal(), referenceRow[2].accessReal(),
     //     referenceRow[3].accessReal() } ;
-    //     //     const Vector3d v_NED_ITRF_in_ITRF_ref = { referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-    //     referenceRow[6].accessReal() } ;
+    //     //     const Vector3d v_NED_ITRF_in_ITRF_ref = { referenceRow[4].accessReal(),
+    //     referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
 
     //     //     const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(referenceRow[7].accessReal(),
     //     referenceRow[8].accessReal(), referenceRow[9].accessReal(), referenceRow[10].accessReal()).normalize() ;
-    //     //     const Vector3d w_NED_ITRF_in_NED_ref = { referenceRow[11].accessReal(), referenceRow[12].accessReal(),
-    //     referenceRow[13].accessReal() } ;
+    //     //     const Vector3d w_NED_ITRF_in_NED_ref = { referenceRow[11].accessReal(),
+    //     referenceRow[12].accessReal(), referenceRow[13].accessReal() } ;
 
     //     //     const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate() ;
     //     //     const Vector3d w_ITRF_NED_in_ITRF_ref = - (q_ITRF_NED_ref * w_NED_ITRF_in_NED_ref) ;
 
-    //     //     const Vector3d x_NED_ITRF = lvlhOrbitalFrameSPtr->getOriginIn(Frame::ITRF(), instant).getCoordinates()
+    //     //     const Vector3d x_NED_ITRF = lvlhOrbitalFrameSPtr->getOriginIn(Frame::ITRF(),
+    //     instant).getCoordinates()
     //     ;
     //     //     const Vector3d v_NED_ITRF_in_ITRF = lvlhOrbitalFrameSPtr->getVelocityIn(Frame::ITRF(),
     //     instant).getCoordinates() ;
@@ -838,14 +928,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
     //     //     EXPECT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format("{} - {} = {} [m]",
     //     x_NED_ITRF_ref.toString(), x_NED_ITRF.toString(), (x_NED_ITRF - x_NED_ITRF_ref).norm()) ;
-    //     //     EXPECT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format("{} - {} = {}
-    //     [m/s]", v_NED_ITRF_in_ITRF_ref.toString(), v_NED_ITRF_in_ITRF.toString(), (v_NED_ITRF_in_ITRF -
+    //     //     EXPECT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format("{} - {} =
+    //     {} [m/s]", v_NED_ITRF_in_ITRF_ref.toString(), v_NED_ITRF_in_ITRF.toString(), (v_NED_ITRF_in_ITRF -
     //     v_NED_ITRF_in_ITRF_ref).norm()) ;
 
-    //     //     EXPECT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format("{} / {} = {}
-    //     [asec]", q_ITRF_NED_ref.toString(), q_ITRF_NED.toString(),
+    //     //     EXPECT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format("{} / {}
+    //     = {} [asec]", q_ITRF_NED_ref.toString(), q_ITRF_NED.toString(),
     //     q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()) ;
-    //     //     // EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-12)) << String::Format("{} - {} =
+    //     //     // EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-12)) << String::Format("{} -
+    //     {} =
     //     {} [rad/s]", w_ITRF_NED_in_ITRF_ref.toString(), w_ITRF_NED_in_ITRF.toString(), (w_ITRF_NED_in_ITRF -
     //     w_ITRF_NED_in_ITRF_ref).norm()) ;
 

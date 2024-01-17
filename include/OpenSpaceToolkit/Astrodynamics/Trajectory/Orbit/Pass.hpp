@@ -63,8 +63,9 @@ class Pass
         const Pass::Type& aType,
         const Integer& aRevolutionNumber,
         const Interval& anInterval,
-        const Instant& aNorthPoint,
-        const Instant& aSouthPoint
+        const Instant& anInstantAtDescendingNode,
+        const Instant& anInstantAtNorthPoint,
+        const Instant& anInstantAtSouthPoint
     );
 
     bool operator==(const Pass& aPass) const;
@@ -83,9 +84,13 @@ class Pass
 
     Interval getInterval() const;
 
-    const Instant& accessNorthPoint() const;
+    const Instant& accessInstantAtAscendingNode() const;
 
-    const Instant& accessSouthPoint() const;
+    const Instant& accessInstantAtDescendingNode() const;
+
+    const Instant& accessInstantAtNorthPoint() const;
+
+    const Instant& accessInstantAtSouthPoint() const;
 
     static Pass Undefined();
 
@@ -100,8 +105,9 @@ class Pass
 
     Integer revolutionNumber_;
     Interval interval_;
-    Instant northPoint_;
-    Instant southPoint_;
+    Instant instantAtDescendingNode_;
+    Instant instantAtNorthPoint_;
+    Instant instantAtSouthPoint_;
 };
 
 }  // namespace orbit

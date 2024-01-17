@@ -22,17 +22,19 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass : public ::testing::T
 {
    protected:
     const Pass::Type defaultPassType_ = Pass::Type::Complete;
-    const Integer defaultPassRevolutionNumber_ = 1;
+    const Integer defaultRevolutionNumber_ = 1;
     const Interval defaultPassInterval_ = Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0));
-    const Instant defaultPassNorthPoint_ = Instant::J2000() + Duration::Minutes(15.0);
-    const Instant defaultPassSouthPoint_ = Instant::J2000() + Duration::Minutes(45.0);
+    const Instant defaultInstantAtDescendingNode_ = Instant::J2000() + Duration::Minutes(30.0);
+    const Instant defaultInstantAtNorthPoint_ = Instant::J2000() + Duration::Minutes(15.0);
+    const Instant defaultInstantAtSouthPoint_ = Instant::J2000() + Duration::Minutes(45.0);
 
     Pass defaultPass_ = {
         defaultPassType_,
-        defaultPassRevolutionNumber_,
+        defaultRevolutionNumber_,
         defaultPassInterval_,
-        defaultPassNorthPoint_,
-        defaultPassSouthPoint_,
+        defaultInstantAtDescendingNode_,
+        defaultInstantAtNorthPoint_,
+        defaultInstantAtSouthPoint_,
     };
 };
 
@@ -42,10 +44,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
         EXPECT_THROW(
             Pass(
                 defaultPassType_,
-                defaultPassRevolutionNumber_,
+                defaultRevolutionNumber_,
                 defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
                 Instant::Undefined(),
-                defaultPassSouthPoint_
+                defaultInstantAtSouthPoint_
             ),
             ostk::core::error::RuntimeError
         );
@@ -55,9 +58,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
         EXPECT_THROW(
             Pass(
                 defaultPassType_,
-                defaultPassRevolutionNumber_,
+                defaultRevolutionNumber_,
                 defaultPassInterval_,
-                defaultPassNorthPoint_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
                 Instant::Undefined()
             ),
             ostk::core::error::RuntimeError
@@ -71,88 +75,151 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
         EXPECT_TRUE(defaultPass_ == defaultPass_);
     }
 
-    // north point undefined
+    // descending node
     {
-        const Pass pass_1 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::Undefined(),
-            Instant::J2000() + Duration::Minutes(45.0),
-        };
+        // undefined
+        {
+            const Pass pass_1 = {
+                Pass::Type::Complete,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                Instant::Undefined(),
+                defaultInstantAtNorthPoint_,
+                defaultInstantAtSouthPoint_,
+            };
 
-        const Pass pass_2 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::Undefined(),
-            Instant::J2000() + Duration::Minutes(45.0),
-        };
+            const Pass pass_2 = {
+                Pass::Type::Complete,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                Instant::Undefined(),
+                defaultInstantAtNorthPoint_,
+                defaultInstantAtSouthPoint_,
+            };
 
-        EXPECT_TRUE(pass_1 == pass_2);
+            EXPECT_TRUE(pass_1 == pass_2);
+        }
+
+        // descending node undefined in first pass, defined in second
+        {
+            const Pass pass_1 = {
+                Pass::Type::Complete,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                Instant::Undefined(),
+                defaultInstantAtNorthPoint_,
+                defaultInstantAtSouthPoint_,
+            };
+
+            const Pass pass_2 = {
+                Pass::Type::Complete,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
+                defaultInstantAtSouthPoint_,
+            };
+
+            EXPECT_FALSE(pass_1 == pass_2);
+        }
     }
 
-    // south point undefined
+    // north point
     {
-        const Pass pass_1 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::J2000() + Duration::Minutes(15.0),
-            Instant::Undefined(),
-        };
+        // undefined
+        {
+            const Pass pass_1 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                Instant::Undefined(),
+                defaultInstantAtSouthPoint_,
+            };
 
-        const Pass pass_2 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::J2000() + Duration::Minutes(15.0),
-            Instant::Undefined(),
-        };
+            const Pass pass_2 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                Instant::Undefined(),
+                defaultInstantAtSouthPoint_,
+            };
 
-        EXPECT_TRUE(pass_1 == pass_2);
+            EXPECT_TRUE(pass_1 == pass_2);
+        }
+
+        // north point undefined in first pass, defined in second
+        {
+            const Pass pass_1 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                Instant::Undefined(),
+                defaultInstantAtSouthPoint_,
+            };
+
+            const Pass pass_2 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
+                defaultInstantAtSouthPoint_,
+            };
+
+            EXPECT_FALSE(pass_1 == pass_2);
+        }
     }
 
-    // north point undefined in first pass, defined in second
+    // south point
     {
-        const Pass pass_1 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::Undefined(),
-            Instant::J2000() + Duration::Minutes(45.0),
-        };
+        // undefined
+        {
+            const Pass pass_1 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
+                Instant::Undefined(),
+            };
 
-        const Pass pass_2 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::J2000() + Duration::Minutes(15.0),
-            Instant::J2000() + Duration::Minutes(45.0),
-        };
+            const Pass pass_2 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
+                Instant::Undefined(),
+            };
 
-        EXPECT_FALSE(pass_1 == pass_2);
-    }
+            EXPECT_TRUE(pass_1 == pass_2);
+        }
 
-    // south point undefined in first pass, defined in second
-    {
-        const Pass pass_1 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::J2000() + Duration::Minutes(15.0),
-            Instant::Undefined(),
-        };
+        // south point undefined in first pass, defined in second
+        {
+            const Pass pass_1 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
+                Instant::Undefined(),
+            };
 
-        const Pass pass_2 = {
-            Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::J2000() + Duration::Minutes(15.0),
-            Instant::J2000() + Duration::Minutes(45.0),
-        };
+            const Pass pass_2 = {
+                Pass::Type::Partial,
+                defaultRevolutionNumber_,
+                defaultPassInterval_,
+                defaultInstantAtDescendingNode_,
+                defaultInstantAtNorthPoint_,
+                defaultInstantAtSouthPoint_,
+            };
 
-        EXPECT_FALSE(pass_1 == pass_2);
+            EXPECT_FALSE(pass_1 == pass_2);
+        }
     }
 }
 
@@ -181,10 +248,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsDefined)
     {
         const Pass pass = {
             Pass::Type::Undefined,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            defaultRevolutionNumber_,
+            defaultPassInterval_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtSouthPoint_,
         };
 
         EXPECT_FALSE(pass.isDefined());
@@ -204,10 +272,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsComplete)
     {
         const Pass pass = {
             Pass::Type::Partial,
-            1,
-            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Hours(1.0)),
-            Instant::Undefined(),
-            Instant::J2000() + Duration::Minutes(45.0),
+            defaultRevolutionNumber_,
+            defaultPassInterval_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtSouthPoint_,
         };
         EXPECT_FALSE(pass.isComplete());
     }
@@ -216,7 +285,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsComplete)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetType)
 {
     {
-        EXPECT_THROW(Pass::Undefined().isComplete(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getType(), ostk::core::error::runtime::Undefined);
     }
 
     {
@@ -227,18 +296,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetType)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetRevolutionNumber)
 {
     {
-        EXPECT_THROW(Pass::Undefined().isComplete(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getRevolutionNumber(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.getRevolutionNumber(), defaultPassRevolutionNumber_);
+        EXPECT_EQ(defaultPass_.getRevolutionNumber(), defaultRevolutionNumber_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
 {
     {
-        EXPECT_THROW(Pass::Undefined().isComplete(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getInterval(), ostk::core::error::runtime::Undefined);
     }
 
     {
@@ -246,25 +315,47 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessNorthPoint)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtAscendingNode)
 {
     {
-        EXPECT_THROW(Pass::Undefined().isComplete(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().accessInstantAtAscendingNode(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessNorthPoint(), defaultPassNorthPoint_);
+        EXPECT_EQ(defaultPass_.accessInstantAtAscendingNode(), defaultPassInterval_.getStart());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessSouthPoint)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtDescendingNode)
 {
     {
-        EXPECT_THROW(Pass::Undefined().isComplete(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().accessInstantAtDescendingNode(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessSouthPoint(), defaultPassSouthPoint_);
+        EXPECT_EQ(defaultPass_.accessInstantAtDescendingNode(), defaultInstantAtDescendingNode_);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtNorthPoint)
+{
+    {
+        EXPECT_THROW(Pass::Undefined().accessInstantAtNorthPoint(), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        EXPECT_EQ(defaultPass_.accessInstantAtNorthPoint(), defaultInstantAtNorthPoint_);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtSouthPoint)
+{
+    {
+        EXPECT_THROW(Pass::Undefined().accessInstantAtSouthPoint(), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        EXPECT_EQ(defaultPass_.accessInstantAtSouthPoint(), defaultInstantAtSouthPoint_);
     }
 }
 
