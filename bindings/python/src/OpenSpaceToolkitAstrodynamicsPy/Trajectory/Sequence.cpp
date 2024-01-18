@@ -157,7 +157,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     specific_impulse (float): The specific impulse.
 
                 Returns:
-                    float: The delta V.
+                    float: The delta V (m/s).
 
             )doc",
             arg("specific_impulse")
