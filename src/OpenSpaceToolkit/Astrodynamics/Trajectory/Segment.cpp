@@ -127,11 +127,12 @@ Array<State> Segment::Solution::calculateStatesAt(
         }
     }
 
-    if ((accessStartInstant() > anInstantArray.accessLast()) || (accessEndInstant() < anInstantArray.accessFirst()))
+    for (const Instant& instant : anInstantArray)
     {
-        throw ostk::core::error::RuntimeError(
-            "Trying to calculate state outside of segment bounds. No solution available."
-        );
+        if (instant < this->accessStartInstant() || instant > this->accessEndInstant())
+        {
+            throw ostk::core::error::RuntimeError("Instant outside of segment.");
+        }
     }
 
     const Propagated propagated = {
@@ -141,9 +142,6 @@ Array<State> Segment::Solution::calculateStatesAt(
         },
         this->states,
     };
-
-    // TBI: Implement proper caching during dynamics contribution observing MR
-    // this->states = propagated.calculateStatesAt(anInstantArray);
 
     return propagated.calculateStatesAt(anInstantArray);
 }

@@ -187,7 +187,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Calc
     {
         Sequence::Solution sequenceSolution = {{}, true};
         EXPECT_THROW(
-            sequenceSolution.reComputeStatesAt({Instant::J2000()}, defaultNumericalSolver_),
+            sequenceSolution.calculateStatesAt({Instant::J2000()}, defaultNumericalSolver_),
             ostk::core::error::RuntimeError
         );
     }
@@ -214,7 +214,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Calc
 
     const Segment::Solution segmentSolution2 = {
         "A Segment",
-        defaultDynamics_, 
+        defaultDynamics_,
         {state2, state3},
         true,
         Segment::Type::Coast,
@@ -224,7 +224,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Calc
     {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
-        const Array<State> propagatedStates = sequenceSolution.reComputeStatesAt(
+        const Array<State> propagatedStates = sequenceSolution.calculateStatesAt(
             {
                 state1.getInstant(),
                 state2.getInstant(),
@@ -243,7 +243,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Calc
     {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
-        const Array<State> propagatedStatesInBetween = sequenceSolution.reComputeStatesAt(
+        const Array<State> propagatedStatesInBetween = sequenceSolution.calculateStatesAt(
             {
                 state1.getInstant() + Duration::Minutes(0.5),
                 state2.getInstant() + Duration::Minutes(0.5),
@@ -260,7 +260,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Calc
     {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
-        const Array<State> propagatedStatesOutsideSequence = sequenceSolution.reComputeStatesAt(
+        const Array<State> propagatedStatesOutsideSequence = sequenceSolution.calculateStatesAt(
             {
                 state1.getInstant() - Duration::Minutes(0.5),
                 state3.getInstant() + Duration::Minutes(0.5),

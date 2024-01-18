@@ -176,7 +176,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
         .def(
             "calculate_states_at",
-            &Sequence::Solution::reComputeStatesAt,
+            &Sequence::Solution::calculateStatesAt,
             R"doc(
                 Calculate states in this sequence's solution at provided instants.
 

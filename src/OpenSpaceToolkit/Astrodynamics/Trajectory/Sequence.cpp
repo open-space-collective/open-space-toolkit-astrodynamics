@@ -107,14 +107,14 @@ Array<State> Sequence::Solution::calculateStatesAt(
         {
             if ((instant >= segmentSolution.accessStartInstant()) && (instant < segmentSolution.accessEndInstant()))
             {
-                instantsPerSegment.add(instant);
+                segmentInstants.add(instant);
             }
             else if ((i == this->segmentSolutions.getSize() - 1) && (instant == this->accessEndInstant()))
             {
-                instantsPerSegment.add(instant);
+                segmentInstants.add(instant);
             }
         }
-        intermediateStates.add(segmentSolution.calculateStatesAt(instantsPerSegment, aNumericalSolver));
+        intermediateStates.add(segmentSolution.calculateStatesAt(segmentInstants, aNumericalSolver));
     }
 
     return intermediateStates;

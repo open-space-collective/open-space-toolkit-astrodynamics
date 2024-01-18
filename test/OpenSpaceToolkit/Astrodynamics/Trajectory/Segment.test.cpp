@@ -220,8 +220,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Calcul
             Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
 
         EXPECT_THROW(
-            segmentSolution.reComputeStatesAt({Instant::J2000()}, defaultNumericalSolver_),
+            segmentSolution.calculateStatesAt({Instant::J2000()}, defaultNumericalSolver_),
             ostk::core::error::RuntimeError
+        );
+    }
+
+    // Test that the returns an empty state array if an empty instant array is provided
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        const Array<State> propagatedStates = segmentSolution.calculateStatesAt({}, defaultNumericalSolver_);
+
+        EXPECT_EQ(0, propagatedStates.getSize());
+    }
+
+    // Test that the function throws when the instant array is out of order
+    {
+        const Segment::Solution segmentSolution =
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
+
+        EXPECT_THROW(
+            segmentSolution.calculateStatesAt({Instant::Now(), Instant::J2000()}, defaultNumericalSolver_),
+            ostk::core::error::runtime::Wrong
         );
     }
 
@@ -231,10 +252,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Calcul
             defaultState_.getInstant(), defaultState_.getInstant() + Duration::Minutes(1.0)
         };
         const Segment::Solution segmentSolution =
-            Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
+            Segment::Solution(defaultName_, defaultDynamics_, {defaultState_}, true, Segment::Type::Coast);
 
         EXPECT_THROW(
-            segmentSolution.reComputeStatesAt(instantArrayOutsideSegment, defaultNumericalSolver_),
+            segmentSolution.calculateStatesAt(instantArrayOutsideSegment, defaultNumericalSolver_),
             ostk::core::error::RuntimeError
         );
     }
@@ -256,7 +277,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Calcul
         const Segment::Solution segmentSolution =
             Segment::Solution(defaultName_, defaultDynamics_, {defaultState_, state1}, true, Segment::Type::Coast);
 
-        const Array<State> propagatedStates = segmentSolution.reComputeStatesAt(instantArray, defaultNumericalSolver_);
+        const Array<State> propagatedStates = segmentSolution.calculateStatesAt(instantArray, defaultNumericalSolver_);
 
         for (Size i = 0; i < instantArray.getSize(); i++)
         {
