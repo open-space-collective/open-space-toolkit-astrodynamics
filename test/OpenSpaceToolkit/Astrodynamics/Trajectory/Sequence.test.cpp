@@ -115,7 +115,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
     const Array<Segment> defaultSegments_ = {coastSegment_};
 
     const Segment::Solution defaultSegmentSolution_ = {
-        "A Segment", defaultDynamics_, {defaultState_}, true, Segment::Type::Coast
+        "A Segment",
+        defaultDynamics_,
+        {defaultState_},
+        true,
+        Segment::Type::Coast,
     };
 
     const Size defaultRepetitionCount_ = 2;
@@ -130,7 +134,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetStates)
 {
-    {  // Test throw with empty sequence solving
+    // Test throw with empty sequence solving
+    {
         Sequence::Solution sequenceSolution = {{}, true};
         EXPECT_THROW(sequenceSolution.getStates(), ostk::core::error::RuntimeError);
     }
@@ -148,14 +153,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetS
     };
 
     const Segment::Solution segmentSolution1 = {
-        "A Segment", defaultDynamics_, {state1, state2}, true, Segment::Type::Coast
+        "A Segment",
+        defaultDynamics_,
+        {state1, state2},
+        true,
+        Segment::Type::Coast,
     };
 
     const Segment::Solution segmentSolution2 = {
-        "A Segment", defaultDynamics_, {state2, state3}, true, Segment::Type::Coast
+        "A Segment",
+        defaultDynamics_,
+        {state2, state3},
+        true,
+        Segment::Type::Coast,
     };
 
-    {  // Test regular states
+    // Test regular states
+    {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
         const Array<State> states = sequenceSolution.getStates();
@@ -167,9 +181,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetS
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_ReComputeStatesAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_CalculateStatesAt)
 {
-    {  // Test throw with empty sequence solving
+    // Test throw with empty sequence solving
+    {
         Sequence::Solution sequenceSolution = {{}, true};
         EXPECT_THROW(
             sequenceSolution.reComputeStatesAt({Instant::J2000()}, defaultNumericalSolver_),
@@ -190,14 +205,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_ReCo
     };
 
     const Segment::Solution segmentSolution1 = {
-        "A Segment", defaultDynamics_, {state1, state2}, true, Segment::Type::Coast
+        "A Segment",
+        defaultDynamics_,
+        {state1, state2},
+        true,
+        Segment::Type::Coast,
     };
 
     const Segment::Solution segmentSolution2 = {
-        "A Segment", defaultDynamics_, {state2, state3}, true, Segment::Type::Coast
+        "A Segment",
+        defaultDynamics_, 
+        {state2, state3},
+        true,
+        Segment::Type::Coast,
     };
 
-    {  // Test regular states success
+    // Test regular states success
+    {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
         const Array<State> propagatedStates = sequenceSolution.reComputeStatesAt(
@@ -215,7 +239,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_ReCo
         EXPECT_EQ(propagatedStates.getSize(), 3);
     }
 
-    {  // Test regular states in between success
+    // Test regular states in between success
+    {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
         const Array<State> propagatedStatesInBetween = sequenceSolution.reComputeStatesAt(
@@ -231,7 +256,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_ReCo
         EXPECT_EQ(propagatedStatesInBetween.getSize(), 2);
     }
 
-    {  // Test regular states out of range failure
+    // Test regular states out of range failure
+    {
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
         const Array<State> propagatedStatesOutsideSequence = sequenceSolution.reComputeStatesAt(

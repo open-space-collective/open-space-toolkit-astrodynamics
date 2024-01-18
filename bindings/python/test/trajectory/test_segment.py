@@ -122,7 +122,7 @@ def maneuver_segment(
 
 
 @pytest.fixture
-def instant_array(state: State) -> list[Instant]:
+def instants(state: State) -> list[Instant]:
     return [state.get_instant(), state.get_instant() + Duration.minutes(1.0)]
 
 
@@ -217,7 +217,7 @@ class TestSegment:
         state: State,
         end_instant: Instant,
         maneuver_segment: Segment,
-        instant_array: list[Instant],
+        instants: list[Instant],
         numerical_solver: NumericalSolver,
     ):
         solution = maneuver_segment.solve(state)
@@ -248,13 +248,13 @@ class TestSegment:
 
         state_frame: Frame = state.get_frame()
 
-        propagated_states = solution.re_compute_states_at(
-            instant_array,
+        propagated_states = solution.calculate_states_at(
+            instants,
             numerical_solver,
         )
 
         assert propagated_states is not None
-        assert len(propagated_states) == len(instant_array)
+        assert len(propagated_states) == len(instants)
 
         first_dynamics_contribution = solution.get_dynamics_contribution(
             solution.dynamics[0], state_frame

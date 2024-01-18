@@ -335,7 +335,7 @@ def segment_solution(
 
 
 @pytest.fixture
-def instant_array(state: State) -> list[Instant]:
+def instants(state: State) -> list[Instant]:
     return [state.get_instant(), state.get_instant() + Duration.minutes(1.0)]
 
 
@@ -429,7 +429,7 @@ class TestSequence:
         repetition_count: int,
         sequence: Sequence,
         segments: list[Segment],
-        instant_array: list[Instant],
+        instants: list[Instant],
         numerical_solver: NumericalSolver,
     ):
         solution = sequence.solve(
@@ -452,13 +452,13 @@ class TestSequence:
         assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
 
-        propagated_states = solution.re_compute_states_at(
-            instant_array,
+        propagated_states = solution.calculate_states_at(
+            instants,
             numerical_solver,
         )
 
         assert propagated_states is not None
-        assert len(propagated_states) == len(instant_array)
+        assert len(propagated_states) == len(instants)
 
     def test_solve_to_condition(
         self,

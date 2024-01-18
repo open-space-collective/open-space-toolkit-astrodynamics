@@ -175,17 +175,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         )
 
         .def(
-            "re_compute_states_at",
+            "calculate_states_at",
             &Sequence::Solution::reComputeStatesAt,
             R"doc(
-                Recompute states in this sequence's solution at given instants.
+                Calculate states in this sequence's solution at provided instants.
 
                 Args:
-                    instants (list[Instant]): The instants.
-                    numerical_solver (NumericalSolver): The numerical solver to use to recompute the states.
+                    instants (list[Instant]): The instants at which the states will be calculated.
+                    numerical_solver (NumericalSolver): The numerical solver used to calculate the states.
 
                 Returns:
-                    list[State]: The states at the desired instants.
+                    list[State]: The states at the provided instants.
                 )doc",
             arg("instants"),
             arg("numerical_solver")

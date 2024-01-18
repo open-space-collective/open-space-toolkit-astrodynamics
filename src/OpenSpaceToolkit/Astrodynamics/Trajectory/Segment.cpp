@@ -105,7 +105,7 @@ Mass Segment::Solution::computeDeltaMass() const
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
-Array<State> Segment::Solution::reComputeStatesAt(
+Array<State> Segment::Solution::calculateStatesAt(
     const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
 ) const
 {

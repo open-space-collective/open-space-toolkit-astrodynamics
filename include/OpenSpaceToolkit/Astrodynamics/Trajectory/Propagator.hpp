@@ -169,7 +169,7 @@ class Propagator
 
     /// @brief Calculate the states at an array of instants, given an initial state
     /// @brief Can only be used with sorted instants array
-
+    ///
     /// @code{.cpp}
     ///              Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);
     /// @endcode

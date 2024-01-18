@@ -40,7 +40,7 @@ using ostk::astro::dynamics::Thruster;
 class Sequence
 {
    public:
-    /// @brief Once a sequence is set up with multiple segments, it can be solved, resulting in this sequences's
+    /// @brief Once a sequence is set up with one or more segments, it can be solved, resulting in this sequences's
     /// Solution.
     struct Solution
     {
@@ -86,12 +86,12 @@ class Sequence
         /// @return Delta mass
         Mass computeDeltaMass() const;
 
-        /// @brief Recompute states in this sequence's solution at a given instants.
+        /// @brief Calculate states in this sequence's solution at the provided instants.
         ///
         /// @param anInstantArray An array of instants.
-        /// @param aNumericalSolver A numerical solver to be used for the re-propagation.
-        /// @return Array of states at desired instants.
-        Array<State> reComputeStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
+        /// @param aNumericalSolver A numerical solver to be used for the propagation.
+        /// @return Array of states at provided instants.
+        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
             const;
 
         /// @brief Print the sequence solution

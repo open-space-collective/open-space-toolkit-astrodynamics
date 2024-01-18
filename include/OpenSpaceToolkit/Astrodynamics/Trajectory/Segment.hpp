@@ -105,12 +105,12 @@ class Segment
         /// @return Delta mass
         Mass computeDeltaMass() const;
 
-        /// @brief Calculate (using numerical propagation) intermediate states at specified instants
+        /// @brief Calculate intermediate states at specified Instants using the provided Numerical Solver
         ///
         /// @param aNumericalSolver a numerical solver to use for the propagation between states
         /// @param anInstantArray an array of instants
         /// @return States at specified instants
-        Array<State> reComputeStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
+        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
             const;
 
         /// @brief Get dynamics contribution

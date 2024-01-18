@@ -212,9 +212,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ReComputeStatesAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_CalculateStatesAt)
 {
-    {  // Test that the function throws when the segment has no states
+    // Test that the function throws when the segment has no states
+    {
         const Segment::Solution segmentSolution =
             Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
 
@@ -224,7 +225,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ReComp
         );
     }
 
-    {  // Test that the function throws when an instant outside the segment is desired
+    // Test that the function throws when an instant outside the segment is desired
+    {
         const Array<Instant> instantArrayOutsideSegment = {
             defaultState_.getInstant(), defaultState_.getInstant() + Duration::Minutes(1.0)
         };
@@ -237,7 +239,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ReComp
         );
     }
 
-    {  // Test successfull result for propagation to states within segment including bounds
+    // Test successfull result for propagation to states within segment including bounds
+    {
         const Array<Instant> instantArray = {
             defaultState_.getInstant(),
             defaultState_.getInstant() + Duration::Minutes(1.0),

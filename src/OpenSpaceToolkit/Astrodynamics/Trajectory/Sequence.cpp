@@ -85,7 +85,7 @@ Mass Sequence::Solution::computeDeltaMass() const
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
-Array<State> Sequence::Solution::reComputeStatesAt(
+Array<State> Sequence::Solution::calculateStatesAt(
     const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
 ) const
 {
@@ -99,24 +99,22 @@ Array<State> Sequence::Solution::reComputeStatesAt(
     // Process the instant array so that it is done segment by segment
     for (Size i = 0; i < this->segmentSolutions.getSize(); i++)
     {
-        const Segment::Solution segmentSolution = this->segmentSolutions[i];
-        // Get the segment start and end instants and only keep the instants that are within the segment
-        Array<Instant> instantsPerSegment = Array<Instant>::Empty();
+        const Segment::Solution& segmentSolution = this->segmentSolutions.at(i);
+        // Filter instants to be within segment bounds
+        Array<Instant> segmentInstants = Array<Instant>::Empty();
 
         for (const Instant& instant : anInstantArray)
         {
-            // If the instant is within the segment (closed on left, open on right), add it
             if ((instant >= segmentSolution.accessStartInstant()) && (instant < segmentSolution.accessEndInstant()))
             {
                 instantsPerSegment.add(instant);
             }
-            // If we are on the last segment and the instant is the last instant, add it
             else if ((i == this->segmentSolutions.getSize() - 1) && (instant == this->accessEndInstant()))
             {
                 instantsPerSegment.add(instant);
             }
         }
-        intermediateStates.add(segmentSolution.reComputeStatesAt(instantsPerSegment, aNumericalSolver));
+        intermediateStates.add(segmentSolution.calculateStatesAt(instantsPerSegment, aNumericalSolver));
     }
 
     return intermediateStates;
