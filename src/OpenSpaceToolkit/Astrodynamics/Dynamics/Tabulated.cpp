@@ -130,6 +130,11 @@ VectorXd Tabulated::computeContribution(
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
+    if (anInstant < instants_.accessFirst() || anInstant > instants_.accessLast())
+    {
+        return VectorXd::Zero(interpolators_.getSize());
+    }
+
     const double epoch = (anInstant - instants_.accessFirst()).inSeconds();
 
     VectorXd contribution(interpolators_.getSize());
