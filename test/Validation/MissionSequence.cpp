@@ -28,7 +28,9 @@ void MissionSequence::run()
         dataTree_, sequenceSolution.accessStartInstant(), sequenceSolution.accessEndInstant()
     );
 
-    solvedStates_ = sequenceSolution.reComputeStatesAt(comparisonInstants, sequence_.getNumericalSolver());
+    // Need to recompute the states at the comparison instants because the sequence solution only
+    // contains the states at the arbitrary sequence instants
+    solvedStates_ = sequenceSolution.calculateStatesAt(comparisonInstants, sequence_.getNumericalSolver());
 }
 
 const Pair<State, SatelliteSystem>& MissionSequence::accessInitialStateAndSatelliteSystem() const

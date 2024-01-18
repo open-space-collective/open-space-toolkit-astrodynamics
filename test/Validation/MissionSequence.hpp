@@ -166,7 +166,7 @@ class MissionSequence
     /// @param aDataTree A dictionary containing all the data needed to define and initialize a "Mission Sequence".
     MissionSequence(const Dictionary& aDataTree);
 
-    @brief Destructor
+    /// @brief Destructor
     ~MissionSequence();
 
     /// @brief Run the "Mission Sequence".
