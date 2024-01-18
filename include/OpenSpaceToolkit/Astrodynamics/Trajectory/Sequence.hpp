@@ -6,10 +6,13 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -30,31 +33,82 @@ using ostk::physics::units::Mass;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::trajectory::orbit::models::Propagated;
 using ostk::astro::dynamics::Thruster;
 
 /// @brief Represent a sequence of trajectory segments executed in order.
 class Sequence
 {
    public:
+    /// @brief Once a sequence is set up with one or more segments, it can be solved, resulting in this sequences's
+    /// Solution.
     struct Solution
     {
-        Array<Segment::Solution> segmentSolutions;
-        bool executionIsComplete;
+       public:
+        /// @brief Constructor
+        ///
+        /// @param aSegmentSolutionArray An array of segment solutions.
+        /// @param executionIsComplete True if the sequence was executed completely, false otherwise.
+        /// @return An instance of Solution
+        Solution(const Array<Segment::Solution>& aSegmentSolutionArray, const bool& executionIsComplete);
 
+        /// @brief Access Start Instant
+        /// @return Start Instant
         const Instant& accessStartInstant() const;
+
+        /// @brief Access end instant
+        /// @return End Instant
         const Instant& accessEndInstant() const;
 
+        /// @brief Get all states (at variable intervals) that were computed when solving the sequence.
+        /// @return Array of states.
         Array<State> getStates() const;
+
+        /// @brief Get initial mass
+        /// @return Initial mass
         Mass getInitialMass() const;
+
+        /// @brief Get final mass
+        /// @return Final mass
         Mass getFinalMass() const;
+
+        /// @brief Get propagation duration
+        /// @return Propagation duration
         Duration getPropagationDuration() const;
 
-        Mass computeDeltaMass() const;
+        /// @brief Compute delta V
+        ///
+        /// @param aSpecificImpulse Specific impulse
+        /// @return Delta V
         Real computeDeltaV(const Real& aSpecificImpulse) const;
 
+        /// @brief Compute delta mass
+        /// @return Delta mass
+        Mass computeDeltaMass() const;
+
+        /// @brief Calculate states in this sequence's solution at the provided instants.
+        ///
+        /// @param anInstantArray An array of instants.
+        /// @param aNumericalSolver A numerical solver to be used for the propagation.
+        /// @return Array of states at provided instants.
+        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
+            const;
+
+        /// @brief Print the sequence solution
+        ///
+        /// @param anOutputStream An output stream
+        /// @param (optional) displayDecorators If true, display decorators
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+        /// @brief Output stream operator
+        ///
+        /// @param anOutputStream An output stream
+        /// @param aSolution A Solution
+        /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
+
+        Array<Segment::Solution> segmentSolutions;  // Array of segment soln contained within this sequence soln
+        bool executionIsComplete;                   // True if the sequence was executed completely, false otherwise
     };
 
     /// @brief Constructor

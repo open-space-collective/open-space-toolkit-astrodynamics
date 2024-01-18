@@ -96,7 +96,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
     };
 
     const NumericalSolver defaultNumericalSolver_ = {
-        NumericalSolver::LogType::LogAdaptive,
+        NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaDopri5,
         1e-3,
         1.0e-12,
@@ -114,6 +114,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
 
     const Array<Segment> defaultSegments_ = {coastSegment_};
 
+    const Segment::Solution defaultSegmentSolution_ = {
+        "A Segment",
+        defaultDynamics_,
+        {defaultState_},
+        true,
+        Segment::Type::Coast,
+    };
+
     const Size defaultRepetitionCount_ = 2;
     const Duration defaultMaximumPropagationDuration_ = Duration::Days(7.0);
     Sequence defaultSequence_ = {
@@ -124,11 +132,143 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
     };
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_getStates)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetStates)
 {
+    // Test throw with empty sequence solving
     {
         Sequence::Solution sequenceSolution = {{}, true};
         EXPECT_THROW(sequenceSolution.getStates(), ostk::core::error::RuntimeError);
+    }
+
+    const State state1 = defaultState_;
+    const State state2 = {
+        defaultState_.getInstant() + Duration::Minutes(1.0),
+        defaultState_.getPosition(),
+        defaultState_.getVelocity(),
+    };
+    const State state3 = {
+        defaultState_.getInstant() + Duration::Minutes(2.0),
+        defaultState_.getPosition(),
+        defaultState_.getVelocity(),
+    };
+
+    const Segment::Solution segmentSolution1 = {
+        "A Segment",
+        defaultDynamics_,
+        {state1, state2},
+        true,
+        Segment::Type::Coast,
+    };
+
+    const Segment::Solution segmentSolution2 = {
+        "A Segment",
+        defaultDynamics_,
+        {state2, state3},
+        true,
+        Segment::Type::Coast,
+    };
+
+    // Test regular states
+    {
+        const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
+
+        const Array<State> states = sequenceSolution.getStates();
+
+        EXPECT_EQ(states[0], state1);
+        EXPECT_EQ(states[1], state2);
+        EXPECT_EQ(states[2], state3);
+        EXPECT_EQ(states.getSize(), 3);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_CalculateStatesAt)
+{
+    // Test throw with empty sequence solving
+    {
+        Sequence::Solution sequenceSolution = {{}, true};
+        EXPECT_THROW(
+            sequenceSolution.calculateStatesAt({Instant::J2000()}, defaultNumericalSolver_),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    const State state1 = defaultState_;
+    const State state2 = {
+        defaultState_.getInstant() + Duration::Minutes(1.0),
+        defaultState_.getPosition(),
+        defaultState_.getVelocity(),
+    };
+    const State state3 = {
+        defaultState_.getInstant() + Duration::Minutes(2.0),
+        defaultState_.getPosition(),
+        defaultState_.getVelocity(),
+    };
+
+    const Segment::Solution segmentSolution1 = {
+        "A Segment",
+        defaultDynamics_,
+        {state1, state2},
+        true,
+        Segment::Type::Coast,
+    };
+
+    const Segment::Solution segmentSolution2 = {
+        "A Segment",
+        defaultDynamics_,
+        {state2, state3},
+        true,
+        Segment::Type::Coast,
+    };
+
+    // Test regular states success
+    {
+        const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
+
+        const Array<State> propagatedStates = sequenceSolution.calculateStatesAt(
+            {
+                state1.getInstant(),
+                state2.getInstant(),
+                state3.getInstant(),
+            },
+            defaultNumericalSolver_
+        );
+
+        EXPECT_EQ(propagatedStates[0].getInstant(), state1.getInstant());
+        EXPECT_EQ(propagatedStates[1].getInstant(), state2.getInstant());
+        EXPECT_EQ(propagatedStates[2].getInstant(), state3.getInstant());
+        EXPECT_EQ(propagatedStates.getSize(), 3);
+    }
+
+    // Test regular states in between success
+    {
+        const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
+
+        const Array<State> propagatedStatesInBetween = sequenceSolution.calculateStatesAt(
+            {
+                state1.getInstant() + Duration::Minutes(0.5),
+                state2.getInstant() + Duration::Minutes(0.5),
+            },
+            defaultNumericalSolver_
+        );
+
+        EXPECT_EQ(propagatedStatesInBetween[0].getInstant(), state1.getInstant() + Duration::Minutes(0.5));
+        EXPECT_EQ(propagatedStatesInBetween[1].getInstant(), state2.getInstant() + Duration::Minutes(0.5));
+        EXPECT_EQ(propagatedStatesInBetween.getSize(), 2);
+    }
+
+    // Test regular states out of range failure
+    {
+        const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
+
+        const Array<State> propagatedStatesOutsideSequence = sequenceSolution.calculateStatesAt(
+            {
+                state1.getInstant() - Duration::Minutes(0.5),
+                state3.getInstant() + Duration::Minutes(0.5),
+            },
+            defaultNumericalSolver_
+        );
+
+        EXPECT_EQ(propagatedStatesOutsideSequence.getSize(), 0);
     }
 }
 
@@ -137,11 +277,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Prin
     {
         testing::internal::CaptureStdout();
 
-        const Segment::Solution segmentSolution = {
-            "A Segment", {}, {defaultState_, defaultState_}, true, Segment::Type::Coast
-        };
+        Sequence::Solution sequenceSolution = {{defaultSegmentSolution_}, true};
 
-        Sequence::Solution sequenceSolution = {{segmentSolution}, true};
         EXPECT_NO_THROW(sequenceSolution.print(std::cout, true));
         EXPECT_NO_THROW(sequenceSolution.print(std::cout, false));
 
@@ -154,11 +291,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Stre
     {
         testing::internal::CaptureStdout();
 
-        const Segment::Solution segmentSolution = {
-            "A Segment", {}, {defaultState_, defaultState_}, true, Segment::Type::Coast
-        };
+        Sequence::Solution sequenceSolution = {{defaultSegmentSolution_}, true};
 
-        EXPECT_NO_THROW(std::cout << segmentSolution << std::endl);
+        EXPECT_NO_THROW(std::cout << sequenceSolution << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }

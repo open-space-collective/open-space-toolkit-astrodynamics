@@ -108,10 +108,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @return Integer
     virtual Integer getRevolutionNumberAtEpoch() const override;
 
-    /// @brief Calculate the state at an instant, utilizing internal cached state array to propagated
-    /// shortest amount of time
-    /// @brief Does not have macro-level sorting optimization, should not be used with disorded instant
-    /// array
+    /// @brief Calculate the state at an instant, given initial state
+
     /// @code{.cpp}
     ///              State state = propagated.calculateStateAt(anInstant) ;
     /// @endcode
@@ -119,13 +117,16 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @return State
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
-    /// @brief Calculate the state at an instant, given initial state
+    /// @brief Calculate the state at an instant, utilizing internal cached state array to propagated
+    /// shortest amount of time. Does not have macro-level sorting optimization, should not be used with disorded
+    /// instant array
+
     /// @code{.cpp}
-    ///              State state = propagated.calculateStateAt(aState, anInstant) ;
+    ///              Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
     /// @endcode
     /// @param aState An initial state
-    /// @param anInstant An instant
-    /// @return State
+    /// @param anInstantArray An instant
+    /// @return Array<State>
     virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;
 
     /// @brief Calculate the revolution number at an instant

@@ -29,7 +29,7 @@ class InstantCondition : public RealCondition
     /// @endcode
     ///
     /// @param aCriterion An enum indicating the criterion used to determine the Event Condition
-    /// @param aDuration An instantn
+    /// @param aDuration An instant
     InstantCondition(const Criterion& aCriterion, const Instant& anInstant);
 
     /// @brief Virtual destructor

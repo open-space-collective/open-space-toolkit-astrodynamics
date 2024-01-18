@@ -60,7 +60,7 @@ RootSolver NumericalSolver::getRootSolver() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return this->rootSolver_;
+    return rootSolver_;
 }
 
 Array<State> NumericalSolver::getObservedStates() const

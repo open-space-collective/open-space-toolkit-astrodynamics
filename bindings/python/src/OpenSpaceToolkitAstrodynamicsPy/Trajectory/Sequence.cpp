@@ -147,7 +147,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc"
         )
+        .def(
+            "compute_delta_v",
+            &Sequence::Solution::computeDeltaV,
+            R"doc(
+                Compute the delta V.
 
+                Args:
+                    specific_impulse (float): The specific impulse.
+
+                Returns:
+                    float: The delta V (m/s).
+
+            )doc",
+            arg("specific_impulse")
+        )
         .def(
             "compute_delta_mass",
             &Sequence::Solution::computeDeltaMass,
@@ -159,20 +173,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc"
         )
+
         .def(
-            "compute_delta_v",
-            &Sequence::Solution::computeDeltaV,
+            "calculate_states_at",
+            &Sequence::Solution::calculateStatesAt,
             R"doc(
-                Compute the delta V.
+                Calculate states in this sequence's solution at provided instants.
 
                 Args:
-                    specific_impulse (float): The specific impulse.
+                    instants (list[Instant]): The instants at which the states will be calculated.
+                    numerical_solver (NumericalSolver): The numerical solver used to calculate the states.
 
                 Returns:
-                    float: The delta V.
-
-            )doc",
-            arg("specific_impulse")
+                    list[State]: The states at the provided instants.
+                )doc",
+            arg("instants"),
+            arg("numerical_solver")
         )
 
         ;

@@ -8,7 +8,7 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Matrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -39,6 +40,7 @@ using ostk::physics::units::Mass;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astro::trajectory::orbit::models::Propagated;
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
@@ -53,6 +55,7 @@ class Segment
         Maneuver  ///< Maneuver
     };
 
+    /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.
     struct Solution
     {
        public:
@@ -102,6 +105,14 @@ class Segment
         /// @return Delta mass
         Mass computeDeltaMass() const;
 
+        /// @brief Calculate intermediate states at specified Instants using the provided Numerical Solver
+        ///
+        /// @param aNumericalSolver a numerical solver to use for the propagation between states
+        /// @param anInstantArray an array of instants
+        /// @return States at specified instants
+        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
+            const;
+
         /// @brief Get dynamics contribution
         ///
         /// @param aDynamicsSPtr Dynamics
@@ -143,11 +154,11 @@ class Segment
         /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
 
-        String name;                       /// Name of the segment.
-        Array<Shared<Dynamics>> dynamics;  /// List of dynamics used.
-        Array<State> states;               /// Array of states for the segment.
-        bool conditionIsSatisfied;         /// True if the event condition is satisfied.
-        Segment::Type segmentType;         /// Type of segment.
+        String name;                       // Name of the segment.
+        Array<Shared<Dynamics>> dynamics;  // List of dynamics used.
+        Array<State> states;               // Array of states for the segment.
+        bool conditionIsSatisfied;         // True if the event condition is satisfied.
+        Segment::Type segmentType;         // Type of segment.
     };
 
     /// @brief Output stream operator

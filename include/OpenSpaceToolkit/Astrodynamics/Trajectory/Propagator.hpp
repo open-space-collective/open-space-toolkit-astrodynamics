@@ -156,7 +156,7 @@ class Propagator
 
     /// @brief Calculate the state subject to an Event Condition, given initial state and maximum end time
     /// @code{.cpp}
-    ///              NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,
+    ///              NumericalSolver::ConditionSolution state = propagator.calculateStateToCondition(aState, anInstant,
     ///              anEventCondition);
     /// @endcode
     /// @param aState An initial state
@@ -169,6 +169,7 @@ class Propagator
 
     /// @brief Calculate the states at an array of instants, given an initial state
     /// @brief Can only be used with sorted instants array
+    ///
     /// @code{.cpp}
     ///              Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);
     /// @endcode

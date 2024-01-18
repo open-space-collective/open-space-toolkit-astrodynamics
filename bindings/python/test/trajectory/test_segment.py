@@ -122,6 +122,11 @@ def maneuver_segment(
 
 
 @pytest.fixture
+def instants(state: State) -> list[Instant]:
+    return [state.get_instant(), state.get_instant() + Duration.minutes(1.0)]
+
+
+@pytest.fixture
 def thruster_dynamics() -> Thruster:
     return Thruster(
         satellite_system=SatelliteSystem.default(),
@@ -212,6 +217,8 @@ class TestSegment:
         state: State,
         end_instant: Instant,
         maneuver_segment: Segment,
+        instants: list[Instant],
+        numerical_solver: NumericalSolver,
     ):
         solution = maneuver_segment.solve(state)
 
@@ -240,6 +247,14 @@ class TestSegment:
         assert solution.compute_delta_v(1500.0) is not None
 
         state_frame: Frame = state.get_frame()
+
+        propagated_states = solution.calculate_states_at(
+            instants,
+            numerical_solver,
+        )
+
+        assert propagated_states is not None
+        assert len(propagated_states) == len(instants)
 
         first_dynamics_contribution = solution.get_dynamics_contribution(
             solution.dynamics[0], state_frame

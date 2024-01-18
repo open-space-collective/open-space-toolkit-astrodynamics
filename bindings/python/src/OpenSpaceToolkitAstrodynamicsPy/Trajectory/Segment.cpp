@@ -167,17 +167,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )
 
         .def(
-            "compute_delta_mass",
-            &Segment::Solution::computeDeltaMass,
-            R"doc(
-                Compute the delta mass.
-
-                Returns:
-                    Mass: The delta mass.
-
-            )doc"
-        )
-        .def(
             "compute_delta_v",
             &Segment::Solution::computeDeltaV,
             arg("specific_impulse"),
@@ -188,8 +177,36 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     specific_impulse (float): The specific impulse.
 
                 Returns:
-                    float: The delta V.
+                    float: The delta V (m/s).
 
+            )doc"
+        )
+        .def(
+            "compute_delta_mass",
+            &Segment::Solution::computeDeltaMass,
+            R"doc(
+                Compute the delta mass.
+
+                Returns:
+                    Mass: The delta mass.
+
+            )doc"
+        )
+
+        .def(
+            "calculate_states_at",
+            &Segment::Solution::calculateStatesAt,
+            arg("instants"),
+            arg("numerical_solver"),
+            R"doc(
+                Calculate the states in this segment's solution at the given instants.
+
+                Args:
+                    instants (list[Instant]): The instants at which the states will be calculated.
+                    numerical_solver (NumericalSolver): The numerical solver used to calculate the states.
+
+                Returns:
+                    list[State]: The states at the provided instants.
             )doc"
         )
         .def(
