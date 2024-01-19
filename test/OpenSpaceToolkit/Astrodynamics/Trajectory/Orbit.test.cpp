@@ -482,6 +482,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
         EXPECT_EQ(referenceData.getRowCount(), passMap.size() - 1);  // We're generating 1 pass over the reference data
 
         Index i = 0;
+        Index stateIndex = 0;
         for (const auto& row : passMap)
         {
             // Ignore the lass pass, as it is not complete
@@ -490,6 +491,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
                 break;
             }
 
+            // test computed Pass
             const Pass& pass = row.second;
 
             const auto& referenceRow = referenceData[i];
@@ -536,9 +538,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             EXPECT_LT(
                 std::fabs((referencePassDescendingNodeInstant - pass.accessInstantAtDescendingNode()).inSeconds()), 1e-6
             );
-            EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
             EXPECT_LT(std::fabs((referencePassNorthPointInstant - pass.accessInstantAtNorthPoint()).inSeconds()), 3.0);
             EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessInstantAtSouthPoint()).inSeconds()), 3.0);
+
+            // test state index
+            const Index& endStateIndex = row.first;
+
+            EXPECT_TRUE(referencePassStartInstant <= states[stateIndex].accessInstant());
+            EXPECT_TRUE(referencePassEndInstant >= states[endStateIndex - 1].accessInstant());
+
+            stateIndex = endStateIndex;
+
             ++i;
         }
     }
