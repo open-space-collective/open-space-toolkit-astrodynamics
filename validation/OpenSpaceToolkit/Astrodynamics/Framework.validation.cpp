@@ -1,14 +1,13 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator__
-#define __OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator__
+#include <iostream>
+
+#include <gtest/gtest.h>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Object.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
@@ -45,15 +44,17 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/CrossValidator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/MissionSequence.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Parser.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
@@ -68,14 +69,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
-
-namespace ostk
-{
-namespace astro
-{
-namespace validation
-{
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;
@@ -84,7 +77,6 @@ using CntrObject = ostk::core::ctnr::Object;
 using ostk::core::ctnr::Dictionary;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::filesystem::Directory;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
@@ -95,7 +87,6 @@ using ostk::math::geometry::d3::objects::Composite;
 using ostk::math::geometry::d3::objects::Cuboid;
 using ostk::math::geometry::d3::objects::Point;
 using ostk::math::object::Matrix3d;
-using ostk::math::object::MatrixXd;
 using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
 
@@ -128,9 +119,7 @@ using EarthSpaceWeatherManager = ostk::physics::environment::atmospheric::earth:
 using ostk::physics::environment::atmospheric::earth::CSSISpaceWeather;
 
 using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::trajectory::Sequence;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::Propagator;
@@ -156,76 +145,141 @@ using ostk::astro::guidancelaw::ConstantThrust;
 using ostk::astro::guidancelaw::QLaw;
 using ostk::astro::solvers::FiniteDifferenceSolver;
 
-enum Quantity  // Enum values here correspond to index of each output in the csv file
+using ostk::astro::validation::Quantity;
+using ostk::astro::validation::Tool;
+using ostk::astro::validation::ToolComparison;
+using ostk::astro::validation::QuantityComparison;
+using ostk::astro::validation::MissionSequence;
+using ostk::astro::validation::CrossValidator;
+using ostk::astro::validation::Parser;
+
+class OpenSpaceToolkit_Astrodynamics_Validation
+    : public ::testing::TestWithParam<std::tuple<String, Array<ToolComparison>>>
 {
-    CARTESIAN_POSITION_GCRF,
-    CARTESIAN_VELOCITY_GCRF,
-    CARTESIAN_ACCELERATION_GCRF,
-    MASS,
-    MANEUVER_ACCELERATION_J2000,
+   protected:
+    const String pathToData = {"/app/validation/OpenSpaceToolkit/Astrodynamics/data"};
 };
 
-const std::map<Quantity, Size> QuantityDimensionMap = {
-    {Quantity::CARTESIAN_POSITION_GCRF, 3},
-    {Quantity::CARTESIAN_VELOCITY_GCRF, 3},
-    {Quantity::CARTESIAN_ACCELERATION_GCRF, 3},
-    {Quantity::MASS, 1},
-    {Quantity::MANEUVER_ACCELERATION_J2000, 3},
-};
-
-enum class Tool
+TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
 {
-    GMAT,
-    OREKIT,
+    // Access the test parameters
+    const auto parameters = GetParam();
+
+    const String scenarioName = std::get<0>(parameters);
+    const Array<ToolComparison> toolComparisons = std::get<1>(parameters);
+
+    // Instatiate mission sequence app to set up the scenario
+    MissionSequence missionSequence = {Parser::ParseYaml(pathToData, scenarioName)};
+
+    // Solve the scenario
+    missionSequence.run();
+
+    // Compare with each reference tool
+    for (const ToolComparison& toolComparison : toolComparisons)
+    {
+        const Tool tool = toolComparison.tool;
+        const Array<QuantityComparison> quantityComparisons = toolComparison.quantityComparisons;
+
+        // Compare output quantities with reference tool
+        const Array<VectorXd> allDeltasWithTool =
+            missionSequence.compareResults(Parser::ParseCSV(pathToData, scenarioName, tool), toolComparison);
+
+        for (Size coordinateSubsetIndex = 0; coordinateSubsetIndex < quantityComparisons.getSize();
+             coordinateSubsetIndex++)
+        {
+            const Quantity quantity = quantityComparisons[coordinateSubsetIndex].quantity;
+            const Real tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
+
+            for (Size stateIndex = 0; stateIndex < allDeltasWithTool.getSize(); stateIndex++)
+            {
+                // Assert tolerance on each comparison step
+                ASSERT_GT(tolerance, allDeltasWithTool[stateIndex][coordinateSubsetIndex]) << String::Format(
+                    "For Quantity: {}\nTolerance: {}\n", CrossValidator::QuantityToString(quantity), tolerance
+                );
+            }
+        }
+    }
+}
+
+static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters = {
+    {
+        "scenario001-mission-sequence",  // Spherical gravity only
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "scenario002-mission-sequence",  // EGM96 60x60 gravity
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "scenario003-mission-sequence",  // Exponential Atmsohpere
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 2.0e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 2.0e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "scenario004-mission-sequence",  // Constant thruster maneuver in In-Track direction
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.1e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.1e-3},
+                },
+            },
+        },
+    },
 };
 
-struct QuantityComparison  // TBI add logic to check for empty or non-matching length arrays
-{
-    Quantity quantity;
-    Real tolerance;
-};
-
-struct ToolComparison  // TBI add logic to check for empty or non-matching length arrays
-{
-    Tool tool;
-    Array<QuantityComparison> quantityComparisons;
-};
-
-/// @brief Help comparing the results of the OSTk "Mission Sequence" with the results of a comparison tool.
-class CrossValidator
-{
-   public:
-    /// @brief Create an array of outputs quantities from a table of reference data
-    ///
-    /// @param aTable A table containing the reference data from the tool.
-    /// @param aToolComparison A tool comparison object containing the tool name and the quantities to compare.
-    /// @return An array of vectors containing the reference data from the tool.
-    static Array<Array<VectorXd>> IngestOutputQuantities(const Table& aTable, const ToolComparison& aToolComparison);
-
-    /// @brief Compare the results of the "Mission Sequence" with the results of a tool.
-    ///
-    /// @param aReferenceData An array of vectors containing the reference data from the comparing tool.
-    /// @param aToolComparison A tool comparison object containing the tool name and the quantities to compare.
-    /// @return An array of vectors containing the differences between the results of the "Mission Sequence" and the
-    /// results of the tool.
-    static VectorXd CompareOutputQuantities(
-        const State& anOSTkState,
-        const Array<VectorXd>& aReferenceCoordinates,
-        const Array<QuantityComparison>& aQuantityComparisons
-    );
-
-    /// @brief Convert a quantity enum to a string
-    ///
-    /// @param aQuantity A quantity enum
-    static String QuantityToString(const Quantity& aQuantity);
-
-   private:
-    CrossValidator();
-    ~CrossValidator();
-};
-
-}  // namespace validation
-}  // namespace astro
-}  // namespace ostk
-
-#endif
+INSTANTIATE_TEST_SUITE_P(
+    ValidationTestRunnerInstantiation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(parameters)
+);

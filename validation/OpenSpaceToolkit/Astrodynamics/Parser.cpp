@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <Validation/Parser.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Parser.hpp>
 
 namespace ostk
 {
@@ -37,7 +37,7 @@ Table Parser::ParseCSV(const String& aPathToData, const String& aScenarioName, c
     return Table::Load(File::Path(Path::Parse(csvPath)), Table::Format::CSV, true);
 }
 
-Pair<State, SatelliteSystem> Parser::CreateInitialStateAndSatelliteSystem(const Dictionary& aDictionary)
+SatelliteSystem Parser::CreateSatelliteSystem(const Dictionary& aDictionary)
 {
     const Dictionary spacecraft = aDictionary["data"]["spacecraft"].accessDictionary();
 
@@ -54,17 +54,21 @@ Pair<State, SatelliteSystem> Parser::CreateInitialStateAndSatelliteSystem(const 
         );
     }
 
-    // Make entire satellite wet mass
-    const Mass wetMass = Mass::Kilograms(spacecraft["mass"].accessReal());
-
-    const SatelliteSystem satelliteSystem = SatelliteSystem(
+    return {
         Mass::Kilograms(0.0),
         satelliteGeometry,
         Matrix3d::Identity(),
         spacecraft["drag-cross-section"].accessReal(),
         spacecraft["drag-coefficient"].accessReal(),
         propulsionSystem
-    );
+    };
+}
+
+State Parser::CreateInitialState(const Dictionary& aDictionary, const SatelliteSystem& aStatelliteSystem)
+{
+    const Dictionary spacecraft = aDictionary["data"]["spacecraft"].accessDictionary();
+    // Make entire satellite wet mass
+    const Mass wetMass = Mass::Kilograms(spacecraft["mass"].accessReal());
 
     const Dictionary orbit = spacecraft["orbit"].accessDictionary();
 
@@ -80,7 +84,8 @@ Pair<State, SatelliteSystem> Parser::CreateInitialStateAndSatelliteSystem(const 
         throw ostk::core::error::runtime::Wrong("Time scale");
     }
 
-    const Shared<const Frame> frame = orbit["data"]["frame"].accessString() == "GCRF" ? Frame::GCRF() : Frame::Undefined();
+    const Shared<const Frame> frame =
+        orbit["data"]["frame"].accessString() == "GCRF" ? Frame::GCRF() : Frame::Undefined();
 
     VectorXd coordinates(9);
 
@@ -99,7 +104,7 @@ Pair<State, SatelliteSystem> Parser::CreateInitialStateAndSatelliteSystem(const 
         );
 
         coordinates << position.getCoordinates(), velocity.getCoordinates(), wetMass.inKilograms(),
-            satelliteSystem.getCrossSectionalSurfaceArea(), satelliteSystem.getDragCoefficient();
+            aStatelliteSystem.getCrossSectionalSurfaceArea(), aStatelliteSystem.getDragCoefficient();
     }
     else if (orbit["type"].accessString() == "KEPLERIAN")
     {
@@ -114,7 +119,7 @@ Pair<State, SatelliteSystem> Parser::CreateInitialStateAndSatelliteSystem(const 
         CoordinatesSubset::DragCoefficient()
     };
 
-    return {StateBuilder(frame, subsets).build(initialInstant, coordinates), satelliteSystem};
+    return StateBuilder(frame, subsets).build(initialInstant, coordinates);
 }
 
 Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
@@ -201,7 +206,7 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
 
 Sequence Parser::CreateSequence(
     const Dictionary& aDictionary,
-    const Pair<State, SatelliteSystem>& anInitialStateAndSatelliteSystem,
+    const SatelliteSystem& aSatelliteSystem,
     const Array<Shared<Dynamics>>& aDynamicsArray
 )
 {
@@ -232,9 +237,9 @@ Sequence Parser::CreateSequence(
     Array<Segment> segments = Array<Segment>::Empty();
     for (const auto& segment : aDictionary["data"]["sequence"]["segments"].accessArray())
     {
-        segments.add(Parser::CreateSegment(
-            segment.accessDictionary(), anInitialStateAndSatelliteSystem, aDynamicsArray, numericalSolver
-        ));
+        segments.add(
+            Parser::CreateSegment(segment.accessDictionary(), aSatelliteSystem, aDynamicsArray, numericalSolver)
+        );
     }
 
     return {
@@ -281,7 +286,7 @@ Array<Instant> Parser::CreateComparisonInstants(
 
 Segment Parser::CreateSegment(
     const Dictionary& segmentDictionary,
-    const Pair<State, SatelliteSystem>& anInitialStateAndSatelliteSystem,
+    const SatelliteSystem& aSatelliteSystem,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
@@ -333,9 +338,9 @@ Segment Parser::CreateSegment(
             throw ostk::core::error::runtime::Wrong("Attitude type or local orbital type");
         }
 
-        const Shared<const Frame> frame = segmentDictionary["data"]["attitude"]["data"]["parent"].accessString() == "GCRF"
-                                      ? Frame::GCRF()
-                                      : Frame::Undefined();
+        const Shared<const Frame> frame =
+            segmentDictionary["data"]["attitude"]["data"]["parent"].accessString() == "GCRF" ? Frame::GCRF()
+                                                                                             : Frame::Undefined();
 
         // Create thruster dynamics
         const Vector3d maneuverVector = {
@@ -348,7 +353,7 @@ Segment Parser::CreateSegment(
             ConstantThrust(LocalOrbitalFrameDirection(maneuverVector, LocalOrbitalFrameFactory::VNC(frame)))
         );
         const Shared<Thruster> aThrusterDynamicSPtr =
-            std::make_shared<Thruster>(Thruster(anInitialStateAndSatelliteSystem.second, constantThrustSPtr));
+            std::make_shared<Thruster>(Thruster(aSatelliteSystem, constantThrustSPtr));
 
         return Segment::Maneuver("maneuver", conditionSPtr, aThrusterDynamicSPtr, aDynamicsArray, aNumericalSolver);
     }

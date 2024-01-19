@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <Validation/MissionSequence.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/MissionSequence.hpp>
 
 namespace ostk
 {
@@ -11,10 +11,11 @@ namespace validation
 
 MissionSequence::MissionSequence(const Dictionary& aDataTree)
     : dataTree_(aDataTree),
-      initialStateAndSatelliteSystem_(Parser::CreateInitialStateAndSatelliteSystem(dataTree_)),
+      satelliteSystem_(Parser::CreateSatelliteSystem(dataTree_)),
+      initialState_(Parser::CreateInitialState(dataTree_, satelliteSystem_)),
       environment_(Parser::CreateEnvironment(dataTree_)),
       dynamics_(Dynamics::FromEnvironment(environment_)),
-      sequence_(Parser::CreateSequence(dataTree_, initialStateAndSatelliteSystem_, dynamics_)),
+      sequence_(Parser::CreateSequence(dataTree_, satelliteSystem_, dynamics_)),
       solvedStates_(Array<State>::Empty())
 {
 }
@@ -23,7 +24,7 @@ MissionSequence::~MissionSequence() {}
 
 void MissionSequence::run()
 {
-    Sequence::Solution sequenceSolution = sequence_.solve(initialStateAndSatelliteSystem_.first);
+    Sequence::Solution sequenceSolution = sequence_.solve(initialState_);
     const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
         dataTree_, sequenceSolution.accessStartInstant(), sequenceSolution.accessEndInstant()
     );
@@ -33,13 +34,22 @@ void MissionSequence::run()
     solvedStates_ = sequenceSolution.calculateStatesAt(comparisonInstants, sequence_.getNumericalSolver());
 }
 
-const Pair<State, SatelliteSystem>& MissionSequence::accessInitialStateAndSatelliteSystem() const
+const SatelliteSystem& MissionSequence::accessSatelliteSystem() const
 {
-    if (initialStateAndSatelliteSystem_.first.isDefined() || initialStateAndSatelliteSystem_.second.isDefined())
+    if (satelliteSystem_.isDefined())
     {
-        throw ostk::core::error::RuntimeError("No initial state or satellite system defined.");
+        throw ostk::core::error::RuntimeError("No satellite system defined.");
     }
-    return initialStateAndSatelliteSystem_;
+    return satelliteSystem_;
+}
+
+const State& MissionSequence::accessInitialState() const
+{
+    if (initialState_.isDefined())
+    {
+        throw ostk::core::error::RuntimeError("No initial state defined.");
+    }
+    return initialState_;
 }
 
 const Environment& MissionSequence::accessEnvironment() const
