@@ -35,9 +35,9 @@ virtual Instant \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1mo
 virtual Integer \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a789e4236d2b8b212b1d978055b76abf1}{get\+Revolution\+Number\+At\+Epoch}} () const override
 \begin{DoxyCompactList}\small\item\em Get revolution number at epoch (it is equal to 1) \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2efc3c1af735dcf2ec622d056fa0a13f}{calculate\+State\+At}} (const Instant \&an\+Instant) const override
-\begin{DoxyCompactList}\small\item\em Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. \end{DoxyCompactList}\item 
-virtual Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a9a4097432d2c863aedead23d2d67a7a7}{calculate\+States\+At}} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const override
 \begin{DoxyCompactList}\small\item\em Calculate the state at an instant, given initial state. \end{DoxyCompactList}\item 
+virtual Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a9a4097432d2c863aedead23d2d67a7a7}{calculate\+States\+At}} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const override
+\begin{DoxyCompactList}\small\item\em Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. Does not have macro-\/level sorting optimization, should not be used with disorded instant array. \end{DoxyCompactList}\item 
 virtual Integer \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a6360392c65494aa42aadff58ec58e49c}{calculate\+Revolution\+Number\+At}} (const Instant \&an\+Instant) const override
 \begin{DoxyCompactList}\small\item\em Calculate the revolution number at an instant. \end{DoxyCompactList}\item 
 const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab13c196dcea01238b6e1997cb46ced2b}{access\+Cached\+State\+Array}} () const
@@ -185,9 +185,9 @@ Implements \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_
 
 
 
-Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. 
+Calculate the state at an instant, given initial state. 
 
-Does not have macro-\/level sorting optimization, should not be used with disorded instant array 
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{State state = propagated.calculateStateAt(anInstant) ;}
 \end{DoxyCode}
@@ -211,21 +211,21 @@ Implements \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_
 
 
 
-Calculate the state at an instant, given initial state. 
+Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. Does not have macro-\/level sorting optimization, should not be used with disorded instant array. 
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{State state = propagated.calculateStateAt(aState, anInstant) ;}
+\DoxyCodeLine{Array<State> states = propagated.calculateStatesAt(anInstantArray) ;}
 \end{DoxyCode}
  
 \begin{DoxyParams}{Parameters}
 {\em a\+State} & An initial state \\
 \hline
-{\em an\+Instant} & An instant \\
+{\em an\+Instant\+Array} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} 
+Array$<$\+State$>$ 
 \end{DoxyReturn}
 
 

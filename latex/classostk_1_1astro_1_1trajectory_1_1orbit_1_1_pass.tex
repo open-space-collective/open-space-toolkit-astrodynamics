@@ -34,7 +34,7 @@ enum \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a4c5f54
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a682027335b521d6407d5ce77bd2390ec}{Pass}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a74449dbd104c6a24462b373cc55febcc}{Pass\+::\+Type}} \&a\+Type, const Integer \&a\+Revolution\+Number, const Interval \&an\+Interval)
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a6a08c645580b3f2d1ac764f104852563}{Pass}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a74449dbd104c6a24462b373cc55febcc}{Pass\+::\+Type}} \&a\+Type, const Integer \&a\+Revolution\+Number, const Interval \&an\+Interval, const Instant \&an\+Instant\+At\+Descending\+Node, const Instant \&an\+Instant\+At\+North\+Point, const Instant \&an\+Instant\+At\+South\+Point)
 \item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_ad2980a78e9a34cc95c906d72839450a0}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass}{Pass}} \&a\+Pass) const
 \item 
@@ -49,6 +49,14 @@ bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_af25e2c
 Integer \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_abfc538f6a638420298886228f972855d}{get\+Revolution\+Number}} () const
 \item 
 Interval \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a1a3230564b8f40bd878194befeabef1a}{get\+Interval}} () const
+\item 
+const Instant \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_ac53192a54b8d5fac7175d7624fe37b33}{access\+Instant\+At\+Ascending\+Node}} () const
+\item 
+const Instant \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a2093761b6a4ad91b9795a962d575cac4}{access\+Instant\+At\+Descending\+Node}} () const
+\item 
+const Instant \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a7ebe5ce7299bff0d0679df076542755c}{access\+Instant\+At\+North\+Point}} () const
+\item 
+const Instant \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_af927b5e6fc4ffa6e12627bdba2d18cb3}{access\+Instant\+At\+South\+Point}} () const
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -145,15 +153,39 @@ Partial&\\
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a682027335b521d6407d5ce77bd2390ec}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a682027335b521d6407d5ce77bd2390ec}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a6a08c645580b3f2d1ac764f104852563}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a6a08c645580b3f2d1ac764f104852563}} 
 \index{ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}!Pass@{Pass}}
 \index{Pass@{Pass}!ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}}
 \doxysubsubsection{\texorpdfstring{Pass()}{Pass()}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::\+Pass\+::\+Pass (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a74449dbd104c6a24462b373cc55febcc}{Pass\+::\+Type}} \&}]{a\+Type,  }\item[{const Integer \&}]{a\+Revolution\+Number,  }\item[{const Interval \&}]{an\+Interval }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::\+Pass\+::\+Pass (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a74449dbd104c6a24462b373cc55febcc}{Pass\+::\+Type}} \&}]{a\+Type,  }\item[{const Integer \&}]{a\+Revolution\+Number,  }\item[{const Interval \&}]{an\+Interval,  }\item[{const Instant \&}]{an\+Instant\+At\+Descending\+Node,  }\item[{const Instant \&}]{an\+Instant\+At\+North\+Point,  }\item[{const Instant \&}]{an\+Instant\+At\+South\+Point }\end{DoxyParamCaption})}
 
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_ac53192a54b8d5fac7175d7624fe37b33}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_ac53192a54b8d5fac7175d7624fe37b33}} 
+\index{ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}!accessInstantAtAscendingNode@{accessInstantAtAscendingNode}}
+\index{accessInstantAtAscendingNode@{accessInstantAtAscendingNode}!ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}}
+\doxysubsubsection{\texorpdfstring{accessInstantAtAscendingNode()}{accessInstantAtAscendingNode()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::orbit\+::\+Pass\+::access\+Instant\+At\+Ascending\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a2093761b6a4ad91b9795a962d575cac4}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a2093761b6a4ad91b9795a962d575cac4}} 
+\index{ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}!accessInstantAtDescendingNode@{accessInstantAtDescendingNode}}
+\index{accessInstantAtDescendingNode@{accessInstantAtDescendingNode}!ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}}
+\doxysubsubsection{\texorpdfstring{accessInstantAtDescendingNode()}{accessInstantAtDescendingNode()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::orbit\+::\+Pass\+::access\+Instant\+At\+Descending\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a7ebe5ce7299bff0d0679df076542755c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a7ebe5ce7299bff0d0679df076542755c}} 
+\index{ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}!accessInstantAtNorthPoint@{accessInstantAtNorthPoint}}
+\index{accessInstantAtNorthPoint@{accessInstantAtNorthPoint}!ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}}
+\doxysubsubsection{\texorpdfstring{accessInstantAtNorthPoint()}{accessInstantAtNorthPoint()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::orbit\+::\+Pass\+::access\+Instant\+At\+North\+Point (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_af927b5e6fc4ffa6e12627bdba2d18cb3}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_af927b5e6fc4ffa6e12627bdba2d18cb3}} 
+\index{ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}!accessInstantAtSouthPoint@{accessInstantAtSouthPoint}}
+\index{accessInstantAtSouthPoint@{accessInstantAtSouthPoint}!ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}}
+\doxysubsubsection{\texorpdfstring{accessInstantAtSouthPoint()}{accessInstantAtSouthPoint()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::orbit\+::\+Pass\+::access\+Instant\+At\+South\+Point (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a1a3230564b8f40bd878194befeabef1a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_a1a3230564b8f40bd878194befeabef1a}} 
 \index{ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}!getInterval@{getInterval}}
 \index{getInterval@{getInterval}!ostk::astro::trajectory::orbit::Pass@{ostk::astro::trajectory::orbit::Pass}}

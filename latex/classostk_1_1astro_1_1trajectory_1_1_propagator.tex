@@ -174,7 +174,9 @@ Calculate the state at an instant, given initial state.
 
 Calculate the states at an array of instants, given an initial state. 
 
-Can only be used with sorted instants array 
+Can only be used with sorted instants array
+
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);}
 \end{DoxyCode}
@@ -198,7 +200,7 @@ Calculate the state subject to an Event Condition, given initial state and maxim
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,}
+\DoxyCodeLine{NumericalSolver::ConditionSolution state = propagator.calculateStateToCondition(aState, anInstant,}
 \DoxyCodeLine{anEventCondition);}
 \end{DoxyCode}
  

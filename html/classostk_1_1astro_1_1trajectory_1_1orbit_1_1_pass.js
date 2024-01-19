@@ -17,7 +17,11 @@ var classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass =
       [ "Complete", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a74449dbd104c6a24462b373cc55febccaae94f80b3ce82062a5dd7815daa04f9d", null ],
       [ "Partial", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a74449dbd104c6a24462b373cc55febcca44ffd38a6dea695cbe2b34efdcc6cf27", null ]
     ] ],
-    [ "Pass", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a682027335b521d6407d5ce77bd2390ec", null ],
+    [ "Pass", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a6a08c645580b3f2d1ac764f104852563", null ],
+    [ "accessInstantAtAscendingNode", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ac53192a54b8d5fac7175d7624fe37b33", null ],
+    [ "accessInstantAtDescendingNode", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a2093761b6a4ad91b9795a962d575cac4", null ],
+    [ "accessInstantAtNorthPoint", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a7ebe5ce7299bff0d0679df076542755c", null ],
+    [ "accessInstantAtSouthPoint", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#af927b5e6fc4ffa6e12627bdba2d18cb3", null ],
     [ "getInterval", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a1a3230564b8f40bd878194befeabef1a", null ],
     [ "getRevolutionNumber", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#abfc538f6a638420298886228f972855d", null ],
     [ "getType", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a059f8209971303cc8961a747e690258e", null ],

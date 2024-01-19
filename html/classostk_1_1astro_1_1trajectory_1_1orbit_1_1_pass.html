@@ -121,8 +121,8 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a682027335b521d6407d5ce77bd2390ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a682027335b521d6407d5ce77bd2390ec">Pass</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a74449dbd104c6a24462b373cc55febcc">Pass::Type</a> &amp;aType, const Integer &amp;aRevolutionNumber, const Interval &amp;anInterval)</td></tr>
-<tr class="separator:a682027335b521d6407d5ce77bd2390ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a08c645580b3f2d1ac764f104852563"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a6a08c645580b3f2d1ac764f104852563">Pass</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a74449dbd104c6a24462b373cc55febcc">Pass::Type</a> &amp;aType, const Integer &amp;aRevolutionNumber, const Interval &amp;anInterval, const Instant &amp;anInstantAtDescendingNode, const Instant &amp;anInstantAtNorthPoint, const Instant &amp;anInstantAtSouthPoint)</td></tr>
+<tr class="separator:a6a08c645580b3f2d1ac764f104852563"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2980a78e9a34cc95c906d72839450a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ad2980a78e9a34cc95c906d72839450a0">operator==</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html">Pass</a> &amp;aPass) const</td></tr>
 <tr class="separator:ad2980a78e9a34cc95c906d72839450a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5b73ab2c54e082774dc9cc16ad5097f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ab5b73ab2c54e082774dc9cc16ad5097f">operator!=</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html">Pass</a> &amp;aPass) const</td></tr>
@@ -137,6 +137,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abfc538f6a638420298886228f972855d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a3230564b8f40bd878194befeabef1a"><td class="memItemLeft" align="right" valign="top">Interval&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a1a3230564b8f40bd878194befeabef1a">getInterval</a> () const</td></tr>
 <tr class="separator:a1a3230564b8f40bd878194befeabef1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac53192a54b8d5fac7175d7624fe37b33"><td class="memItemLeft" align="right" valign="top">const Instant &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ac53192a54b8d5fac7175d7624fe37b33">accessInstantAtAscendingNode</a> () const</td></tr>
+<tr class="separator:ac53192a54b8d5fac7175d7624fe37b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2093761b6a4ad91b9795a962d575cac4"><td class="memItemLeft" align="right" valign="top">const Instant &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a2093761b6a4ad91b9795a962d575cac4">accessInstantAtDescendingNode</a> () const</td></tr>
+<tr class="separator:a2093761b6a4ad91b9795a962d575cac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ebe5ce7299bff0d0679df076542755c"><td class="memItemLeft" align="right" valign="top">const Instant &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a7ebe5ce7299bff0d0679df076542755c">accessInstantAtNorthPoint</a> () const</td></tr>
+<tr class="separator:a7ebe5ce7299bff0d0679df076542755c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af927b5e6fc4ffa6e12627bdba2d18cb3"><td class="memItemLeft" align="right" valign="top">const Instant &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#af927b5e6fc4ffa6e12627bdba2d18cb3">accessInstantAtSouthPoint</a> () const</td></tr>
+<tr class="separator:af927b5e6fc4ffa6e12627bdba2d18cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -242,8 +250,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a682027335b521d6407d5ce77bd2390ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a682027335b521d6407d5ce77bd2390ec">&#9670;&nbsp;</a></span>Pass()</h2>
+<a id="a6a08c645580b3f2d1ac764f104852563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a08c645580b3f2d1ac764f104852563">&#9670;&nbsp;</a></span>Pass()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -264,7 +272,25 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Interval &amp;&#160;</td>
-          <td class="paramname"><em>anInterval</em>&#160;</td>
+          <td class="paramname"><em>anInterval</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstantAtDescendingNode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstantAtNorthPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstantAtSouthPoint</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -277,6 +303,74 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac53192a54b8d5fac7175d7624fe37b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac53192a54b8d5fac7175d7624fe37b33">&#9670;&nbsp;</a></span>accessInstantAtAscendingNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtAscendingNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2093761b6a4ad91b9795a962d575cac4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2093761b6a4ad91b9795a962d575cac4">&#9670;&nbsp;</a></span>accessInstantAtDescendingNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtDescendingNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ebe5ce7299bff0d0679df076542755c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ebe5ce7299bff0d0679df076542755c">&#9670;&nbsp;</a></span>accessInstantAtNorthPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtNorthPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af927b5e6fc4ffa6e12627bdba2d18cb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af927b5e6fc4ffa6e12627bdba2d18cb3">&#9670;&nbsp;</a></span>accessInstantAtSouthPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtSouthPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a1a3230564b8f40bd878194befeabef1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a3230564b8f40bd878194befeabef1a">&#9670;&nbsp;</a></span>getInterval()</h2>
 

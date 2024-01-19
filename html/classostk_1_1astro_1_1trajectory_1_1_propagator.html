@@ -345,7 +345,8 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the states at an array of instants, given an initial state. </p>
-<p>Can only be used with sorted instants array </p><div class="fragment"><div class="line">Array&lt;State&gt; states = propagator.calculateStatesAt(aState, anInstantArray);</div>
+<p>Can only be used with sorted instants array</p>
+<div class="fragment"><div class="line">Array&lt;State&gt; states = propagator.calculateStatesAt(aState, anInstantArray);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">anInstantArray</td><td>An instant array </td></tr>
@@ -389,7 +390,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the state subject to an Event Condition, given initial state and maximum end time. </p>
-<div class="fragment"><div class="line">NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,</div>
+<div class="fragment"><div class="line">NumericalSolver::ConditionSolution state = propagator.calculateStateToCondition(aState, anInstant,</div>
 <div class="line">anEventCondition);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

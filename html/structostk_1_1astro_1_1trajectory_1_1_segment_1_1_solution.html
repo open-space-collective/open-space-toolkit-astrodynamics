@@ -90,6 +90,9 @@ $(document).ready(function(){initNavTree('structostk_1_1astro_1_1trajectory_1_1_
 </div><!--header-->
 <div class="contents">
 
+<p>Once a segment is set up with an event condition, it can be solved, resulting in this segment's <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html" title="Once a segment is set up with an event condition, it can be solved, resulting in this segment&#39;s Solut...">Solution</a>.  
+ <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_segment_8hpp_source.html">Segment.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -118,6 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a76458d29b4c6a74c9bd4c633c16e41c4"><td class="memItemLeft" align="right" valign="top">Mass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a76458d29b4c6a74c9bd4c633c16e41c4">computeDeltaMass</a> () const</td></tr>
 <tr class="memdesc:a76458d29b4c6a74c9bd4c633c16e41c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute delta mass.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a76458d29b4c6a74c9bd4c633c16e41c4">More...</a><br /></td></tr>
 <tr class="separator:a76458d29b4c6a74c9bd4c633c16e41c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe834773848aebf9347662f57577f1e"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#adfe834773848aebf9347662f57577f1e">calculateStatesAt</a> (const Array&lt; Instant &gt; &amp;anInstantArray, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver) const</td></tr>
+<tr class="memdesc:adfe834773848aebf9347662f57577f1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate intermediate states at specified Instants using the provided Numerical Solver.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#adfe834773848aebf9347662f57577f1e">More...</a><br /></td></tr>
+<tr class="separator:adfe834773848aebf9347662f57577f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1223863c48c31e62f6dff650b82993c9"><td class="memItemLeft" align="right" valign="top">MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a1223863c48c31e62f6dff650b82993c9">getDynamicsContribution</a> (const Shared&lt; <a class="el" href="classostk_1_1astro_1_1_dynamics.html">Dynamics</a> &gt; &amp;aDynamicsSPtr, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt; &amp;aCoordinatesSubsetSPtrArray=Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt;::Empty()) const</td></tr>
 <tr class="memdesc:a1223863c48c31e62f6dff650b82993c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get dynamics contribution.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a1223863c48c31e62f6dff650b82993c9">More...</a><br /></td></tr>
 <tr class="separator:a1223863c48c31e62f6dff650b82993c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,16 +142,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aad1493cba3e37b0f34824c06b7a5d2bc"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aad1493cba3e37b0f34824c06b7a5d2bc">name</a></td></tr>
 <tr class="separator:aad1493cba3e37b0f34824c06b7a5d2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a197e80ddb416f4a837ba4a18332bc4dd"><td class="memItemLeft" align="right" valign="top">Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1_dynamics.html">Dynamics</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a197e80ddb416f4a837ba4a18332bc4dd">dynamics</a></td></tr>
-<tr class="memdesc:a197e80ddb416f4a837ba4a18332bc4dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the segment.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a197e80ddb416f4a837ba4a18332bc4dd">More...</a><br /></td></tr>
 <tr class="separator:a197e80ddb416f4a837ba4a18332bc4dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f9de7f970a194c241e2eeeda3517a45"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a2f9de7f970a194c241e2eeeda3517a45">states</a></td></tr>
-<tr class="memdesc:a2f9de7f970a194c241e2eeeda3517a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of dynamics used.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a2f9de7f970a194c241e2eeeda3517a45">More...</a><br /></td></tr>
 <tr class="separator:a2f9de7f970a194c241e2eeeda3517a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa7dceeff8352cdf6639244b47498357"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aaa7dceeff8352cdf6639244b47498357">conditionIsSatisfied</a></td></tr>
-<tr class="memdesc:aaa7dceeff8352cdf6639244b47498357"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of states for the segment.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aaa7dceeff8352cdf6639244b47498357">More...</a><br /></td></tr>
 <tr class="separator:aaa7dceeff8352cdf6639244b47498357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09ecf11f445cfb682fc7edc141c65b28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_segment.html#a5889e20c1d83004b7b2bd77602ae9c2f">Segment::Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a09ecf11f445cfb682fc7edc141c65b28">segmentType</a></td></tr>
-<tr class="memdesc:a09ecf11f445cfb682fc7edc141c65b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the event condition is satisfied.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a09ecf11f445cfb682fc7edc141c65b28">More...</a><br /></td></tr>
 <tr class="separator:a09ecf11f445cfb682fc7edc141c65b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
@@ -154,7 +156,9 @@ Friends</h2></td></tr>
 <tr class="memdesc:aca78b91909896a040a271510c450caee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output stream operator.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aca78b91909896a040a271510c450caee">More...</a><br /></td></tr>
 <tr class="separator:aca78b91909896a040a271510c450caee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Once a segment is set up with an event condition, it can be solved, resulting in this segment's <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html" title="Once a segment is set up with an event condition, it can be solved, resulting in this segment&#39;s Solut...">Solution</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad95e22cec62e36f4c89d68ce25320599"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad95e22cec62e36f4c89d68ce25320599">&#9670;&nbsp;</a></span>Solution()</h2>
 
@@ -210,7 +214,7 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An instance of <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html">Solution</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An instance of <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html" title="Once a segment is set up with an event condition, it can be solved, resulting in this segment&#39;s Solut...">Solution</a> </dd></dl>
 
 </div>
 </div>
@@ -252,6 +256,44 @@ Friends</h2></td></tr>
 
 <p><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility.">Access</a> Start Instant. </p>
 <dl class="section return"><dt>Returns</dt><dd>Start Instant </dd></dl>
+
+</div>
+</div>
+<a id="adfe834773848aebf9347662f57577f1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfe834773848aebf9347662f57577f1e">&#9670;&nbsp;</a></span>calculateStatesAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; ostk::astro::trajectory::Segment::Solution::calculateStatesAt </td>
+          <td>(</td>
+          <td class="paramtype">const Array&lt; Instant &gt; &amp;&#160;</td>
+          <td class="paramname"><em>anInstantArray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>aNumericalSolver</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate intermediate states at specified Instants using the provided Numerical Solver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">aNumericalSolver</td><td>a numerical solver to use for the propagation between states </td></tr>
+    <tr><td class="paramname">anInstantArray</td><td>an array of instants </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>States at specified instants </dd></dl>
 
 </div>
 </div>
@@ -548,7 +590,7 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramname">aSolution</td><td>A <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html">Solution</a> </td></tr>
+    <tr><td class="paramname">aSolution</td><td>A <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html" title="Once a segment is set up with an event condition, it can be solved, resulting in this segment&#39;s Solut...">Solution</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -569,8 +611,6 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Array of states for the segment. </p>
-
 </div>
 </div>
 <a id="a197e80ddb416f4a837ba4a18332bc4dd"></a>
@@ -584,8 +624,6 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Name of the segment. </p>
 
 </div>
 </div>
@@ -615,8 +653,6 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>True if the event condition is satisfied. </p>
-
 </div>
 </div>
 <a id="a2f9de7f970a194c241e2eeeda3517a45"></a>
@@ -630,8 +666,6 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>List of dynamics used. </p>
 
 </div>
 </div>

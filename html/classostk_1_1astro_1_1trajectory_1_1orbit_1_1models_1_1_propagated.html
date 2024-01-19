@@ -132,10 +132,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a789e4236d2b8b212b1d978055b76abf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get revolution number at epoch (it is equal to 1)  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a789e4236d2b8b212b1d978055b76abf1">More...</a><br /></td></tr>
 <tr class="separator:a789e4236d2b8b212b1d978055b76abf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2efc3c1af735dcf2ec622d056fa0a13f">calculateStateAt</a> (const Instant &amp;anInstant) const override</td></tr>
-<tr class="memdesc:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time.  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2efc3c1af735dcf2ec622d056fa0a13f">More...</a><br /></td></tr>
+<tr class="memdesc:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, given initial state.  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2efc3c1af735dcf2ec622d056fa0a13f">More...</a><br /></td></tr>
 <tr class="separator:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a4097432d2c863aedead23d2d67a7a7"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a9a4097432d2c863aedead23d2d67a7a7">calculateStatesAt</a> (const Array&lt; Instant &gt; &amp;anInstantArray) const override</td></tr>
-<tr class="memdesc:a9a4097432d2c863aedead23d2d67a7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, given initial state.  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a9a4097432d2c863aedead23d2d67a7a7">More...</a><br /></td></tr>
+<tr class="memdesc:a9a4097432d2c863aedead23d2d67a7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. Does not have macro-level sorting optimization, should not be used with disorded instant array.  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a9a4097432d2c863aedead23d2d67a7a7">More...</a><br /></td></tr>
 <tr class="separator:a9a4097432d2c863aedead23d2d67a7a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6360392c65494aa42aadff58ec58e49c"><td class="memItemLeft" align="right" valign="top">virtual Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a6360392c65494aa42aadff58ec58e49c">calculateRevolutionNumberAt</a> (const Instant &amp;anInstant) const override</td></tr>
 <tr class="memdesc:a6360392c65494aa42aadff58ec58e49c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the revolution number at an instant.  <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a6360392c65494aa42aadff58ec58e49c">More...</a><br /></td></tr>
@@ -368,8 +368,8 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. </p>
-<p>Does not have macro-level sorting optimization, should not be used with disorded instant array </p><div class="fragment"><div class="line">State state = propagated.calculateStateAt(anInstant) ;</div>
+<p>Calculate the state at an instant, given initial state. </p>
+<div class="fragment"><div class="line">State state = propagated.calculateStateAt(anInstant) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
@@ -406,16 +406,16 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate the state at an instant, given initial state. </p>
-<div class="fragment"><div class="line">State state = propagated.calculateStateAt(aState, anInstant) ;</div>
+<p>Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. Does not have macro-level sorting optimization, should not be used with disorded instant array. </p>
+<div class="fragment"><div class="line">Array&lt;State&gt; states = propagated.calculateStatesAt(anInstantArray) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">aState</td><td>An initial state </td></tr>
-    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">anInstantArray</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Array&lt;State&gt; </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html#a3c3e4913aed2272174c0e6cd0d1a6415">ostk::astro::trajectory::Model</a>.</p>
 

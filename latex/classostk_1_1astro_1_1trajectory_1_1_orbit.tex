@@ -77,6 +77,8 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbo
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_abd4a56f774275d0555d1d66a8ffc03dd}{Sun\+Synchronous}} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Time \&a\+Local\+Time\+At\+Descending\+Node, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr, const Angle \&an\+Argument\+Of\+Latitude=Angle\+::\+Zero())
 \begin{DoxyCompactList}\small\item\em Constructs a Sun-\/synchronous orbit. \end{DoxyCompactList}\item 
 static String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a329934037eb9eb4cacfcb2a5774753ed}{String\+From\+Frame\+Type}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a1cc449ad56374471a8ab4300dde979e7}{Orbit\+::\+Frame\+Type}} \&a\+Frame\+Type)
+\item 
+static Map$<$ Index, \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass}{Pass}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_af3a917713ab2b9c4acacca6948948bf7}{Generate\+Pass\+Map}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+State\+Array, const Integer \&an\+Initial\+Revolution\+Number)
 \end{DoxyCompactItemize}
 
 
@@ -247,6 +249,12 @@ Constructs an equatorial orbit.
 \begin{DoxyReturn}{Returns}
 Equatorial orbit 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_orbit_af3a917713ab2b9c4acacca6948948bf7}\label{classostk_1_1astro_1_1trajectory_1_1_orbit_af3a917713ab2b9c4acacca6948948bf7}} 
+\index{ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}!GeneratePassMap@{GeneratePassMap}}
+\index{GeneratePassMap@{GeneratePassMap}!ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}}
+\doxysubsubsection{\texorpdfstring{GeneratePassMap()}{GeneratePassMap()}}
+{\footnotesize\ttfamily Map$<$ Index, \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass}{Pass}} $>$ ostk\+::astro\+::trajectory\+::\+Orbit\+::\+Generate\+Pass\+Map (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&}]{a\+State\+Array,  }\item[{const Integer \&}]{an\+Initial\+Revolution\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_orbit_a24492769b1948a354dab07958a0f134c}\label{classostk_1_1astro_1_1trajectory_1_1_orbit_a24492769b1948a354dab07958a0f134c}} 
 \index{ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}!GeoSynchronous@{GeoSynchronous}}
 \index{GeoSynchronous@{GeoSynchronous}!ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}}

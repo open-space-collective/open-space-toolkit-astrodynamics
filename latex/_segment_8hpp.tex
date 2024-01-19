@@ -4,12 +4,13 @@
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Map.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Shared.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+String.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Objects/\+Matrix.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Objects/\+Vector.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Duration.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Instant.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Dynamics.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Dynamics/\+Thruster.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\+Propagated.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\+Numerical\+Solver.\+hpp$>$}\newline
 \doxysubsection*{Classes}
@@ -18,7 +19,7 @@
 class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{ostk\+::astro\+::trajectory\+::\+Segment}}
 \begin{DoxyCompactList}\small\item\em Represent a propagation segment for astrodynamics purposes. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{ostk\+::astro\+::trajectory\+::\+Segment\+::\+Solution}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Once a segment is set up with an event condition, it can be solved, resulting in this segment\textquotesingle{}s \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution}{Solution}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 

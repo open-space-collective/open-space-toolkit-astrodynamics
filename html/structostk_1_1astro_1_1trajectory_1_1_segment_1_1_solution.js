@@ -3,6 +3,7 @@ var structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution =
     [ "Solution", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#ad95e22cec62e36f4c89d68ce25320599", null ],
     [ "accessEndInstant", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aac24d3daad0746e310a5463be89782c6", null ],
     [ "accessStartInstant", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a4ba4fc26ecc269d19c45635ef9a12ea3", null ],
+    [ "calculateStatesAt", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#adfe834773848aebf9347662f57577f1e", null ],
     [ "computeDeltaMass", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a76458d29b4c6a74c9bd4c633c16e41c4", null ],
     [ "computeDeltaV", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#af105a18a6705eba38a8da9101f58a253", null ],
     [ "getAllDynamicsContributions", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a4495cb99ae85ed752f6fd462e05ae273", null ],
