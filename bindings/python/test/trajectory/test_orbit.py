@@ -2,22 +2,43 @@
 
 import pytest
 
-from ostk.physics import Environment
+from ostk.physics.environment.objects.celestial_bodies import Earth
 from ostk.physics.units import Length, Angle
-from ostk.physics.time import Scale, Instant, DateTime, Time
+from ostk.physics.time import Scale, Instant, DateTime, Time, Duration, Interval
 
 from ostk.astrodynamics.trajectory import Orbit, State
+from ostk.astrodynamics.trajectory.orbit import Pass
+from ostk.astrodynamics.trajectory.orbit import Pass
 from ostk.astrodynamics.trajectory.orbit.models import SGP4
 from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
 
 
 @pytest.fixture
-def earth():
-    return Environment.default().access_celestial_object_with_name("Earth")
+def earth() -> Earth:
+    return Earth.default()
+
+
+@pytest.fixture
+def epoch() -> Instant:
+    return Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+
+
+@pytest.fixture
+def orbit(earth: Earth, epoch: Instant):
+    return Orbit.sun_synchronous(epoch, Length.kilometers(500.0), Time.midnight(), earth)
+
+
+@pytest.fixture
+def states(orbit: Orbit, epoch: Instant) -> list[State]:
+    instants: list[Instant] = Interval.closed(
+        epoch, epoch + Duration.days(1.0)
+    ).generate_grid(Duration.seconds(20.0))
+
+    return orbit.get_states_at(instants)
 
 
 class TestOrbit:
-    def test_trajectory_orbit_constructors(self, earth):
+    def test_constructors(self, earth):
         # Construct Two-Line Element set
         tle = TLE(
             "1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
@@ -37,14 +58,45 @@ class TestOrbit:
         assert state is not None
         assert isinstance(state, State)
 
-    def test_trajectory_orbit_circular(self, earth):
+    def test_get_revolution_number_at(self, orbit: Orbit):
+        assert (
+            orbit.get_revolution_number_at(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+            )
+            == 1
+        )
+
+    def test_get_pass_at(self, orbit: Orbit):
+        pass_ = orbit.get_pass_at(
+            Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+        )
+
+        assert pass_ is not None
+        assert isinstance(pass_, Pass)
+        assert pass_.is_defined()
+
+    def test_get_pass_with_revolution_number(self, orbit: Orbit):
+        pass_ = orbit.get_pass_with_revolution_number(1)
+
+        assert pass_ is not None
+        assert isinstance(pass_, Pass)
+        assert pass_.is_defined()
+
+    def test_undefined(self):
+        assert Orbit.undefined().is_defined() is False
+
+    def test_circular(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         altitude = Length.kilometers(500.0)
         inclination = Angle.degrees(45.0)
 
         orbit: Orbit = Orbit.circular(epoch, altitude, inclination, earth)
 
-    def test_trajectory_orbit_equatorial(self, earth):
+        assert orbit is not None
+        assert isinstance(orbit, Orbit)
+        assert orbit.is_defined()
+
+    def test_equatorial(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         apoapsis_altitude = Length.kilometers(500.1)
         periapsis_altitude = Length.kilometers(499.9)
@@ -57,7 +109,7 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-    def test_trajectory_orbit_circular_equatorial(self, earth):
+    def test_circular_equatorial(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         altitude = Length.kilometers(500.0)
 
@@ -67,7 +119,7 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-    def test_trajectory_orbit_geo_synchronous(self, earth):
+    def test_geo_synchronous(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         inclination = Angle.degrees(45.0)
         longitude = Angle.degrees(45.0)
@@ -78,7 +130,7 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-    def test_trajectory_orbit_sun_synchronous(self, earth):
+    def test_sun_synchronous(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         altitude = Length.kilometers(500.0)
         local_time_at_descending_node = Time.midnight()
@@ -98,3 +150,7 @@ class TestOrbit:
             celestial_object=earth,
             argument_of_latitude=Angle.degrees(50.0),
         ).is_defined()
+
+    def test_generate_pass_map(self, orbit: Orbit, states: list[State]):
+        pass_map: dict[int, Pass] = orbit.generate_pass_map(states, 1)
+        assert pass_map is not None

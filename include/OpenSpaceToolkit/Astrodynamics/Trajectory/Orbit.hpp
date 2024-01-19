@@ -190,6 +190,8 @@ class Orbit : public Trajectory
 
     static String StringFromFrameType(const Orbit::FrameType& aFrameType);
 
+    static Map<Index, Pass> GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber);
+
    private:
     const orbit::Model* modelPtr_;
 
@@ -200,7 +202,9 @@ class Orbit : public Trajectory
 
     String generateFrameName(const Orbit::FrameType& aFrameType) const;
 
-    static Map<Index, Pass> GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber);
+    static Instant GetCrossingInstant(
+        const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getValue
+    );
 
     static Array<State> GenerateStates(const Model& aModel, const Array<Instant>& anInstantGrid);
 };

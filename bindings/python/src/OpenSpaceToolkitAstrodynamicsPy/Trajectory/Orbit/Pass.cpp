@@ -70,10 +70,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
     pass_class
 
         .def(
-            init<const Pass::Type&, const Integer&, const Interval&>(),
+            init<const Pass::Type&, const Integer&, const Interval&, const Instant&, const Instant&, const Instant&>(),
             arg("type"),
             arg("revolution_number"),
             arg("interval"),
+            arg("descending_node_instant"),
+            arg("north_point_instant"),
+            arg("south_point_instant"),
             R"doc(
                 Constructor.
 
@@ -81,6 +84,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
                     type (Pass.Type): The type of the pass.
                     revolution_number (int): The revolution number of the pass.
                     interval (Interval): The interval of the pass.
+                    descending_node_instant (Instant): The instant at the descending node of the pass.
+                    north_point_instant (Instant): The instant at the north point of the pass.
+                    south_point_instant (Instant): The instant at the south point of the pass.
 
             )doc"
         )
@@ -144,6 +150,50 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
                 Returns:
                     Interval: The interval of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_instant_at_ascending_node",
+            &Pass::accessInstantAtAscendingNode,
+            R"doc(
+                Get the instant at the ascending node of the pass.
+
+                Returns:
+                    Instant: The instant at the ascending node of the pass.
+            
+            )doc"
+        )
+        .def(
+            "get_instant_at_descending_node",
+            &Pass::accessInstantAtDescendingNode,
+            R"doc(
+                Get the instant at the descending node of the pass.
+
+                Returns:
+                    Instant: The instant at the descending node of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_instant_at_north_point",
+            &Pass::accessInstantAtNorthPoint,
+            R"doc(
+                Get the instant at the north point of the pass.
+
+                Returns:
+                    Instant: The instant at the north point of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_instant_at_south_point",
+            &Pass::accessInstantAtSouthPoint,
+            R"doc(
+                Get the instant at the south point of the pass.
+
+                Returns:
+                    Instant: The instant at the south point of the pass.
 
             )doc"
         )

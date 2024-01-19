@@ -14,11 +14,25 @@ namespace trajectory
 namespace orbit
 {
 
-Pass::Pass(const Pass::Type& aType, const Integer& aRevolutionNumber, const Interval& anInterval)
+Pass::Pass(
+    const Pass::Type& aType,
+    const Integer& aRevolutionNumber,
+    const Interval& anInterval,
+    const Instant& anInstantAtDescendingNode,
+    const Instant& anInstantAtNorthPoint,
+    const Instant& anInstantAtSouthPoint
+)
     : type_(aType),
       revolutionNumber_(aRevolutionNumber),
-      interval_(anInterval)
+      interval_(anInterval),
+      instantAtDescendingNode_(anInstantAtDescendingNode),
+      instantAtNorthPoint_(anInstantAtNorthPoint),
+      instantAtSouthPoint_(anInstantAtSouthPoint)
 {
+    if ((aType == Pass::Type::Complete) && (!anInstantAtNorthPoint.isDefined() || !anInstantAtSouthPoint.isDefined()))
+    {
+        throw ostk::core::error::RuntimeError("Complete pass must have both north and south points defined.");
+    }
 }
 
 bool Pass::operator==(const Pass& aPass) const
@@ -28,7 +42,28 @@ bool Pass::operator==(const Pass& aPass) const
         return false;
     }
 
-    return (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) && (interval_ == aPass.interval_);
+    bool isEqual = (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) &&
+                   (interval_ == aPass.interval_) &&
+                   (instantAtDescendingNode_.isDefined() == aPass.instantAtDescendingNode_.isDefined()) &&
+                   (instantAtNorthPoint_.isDefined() == aPass.instantAtNorthPoint_.isDefined()) &&
+                   (instantAtSouthPoint_.isDefined() == aPass.instantAtSouthPoint_.isDefined());
+
+    if (instantAtDescendingNode_.isDefined() && aPass.instantAtDescendingNode_.isDefined())
+    {
+        isEqual = isEqual && (instantAtDescendingNode_ == aPass.instantAtDescendingNode_);
+    }
+
+    if (instantAtNorthPoint_.isDefined() && aPass.instantAtNorthPoint_.isDefined())
+    {
+        isEqual = isEqual && (instantAtNorthPoint_ == aPass.instantAtNorthPoint_);
+    }
+
+    if (instantAtSouthPoint_.isDefined() && aPass.instantAtSouthPoint_.isDefined())
+    {
+        isEqual = isEqual && (instantAtSouthPoint_ == aPass.instantAtSouthPoint_);
+    }
+
+    return isEqual;
 }
 
 bool Pass::operator!=(const Pass& aPass) const
@@ -49,6 +84,17 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Pass& aPass)
         << "End time:" << (aPass.interval_.isDefined() ? aPass.interval_.accessEnd().toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Duration:" << (aPass.interval_.isDefined() ? aPass.interval_.getDuration().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Ascending node:" << (aPass.interval_.isDefined() ? aPass.interval_.accessStart().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "North point:"
+        << (aPass.instantAtNorthPoint_.isDefined() ? aPass.instantAtNorthPoint_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Descending node:"
+        << (aPass.instantAtDescendingNode_.isDefined() ? aPass.instantAtDescendingNode_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "South point:"
+        << (aPass.instantAtSouthPoint_.isDefined() ? aPass.instantAtSouthPoint_.toString() : "Undefined");
 
     ostk::core::utils::Print::Footer(anOutputStream);
 
@@ -100,9 +146,56 @@ Interval Pass::getInterval() const
     return interval_;
 }
 
+const Instant& Pass::accessInstantAtAscendingNode() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    return interval_.accessStart();
+}
+
+const Instant& Pass::accessInstantAtDescendingNode() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    return instantAtDescendingNode_;
+}
+
+const Instant& Pass::accessInstantAtNorthPoint() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    return instantAtNorthPoint_;
+}
+
+const Instant& Pass::accessInstantAtSouthPoint() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    return instantAtSouthPoint_;
+}
+
 Pass Pass::Undefined()
 {
-    return Pass(Pass::Type::Undefined, Integer::Undefined(), Interval::Undefined());
+    return {
+        Pass::Type::Undefined,
+        Integer::Undefined(),
+        Interval::Undefined(),
+        Instant::Undefined(),
+        Instant::Undefined(),
+        Instant::Undefined(),
+    };
 }
 
 String Pass::StringFromType(const Pass::Type& aType)
