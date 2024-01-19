@@ -1,0 +1,75 @@
+success-cartesian:
+  data:
+    spacecraft:
+      mass: 100.0
+      orbit:
+        type: CARTESIAN
+        data:
+          date:
+            time-scale: UTC
+            value: "2023-01-01T00:00:00"
+          frame: GCRF
+          body: EARTH
+          x: 100.0
+          y: 200.0
+          z: 300.0
+          vx: -1.0
+          vy: -2.0
+          vz: -3.0
+
+failure-keplerian:
+  data:
+    spacecraft:
+      mass: 100.0
+      orbit:
+        type: KEPLERIAN
+        data:
+          date:
+            time-scale: UTC
+            value: "2023-01-01T00:00:00"
+          frame: GCRF
+          body: EARTH
+          x: 100.0
+          y: 200.0
+          z: 300.0
+          vx: -1.0
+          vy: -2.0
+          vz: -3.0
+
+failure-time-scale:
+  data:
+    spacecraft:
+      mass: 100.0
+      orbit:
+        type: CARTESIAN
+        data:
+          date:
+            time-scale: TAI
+            value: "2023-01-01T00:00:00"
+          frame: GCRF
+          body: EARTH
+          x: 100.0
+          y: 200.0
+          z: 300.0
+          vx: -1.0
+          vy: -2.0
+          vz: -3.0
+
+failure-frame:
+  data:
+    spacecraft:
+      mass: 100.0
+      orbit:
+        type: CARTESIAN
+        data:
+          date:
+            time-scale: UTC
+            value: "2023-01-01T00:00:00"
+          frame: ITRF
+          body: EARTH
+          x: 100.0
+          y: 200.0
+          z: 300.0
+          vx: -1.0
+          vy: -2.0
+          vz: -3.0

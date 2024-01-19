@@ -1,0 +1,451 @@
+/// Apache License 2.0
+
+#include <gtest/gtest.h>
+
+#include <OpenSpaceToolkit/Astrodynamics/Parser.hpp>
+
+using ostk::astro::validation::Quantity;
+using ostk::astro::validation::QuantityComparison;
+using ostk::astro::validation::Tool;
+using ostk::astro::validation::ToolComparison;
+using ostk::astro::validation::Parser;
+
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Table;
+using ostk::core::ctnr::Tuple;
+using CntrObject = ostk::core::ctnr::Object;
+using ostk::core::ctnr::Dictionary;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
+using ostk::core::filesystem::Directory;
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+using ostk::core::types::String;
+using ostk::core::types::Size;
+
+using ostk::math::geometry::d3::objects::Composite;
+using ostk::math::geometry::d3::objects::Cuboid;
+using ostk::math::object::Vector3d;
+using ostk::math::object::Matrix3d;
+using ostk::math::object::VectorXd;
+
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::data::Scalar;
+using ostk::physics::Environment;
+using ostk::physics::environment::Object;
+using ostk::physics::environment::object::Celestial;
+using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
+using AtmosphericModel = ostk::physics::environment::atmospheric::Model;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using GravitationalModel = ostk::physics::environment::gravitational::Model;
+using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::environment::object::celestial::Moon;
+using ostk::physics::environment::object::celestial::Sun;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
+using ostk::physics::units::Mass;
+
+using ostk::astro::Dynamics;
+using ostk::astro::dynamics::AtmosphericDrag;
+using ostk::astro::dynamics::CentralBodyGravity;
+using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamics::ThirdBodyGravity;
+using ostk::astro::dynamics::Thruster;
+using ostk::astro::eventcondition::InstantCondition;
+using ostk::astro::eventcondition::RealCondition;
+using ostk::astro::flight::system::PropulsionSystem;
+using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::guidancelaw::ConstantThrust;
+using ostk::astro::trajectory::LocalOrbitalFrameDirection;
+using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astro::trajectory::Propagator;
+using ostk::astro::trajectory::Segment;
+using ostk::astro::trajectory::Sequence;
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astro::trajectory::StateBuilder;
+
+class OpenSpaceToolkit_Astrodynamics_Validation_Parser : public ::testing::Test
+{
+   protected:
+    const String pathToData_ = {"/app/validation/OpenSpaceToolkit/Astrodynamics/data/test"};
+    const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
+    const Array<Shared<Dynamics>> defaultDynamics_ = Dynamics::FromEnvironment(Environment::Default());
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSatelliteSystem)
+{
+    const String testScenario = {"test_parser_create_satellite_system"};
+    const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
+
+    {
+        const SatelliteSystem satelliteSystem =
+            Parser::CreateSatelliteSystem(dataTree["success-no-prop-system"].accessDictionary());
+
+        EXPECT_EQ(satelliteSystem.getMass(), Mass::Kilograms(0.0));
+        EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), 1.0);
+        EXPECT_EQ(satelliteSystem.getDragCoefficient(), 2.2);
+        EXPECT_THROW(satelliteSystem.getPropulsionSystem(), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        const SatelliteSystem satelliteSystem =
+            Parser::CreateSatelliteSystem(dataTree["success-prop-system"].accessDictionary());
+
+        EXPECT_EQ(satelliteSystem.getMass(), Mass::Kilograms(0.0));
+        EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), 1.0);
+        EXPECT_EQ(satelliteSystem.getDragCoefficient(), 2.2);
+        EXPECT_EQ(
+            satelliteSystem.getPropulsionSystem(),
+            PropulsionSystem(
+                Scalar(0.01, PropulsionSystem::thrustSIUnit), Scalar(3000.0, PropulsionSystem::specificImpulseSIUnit)
+            )
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
+{
+    const String testScenario = {"test_parser_create_initial_state"};
+    const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
+
+    VectorXd coordinates(9);
+    coordinates << Vector3d(100.0, 200.0, 300.0), Vector3d(-1.0, -2.0, -3.0), 100.0,
+        defaultSatelliteSystem_.getCrossSectionalSurfaceArea(), defaultSatelliteSystem_.getDragCoefficient();
+
+    const State defaultInitialState =
+        StateBuilder(
+            Frame::GCRF(),
+            {
+                CartesianPosition::Default(),
+                CartesianVelocity::Default(),
+                CoordinatesSubset::Mass(),
+                CoordinatesSubset::SurfaceArea(),
+                CoordinatesSubset::DragCoefficient(),
+            }
+        )
+            .build(Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC), coordinates);
+
+    {
+        const State initialState =
+            Parser::CreateInitialState(dataTree["success-cartesian"].accessDictionary(), defaultSatelliteSystem_);
+
+        EXPECT_EQ(initialState, defaultInitialState);
+    }
+
+    {
+        EXPECT_THROW(
+            Parser::CreateInitialState(dataTree["failure-keplerian"].accessDictionary(), defaultSatelliteSystem_),
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            Parser::CreateInitialState(dataTree["failure-time-scale"].accessDictionary(), defaultSatelliteSystem_),
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            Parser::CreateInitialState(dataTree["failure-frame"].accessDictionary(), defaultSatelliteSystem_),
+            ostk::core::error::runtime::Wrong
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateEnvironment)
+{
+    const String testScenario = {"test_parser_create_environment"};
+    const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
+
+    {
+        const Environment environment = Parser::CreateEnvironment(dataTree["success-forces-all"].accessDictionary());
+
+        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+
+        Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+        EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
+        EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
+        EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
+
+        Shared<const EarthAtmosphericModel> earthAtmosphericModelSPtr =
+            std::dynamic_pointer_cast<const EarthAtmosphericModel>(earthSPtr->accessAtmosphericModel());
+        EXPECT_EQ(earthAtmosphericModelSPtr->getType(), EarthAtmosphericModel::Type::NRLMSISE00);
+
+        EXPECT_NO_THROW(environment.accessCelestialObjectWithName("Sun"));
+        EXPECT_NO_THROW(environment.accessCelestialObjectWithName("Moon"));
+    }
+
+    {
+        const Environment environment =
+            Parser::CreateEnvironment(dataTree["success-forces-central-grav-only"].accessDictionary());
+
+        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+
+        Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+        EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
+        EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 10);
+        EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 10);
+
+        EXPECT_FALSE(earthSPtr->accessAtmosphericModel()->isDefined());
+
+        EXPECT_THROW(environment.accessCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
+        EXPECT_THROW(environment.accessCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
+    }
+
+    {
+        const Environment environment =
+            Parser::CreateEnvironment(dataTree["success-forces-central-grav-and-one-third-body"].accessDictionary());
+
+        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+
+        Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+
+        EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
+        EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
+        EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
+
+        EXPECT_FALSE(earthSPtr->accessAtmosphericModel()->isDefined());
+
+        EXPECT_THROW(environment.accessCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
+        EXPECT_NO_THROW(environment.accessCelestialObjectWithName("Moon"));
+    }
+
+    {
+        const Environment environment =
+            Parser::CreateEnvironment(dataTree["success-atmosphere-exponential"].accessDictionary());
+
+        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+
+        Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+        EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
+        EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
+        EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
+
+        Shared<const EarthAtmosphericModel> earthAtmosphericModelSPtr =
+            std::dynamic_pointer_cast<const EarthAtmosphericModel>(earthSPtr->accessAtmosphericModel());
+        EXPECT_EQ(earthAtmosphericModelSPtr->getType(), EarthAtmosphericModel::Type::Exponential);
+
+        EXPECT_THROW(environment.accessCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
+        EXPECT_THROW(environment.accessCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreateSegment)
+{
+    const String testScenario = {"test_parser_create_sequence"};
+    const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
+
+    const NumericalSolver defaultNumericalSolverVariable = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 45.0, 1.0e-10, 1.0e-10
+    };
+
+    const RealCondition defaultDurationCondition =
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(60.0));
+
+    const InstantCondition defaultInstantCondition1 = InstantCondition(
+        InstantCondition::Criterion::StrictlyPositive, Instant::DateTime(DateTime(2023, 1, 1, 0, 3, 0), Scale::UTC)
+    );
+    const InstantCondition defaultInstantCondition2 = InstantCondition(
+        InstantCondition::Criterion::StrictlyPositive, Instant::DateTime(DateTime(2023, 1, 1, 0, 4, 0), Scale::UTC)
+    );
+
+    const Vector3d defaultThrustDirection1 = Vector3d(0.0, 1.0, 0.0);
+    const Thruster defaultThrusterDynamics1 = {
+        defaultSatelliteSystem_,
+        std::make_shared<ConstantThrust>(ConstantThrust(
+            LocalOrbitalFrameDirection(defaultThrustDirection1, LocalOrbitalFrameFactory::VNC(Frame::GCRF()))
+        ))
+    };
+
+    const Vector3d defaultThrustDirection2 = Vector3d(0.0, 0.0, 1.0);
+    const Thruster defaultThrusterDynamics2 = {
+        defaultSatelliteSystem_,
+        std::make_shared<ConstantThrust>(ConstantThrust(
+            LocalOrbitalFrameDirection(defaultThrustDirection2, LocalOrbitalFrameFactory::VNC(Frame::GCRF()))
+        ))
+    };
+
+    {
+        const Sequence sequence = Parser::CreateSequence(
+            dataTree["success-multiple-coast-and-burn"].accessDictionary(), defaultSatelliteSystem_, defaultDynamics_
+        );
+
+        EXPECT_EQ(sequence.getSegments().getSize(), 4);
+        EXPECT_EQ(sequence.getNumericalSolver(), defaultNumericalSolverVariable);
+        EXPECT_EQ(sequence.getDynamics(), Array<Shared<Dynamics>>::Empty());
+        EXPECT_EQ(sequence.getMaximumPropagationDuration(), Duration::Seconds(240.1));
+
+        // First coast segment
+        const Segment segment1 = sequence.getSegments()[0];
+        EXPECT_EQ(segment1.getType(), Segment::Type::Coast);
+        const RealCondition durationConditionSegment1 =
+            *std::dynamic_pointer_cast<RealCondition>(segment1.getEventCondition());
+        EXPECT_EQ(durationConditionSegment1.getTarget(), defaultDurationCondition.getTarget());
+        EXPECT_EQ(durationConditionSegment1.getCriterion(), defaultDurationCondition.getCriterion());
+        EXPECT_EQ(segment1.getNumericalSolver(), defaultNumericalSolverVariable);
+        EXPECT_EQ(segment1.getDynamics(), defaultDynamics_);
+
+        // First burn segment
+        const Segment segment2 = sequence.getSegments()[1];
+        EXPECT_EQ(segment2.getType(), Segment::Type::Maneuver);
+        const RealCondition durationConditionSegment2 =
+            *std::dynamic_pointer_cast<RealCondition>(segment2.getEventCondition());
+        EXPECT_EQ(durationConditionSegment2.getTarget(), defaultDurationCondition.getTarget());
+        EXPECT_EQ(durationConditionSegment2.getCriterion(), defaultDurationCondition.getCriterion());
+        EXPECT_EQ(segment2.getNumericalSolver(), defaultNumericalSolverVariable);
+        const Array<Shared<Dynamics>> dynamicsSegment2 = segment2.getDynamics();
+        EXPECT_NE(dynamicsSegment2, defaultDynamics_);
+        for (const auto& dynamics : dynamicsSegment2)
+        {
+            const Shared<const Thruster> thrusterSPtr = std::dynamic_pointer_cast<Thruster>(dynamics);
+            if (thrusterSPtr)
+            {
+                EXPECT_TRUE(thrusterSPtr->isDefined());
+                EXPECT_EQ(thrusterSPtr->getSatelliteSystem(), defaultThrusterDynamics1.getSatelliteSystem());
+                const Shared<const ConstantThrust> constantThrustSPtr =
+                    std::dynamic_pointer_cast<const ConstantThrust>(thrusterSPtr->getGuidanceLaw());
+                const LocalOrbitalFrameDirection localThrustDirection = constantThrustSPtr->getLocalThrustDirection();
+                EXPECT_EQ(localThrustDirection.getValue(), defaultThrustDirection1);
+                EXPECT_EQ(
+                    localThrustDirection.getLocalOrbitalFrameFactory()->getProviderType(),
+                    LocalOrbitalFrameTransformProvider::Type::VNC
+                );
+            }
+        }
+
+        // Second coast segment
+        const Segment segment3 = sequence.getSegments()[2];
+        EXPECT_EQ(segment3.getType(), Segment::Type::Coast);
+        const InstantCondition instantConditionSegment3 =
+            *std::dynamic_pointer_cast<InstantCondition>(segment3.getEventCondition());
+        EXPECT_EQ(instantConditionSegment3.getTarget(), defaultInstantCondition1.getTarget());
+        EXPECT_EQ(instantConditionSegment3.getCriterion(), defaultInstantCondition1.getCriterion());
+        EXPECT_EQ(segment3.getNumericalSolver(), defaultNumericalSolverVariable);
+        EXPECT_EQ(segment3.getDynamics(), defaultDynamics_);
+
+        // Second burn segment
+        const Segment segment4 = sequence.getSegments()[3];
+        EXPECT_EQ(segment4.getType(), Segment::Type::Maneuver);
+        const InstantCondition instantConditionSegment4 =
+            *std::dynamic_pointer_cast<InstantCondition>(segment4.getEventCondition());
+        EXPECT_EQ(instantConditionSegment4.getTarget(), defaultInstantCondition2.getTarget());
+        EXPECT_EQ(instantConditionSegment4.getCriterion(), defaultInstantCondition2.getCriterion());
+        EXPECT_EQ(segment4.getNumericalSolver(), defaultNumericalSolverVariable);
+        const Array<Shared<Dynamics>> dynamicsSegment4 = segment4.getDynamics();
+        EXPECT_NE(dynamicsSegment4, defaultDynamics_);
+        for (const auto& dynamics : dynamicsSegment4)
+        {
+            const Shared<const Thruster> thrusterSPtr = std::dynamic_pointer_cast<Thruster>(dynamics);
+            if (thrusterSPtr)
+            {
+                EXPECT_TRUE(thrusterSPtr->isDefined());
+                EXPECT_EQ(thrusterSPtr->getSatelliteSystem(), defaultThrusterDynamics2.getSatelliteSystem());
+                const Shared<const ConstantThrust> constantThrustSPtr =
+                    std::dynamic_pointer_cast<const ConstantThrust>(thrusterSPtr->getGuidanceLaw());
+                const LocalOrbitalFrameDirection localThrustDirection = constantThrustSPtr->getLocalThrustDirection();
+                EXPECT_EQ(localThrustDirection.getValue(), defaultThrustDirection2);
+                EXPECT_EQ(
+                    localThrustDirection.getLocalOrbitalFrameFactory()->getProviderType(),
+                    LocalOrbitalFrameTransformProvider::Type::VNC
+                );
+            }
+        }
+    }
+
+    const NumericalSolver defaultNumericalSolverFixed =
+        NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKutta4, 20.0);
+    {
+        const Sequence sequence = Parser::CreateSequence(
+            dataTree["success-fixed-propagator"].accessDictionary(), defaultSatelliteSystem_, defaultDynamics_
+        );
+
+        EXPECT_EQ(sequence.getSegments().getSize(), 1);
+        EXPECT_EQ(sequence.getNumericalSolver(), defaultNumericalSolverFixed);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateComparisonInstants)
+{
+    const String testScenario = {"test_parser_create_comparison_instants"};
+    const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
+
+    const Instant defaultInitialInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
+    const Instant defaultFinalInstant = defaultInitialInstant + Duration::Seconds(120.0);
+
+    {
+        const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
+            dataTree["success"].accessDictionary(), defaultInitialInstant, defaultFinalInstant
+        );
+
+        EXPECT_EQ(comparisonInstants.getSize(), 3);
+        EXPECT_EQ(comparisonInstants[0], defaultInitialInstant);
+        EXPECT_EQ(comparisonInstants[1], defaultInitialInstant + Duration::Seconds(60.0));
+        EXPECT_EQ(comparisonInstants[2], defaultFinalInstant);
+    }
+
+    {
+        const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
+            dataTree["success"].accessDictionary(),
+            defaultInitialInstant,
+            defaultFinalInstant + Duration::Microseconds(1.0)
+        );
+
+        EXPECT_EQ(comparisonInstants.getSize(), 3);
+        EXPECT_EQ(comparisonInstants[0], defaultInitialInstant);
+        EXPECT_EQ(comparisonInstants[1], defaultInitialInstant + Duration::Seconds(60.0));
+        EXPECT_EQ(comparisonInstants[2], defaultFinalInstant);
+    }
+
+    {
+        const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
+            dataTree["success"].accessDictionary(),
+            defaultInitialInstant,
+            defaultFinalInstant - Duration::Microseconds(1.0)
+        );
+
+        EXPECT_EQ(comparisonInstants.getSize(), 3);
+        EXPECT_EQ(comparisonInstants[0], defaultInitialInstant);
+        EXPECT_EQ(comparisonInstants[1], defaultInitialInstant + Duration::Seconds(60.0));
+        EXPECT_EQ(comparisonInstants[2], defaultFinalInstant - Duration::Microseconds(1.0));
+    }
+
+    {
+        EXPECT_THROW(
+            Parser::CreateComparisonInstants(
+                dataTree["success"].accessDictionary(),
+                defaultInitialInstant,
+                defaultFinalInstant + Duration::Microseconds(101.0)
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            Parser::CreateComparisonInstants(
+                dataTree["success"].accessDictionary(),
+                defaultInitialInstant,
+                defaultFinalInstant - Duration::Microseconds(101.0)
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
+}

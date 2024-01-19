@@ -1,0 +1,59 @@
+success-forces-all:
+  data:
+    sequence:
+      forces:
+        - type: GRAVITY
+          data:
+            body: EARTH
+            model: EGM96
+            degree: 60
+            order: 60
+        - type: GRAVITY
+          data:
+            body: SUN
+        - type: GRAVITY
+          data:
+            body: MOON
+        - type: ATMOSPHERIC_DRAG
+          data:
+            name: EARTH_DRAG
+            body: EARTH
+            model: NRLMSISE00
+success-forces-central-grav-only:
+  data:
+    sequence:
+      forces:
+        - type: GRAVITY
+          data:
+            body: EARTH
+            model: EGM96
+            degree: 10
+            order: 10
+success-forces-central-grav-and-one-third-body:
+  data:
+    sequence:
+      forces:
+        - type: GRAVITY
+          data:
+            body: EARTH
+            model: EGM96
+            degree: 60
+            order: 60
+        - type: GRAVITY
+          data:
+            body: MOON
+success-atmosphere-exponential:
+  data:
+    sequence:
+      forces:
+        - type: GRAVITY
+          data:
+            body: EARTH
+            model: EGM96
+            degree: 60
+            order: 60
+        - type: ATMOSPHERIC_DRAG
+          data:
+            name: EARTH_DRAG
+            body: EARTH
+            model: EXPONENTIAL

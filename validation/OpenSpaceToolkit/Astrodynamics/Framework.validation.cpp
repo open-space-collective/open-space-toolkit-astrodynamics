@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <iostream>
-
 #include <gtest/gtest.h>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
@@ -169,7 +167,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
     const Array<ToolComparison> toolComparisons = std::get<1>(parameters);
 
     // Instatiate mission sequence app to set up the scenario
-    MissionSequence missionSequence = {Parser::ParseYaml(pathToData, scenarioName)};
+    MissionSequence missionSequence = {Parser::ParseYaml(String::Format("{0}/scenarios", pathToData), scenarioName)};
 
     // Solve the scenario
     missionSequence.run();
@@ -193,8 +191,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
             for (Size stateIndex = 0; stateIndex < allDeltasWithTool.getSize(); stateIndex++)
             {
                 // Assert tolerance on each comparison step
-                ASSERT_GT(tolerance, allDeltasWithTool[stateIndex][coordinateSubsetIndex]) << String::Format(
-                    "For Quantity: {}\nTolerance: {}\n", CrossValidator::QuantityToString(quantity), tolerance
+                EXPECT_GT(tolerance, allDeltasWithTool[stateIndex][coordinateSubsetIndex]) << String::Format(
+                    "For Tool: {}\nFor Quantity: {}\nTolerance: {}\n",
+                    CrossValidator::ToolToString(tool),
+                    CrossValidator::QuantityToString(quantity),
+                    tolerance
                 );
             }
         }
@@ -265,14 +266,14 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters =
             {
                 Tool::GMAT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.1e-3},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 0.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 0.9e-3},
                 },
             },
             {
                 Tool::OREKIT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.0e-0},
                     {Quantity::CARTESIAN_VELOCITY_GCRF, 1.1e-3},
                 },
             },

@@ -1,0 +1,19 @@
+# Test create satellite system function
+success-no-prop-system:
+  data:
+    spacecraft:
+      mass: 100.0
+      drag-cross-section: 1.0
+      drag-coefficient: 2.2
+
+success-prop-system:
+  data:
+    spacecraft:
+      mass: 100.0
+      drag-cross-section: 1.0
+      drag-coefficient: 2.2
+      thruster:
+        type: CONSTANT_THRUST
+        data:
+          thrust: 0.01
+          specific-impulse: 3000.0

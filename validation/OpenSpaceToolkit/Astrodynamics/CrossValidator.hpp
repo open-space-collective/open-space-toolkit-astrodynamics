@@ -88,10 +88,11 @@ class CrossValidator
 
     /// @brief Compare the results of the "Mission Sequence" with the results of a tool.
     ///
-    /// @param aReferenceData An array of vectors containing the reference data from the comparing tool.
-    /// @param aToolComparison A tool comparison object containing the tool name and the quantities to compare.
-    /// @return An array of vectors containing the differences between the results of the "Mission Sequence" and the
-    /// results of the tool.
+    /// @param anOSTkState An OSTk state to compare.
+    /// @param aReferenceCoordinates An array of vectors containing the reference data from the tool.
+    /// @param aQuantityComparisons An array of quantity comparison objects containing the quantities to compare.
+    /// @return A vector containing the differences between the results of the "Mission Sequence" and the
+    /// results of the tool at the current tool, for all output quantities.
     static VectorXd CompareOutputQuantities(
         const State& anOSTkState,
         const Array<VectorXd>& aReferenceCoordinates,
@@ -102,6 +103,16 @@ class CrossValidator
     ///
     /// @param aQuantity A quantity enum
     static String QuantityToString(const Quantity& aQuantity);
+
+    /// @brief Convert a tool enum to a string
+    ///
+    /// @param aTool A tool enum
+    static String ToolToString(const Tool& aTool);
+
+    /// @brief Convert a tool enum to a path to the tool's output file
+    ///
+    /// @param aTool A tool enum
+    static String ToolToPath(const Tool& aTool);
 
    private:
     CrossValidator();

@@ -85,12 +85,6 @@ VectorXd CrossValidator::CompareOutputQuantities(
                 break;
             }
             case Quantity::MASS:
-            {
-                const VectorXd ostkCoordinateSubset = anOSTkState.extractCoordinate(CoordinatesSubset::Mass());
-
-                deltaWithTool[coordinateSubsetIndex] = (referenceCoordinateSubset - ostkCoordinateSubset).norm();
-                break;
-            }
             case Quantity::CARTESIAN_ACCELERATION_GCRF:
             case Quantity::MANEUVER_ACCELERATION_J2000:
             default:
@@ -116,7 +110,33 @@ String CrossValidator::QuantityToString(const Quantity& aQuantity)
         case MANEUVER_ACCELERATION_J2000:
             return "MANEUVER_ACCELERATION_J2000";
         default:
-            return "Unknown Quantity";
+            throw ostk::core::error::runtime::Wrong("Quantity not recognized.");
+    }
+}
+
+String CrossValidator::ToolToString(const Tool& aTool)
+{
+    switch (aTool)
+    {
+        case Tool::GMAT:
+            return "GMAT";
+        case Tool::OREKIT:
+            return "OREKIT";
+        default:
+            throw ostk::core::error::runtime::Wrong("Tool not recognized.");
+    }
+}
+
+String CrossValidator::ToolToPath(const Tool& aTool)
+{
+    switch (aTool)
+    {
+        case Tool::GMAT:
+            return "gmat_astrodynamics";
+        case Tool::OREKIT:
+            return "orekit_astrodynamics";
+        default:
+            throw ostk::core::error::runtime::Wrong("Tool not recognized.");
     }
 }
 

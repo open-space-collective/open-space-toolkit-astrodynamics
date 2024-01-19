@@ -11,7 +11,7 @@ namespace validation
 
 Dictionary Parser::ParseYaml(const String& aPathToData, const String& aScenarioName)
 {
-    const String scenarioPath = String::Format("{0}/scenarios/{1}.yaml", aPathToData, aScenarioName);
+    const String scenarioPath = String::Format("{0}/{1}.yaml", aPathToData, aScenarioName);
 
     const File scenarioFile = File::Path(Path::Parse(scenarioPath));
 
@@ -20,19 +20,8 @@ Dictionary Parser::ParseYaml(const String& aPathToData, const String& aScenarioN
 
 Table Parser::ParseCSV(const String& aPathToData, const String& aScenarioName, const Tool& aTool)
 {
-    String csvPath;
-    if (aTool == Tool::GMAT)
-    {
-        csvPath = String::Format("{0}/gmat_astrodynamics/{1}.csv", aPathToData, aScenarioName);
-    }
-    else if (aTool == Tool::OREKIT)
-    {
-        csvPath = String::Format("{0}/orekit_astrodynamics/{1}.csv", aPathToData, aScenarioName);
-    }
-    else
-    {
-        throw ostk::core::error::runtime::Wrong("Tool not recognized.");
-    }
+    const String csvPath =
+        String::Format("{0}/{1}/{2}.csv", aPathToData, CrossValidator::ToolToPath(aTool), aScenarioName);
 
     return Table::Load(File::Path(Path::Parse(csvPath)), Table::Format::CSV, true);
 }
@@ -72,23 +61,21 @@ State Parser::CreateInitialState(const Dictionary& aDictionary, const SatelliteS
 
     const Dictionary orbit = spacecraft["orbit"].accessDictionary();
 
-    Instant initialInstant = Instant::Undefined();
-    if (orbit["data"]["date"]["time-scale"].accessString() == "UTC")
-    {
-        initialInstant = Instant::DateTime(
-            DateTime::Parse(orbit["data"]["date"]["value"].accessString(), DateTime::Format::ISO8601), Scale::UTC
-        );
-    }
-    else
+    if (orbit["data"]["date"]["time-scale"].accessString() != "UTC")
     {
         throw ostk::core::error::runtime::Wrong("Time scale");
     }
+    const Instant initialInstant = Instant::DateTime(
+        DateTime::Parse(orbit["data"]["date"]["value"].accessString(), DateTime::Format::ISO8601), Scale::UTC
+    );
 
-    const Shared<const Frame> frame =
-        orbit["data"]["frame"].accessString() == "GCRF" ? Frame::GCRF() : Frame::Undefined();
+    if (orbit["data"]["frame"].accessString() != "GCRF")
+    {
+        throw ostk::core::error::runtime::Wrong("Initial Condition frame");
+    }
+    const Shared<const Frame> frame = Frame::GCRF();
 
     VectorXd coordinates(9);
-
     if (orbit["type"].accessString() == "CARTESIAN")
     {
         const Position position = Position::Meters(
@@ -258,27 +245,29 @@ Array<Instant> Parser::CreateComparisonInstants(
     const Real step = aDictionary["data"]["output"]["step"].accessReal();
 
     const Interval interval = Interval::Closed(anInitialInstant, aFinalInstant);
-    Array<Instant> comparisonInstants = interval.generateGrid(Duration::Seconds(step));
+    const Duration stepDuration = Duration::Seconds(step);
+    Array<Instant> comparisonInstants = interval.generateGrid(stepDuration);
 
     const Size estimatedNumberOfComparisonInstants =
         Real(std::round(interval.getDuration().inSeconds() / step)).toInteger() + 1;
 
     // Sanitize comparison instant array to avoid numerical errors from segment stop conditions and numerical solver
-    const Duration durationTolerance = Duration::Microseconds(5);
+    const Duration durationTolerance = Duration::Microseconds(100.0);
 
-    if (estimatedNumberOfComparisonInstants != comparisonInstants.getSize())
+    Duration instantDelta =
+        (comparisonInstants[comparisonInstants.getSize() - 1] - comparisonInstants[comparisonInstants.getSize() - 2])
+            .getAbsolute();
+
+    if ((instantDelta < durationTolerance) || ((stepDuration - instantDelta) < durationTolerance))
     {
-        const Duration instantDelta = (comparisonInstants[comparisonInstants.getSize() - 1] -
-                                       comparisonInstants[comparisonInstants.getSize() - 2])
-                                          .getAbsolute();
-        if (instantDelta > durationTolerance)
-        {
-            throw ostk::core::error::RuntimeError("Comparison instants not exactly lining up.");
-        }
-        else
+        if (estimatedNumberOfComparisonInstants < comparisonInstants.getSize())
         {
             comparisonInstants.pop_back();
         }
+    }
+    else
+    {
+        throw ostk::core::error::runtime::Wrong("Comparison instants are not equally spaced.");
     }
 
     return comparisonInstants;
@@ -338,9 +327,10 @@ Segment Parser::CreateSegment(
             throw ostk::core::error::runtime::Wrong("Attitude type or local orbital type");
         }
 
-        const Shared<const Frame> frame =
-            segmentDictionary["data"]["attitude"]["data"]["parent"].accessString() == "GCRF" ? Frame::GCRF()
-                                                                                             : Frame::Undefined();
+        if (segmentDictionary["data"]["attitude"]["data"]["parent"].accessString() != "GCRF")
+        {
+            throw ostk::core::error::runtime::Wrong("Maneuver parent frame");
+        }
 
         // Create thruster dynamics
         const Vector3d maneuverVector = {
@@ -349,7 +339,8 @@ Segment Parser::CreateSegment(
             segmentDictionary["data"]["attitude"]["data"]["direction"].accessArray()[2].accessReal()
         };
 
-        const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(
+        const Shared<const Frame> frame = Frame::GCRF();
+        const Shared<const ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(
             ConstantThrust(LocalOrbitalFrameDirection(maneuverVector, LocalOrbitalFrameFactory::VNC(frame)))
         );
         const Shared<Thruster> aThrusterDynamicSPtr =

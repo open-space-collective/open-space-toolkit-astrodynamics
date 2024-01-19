@@ -23,6 +23,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
@@ -74,6 +75,7 @@ using ostk::astro::validation::Quantity;
 using ostk::astro::validation::QuantityComparison;
 using ostk::astro::validation::Tool;
 using ostk::astro::validation::ToolComparison;
+using ostk::astro::validation::CrossValidator;
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;

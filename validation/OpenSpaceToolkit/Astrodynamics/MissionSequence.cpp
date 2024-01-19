@@ -36,7 +36,7 @@ void MissionSequence::run()
 
 const SatelliteSystem& MissionSequence::accessSatelliteSystem() const
 {
-    if (satelliteSystem_.isDefined())
+    if (!satelliteSystem_.isDefined())
     {
         throw ostk::core::error::RuntimeError("No satellite system defined.");
     }
@@ -45,7 +45,7 @@ const SatelliteSystem& MissionSequence::accessSatelliteSystem() const
 
 const State& MissionSequence::accessInitialState() const
 {
-    if (initialState_.isDefined())
+    if (!initialState_.isDefined())
     {
         throw ostk::core::error::RuntimeError("No initial state defined.");
     }
@@ -54,7 +54,7 @@ const State& MissionSequence::accessInitialState() const
 
 const Environment& MissionSequence::accessEnvironment() const
 {
-    if (environment_.isDefined())
+    if (!environment_.isDefined())
     {
         throw ostk::core::error::RuntimeError("No environment defined.");
     }
@@ -79,7 +79,7 @@ const Array<State>& MissionSequence::accessSolvedStates() const
 {
     if (solvedStates_.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("No states defined.");
+        throw ostk::core::error::RuntimeError("No solved states defined.");
     }
     return solvedStates_;
 }
@@ -89,6 +89,16 @@ Array<VectorXd> MissionSequence::compareResults(const Table& referenceData, cons
     const Array<QuantityComparison>& quantityComparisons = aToolComparison.quantityComparisons;
 
     Array<Array<VectorXd>> referenceOutputs = CrossValidator::IngestOutputQuantities(referenceData, aToolComparison);
+
+    if (solvedStates_.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solved states defined.");
+    }
+
+    if (referenceOutputs.getSize() != solvedStates_.getSize())
+    {
+        throw ostk::core::error::RuntimeError("Number of reference outputs does not match number of solved states.");
+    }
 
     Array<VectorXd> allDeltasWithTool = Array<VectorXd>::Empty();
     allDeltasWithTool.reserve(solvedStates_.getSize());

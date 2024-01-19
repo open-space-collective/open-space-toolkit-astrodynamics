@@ -1,0 +1,72 @@
+success-multiple-coast-and-burn:
+  data:
+    sequence:
+      max-duration: 240.1
+      propagator:
+        type: RUNGE_KUTTA_DORMAND_PRINCE_45
+        data:
+          initial-step: 45.0
+          min-step: 0.001
+          max-step: 2700.0
+          relative-tolerance: 1.0e-10
+          absolute-tolerance: 1.0e-10
+      segments:
+        - type: COAST
+          data:
+            stop-condition:
+              type: RELATIVE_TIME
+              data:
+                duration: 60.0
+        - type: CONSTANT_DIRECTION_MANEUVER
+          data:
+            stop-condition:
+              type: RELATIVE_TIME
+              data:
+                duration: 60.0
+            attitude:
+              type: LOF
+              data:
+                lof: VNC
+                parent: GCRF
+                direction:
+                  - 0.0
+                  - 1.0
+                  - 0.0
+        - type: COAST
+          data:
+            stop-condition:
+              type: ABSOLUTE_TIME
+              data:
+                time-scale: UTC
+                value: "2023-01-01T00:03:00.000"
+        - type: CONSTANT_DIRECTION_MANEUVER
+          data:
+            stop-condition:
+              type: ABSOLUTE_TIME
+              data:
+                time-scale: UTC
+                value: "2023-01-01T00:04:00.000"
+            attitude:
+              type: LOF
+              data:
+                lof: VNC
+                parent: GCRF
+                direction:
+                  - 0.0
+                  - 0.0
+                  - 1.0
+success-fixed-propagator:
+  data:
+    sequence:
+      max-duration: 240.1
+      propagator:
+        type: RUNGE_KUTTA_4
+        data:
+          step: 20.0
+      segments:
+        - type: COAST
+          data:
+            stop-condition:
+              type: RELATIVE_TIME
+              data:
+                duration: 60.0
