@@ -1032,7 +1032,6 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
 
     Map<Index, Pass> passMap;
 
-    Index index = 0;
     Integer revolutionNumber = anInitialRevolutionNumber;
     Instant previousPassEndInstant = Instant::Undefined();
 
@@ -1130,9 +1129,8 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                     southPointCrossing,
                 };
 
-                passMap.insert({index, pass});
+                passMap.insert({currentIndex, pass});
 
-                index = currentIndex;
                 revolutionNumber++;
 
                 southPointCrossing = Instant::Undefined();
@@ -1167,7 +1165,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                 southPointCrossing,
             };
 
-            passMap.insert({index, pass});
+            passMap.insert({currentIndex, pass});
         }
 
         previousStatePtr = &state;
