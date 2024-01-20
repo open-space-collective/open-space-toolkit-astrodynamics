@@ -20,7 +20,7 @@ def lla_from_state(state: trajectory.State) -> list:
     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.
     """
 
-    lla = lla_from_position(state.get_position(), state.get_instant())
+    lla: LLA = lla_from_position(state.get_position(), state.get_instant())
 
     return [
         float(lla.get_latitude().in_degrees()),
@@ -42,7 +42,7 @@ def lla_from_position(
             raise ValueError(
                 "Instant must be provided if position is not expressed in ECEF."
             )
-        position = position.in_frame(Frame.ITRF(), instant)
+        position: Position = position.in_frame(Frame.ITRF(), instant)
 
     return LLA.cartesian(
         position.get_coordinates(),
@@ -75,15 +75,15 @@ def compute_aer(
     Return [azimuth (degrees), elevation (degrees), range (meters)] from Instant and Positions (observer, target).
     """
 
-    from_lla = lla_from_position(from_position, instant)
+    from_lla: LLA = lla_from_position(from_position, instant)
 
-    earth = environment.access_celestial_object_with_name("Earth")
-    ned_frame = earth.get_frame_at(from_lla, Earth.FrameType.NED)
+    earth: Earth = environment.access_celestial_object_with_name("Earth")
+    ned_frame: Frame = earth.get_frame_at(from_lla, Earth.FrameType.NED)
 
-    from_position_NED = from_position.in_frame(ned_frame, instant)
-    to_position_NED = to_position.in_frame(ned_frame, instant)
+    from_position_NED: Position = from_position.in_frame(ned_frame, instant)
+    to_position_NED: Position = to_position.in_frame(ned_frame, instant)
 
-    aer = AER.from_position_to_position(from_position_NED, to_position_NED, True)
+    aer: AER = AER.from_position_to_position(from_position_NED, to_position_NED, True)
 
     return [
         float(aer.get_azimuth().in_degrees()),
@@ -101,10 +101,10 @@ def compute_time_lla_aer_state(
     Return [instant, latitude, longitude, altitude, azimuth, elevation, range] from State and observer Position.
     """
 
-    instant = state.get_instant()
+    instant: Instant = state.get_instant()
 
-    lla = lla_from_state(state)
-    aer = compute_aer(
+    lla: LLA = lla_from_state(state)
+    aer: AER = compute_aer(
         instant,
         from_position,
         state.get_position().in_frame(Frame.ITRF(), state.get_instant()),
@@ -127,18 +127,20 @@ def compute_trajectory_geometry(trajectory: Trajectory, interval: Interval) -> l
     ]
 
 
-def convert_state(instant: Instant, state: trajectory.State) -> list:
+def convert_state(state: trajectory.State) -> list:
     """
     Convert an input (Instant, State) into dataframe-ready values.
     """
 
-    lla = LLA.cartesian(
+    lla: LLA = LLA.cartesian(
         state.get_position()
         .in_frame(Frame.ITRF(), state.get_instant())
         .get_coordinates(),
         EarthGravitationalModel.EGM2008.equatorial_radius,
         EarthGravitationalModel.EGM2008.flattening,
     )
+
+    instant: Instant = state.get_instant()
 
     return [
         repr(instant),
