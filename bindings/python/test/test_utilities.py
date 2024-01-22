@@ -31,7 +31,7 @@ class TestUtilities:
 
         assert lla is not None
         assert len(lla) == 3
-        assert isinstance(lla, list)
+        assert isinstance(lla, tuple)
         assert isinstance(lla[0], float)
         assert lla[0] >= -90.0 and lla[0] <= 90.0
         assert isinstance(lla[1], float)
@@ -109,10 +109,10 @@ class TestUtilities:
         assert output is not None
         assert len(output) == 2
 
-    def test_convert_state(self, instant: Instant, state: State):
+    def test_convert_state(self, state: State):
         output: tuple[
             str, float, float, float, float, float, float, float, float, float
-        ] = utilities.convert_state(instant, state)
+        ] = utilities.convert_state(state)
 
         assert output is not None
         assert len(output) == 11
