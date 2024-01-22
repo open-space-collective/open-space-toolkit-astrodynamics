@@ -132,7 +132,7 @@ def compute_trajectory_geometry(
 
 def convert_state(
     state: trajectory.State,
-) -> float[str, float, float, float, float, float, float, float, float, float]:
+) -> tuple[str, float, float, float, float, float, float, float, float, float]:
     """
     Convert an input (Instant, State) into dataframe-ready values.
     """
