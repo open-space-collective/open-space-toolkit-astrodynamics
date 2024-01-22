@@ -15,18 +15,18 @@ from ostk.physics.environment.objects.celestial_bodies import Earth
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 
 
-def lla_from_state(state: trajectory.State) -> list:
+def lla_from_state(state: trajectory.State) -> tuple[float, float, float]:
     """
     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.
     """
 
     lla: LLA = lla_from_position(state.get_position(), state.get_instant())
 
-    return [
+    return (
         float(lla.get_latitude().in_degrees()),
         float(lla.get_longitude().in_degrees()),
         float(lla.get_altitude().in_meters()),
-    ]
+    )
 
 
 def lla_from_position(
@@ -70,7 +70,7 @@ def compute_aer(
     from_position: Position,
     to_position: Position,
     environment: Environment,
-) -> list:
+) -> tuple[float, float, float]:
     """
     Return [azimuth (degrees), elevation (degrees), range (meters)] from Instant and Positions (observer, target).
     """
@@ -85,25 +85,25 @@ def compute_aer(
 
     aer: AER = AER.from_position_to_position(from_position_NED, to_position_NED, True)
 
-    return [
+    return (
         float(aer.get_azimuth().in_degrees()),
         float(aer.get_elevation().in_degrees()),
         float(aer.get_range().in_meters()),
-    ]
+    )
 
 
 def compute_time_lla_aer_state(
     state: trajectory.State,
     from_position: Position,
     environment: Environment,
-) -> list:
+) -> tuple[Instant, float, float, float, float, float, float]:
     """
     Return [instant, latitude, longitude, altitude, azimuth, elevation, range] from State and observer Position.
     """
 
     instant: Instant = state.get_instant()
 
-    lla: LLA = lla_from_state(state)
+    lla: tuple[float, float, float] = lla_from_state(state)
     aer: AER = compute_aer(
         instant,
         from_position,
@@ -111,10 +111,13 @@ def compute_time_lla_aer_state(
         environment,
     )
 
-    return [instant, lla[0], lla[1], lla[2], aer[0], aer[1], aer[2]]
+    return (instant, lla[0], lla[1], lla[2], aer[0], aer[1], aer[2])
 
 
-def compute_trajectory_geometry(trajectory: Trajectory, interval: Interval) -> list:
+def compute_trajectory_geometry(
+    trajectory: Trajectory,
+    interval: Interval,
+) -> list[tuple[float, float, float]]:
     """
     Return [latitude (degrees), longitude (degrees), altitude (meters)] values along a Trajectory during Interval.
     """
@@ -127,7 +130,9 @@ def compute_trajectory_geometry(trajectory: Trajectory, interval: Interval) -> l
     ]
 
 
-def convert_state(state: trajectory.State) -> list:
+def convert_state(
+    state: trajectory.State,
+) -> float[str, float, float, float, float, float, float, float, float, float]:
     """
     Convert an input (Instant, State) into dataframe-ready values.
     """
@@ -142,7 +147,7 @@ def convert_state(state: trajectory.State) -> list:
 
     instant: Instant = state.get_instant()
 
-    return [
+    return (
         repr(instant),
         float(instant.get_modified_julian_date(Scale.UTC)),
         *state.get_position().get_coordinates().transpose().tolist(),
@@ -150,4 +155,4 @@ def convert_state(state: trajectory.State) -> list:
         float(lla.get_latitude().in_degrees()),
         float(lla.get_longitude().in_degrees()),
         float(lla.get_altitude().in_meters()),
-    ]
+    )
