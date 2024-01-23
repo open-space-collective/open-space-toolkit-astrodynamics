@@ -121,7 +121,7 @@ Array<Shared<const CoordinatesSubset>> Tabulated::getWriteCoordinatesSubsets() c
 }
 
 VectorXd Tabulated::computeContribution(
-    const Instant& anInstant, [[maybe_unused]] const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
     // TBI: Eventually we can check if the values can be converted using the subset inFrame methods.
