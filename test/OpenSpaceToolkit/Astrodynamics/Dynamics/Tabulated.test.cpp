@@ -235,6 +235,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
                 VectorXd::Zero(3)
             );
         }
+        
+        {
+            EXPECT_EQ(
+                tabulated.computeContribution(defaultInstants_[defaultInstants_.getSize() -1] + Duration::Seconds(1.0), x, Frame::GCRF()),
+                VectorXd::Zero(3)
+            );
+        }
     }
 
     {
