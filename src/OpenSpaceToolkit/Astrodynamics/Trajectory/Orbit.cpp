@@ -53,7 +53,6 @@ using ostk::astro::RootSolver;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
 
-static const Instant J2000Epoch = Instant::J2000();
 static const RootSolver rootSolver = RootSolver::Default();
 
 Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr)
@@ -225,16 +224,18 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
             currentPass = *closestPassPtr;
         }
 
-        const auto getZ = [this](const double& aDurationInSeconds) -> Real
+        const Instant epoch = this->modelPtr_->getEpoch();
+
+        const auto getZ = [this, &epoch](const double& aDurationInSeconds) -> Real
         {
-            return this->modelPtr_->calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+            return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
                 .getPosition()
                 .accessCoordinates()[2];
         };
 
-        const auto getZDot = [this](const double& aDurationInSeconds) -> Real
+        const auto getZDot = [this, &epoch](const double& aDurationInSeconds) -> Real
         {
-            return this->modelPtr_->calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+            return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
                 .getVelocity()
                 .accessCoordinates()[2];
         };
@@ -278,22 +279,25 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                     {
                         if (currentStateCoordinates_ECI_z > 0.0)
                         {
-                            northPointCrossing = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZDot);
+                            northPointCrossing =
+                                Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
                         }
                         else
                         {
-                            southPointCrossing = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZDot);
+                            southPointCrossing =
+                                Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
                         }
                     }
 
                     if ((previousStateCoordinates_ECI_z > 0.0) && (currentStateCoordinates_ECI_z <= 0.0))
                     {
-                        descendingNodeCrossing = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZ);
+                        descendingNodeCrossing =
+                            Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
                     }
 
                     if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
                     {
-                        previousInstant = Orbit::GetCrossingInstant(previousInstant, currentInstant, getZ);
+                        previousInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
                         break;
                     }
 
@@ -1049,17 +1053,19 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
     const models::Tabulated tabulated =
         models::Tabulated(aStateArray, models::Tabulated::InterpolationType::BarycentricRational);
 
-    const auto getZ = [&tabulated](const double& aDurationInSeconds) -> double
+    const Instant& epoch = aStateArray.accessFirst().accessInstant();
+
+    const auto getZ = [&tabulated, &epoch](const double& aDurationInSeconds) -> double
     {
-        return tabulated.calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+        return tabulated.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getPosition()
             .accessCoordinates()
             .z();
     };
 
-    const auto getZDot = [&tabulated](const double& aDurationInSeconds) -> double
+    const auto getZDot = [&tabulated, &epoch](const double& aDurationInSeconds) -> double
     {
-        return tabulated.calculateStateAt(Instant::J2000() + Duration::Seconds(aDurationInSeconds))
+        return tabulated.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getVelocity()
             .accessCoordinates()
             .z();
@@ -1086,13 +1092,15 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
             {
                 if (currentPositionCoordinates_ECI.z() > 0.0)
                 {
-                    northPointCrossing =
-                        Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZDot);
+                    northPointCrossing = Orbit::GetCrossingInstant(
+                        epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZDot
+                    );
                 }
                 else
                 {
-                    southPointCrossing =
-                        Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZDot);
+                    southPointCrossing = Orbit::GetCrossingInstant(
+                        epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZDot
+                    );
                 }
             }
 
@@ -1100,7 +1108,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
             if ((previousPositionCoordinates_ECI.z() > 0.0) && (currentPositionCoordinates_ECI.z() <= 0.0))
             {
                 descendingNodeCrossing =
-                    Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZ);
+                    Orbit::GetCrossingInstant(epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZ);
             }
 
             // Pass crossing
@@ -1116,7 +1124,7 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                                                    : aStateArray.accessFirst().accessInstant();
 
                 const Instant passEndInstant =
-                    Orbit::GetCrossingInstant(previousStatePtr->accessInstant(), state.accessInstant(), getZ);
+                    Orbit::GetCrossingInstant(epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZ);
 
                 const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant);
 
@@ -1176,19 +1184,21 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
 }
 
 Instant Orbit::GetCrossingInstant(
-    const Instant& previousInstant, const Instant& currentInstant, const std::function<double(double)>& getValue
+    const Instant& anEpoch,
+    const Instant& previousInstant,
+    const Instant& currentInstant,
+    const std::function<double(double)>& getValue
 )
 {
-    const RootSolver::Solution solution = rootSolver.bisection(
-        getValue, (previousInstant - J2000Epoch).inSeconds(), (currentInstant - J2000Epoch).inSeconds()
-    );
+    const RootSolver::Solution solution =
+        rootSolver.bisection(getValue, (previousInstant - anEpoch).inSeconds(), (currentInstant - anEpoch).inSeconds());
 
     if (!solution.hasConverged)
     {
         throw ostk::core::error::RuntimeError("Root solver did not converge.");
     }
 
-    return J2000Epoch + Duration::Seconds(solution.root);
+    return anEpoch + Duration::Seconds(solution.root);
 }
 
 // Array<State>                    Orbit::GenerateStates                       (   const   Model& aModel,

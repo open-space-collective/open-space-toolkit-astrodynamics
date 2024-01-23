@@ -23,23 +23,25 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Utilities.test.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
 using ostk::core::ctnr::Map;
+using ostk::core::ctnr::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
+using ostk::core::types::Index;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
-using ostk::core::types::Index;
 
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
@@ -59,10 +61,12 @@ using ostk::physics::units::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::orbit::Pass;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::orbit::Pass;
 using ostk::astro::trajectory::orbit::models::Kepler;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::models::SGP4;
+using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {
@@ -265,7 +269,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         // Pass test
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto &referenceRow : referenceData)
         {
             const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
@@ -323,7 +327,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
         // Pass test
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto &referenceRow : referenceData)
         {
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
@@ -409,9 +413,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
 
         const Map<Index, Pass> passMap = Orbit::GeneratePassMap(states, 1);
 
-        for (const auto& row : passMap)
+        for (const auto &row : passMap)
         {
-            const Pass& pass = row.second;
+            const Pass &pass = row.second;
 
             EXPECT_TRUE(pass.isDefined());
 
@@ -483,7 +487,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
 
         Index i = 0;
         Index stateIndex = 0;
-        for (const auto& row : passMap)
+        for (const auto &row : passMap)
         {
             // Ignore the lass pass, as it is not complete
             if (i > referenceData.getRowCount() - 1)
@@ -492,9 +496,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             }
 
             // test computed Pass
-            const Pass& pass = row.second;
+            const Pass &pass = row.second;
 
-            const auto& referenceRow = referenceData[i];
+            const auto &referenceRow = referenceData[i];
 
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
@@ -542,7 +546,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             EXPECT_LT(std::fabs((referencePassSouthPointInstant - pass.accessInstantAtSouthPoint()).inSeconds()), 3.0);
 
             // test state index
-            const Index& endStateIndex = row.first;
+            const Index &endStateIndex = row.first;
 
             EXPECT_TRUE(referencePassStartInstant <= states[stateIndex].accessInstant());
             EXPECT_TRUE(referencePassEndInstant >= states[endStateIndex - 1].accessInstant());
@@ -551,6 +555,30 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
 
             ++i;
         }
+    }
+
+    {
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2020-07-18 20:38:11.102.455"), Scale::UTC);
+        const Instant endInstant = Instant::DateTime(DateTime::Parse("2020-07-18 22:26:11.102.455"), Scale::UTC);
+
+        Array<Instant> instants = Interval::Closed(startInstant, endInstant).generateGrid(Duration::Seconds(60.0));
+        if (instants.accessLast() != endInstant)
+        {
+            instants.add(endInstant);
+        }
+
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+        const SGP4 sgp4 = SGP4(tle);
+
+        Array<State> states;
+        for (const auto &instant : instants)
+        {
+            states.add(sgp4.calculateStateAt(instant));
+        }
+
+        EXPECT_NO_THROW(Orbit::GeneratePassMap(states, 8502));
     }
 }
 
@@ -595,7 +623,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         // Pass test
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto &referenceRow : referenceData)
         {
             const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
@@ -659,7 +687,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         // Pass test
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto &referenceRow : referenceData)
         {
             const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
@@ -723,7 +751,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         // Pass test
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto &referenceRow : referenceData)
         {
             const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
@@ -794,7 +822,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
         const Shared<const Frame> nedOrbitalFrameSPtr = orbit.getOrbitalFrame(Orbit::FrameType::NED);
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto &referenceRow : referenceData)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
@@ -1129,7 +1157,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              1e-4}
         };
 
-        for (const auto& scenario : scenarios)
+        for (const auto &scenario : scenarios)
         {
             // Environment setup
 
@@ -1266,7 +1294,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
              1e-3}
         };
 
-        for (const auto& scenario : scenarios)
+        for (const auto &scenario : scenarios)
         {
             // Environment setup
 
@@ -1324,7 +1352,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
              1e-4}
         };
 
-        for (const auto& scenario : scenarios)
+        for (const auto &scenario : scenarios)
         {
             // Environment setup
 
