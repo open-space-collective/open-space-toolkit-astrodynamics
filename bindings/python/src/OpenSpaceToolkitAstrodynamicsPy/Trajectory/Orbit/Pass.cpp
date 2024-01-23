@@ -183,7 +183,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
         )
         .def(
             "get_instant_at_pass_break",
-            &Pass::accessInstantAtPassBreak
+            &Pass::accessInstantAtPassBreak,
             R"doc(
                 Get the instant at the break of the pass.
 
