@@ -203,13 +203,13 @@ class Orbit : public Trajectory
     String generateFrameName(const Orbit::FrameType& aFrameType) const;
 
     /// @brief Find the Instant at which the return value of `getValue` crosses zero.
-    ///
-    ///              Use a bisection search to find the Instant between `previousInstant` and `nextInstant` at which the return value of `getValue` crosses zero. 
+    /// Use a bisection search to find the Instant between `previousInstant` and `nextInstant` at which the return value of `getValue` crosses zero. 
     ///
     /// @param anEpoch An orbit epoch from which to measure
     /// @param previousInstant lower bound of search
+    /// @param currentInstant upper bound of search
     /// @param getValue function that receives a duration [s] from `anEpoch` and returns a real value
-    /// @return Instant
+    /// @return Instant at which the crossing occurs
     static Instant GetCrossingInstant(
         const Instant& anEpoch,
         const Instant& previousInstant,
