@@ -18,8 +18,8 @@ def pass_() -> Pass:
     return Pass(
         123,
         Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
-        Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
         Instant.date_time(DateTime(2018, 1, 1, 0, 15, 0), Scale.UTC),
+        Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
         Instant.date_time(DateTime(2018, 1, 1, 0, 45, 0), Scale.UTC),
         Instant.date_time(DateTime(2018, 1, 1, 1, 0, 0), Scale.UTC),
     )
@@ -38,8 +38,8 @@ class TestPass:
     def test_get_revolution_number(self, pass_: Pass):
         assert pass_.get_revolution_number() is not None
 
-    def test_get_interval(self, pass_: Pass):
-        assert pass_.get_interval() is not None
+    def test_get_duration(self, pass_: Pass):
+        assert pass_.get_duration() is not None
 
     def test_get_instant_at_ascending_node(self, pass_: Pass):
         assert pass_.get_instant_at_ascending_node() is not None
