@@ -121,13 +121,18 @@ Array<Shared<const CoordinatesSubset>> Tabulated::getWriteCoordinatesSubsets() c
 }
 
 VectorXd Tabulated::computeContribution(
-    const Instant& anInstant, [[maybe_unused]] const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
     // TBI: Eventually we can check if the values can be converted using the subset inFrame methods.
     if (aFrameSPtr != frameSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Frame");
+    }
+
+    if (anInstant < instants_.accessFirst() || anInstant > instants_.accessLast())
+    {
+        return VectorXd::Zero(interpolators_.getSize());
     }
 
     const double epoch = (anInstant - instants_.accessFirst()).inSeconds();

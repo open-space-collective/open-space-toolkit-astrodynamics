@@ -27,6 +27,7 @@ using ostk::math::object::MatrixXd;
 using ostk::math::object::VectorXd;
 
 using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::coord::Frame;
@@ -214,15 +215,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Getters)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
 {
+    const VectorXd x;  // Not used
     {
         Tabulated tabulated = {
             defaultInstants_, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_
         };
 
-        const VectorXd x;  // Not used
-        EXPECT_THROW(
-            tabulated.computeContribution(defaultInstants_[0], x, Frame::ITRF()), ostk::core::error::runtime::Wrong
-        );
+        // Wrong frame
+        {
+            EXPECT_THROW(
+                tabulated.computeContribution(defaultInstants_[0], x, Frame::ITRF()), ostk::core::error::runtime::Wrong
+            );
+        }
+
+        // Outside bounds
+        {
+            EXPECT_EQ(
+                tabulated.computeContribution(defaultInstants_[0] - Duration::Seconds(1.0), x, Frame::GCRF()),
+                VectorXd::Zero(3)
+            );
+        }
+        
+        {
+            EXPECT_EQ(
+                tabulated.computeContribution(defaultInstants_[defaultInstants_.getSize() -1] + Duration::Seconds(1.0), x, Frame::GCRF()),
+                VectorXd::Zero(3)
+            );
+        }
     }
 
     {
@@ -243,7 +262,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
         std::tie(expectedInstants, expectedProfile) =
             loadData("/app/test/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated_Earth_Gravity_Truth.csv");
 
-        const VectorXd x;  // Not used
         for (Index i = 0; i < expectedInstants.getSize(); ++i)
         {
             const VectorXd computedContribution = tabulated.computeContribution(expectedInstants[i], x, Frame::GCRF());
