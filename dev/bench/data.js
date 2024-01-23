@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1705962640368,
+  "lastUpdate": 1706037178571,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 2817201149.999994,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2816998439.9999976 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3f7555eb3a558eb1adcb4e7b91abab3ffc097eb",
+          "message": "feat: return 0.0 when outside model bounds in TabulatedDynamics::computeContribution (#325)\n\n* feat: return 0.0 when outside model bounds in TabulatedDynamics::computeContribution\r\n\r\n* feat: fix tests\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\r\n\r\n* chore: update function arguments\r\n\r\n---------\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2024-01-23T18:44:14Z",
+          "tree_id": "4540293132d3abe68debee1ccfb6e65c10525916",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a3f7555eb3a558eb1adcb4e7b91abab3ffc097eb"
+        },
+        "date": 1706037177657,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 557406107.2000062,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 557385070 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 794877393.7999988,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 794849870.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2793493343.3000026,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2793418719.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2792240094.399989,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2792143710 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2792122294.4999895,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2792038690.000001 ns\nthreads: 1"
           }
         ]
       }
