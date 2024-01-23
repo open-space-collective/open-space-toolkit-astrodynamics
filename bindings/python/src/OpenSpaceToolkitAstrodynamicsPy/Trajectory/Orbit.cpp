@@ -361,19 +361,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def_static(
-                "generate_pass_map",
-                &Orbit::GeneratePassMap,
+                "compute_passes",
+                &Orbit::ComputePasses,
                 arg("states"),
                 arg("initial_revolution_number"),
                 R"doc(
-                    Generate a pass map from a set of states.
+                    Compute passes from a set of states.
 
                     Args:
                         states (Array<State>): The states.
                         initial_revolution_number (Integer): The initial revolution number.
 
                     Returns:
-                        PassMap: The pass map.
+                        list[tuple[int, Pass]]: List of index-pass pairs
                 )doc"
             )
 
