@@ -19,6 +19,7 @@ success-forces-all:
             name: EARTH_DRAG
             body: EARTH
             model: NRLMSISE00
+
 success-forces-central-grav-only:
   data:
     sequence:
@@ -29,6 +30,7 @@ success-forces-central-grav-only:
             model: EGM96
             degree: 10
             order: 10
+
 success-forces-central-grav-and-one-third-body:
   data:
     sequence:
@@ -42,6 +44,7 @@ success-forces-central-grav-and-one-third-body:
         - type: GRAVITY
           data:
             body: MOON
+
 success-atmosphere-exponential:
   data:
     sequence:

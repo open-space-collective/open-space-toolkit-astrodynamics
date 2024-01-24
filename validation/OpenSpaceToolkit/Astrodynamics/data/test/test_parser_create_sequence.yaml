@@ -55,6 +55,7 @@ success-multiple-coast-and-burn:
                   - 0.0
                   - 0.0
                   - 1.0
+
 success-fixed-propagator:
   data:
     sequence:

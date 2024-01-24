@@ -95,7 +95,7 @@ State Parser::CreateInitialState(const Dictionary& aDictionary, const SatelliteS
     }
     else if (orbit["type"].accessString() == "KEPLERIAN")
     {
-        throw ostk::core::error::runtime::Wrong("KEPLERIAN initial conditions not yet supported.");
+        throw ostk::core::error::runtime::Wrong("KEPLERIAN initial conditions not yet supported");
     }
 
     const Array<Shared<const CoordinatesSubset>> subsets = {
@@ -267,7 +267,7 @@ Array<Instant> Parser::CreateComparisonInstants(
     }
     else
     {
-        throw ostk::core::error::runtime::Wrong("Comparison instants are not equally spaced.");
+        throw ostk::core::error::RuntimeError("Comparison instants are not equally spaced.");
     }
 
     return comparisonInstants;

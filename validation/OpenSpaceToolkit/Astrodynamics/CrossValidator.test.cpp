@@ -40,6 +40,17 @@ using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testing::Test
 {
    protected:
+    void SetUp() override
+    {
+        VectorXd initialCoordinates(7);
+        initialCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 10.0;
+        defaultState_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), coordinatesBrokerSPtr_};
+
+        referenceCoordinates_ = {
+            initialCoordinates.segment(0, 3), initialCoordinates.segment(3, 3), initialCoordinates.segment(6, 1)
+        };
+    }
+
     const Table table_ = Table::Load(
         File::Path(Path::Parse({"/app/validation/OpenSpaceToolkit/Astrodynamics/data/test/test_table.csv"})),
         Table::Format::CSV,
@@ -82,17 +93,6 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testin
 
     State defaultState_ = State::Undefined();
     Array<VectorXd> referenceCoordinates_ = Array<VectorXd>::Empty();
-
-    void SetUp() override
-    {
-        VectorXd initialCoordinates(7);
-        initialCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 10.0;
-        defaultState_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), coordinatesBrokerSPtr_};
-
-        referenceCoordinates_ = {
-            initialCoordinates.segment(0, 3), initialCoordinates.segment(3, 3), initialCoordinates.segment(6, 1)
-        };
-    }
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator, IngestOutputQuantities)
@@ -192,15 +192,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator, CompareOutputQu
 
     {
         EXPECT_THROW(
-            CrossValidator::CompareOutputQuantities(
-                defaultState_, referenceCoordinates_, toolComparisonOREKIT_.quantityComparisons
-            ),
+            {
+                try
+                {
+                    CrossValidator::CompareOutputQuantities(
+                        defaultState_, referenceCoordinates_, toolComparisonOREKIT_.quantityComparisons
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Quantity} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::runtime::Wrong
         );
+
         EXPECT_THROW(
-            CrossValidator::CompareOutputQuantities(
-                defaultState_, referenceCoordinates_, toolComparisonGMAT_.quantityComparisons
-            ),
+            {
+                try
+                {
+                    CrossValidator::CompareOutputQuantities(
+                        defaultState_, referenceCoordinates_, toolComparisonGMAT_.quantityComparisons
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Quantity} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::runtime::Wrong
         );
     }

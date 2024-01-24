@@ -145,22 +145,58 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
     }
 
     {
+        const Dictionary dictionary = dataTree["failure-keplerian"].accessDictionary();
+
         EXPECT_THROW(
-            Parser::CreateInitialState(dataTree["failure-keplerian"].accessDictionary(), defaultSatelliteSystem_),
+            {
+                try
+                {
+                    Parser::CreateInitialState(dictionary, defaultSatelliteSystem_);
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{KEPLERIAN initial conditions not yet supported} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::runtime::Wrong
         );
     }
 
     {
+        const Dictionary dictionary = dataTree["failure-time-scale"].accessDictionary();
+
         EXPECT_THROW(
-            Parser::CreateInitialState(dataTree["failure-time-scale"].accessDictionary(), defaultSatelliteSystem_),
+            {
+                try
+                {
+                    Parser::CreateInitialState(dictionary, defaultSatelliteSystem_);
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Time scale} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::runtime::Wrong
         );
     }
 
     {
+        const Dictionary dictionary = dataTree["failure-frame"].accessDictionary();
+
         EXPECT_THROW(
-            Parser::CreateInitialState(dataTree["failure-frame"].accessDictionary(), defaultSatelliteSystem_),
+            {
+                try
+                {
+                    Parser::CreateInitialState(dictionary, defaultSatelliteSystem_);
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Initial Condition frame} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::runtime::Wrong
         );
     }
@@ -386,13 +422,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateComparisonInstant
 {
     const String testScenario = {"test_parser_create_comparison_instants"};
     const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
+    const Dictionary outputStep = dataTree["success"].accessDictionary();
 
     const Instant defaultInitialInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
     const Instant defaultFinalInstant = defaultInitialInstant + Duration::Seconds(120.0);
 
     {
+        const Array<Instant> comparisonInstants =
+            Parser::CreateComparisonInstants(outputStep, defaultInitialInstant, defaultFinalInstant);
+
+        EXPECT_EQ(comparisonInstants.getSize(), 3);
+        EXPECT_EQ(comparisonInstants[0], defaultInitialInstant);
+        EXPECT_EQ(comparisonInstants[1], defaultInitialInstant + Duration::Seconds(60.0));
+        EXPECT_EQ(comparisonInstants[2], defaultFinalInstant);
+    }
+
+    {
         const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
-            dataTree["success"].accessDictionary(), defaultInitialInstant, defaultFinalInstant
+            outputStep, defaultInitialInstant, defaultFinalInstant + Duration::Microseconds(1.0)
         );
 
         EXPECT_EQ(comparisonInstants.getSize(), 3);
@@ -403,22 +450,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateComparisonInstant
 
     {
         const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
-            dataTree["success"].accessDictionary(),
-            defaultInitialInstant,
-            defaultFinalInstant + Duration::Microseconds(1.0)
-        );
-
-        EXPECT_EQ(comparisonInstants.getSize(), 3);
-        EXPECT_EQ(comparisonInstants[0], defaultInitialInstant);
-        EXPECT_EQ(comparisonInstants[1], defaultInitialInstant + Duration::Seconds(60.0));
-        EXPECT_EQ(comparisonInstants[2], defaultFinalInstant);
-    }
-
-    {
-        const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
-            dataTree["success"].accessDictionary(),
-            defaultInitialInstant,
-            defaultFinalInstant - Duration::Microseconds(1.0)
+            outputStep, defaultInitialInstant, defaultFinalInstant - Duration::Microseconds(1.0)
         );
 
         EXPECT_EQ(comparisonInstants.getSize(), 3);
@@ -429,22 +461,38 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateComparisonInstant
 
     {
         EXPECT_THROW(
-            Parser::CreateComparisonInstants(
-                dataTree["success"].accessDictionary(),
-                defaultInitialInstant,
-                defaultFinalInstant + Duration::Microseconds(101.0)
-            ),
+            {
+                try
+                {
+                    Parser::CreateComparisonInstants(
+                        outputStep, defaultInitialInstant, defaultFinalInstant + Duration::Microseconds(101.0)
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Comparison instants are not equally spaced.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::RuntimeError
         );
     }
 
     {
         EXPECT_THROW(
-            Parser::CreateComparisonInstants(
-                dataTree["success"].accessDictionary(),
-                defaultInitialInstant,
-                defaultFinalInstant - Duration::Microseconds(101.0)
-            ),
+            {
+                try
+                {
+                    Parser::CreateComparisonInstants(
+                        outputStep, defaultInitialInstant, defaultFinalInstant - Duration::Microseconds(101.0)
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Comparison instants are not equally spaced.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::RuntimeError
         );
     }

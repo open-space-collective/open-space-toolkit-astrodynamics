@@ -73,7 +73,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence, Constructor)
     }
 
     {
-        EXPECT_THROW(defaultMissionSequence_.accessSolvedStates(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(
+            {
+                try
+                {
+                    defaultMissionSequence_.accessSolvedStates();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("No solved states defined.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 }
 
@@ -165,19 +178,39 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence, ComapreResults
         }}
     };
 
+    // Need to run the mission sequence first to populate solvedStates_
     {
         EXPECT_THROW(
-            defaultMissionSequence_.compareResults(table, toolComparisonOREKIT_PosVelOnly_),
+            {
+                try
+                {
+                    defaultMissionSequence_.compareResults(table, toolComparisonOREKIT_PosVelOnly_);
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("No solved states defined.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::RuntimeError
         );
     }
 
-    // Need to run the mission sequence first to populate solvedStates_
     defaultMissionSequence_.run();
 
     {
         EXPECT_THROW(
-            defaultMissionSequence_.compareResults(tableWrongLength, toolComparisonOREKIT_PosVelOnly_),
+            {
+                try
+                {
+                    defaultMissionSequence_.compareResults(tableWrongLength, toolComparisonOREKIT_PosVelOnly_);
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Number of reference outputs does not match number of solved states.", e.getMessage());
+                    throw;
+                }
+            },
             ostk::core::error::RuntimeError
         );
     }

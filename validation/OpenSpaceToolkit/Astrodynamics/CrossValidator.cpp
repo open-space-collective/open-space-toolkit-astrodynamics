@@ -88,7 +88,7 @@ VectorXd CrossValidator::CompareOutputQuantities(
             case Quantity::CARTESIAN_ACCELERATION_GCRF:
             case Quantity::MANEUVER_ACCELERATION_J2000:
             default:
-                throw ostk::core::error::runtime::Wrong("Quantity not recognized or not currently supported.");
+                throw ostk::core::error::runtime::Wrong("Quantity");
         }
     }
 
