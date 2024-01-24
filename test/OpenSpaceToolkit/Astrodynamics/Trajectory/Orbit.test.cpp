@@ -33,14 +33,12 @@ using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
 using ostk::core::ctnr::Pair;
 using ostk::core::ctnr::Table;
-using ostk::core::ctnr::Map;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::types::Index;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
-using ostk::core::types::Index;
 
 using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 using ostk::math::object::Vector3d;
@@ -539,6 +537,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
             EXPECT_TRUE(referencePassEndInstant >= states[endStateIndex - 1].accessInstant());
 
             stateIndex = endStateIndex;
+
             ++i;
         }
     }
