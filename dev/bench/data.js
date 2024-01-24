@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1706047061554,
+  "lastUpdate": 1706092714927,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 2784686751.1999903,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2784596690.0000024 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4ddbbd201310f9798c46a0044910b8af2df8ee94",
+          "message": "feat: add validation app and parser (#298)\n\n* feat: finish first full draft\r\n\r\n* chore: fixup after rebase and comments\r\n\r\n* feat: address comments from vishwa and move validation tests to its own folder\r\n\r\n* feat: add all unit tests\r\n\r\n* style: address remy's comments",
+          "timestamp": "2024-01-24T10:10:28Z",
+          "tree_id": "18d3f7448669c4913c6a5ac53a8f0f036d12077e",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/4ddbbd201310f9798c46a0044910b8af2df8ee94"
+        },
+        "date": 1706092713621,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 555508168.6999984,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 555497610 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 792094670.1999924,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 792076739.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2793685842.699992,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2793633540.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2792010062.6999955,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2791915610.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2791280337.900008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2791106749.999997 ns\nthreads: 1"
           }
         ]
       }
