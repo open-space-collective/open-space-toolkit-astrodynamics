@@ -31,7 +31,7 @@ Pass::Pass(
 {
     if (!anInstantAtNorthPoint.isDefined() && !anInstantAtSouthPoint.isDefined() &&
         !anInstantAtDescendingNode.isDefined() && !anInstantAtAscendingNode.isDefined() &&
-        !anInstantAtPassBreak.isDefined())
+        !anInstantAtPassBreak.isDefined() && !revolutionNumber_.isDefined())
     {
         type_ = Pass::Type::Undefined;
     }
@@ -240,7 +240,7 @@ void Pass::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Pass") : void();
 
-    const Duration duration = this->getDuration();
+    const Duration duration = this->isDefined() ? this->getDuration() : Duration::Undefined();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Pass::StringFromType(type_);
     ostk::core::utils::Print::Line(anOutputStream)

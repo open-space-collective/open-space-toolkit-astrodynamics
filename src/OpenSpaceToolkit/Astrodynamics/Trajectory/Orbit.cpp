@@ -1043,9 +1043,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         return passMap;
     }
 
-    Index currentIndex = 0;
-    State const* previousStatePtr = nullptr;
-
     for (Index i = 1; i < aStateArray.getSize(); ++i)
     {
         if (aStateArray[i - 1].accessInstant() > aStateArray[i].accessInstant())
@@ -1075,6 +1072,9 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
             .z();
     };
 
+    Index currentIndex = 0;
+    State const* previousStatePtr = nullptr;
+
     Integer revolutionNumber = anInitialRevolutionNumber;
 
     Instant previousPassEndInstant =
@@ -1088,8 +1088,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
 
     for (const auto& state : aStateArray)
     {
-        bool passHasBeenAdded = false;
-
         if (previousStatePtr != nullptr)
         {
             const Vector3d previousPositionCoordinates_ECI = previousStatePtr->getPosition().accessCoordinates();
@@ -1149,28 +1147,35 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
                 northPointCrossing = Instant::Undefined();
                 descendingNodeCrossing = Instant::Undefined();
                 passBreak = Instant::Undefined();
-
-                passHasBeenAdded = true;
             }
-        }
-
-        if ((!passHasBeenAdded) && (&state == &aStateArray.accessLast()))  // Last state
-        {
-            const Pass pass = {
-                revolutionNumber,
-                previousPassEndInstant,
-                northPointCrossing,
-                descendingNodeCrossing,
-                southPointCrossing,
-                passBreak,
-            };
-
-            passMap.add({currentIndex, pass});
         }
 
         previousStatePtr = &state;
         currentIndex++;
     }
+
+    // Add last partial pass
+    const Pass pass = {
+        revolutionNumber,
+        previousPassEndInstant,
+        northPointCrossing,
+        descendingNodeCrossing,
+        southPointCrossing,
+        passBreak,
+    };
+
+    if (!passMap.isEmpty())
+    {
+        const Index& lastPassIndex = passMap.accessLast().first;
+
+        // Don't add the remaining pass if there are no states left
+        if (lastPassIndex == currentIndex - 1)
+        {
+            return passMap;
+        }
+    }
+
+    passMap.add({currentIndex, pass});
 
     return passMap;
 }
@@ -1192,24 +1197,6 @@ Instant Orbit::GetCrossingInstant(
 
     return anEpoch + Duration::Seconds(solution.root);
 }
-
-// Array<State>                    Orbit::GenerateStates                       (   const   Model& aModel,
-//                                                                                 const   Array<Instant>& anInstantGrid
-//                                                                                 )
-// {
-
-//     Array<State> states = Array<State>::Empty() ;
-
-//     states.reserve(anInstantGrid.getSize()) ;
-
-//     for (const auto& instant : anInstantGrid)
-//     {
-//         states.add(aModel.calculateStateAt(instant)) ;
-//     }
-
-//     return states ;
-
-// }
 
 }  // namespace trajectory
 }  // namespace astro

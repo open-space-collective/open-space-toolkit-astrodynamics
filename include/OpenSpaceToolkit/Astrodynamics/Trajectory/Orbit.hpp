@@ -220,8 +220,6 @@ class Orbit : public Trajectory
         const Instant& currentInstant,
         const std::function<double(double)>& getValue
     );
-
-    static Array<State> GenerateStates(const Model& aModel, const Array<Instant>& anInstantGrid);
 };
 
 }  // namespace trajectory
