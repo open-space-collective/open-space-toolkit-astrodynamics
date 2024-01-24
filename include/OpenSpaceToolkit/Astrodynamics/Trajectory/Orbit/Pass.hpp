@@ -133,9 +133,9 @@ class Pass
     /// @return The instant at the south point of the pass.
     const Instant& accessInstantAtSouthPoint() const;
 
-    /// @brief Accesses the instant at the pass break of the pass.
+    /// @brief Accesses the instant at the break of the pass.
     ///
-    /// @return The instant at the pass break of the pass.
+    /// @return The instant at the break of the pass.
     const Instant& accessInstantAtPassBreak() const;
 
     /// @brief Print

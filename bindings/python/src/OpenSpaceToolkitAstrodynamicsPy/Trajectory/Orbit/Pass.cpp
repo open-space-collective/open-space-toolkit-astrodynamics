@@ -70,7 +70,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
                     instant_at_north_point (Instant): The instant at the north point of the pass.
                     instant_at_descending_node (Instant): The instant at the descending node of the pass.
                     instant_at_south_point (Instant): The instant at the south point of the pass.
-                    instant_at_pass_break (Instant): The instant at which the pass breaks.
+                    instant_at_pass_break (Instant): The instant at break of the pass.
 
             )doc"
         )
@@ -142,6 +142,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             &Pass::accessInstantAtAscendingNode,
             R"doc(
                 Get the instant at the ascending node of the pass.
+                i.e. z = 0 & vz > 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the ascending node of the pass.
@@ -153,6 +154,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             &Pass::accessInstantAtNorthPoint,
             R"doc(
                 Get the instant at the north point of the pass.
+                i.e. z = maximum and vz = 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the north point of the pass.
@@ -164,6 +166,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             &Pass::accessInstantAtDescendingNode,
             R"doc(
                 Get the instant at the descending node of the pass.
+                i.e. z = 0 and vz < 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the descending node of the pass.
@@ -175,6 +178,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             &Pass::accessInstantAtSouthPoint,
             R"doc(
                 Get the instant at the south point of the pass.
+                i.e. z = minimum and vz = 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the south point of the pass.
@@ -185,7 +189,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             "get_instant_at_pass_break",
             &Pass::accessInstantAtPassBreak,
             R"doc(
-                Get the instant at the break of the pass.
+                Get the instant at the break of the pass,
+                i.e. the ascending node of the next pass.
 
                 Returns:
                     Instant: The instant at the break of the pass.

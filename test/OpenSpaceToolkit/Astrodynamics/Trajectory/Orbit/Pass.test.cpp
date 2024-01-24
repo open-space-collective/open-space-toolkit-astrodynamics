@@ -192,7 +192,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
     // undefined
     {
         const Pass pass = {
-            defaultRevolutionNumber_,
+            Integer::Undefined(),
             Instant::Undefined(),
             Instant::Undefined(),
             Instant::Undefined(),
@@ -480,7 +480,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsDefined)
 
     {
         const Pass pass = {
-            defaultRevolutionNumber_,
+            Integer::Undefined(),
             Instant::Undefined(),
             Instant::Undefined(),
             Instant::Undefined(),

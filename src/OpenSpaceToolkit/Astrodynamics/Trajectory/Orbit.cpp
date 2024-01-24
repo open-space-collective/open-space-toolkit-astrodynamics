@@ -1164,17 +1164,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         passBreak,
     };
 
-    if (!passMap.isEmpty())
-    {
-        const Index& lastPassIndex = passMap.accessLast().first;
-
-        // Don't add the remaining pass if there are no states left
-        if (lastPassIndex == currentIndex - 1)
-        {
-            return passMap;
-        }
-    }
-
     passMap.add({currentIndex, pass});
 
     return passMap;
