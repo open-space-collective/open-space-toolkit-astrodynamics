@@ -35,9 +35,9 @@ Pass::Pass(
     {
         type_ = Pass::Type::Undefined;
     }
-    else if (!anInstantAtNorthPoint.isDefined() || !anInstantAtSouthPoint.isDefined() ||
+    else if ((!anInstantAtNorthPoint.isDefined() || !anInstantAtSouthPoint.isDefined() ||
         !anInstantAtDescendingNode.isDefined() || !anInstantAtAscendingNode.isDefined() ||
-        !anInstantAtPassBreak.isDefined())
+        !anInstantAtPassBreak.isDefined()) && revolutionNumber_.isDefined())
     {
         type_ = Pass::Type::Partial;
     }
