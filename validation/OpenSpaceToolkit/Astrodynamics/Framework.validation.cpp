@@ -188,21 +188,32 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
             const Quantity quantity = quantityComparisons[coordinateSubsetIndex].quantity;
             const Real tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
 
-            for (Size stateIndex = 0; stateIndex < allDeltasWithTool.getSize(); stateIndex++)
+            // TBI: Move this function into CrossValidator to be able to unit test it since it is very important
+            const auto currentDeltaCompare = [&coordinateSubsetIndex](const VectorXd& a, const VectorXd& b) -> bool
             {
-                // Assert tolerance on each comparison step
-                EXPECT_GT(tolerance, allDeltasWithTool[stateIndex][coordinateSubsetIndex]) << String::Format(
-                    "For Tool: {}\nFor Quantity: {}\nTolerance: {}\n",
-                    CrossValidator::ToolToString(tool),
-                    CrossValidator::QuantityToString(quantity),
-                    tolerance
-                );
-            }
+                return a[coordinateSubsetIndex] < b[coordinateSubsetIndex];
+            };
+
+            // TBI: Move these lines in into CrossValidator to be able to unit test them since they are very important
+            const auto maxElementIt =
+                std::max_element(allDeltasWithTool.begin(), allDeltasWithTool.end(), currentDeltaCompare);
+            const Size maxIndex = std::distance(allDeltasWithTool.begin(), maxElementIt);
+            const Real maxDelta = allDeltasWithTool[maxIndex][coordinateSubsetIndex];
+
+            // Assert tolerance
+            EXPECT_LT(maxDelta, tolerance) << String::Format(
+                "For Tool: {}\nFor Quantity: {}\nTolerance: {}\nState Index: {} out of {}\n",
+                CrossValidator::ToolToString(tool),
+                CrossValidator::QuantityToString(quantity),
+                tolerance,
+                maxIndex,
+                allDeltasWithTool.getSize() - 1
+            );
         }
     }
 }
 
-static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters = {
+static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_NewScenarios = {
     {
         "scenario001-mission-sequence",  // Spherical gravity only
         {
@@ -280,7 +291,186 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters =
         },
     },
 };
-
 INSTANTIATE_TEST_SUITE_P(
-    ValidationTestRunnerInstantiation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(parameters)
+    NewScenarios, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_NewScenarios)
+);
+
+static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_RefactoredScenarios = {
+    {
+        "refactored-scenario001-mission-sequence-two-body",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario002-mission-sequence-two-body",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-non-spherical",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-third-body",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario002-mission-sequence-third-body",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario003-mission-sequence-third-body",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-exponential-320",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 2.3e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.7e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-exponential-500",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-exponential-600",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-nrlmsis-470-small-area",
+        {
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.6e+1},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.8e-2},
+                },
+            },
+        },
+    },
+    {
+        "refactored-scenario001-mission-sequence-nrlmsis-470-large-area-short-duration",
+        {
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 6.0e+0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 6.0e-3},
+                },
+            },
+        },
+    },
+};
+INSTANTIATE_TEST_SUITE_P(
+    RefactoredScenarios, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_RefactoredScenarios)
 );
