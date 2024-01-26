@@ -1040,7 +1040,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
 
     if (aStateArray.getSize() < 2)
     {
-        return passMap;
+        throw ostk::core::error::Runtime("Greater than 2 states required to compute passes: {}", aStateArray.getSize());
     }
 
     for (Index i = 1; i < aStateArray.getSize(); ++i)

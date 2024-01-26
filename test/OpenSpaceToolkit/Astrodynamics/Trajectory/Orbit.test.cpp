@@ -370,7 +370,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF()),
             },
         };
-        EXPECT_TRUE(Orbit::ComputePasses(states, 1).isEmpty());
+        EXPECT_THROW(Orbit::ComputePasses(states, 1).isEmpty(), ostk::core::error::RuntimeError);
     }
 
     // states out of order
