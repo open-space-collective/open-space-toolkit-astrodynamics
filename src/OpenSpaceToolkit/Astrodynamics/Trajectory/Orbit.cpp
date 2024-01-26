@@ -1040,7 +1040,9 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
 
     if (aStateArray.getSize() < 2)
     {
-        throw ostk::core::error::Runtime("Greater than 2 states required to compute passes: {}", aStateArray.getSize());
+        throw ostk::core::error::RuntimeError(
+            "Greater than 2 states required to compute passes: {}", aStateArray.getSize()
+        );
     }
 
     for (Index i = 1; i < aStateArray.getSize(); ++i)
