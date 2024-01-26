@@ -105,9 +105,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
     // Create "system" python submodule
     auto system = aModule.def_submodule("system");
 
-    // Add __path__ attribute for "system" submodule
-    system.attr("__path__") = "ostk.astrodynamics.flight.system";
-
     // Add objects to "system" submodule
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(system);
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(system);

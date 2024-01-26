@@ -10,10 +10,10 @@ LABEL maintainer="lucas@loftorbital.com"
 
 # Dependencies
 
-## Zip, jq, & git-lfs
+## Additional deps
 
 RUN apt-get update \
- && apt-get install -y unzip jq git-lfs \
+ && apt-get install -y unzip jq git-lfs locales \
  && rm -rf /var/lib/apt/lists/*
 
 ## {fmt}
@@ -162,6 +162,11 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
 RUN git clone --branch main --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
 
 ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="/var/cache/open-space-toolkit-data/data"
+
+RUN locale-gen en_US.UTF-8
+ENV LANG="en_US.UTF-8"
+ENV LANGUAGE="en_US:en"
+ENV LC_ALL="en_US.UTF-8"
 
 # Labels
 

@@ -123,9 +123,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(pybind1
     // Create "sgp4" python submodule
     auto sgp4 = aModule.def_submodule("sgp4");
 
-    // Add __path__ attribute for "sgp4" submodule
-    sgp4.attr("__path__") = "ostk.astrodynamics.sgp4";
-
     // Add objects to "sgp4" python submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(sgp4);
 }

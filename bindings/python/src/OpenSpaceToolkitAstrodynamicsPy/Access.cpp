@@ -199,9 +199,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
     // Create "access" python submodule
     auto access = aModule.def_submodule("access");
 
-    // Add __path__ attribute for "access" submodule
-    access.attr("__path__") = "ostk.astrodynamics.access";
-
     // Add elements to "access" module
     OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access);
 }

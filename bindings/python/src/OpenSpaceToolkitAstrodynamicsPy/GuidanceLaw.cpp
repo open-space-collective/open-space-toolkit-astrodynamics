@@ -119,9 +119,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
     // Create "guidance_law" python submodule
     auto guidance_law = aModule.def_submodule("guidance_law");
 
-    // Add __path__ attribute for "guidance_law" submodule
-    guidance_law.attr("__path__") = "ostk.astrodynamics.guidance_law";
-
     // Add objects to "guidance_law" submodule
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(guidance_law);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(guidance_law);

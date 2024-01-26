@@ -260,9 +260,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     // Create "event_condition" python submodule
     auto event_condition = aModule.def_submodule("event_condition");
 
-    // Add __path__ attribute for "event_condition" submodule
-    event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
-
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(event_condition);

@@ -28,9 +28,9 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         R"doc(
             This class implements the Q-law guidance law.
 
-            Ref: https://dataverse.jpl.nasa.gov/api/access/datafile/10307?gbrecs=true
-            Ref: https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives
-            Ref for derivations: https://dataverse.jpl.nasa.gov/api/access/datafile/13727?gbrecs=true
+            - Ref: https://dataverse.jpl.nasa.gov/api/access/datafile/10307?gbrecs=true
+            - Ref: https://www.researchgate.net/publication/370849580_Analytic_Calculation_and_Application_of_the_Q-Law_Guidance_Algorithm_Partial_Derivatives
+            - Ref for derivations: https://dataverse.jpl.nasa.gov/api/access/datafile/13727?gbrecs=true
 
             The Q-law is a Lyapunov feedback control law developed by Petropoulos,
             based on analytic expressions for maximum rates of change of the orbit elements and

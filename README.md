@@ -98,10 +98,7 @@ pip install open-space-toolkit-astrodynamics
 
 ## Documentation
 
-Documentation is available here:
-
-- [C++](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
-- [Python](./bindings/python/docs)
+Documentation is available [here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics):
 
 <details>
 <summary>Structure</summary>
@@ -339,7 +336,7 @@ The validation tests can be run with `ostk-validate` from within the dev contain
 
 Contributions are more than welcome!
 
-Please read our [contributing guide](CONTRIBUTING.md) to learn about our development process, how to propose fixes and improvements, and how to build and test the code.
+Please read our [contributing guide](./CONTRIBUTING.md) to learn about our development process, how to propose fixes and improvements, and how to build and test the code.
 
 ## Special Thanks
 

@@ -157,9 +157,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
     // Create "brouwerLyddaneMean" python submodule
     auto brouwerLyddaneMean = aModule.def_submodule("brouwerLyddaneMean");
 
-    // Add __path__ attribute for "brouwerLyddaneMean" submodule
-    brouwerLyddaneMean.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models.brouwerLyddaneMean";
-
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLyddaneMean_BrouwerLyddaneMeanShort(
         brouwerLyddaneMean
     );

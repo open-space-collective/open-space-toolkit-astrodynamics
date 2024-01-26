@@ -11,9 +11,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models(pybind11::mo
     // Create "models" python submodule
     auto models = aModule.def_submodule("models");
 
-    // Add __path__ attribute for "models" submodule
-    models.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models";
-
     // add objects to "models" submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(models);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(models);
