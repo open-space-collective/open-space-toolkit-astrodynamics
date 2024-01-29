@@ -671,7 +671,26 @@ INSTANTIATE_TEST_SUITE_P(
 
 static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Sequence = {
     {
-        "020-sequence-multiple-maneuvers",
+        "020-sequence-multiple-2h-maneuvers",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "020-sequence-multiple-30m-maneuvers",
         {
             {
                 Tool::GMAT,
