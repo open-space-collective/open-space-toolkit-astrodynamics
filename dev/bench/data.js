@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1706092714927,
+  "lastUpdate": 1706535670599,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 2791280337.900008,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2791106749.999997 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3bb6940b3fa69d24a44cc3ede0096d4c03de46c3",
+          "message": "feat: update pass constructor to allow partial passes from start/end (#327)\n\n* feat: update pass constructor to allow partial passes from start/end\r\n\r\n* feat: fix tests\r\n\r\n* chore: fix bindings\r\n\r\n* chore: fix bindings (2)\r\n\r\n* feat: fix\r\n\r\n* feat: update compute passes logic\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>\r\n\r\n* feat: address feedback\r\n\r\n* chore: fix bug\r\n\r\n---------\r\n\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>",
+          "timestamp": "2024-01-29T05:13:10-08:00",
+          "tree_id": "2118ce18b06015e2581751a781ebe7e928f5614b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/3bb6940b3fa69d24a44cc3ede0096d4c03de46c3"
+        },
+        "date": 1706535669741,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 547162949.6000049,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 547141289.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 781674112.6000068,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 781633610.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2798540507.4999905,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2798421559.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2800618972.500001,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2800358630.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2795220381.6000066,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2795126709.999998 ns\nthreads: 1"
           }
         ]
       }
