@@ -51,42 +51,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
         ;
 
-    enum_<Pass::Quarter>(
-        pass_class,
-        "Quarter",
-        R"doc(
-            The quarter of the `Pass`.
-        )doc"
-    )
-
-        .value("Undefined", Pass::Quarter::Undefined, "Undefined")
-        .value("First", Pass::Quarter::First, "First")
-        .value("Second", Pass::Quarter::Second, "Second")
-        .value("Third", Pass::Quarter::Third, "Third")
-        .value("Fourth", Pass::Quarter::Fourth, "Fourth")
-
-        ;
-
     pass_class
 
         .def(
-            init<const Pass::Type&, const Integer&, const Interval&, const Instant&, const Instant&, const Instant&>(),
-            arg("type"),
+            init<const Integer&, const Instant&, const Instant&, const Instant&, const Instant&, const Instant&>(),
             arg("revolution_number"),
-            arg("interval"),
-            arg("descending_node_instant"),
-            arg("north_point_instant"),
-            arg("south_point_instant"),
+            arg("instant_at_ascending_node"),
+            arg("instant_at_north_point"),
+            arg("instant_at_descending_node"),
+            arg("instant_at_south_point"),
+            arg("instant_at_pass_break"),
             R"doc(
                 Constructor.
 
                 Args:
-                    type (Pass.Type): The type of the pass.
                     revolution_number (int): The revolution number of the pass.
-                    interval (Interval): The interval of the pass.
-                    descending_node_instant (Instant): The instant at the descending node of the pass.
-                    north_point_instant (Instant): The instant at the north point of the pass.
-                    south_point_instant (Instant): The instant at the south point of the pass.
+                    instant_at_ascending_node (Instant): The instant at the ascending node of the pass.
+                    instant_at_north_point (Instant): The instant at the north point of the pass.
+                    instant_at_descending_node (Instant): The instant at the descending node of the pass.
+                    instant_at_south_point (Instant): The instant at the south point of the pass.
+                    instant_at_pass_break (Instant): The instant at break of the pass.
 
             )doc"
         )
@@ -143,13 +127,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             )doc"
         )
         .def(
-            "get_interval",
-            &Pass::getInterval,
+            "get_duration",
+            &Pass::getDuration,
             R"doc(
-                Get the interval of the pass.
+                Get the duration of the pass. Undefined if the pass is not complete.
 
                 Returns:
-                    Interval: The interval of the pass.
+                    Duration: The duration of the pass.
 
             )doc"
         )
@@ -158,6 +142,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             &Pass::accessInstantAtAscendingNode,
             R"doc(
                 Get the instant at the ascending node of the pass.
+                i.e. z = 0 & vz > 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the ascending node of the pass.
@@ -165,24 +150,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             )doc"
         )
         .def(
-            "get_instant_at_descending_node",
-            &Pass::accessInstantAtDescendingNode,
-            R"doc(
-                Get the instant at the descending node of the pass.
-
-                Returns:
-                    Instant: The instant at the descending node of the pass.
-
-            )doc"
-        )
-        .def(
             "get_instant_at_north_point",
             &Pass::accessInstantAtNorthPoint,
             R"doc(
                 Get the instant at the north point of the pass.
+                i.e. z = maximum and vz = 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the north point of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_instant_at_descending_node",
+            &Pass::accessInstantAtDescendingNode,
+            R"doc(
+                Get the instant at the descending node of the pass.
+                i.e. z = 0 and vz < 0 in an ECI frame.
+
+                Returns:
+                    Instant: The instant at the descending node of the pass.
 
             )doc"
         )
@@ -191,9 +178,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             &Pass::accessInstantAtSouthPoint,
             R"doc(
                 Get the instant at the south point of the pass.
+                i.e. z = minimum and vz = 0 in an ECI frame.
 
                 Returns:
                     Instant: The instant at the south point of the pass.
+
+            )doc"
+        )
+        .def(
+            "get_instant_at_pass_break",
+            &Pass::accessInstantAtPassBreak,
+            R"doc(
+                Get the instant at the break of the pass,
+                i.e. the ascending node of the next pass.
+
+                Returns:
+                    Instant: The instant at the break of the pass.
 
             )doc"
         )
@@ -235,20 +235,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
                     str: The string representation of the pass phase.
             )doc",
             arg("phase")
-        )
-        .def_static(
-            "string_from_quarter",
-            &Pass::StringFromQuarter,
-            R"doc(
-                Get the string representation of a pass quarter.
-
-                Args:
-                    quarter (Pass.Quarter): The pass quarter.
-
-                Returns:
-                    str: The string representation of the pass quarter.
-            )doc",
-            arg("quarter")
         )
 
         ;

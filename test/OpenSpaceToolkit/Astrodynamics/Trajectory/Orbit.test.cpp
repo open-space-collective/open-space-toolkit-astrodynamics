@@ -31,6 +31,7 @@
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
+using ostk::core::ctnr::Pair;
 using ostk::core::ctnr::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
@@ -343,22 +344,36 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
             EXPECT_GT(
                 Duration::Microseconds(1.0),
-                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+                Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
             );
             EXPECT_GT(
                 Duration::Microseconds(1.0),
-                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+                Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
             );
         }
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
 {
+    // undefined revolution number
     {
-        EXPECT_THROW(Orbit::GeneratePassMap({}, Integer::Undefined()), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Orbit::ComputePasses({}, Integer::Undefined()), ostk::core::error::runtime::Undefined);
     }
 
+    // states < 2
+    {
+        const Array<State> states = {
+            {
+                Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+                Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF()),
+            },
+        };
+        EXPECT_THROW(Orbit::ComputePasses(states, 1).isEmpty(), ostk::core::error::RuntimeError);
+    }
+
+    // states out of order
     {
         const Array<State> states = {
             {
@@ -372,7 +387,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF()),
             }
         };
-        EXPECT_THROW(Orbit::GeneratePassMap(states, 1), ostk::core::error::RuntimeError);
+        EXPECT_THROW(Orbit::ComputePasses(states, 1), ostk::core::error::RuntimeError);
     }
 
     // partial revolution
@@ -411,30 +426,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             Interval::Closed(startInstant, endInstant).generateGrid(Duration::Seconds(20.0));
         const Array<State> states = orbit.getStatesAt(instants);
 
-        const Map<Index, Pass> passMap = Orbit::GeneratePassMap(states, 1);
+        const Array<Pair<Index, Pass>> passMap = Orbit::ComputePasses(states, 1);
 
         for (const auto &row : passMap)
         {
             const Pass &pass = row.second;
 
             EXPECT_TRUE(pass.isDefined());
-
-            if (pass.accessInstantAtNorthPoint().isDefined())
-            {
-                EXPECT_LT(pass.accessInstantAtAscendingNode(), pass.accessInstantAtNorthPoint());
-
-                if (pass.accessInstantAtDescendingNode().isDefined())
-                {
-                    EXPECT_LT(pass.accessInstantAtNorthPoint(), pass.accessInstantAtDescendingNode());
-
-                    if (pass.accessInstantAtSouthPoint().isDefined())
-                    {
-                        EXPECT_LT(pass.accessInstantAtDescendingNode(), pass.accessInstantAtSouthPoint());
-                        EXPECT_LT(pass.accessInstantAtSouthPoint(), pass.getInterval().getEnd());
-                    }
-                }
-            }
         }
+
+        EXPECT_EQ(passMap.accessLast().second.getType(), Pass::Type::Partial);
     }
 
     {
@@ -481,7 +482,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             Interval::Closed(startInstant, endInstant).generateGrid(Duration::Seconds(20.0));
         const Array<State> states = orbit.getStatesAt(instants);
 
-        const Map<Index, Pass> passMap = Orbit::GeneratePassMap(states, 1);
+        const Array<Pair<Index, Pass>> passMap = Orbit::ComputePasses(states, 1);
 
         EXPECT_EQ(referenceData.getRowCount(), passMap.size() - 1);  // We're generating 1 pass over the reference data
 
@@ -517,25 +518,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
 
             EXPECT_TRUE(pass.isDefined());
 
-            if (pass.accessInstantAtNorthPoint().isDefined())
-            {
-                EXPECT_LT(pass.accessInstantAtAscendingNode(), pass.accessInstantAtNorthPoint());
-
-                if (pass.accessInstantAtDescendingNode().isDefined())
-                {
-                    EXPECT_LT(pass.accessInstantAtNorthPoint(), pass.accessInstantAtDescendingNode());
-
-                    if (pass.accessInstantAtSouthPoint().isDefined())
-                    {
-                        EXPECT_LT(pass.accessInstantAtDescendingNode(), pass.accessInstantAtSouthPoint());
-                        EXPECT_LT(pass.accessInstantAtSouthPoint(), pass.getInterval().getEnd());
-                    }
-                }
-            }
-
             EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
-            EXPECT_LT(std::fabs((referencePassStartInstant - pass.getInterval().getStart()).inSeconds()), 1e-6);
-            EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInterval().getEnd()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassStartInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6);
+            EXPECT_LT(std::fabs((referencePassEndInstant - pass.accessInstantAtPassBreak()).inSeconds()), 1e-6);
             EXPECT_LT(
                 std::fabs((referencePassAscendingNodeInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6
             );
@@ -578,7 +563,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeneratePassMap)
             states.add(sgp4.calculateStateAt(instant));
         }
 
-        EXPECT_NO_THROW(Orbit::GeneratePassMap(states, 8502));
+        EXPECT_NO_THROW(Orbit::ComputePasses(states, 8502));
     }
 }
 
@@ -639,11 +624,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
             EXPECT_GT(
                 Duration::Microseconds(1.0),
-                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+                Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
             );
             EXPECT_GT(
                 Duration::Microseconds(1.0),
-                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+                Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
             );
         }
     }
@@ -703,11 +688,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
             EXPECT_GT(
                 Duration::Milliseconds(1.0),
-                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+                Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
             );
             EXPECT_GT(
                 Duration::Milliseconds(1.0),
-                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+                Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
             );
         }
     }
@@ -767,11 +752,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
             EXPECT_GT(
                 Duration::Milliseconds(2.0),
-                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+                Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
             );
             EXPECT_GT(
                 Duration::Milliseconds(2.0),
-                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+                Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
             );
         }
     }

@@ -33,6 +33,7 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
 using ostk::core::ctnr::Map;
 using ostk::core::types::Index;
 using ostk::core::types::Integer;
@@ -190,7 +191,9 @@ class Orbit : public Trajectory
 
     static String StringFromFrameType(const Orbit::FrameType& aFrameType);
 
-    static Map<Index, Pass> GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber);
+    static Array<Pair<Index, Pass>> ComputePasses(
+        const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber
+    );
 
    private:
     const orbit::Model* modelPtr_;
@@ -203,7 +206,8 @@ class Orbit : public Trajectory
     String generateFrameName(const Orbit::FrameType& aFrameType) const;
 
     /// @brief Find the Instant at which the return value of `getValue` crosses zero.
-    /// Use a bisection search to find the Instant between `previousInstant` and `nextInstant` at which the return value of `getValue` crosses zero. 
+    /// Use a bisection search to find the Instant between `previousInstant` and `nextInstant` at which the return value
+    /// of `getValue` crosses zero.
     ///
     /// @param anEpoch An orbit epoch from which to measure
     /// @param previousInstant lower bound of search
@@ -216,8 +220,6 @@ class Orbit : public Trajectory
         const Instant& currentInstant,
         const std::function<double(double)>& getValue
     );
-
-    static Array<State> GenerateStates(const Model& aModel, const Array<Instant>& anInstantGrid);
 };
 
 }  // namespace trajectory

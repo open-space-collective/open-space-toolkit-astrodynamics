@@ -53,6 +53,8 @@ using ostk::astro::RootSolver;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
 
+static const Real epsilon = 1e-6;
+
 static const RootSolver rootSolver = RootSolver::Default();
 
 Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr)
@@ -245,11 +247,12 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
             Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber()
                                                                       : this->modelPtr_->getRevolutionNumberAtEpoch();
             Instant previousInstant = currentPass.isDefined()
-                                        ? (currentPass.getInterval().accessEnd() + Duration::Microseconds(1.0))
+                                        ? (currentPass.accessInstantAtPassBreak() + Duration::Microseconds(1.0))
                                         : this->modelPtr_->getEpoch();
 
-            Duration stepDuration = currentPass.isDefined() ? currentPass.getInterval().getDuration() / 5.0
-                                                            : Duration::Minutes(10.0);  // [TBM] param
+            Duration stepDuration = (currentPass.isDefined() && currentPass.isComplete())
+                                      ? currentPass.getDuration() / 5.0
+                                      : Duration::Minutes(10.0);  // [TBM] param
 
             if (currentRevolutionNumber <= aRevolutionNumber)  // Forward propagation
             {
@@ -309,29 +312,32 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                 if (currentPass.isDefined())
                 {
                     currentPass = {
-                        Pass::Type::Complete,
                         currentRevolutionNumber + 1,
-                        Interval::Closed(currentPass.getInterval().accessEnd(), previousInstant),
-                        descendingNodeCrossing,
+                        currentPass.accessInstantAtPassBreak(),
                         northPointCrossing,
+                        descendingNodeCrossing,
                         southPointCrossing,
+                        previousInstant,
                     };
                 }
                 else
                 {
-                    const Pass::Type passType = (this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch())
-                                                     .getPosition()
-                                                     .accessCoordinates()
-                                                     .z() == 0.0)
-                                                  ? Pass::Type::Complete
-                                                  : Pass::Type::Partial;
+                    const Instant ascendingNodeCrossing =
+                        Real(this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch())
+                                 .getPosition()
+                                 .accessCoordinates()
+                                 .z())
+                                .isNear(0.0, epsilon)
+                            ? this->modelPtr_->getEpoch()
+                            : Instant::Undefined();
+
                     currentPass = {
-                        passType,
                         currentRevolutionNumber,
-                        Interval::Closed(this->modelPtr_->getEpoch(), previousInstant),
-                        descendingNodeCrossing,
+                        ascendingNodeCrossing,
                         northPointCrossing,
+                        descendingNodeCrossing,
                         southPointCrossing,
+                        previousInstant,
                     };
                 }
             }
@@ -638,11 +644,7 @@ void Orbit::print(std::ostream& anOutputStream, bool displayDecorator) const
 
         ostk::core::utils::Print::Separator(anOutputStream, String::Format("Pass #{}", pass.getRevolutionNumber()));
 
-        ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Pass::StringFromType(pass.getType());
-        ostk::core::utils::Print::Line(anOutputStream) << "Revolution #:" << pass.getRevolutionNumber().toString();
-        ostk::core::utils::Print::Line(anOutputStream) << "Start time:" << pass.getInterval().accessStart().toString();
-        ostk::core::utils::Print::Line(anOutputStream) << "End time:" << pass.getInterval().accessEnd().toString();
-        ostk::core::utils::Print::Line(anOutputStream) << "Duration:" << pass.getInterval().getDuration().toString();
+        pass.print(anOutputStream, false);
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
@@ -1025,7 +1027,7 @@ String Orbit::generateFrameName(const Orbit::FrameType& aFrameType) const
     return String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), fmt::ptr(this));
 }
 
-Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
+Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
 {
     if (!anInitialRevolutionNumber.isDefined())
     {
@@ -1034,13 +1036,14 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
 
     // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
 
-    Map<Index, Pass> passMap;
+    Array<Pair<Index, Pass>> passMap;
 
-    Integer revolutionNumber = anInitialRevolutionNumber;
-    Instant previousPassEndInstant = Instant::Undefined();
-
-    Index currentIndex = 0;
-    State const* previousStatePtr = nullptr;
+    if (aStateArray.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Greater than 2 states required to compute passes: {}", aStateArray.getSize()
+        );
+    }
 
     for (Index i = 1; i < aStateArray.getSize(); ++i)
     {
@@ -1071,14 +1074,22 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
             .z();
     };
 
-    Instant southPointCrossing = Instant::Undefined();
+    Index currentIndex = 0;
+    State const* previousStatePtr = nullptr;
+
+    Integer revolutionNumber = anInitialRevolutionNumber;
+
+    Instant previousPassEndInstant =
+        (Real(aStateArray.accessFirst().getPosition().accessCoordinates().z()).isNear(0.0, epsilon))
+            ? aStateArray.accessFirst().accessInstant()
+            : Instant::Undefined();
     Instant northPointCrossing = Instant::Undefined();
     Instant descendingNodeCrossing = Instant::Undefined();
+    Instant southPointCrossing = Instant::Undefined();
+    Instant passBreak = Instant::Undefined();
 
     for (const auto& state : aStateArray)
     {
-        bool passHasBeenAdded = false;
-
         if (previousStatePtr != nullptr)
         {
             const Vector3d previousPositionCoordinates_ECI = previousStatePtr->getPosition().accessCoordinates();
@@ -1111,74 +1122,51 @@ Map<Index, Pass> Orbit::GeneratePassMap(const Array<State>& aStateArray, const I
                     Orbit::GetCrossingInstant(epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZ);
             }
 
-            // Pass crossing
+            // Pass break
             if ((previousPositionCoordinates_ECI.z() < 0.0) && (currentPositionCoordinates_ECI.z() >= 0.0))
             {
-                const Pass::Type passType =
-                    ((!previousPassEndInstant.isDefined()) && aStateArray.accessFirst().accessCoordinates()[2] != 0.0)
-                        ? Pass::Type::Partial
-                        : Pass::Type::Complete;
-
-                const Instant passStartInstant = previousPassEndInstant.isDefined()
-                                                   ? previousPassEndInstant
-                                                   : aStateArray.accessFirst().accessInstant();
-
-                const Instant passEndInstant =
+                passBreak =
                     Orbit::GetCrossingInstant(epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZ);
+            }
 
-                const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant);
-
+            if (passBreak.isDefined())
+            {
                 const Pass pass = {
-                    passType,
                     revolutionNumber,
-                    passInterval,
-                    descendingNodeCrossing,
+                    previousPassEndInstant,
                     northPointCrossing,
+                    descendingNodeCrossing,
                     southPointCrossing,
+                    passBreak,
                 };
 
-                passMap.insert({currentIndex, pass});
+                passMap.add({currentIndex, pass});
 
                 revolutionNumber++;
+                previousPassEndInstant = passBreak;
 
                 southPointCrossing = Instant::Undefined();
                 northPointCrossing = Instant::Undefined();
                 descendingNodeCrossing = Instant::Undefined();
-
-                previousPassEndInstant = passEndInstant;
-                passHasBeenAdded = true;
+                passBreak = Instant::Undefined();
             }
-        }
-
-        if ((!passHasBeenAdded) && (&state == &aStateArray.accessLast()))  // Last state
-        {
-            const Pass::Type passType =
-                ((previousStatePtr != nullptr) && (previousStatePtr->accessCoordinates()[2] < 0.0) &&
-                 (state.accessCoordinates()[2] == 0.0))
-                    ? Pass::Type::Complete
-                    : Pass::Type::Partial;
-
-            const Instant passStartInstant =
-                previousPassEndInstant.isDefined() ? previousPassEndInstant : aStateArray.accessFirst().accessInstant();
-            const Instant passEndInstant = state.accessInstant();
-
-            const Interval passInterval = Interval::Closed(passStartInstant, passEndInstant);
-
-            const Pass pass = {
-                passType,
-                revolutionNumber,
-                passInterval,
-                descendingNodeCrossing,
-                northPointCrossing,
-                southPointCrossing,
-            };
-
-            passMap.insert({currentIndex, pass});
         }
 
         previousStatePtr = &state;
         currentIndex++;
     }
+
+    // Add last partial pass
+    const Pass pass = {
+        revolutionNumber,
+        previousPassEndInstant,
+        northPointCrossing,
+        descendingNodeCrossing,
+        southPointCrossing,
+        passBreak,
+    };
+
+    passMap.add({currentIndex, pass});
 
     return passMap;
 }
@@ -1200,24 +1188,6 @@ Instant Orbit::GetCrossingInstant(
 
     return anEpoch + Duration::Seconds(solution.root);
 }
-
-// Array<State>                    Orbit::GenerateStates                       (   const   Model& aModel,
-//                                                                                 const   Array<Instant>& anInstantGrid
-//                                                                                 )
-// {
-
-//     Array<State> states = Array<State>::Empty() ;
-
-//     states.reserve(anInstantGrid.getSize()) ;
-
-//     for (const auto& instant : anInstantGrid)
-//     {
-//         states.add(aModel.calculateStateAt(instant)) ;
-//     }
-
-//     return states ;
-
-// }
 
 }  // namespace trajectory
 }  // namespace astro

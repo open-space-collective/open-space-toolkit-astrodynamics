@@ -151,6 +151,6 @@ class TestOrbit:
             argument_of_latitude=Angle.degrees(50.0),
         ).is_defined()
 
-    def test_generate_pass_map(self, orbit: Orbit, states: list[State]):
-        pass_map: dict[int, Pass] = orbit.generate_pass_map(states, 1)
-        assert pass_map is not None
+    def test_compute_passes(self, orbit: Orbit, states: list[State]):
+        passes: list[tuple[int, Pass]] = orbit.compute_passes(states, 1)
+        assert passes is not None
