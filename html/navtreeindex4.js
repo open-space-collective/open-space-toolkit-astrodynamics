@@ -1,9 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a0b506ccfa4de59cfa64646a72ff019ed":[4,0,0,0,7,1,1,1,0,2,4],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a1078f8f87d6348dce5960e3d861c0053":[4,0,0,0,7,1,1,1,0,2,1],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a3361420b1530eeff8345432804abbae9":[4,0,0,0,7,1,1,1,0,2,7],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a6953d46ff06cf818c4941a2d7d93a923":[4,0,0,0,7,1,1,1,0,2,3],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94ac8e43235334b06bbdc80f063364309c5":[4,0,0,0,7,1,1,1,0,2,6],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94ad5077cca37d144dc8530e4a9db417dc5":[4,0,0,0,7,1,1,1,0,2,2],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94add9bb4f5c8ac7051efe788f0a62d1200":[4,0,0,0,7,1,1,1,0,2,5],
@@ -182,8 +178,8 @@ var NAVTREEINDEX4 =
 "dir_fdc2ce6839bd9a3b87630c53f2ae038b.html":[5,0,2,0],
 "dir_ff6cf272d3a6fbe826c5cbeb78c6c99a.html":[5,0,1,0,0,1,0,0],
 "files.html":[5,0],
-"functions.html":[4,2,0,0],
 "functions.html":[4,2,0],
+"functions.html":[4,2,0,0],
 "functions_b.html":[4,2,0,1],
 "functions_c.html":[4,2,0,2],
 "functions_d.html":[4,2,0,3],
@@ -247,7 +243,11 @@ var NAVTREEINDEX4 =
 "index.html#autotoc_md14":[0,4,1],
 "index.html#autotoc_md15":[0,4,2],
 "index.html#autotoc_md16":[0,4,3],
-"index.html#autotoc_md17":[0,5],
-"index.html#autotoc_md18":[0,6],
-"index.html#autotoc_md19":[0,7]
+"index.html#autotoc_md17":[0,4,4],
+"index.html#autotoc_md18":[0,4,4,0],
+"index.html#autotoc_md19":[0,4,4,1],
+"index.html#autotoc_md2":[0,0,0],
+"index.html#autotoc_md20":[0,4,4,2],
+"index.html#autotoc_md21":[0,5],
+"index.html#autotoc_md22":[0,6]
 };
