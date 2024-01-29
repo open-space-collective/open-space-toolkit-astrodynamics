@@ -188,21 +188,13 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
             const Quantity quantity = quantityComparisons[coordinateSubsetIndex].quantity;
             const Real tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
 
-            // TBI: Move this function into CrossValidator to be able to unit test it since it is very important
-            const auto currentDeltaCompare = [&coordinateSubsetIndex](const VectorXd& a, const VectorXd& b) -> bool
-            {
-                return a[coordinateSubsetIndex] < b[coordinateSubsetIndex];
-            };
-
-            // TBI: Move these lines in into CrossValidator to be able to unit test them since they are very important
-            const auto maxElementIt =
-                std::max_element(allDeltasWithTool.begin(), allDeltasWithTool.end(), currentDeltaCompare);
-            const Size maxIndex = std::distance(allDeltasWithTool.begin(), maxElementIt);
+            const Size maxIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, coordinateSubsetIndex);
             const Real maxDelta = allDeltasWithTool[maxIndex][coordinateSubsetIndex];
 
             // Assert tolerance
             EXPECT_LT(maxDelta, tolerance) << String::Format(
-                "For Tool: {}\nFor Quantity: {}\nTolerance: {}\nState Index: {} out of {}\n",
+                "Scenario: {}\nFor Tool: {}\nFor Quantity: {}\nTolerance: {}\nState Index: {} out of {}\n",
+                scenarioName,
                 CrossValidator::ToolToString(tool),
                 CrossValidator::QuantityToString(quantity),
                 tolerance,
@@ -459,5 +451,5 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Fo
     },
 };
 INSTANTIATE_TEST_SUITE_P(
-    NewScenarios, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_ForceModel)
+    ForceModelValidation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_ForceModel)
 );

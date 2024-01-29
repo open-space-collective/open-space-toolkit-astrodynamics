@@ -99,6 +99,15 @@ class CrossValidator
         const Array<QuantityComparison>& aQuantityComparisons
     );
 
+    /// @brief Find the index of largest delta in a timeseries array of a particular in a coordinate subset's delta
+    ///
+    /// @param allDeltasWithTool An array of vectors containing the differences between the results of the
+    /// "Mission Sequence" and the results of the tool, for all output quantities.
+    /// @param aCoordinateSubsetIndex The index of the coordinate subset corresponding to the current output quantity to
+    /// find the largest delta for.
+    /// @return The index of the largest delta.
+    static Size FindMaxDeltaIndex(const Array<VectorXd>& allDeltasWithTool, const Size& aCoordinateSubsetIndex);
+
     /// @brief Convert a quantity enum to a string
     ///
     /// @param aQuantity A quantity enum

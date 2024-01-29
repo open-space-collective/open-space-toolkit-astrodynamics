@@ -95,6 +95,23 @@ VectorXd CrossValidator::CompareOutputQuantities(
     return deltaWithTool;
 }
 
+Size CrossValidator::FindMaxDeltaIndex(const Array<VectorXd>& allDeltasWithTool, const Size& aCoordinateSubsetIndex)
+{
+    if (aCoordinateSubsetIndex >= allDeltasWithTool[0].size())
+    {
+        throw ostk::core::error::runtime::Wrong("Coordinate subset index out of bounds");
+    };
+
+    const auto currentDeltaCompare = [&aCoordinateSubsetIndex](const VectorXd& a, const VectorXd& b) -> bool
+    {
+        return a[aCoordinateSubsetIndex] < b[aCoordinateSubsetIndex];
+    };
+
+    const auto maxElementIt = std::max_element(allDeltasWithTool.begin(), allDeltasWithTool.end(), currentDeltaCompare);
+
+    return std::distance(allDeltasWithTool.begin(), maxElementIt);
+}
+
 String CrossValidator::QuantityToString(const Quantity& aQuantity)
 {
     switch (aQuantity)
