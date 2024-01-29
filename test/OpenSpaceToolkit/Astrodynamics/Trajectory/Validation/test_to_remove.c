@@ -22,7 +22,7 @@
 }
 
 // Two body vs GMAT
-// Replaced with refactored-scenario001-mission-sequence-two-body and refactored-scenario002-mission-sequence-two-body
+// Replaced with 001-force-model-spherical-a/b/c
 {
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -89,7 +89,7 @@
 }
 
 // EGM96 360x360 perturbation only vs GMAT
-// Replaced with refactored-scenario001-mission-sequence-non-spherical
+// Replaced with 001-force-model-non-spherical-360x360
 {
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -167,7 +167,7 @@
 
 
 // Sun+Moon perturbation only vs GMAT
-// Replaced with refactored-scenario001-mission-sequence-third-body
+// Replaced with 004-force-model-sun-moon
 {
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -246,7 +246,7 @@
 }
 
 // Sun perturbation only vs GMAT
-// Replaced with refactored-scenario002-mission-sequence-third-body
+// Replaced with 004-force-model-sun
 {
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -324,7 +324,7 @@
 }
 
 // Moon perturbation only vs GMAT
-// Replaced with refactored-scenario003-mission-sequence-third-body
+// Replaced with 004-force-model-moon
 {
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -403,7 +403,7 @@
 
 
 // Exponential Atmosphere vs Orekit
-// Replaced with refactored-scenario001-mission-sequence-exponential-600
+// Replaced with 003-force-model-exponential-600
 {
     const Real mass = satelliteDryMass_.inKilograms();
     const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
@@ -456,7 +456,7 @@
 }
 
 // Earth with Exponential atmospheric drag compared against Orekit at 500km altitude (Uses RK4 integrator with 30s step)
-// Replaced with refactored-scenario001-mission-sequence-exponential-500
+// Replaced with 003-force-model-exponential-500
 {
     // Reference data setup
     const Table referenceData = Table::Load(
@@ -543,7 +543,7 @@
 }
 
 // Earth with Exponential atmospheric drag compared against Orekit at 320km altitude (Uses RK4 integrator with 30s step)
-// Replaced with refactored-scenario001-mission-sequence-exponential-320
+// Replaced with 003-force-model-exponential-320
 {
     // Reference data setup
     const Table referenceData = Table::Load(
@@ -626,7 +626,7 @@
 }
 
 // Earth with NRLMSISE00 atmospheric drag compared against Orekit at 470km altitude with small cross section (Uses RK4 integrator with 30s step)
-// Replaced with refactored-scenario001-mission-sequence-nrlmsis-470-small-area
+// Replaced with 003-force-model-nrlmsis-470-small-area
 {
     // Reference data setup
     const Table referenceData = Table::Load(
@@ -754,7 +754,7 @@
 }
 
 // Earth with NRLMSISE00 atmospheric drag compared against Orekit at 470km altitude with large cross section (Uses RK4 integrator with 30s step)
-// Replaced with refactored-scenario001-mission-sequence-nrlmsis-470-large-area-short-duration
+// Replaced with 003-force-model-nrlmsis-470-large-area-short-duration
 {
     // Reference data setup
     const Table referenceData = Table::Load(

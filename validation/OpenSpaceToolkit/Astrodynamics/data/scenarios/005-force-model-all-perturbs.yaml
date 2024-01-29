@@ -26,8 +26,14 @@ data:
         data:
           body: EARTH
           model: EGM96
-          degree: 0
-          order: 0
+          degree: 60
+          order: 60
+      - type: GRAVITY
+        data:
+          body: SUN
+      - type: GRAVITY
+        data:
+          body: MOON
       - type: ATMOSPHERIC_DRAG
         data:
           name: EARTH_DRAG
