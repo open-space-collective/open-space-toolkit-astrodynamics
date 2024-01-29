@@ -99,7 +99,7 @@ class CrossValidator
         const Array<QuantityComparison>& aQuantityComparisons
     );
 
-    /// @brief Find the index of largest delta in a timeseries array of a particular in a coordinate subset's delta
+    /// @brief Find the index of largest delta in a timeseries array of a particular coordinate subset's delta
     ///
     /// @param allDeltasWithTool An array of vectors containing the differences between the results of the
     /// "Mission Sequence" and the results of the tool, for all output quantities.
