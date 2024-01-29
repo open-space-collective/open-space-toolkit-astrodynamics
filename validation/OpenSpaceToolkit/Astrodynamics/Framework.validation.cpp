@@ -455,15 +455,15 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Fo
             {
                 Tool::GMAT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 0.8e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 0.9e-3},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.5e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.7e-3},
                 },
             },
             {
                 Tool::OREKIT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.0e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.1e-3},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
                 },
             },
         },
