@@ -12,12 +12,12 @@ data:
           value: "2023-01-01T00:00:00"
         frame: GCRF
         body: EARTH
-        x: -4283387.412456233
-        y: -4451426.776125101
-        z: -2967617.850750065
-        vx: 4948.074939732174
-        vy: -957.3429532772124
-        vz: -5721.173027553034
+        x: 6850000.0
+        y: 0.0
+        z: 0.0
+        vx: 0.0
+        vy: 3814.113444643870
+        vz: 6606.238271954729
 
   sequence:
     max-duration: 86400.1
@@ -28,10 +28,19 @@ data:
           model: EGM96
           degree: 0
           order: 0
+      - type: ATMOSPHERIC_DRAG
+        data:
+          name: EARTH_DRAG
+          body: EARTH
+          model: NRLMSISE00
     propagator:
-      type: RUNGE_KUTTA_4
+      type: RUNGE_KUTTA_DORMAND_PRINCE_45
       data:
-        step: 30.0
+        initial-step: 5.0
+        min-step: 0.001
+        max-step: 2700.0
+        relative-tolerance: 1.0e-12
+        absolute-tolerance: 1.0e-12
     segments:
       - type: COAST
         data:

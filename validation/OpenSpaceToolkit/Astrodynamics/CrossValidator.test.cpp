@@ -226,3 +226,79 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator, CompareOutputQu
         );
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator, FindMaxDeltaIndex)
+{
+    {
+        const Array<VectorXd> allDeltasWithTool = {
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+        };
+
+        const Size maxDeltaIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 0);
+
+        EXPECT_EQ(maxDeltaIndex, 0);
+    }
+
+    {
+        const Array<VectorXd> allDeltasWithTool = {
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+        };
+
+        const Size maxDeltaIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 1);
+
+        EXPECT_EQ(maxDeltaIndex, 0);
+    }
+
+    {
+        const Array<VectorXd> allDeltasWithTool = {
+            VectorXd::Ones(2),
+            VectorXd::Ones(2),
+            VectorXd::Ones(2),
+            VectorXd::Ones(2),
+            VectorXd::Ones(2),
+        };
+
+        const Size maxDeltaIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 1);
+
+        EXPECT_EQ(maxDeltaIndex, 0);
+    }
+
+    {
+        const Array<VectorXd> allDeltasWithTool = {
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+            VectorXd::Zero(2),
+        };
+
+        EXPECT_THROW(CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 2), ostk::core::error::runtime::Wrong);
+    }
+
+    {
+        VectorXd posDeltas(3);
+        posDeltas << 1.0, 0.0, 0.5;
+        VectorXd velDeltas(3);
+        velDeltas << 0.0, 1.0, 0.5;
+        VectorXd massDeltas(3);
+        massDeltas << 1.0, 1.0, 1.5;
+
+        const Array<VectorXd> allDeltasWithTool = {
+            posDeltas,
+            velDeltas,
+            massDeltas,
+        };
+
+        EXPECT_EQ(CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 0), 0);
+        EXPECT_EQ(CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 1), 1);
+        EXPECT_EQ(CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, 2), 2);
+    }
+}

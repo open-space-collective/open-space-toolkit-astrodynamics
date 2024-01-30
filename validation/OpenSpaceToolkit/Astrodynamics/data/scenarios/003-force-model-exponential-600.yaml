@@ -3,7 +3,7 @@ data:
   spacecraft:
     mass: 100.0
     drag-cross-section: 1.0
-    drag-coefficient: 2.2
+    drag-coefficient: 2.1
     orbit:
       type: CARTESIAN
       data:
@@ -12,12 +12,12 @@ data:
           value: "2023-01-01T00:00:00"
         frame: GCRF
         body: EARTH
-        x: -4283387.412456233
-        y: -4451426.776125101
-        z: -2967617.850750065
-        vx: 4948.074939732174
-        vy: -957.3429532772124
-        vz: -5721.173027553034
+        x: 7000000.0
+        y: 0.0
+        z: 0.0
+        vx: 0.0
+        vy: 7546.053290
+        vz: 0.0
 
   sequence:
     max-duration: 86400.1
@@ -36,7 +36,7 @@ data:
     propagator:
       type: RUNGE_KUTTA_DORMAND_PRINCE_45
       data:
-        initial-step: 30.0
+        initial-step: 5.0
         min-step: 0.001
         max-step: 2700.0
         relative-tolerance: 1.0e-12

@@ -188,23 +188,26 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
             const Quantity quantity = quantityComparisons[coordinateSubsetIndex].quantity;
             const Real tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
 
-            for (Size stateIndex = 0; stateIndex < allDeltasWithTool.getSize(); stateIndex++)
-            {
-                // Assert tolerance on each comparison step
-                EXPECT_GT(tolerance, allDeltasWithTool[stateIndex][coordinateSubsetIndex]) << String::Format(
-                    "For Tool: {}\nFor Quantity: {}\nTolerance: {}\n",
-                    CrossValidator::ToolToString(tool),
-                    CrossValidator::QuantityToString(quantity),
-                    tolerance
-                );
-            }
+            const Size maxIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, coordinateSubsetIndex);
+            const Real maxDelta = allDeltasWithTool[maxIndex][coordinateSubsetIndex];
+
+            // Assert tolerance
+            EXPECT_LT(maxDelta, tolerance) << String::Format(
+                "Scenario: {}\nFor Tool: {}\nFor Quantity: {}\nTolerance: {}\nState Index: {} out of {}\n",
+                scenarioName,
+                CrossValidator::ToolToString(tool),
+                CrossValidator::QuantityToString(quantity),
+                tolerance,
+                maxIndex,
+                allDeltasWithTool.getSize() - 1
+            );
         }
     }
 }
 
-static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters = {
+static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_ForceModel = {
     {
-        "scenario001-mission-sequence",  // Spherical gravity only
+        "001-force-model-spherical-a",
         {
             {
                 Tool::GMAT,
@@ -223,7 +226,45 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters =
         },
     },
     {
-        "scenario002-mission-sequence",  // EGM96 60x60 gravity
+        "001-force-model-spherical-b",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+        },
+    },
+    {
+        "001-force-model-spherical-c",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+        },
+    },
+    {
+        "002-force-model-non-spherical-60x60",
         {
             {
                 Tool::GMAT,
@@ -242,26 +283,155 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters =
         },
     },
     {
-        "scenario003-mission-sequence",  // Exponential Atmsohpere
+        "002-force-model-non-spherical-360x360",
         {
             {
                 Tool::GMAT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 2.0e-0},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "003-force-model-exponential-320",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 2.3e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.7e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "003-force-model-exponential-500",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "003-force-model-exponential-600",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "003-force-model-nrlmsis-470-small-area",
+        {
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.6e+1},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.8e-2},
+                },
+            },
+        },
+    },
+    {
+        "003-force-model-nrlmsis-470-large-area-short-duration",
+        {
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 6.0e+0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 6.0e-3},
+                },
+            },
+        },
+    },
+    {
+        "004-force-model-sun-moon",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "004-force-model-sun",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "004-force-model-moon",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "005-force-model-all-perturbs",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 2.1e-0},
                     {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
                 },
             },
-            {
-                Tool::OREKIT,
-                {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 2.0e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
-                },
-            },
         },
     },
     {
-        "scenario004-mission-sequence",  // Constant thruster maneuver in In-Track direction
+        "006-force-model-constant-thrust",  // Constant thruster maneuver in In-Track direction
         {
             {
                 Tool::GMAT,
@@ -280,7 +450,6 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> parameters =
         },
     },
 };
-
 INSTANTIATE_TEST_SUITE_P(
-    ValidationTestRunnerInstantiation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(parameters)
+    ForceModelValidation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_ForceModel)
 );
