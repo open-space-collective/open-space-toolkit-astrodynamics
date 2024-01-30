@@ -43,6 +43,13 @@ class ConicSensor(Sensor):
     length: Length
 
 
+@dataclass
+class RectangularSensor(Sensor):
+    x_half_angle: Angle
+    y_half_angle: Angle
+    radius: Length
+
+
 class Viewer:
     def __init__(
         self,
@@ -296,14 +303,24 @@ def _cesium_from_ostk_quaternion(quaternion: Quaternion) -> cesiumpy.Quaternion:
     )
 
 
-def _cesium_from_ostk_sensor(sensor: Sensor) -> cesiumpy.ConicSensor:
-    if not isinstance(sensor, ConicSensor):
-        raise NotImplementedError("Only Conic Sensor is supported at the moment.")
+def _cesium_from_ostk_sensor(sensor: Sensor) -> cesiumpy.Sensor:
+    if isinstance(sensor, ConicSensor):
+        return cesiumpy.ConicSensor(
+            name=sensor.name,
+            direction=cesiumpy.Cartesian3(*sensor.direction),
+            half_angle=float(sensor.half_angle.in_radians()),
+            length=float(sensor.length.in_meters()),
+            material=sensor.color or cesiumpy.color.RED,
+        )
 
-    return cesiumpy.ConicSensor(
-        name=sensor.name,
-        direction=cesiumpy.Cartesian3(*sensor.direction),
-        half_angle=float(sensor.half_angle.in_radians()),
-        length=float(sensor.length.in_meters()),
-        material=sensor.color or cesiumpy.color.RED,
-    )
+    elif isinstance(sensor, RectangularSensor):
+        return cesiumpy.RectangularSensor(
+            name=sensor.name,
+            direction=cesiumpy.Cartesian3(*sensor.direction),
+            x_half_angle=float(sensor.x_half_angle.in_radians()),
+            y_half_angle=float(sensor.y_half_angle.in_radians()),
+            radius=float(sensor.radius.in_meters()),
+            material=sensor.color or cesiumpy.color.ORANGE,
+        )
+
+    raise NotImplementedError("{sensor.__name__} is not supported yet.")
