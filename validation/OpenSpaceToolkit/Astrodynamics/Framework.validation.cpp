@@ -449,7 +449,266 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Fo
             },
         },
     },
+    {
+        "006-force-model-constant-thrust-exponential",  // Constant thruster maneuver in In-Track direction
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.5e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.7e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                },
+            },
+        },
+    },
 };
 INSTANTIATE_TEST_SUITE_P(
     ForceModelValidation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_ForceModel)
+);
+
+static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Thruster = {
+    {
+        "010-thruster-direction-crosstrack",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "010-thruster-direction-in-cross-radial",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.6e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.8e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                },
+            },
+        },
+    },
+    {
+        "010-thruster-direction-intrack",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.5e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.7e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                },
+            },
+        },
+    },
+    {
+        "010-thruster-direction-radial",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "011-thruster-params-drag-decrease",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "011-thruster-params-drag-increase",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 120.0e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 130.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 120.0e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 130.0e-3},
+                },
+            },
+        },
+    },
+    {
+        "011-thruster-params-mass-decrease",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 12.0e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 12.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 4.0e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 4.1e-3},
+                },
+            },
+        },
+    },
+    {
+        "011-thruster-params-mass-increase",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.1e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.2e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 1.3e-3},
+                },
+            },
+        },
+    },
+    {
+        "011-thruster-params-thrust-decrease-isp-increase",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                },
+            },
+        },
+    },
+    {
+        "011-thruster-params-thrust-increase-isp-decrease",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 10.6e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 4.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 2.2e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.4e-3},
+                },
+            },
+        },
+    },
+};
+INSTANTIATE_TEST_SUITE_P(
+    ThrusterValidation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_Thruster)
+);
+
+static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Sequence = {
+    {
+        "020-sequence-multiple-2h-maneuvers",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+        },
+    },
+    {
+        "020-sequence-multiple-30m-maneuvers",
+        {
+            {
+                Tool::GMAT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                },
+            },
+            {
+                Tool::OREKIT,
+                {
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                },
+            },
+        },
+    },
+};
+INSTANTIATE_TEST_SUITE_P(
+    SequenceValidation, OpenSpaceToolkit_Astrodynamics_Validation, ::testing::ValuesIn(testCases_Sequence)
 );
