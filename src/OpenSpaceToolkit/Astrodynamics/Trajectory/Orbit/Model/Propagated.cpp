@@ -278,8 +278,8 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
-    Instant currentInstant = cachedStateArray_[0].getInstant();
+    // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is
+    0 Instant currentInstant = cachedStateArray_[0].getInstant();
     const double durationInSecs = (anInstant - currentInstant).inSeconds();
     if (durationInSecs == 0.0)
     {
