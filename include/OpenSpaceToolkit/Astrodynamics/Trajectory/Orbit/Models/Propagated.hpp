@@ -44,22 +44,26 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              Propagated propagated = { aPropagator, aState } ;
+    ///              Propagated propagated = { aPropagator, aState, aRevolutionNumber } ;
     /// @endcode
     ///
     /// @param aPropagator A propagator
     /// @param aState A state
-    Propagated(const Propagator& aPropagator, const State& aState);
+    /// @param aRevolutionNumber A revolution number
+    Propagated(const Propagator& aPropagator, const State& aState, const Integer& aRevolutionNumber = 1);
 
     /// @brief Constructor with a cached state array
     ///
     /// @code{.cpp}
-    ///              Propagated propagated = { aPropagator, aCachedStateArray } ;
+    ///              Propagated propagated = { aPropagator, aCachedStateArray, aRevolutionNumber } ;
     /// @endcode
     ///
     /// @param aPropagator A propagator
     /// @param aCachedStateArray A state array
-    Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray);
+    /// @param aRevolutionNumber A revolution number
+    Propagated(
+        const Propagator& aPropagator, const Array<State>& aCachedStateArray, const Integer& aRevolutionNumber = 1
+    );
 
     /// @brief Clone propagated
     ///
@@ -186,6 +190,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
    private:
     Propagator propagator_;
     mutable Array<State> cachedStateArray_;
+    Integer initialRevolutionNumber_;
 
     void sanitizeCachedArray() const;
 };

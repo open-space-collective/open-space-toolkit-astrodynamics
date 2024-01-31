@@ -28,18 +28,22 @@ using ostk::physics::units::Time;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-Propagated::Propagated(const Propagator& aPropagator, const State& aState)
+Propagated::Propagated(const Propagator& aPropagator, const State& aState, const Integer& aRevolutionNumber)
     : Model(),
       propagator_(aPropagator),
-      cachedStateArray_(1, aState)
+      cachedStateArray_(1, aState),
+      initialRevolutionNumber_(aRevolutionNumber)
 
 {
 }
 
-Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray)
+Propagated::Propagated(
+    const Propagator& aPropagator, const Array<State>& aCachedStateArray, const Integer& aRevolutionNumber
+)
     : Model(),
       propagator_(aPropagator),
-      cachedStateArray_(aCachedStateArray)
+      cachedStateArray_(aCachedStateArray),
+      initialRevolutionNumber_(aRevolutionNumber)
 
 {
     sanitizeCachedArray();
@@ -94,7 +98,7 @@ Integer Propagated::getRevolutionNumberAtEpoch() const
         throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    return 1;  // [TBI] With param
+    return this->initialRevolutionNumber_;
 }
 
 State Propagated::calculateStateAt(const Instant& anInstant) const
@@ -264,8 +268,8 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
-    Instant currentInstant = cachedStateArray_[0].getInstant();
+    // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is
+    0 Instant currentInstant = cachedStateArray_[0].getInstant();
     const double durationInSecs = (anInstant - currentInstant).inSeconds();
     if (durationInSecs == 0.0)
     {
@@ -275,7 +279,7 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
     // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired
     // instant
-    Integer revolutionNumber = 0;
+    Integer revolutionNumber = this->getRevolutionNumberAtEpoch();
     while (true)
     {
         // Calculate orbital period
