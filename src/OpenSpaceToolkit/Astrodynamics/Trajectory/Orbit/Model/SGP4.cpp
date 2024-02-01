@@ -184,26 +184,6 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
     return this->implUPtr_->calculateStateAt(anInstant);
 }
 
-Integer SGP4::calculateRevolutionNumberAt(const Instant& anInstant) const
-{
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
-    if (anInstant == this->tle_.getEpoch())
-    {
-        return this->getRevolutionNumberAtEpoch();
-    }
-
-    return Integer::Undefined();
-}
-
 void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4") : void();

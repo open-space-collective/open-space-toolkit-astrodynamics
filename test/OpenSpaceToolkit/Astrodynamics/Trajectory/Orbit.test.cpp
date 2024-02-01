@@ -64,6 +64,7 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
+using ostk::astro::trajectory::orbit::models::Propagated;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
@@ -570,6 +571,195 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
+{
+    // undefined model
+    {
+        const Kepler kepler = {
+            COE::Undefined(),
+            Instant::Undefined(),
+            Earth::Default(),
+            Kepler::PerturbationType::None,
+        };
+        const Interval interval = Interval::Closed(Instant::Now(), Instant::Now() + Duration::Days(1.0));
+        EXPECT_THROW(Orbit::ComputePassesWithModel(kepler, interval), ostk::core::error::runtime::Undefined);
+    }
+
+    // undefined interval
+    {
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+        const SGP4 sgp4 = SGP4(tle);
+        EXPECT_THROW(Orbit::ComputePassesWithModel(sgp4, Interval::Undefined()), ostk::core::error::runtime::Undefined);
+    }
+
+    // Kepler model
+    {
+        // Orbit setup
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(45.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        // partial
+        {
+            // Pass test
+            const Instant startInstant = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
+            const Instant endInstant = Instant::DateTime(DateTime::Parse("2018-01-01 02:30:00"), Scale::UTC);
+            const Interval interval = Interval::Closed(startInstant, endInstant);
+
+            const Array<Pass> passes = Orbit::ComputePassesWithModel(keplerianModel, interval);
+
+            for (const auto &pass : passes)
+            {
+                EXPECT_TRUE(pass.isDefined());
+            }
+            EXPECT_EQ(passes.accessLast().getType(), Pass::Type::Partial);
+        }
+
+        {
+            // Reference data setup
+
+            const Table referenceData = Table::Load(
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/"
+                                       "Satellite Passes.csv")),
+                Table::Format::CSV,
+                true
+            );
+
+            // Pass test
+            const Instant startInstant = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
+            const Instant endInstant = Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC);
+            const Interval interval = Interval::Closed(startInstant, endInstant);
+
+            const Array<Pass> passes = Orbit::ComputePassesWithModel(keplerianModel, interval);
+
+            EXPECT_EQ(
+                referenceData.getRowCount(), passes.size() - 1
+            );  // We're generating 1 pass over the reference data
+
+            Index i = 0;
+            for (const auto &pass : passes)
+            {
+                // Ignore the lass pass, as it is not complete
+                if (i > referenceData.getRowCount() - 1)
+                {
+                    break;
+                }
+
+                // test computed Pass
+                const auto &referenceRow = referenceData[i];
+
+                const Instant referencePassStartInstant =
+                    Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                const Instant referencePassEndInstant =
+                    Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+
+                const Instant referencePassAscendingNodeInstant =
+                    Instant::DateTime(DateTime::Parse(referenceRow[3].accessString()), Scale::UTC);
+                const Instant referencePassDescendingNodeInstant =
+                    Instant::DateTime(DateTime::Parse(referenceRow[5].accessString()), Scale::UTC);
+
+                const Instant referencePassNorthPointInstant =
+                    Instant::DateTime(DateTime::Parse(referenceRow[4].accessString()), Scale::UTC);
+                const Instant referencePassSouthPointInstant =
+                    Instant::DateTime(DateTime::Parse(referenceRow[6].accessString()), Scale::UTC);
+
+                EXPECT_TRUE(pass.isDefined());
+
+                EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
+                EXPECT_LT(
+                    std::fabs((referencePassStartInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6
+                );
+                EXPECT_LT(std::fabs((referencePassEndInstant - pass.accessInstantAtPassBreak()).inSeconds()), 1e-6);
+                EXPECT_LT(
+                    std::fabs((referencePassAscendingNodeInstant - pass.accessInstantAtAscendingNode()).inSeconds()),
+                    1e-6
+                );
+                EXPECT_LT(
+                    std::fabs((referencePassDescendingNodeInstant - pass.accessInstantAtDescendingNode()).inSeconds()),
+                    1e-6
+                );
+                EXPECT_LT(
+                    std::fabs((referencePassNorthPointInstant - pass.accessInstantAtNorthPoint()).inSeconds()), 3.0
+                );
+                EXPECT_LT(
+                    std::fabs((referencePassSouthPointInstant - pass.accessInstantAtSouthPoint()).inSeconds()), 3.0
+                );
+
+                ++i;
+            }
+        }
+    }
+
+    // SGP4 model
+    {
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2020-07-18 20:38:11.102.455"), Scale::UTC);
+        const Instant endInstant = Instant::DateTime(DateTime::Parse("2020-07-18 22:26:11.102.455"), Scale::UTC);
+
+        const Interval interval = Interval::Closed(startInstant, endInstant);
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+        const SGP4 sgp4 = SGP4(tle);
+
+        const Array<Pass> passes = Orbit::ComputePassesWithModel(sgp4, interval);
+
+        for (const auto &pass : passes)
+        {
+            EXPECT_TRUE(pass.isDefined());
+        }
+
+        EXPECT_EQ(passes.getSize(), 2);
+    }
+
+    // Propagated model
+    {
+        const Environment environment = {Instant::J2000(), {std::make_shared<Earth>(Earth::EGM96(10, 10))}};
+        const Propagator propagator = Propagator::FromEnvironment(NumericalSolver::Default(), environment);
+
+        const Array<State> states = {
+            {
+                Instant::DateTime(DateTime::Parse("2023-01-30T18:30:00.184", DateTime::Format::ISO8601), Scale::UTC),
+                Position::Meters({-5981016.371280898340, 2114677.607544674072, 2683244.080375305377}, Frame::GCRF()),
+                Velocity::MetersPerSecond({3142.190382984703, 50.122115740761, 6934.877387038766}, Frame::GCRF()),
+            },
+        };
+
+        const Propagated propagated = {propagator, states, 5};
+
+        const Interval interval = Interval::Closed(
+            states.accessFirst().accessInstant() + Duration::Hours(1.0),
+            states.accessFirst().accessInstant() + Duration::Hours(3.0)
+        );
+
+        const Array<Pass> passes = Orbit::ComputePassesWithModel(propagated, interval);
+
+        for (const auto &pass : passes)
+        {
+            EXPECT_TRUE(pass.isDefined());
+        }
+
+        EXPECT_EQ(passes.getSize(), 2);
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 {
     {
@@ -881,6 +1071,108 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
                 );
             }
         }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
+{
+    // undefined
+    {
+        // orbit
+        {
+            const Interval interval = Interval::Closed(Instant::Now(), Instant::Now() + Duration::Days(1.0));
+            EXPECT_THROW(Orbit::Undefined().getPassesWithinInterval(interval), ostk::core::error::runtime::Undefined);
+        }
+
+        // interval
+        {
+            const Orbit orbit = Orbit::SunSynchronous(
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Time::Parse("12:00:00"),
+                Environment::Default().accessCelestialObjectWithName("Earth")
+            );
+            EXPECT_THROW(orbit.getPassesWithinInterval(Interval::Undefined()), ostk::core::error::runtime::Undefined);
+        }
+    }
+
+    // Kepler model
+    {
+        // Environment setup
+
+        const Environment environment = Environment::Default();
+
+        // Orbit setup
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(45.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        // Reference data setup
+
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/"
+                                   "Satellite Passes.csv")),
+            Table::Format::CSV,
+            true
+        );
+
+        // Pass test
+
+        const Array<Pass> passes = orbit.getPassesWithinInterval(Interval::Closed(
+            Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+            Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
+        ));
+
+        EXPECT_TRUE(passes.getSize() > 0);
+        EXPECT_EQ(passes.getSize() - 1, referenceData.getRowCount());
+
+        // Test regenerating with cached passes
+        EXPECT_NO_THROW(orbit.getPassesWithinInterval(Interval::Closed(
+            Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+            Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
+        )));
+
+        // for (const auto &referenceRow : referenceData)
+        // {
+        //     const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+        //     const Instant referencePassStartInstant =
+        //         Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+        //     const Instant referencePassEndInstant =
+        //         Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+
+        //     const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
+
+        //     EXPECT_TRUE(pass.isDefined());
+
+        //     EXPECT_EQ(Pass::Type::Complete, pass.getType());
+
+        //     EXPECT_GT(
+        //         Duration::Microseconds(1.0),
+        //         Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
+        //     );
+        //     EXPECT_GT(
+        //         Duration::Microseconds(1.0),
+        //         Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
+        //     );
+        // }
     }
 }
 

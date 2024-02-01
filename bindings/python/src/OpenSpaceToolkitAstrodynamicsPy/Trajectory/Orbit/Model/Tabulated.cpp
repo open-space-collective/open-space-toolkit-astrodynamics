@@ -139,21 +139,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             arg("instants")
         )
 
-        .def(
-            "calculate_revolution_number_at",
-            &Tabulated::calculateRevolutionNumberAt,
-            R"doc(
-                Calculate the revolution number of the `Tabulated` model at a given instant.
-
-                Args:
-                    instant (Instant): The instant.
-
-                Returns:
-                    int: The revolution number.
-
-            )doc",
-            arg("instant")
-        )
-
         ;
 }

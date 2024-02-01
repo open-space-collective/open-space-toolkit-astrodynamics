@@ -230,6 +230,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg_v("step_duration", Duration::Minutes(10.0), "Duration.minutes(10.0)")
             )
             .def(
+                "get_passes_within_interval",
+                &Orbit::getPassesWithinInterval,
+                R"doc(
+                    Get the passes within a given interval.
+
+                    Args:
+                        interval (Interval): The interval.
+
+                    Returns:
+                        list[Pass]: The passes.
+                )doc",
+                arg("interval")
+            )
+            .def(
                 "get_orbital_frame",
                 &Orbit::getOrbitalFrame,
                 R"doc(
@@ -375,6 +389,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Returns:
                         list[tuple[int, Pass]]: List of index-pass pairs
+                )doc"
+            )
+
+            .def_static(
+                "compute_passes_with_model",
+                &Orbit::ComputePassesWithModel,
+                arg("model"),
+                arg("interval"),
+                R"doc(
+                    Compute passes with the given model for the provided interval.
+
+                    Args:
+                        model (orbit.Model): The model.
+                        interval (Interval): The interval within which to generate passes.
+
+                    Returns:
+                        list[Pass]: List of passes
                 )doc"
             )
 

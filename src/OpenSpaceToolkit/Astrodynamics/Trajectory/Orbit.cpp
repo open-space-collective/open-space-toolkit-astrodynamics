@@ -43,8 +43,6 @@ using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
 
-using orbit::model::Kepler;
-using orbit::model::kepler::COE;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
@@ -54,6 +52,8 @@ using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::RootSolver;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::unit::Time::Unit::Second);
@@ -413,6 +413,55 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
     }
 
     return currentPass;
+}
+
+Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Orbit");
+    }
+
+    if (!anInterval.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Interval");
+    }
+
+    Instant currentInstant = anInterval.getStart();
+
+    Integer revolutionNumber = Integer::Undefined();
+
+    // Check if the pass is already within pass Map
+    for (const auto& passIt : this->passMap_)
+    {
+        const Pass& pass = passIt.second;
+
+        if (pass.accessInstantAtPassBreak() <= currentInstant)
+        {
+            revolutionNumber = passIt.first;
+            break;
+        }
+    }
+
+    // If not, then calculate using the model method
+    if (!revolutionNumber.isDefined())
+    {
+        revolutionNumber = this->modelPtr_->calculateRevolutionNumberAt(currentInstant);
+    }
+
+    Array<Pass> passes = {};
+
+    while (currentInstant.isDefined() && (currentInstant <= anInterval.accessEnd()))
+    {
+        const Pass pass = this->getPassWithRevolutionNumber(revolutionNumber);
+
+        passes.add(this->getPassWithRevolutionNumber(revolutionNumber));
+
+        currentInstant = pass.accessInstantAtPassBreak();
+        revolutionNumber++;
+    }
+
+    return passes;
 }
 
 Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) const
@@ -1177,10 +1226,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         throw ostk::core::error::runtime::Undefined("Initial revolution number");
     }
 
-    // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
-
-    Array<Pair<Index, Pass>> passMap;
-
     if (aStateArray.getSize() < 2)
     {
         throw ostk::core::error::RuntimeError(
@@ -1196,41 +1241,118 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         }
     }
 
-    const model::Tabulated tabulated = model::Tabulated(aStateArray, Interpolator::Type::BarycentricRational);
+    const orbit::model::Tabulated tabulated =
+        orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber, Interpolator::Type::BarycentricRational);
 
-    const Instant& epoch = aStateArray.accessFirst().accessInstant();
+    const Interval interval =
+        Interval::Closed(aStateArray.accessFirst().accessInstant(), aStateArray.accessLast().accessInstant());
 
-    const auto getZ = [&tabulated, &epoch](const double& aDurationInSeconds) -> double
+    const Array<Pass> passes = Orbit::ComputePassesWithModel(tabulated, interval);
+
+    Array<Pair<Index, Pass>> passMap;
+    passMap.reserve(passes.getSize());
+
+    Index stateIndex = 0;
+    Index passIndex = 0;
+
+    Pass const* currentPassPtr = &passes[passIndex];
+
+    while (stateIndex < aStateArray.getSize())
     {
-        return tabulated.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
+        const Instant& stateInstant = aStateArray[stateIndex].accessInstant();
+
+        if (currentPassPtr->accessInstantAtPassBreak().isDefined() &&
+            stateInstant >= currentPassPtr->accessInstantAtPassBreak())
+        {
+            passMap.add({stateIndex, *currentPassPtr});
+            ++passIndex;
+            currentPassPtr = &passes[passIndex];
+        }
+
+        stateIndex++;
+    }
+
+    passMap.add({stateIndex, passes.accessLast()});
+
+    return passMap;
+}
+
+Instant Orbit::GetCrossingInstant(
+    const Instant& anEpoch,
+    const Instant& previousInstant,
+    const Instant& currentInstant,
+    const std::function<double(double)>& getValue
+)
+{
+    const RootSolver::Solution solution =
+        rootSolver.bisection(getValue, (previousInstant - anEpoch).inSeconds(), (currentInstant - anEpoch).inSeconds());
+
+    if (!solution.hasConverged)
+    {
+        throw ostk::core::error::RuntimeError("Root solver did not converge.");
+    }
+
+    return anEpoch + Duration::Seconds(solution.root);
+}
+
+Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Interval& anInterval)
+{
+    // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
+
+    if (!aModel.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Model");
+    }
+
+    if (!anInterval.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Interval");
+    }
+
+    Array<Pass> passes;
+
+    // [TBI] Make a parameter?
+    const Array<Instant> instants = anInterval.generateGrid(Duration::Minutes(5.0));
+
+    const Array<State> states = instants.map<State>(
+        [&aModel](const Instant& anInstant) -> State
+        {
+            return aModel.calculateStateAt(anInstant);
+        }
+    );
+
+    const Instant& epoch = instants.accessFirst();
+
+    const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> double
+    {
+        return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getPosition()
             .accessCoordinates()
             .z();
     };
 
-    const auto getZDot = [&tabulated, &epoch](const double& aDurationInSeconds) -> double
+    const auto getZDot = [&aModel, &epoch](const double& aDurationInSeconds) -> double
     {
-        return tabulated.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
+        return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getVelocity()
             .accessCoordinates()
             .z();
     };
 
-    Index currentIndex = 0;
     State const* previousStatePtr = nullptr;
 
-    Integer revolutionNumber = anInitialRevolutionNumber;
+    Integer revolutionNumber = aModel.getRevolutionNumberAtEpoch();
 
     Instant previousPassEndInstant =
-        (Real(aStateArray.accessFirst().getPosition().accessCoordinates().z()).isNear(0.0, epsilon))
-            ? aStateArray.accessFirst().accessInstant()
+        (Real(states.accessFirst().getPosition().accessCoordinates().z()).isNear(0.0, epsilon))
+            ? states.accessFirst().accessInstant()
             : Instant::Undefined();
     Instant northPointCrossing = Instant::Undefined();
     Instant descendingNodeCrossing = Instant::Undefined();
     Instant southPointCrossing = Instant::Undefined();
     Instant passBreak = Instant::Undefined();
 
-    for (const auto& state : aStateArray)
+    for (const auto& state : states)
     {
         if (previousStatePtr != nullptr)
         {
@@ -1282,7 +1404,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
                     passBreak,
                 };
 
-                passMap.add({currentIndex, pass});
+                passes.add(pass);
 
                 revolutionNumber++;
                 previousPassEndInstant = passBreak;
@@ -1295,7 +1417,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         }
 
         previousStatePtr = &state;
-        currentIndex++;
     }
 
     // Add last partial pass
@@ -1308,27 +1429,9 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         passBreak,
     };
 
-    passMap.add({currentIndex, pass});
+    passes.add(pass);
 
-    return passMap;
-}
-
-Instant Orbit::GetCrossingInstant(
-    const Instant& anEpoch,
-    const Instant& previousInstant,
-    const Instant& currentInstant,
-    const std::function<double(double)>& getValue
-)
-{
-    const RootSolver::Solution solution =
-        rootSolver.bisection(getValue, (previousInstant - anEpoch).inSeconds(), (currentInstant - anEpoch).inSeconds());
-
-    if (!solution.hasConverged)
-    {
-        throw ostk::core::error::RuntimeError("Root solver did not converge.");
-    }
-
-    return anEpoch + Duration::Seconds(solution.root);
+    return passes;
 }
 
 }  // namespace trajectory

@@ -58,8 +58,6 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
 
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
-    virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const override;
-
     virtual void print(std::ostream& anOutputStream, bool displayDecorator) const override;
 
    protected:

@@ -78,25 +78,6 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     return trajectory::model::Tabulated::calculateStateAt(anInstant);
 }
 
-Integer Tabulated::calculateRevolutionNumberAt(const Instant& anInstant) const
-{
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
-    throw ostk::core::error::runtime::ToBeImplemented("Kepler::calculateRevolutionNumberAt");
-
-    // [TBI]
-
-    return Integer::Undefined();
-}
-
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     trajectory::model::Tabulated::print(anOutputStream, displayDecorator);
