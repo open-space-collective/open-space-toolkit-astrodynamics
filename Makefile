@@ -184,12 +184,18 @@ build-documentation-standalone: ## Build documentation (standalone)
 
 	docker run \
 		--rm \
+		-it \
 		--volume="$(CURDIR):/app:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_DOCUMENTATION=ON .. \
-		&& $(MAKE) docs"
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .. \
+		&& ostk-build \
+		&& ostk-install-python \
+		&& pip install -r /app/docs/requirements.txt \
+		&& cd /app/docs \
+		&& breathe-apidoc -o html/cpp xml -g class \
+		&& sphinx-build -b html . html"
 
 .PHONY: build-documentation-standalone
 

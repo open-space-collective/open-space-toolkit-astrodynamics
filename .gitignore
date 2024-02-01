@@ -41,6 +41,8 @@ coverage/
 
 docs/html/
 docs/latex/
+docs/xml/
+docs/_autosummary
 
 ## Misc.
 
