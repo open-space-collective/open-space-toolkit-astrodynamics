@@ -44,6 +44,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @brief Constructor
     ///
     /// @code{.cpp}
+    ///              Propagated propagated = { aPropagator, aState } ;
+    /// 	     or
     ///              Propagated propagated = { aPropagator, aState, aRevolutionNumber } ;
     /// @endcode
     ///
@@ -55,6 +57,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @brief Constructor with a cached state array
     ///
     /// @code{.cpp}
+    ///              Propagated propagated = { aPropagator, aCachedStateArray } ;
+    ///		     or
     ///              Propagated propagated = { aPropagator, aCachedStateArray, aRevolutionNumber } ;
     /// @endcode
     ///
