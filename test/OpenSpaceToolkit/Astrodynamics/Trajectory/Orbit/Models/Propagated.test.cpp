@@ -96,6 +96,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
 
     const Instant defaultInstant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
 
+    const Integer defaultRevolutionNumber_ = 5;
+
     Position defaultPosition_ = Position::Undefined();
     Velocity defaultVelocity_ = Velocity::Undefined();
     State defaultState_ = State::Undefined();
@@ -124,6 +126,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constr
         // Setup Propagated model
         EXPECT_NO_THROW(Propagated(propagator_, defaultState_));
         EXPECT_NO_THROW(Propagated(propagator_, stateArray));
+        EXPECT_NO_THROW(Propagated(propagator_, defaultState_, defaultRevolutionNumber_));
+        EXPECT_NO_THROW(Propagated(propagator_, stateArray, defaultRevolutionNumber_));
     }
 
     // Constructor with putting into orbit object
@@ -277,9 +281,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpo
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRevolutionNumberAtEpoch)
 {
     {
-        const Propagated propagatedModel = {propagator_, defaultState_};
+        const Propagated propagatedModel = {
+            propagator_,
+            defaultState_,
+            defaultRevolutionNumber_,
+        };
 
-        EXPECT_EQ(propagatedModel.getRevolutionNumberAtEpoch(), 1);
+        EXPECT_EQ(propagatedModel.getRevolutionNumberAtEpoch(), defaultRevolutionNumber_);
     }
 }
 
@@ -452,12 +460,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateRevolutionNumberAt)
 {
-    // Satellite system setup
+    // Test undefined
+    {
+        const Propagated propagatedModel = {
+            Propagator::Undefined(),
+            defaultState_,
+            defaultRevolutionNumber_,
+        };
+
+        EXPECT_THROW(
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_), ostk::core::error::runtime::Undefined
+        );
+    }
 
     // Test basic positive and negative revolution numbers
     {
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {propagator_, defaultState_};
+        const Propagated propagatedModel = {
+            propagator_,
+            defaultState_,
+            defaultRevolutionNumber_,
+        };
 
         const Orbit orbit = {propagatedModel, earthSpherical_};
 
@@ -468,16 +491,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const Instant instant_after2 = Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC);
 
         // Check revolution numbers for propagated model
-        EXPECT_EQ(1, propagatedModel.calculateRevolutionNumberAt(instant));
-        EXPECT_EQ(-2, propagatedModel.calculateRevolutionNumberAt(instant_before1));
-        EXPECT_EQ(1, propagatedModel.calculateRevolutionNumberAt(instant_after1));
-        EXPECT_EQ(2, propagatedModel.calculateRevolutionNumberAt(instant_after2));
+        EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(instant));
+        EXPECT_EQ(defaultRevolutionNumber_ - 2, propagatedModel.calculateRevolutionNumberAt(instant_before1));
+        EXPECT_EQ(defaultRevolutionNumber_ + 1, propagatedModel.calculateRevolutionNumberAt(instant_after1));
+        EXPECT_EQ(defaultRevolutionNumber_ + 2, propagatedModel.calculateRevolutionNumberAt(instant_after2));
 
         // Check revolution numbers for orbit
-        EXPECT_EQ(1, orbit.getRevolutionNumberAt(instant));
-        EXPECT_EQ(-2, orbit.getRevolutionNumberAt(instant_before1));
-        EXPECT_EQ(1, orbit.getRevolutionNumberAt(instant_after1));
-        EXPECT_EQ(2, orbit.getRevolutionNumberAt(instant_after2));
+        EXPECT_EQ(defaultRevolutionNumber_, orbit.getRevolutionNumberAt(instant));
+        EXPECT_EQ(defaultRevolutionNumber_ - 2, orbit.getRevolutionNumberAt(instant_before1));
+        EXPECT_EQ(defaultRevolutionNumber_ + 1, orbit.getRevolutionNumberAt(instant_after1));
+        EXPECT_EQ(defaultRevolutionNumber_ + 2, orbit.getRevolutionNumberAt(instant_after2));
     }
 
     // Test accuracy of calculateRevolutionNumber at by checking that it returns results accurate to the force model
@@ -496,8 +519,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state = {startInstant, defaultPosition_, defaultVelocity_};
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_twobody = {propagator_, state};
-        const Propagated propagatedModel_fullgrav = {{defaultNumericalSolver_, dynamics}, state};
+        const Propagated propagatedModel_twobody = {propagator_, state, 0};
+        const Propagated propagatedModel_fullgrav = {{defaultNumericalSolver_, dynamics}, state, 0};
 
         // Calculate gravitational parameter
         const Derived gravitationalParameter = EarthGravitationalModel::Spherical.gravitationalParameter_;

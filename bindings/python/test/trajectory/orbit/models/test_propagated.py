@@ -68,8 +68,15 @@ def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> P
 
 
 @pytest.fixture
-def propagated(propagator: Propagator, state: State) -> Propagated:
-    return Propagated(propagator, state)
+def revolution_number() -> int:
+    return 5
+
+
+@pytest.fixture
+def propagated(
+    propagator: Propagator, state: State, revolution_number: int
+) -> Propagated:
+    return Propagated(propagator, state, revolution_number)
 
 
 @pytest.fixture
@@ -110,18 +117,30 @@ class TestPropagated:
         assert isinstance(propagated_with_state_array, Propagated)
         assert propagated_with_state_array.is_defined()
 
-    def test_comparators(self, propagated: Propagated):
+    def test_comparators(
+        self,
+        propagated: Propagated,
+    ):
         assert (propagated == propagated) is True
         assert (propagated != propagated) is False
 
-    def test_getters(self, propagated: Propagated, state: State):
+    def test_getters(
+        self,
+        propagated: Propagated,
+        state: State,
+        revolution_number: int,
+    ):
         assert propagated.get_epoch() == state.get_instant()
 
-        assert propagated.get_revolution_number_at_epoch() == 1
+        assert propagated.get_revolution_number_at_epoch() == revolution_number
 
         assert propagated.access_cached_state_array() == [state]
 
-    def test_calculate_state_at(self, propagated: Propagated, orbit: Orbit):
+    def test_calculate_state_at(
+        self,
+        propagated: Propagated,
+        orbit: Orbit,
+    ):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
         propagated_state = propagated.calculate_state_at(instant)
@@ -155,7 +174,11 @@ class TestPropagated:
         )
         assert propagated_state.get_instant() == instant
 
-    def test_calculate_states_at(self, propagated: Propagated, orbit: Orbit):
+    def test_calculate_states_at(
+        self,
+        propagated: Propagated,
+        orbit: Orbit,
+    ):
         instant_array = [
             Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
             Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC),
@@ -169,21 +192,37 @@ class TestPropagated:
         assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
         assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
 
-    def test_calculate_rev_number_at(self, propagated: Propagated, orbit: Orbit):
+    def test_calculate_revolution_number_at(
+        self,
+        propagated: Propagated,
+        orbit: Orbit,
+        revolution_number: int,
+    ):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC)
 
-        assert propagated.calculate_revolution_number_at(instant) == 1
-        assert orbit.get_revolution_number_at(instant) == 1
+        assert propagated.calculate_revolution_number_at(instant) == revolution_number + 1
+        assert orbit.get_revolution_number_at(instant) == revolution_number + 1
 
-    def test_access_cached_state_array(self, propagated: Propagated, state: State):
+    def test_access_cached_state_array(
+        self,
+        propagated: Propagated,
+        state: State,
+    ):
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
 
-    def test_access_propagator(self, propagated: Propagated):
+    def test_access_propagator(
+        self,
+        propagated: Propagated,
+    ):
         assert propagated.access_propagator() is not None
         assert isinstance(propagated.access_propagator(), Propagator)
 
-    def test_set_cached_state_array(self, propagated: Propagated, state: State):
+    def test_set_cached_state_array(
+        self,
+        propagated: Propagated,
+        state: State,
+    ):
         assert len(propagated.access_cached_state_array()) == 1
 
         propagated.set_cached_state_array([state, state, state])

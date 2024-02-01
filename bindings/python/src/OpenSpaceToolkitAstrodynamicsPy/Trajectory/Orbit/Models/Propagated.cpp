@@ -7,6 +7,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
     using namespace pybind11;
 
     using ostk::core::types::Shared;
+    using ostk::core::types::Integer;
     using ostk::core::ctnr::Array;
 
     using ostk::physics::time::Instant;
@@ -32,31 +33,35 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
         propagated_class
 
             .def(
-                init<const Propagator&, const State&>(),
+                init<const Propagator&, const State&, const Integer&>(),
                 R"doc(
                     Constructor.
 
                     Args:
                         propagator (Propagator): The propagator.
                         state (State): The initial state.
+                        initial_revolution_number (int, optional): The initial revolution number. Defaults to 1.
 
                 )doc",
                 arg("propagator"),
-                arg("state")
+                arg("state"),
+                arg("initial_revolution_number") = 1
             )
 
             .def(
-                init<const Propagator&, const Array<State>&>(),
+                init<const Propagator&, const Array<State>&, const Integer&>(),
                 R"doc(
                     Constructor.
 
                     Args:
                         propagator (Propagator): The propagator.
                         state_array (list[State]): The initial state array.
+                        initial_revolution_number (int, optional): The initial revolution number. Defaults to 1.
 
                 )doc",
                 arg("propagator"),
-                arg("state_array")
+                arg("state_array"),
+                arg("initial_revolution_number") = 1
             )
 
             .def(self == self)
