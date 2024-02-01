@@ -460,7 +460,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateRevolutionNumberAt)
 {
-    // Satellite system setup
+    // Test undefined
+    {
+        const Propagated propagatedModel = {
+            Propagator::Undefined(),
+            defaultState_,
+            defaultRevolutionNumber_,
+        };
+
+        EXPECT_THROW(
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_), ostk::core::error::runtime::Undefined
+        );
+    }
 
     // Test basic positive and negative revolution numbers
     {
