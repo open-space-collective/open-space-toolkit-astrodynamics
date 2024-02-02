@@ -184,7 +184,6 @@ build-documentation-standalone: ## Build documentation (standalone)
 
 	docker run \
 		--rm \
-		-it \
 		--volume="$(CURDIR):/app:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
@@ -200,7 +199,7 @@ build-documentation-standalone: ## Build documentation (standalone)
 		&& git config core.sparseCheckout true \
 		&& echo "notebooks/Astrodynamics/*" >> .git/info/sparse-checkout \
 		&& git pull origin main \
-		&& mv **/* . \
+		&& find . -type f -name "*.ipynb" -exec mv {} . \; \
 		&& cd /app/docs \
 		&& breathe-apidoc -o html/cpp_rst xml -g class \
 		&& sphinx-build -j 4 -b html . html"

@@ -35,7 +35,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_math_dollar",
     "sphinx_design",
-    # "myst_parser",
     "breathe",
     "myst_nb",
 ]
@@ -299,3 +298,14 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
 }
+
+# -- Breathe configuration -------------------------------------------------
+highlight_language = "c++"
+
+breathe_projects = {"C++ Sphinx Doxygen Breathe": "xml/"}
+breathe_default_project = "C++ Sphinx Doxygen Breathe"
+breathe_default_members = ("members", "undoc-members")
+
+# -- MyST NB configuration -------------------------------------------------
+nb_execution_cache_path = "notebooks"
+nb_execution_timeout = 60.0
