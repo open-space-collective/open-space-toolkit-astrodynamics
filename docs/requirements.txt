@@ -7,3 +7,4 @@ sphinx-math-dollar~=1.2
 sphinx-design~=0.5
 sphinx-material~=0.0
 kaleido~=0.2
+myst-nb~=1.0

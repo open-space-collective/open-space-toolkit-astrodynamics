@@ -193,9 +193,17 @@ build-documentation-standalone: ## Build documentation (standalone)
 		&& ostk-build \
 		&& ostk-install-python \
 		&& pip install -r /app/docs/requirements.txt \
+		&& mkdir -p /app/docs/notebooks \
+		&& cd /app/docs/notebooks \
+		&& git init \
+		&& git remote add origin https://github.com/open-space-collective/open-space-toolkit \
+		&& git config core.sparseCheckout true \
+		&& echo "notebooks/Astrodynamics/*" >> .git/info/sparse-checkout \
+		&& git pull origin main \
+		&& mv **/* . \
 		&& cd /app/docs \
 		&& breathe-apidoc -o html/cpp_rst xml -g class \
-		&& sphinx-build -b html . html"
+		&& sphinx-build -j 4 -b html . html"
 
 .PHONY: build-documentation-standalone
 
