@@ -192,8 +192,8 @@ build-documentation-standalone: ## Build documentation (standalone)
 		&& ostk-build \
 		&& ostk-install-python \
 		&& pip install -r /app/docs/requirements.txt \
-		&& mkdir -p /app/docs/notebooks \
-		&& cd /app/docs/notebooks \
+		&& mkdir -p /app/docs/_notebooks \
+		&& cd /app/docs/_notebooks \
 		&& git init \
 		&& git remote add origin https://github.com/open-space-collective/open-space-toolkit \
 		&& git config core.sparseCheckout true \
@@ -201,8 +201,8 @@ build-documentation-standalone: ## Build documentation (standalone)
 		&& git pull origin main \
 		&& find . -type f -name "*.ipynb" -exec mv {} . \; \
 		&& cd /app/docs \
-		&& breathe-apidoc -o html/cpp_rst xml -g class \
-		&& sphinx-build -j 4 -b html . html"
+		&& breathe-apidoc -o _build/html/cpp_rst xml -g class \
+		&& sphinx-build -j 4 -b html . _build/html"
 
 .PHONY: build-documentation-standalone
 
