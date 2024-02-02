@@ -194,7 +194,7 @@ build-documentation-standalone: ## Build documentation (standalone)
 		&& ostk-install-python \
 		&& pip install -r /app/docs/requirements.txt \
 		&& cd /app/docs \
-		&& breathe-apidoc -o html/cpp xml -g class \
+		&& breathe-apidoc -o html/cpp_rst xml -g class \
 		&& sphinx-build -b html . html"
 
 .PHONY: build-documentation-standalone

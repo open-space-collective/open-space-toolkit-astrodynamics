@@ -5,4 +5,4 @@ C++ API Documentation
    :glob:
    :maxdepth: 1
 
-   html/cpp/class/*
+   html/cpp_rst/class/*
