@@ -94,10 +94,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
             State coordinates subset. It contains information related to a particular group of coordinates. It does not
             contain the coordinate values.
 
-
-
-            Group:
-                State
         )doc"
     )
 

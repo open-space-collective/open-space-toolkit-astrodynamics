@@ -74,8 +74,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
 
             Base class to derive other thruster classes from. Cannot be instantiated.
 
-            Group:
-                dynamics
         )doc"
     )
 

@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
             R"doc(
                 The atmospheric drag dynamics.
 
-                Group:
-                    dynamics
             )doc"
         )
             .def(

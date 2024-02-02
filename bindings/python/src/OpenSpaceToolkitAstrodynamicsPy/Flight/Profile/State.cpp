@@ -24,8 +24,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(pybind11::modul
         R"doc(
             Flight profile state.
 
-            Group:
-                profile
         )doc"
     )
 

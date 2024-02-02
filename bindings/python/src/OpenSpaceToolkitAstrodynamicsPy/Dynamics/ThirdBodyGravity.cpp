@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::
             R"doc(
                 The third body gravity model.
 
-                Group:
-                    dynamics
             )doc"
         )
             .def(

@@ -24,8 +24,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
             R"doc(
                 A Satellite System.
 
-                Group:
-                    system
             )doc"
         )
 
@@ -38,13 +36,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                     Args:
                         mass (Mass): The mass of the satellite system.
                         satellite_geometry (Composite): The geometry of the satellite system.
-                        inertia_tensor (Matrix3d): The inertia tensor of the satellite system.
+                        inertia_tensor (np.ndarray): The inertia tensor of the satellite system.
                         cross_sectional_surface_area (float): The cross-sectional surface area of the satellite system.
                         drag_coefficient (float): The drag coefficient of the satellite system.
                         propulsion_system (PropulsionSystem): The propulsion system of the satellite system.
 
-                    Group:
-                        Constructors
                 )doc",
                 arg("mass"),
                 arg("satellite_geometry"),

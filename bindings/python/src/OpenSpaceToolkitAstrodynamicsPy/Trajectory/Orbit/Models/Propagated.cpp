@@ -25,8 +25,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
 
                 Provides the interface for orbit models.
 
-                Group:
-                    orbit
             )doc"
         );
 

@@ -25,8 +25,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         R"doc(
             A `Propagator` that proapgates the provided `State` using it's `NumericalSolver` under the set `Dynamics`.
 
-            Group:
-                trajectory
         )doc"
     )
 

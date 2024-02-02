@@ -19,8 +19,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
         R"doc(
                 A root solver is an algorithm for finding a zero-crossing of a function.
 
-                Group:
-                    solvers
             )doc"
     );
 
@@ -30,8 +28,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
         R"doc(
             A root solver solution.
 
-            Group:
-                solvers
         )doc"
     )
         .def_readwrite(

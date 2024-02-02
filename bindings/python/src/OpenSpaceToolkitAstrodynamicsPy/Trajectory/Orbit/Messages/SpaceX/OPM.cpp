@@ -29,8 +29,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
             See Also:
                 `SpaceX OPM <https://public.ccsds.org/Pubs/502x0b3e1.pdf>`_.
 
-            Group:
-                ccsds
         )doc"
     );
 
@@ -176,8 +174,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
         R"doc(
             The header of the SpaceX OPM message.
 
-            Group:
-                spacex
         )doc"
     )
 
@@ -226,8 +222,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
         R"doc(
             The deployment of the SpaceX OPM message.
 
-            Group:
-                spacex
         )doc"
     )
 

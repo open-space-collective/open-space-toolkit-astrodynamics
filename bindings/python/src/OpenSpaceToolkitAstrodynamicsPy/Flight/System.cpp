@@ -27,8 +27,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
 
                 .. warning:: This class is an abstract class and cannot be instantiated.
 
-                Group:
-                    system
             )doc"
         )
 

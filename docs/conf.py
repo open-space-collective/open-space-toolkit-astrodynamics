@@ -187,3 +187,4 @@ breathe_default_members = ("members", "undoc-members")
 # -- MyST NB configuration -------------------------------------------------
 nb_execution_cache_path = "notebooks"
 nb_execution_timeout = 60
+myst_footnote_transition = False

@@ -25,8 +25,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         R"doc(
             Spacecraft Flight Profile.
 
-            Group:
-                profile
         )doc"
     )
 

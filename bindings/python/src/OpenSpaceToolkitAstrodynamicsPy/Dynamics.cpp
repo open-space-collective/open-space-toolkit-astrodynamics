@@ -83,8 +83,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
                 - compute_contribution
             to create a custom dynamics class
 
-            Group:
-                dynamics
         )doc"
     )
 

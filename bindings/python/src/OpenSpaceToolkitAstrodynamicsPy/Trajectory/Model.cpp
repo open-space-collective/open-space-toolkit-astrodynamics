@@ -14,8 +14,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
         R"doc(
             Orbital model.
 
-            Group:
-                trajectory
         )doc"
     )
         .def(

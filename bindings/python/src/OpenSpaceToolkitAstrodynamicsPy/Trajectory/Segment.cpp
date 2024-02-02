@@ -23,8 +23,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         R"doc(
                 A `Segment` that can be solved provided an initial `State` and termination `Event Condition`.
 
-                Group:
-                    trajectory
             )doc"
     );
 
@@ -34,8 +32,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         R"doc(
             The Solution object returned when a `Segment` is solved.
 
-            Group:
-                trajectory
         )doc"
     )
 

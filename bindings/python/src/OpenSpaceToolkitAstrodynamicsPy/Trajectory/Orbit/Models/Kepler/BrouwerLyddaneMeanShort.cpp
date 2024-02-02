@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
         R"doc(
             Brouwer-Lyddane Mean (Short) orbit elements. Short periodic variations are averaged.
 
-            Group:
-                orbital-elements
         )doc"
     );
 

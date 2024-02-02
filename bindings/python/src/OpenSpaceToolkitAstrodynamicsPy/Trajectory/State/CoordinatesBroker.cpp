@@ -19,8 +19,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         R"doc(
             Class to manage the coordinates subsets of a state.
         
-            Group:
-                state
         )doc"
     )
 

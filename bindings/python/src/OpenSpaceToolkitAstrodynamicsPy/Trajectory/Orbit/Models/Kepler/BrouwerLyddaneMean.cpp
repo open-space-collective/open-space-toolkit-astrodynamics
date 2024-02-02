@@ -54,8 +54,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
             R"doc(
                 Brouwer-Lyddane mean orbit elements. This is a parent class, please use the Short or Long child classes as appropriate.
 
-                Group:
-                    orbital-elements
             )doc"
         );
 
@@ -74,8 +72,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
                         aop (Angle): The argument of periapsis.
                         mean_anomaly (Angle): The mean anomaly.
 
-                    Group:
-                        Constructors
                 )doc",
                 arg("semi_major_axis"),
                 arg("eccentricity"),

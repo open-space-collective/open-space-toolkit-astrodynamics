@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         R"doc(
             This class makes it convenient to build a `State` object.
         
-            Group:
-                trajectory
         )doc"
     )
 

@@ -25,8 +25,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             R"doc(
                 The tabulated dynamics.
 
-                Group:
-                    dynamics
             )doc"
         )
             .def(

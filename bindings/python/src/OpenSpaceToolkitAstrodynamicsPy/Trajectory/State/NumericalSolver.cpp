@@ -30,8 +30,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 The numerical solver can be used to integrate the trajectory of a dynamical system to a given instant,
                 or to a set of instants, or until an `Event Condition` is met.
 
-                Group:
-                    state
             )doc"
     );
 
@@ -41,8 +39,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
         R"doc(
             The solution to an event condition.
 
-            Group:
-                state
         )doc"
     )
         .def_readonly(

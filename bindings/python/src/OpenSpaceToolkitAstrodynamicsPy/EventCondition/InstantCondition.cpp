@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybi
             R"doc(
                 An Instant Event Condition.
 
-                Group:
-                    event-condition
             )doc"
         )
 
@@ -34,8 +32,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybi
                         criterion (Criterion): The criterion.
                         instant (Instant): The instant.
 
-                    Group:
-                        Constructors
                 )doc",
                 arg("criterion"),
                 arg("instant")
@@ -50,8 +46,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybi
                     Returns:
                         Instant: The instant.
 
-                    Group:
-                        Methods
                 )doc"
             )
 

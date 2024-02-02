@@ -27,8 +27,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
             Reference:
                 https://en.wikipedia.org/wiki/Two-line_element_set
 
-            Group:
-                orbit
         )doc"
     )
 

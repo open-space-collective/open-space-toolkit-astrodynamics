@@ -27,8 +27,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                 Provides the interface for orbit models.
 
-                Group:
-                    orbit
             )doc"
         );
 

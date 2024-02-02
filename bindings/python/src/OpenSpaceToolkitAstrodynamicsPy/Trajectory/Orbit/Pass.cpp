@@ -18,8 +18,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
         R"doc(
             A revolution of an orbiting object.
 
-            Group:
-                Orbit
         )doc"
     );
 

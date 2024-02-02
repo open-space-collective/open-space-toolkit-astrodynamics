@@ -15,8 +15,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
         R"doc(
             A local orbital frame direction.
 
-            Group:
-                trajectory
         )doc"
     )
         .def(

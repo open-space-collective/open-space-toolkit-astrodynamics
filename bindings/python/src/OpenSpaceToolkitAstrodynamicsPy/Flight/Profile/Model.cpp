@@ -14,8 +14,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
         R"doc(
             A flight profile model.
 
-            Group:
-                profile
         )doc"
     )
 

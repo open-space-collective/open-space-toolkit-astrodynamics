@@ -8,10 +8,9 @@ Python API Documentation
 
    ostk.astrodynamics
    ostk.astrodynamics.access
-   ostk.astrodynamics.conjunction
-   ostk.astrodynamics.conjunction.messages
    ostk.astrodynamics.conjunction.messages.ccsds
    ostk.astrodynamics.dynamics
+   ostk.astrodynamics.event_condition
    ostk.astrodynamics.flight
    ostk.astrodynamics.flight.profile
    ostk.astrodynamics.flight.profile.models

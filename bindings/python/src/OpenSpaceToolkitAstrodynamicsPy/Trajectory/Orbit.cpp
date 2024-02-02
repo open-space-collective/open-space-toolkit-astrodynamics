@@ -36,8 +36,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             R"doc(
                 Gravitationally curved trajectory of an object.
 
-                Group:
-                    orbit
             )doc"
         );
 

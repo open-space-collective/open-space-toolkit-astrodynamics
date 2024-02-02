@@ -23,8 +23,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
 
             Defined with respect to a reference frame and a Attitude quaternion.
 
-            Group:
-                state
         )doc"
     )
 

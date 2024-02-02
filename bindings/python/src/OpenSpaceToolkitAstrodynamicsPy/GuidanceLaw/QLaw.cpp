@@ -37,8 +37,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov
             function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target orbit).
 
-            Group:
-                guidance-law
         )doc"
     )
 
@@ -49,8 +47,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         R"doc(
             Q-law parameters.
 
-            Group:
-                guidance-law
         )doc"
     )
         .def_readonly(

@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         R"doc(
             The local orbital frame factory.
 
-            Group:
-                trajectory
         )doc"
     )
         .def(
@@ -33,8 +31,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
                 Returns:
                     Frame: True if the local orbital frame factory is defined, False otherwise.
 
-                Group:
-                    trajectory
             )doc"
         )
 

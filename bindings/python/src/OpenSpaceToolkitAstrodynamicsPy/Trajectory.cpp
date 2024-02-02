@@ -28,8 +28,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         R"doc(
             Path followed by an object through space as a function of time.
 
-            Group:
-                trajectory
         )doc"
     )
 

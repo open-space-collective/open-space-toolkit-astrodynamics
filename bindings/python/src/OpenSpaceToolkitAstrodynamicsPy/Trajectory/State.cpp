@@ -29,8 +29,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         R"doc(
             This class represents the physical state of an object.
 
-            Group:
-                state
         )doc"
     )
 

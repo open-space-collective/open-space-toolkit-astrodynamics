@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
                 Local orbital frame transform provider, frame provider.
                 Generates a specific transform based on instant, position, velocity and a LOF type.
 
-                Group:
-                    trajectory
             )doc"
         );
     // TBI: can't make this linked with Shared<Provider>

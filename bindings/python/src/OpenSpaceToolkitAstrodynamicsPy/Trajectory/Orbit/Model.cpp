@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
 
             Provides the interface for orbit models.
 
-            Group:
-                orbit
         )doc"
     )
 

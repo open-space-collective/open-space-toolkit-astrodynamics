@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 
                 This class encapsulates the concept of visibility access between two trajectories.
                 
-                Group:
-                    access
             )doc"
         );
 

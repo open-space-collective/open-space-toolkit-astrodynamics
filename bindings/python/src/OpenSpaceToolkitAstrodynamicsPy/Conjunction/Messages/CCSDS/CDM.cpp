@@ -34,8 +34,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
             Ref: https://public.ccsds.org/Pubs/508x0b1e2s.pdf
 
-            Group:
-                ccsds
         )doc"
     );
 
@@ -359,8 +357,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
             Ref: https://public.ccsds.org/Pubs/508x0b1e2s.pdf
 
-            Group:
-                ccsds
         )doc"
     )
 
@@ -439,8 +435,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
             Ref: https://public.ccsds.org/Pubs/508x0b1e2s.pdf
 
-            Group:
-                ccsds
         )doc"
     )
 
@@ -625,8 +619,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
             Ref: https://public.ccsds.org/Pubs/508x0b1e2s.pdf
 
-            Group:
-                ccsds
         )doc"
     )
 
@@ -871,8 +863,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
 
             Ref: https://public.ccsds.org/Pubs/508x0b1e2s.pdf
 
-            Group:
-                ccsds
         )doc"
     )
 

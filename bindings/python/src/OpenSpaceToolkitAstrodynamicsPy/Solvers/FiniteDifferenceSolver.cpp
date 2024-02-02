@@ -24,8 +24,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
         R"doc(
             A Finite Difference Solver to compute the gradient, and jacobian of a function.
 
-            Group:
-                solvers
         )doc"
     );
 
