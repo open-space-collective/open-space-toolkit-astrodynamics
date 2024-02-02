@@ -1,8 +1,8 @@
-Notebooks
-=========
+Tutorial Notebooks
+==================
 
 .. toctree::
    :glob:
    :maxdepth: 1
 
-   notebooks/*
+   _notebooks/*
