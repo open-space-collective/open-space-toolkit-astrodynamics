@@ -89,9 +89,6 @@ autoclass_content = "both"  # Include both class docstring and __init__
 
 
 def skip_member(app, what, name, obj, skip, options):
-    # Implement your logic here
-    # For example, to skip all private members:
-    # print(name)
     if name in {
         "OpenSpaceToolkitAstrodynamicsPy",
         "OpenSpaceToolkitCorePy",
