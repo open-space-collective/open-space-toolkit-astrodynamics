@@ -27,13 +27,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
                 you to only specify the parameters you want. There are two ways of doing this:
 
                 Chaining together your desired parameters like so:
-                SatelliteSystemBuilder().with_dry_mass(X).with_area(Y)
+
+                .. code-block:: python
+
+                    satellite_system = SatelliteSystemBuilder().with_dry_mass(X).with_area(Y).build()
 
                 Using the default SatelliteSystem and changing one parameters like so:
-                SatelliteSystemBuilder.default().with_dry_mass(X)
 
-                Group:
-                    system
+                .. code-block:: python
+
+                    satellite_system = SatelliteSystemBuilder.default().with_dry_mass(X)
+
             )doc"
         )
 
@@ -42,8 +46,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
                 R"doc(
                     Constructor.
 
-                    Group:
-                        Constructors
                 )doc"
             )
 

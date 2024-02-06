@@ -25,8 +25,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         R"doc(
                 A mission `Sequence`. Consists of a list of `Segment` objects and various configuration parameters.
 
-                Group:
-                    trajectory
             )doc"
     );
 
@@ -36,8 +34,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         R"doc(
             The Solution object that is returned when a `Sequence` is solved.
 
-            Group:
-                trajectory
         )doc"
     )
 

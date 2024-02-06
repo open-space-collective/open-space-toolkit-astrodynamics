@@ -29,8 +29,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         R"doc(
             This class represents the physical state of an object.
 
-            Group:
-                state
         )doc"
     )
 
@@ -274,9 +272,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 
     // Create "state" python submodule
     auto state = aModule.def_submodule("state");
-
-    // Add __path__ attribute for "state" submodule
-    state.attr("__path__") = "ostk.astrodynamics.trajectory.state";
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(state);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(state);

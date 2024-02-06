@@ -18,8 +18,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Tabulated(pybi
         R"doc(
             A flight profile model defined by a set of states.
 
-            Group:
-                profile
         )doc"
     )
 

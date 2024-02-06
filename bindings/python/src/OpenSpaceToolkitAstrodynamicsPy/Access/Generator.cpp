@@ -25,9 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         "Generator",
         R"doc(
             An access generator.
-            
-            Group:
-                access
+
         )doc"
     )
 

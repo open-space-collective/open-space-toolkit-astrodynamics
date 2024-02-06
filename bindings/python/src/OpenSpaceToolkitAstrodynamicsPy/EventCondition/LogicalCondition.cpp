@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
             R"doc(
                 A Logical Event Condition. This class is used to combine multiple event conditions into a single set.
 
-                Group:
-                    event-condition
             )doc"
         );
 
@@ -54,8 +52,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
                         type (Type): The type of the logical condition.
                         event_conditions (list[EventCondition]): The list of event conditions.
 
-                    Group:
-                        Constructors
                 )doc",
                 arg("name"),
                 arg("type"),

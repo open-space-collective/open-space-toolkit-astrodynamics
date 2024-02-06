@@ -25,8 +25,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         R"doc(
             Spacecraft Flight Profile.
 
-            Group:
-                profile
         )doc"
     )
 
@@ -164,9 +162,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
     // Create "profile" python submodule
     auto profile = aModule.def_submodule("profile");
-
-    // Add __path__ attribute for "profile" submodule
-    profile.attr("__path__") = "ostk.astrodynamics.flight.profile";
 
     // Add objects to "profile" submodule
     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(profile);

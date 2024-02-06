@@ -36,8 +36,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
                     r_a & = \text{apoapsis radius}
                 \end{aligned}
 
-            Group:
-                orbital-elements
         )doc"
     );
 
@@ -91,8 +89,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
                     aop (Angle): The argument of periapsis.
                     true_anomaly (Angle): The true anomaly.
 
-                Group:
-                    Constructors
             )doc",
             arg("semi_major_axis"),
             arg("eccentricity"),

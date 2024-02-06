@@ -36,8 +36,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             R"doc(
                 Gravitationally curved trajectory of an object.
 
-                Group:
-                    orbit
             )doc"
         );
 
@@ -382,9 +380,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
     // Create "orbit" python submodule
     auto orbit = aModule.def_submodule("orbit");
-
-    // Add __path__ attribute for "orbit" submodule
-    orbit.attr("__path__") = "ostk.astrodynamics.trajectory.orbit";
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(orbit);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models(orbit);

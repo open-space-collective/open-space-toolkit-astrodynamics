@@ -28,8 +28,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         R"doc(
             Path followed by an object through space as a function of time.
 
-            Group:
-                trajectory
         )doc"
     )
 
@@ -138,9 +136,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
 
     // Create "trajectory" python submodule
     auto trajectory = aModule.def_submodule("trajectory");
-
-    // Add __path__ attribute for "trajectory" submodule
-    trajectory.attr("__path__") = "ostk.astrodynamics.trajectory";
 
     // Add objects to python submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(trajectory);

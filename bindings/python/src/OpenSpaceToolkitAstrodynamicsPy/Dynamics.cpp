@@ -83,8 +83,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
                 - compute_contribution
             to create a custom dynamics class
 
-            Group:
-                dynamics
         )doc"
     )
 
@@ -187,9 +185,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
 
     // Create "dynamics" python submodule
     auto dynamics = aModule.def_submodule("dynamics");
-
-    // Add __path__ attribute for "dynamics" submodule
-    dynamics.attr("__path__") = "ostk.astrodynamics.dynamics";
 
     // Add objects to "dynamics" submodule
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(dynamics);

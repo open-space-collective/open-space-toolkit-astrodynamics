@@ -64,8 +64,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             A guidance law is a mathematical model that computes the acceleration
             based on specific guidance law logic.
 
-            Group:
-                guidance-law
         )doc"
     )
         .def(
@@ -118,9 +116,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
 
     // Create "guidance_law" python submodule
     auto guidance_law = aModule.def_submodule("guidance_law");
-
-    // Add __path__ attribute for "guidance_law" submodule
-    guidance_law.attr("__path__") = "ostk.astrodynamics.guidance_law";
 
     // Add objects to "guidance_law" submodule
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(guidance_law);

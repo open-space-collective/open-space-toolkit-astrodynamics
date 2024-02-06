@@ -24,8 +24,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybi
         R"doc(
             A Boolean Event Condition.
 
-            Group:
-                event-condition
         )doc"
     )
 
@@ -40,8 +38,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybi
                     evaluator (function): The evaluator of the condition.
                     is_inverse (bool): Whether the condition is inverse.
 
-                Group:
-                    Constructors
             )doc",
             arg("name"),
             arg("criterion"),

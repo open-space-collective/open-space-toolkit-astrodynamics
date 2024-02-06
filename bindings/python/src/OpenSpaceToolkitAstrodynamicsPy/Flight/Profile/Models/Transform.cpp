@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Transform(pybi
         R"doc(
             A flight profile model defined by a transform.
 
-            Group:
-                profile
         )doc"
     )
 

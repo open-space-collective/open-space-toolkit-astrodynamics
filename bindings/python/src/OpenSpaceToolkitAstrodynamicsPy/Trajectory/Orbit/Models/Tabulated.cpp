@@ -18,8 +18,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
         R"doc(
             Tabulated orbit model.
 
-            Group:
-                orbit
         )doc"
     );
 

@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
             R"doc(
                 Constant Thrust, Constant Direction dynamics.
 
-                Group:
-                    dynamics
             )doc"
         )
 

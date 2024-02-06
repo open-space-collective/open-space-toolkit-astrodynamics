@@ -94,10 +94,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
             State coordinates subset. It contains information related to a particular group of coordinates. It does not
             contain the coordinate values.
 
-
-
-            Group:
-                State
         )doc"
     )
 
@@ -254,9 +250,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
 
     // Create "coordinates_subset" python submodule
     auto coordinates_subset = aModule.def_submodule("coordinates_subset");
-
-    // Add __path__ attribute for "coordinates_subset" submodule
-    coordinates_subset.attr("__path__") = "ostk.astrodynamics.trajectory.state.coordinates_subset";
 
     // Add objects to "coordinates_subset" submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_AngularVelocity(coordinates_subset);

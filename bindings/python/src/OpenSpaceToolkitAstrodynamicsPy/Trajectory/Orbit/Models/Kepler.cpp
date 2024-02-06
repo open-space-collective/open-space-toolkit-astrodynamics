@@ -27,8 +27,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
                 Provides the interface for orbit models.
 
-                Group:
-                    orbit
             )doc"
         );
 
@@ -257,9 +255,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
     // Create "kepler" python submodule
     auto kepler = aModule.def_submodule("kepler");
-
-    // Add __path__ attribute for "kepler" submodule
-    kepler.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models.kepler";
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(kepler);
 }

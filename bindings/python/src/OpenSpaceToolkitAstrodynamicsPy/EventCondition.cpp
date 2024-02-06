@@ -46,8 +46,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             R"doc(
                 An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times
 
-                Group:
-                    event-condition
             )doc"
         );
 
@@ -57,8 +55,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             R"doc(
                 The Event Condition Target.
 
-                Group:
-                    event-condition
             )doc"
         );
 
@@ -259,9 +255,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
     // Create "event_condition" python submodule
     auto event_condition = aModule.def_submodule("event_condition");
-
-    // Add __path__ attribute for "event_condition" submodule
-    event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(event_condition);

@@ -22,8 +22,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubsets_
 
             Defined with respect to a reference frame.
 
-            Group:
-                state
         )doc"
     )
 

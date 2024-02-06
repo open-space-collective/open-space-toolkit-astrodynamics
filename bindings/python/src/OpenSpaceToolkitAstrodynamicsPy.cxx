@@ -23,9 +23,6 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     // Add optional docstring for package OpenSpaceToolkitAstrodynamicsPy
     m.doc() = "Orbit, attitude, access for OpenSpaceToolkit";
 
-    // Add __path__ attribute to python package
-    m.attr("__path__") = "ostk.astrodynamics";
-
     // Change attribute __name__ to make OpenSpaceToolkitAstrodynamicsPy invisible in modules path
     m.attr("__name__") = "ostk.astrodynamics";
 

@@ -7,7 +7,7 @@
 [![PyPI version](https://badge.fury.io/py/open-space-toolkit-astrodynamics.svg)](https://badge.fury.io/py/open-space-toolkit-astrodynamics)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Orbit, attitude, access.
+Orbit, attitude, access, mission analysis.
 
 <img src="./docs/assets/example.svg" height="500px" width="auto">
 
@@ -98,10 +98,7 @@ pip install open-space-toolkit-astrodynamics
 
 ## Documentation
 
-Documentation is available here:
-
-- [C++](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
-- [Python](./bindings/python/docs)
+Documentation is available [here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics):
 
 <details>
 <summary>Structure</summary>
@@ -157,8 +154,8 @@ The library exhibits the following detailed and descriptive structure:
 
 Tutorials are available here:
 
-- [C++](./tutorials/cpp)
-- [Python](./tutorials/python)
+- C++ (in progress)
+- [Python](https://github.com/open-space-collective/open-space-toolkit/tree/main/notebooks)
 
 ## Setup
 
@@ -339,7 +336,7 @@ The validation tests can be run with `ostk-validate` from within the dev contain
 
 Contributions are more than welcome!
 
-Please read our [contributing guide](CONTRIBUTING.md) to learn about our development process, how to propose fixes and improvements, and how to build and test the code.
+For the contributing guide, please consult the CONTRIBUTING.md in the [open-space-toolkit](https://github.com/open-space-collective/open-space-toolkit) base repo [here](https://github.com/open-space-collective/open-space-toolkit/blob/main/CONTRIBUTING.md).
 
 ## Special Thanks
 

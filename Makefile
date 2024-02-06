@@ -188,8 +188,21 @@ build-documentation-standalone: ## Build documentation (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_DOCUMENTATION=ON .. \
-		&& $(MAKE) docs"
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .. \
+		&& ostk-build \
+		&& ostk-install-python \
+		&& pip install -r /app/docs/requirements.txt \
+		&& mkdir -p /app/docs/_notebooks \
+		&& cd /app/docs/_notebooks \
+		&& git init \
+		&& git remote add origin https://github.com/open-space-collective/open-space-toolkit \
+		&& git config core.sparseCheckout true \
+		&& echo "notebooks/Astrodynamics/*" >> .git/info/sparse-checkout \
+		&& git pull origin main \
+		&& find . -type f -name "*.ipynb" -exec mv {} . \; \
+		&& cd /app/docs \
+		&& breathe-apidoc -o cpp_rst xml -g class \
+		&& sphinx-build -j 4 -b html . _build/html"
 
 .PHONY: build-documentation-standalone
 

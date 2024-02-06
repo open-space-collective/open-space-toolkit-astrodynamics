@@ -20,8 +20,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11
             R"doc(
                 The central-body gravity model.
 
-                Group:
-                    dynamics
             )doc"
         )
             .def(
