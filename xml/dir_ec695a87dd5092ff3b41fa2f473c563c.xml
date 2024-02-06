@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_ec695a87dd5092ff3b41fa2f473c563c" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw</compoundname>
+    <innerfile refid="_constant_thrust_8cpp">ConstantThrust.cpp</innerfile>
+    <innerfile refid="_q_law_8cpp">QLaw.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/"/>
+  </compounddef>
+</doxygen>

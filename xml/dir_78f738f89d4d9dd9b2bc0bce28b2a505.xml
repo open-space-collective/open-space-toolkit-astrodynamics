@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_78f738f89d4d9dd9b2bc0bce28b2a505" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler</compoundname>
+    <innerfile refid="_c_o_e_8hpp">COE.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/"/>
+  </compounddef>
+</doxygen>

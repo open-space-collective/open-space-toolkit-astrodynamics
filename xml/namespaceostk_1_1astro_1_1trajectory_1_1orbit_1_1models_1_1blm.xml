@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm" kind="namespace" language="C++">
+    <compoundname>ostk::astro::trajectory::orbit::models::blm</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean" prot="public">ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_long" prot="public">ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short" prot="public">ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1ad6a1587f2ef6d64e4e30f7901a5888f7" prot="public" static="no">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">ostk::astro::trajectory::orbit::models::kepler::COE</ref></type>
+        <definition>typedef ostk::astro::trajectory::orbit::models::kepler::COE ostk::astro::trajectory::orbit::models::blm::classicalOE</definition>
+        <argsstring></argsstring>
+        <name>classicalOE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="52" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1adbaffb097403ea101bb9afeecde6c98e" prot="public" static="no">
+        <type>ostk::physics::environment::gravitational::Earth</type>
+        <definition>typedef ostk::physics::environment::gravitational::Earth ostk::astro::trajectory::orbit::models::blm::EarthGravitationalModel</definition>
+        <argsstring></argsstring>
+        <name>EarthGravitationalModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" line="27" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ostk::astro::flight::profile::Model</compoundname>
+    <derivedcompoundref refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated" prot="public" virt="virtual">ostk::astro::flight::profile::models::Tabulated</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform" prot="public" virt="virtual">ostk::astro::flight::profile::models::Transform</derivedcompoundref>
+    <includes refid="_flight_2_profile_2_model_8hpp" local="no">Model.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a6301933ec5ccdd9dab16fa8ecbf73869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::profile::Model::Model</definition>
+        <argsstring>()</argsstring>
+        <name>Model</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="35" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="17" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a4870ff5251fa9f4f27f961700ce49863" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::profile::Model::~Model</definition>
+        <argsstring>()=0</argsstring>
+        <name>~Model</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="37" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1aabf68c114849fa16a570b694579da40f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> *</type>
+        <definition>virtual Model* ostk::astro::flight::profile::Model::clone</definition>
+        <argsstring>() const =0</argsstring>
+        <name>clone</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1aafd4791dacf320ddedddefbc8d0f2e0e">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1a1c9f4f5711ac2ae0cc545d89b0ee4d53">clone</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="39" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a87f7ca747d79619e4b4bc04aa6a9252a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool ostk::astro::flight::profile::Model::operator==</definition>
+        <argsstring>(const Model &amp;aModel) const =0</argsstring>
+        <name>operator==</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1a5fd04ff2470cfe517bcb94e70fdb80fd">operator==</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1ad49694ca5cfb4fabf17ac063d9953fb0">operator==</reimplementedby>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="41" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a66eab26e18de60c179529ba5924b168f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::profile::Model::operator!=</definition>
+        <argsstring>(const Model &amp;aModel) const</argsstring>
+        <name>operator!=</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1a7d1f3f2024628e03eee408eaa1cd1a9b">operator!=</reimplementedby>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="43" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a0af64ad25ed8d8b2510a70bfe5bcb971" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool ostk::astro::flight::profile::Model::isDefined</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isDefined</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1a2d0f1f3cc3f340c5617125bea08a9930">isDefined</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1ad830d557475ca2ba83d43659e348b1d6">isDefined</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="47" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a73363668308f0293014d6a77063cc809" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class Type</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::profile::Model::is</definition>
+        <argsstring>() const</argsstring>
+        <name>is</name>
+        <briefdescription>
+<para>Returns true if model can be converted to type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if model can be converted to type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="53" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a7842761a8f6c0895c0b6048e9d3a5b7f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class Type</type>
+          </param>
+        </templateparamlist>
+        <type>const Type &amp;</type>
+        <definition>const Type&amp; ostk::astro::flight::profile::Model::as</definition>
+        <argsstring>() const</argsstring>
+        <name>as</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astro_1_1_access" kindref="compound">Access</ref> model as its underlying type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to underlying type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="62" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a1b205fa29b50fcfc06c99234a8579eb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref></type>
+        <definition>virtual State ostk::astro::flight::profile::Model::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const =0</argsstring>
+        <name>calculateStateAt</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1a6288febae942c92508173db08b4554b0">calculateStateAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1af27ea0e7006d0de18e897a9a5c7a0fb2">calculateStateAt</reimplementedby>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="74" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1ab81349e148cc39ad5662f7181f146493" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref> &gt;</type>
+        <definition>Array&lt; State &gt; ostk::astro::flight::profile::Model::calculateStatesAt</definition>
+        <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray) const</argsstring>
+        <name>calculateStatesAt</name>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="76" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="33" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1ab18bd79e421c36df4ab716649ce549cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Axes</type>
+        <definition>virtual Axes ostk::astro::flight::profile::Model::getAxesAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const =0</argsstring>
+        <name>getAxesAt</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1a7eb8b58fd5f72e8ee9aa3b94cd0ffaaa">getAxesAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1ac85970f439c8db0684c9349601c226d2">getAxesAt</reimplementedby>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="78" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a04ded49c09d9a44820251c48f47d0ffa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>virtual Shared&lt;const Frame&gt; ostk::astro::flight::profile::Model::getBodyFrame</definition>
+        <argsstring>(const String &amp;aFrameName) const =0</argsstring>
+        <name>getBodyFrame</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1a7fa6ee57c59b5bff2c60001c11cac04c">getBodyFrame</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1a1be1d71748e4e0b59bd3dd2334b759fe">getBodyFrame</reimplementedby>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aFrameName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="80" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1ad9bb86b1869150e2bd970e9fa59ce36e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ostk::astro::flight::profile::Model::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const =0</argsstring>
+        <name>print</name>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_1aef9a20156493d68570a989d87ac2f9f6">print</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_1a0e3d34c39a644279a9b958c3fd9bf730">print</reimplementedby>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="82" column="18"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a68240493d08f91f6613186eb52823e85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Model &amp;aModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="45" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="26" bodyend="31"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref> model (abstract) </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>ostk::astro::flight::profile::models::Transform</label>
+        <link refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astro::flight::profile::Model</label>
+        <link refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model"/>
+      </node>
+      <node id="2">
+        <label>ostk::astro::flight::profile::models::Tabulated</label>
+        <link refid="classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="32" bodyend="83"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a7842761a8f6c0895c0b6048e9d3a5b7f" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>as</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a1b205fa29b50fcfc06c99234a8579eb8" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1ab81349e148cc39ad5662f7181f146493" prot="public" virt="virtual"><scope>ostk::astro::flight::profile::Model</scope><name>calculateStatesAt</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1aabf68c114849fa16a570b694579da40f" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>clone</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1ab18bd79e421c36df4ab716649ce549cd" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>getAxesAt</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a04ded49c09d9a44820251c48f47d0ffa" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>getBodyFrame</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a73363668308f0293014d6a77063cc809" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>is</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a0af64ad25ed8d8b2510a70bfe5bcb971" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a6301933ec5ccdd9dab16fa8ecbf73869" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>Model</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a66eab26e18de60c179529ba5924b168f" prot="public" virt="virtual"><scope>ostk::astro::flight::profile::Model</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a68240493d08f91f6613186eb52823e85" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a87f7ca747d79619e4b4bc04aa6a9252a" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1ad9bb86b1869150e2bd970e9fa59ce36e" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model_1a4870ff5251fa9f4f27f961700ce49863" prot="public" virt="pure-virtual"><scope>ostk::astro::flight::profile::Model</scope><name>~Model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

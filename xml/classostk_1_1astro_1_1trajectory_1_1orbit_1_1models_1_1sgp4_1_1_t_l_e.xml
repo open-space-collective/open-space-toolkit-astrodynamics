@@ -1,0 +1,1181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::trajectory::orbit::models::sgp4::TLE</compoundname>
+    <includes refid="_t_l_e_8hpp" local="no">TLE.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a22d46ffbea1890e86222a60e5edead74" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::satelliteName_</definition>
+        <argsstring></argsstring>
+        <name>satelliteName_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="368" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a5b29749c05712e2413278a01d9d4718c" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::firstLine_</definition>
+        <argsstring></argsstring>
+        <name>firstLine_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="369" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a939fa89c73554f5a9ca8fdd81ccb92e5" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::secondLine_</definition>
+        <argsstring></argsstring>
+        <name>secondLine_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="370" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::models::sgp4::TLE::TLE</definition>
+        <argsstring>(const String &amp;aFirstLine, const String &amp;aSecondLine)</argsstring>
+        <name>TLE</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aFirstLine</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aSecondLine</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFirstLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A first line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSecondLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A second line </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="53" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="27" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1af1563fe99c5e1bf2874cf294c0e811bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::models::sgp4::TLE::TLE</definition>
+        <argsstring>(const String &amp;aSatelliteName, const String &amp;aFirstLine, const String &amp;aSecondLine)</argsstring>
+        <name>TLE</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aSatelliteName</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aFirstLine</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aSecondLine</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSatelliteName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A satellite name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFirstLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A first line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSecondLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A second line </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="66" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a415bc7b3671eaa616dfd9e82f9fb9520" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::sgp4::TLE::operator==</definition>
+        <argsstring>(const TLE &amp;aTle) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> &amp;</type>
+          <declname>aTle</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>==<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if TLEs are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="76" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a3b15abd9b07fb2a0851b680fe23da8f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::sgp4::TLE::operator!=</definition>
+        <argsstring>(const TLE &amp;aTle) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> &amp;</type>
+          <declname>aTle</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>!=<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if TLEs are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="86" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="60" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1aa7fa1003a2b03fb7f3829bfdd342942f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::sgp4::TLE::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).isDefined()<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="109" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a3cd38e40cec168239029eeec5bc57c23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::getSatelliteName</definition>
+        <argsstring>() const</argsstring>
+        <name>getSatelliteName</name>
+        <briefdescription>
+<para>Get satellite name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;ISS<sp/>(ZARYA)&quot;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Satellite name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="121" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ace656b8df665ed4ba7accb0adb6fd629" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::getFirstLine</definition>
+        <argsstring>() const</argsstring>
+        <name>getFirstLine</name>
+        <briefdescription>
+<para>Get first line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>First line </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="134" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a6f1f60f662a1891ce93576344989502a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::getSecondLine</definition>
+        <argsstring>() const</argsstring>
+        <name>getSecondLine</name>
+        <briefdescription>
+<para>Get second line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>130.5360<sp/>325.0288<sp/>15.72125391563537</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Second line </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="147" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a63c9241a31234dd07ee4ca4424a9df5f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::getSatelliteNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getSatelliteNumber</name>
+        <briefdescription>
+<para>Get satellite number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Satellite number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="152" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="127" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1aacb1592d95371a826ea41058f4ee6936" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::getClassification</definition>
+        <argsstring>() const</argsstring>
+        <name>getClassification</name>
+        <briefdescription>
+<para>Get classification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Classification </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="157" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="137" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a74fae03332b1bf5514c0850125b5c115" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::sgp4::TLE::getInternationalDesignator</definition>
+        <argsstring>() const</argsstring>
+        <name>getInternationalDesignator</name>
+        <briefdescription>
+<para>Get international designator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>International designator </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="162" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a2c3580e644158b56b14868137585a73d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::models::sgp4::TLE::getEpoch</definition>
+        <argsstring>() const</argsstring>
+        <name>getEpoch</name>
+        <briefdescription>
+<para>Get epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Epoch </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="167" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="157" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1acfe76ce49653d9f735abddb908b2a2d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::sgp4::TLE::getMeanMotionFirstTimeDerivativeDividedByTwo</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanMotionFirstTimeDerivativeDividedByTwo</name>
+        <briefdescription>
+<para>Get first time derivative of the mean motion divided by two. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>First time derivative of the mean motion divided by two </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="172" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="182" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a7115d973dfff075411e114542bec8eeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::sgp4::TLE::getMeanMotionSecondTimeDerivativeDividedBySix</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanMotionSecondTimeDerivativeDividedBySix</name>
+        <briefdescription>
+<para>Get second time derivative of mean motion divided by six. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Second time derivative of mean motion divided by six </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="177" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a70763fd8cfec5751a9a5d97bdfdbf3d2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::sgp4::TLE::getBStarDragTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getBStarDragTerm</name>
+        <briefdescription>
+<para>Get B* drag term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>B* drag term <ulink url="https://en.wikipedia.org/wiki/BSTAR">https://en.wikipedia.org/wiki/BSTAR</ulink> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="183" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a6bbac875fb8c5d36c4ad46b7bea67b79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::getEphemerisType</definition>
+        <argsstring>() const</argsstring>
+        <name>getEphemerisType</name>
+        <briefdescription>
+<para>Get ephemeris type (0) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Ephemeris type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="188" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="212" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a115316d7355d615749dd7cb96d2c16c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::getElementSetNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getElementSetNumber</name>
+        <briefdescription>
+<para>Get element set number (incremented when a new <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> is generated for this object) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Element set number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="193" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="222" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a9794bb184799595fefc8828c2849538c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::getFirstLineChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>getFirstLineChecksum</name>
+        <briefdescription>
+<para>Get checksum of first line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Checksum of first line </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="198" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="232" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a5e748208f49fc10cc1b925cffa095f67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::sgp4::TLE::getInclination</definition>
+        <argsstring>() const</argsstring>
+        <name>getInclination</name>
+        <briefdescription>
+<para>Get inclination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Inclination </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="203" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1af8a8a71621c85e1a0eaf4a18fc3f25e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::sgp4::TLE::getRaan</definition>
+        <argsstring>() const</argsstring>
+        <name>getRaan</name>
+        <briefdescription>
+<para>Get Right Ascension of the Ascending Node [RAAN]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Right Ascension of the Ascending Node </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="208" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="252" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a2ea15d6fbdc6e57cfd00547d97467e48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::sgp4::TLE::getEccentricity</definition>
+        <argsstring>() const</argsstring>
+        <name>getEccentricity</name>
+        <briefdescription>
+<para>Get eccentricity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Eccentricity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="213" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="262" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a8177e2bb63571a511e3e4ea2c853410c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::sgp4::TLE::getAop</definition>
+        <argsstring>() const</argsstring>
+        <name>getAop</name>
+        <briefdescription>
+<para>Get Argument of Perigee [AOP]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Argument of Perigee </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="218" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="272" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ab5c418aedbbfb5b0bc9b401a6d850623" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::sgp4::TLE::getMeanAnomaly</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanAnomaly</name>
+        <briefdescription>
+<para>Get Mean Anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mean Anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="223" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="282" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a441a9c7ee954d3d97c6d3c6cd5f7cd72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Derived</type>
+        <definition>Derived ostk::astro::trajectory::orbit::models::sgp4::TLE::getMeanMotion</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanMotion</name>
+        <briefdescription>
+<para>Get Mean Motion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mean Motion </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="228" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="292" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1abc96f40aa52b9451bf791253a61365e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::getRevolutionNumberAtEpoch</definition>
+        <argsstring>() const</argsstring>
+        <name>getRevolutionNumberAtEpoch</name>
+        <briefdescription>
+<para>Get revolution number at epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Revolution number at epoch </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="233" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="305" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a66f25eab1f7e8f7e511ad0a77da90de7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::getSecondLineChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>getSecondLineChecksum</name>
+        <briefdescription>
+<para>Get checksum of second line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Checksum of second line </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="238" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="315" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1aaa3ce99b1a69028a94094b95eb91da2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::sgp4::TLE::setSatelliteNumber</definition>
+        <argsstring>(const Integer &amp;aSatelliteNumber)</argsstring>
+        <name>setSatelliteNumber</name>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aSatelliteNumber</declname>
+        </param>
+        <briefdescription>
+<para>Set new satellite catalogue number in the existing <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSatelliteNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a Satellite Number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="244" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="325" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a1b31551503d41d052b3270782824e489" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::sgp4::TLE::setEpoch</definition>
+        <argsstring>(const Instant &amp;anInstant)</argsstring>
+        <name>setEpoch</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Set new revolution number at epoch in the existing <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRevolutionNumberAtEpoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a Revolution Number at Epoch </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="250" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="357" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a71f0c58af0aac913f7025f7f7e9500d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::sgp4::TLE::setRevolutionNumberAtEpoch</definition>
+        <argsstring>(const Integer &amp;aRevolutionNumberAtEpoch)</argsstring>
+        <name>setRevolutionNumberAtEpoch</name>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumberAtEpoch</declname>
+        </param>
+        <briefdescription>
+<para>Set new epoch in the existing <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an Instant (new Epoch) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="256" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="410" bodyend="436"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a54a7a3bca65674d5052031634f900984" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const TLE &amp;aTle)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> &amp;</type>
+          <declname>aTle</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tle<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="98" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="71" bodyend="105"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a871cdedd5bc51c9f3afa976e0597ea51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
+        <definition>TLE ostk::astro::trajectory::orbit::models::sgp4::TLE::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Constructs an undefined <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a871cdedd5bc51c9f3afa976e0597ea51" kindref="member">TLE::Undefined</ref>()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="265" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="438" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a843f3432e8411de6b8d7e9c40d7191d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::sgp4::TLE::CanParse</definition>
+        <argsstring>(const String &amp;aString)</argsstring>
+        <name>CanParse</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aString</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> can be generated from the given string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a843f3432e8411de6b8d7e9c40d7191d2" kindref="member">TLE::CanParse</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927\n</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>True</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> can be generated from the given string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="277" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="443" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a1e808cef2bd2466a8d7813f2c5d5bfc4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::sgp4::TLE::CanParse</definition>
+        <argsstring>(const String &amp;aFirstLine, const String &amp;aSecondLine)</argsstring>
+        <name>CanParse</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aFirstLine</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aSecondLine</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> can be generated from the given lines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a843f3432e8411de6b8d7e9c40d7191d2" kindref="member">TLE::CanParse</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>True</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFirstLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A first line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSecondLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A second line </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> can be generated from the given lines </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="290" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="477" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a7f97a74af47895aa315aebc52f410d26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
+        <definition>TLE ostk::astro::trajectory::orbit::models::sgp4::TLE::Parse</definition>
+        <argsstring>(const String &amp;aString)</argsstring>
+        <name>Parse</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aString</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> from a given string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a7f97a74af47895aa315aebc52f410d26" kindref="member">TLE::Parse</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/>2927\n</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="302" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="501" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a5e912145266460d05beaba326b5ace95" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
+        <definition>TLE ostk::astro::trajectory::orbit::models::sgp4::TLE::Load</definition>
+        <argsstring>(const File &amp;aFile)</argsstring>
+        <name>Load</name>
+        <param>
+          <type>const File &amp;</type>
+          <declname>aFile</declname>
+        </param>
+        <briefdescription>
+<para>Load a <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> from a given file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/>TLE::File(File::Path(Path::String(</highlight><highlight class="stringliteral">&quot;/path/to/file.tle&quot;</highlight><highlight class="normal">)))<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="312" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="542" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1abcf23b65737dcbae8c52d54a88c1f76e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
+        <definition>TLE ostk::astro::trajectory::orbit::models::sgp4::TLE::Construct</definition>
+        <argsstring>(const String &amp;aSatelliteName, const Integer &amp;aSatelliteNumber, const String &amp;aClassification, const String &amp;anInternationalDesignator, const Instant &amp;anEpoch, const Real &amp;aMeanMotionFirstTimeDerivativeDividedByTwo, const Real &amp;aMeanMotionSecondTimeDerivativeDividedBySix, const Real &amp;aBStarDragTerm, const Integer &amp;anEphemerisType, const Integer &amp;anElementSetNumber, const Angle &amp;anInclination, const Angle &amp;aRaan, const Real &amp;anEccentricity, const Angle &amp;anAop, const Angle &amp;aMeanAnomaly, const Derived &amp;aMeanMotion, const Integer &amp;aRevolutionNumberAtEpoch)</argsstring>
+        <name>Construct</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aSatelliteName</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aSatelliteNumber</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aClassification</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>anInternationalDesignator</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEpoch</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aMeanMotionFirstTimeDerivativeDividedByTwo</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aMeanMotionSecondTimeDerivativeDividedBySix</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aBStarDragTerm</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>anEphemerisType</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>anElementSetNumber</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anInclination</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aRaan</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAop</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aMeanAnomaly</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aMeanMotion</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumberAtEpoch</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> from its components. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="317" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="559" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ac772bf8fc68aa1cb0f8c17a2755165ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
+        <definition>TLE ostk::astro::trajectory::orbit::models::sgp4::TLE::Construct</definition>
+        <argsstring>(const Integer &amp;aSatelliteNumber, const String &amp;aClassification, const String &amp;anInternationalDesignator, const Instant &amp;anEpoch, const Real &amp;aMeanMotionFirstTimeDerivativeDividedByTwo, const Real &amp;aMeanMotionSecondTimeDerivativeDividedBySix, const Real &amp;aBStarDragTerm, const Integer &amp;anEphemerisType, const Integer &amp;anElementSetNumber, const Angle &amp;anInclination, const Angle &amp;aRaan, const Real &amp;anEccentricity, const Angle &amp;anAop, const Angle &amp;aMeanAnomaly, const Derived &amp;aMeanMotion, const Integer &amp;aRevolutionNumberAtEpoch)</argsstring>
+        <name>Construct</name>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aSatelliteNumber</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aClassification</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>anInternationalDesignator</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEpoch</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aMeanMotionFirstTimeDerivativeDividedByTwo</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aMeanMotionSecondTimeDerivativeDividedBySix</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aBStarDragTerm</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>anEphemerisType</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>anElementSetNumber</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anInclination</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aRaan</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAop</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aMeanAnomaly</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aMeanMotion</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumberAtEpoch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="337" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="734" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a4f9d8d752fc3700fd9bac043f106e19b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::sgp4::TLE::GenerateChecksum</definition>
+        <argsstring>(const String &amp;aLine)</argsstring>
+        <name>GenerateChecksum</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aLine</declname>
+        </param>
+        <briefdescription>
+<para>Generate checksum for the given <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a4f9d8d752fc3700fd9bac043f106e19b" kindref="member">TLE::GenerateChecksum</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0</highlight></codeline>
+<codeline><highlight class="stringliteral">2927&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> line </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Checksum </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="365" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="774" bodyend="794"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ad7bc7dfec2d106b9743c94525eb00ad4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::sgp4::TLE::ParseReal</definition>
+        <argsstring>(const String &amp;aString, bool isDecimalPointAssumed)</argsstring>
+        <name>ParseReal</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aString</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isDecimalPointAssumed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="372" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.cpp" bodystart="796" bodyend="839"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A Two-Line Element set (<ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>) is data format encoding a list of orbital elements of an Earth-orbiting object for a given point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ulink url="https://en.wikipedia.org/wiki/Two-line_element_set">https://en.wikipedia.org/wiki/Two-line_element_set</ulink> </para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" line="42" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp" bodystart="41" bodyend="373"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a843f3432e8411de6b8d7e9c40d7191d2" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>CanParse</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a1e808cef2bd2466a8d7813f2c5d5bfc4" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>CanParse</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1abcf23b65737dcbae8c52d54a88c1f76e" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>Construct</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ac772bf8fc68aa1cb0f8c17a2755165ed" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>Construct</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a5b29749c05712e2413278a01d9d4718c" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>firstLine_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a4f9d8d752fc3700fd9bac043f106e19b" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>GenerateChecksum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a8177e2bb63571a511e3e4ea2c853410c" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getAop</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a70763fd8cfec5751a9a5d97bdfdbf3d2" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getBStarDragTerm</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1aacb1592d95371a826ea41058f4ee6936" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getClassification</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a2ea15d6fbdc6e57cfd00547d97467e48" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getEccentricity</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a115316d7355d615749dd7cb96d2c16c9" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getElementSetNumber</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a6bbac875fb8c5d36c4ad46b7bea67b79" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getEphemerisType</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a2c3580e644158b56b14868137585a73d" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getEpoch</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ace656b8df665ed4ba7accb0adb6fd629" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getFirstLine</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a9794bb184799595fefc8828c2849538c" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getFirstLineChecksum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a5e748208f49fc10cc1b925cffa095f67" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getInclination</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a74fae03332b1bf5514c0850125b5c115" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getInternationalDesignator</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ab5c418aedbbfb5b0bc9b401a6d850623" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getMeanAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a441a9c7ee954d3d97c6d3c6cd5f7cd72" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getMeanMotion</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1acfe76ce49653d9f735abddb908b2a2d9" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getMeanMotionFirstTimeDerivativeDividedByTwo</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a7115d973dfff075411e114542bec8eeb" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getMeanMotionSecondTimeDerivativeDividedBySix</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1af8a8a71621c85e1a0eaf4a18fc3f25e4" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getRaan</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1abc96f40aa52b9451bf791253a61365e9" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getRevolutionNumberAtEpoch</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a3cd38e40cec168239029eeec5bc57c23" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getSatelliteName</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a63c9241a31234dd07ee4ca4424a9df5f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getSatelliteNumber</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a6f1f60f662a1891ce93576344989502a" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getSecondLine</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a66f25eab1f7e8f7e511ad0a77da90de7" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>getSecondLineChecksum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1aa7fa1003a2b03fb7f3829bfdd342942f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a5e912145266460d05beaba326b5ace95" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>Load</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a3b15abd9b07fb2a0851b680fe23da8f6" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a54a7a3bca65674d5052031634f900984" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a415bc7b3671eaa616dfd9e82f9fb9520" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a7f97a74af47895aa315aebc52f410d26" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>Parse</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1ad7bc7dfec2d106b9743c94525eb00ad4" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>ParseReal</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a22d46ffbea1890e86222a60e5edead74" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>satelliteName_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a939fa89c73554f5a9ca8fdd81ccb92e5" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>secondLine_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a1b31551503d41d052b3270782824e489" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>setEpoch</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a71f0c58af0aac913f7025f7f7e9500d3" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>setRevolutionNumberAtEpoch</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1aaa3ce99b1a69028a94094b95eb91da2c" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>setSatelliteNumber</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a57323db2c24577c2e8ddce79fa776d1e" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>TLE</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1af1563fe99c5e1bf2874cf294c0e811bd" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>TLE</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_1a871cdedd5bc51c9f3afa976e0597ea51" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::sgp4::TLE</scope><name>Undefined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

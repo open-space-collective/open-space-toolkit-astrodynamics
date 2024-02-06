@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models" kind="namespace" language="C++">
+    <compoundname>ostk::astro::trajectory::orbit::models</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler" prot="public">ostk::astro::trajectory::orbit::models::Kepler</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" prot="public">ostk::astro::trajectory::orbit::models::Propagated</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4" prot="public">ostk::astro::trajectory::orbit::models::SGP4</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated" prot="public">ostk::astro::trajectory::orbit::models::Tabulated</innerclass>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm">ostk::astro::trajectory::orbit::models::blm</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler">ostk::astro::trajectory::orbit::models::kepler</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4">ostk::astro::trajectory::orbit::models::sgp4</innernamespace>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1af070ea410634895daf7e6c38a5aac779" prot="public" static="yes" mutable="no">
+        <type>const Real</type>
+        <definition>const Real ostk::astro::trajectory::orbit::models::Tolerance</definition>
+        <argsstring></argsstring>
+        <name>Tolerance</name>
+        <initializer>= 1e-8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp" line="25" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1a7a3748629883a9726fb4dc5fbf3d435d" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::trajectory::orbit::models::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp" line="26" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1a7a3748629883a9726fb4dc5fbf3d435d" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::trajectory::orbit::models::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" line="28" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1a57c1332ade54f2075a0efee474d5b46d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::trajectory::orbit::models::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Kepler &amp;aKeplerianModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler" kindref="compound">Kepler</ref> &amp;</type>
+          <declname>aKeplerianModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp" line="92" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1a14bc56b47c4aa94b8cec0d4768b1e893" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::trajectory::orbit::models::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Propagated &amp;aPropagatedModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" kindref="compound">Propagated</ref> &amp;</type>
+          <declname>aPropagatedModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPropagatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propagated model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" line="72" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1a5683eb8d1e09c5efb5f98e43a439284c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::trajectory::orbit::models::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const SGP4 &amp;aSGP4Model)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4" kindref="compound">SGP4</ref> &amp;</type>
+          <declname>aSGP4Model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.cpp" line="130" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.cpp" bodystart="130" bodyend="135"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

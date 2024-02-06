@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_2fd16714fe8cb072353c654ecb75fd03" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile</compoundname>
+    <innerdir refid="dir_65e78ff2b50a941c169bdecec24a0f4d">include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models</innerdir>
+    <innerfile refid="_flight_2_profile_2_model_8hpp">Model.hpp</innerfile>
+    <innerfile refid="_flight_2_profile_2_state_8hpp">State.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/"/>
+  </compounddef>
+</doxygen>

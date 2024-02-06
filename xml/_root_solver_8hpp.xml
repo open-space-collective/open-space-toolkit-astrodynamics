@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_root_solver_8hpp" kind="file" language="C++">
+    <compoundname>RootSolver.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Real.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Size.hpp</includes>
+    <includedby refid="_numerical_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</includedby>
+    <includedby refid="_root_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp</includedby>
+    <includedby refid="_temporal_condition_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</includedby>
+    <includedby refid="_orbit_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</includedby>
+    <includedby refid="_numerical_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</label>
+        <link refid="_root_solver_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="9">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp</label>
+        <link refid="_central_body_gravity_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp</label>
+        <link refid="_third_body_gravity_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp</label>
+        <link refid="_dynamics_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</label>
+        <link refid="_root_solver_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
+        <link refid="_propagator_8hpp"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</label>
+        <link refid="_temporal_condition_solver_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp</label>
+        <link refid="_numerical_solver_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
+        <link refid="_constant_thrust_8cpp"/>
+      </node>
+      <node id="8">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp</label>
+        <link refid="_central_body_gravity_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp</label>
+        <link refid="_root_solver_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</label>
+        <link refid="_atmospheric_drag_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
+        <link refid="_propagator_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp</label>
+        <link refid="_dynamics_2_tabulated_8cpp"/>
+      </node>
+      <node id="10">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp</label>
+        <link refid="_position_derivative_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</label>
+        <link refid="_thruster_8hpp"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp</label>
+        <link refid="_atmospheric_drag_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
+        <link refid="_sequence_8hpp"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp</label>
+        <link refid="_propagated_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp</label>
+        <link refid="_position_derivative_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</label>
+        <link refid="_dynamics_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</label>
+        <link refid="_orbit_8cpp"/>
+      </node>
+      <node id="17">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</label>
+        <link refid="_constant_thrust_8hpp"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp</label>
+        <link refid="_dynamics_2_tabulated_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp</label>
+        <link refid="_third_body_gravity_8hpp"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
+        <link refid="_segment_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp</label>
+        <link refid="_propagated_8hpp"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp</label>
+        <link refid="_thruster_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
+        <link refid="_sequence_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</label>
+        <link refid="_numerical_solver_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
+        <link refid="_segment_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astro_1_1_root_solver" prot="public">ostk::astro::RootSolver</innerclass>
+    <innerclass refid="structostk_1_1astro_1_1_root_solver_1_1_solution" prot="public">ostk::astro::RootSolver::Solution</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_RootSolver__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_RootSolver__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Real.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Size.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Size;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Real;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="classostk_1_1astro_1_1_root_solver" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1_root_solver" kindref="compound">RootSolver</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21" refid="structostk_1_1astro_1_1_root_solver_1_1_solution" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="structostk_1_1astro_1_1_root_solver_1_1_solution_1a5c0d25e70aa239b2b9297b97d8d64c2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution_1a5c0d25e70aa239b2b9297b97d8d64c2f" kindref="member">root</ref>;</highlight></codeline>
+<codeline lineno="24" refid="structostk_1_1astro_1_1_root_solver_1_1_solution_1afa8a49ec8a2974d97527f4ebab635998" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Size<sp/><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution_1afa8a49ec8a2974d97527f4ebab635998" kindref="member">iterationCount</ref>;</highlight></codeline>
+<codeline lineno="25" refid="structostk_1_1astro_1_1_root_solver_1_1_solution_1a296567368a9650e395f52847d5c95ea6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution_1a296567368a9650e395f52847d5c95ea6" kindref="member">hasConverged</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a78723603d5fe41663965fa76a24f29cb" kindref="member">RootSolver</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aMaximumIterationCount,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aTolerance);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1aa147532dbe3edaf67053d6cdf81396f4" kindref="member">~RootSolver</ref>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a1446e254dd3d0df1f1a1254dca41345b" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_root_solver" kindref="compound">RootSolver</ref>&amp;<sp/>aRootSolver);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a0ac1ca26dda8a792a48d0f76a6dde171" kindref="member">getMaximumIterationCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/><ref refid="classostk_1_1astro_1_1_root_solver_1ac7fde22b2a3f2527479a69c0741b7d13" kindref="member">getTolerance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a585799cd7e2b297b9f1a98417ff0c1f7" kindref="member">bracketAndSolve</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;)&gt;&amp;<sp/>aFunction,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>anInitialGuess,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>isRising,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aFactor<sp/>=<sp/>2.0</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a9eb2294ce4db4a697ed83b6c6324896a" kindref="member">solve</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;)&gt;&amp;<sp/>aFunction,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aLowerBound,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>anUpperBound</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a5c67cb0f8e94778f9492f420a16733be" kindref="member">bisection</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;)&gt;&amp;<sp/>aFunction,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aLowerBound,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>anUpperBound</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1abcdaf99efcc8343b7609b8228b314787" kindref="member">print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_root_solver" kindref="compound">RootSolver</ref><sp/><ref refid="classostk_1_1astro_1_1_root_solver_1a1183671b30532b0b9096ab24e7c675f4" kindref="member">Default</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>maximumIterationCount_;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>tolerance_;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;)&gt;<sp/>getToleranceFunction()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp"/>
+  </compounddef>
+</doxygen>

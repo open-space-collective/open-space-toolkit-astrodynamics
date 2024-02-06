@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1trajectory_1_1state" kind="namespace" language="C++">
+    <compoundname>ostk::astro::trajectory::state</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker" prot="public">ostk::astro::trajectory::state::CoordinatesBroker</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" prot="public">ostk::astro::trajectory::state::CoordinatesSubset</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver" prot="public">ostk::astro::trajectory::state::NumericalSolver</innerclass>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets">ostk::astro::trajectory::state::coordinatessubsets</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astro_1_1trajectory_1_1state_1a46fc561b22920faa369a72e3714a50ed" prot="public" static="no">
+        <type>ostk::math::solvers::NumericalSolver</type>
+        <definition>using ostk::astro::trajectory::state::MathNumericalSolver = typedef ostk::math::solvers::NumericalSolver</definition>
+        <argsstring></argsstring>
+        <name>MathNumericalSolver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceostk_1_1astro_1_1trajectory_1_1state_1a22e26a3ad8fa922860ff22816342544c" prot="public" static="no">
+        <type>runge_kutta_dopri5&lt; NumericalSolver::StateVector &gt;</type>
+        <definition>typedef runge_kutta_dopri5&lt;NumericalSolver::StateVector&gt; ostk::astro::trajectory::state::dense_stepper_type_5</definition>
+        <argsstring></argsstring>
+        <name>dense_stepper_type_5</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="29" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

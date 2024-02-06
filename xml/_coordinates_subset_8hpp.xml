@@ -1,0 +1,866 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_coordinates_subset_8hpp" kind="file" language="C++">
+    <compoundname>CoordinatesSubset.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Shared.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Size.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/String.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
+    <includedby refid="_dynamics_2_tabulated_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp</includedby>
+    <includedby refid="_thruster_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</includedby>
+    <includedby refid="_dynamics_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</includedby>
+    <includedby refid="_coordinates_broker_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</includedby>
+    <includedby refid="_angular_velocity_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp</includedby>
+    <includedby refid="_cartesian_velocity_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp</includedby>
+    <includedby refid="_trajectory_2_state_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includedby>
+    <includedby refid="_state_builder_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</includedby>
+    <includedby refid="_atmospheric_drag_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</includedby>
+    <includedby refid="_thruster_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp</includedby>
+    <includedby refid="_q_law_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</includedby>
+    <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
+    <includedby refid="_coordinates_subset_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp</includedby>
+    <includedby refid="_trajectory_2_state_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</label>
+        <link refid="_coordinates_subset_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Core/Types/String.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Types/Shared.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="18">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp</label>
+        <link refid="_central_body_gravity_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp</label>
+        <link refid="_instant_condition_8cpp"/>
+      </node>
+      <node id="69">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp</label>
+        <link refid="_kepler_8hpp"/>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</label>
+        <link refid="_orbit_8hpp"/>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp</label>
+        <link refid="_logical_condition_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp</label>
+        <link refid="_third_body_gravity_8cpp"/>
+      </node>
+      <node id="79">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp</label>
+        <link refid="_trajectory_2_orbit_2_model_8cpp"/>
+      </node>
+      <node id="58">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp</label>
+        <link refid="_finite_difference_solver_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.cpp</label>
+        <link refid="_cartesian_velocity_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp</label>
+        <link refid="_dynamics_8cpp"/>
+      </node>
+      <node id="23">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
+        <link refid="_propagator_8hpp"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp</label>
+        <link refid="_finite_difference_solver_8hpp"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp</label>
+        <link refid="_profile_8hpp"/>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</label>
+        <link refid="_coordinates_broker_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp</label>
+        <link refid="_numerical_solver_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp</label>
+        <link refid="_boolean_condition_8cpp"/>
+      </node>
+      <node id="90">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp</label>
+        <link refid="_coordinates_subset_8cpp"/>
+      </node>
+      <node id="36">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
+        <link refid="_trajectory_2_state_8hpp"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp</label>
+        <link refid="_attitude_quaternion_8hpp"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight.hpp</label>
+        <link refid="_flight_8hpp"/>
+      </node>
+      <node id="68">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp</label>
+        <link refid="_trajectory_2_orbit_2_model_8hpp"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp</label>
+        <link refid="_trajectory_8cpp"/>
+      </node>
+      <node id="39">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp</label>
+        <link refid="_boolean_condition_8hpp"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp</label>
+        <link refid="_c_d_m_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
+        <link refid="_constant_thrust_8cpp"/>
+      </node>
+      <node id="37">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp</label>
+        <link refid="_c_d_m_8hpp"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="88">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp</label>
+        <link refid="_local_orbital_frame_factory_8cpp"/>
+      </node>
+      <node id="67">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.cpp</label>
+        <link refid="_trajectory_2_models_2_tabulated_8cpp"/>
+      </node>
+      <node id="17">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp</label>
+        <link refid="_central_body_gravity_8hpp"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.cpp</label>
+        <link refid="_o_p_m_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp</label>
+        <link refid="_event_condition_8cpp"/>
+      </node>
+      <node id="43">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</label>
+        <link refid="_event_condition_8hpp"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp</label>
+        <link refid="_angular_condition_8hpp"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp</label>
+        <link refid="_real_condition_8hpp"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</label>
+        <link refid="_atmospheric_drag_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
+        <link refid="_propagator_8cpp"/>
+      </node>
+      <node id="74">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp</label>
+        <link refid="_transform_8hpp"/>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</label>
+        <link refid="_c_o_e_condition_8hpp"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp</label>
+        <link refid="_angular_condition_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp</label>
+        <link refid="_dynamics_2_tabulated_8cpp"/>
+      </node>
+      <node id="60">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp</label>
+        <link refid="_static_8hpp"/>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
+        <link refid="_generator_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</label>
+        <link refid="_coordinates_subset_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp</label>
+        <link refid="_position_derivative_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.cpp</label>
+        <link refid="_trajectory_2_model_8cpp"/>
+      </node>
+      <node id="49">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp</label>
+        <link refid="_instant_condition_8hpp"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</label>
+        <link refid="_thruster_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp</label>
+        <link refid="_trajectory_2_state_8cpp"/>
+      </node>
+      <node id="13">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp</label>
+        <link refid="_atmospheric_drag_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp</label>
+        <link refid="_logical_condition_8hpp"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp</label>
+        <link refid="_state_builder_8cpp"/>
+      </node>
+      <node id="8">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
+        <link refid="_sequence_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp</label>
+        <link refid="_propagated_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp</label>
+        <link refid="_position_derivative_8cpp"/>
+      </node>
+      <node id="12">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</label>
+        <link refid="_dynamics_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</label>
+        <link refid="_orbit_8cpp"/>
+      </node>
+      <node id="28">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp</label>
+        <link refid="_angular_velocity_8hpp"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp</label>
+        <link refid="_s_g_p4_8hpp"/>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
+        <link refid="_state_builder_8hpp"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</label>
+        <link refid="_constant_thrust_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp</label>
+        <link refid="_generator_8hpp"/>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.cpp</label>
+        <link refid="_cartesian_position_8cpp"/>
+      </node>
+      <node id="59">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp</label>
+        <link refid="_trajectory_2_model_8hpp"/>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
+        <link refid="_q_law_8cpp"/>
+      </node>
+      <node id="33">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp</label>
+        <link refid="_cartesian_velocity_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp</label>
+        <link refid="_trajectory_2_orbit_2_models_2_tabulated_8hpp"/>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp</label>
+        <link refid="_dynamics_2_tabulated_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.cpp</label>
+        <link refid="_angular_velocity_8cpp"/>
+      </node>
+      <node id="21">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp</label>
+        <link refid="_third_body_gravity_8hpp"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.cpp</label>
+        <link refid="_attitude_quaternion_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.cpp</label>
+        <link refid="_s_g_p4_8cpp"/>
+      </node>
+      <node id="89">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.cpp</label>
+        <link refid="_coordinates_broker_8cpp"/>
+      </node>
+      <node id="63">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp</label>
+        <link refid="_trajectory_2_models_2_tabulated_8hpp"/>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</label>
+        <link refid="_q_law_8hpp"/>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
+        <link refid="_segment_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</label>
+        <link refid="_trajectory_8hpp"/>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.cpp</label>
+        <link refid="_trajectory_2_orbit_2_models_2_tabulated_8cpp"/>
+      </node>
+      <node id="84">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp</label>
+        <link refid="_o_p_m_8hpp"/>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp</label>
+        <link refid="_propagated_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.cpp</label>
+        <link refid="_kepler_8cpp"/>
+      </node>
+      <node id="75">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp</label>
+        <link refid="_transform_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp</label>
+        <link refid="_thruster_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp</label>
+        <link refid="_c_o_e_condition_8cpp"/>
+      </node>
+      <node id="76">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp</label>
+        <link refid="_profile_8cpp"/>
+      </node>
+      <node id="52">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</label>
+        <link refid="_numerical_solver_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
+        <link refid="_sequence_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.cpp</label>
+        <link refid="_static_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</label>
+        <link refid="_real_condition_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
+        <link refid="_segment_8cpp"/>
+      </node>
+      <node id="32">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp</label>
+        <link refid="_cartesian_position_8hpp"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" prot="public">ostk::astro::trajectory::state::CoordinatesSubset</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory">ostk::astro::trajectory</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1state">ostk::astro::trajectory::state</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Shared.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Size.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/String.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Objects/Vector.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">trajectory</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">state</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Shared;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Size;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::String;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::VectorXd;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::Frame;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">CoordinatesBroker;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a0b72dfab727ef003a56b9382d93d2c00" kindref="member">CoordinatesSubset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aSize);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1affc65fb1429cbe580b41c64e9b67e671" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref>&amp;<sp/>aCoordinatesSubset)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ab8497937b78fa04873cb7e92cc0ae08c" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref>&amp;<sp/>aCoordinatesSubset)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a8400f8968ba03028278b0b0e81861ac2" kindref="member">getId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ad20dbe8a07f3591b5d7ee6467ca4197b" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a88e08cd16d5dde166c01df3d2b4bba21" kindref="member">getSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>VectorXd<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a2916b940f84aa8c64a469c4a1945b486" kindref="member">add</ref>(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>anotherFullCoordinatesVector,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesBroker&gt;&amp;<sp/>aCoordinatesBrokerSPtr</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>VectorXd<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ac78eb15d674e9ceb96b83d10e416c7d5" kindref="member">subtract</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>anotherFullCoordinatesVector,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesBroker&gt;&amp;<sp/>aCoordinatesBrokerSPtr</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>VectorXd<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a45305e29e0e31f9dc346713352f8e778" kindref="member">inFrame</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>fromFrameSPtr,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>toFrameSPtr,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesBroker&gt;&amp;<sp/>aCoordinatesBrokerSPtr</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesSubset&gt;<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a8faedc2387293553c635d15b366ec018" kindref="member">Mass</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesSubset&gt;<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1afeda94f106873b120e3c072ec0771c06" kindref="member">SurfaceArea</ref>();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesSubset&gt;<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1af85187aa5554d67cf1cda4a03053c533" kindref="member">DragCoefficient</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/>name_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>size_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/>id_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp"/>
+  </compounddef>
+</doxygen>

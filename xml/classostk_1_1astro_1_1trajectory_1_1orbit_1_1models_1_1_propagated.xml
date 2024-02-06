@@ -1,0 +1,707 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::trajectory::orbit::models::Propagated</compoundname>
+    <basecompoundref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model" prot="public" virt="non-virtual">ostk::astro::trajectory::orbit::Model</basecompoundref>
+    <includes refid="_propagated_8hpp" local="no">Propagated.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a204b07f041e964944e1d6707d7afc5bd" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref></type>
+        <definition>Propagator ostk::astro::trajectory::orbit::models::Propagated::propagator_</definition>
+        <argsstring></argsstring>
+        <name>propagator_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="195" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a5e2f632cc3d04ca3545f970f2767a1fa" prot="private" static="no" mutable="yes">
+        <type>Array&lt; <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
+        <definition>Array&lt;State&gt; ostk::astro::trajectory::orbit::models::Propagated::cachedStateArray_</definition>
+        <argsstring></argsstring>
+        <name>cachedStateArray_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="196" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1afac986f1ed951a468139c6b8b9e87884" prot="private" static="no" mutable="no">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::Propagated::initialRevolutionNumber_</definition>
+        <argsstring></argsstring>
+        <name>initialRevolutionNumber_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="197" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a0c6cd2a1422e30630df097160e1a752f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::models::Propagated::Propagated</definition>
+        <argsstring>(const Propagator &amp;aPropagator, const State &amp;aState, const Integer &amp;aRevolutionNumber=1)</argsstring>
+        <name>Propagated</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
+          <declname>aPropagator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumber</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a0c6cd2a1422e30630df097160e1a752f" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">or</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a0c6cd2a1422e30630df097160e1a752f" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState,<sp/>aRevolutionNumber<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPropagator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propagator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A revolution number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="55" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="31" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a97f5f4f2e51cafaffa0aa5151cdd7b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::models::Propagated::Propagated</definition>
+        <argsstring>(const Propagator &amp;aPropagator, const Array&lt; State &gt; &amp;aCachedStateArray, const Integer &amp;aRevolutionNumber=1)</argsstring>
+        <name>Propagated</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
+          <declname>aPropagator</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>aCachedStateArray</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumber</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with a cached state array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a0c6cd2a1422e30630df097160e1a752f" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">or</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a0c6cd2a1422e30630df097160e1a752f" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray,<sp/>aRevolutionNumber<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPropagator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propagator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCachedStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A revolution number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="68" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="40" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a283639d985495c05adb9e80edb91cd12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" kindref="compound">Propagated</ref> *</type>
+        <definition>Propagated * ostk::astro::trajectory::orbit::models::Propagated::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a53dc07564e4c7c444da46360aa8ada15">clone</reimplements>
+        <briefdescription>
+<para>Clone propagated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to cloned propagated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="75" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a88777b83d939ca894a20af525db347b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::Propagated::operator==</definition>
+        <argsstring>(const Propagated &amp;aPropagatedModel) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" kindref="compound">Propagated</ref> &amp;</type>
+          <declname>aPropagatedModel</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPropagatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propagated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if propagateds are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="81" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a71c17288a6039ddcc1a5d3e5e62e1f35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::Propagated::operator!=</definition>
+        <argsstring>(const Propagated &amp;aPropagatedModel) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" kindref="compound">Propagated</ref> &amp;</type>
+          <declname>aPropagatedModel</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPropagatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propagated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if propagateds are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="87" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a530fd6bc017c74dedc43ced5fe843a03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::Propagated::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a13c5b5693dd86a072da0bd0e319bacc2">isDefined</reimplements>
+        <briefdescription>
+<para>Check if propagated model is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if propagated model is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="99" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a3bf49ac0824e10057b6abca2cfcc692f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::models::Propagated::getEpoch</definition>
+        <argsstring>() const override</argsstring>
+        <name>getEpoch</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a22055d5ab4c22e6177a3ddb8f45f1f9b">getEpoch</reimplements>
+        <briefdescription>
+<para>Get epoch (in this case it is the first instant in the cached state array) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>propagated.getEpoch()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Instant </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="108" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a789e4236d2b8b212b1d978055b76abf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::Propagated::getRevolutionNumberAtEpoch</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRevolutionNumberAtEpoch</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1af3f1866f86045da2c05efe4165735cf4">getRevolutionNumberAtEpoch</reimplements>
+        <briefdescription>
+<para>Get revolution number at epoch (it is equal to 1) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>real<sp/>=<sp/>propagated.getRevolutionNumberAtEpoch()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Integer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="117" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a2efc3c1af735dcf2ec622d056fa0a13f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astro::trajectory::orbit::models::Propagated::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>calculateStateAt</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a34a0d8979ec1f7ade3e434fc0dad3711">calculateStateAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the state at an instant, given initial state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>propagated.calculateStateAt(anInstant)<sp/>;</highlight></codeline>
+</programlisting> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="126" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="104" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a9a4097432d2c863aedead23d2d67a7a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
+        <definition>Array&lt; State &gt; ostk::astro::trajectory::orbit::models::Propagated::calculateStatesAt</definition>
+        <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray) const override</argsstring>
+        <name>calculateStatesAt</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1_model_1a3c3e4913aed2272174c0e6cd0d1a6415">calculateStatesAt</reimplements>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. Does not have macro-level sorting optimization, should not be used with disorded instant array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>states<sp/>=<sp/>propagated.calculateStatesAt(anInstantArray)<sp/>;</highlight></codeline>
+</programlisting> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An initial state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array&lt;State&gt; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="138" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="126" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a6360392c65494aa42aadff58ec58e49c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::models::Propagated::calculateRevolutionNumberAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>calculateRevolutionNumberAt</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1aeecf4cc22fa9c766801936c468cc52ac">calculateRevolutionNumberAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the revolution number at an instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Integer<sp/>integer<sp/>=<sp/>propagated.calculateRevolutionNumberAt(anInstant)<sp/>;</highlight></codeline>
+</programlisting> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Integer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="147" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="242" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1ab13c196dcea01238b6e1997cb46ced2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+        <definition>const Array&lt; State &gt; &amp; ostk::astro::trajectory::orbit::models::Propagated::accessCachedStateArray</definition>
+        <argsstring>() const</argsstring>
+        <name>accessCachedStateArray</name>
+        <briefdescription>
+<para>Fetch internal cached state array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>propagated.accessCachedStateArray()<sp/>;</highlight></codeline>
+</programlisting> <simplesect kind="return"><para>Array&lt;State&gt;&amp; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="155" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="316" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1aabd25012cfd543722032f5bab8c0a3a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
+        <definition>const Propagator &amp; ostk::astro::trajectory::orbit::models::Propagated::accessPropagator</definition>
+        <argsstring>() const</argsstring>
+        <name>accessPropagator</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astro_1_1_access" kindref="compound">Access</ref> propagator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Propagator<sp/>propagator<sp/>=<sp/>propagated.accessPropagator()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="164" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="326" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a42c39258f14a74520c99bb5477a521df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::Propagated::setCachedStateArray</definition>
+        <argsstring>(const Array&lt; State &gt; &amp;aStateArray)</argsstring>
+        <name>setCachedStateArray</name>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>aStateArray</declname>
+        </param>
+        <briefdescription>
+<para>Set internal cached state array manually. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">propagated.setCachedStateArray(stateArray)<sp/>;</highlight></codeline>
+</programlisting> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state array </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="173" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="336" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a2b8aa6ff5511dbe92e6a3e7f4dd6880b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::Propagated::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a8ea45c1a6e51a6153ce3f72f5294f0c6">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print propagated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="179" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="343" bodyend="360"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1aa61df3429a00e0f64a497af2c81075c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Propagated &amp;aPropagatedModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated" kindref="compound">Propagated</ref> &amp;</type>
+          <declname>aPropagatedModel</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPropagatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propagated model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="94" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a29b52ccf653fbd84699edab0f198f590" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::Propagated::operator==</definition>
+        <argsstring>(const trajectory::Model &amp;aModel) const override</argsstring>
+        <name>operator==</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1_model_1a874f79846e845859c070ce1b9874fc9c">operator==</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_model" kindref="compound">trajectory::Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="186" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="362" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1aeffaddcde5540fd1226add8466415d08" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::Propagated::operator!=</definition>
+        <argsstring>(const trajectory::Model &amp;aModel) const override</argsstring>
+        <name>operator!=</name>
+        <reimplements refid="classostk_1_1astro_1_1trajectory_1_1_model_1a2dd77b9f6939d738f3a489f26c955340">operator!=</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_model" kindref="compound">trajectory::Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="192" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="369" bodyend="372"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a26cb6c1d2032f8205cb9dc716684374a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::Propagated::sanitizeCachedArray</definition>
+        <argsstring>() const</argsstring>
+        <name>sanitizeCachedArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="199" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp" bodystart="374" bodyend="413"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Define an orbit model that is propagated using numerical propagation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>ostk::astro::trajectory::Model</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1_model"/>
+      </node>
+      <node id="2">
+        <label>ostk::astro::trajectory::orbit::Model</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astro::trajectory::orbit::models::Propagated</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>ostk::astro::trajectory::Model</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1_model"/>
+      </node>
+      <node id="2">
+        <label>ostk::astro::trajectory::orbit::Model</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astro::trajectory::orbit::models::Propagated</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" line="42" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp" bodystart="41" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1ab13c196dcea01238b6e1997cb46ced2b" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>accessCachedStateArray</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1aabd25012cfd543722032f5bab8c0a3a3" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>accessPropagator</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1_model_1a53365ee40062f5571b664998a56701e3" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>as</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a5e2f632cc3d04ca3545f970f2767a1fa" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>cachedStateArray_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a6360392c65494aa42aadff58ec58e49c" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>calculateRevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a2efc3c1af735dcf2ec622d056fa0a13f" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a9a4097432d2c863aedead23d2d67a7a7" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>calculateStatesAt</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a283639d985495c05adb9e80edb91cd12" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>clone</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a3bf49ac0824e10057b6abca2cfcc692f" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>getEpoch</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a789e4236d2b8b212b1d978055b76abf1" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>getRevolutionNumberAtEpoch</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1afac986f1ed951a468139c6b8b9e87884" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>initialRevolutionNumber_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1_model_1aedde1c01efbf407cca64b3f18b1a60f2" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>is</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a530fd6bc017c74dedc43ced5fe843a03" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a0604b5c1d0c0acb89cb42a10ea0fdb16" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>Model</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a71c17288a6039ddcc1a5d3e5e62e1f35" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1aeffaddcde5540fd1226add8466415d08" prot="protected" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1aa61df3429a00e0f64a497af2c81075c0" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a88777b83d939ca894a20af525db347b8" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a29b52ccf653fbd84699edab0f198f590" prot="protected" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a2b8aa6ff5511dbe92e6a3e7f4dd6880b" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a0c6cd2a1422e30630df097160e1a752f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>Propagated</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a97f5f4f2e51cafaffa0aa5151cdd7b92" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>Propagated</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a204b07f041e964944e1d6707d7afc5bd" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>propagator_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a26cb6c1d2032f8205cb9dc716684374a" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>sanitizeCachedArray</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_1a42c39258f14a74520c99bb5477a521df" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>setCachedStateArray</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_1a7593c3eccd08104b00dd4d7c9c6a4d99" prot="public" virt="pure-virtual"><scope>ostk::astro::trajectory::orbit::models::Propagated</scope><name>~Model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

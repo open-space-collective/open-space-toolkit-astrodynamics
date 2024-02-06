@@ -1,0 +1,476 @@
+<!DOCTYPE html> <html lang=english  data-content_root="../"> <meta charset=utf-8  /> <meta name=viewport  content="width=device-width, initial-scale=1.0" /><meta name=viewport  content="width=device-width, initial-scale=1" /> <meta name=viewport  content="width=device-width,initial-scale=1"> <meta http-equiv=x-ua-compatible  content="ie=edge"> <meta name="lang:clipboard.copy" content="Copy to clipboard"> <meta name="lang:clipboard.copied" content="Copied to clipboard"> <meta name="lang:search.language" content=en > <meta name="lang:search.pipeline.stopwords" content=True > <meta name="lang:search.pipeline.trimmer" content=True > <meta name="lang:search.result.none" content="No matching documents"> <meta name="lang:search.result.one" content="1 matching document"> <meta name="lang:search.result.other" content="# matching documents"> <meta name="lang:search.tokenizer" content="[\s\-]+"> <link href="https://fonts.gstatic.com/" rel=preconnect  crossorigin> <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel=stylesheet > <style> body, input { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif } code, kbd, pre { font-family: "Roboto Mono", "Courier New", Courier, monospace } </style> <link rel=stylesheet  href="../_static/stylesheets/application.css"/> <link rel=stylesheet  href="../_static/stylesheets/application-palette.css"/> <link rel=stylesheet  href="../_static/stylesheets/application-fixes.css"/> <link rel=stylesheet  href="../_static/fonts/material-icons.css"/> <meta name=theme-color  content="#3f51b5"> <script src="../_static/javascripts/modernizr.js"></script> <title>Sensor Modeling &#8212; Open Space Toolkit Astrodynamics</title> <link rel=stylesheet  type="text/css" href="../_static/pygments.css?v=83e35b93" /> <link rel=stylesheet  type="text/css" href="../_static/material.css?v=79c92029" /> <link rel=stylesheet  type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" /> <link rel=stylesheet  type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" /> <script src="../_static/documentation_options.js?v=1ada4700"></script> <script src="../_static/doctools.js?v=888ff710"></script> <script src="../_static/sphinx_highlight.js?v=dc90522c"></script> <script src="../_static/design-tabs.js?v=36754332"></script> <link rel=index  title=Index  href="../genindex.html" /> <link rel=search  title=Search  href="../search.html" /> <link rel=next  title="Altitude + Eccentricity Station-keeping Sequence" href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" /> <link rel=prev  title="Orbit Station-keeping with QLaw" href=QLaw-examples.html  /> <body dir=ltr data-md-color-primary=indigo data-md-color-accent=blue> <svg class=md-svg > <defs data-children-count=0 > <svg xmlns="http://www.w3.org/2000/svg" width=416  height=448  viewBox="0 0 416 448" id=__github ><path fill=currentColor  d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg> </defs> </svg> <input class=md-toggle  data-md-toggle=drawer  type=checkbox  id=__drawer > <input class=md-toggle  data-md-toggle=search  type=checkbox  id=__search > <label class=md-overlay  data-md-component=overlay  for=__drawer ></label> <a href="#_notebooks/Sensor Modeling" tabindex=1  class=md-skip > Skip to content </a> <header class=md-header  data-md-component=header > <nav class="md-header-nav md-grid"> <div class="md-flex navheader"> <div class="md-flex__cell md-flex__cell--shrink"> <a href="../index.html" title="Open Space Toolkit Astrodynamics" class="md-header-nav__button md-logo"> <i class=md-icon >&#128752;</i> </a> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--menu md-header-nav__button" for=__drawer ></label> </div> <div class="md-flex__cell md-flex__cell--stretch"> <div class="md-flex__ellipsis md-header-nav__title" data-md-component=title > <span class=md-header-nav__topic >Open Space Toolkit Astrodynamics</span> <span class=md-header-nav__topic > Sensor Modeling </span> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--search md-header-nav__button" for=__search ></label> <div class=md-search  data-md-component=search  role=dialog > <label class=md-search__overlay  for=__search ></label> <div class=md-search__inner  role=search > <form class=md-search__form  action="../search.html" method=get  name=search > <input type=text  class=md-search__input  name=q  placeholder=""Search"" autocapitalize=off  autocomplete=off  spellcheck=false  data-md-component=query  data-md-state=active > <label class="md-icon md-search__icon" for=__search ></label> <button type=reset  class="md-icon md-search__icon" data-md-component=reset  tabindex=-1 > &#xE5CD; </button> </form> <div class=md-search__output > <div class=md-search__scrollwrap  data-md-scrollfix> <div class=md-search-result  data-md-component=result > <div class=md-search-result__meta > Type to start searching </div> <ol class=md-search-result__list ></ol> </div> </div> </div> </div> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <div class=md-header-nav__source > <a href="https://github.com/open-space-collective/open-space-toolkit-astrodynamics" title="Go to repository" class=md-source  data-md-source=github > <div class=md-source__icon > <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width=28  height=28 > <use xlink:href="#__github" width=24  height=24 ></use> </svg> </div> <div class=md-source__repository > Open Space Toolkit Astrodynamics </div> </a> </div> </div> <script src="../_static/javascripts/version_dropdown.js"></script> <script> var json_loc = "../"versions.json"", target_loc = "../../", text = "Versions"; $( document ).ready( add_version_dropdown(json_loc, target_loc, text)); </script> </div> </nav> </header> <div class=md-container > <nav class=md-tabs  data-md-component=tabs > <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list > <li class=md-tabs__item ><a href="../index.html" class=md-tabs__link >Open Space Toolkit Astrodynamics</a> <li class=md-tabs__item ><a href="../notebook.html" class=md-tabs__link >Tutorial Notebooks</a> </ul> </div> </nav> <main class=md-main > <div class="md-main__inner md-grid" data-md-component=container > <div class="md-sidebar md-sidebar--primary" data-md-component=navigation > <div class=md-sidebar__scrollwrap > <div class=md-sidebar__inner > <nav class="md-nav md-nav--primary" data-md-level=0 > <label class="md-nav__title md-nav__title--site" for=__drawer > <a href="../index.html" title="Open Space Toolkit Astrodynamics" class="md-nav__button md-logo"> <i class=md-icon >&#128752;</i> </a> <a href="../index.html" title="Open Space Toolkit Astrodynamics">Open Space Toolkit Astrodynamics</a> </label> <div class=md-nav__source > <a href="https://github.com/open-space-collective/open-space-toolkit-astrodynamics" title="Go to repository" class=md-source  data-md-source=github > <div class=md-source__icon > <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width=28  height=28 > <use xlink:href="#__github" width=24  height=24 ></use> </svg> </div> <div class=md-source__repository > Open Space Toolkit Astrodynamics </div> </a> </div> <ul class=md-nav__list > <li class=md-nav__item > <a href="../cpp.html" class=md-nav__link >C++ API Documentation</a> <li class=md-nav__item > <a href="../python.html" class=md-nav__link >Python API Documentation</a> <li class=md-nav__item > <a href="../notebook.html" class=md-nav__link >Tutorial Notebooks</a> <ul class=md-nav__list > <li class=md-nav__item > <a href="Access%20Computation.html" class=md-nav__link >Access Computation</a> <li class=md-nav__item > <a href="Area%20Coverage.html" class=md-nav__link >Area Coverage</a> <li class=md-nav__item > <a href="Area%20Coverage.html#setup" class=md-nav__link >Setup</a> <li class=md-nav__item > <a href="Constant%20Flux%20and%20Geomagnetic%20Index%20NRLMSISE-00.html" class=md-nav__link >Constant Solar Flux and Geomagnetic Index Atmospheric Density Model</a> <li class=md-nav__item > <a href="Constant%20Thrust%20Dynamics.html" class=md-nav__link >Constant Thrust Dynamics</a> <li class=md-nav__item > <a href="Custom%20Event%20Condition.html" class=md-nav__link >Custom Event Condition</a> <li class=md-nav__item > <a href="Custom%20Window%20Generation.html" class=md-nav__link >Custom Window Generation</a> <li class=md-nav__item > <a href="Find%20RF%20Interference%20Accesses.html" class=md-nav__link >Find RF Interference Accesses</a> <li class=md-nav__item > <a href="Lagrange%20Points%20Computation%20CR3BP.html" class=md-nav__link >Lagrane Points Computation using CR3BP</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%201%29.html" class=md-nav__link >OSTk Cross-Platform Validation Against GMAT/Orekit (Mission Sequence Scenario 1)</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%201%29.html#validation-plots" class=md-nav__link >Validation Plots</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%202%29.html" class=md-nav__link >OSTk Cross-Platform Validation Against GMAT/Orekit (Mission Sequence Scenario 2)</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%202%29.html#validation-plots" class=md-nav__link >Validation Plots</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%203%29.html" class=md-nav__link >OSTk Cross-Platform Validation Against GMAT/Orekit (Mission Sequence Scenario 3)</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%203%29.html#validation-plots" class=md-nav__link >Validation Plots</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%204%29.html" class=md-nav__link >OSTk Cross-Platform Validation Against GMAT/Orekit (Mission Sequence Scenario 4)</a> <li class=md-nav__item > <a href="OSTk%20Cross%20Platform%20Validation%20%28Mission%20Sequence%20Scenario%204%29.html#validation-plots" class=md-nav__link >Validation Plots</a> <li class=md-nav__item > <a href="Orbit%20Computation.html" class=md-nav__link >Orbit Computation</a> <li class=md-nav__item > <a href=QLaw-examples.html  class=md-nav__link >Orbit Station-keeping with QLaw</a> <li class=md-nav__item > <input class="md-toggle md-nav__toggle" data-md-toggle=toc  type=checkbox  id=__toc > <label class="md-nav__link md-nav__link--active" for=__toc > Sensor Modeling </label> <a href="#" class="md-nav__link md-nav__link--active">Sensor Modeling</a> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title  for=__toc >"Contents"</label> <ul class=md-nav__list  data-md-scrollfix=""> <li class=md-nav__item ><a href="#notebooks-sensor-modeling--page-root" class=md-nav__link >Sensor Modeling</a> <li class=md-nav__item ><a href="#setup" class=md-nav__link >Setup</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#computation" class=md-nav__link >Computation</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#environment" class=md-nav__link >Environment</a> <li class=md-nav__item ><a href="#satellite" class=md-nav__link >Satellite</a> </ul> </nav> <li class=md-nav__item ><a href="#target" class=md-nav__link >Target</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#sensor" class=md-nav__link >Sensor</a> </ul> </nav> <li class=md-nav__item ><a href="#visualization" class=md-nav__link >Visualization</a> </ul> </nav> </ul> </nav> <li class=md-nav__item > <a href="#setup" class=md-nav__link >Setup</a> <li class=md-nav__item > <a href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" class=md-nav__link >Altitude + Eccentricity Station-keeping Sequence</a> <li class=md-nav__item > <a href="Station-keeping%20Sequence.html" class=md-nav__link >Station-keeping Sequence</a> </ul> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc > <div class=md-sidebar__scrollwrap > <div class=md-sidebar__inner > <nav class="md-nav md-nav--secondary"> <label class=md-nav__title  for=__toc >"Contents"</label> <ul class=md-nav__list  data-md-scrollfix=""> <li class=md-nav__item ><a href="#notebooks-sensor-modeling--page-root" class=md-nav__link >Sensor Modeling</a> <li class=md-nav__item ><a href="#setup" class=md-nav__link >Setup</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#computation" class=md-nav__link >Computation</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#environment" class=md-nav__link >Environment</a> <li class=md-nav__item ><a href="#satellite" class=md-nav__link >Satellite</a> </ul> </nav> <li class=md-nav__item ><a href="#target" class=md-nav__link >Target</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#sensor" class=md-nav__link >Sensor</a> </ul> </nav> <li class=md-nav__item ><a href="#visualization" class=md-nav__link >Visualization</a> </ul> </nav> </ul> </nav> </div> </div> </div> <div class=md-content > <article class="md-content__inner md-typeset" role=main > <section id=sensor-modeling > <h1 id=notebooks-sensor-modeling--page-root >Sensor Modeling<a class=headerlink  href="#notebooks-sensor-modeling--page-root" title="Link to this heading">¶</a></h1> <p>This tutorial demonstrates how to model sensor geometries.</p> </section> <section id=setup > <h1 id=setup >Setup<a class=headerlink  href="#setup" title="Link to this heading">¶</a></h1> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >import</span> <span class=nn >numpy</span> <span class=k >as</span> <span class=nn >np</span>
+<span class=kn >import</span> <span class=nn >pandas</span> <span class=k >as</span> <span class=nn >pd</span>
+
+<span class=kn >import</span> <span class=nn >plotly.graph_objs</span> <span class=k >as</span> <span class=nn >go</span>
+
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry</span> <span class=kn >import</span> <span class=n >Angle</span> <span class=k >as</span> <span class=n >MathAngle</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d2.objects</span> <span class=kn >import</span> <span class=n >Point</span> <span class=k >as</span> <span class=n >Point2d</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d2.objects</span> <span class=kn >import</span> <span class=n >LineString</span> <span class=k >as</span> <span class=n >LineString2d</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d2.objects</span> <span class=kn >import</span> <span class=n >Polygon</span> <span class=k >as</span> <span class=n >Polygon2d</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Point</span> <span class=k >as</span> <span class=n >Point3d</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Polygon</span> <span class=k >as</span> <span class=n >Polygon3d</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Pyramid</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Cone</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.transformation.rotation</span> <span class=kn >import</span> <span class=n >Quaternion</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.transformation.rotation</span> <span class=kn >import</span> <span class=n >RotationVector</span>
+<span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.transformation.rotation</span> <span class=kn >import</span> <span class=n >RotationMatrix</span>
+
+<span class=kn >from</span> <span class=nn >ostk.physics.units</span> <span class=kn >import</span> <span class=n >Length</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.units</span> <span class=kn >import</span> <span class=n >Angle</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >Scale</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >Instant</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >Duration</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >Interval</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >DateTime</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.coordinate.spherical</span> <span class=kn >import</span> <span class=n >LLA</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.coordinate.spherical</span> <span class=kn >import</span> <span class=n >AER</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.coordinate</span> <span class=kn >import</span> <span class=n >Position</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.coordinate</span> <span class=kn >import</span> <span class=n >Frame</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.coordinate</span> <span class=kn >import</span> <span class=n >Transform</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.coordinate.frame.providers</span> <span class=kn >import</span> <span class=n >Dynamic</span> <span class=k >as</span> <span class=n >DynamicFrameProvider</span>
+<span class=kn >from</span> <span class=nn >ostk.physics</span> <span class=kn >import</span> <span class=n >Environment</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.environment.object</span> <span class=kn >import</span> <span class=n >Geometry</span>
+<span class=kn >from</span> <span class=nn >ostk.physics.environment.objects</span> <span class=kn >import</span> <span class=n >Celestial</span>
+
+<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory</span> <span class=kn >import</span> <span class=n >Orbit</span>
+<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory.orbit.models</span> <span class=kn >import</span> <span class=n >Kepler</span>
+<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory.orbit.models.kepler</span> <span class=kn >import</span> <span class=n >COE</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2480/3931202875.py:2: DeprecationWarning: 
+Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
+(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
+but was not found to be installed on your system.
+If this would cause problems for you,
+please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
+        
+  import pandas as pd
+</pre></div> </div> </div> </div> <hr class=docutils /> <section id=computation > <h2 id=computation >Computation<a class=headerlink  href="#computation" title="Link to this heading">¶</a></h2> <section id=environment > <h3 id=environment >Environment<a class=headerlink  href="#environment" title="Link to this heading">¶</a></h3> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >environment</span> <span class=o >=</span> <span class=n >Environment</span><span class=o >.</span><span class=n >default</span><span class=p >()</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >earth</span> <span class=o >=</span> <span class=n >environment</span><span class=o >.</span><span class=n >access_celestial_object_with_name</span><span class=p >(</span><span class=s2 >"Earth"</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >earth_geometry</span> <span class=o >=</span> <span class=n >earth</span><span class=o >.</span><span class=n >get_geometry_in</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >ITRF</span><span class=p >(),</span> <span class=n >environment</span><span class=o >.</span><span class=n >get_instant</span><span class=p >())</span>
+</pre></div> </div> </div> </div> </section> <section id=satellite > <h3 id=satellite >Satellite<a class=headerlink  href="#satellite" title="Link to this heading">¶</a></h3> <p>Let's define the orbit of a satellite in LEO. In this example, we're modeling the orbit using SGP4.</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >a</span> <span class=o >=</span> <span class=n >Length</span><span class=o >.</span><span class=n >kilometers</span><span class=p >(</span><span class=mf >7000.0</span><span class=p >)</span>
+<span class=n >e</span> <span class=o >=</span> <span class=mf >0.0</span>
+<span class=n >i</span> <span class=o >=</span> <span class=n >Angle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >45.0</span><span class=p >)</span>
+<span class=n >raan</span> <span class=o >=</span> <span class=n >Angle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >0.0</span><span class=p >)</span>
+<span class=n >aop</span> <span class=o >=</span> <span class=n >Angle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >0.0</span><span class=p >)</span>
+<span class=n >nu</span> <span class=o >=</span> <span class=n >Angle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >0.0</span><span class=p >)</span>
+
+<span class=n >coe</span> <span class=o >=</span> <span class=n >COE</span><span class=p >(</span><span class=n >a</span><span class=p >,</span> <span class=n >e</span><span class=p >,</span> <span class=n >i</span><span class=p >,</span> <span class=n >raan</span><span class=p >,</span> <span class=n >aop</span><span class=p >,</span> <span class=n >nu</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >epoch</span> <span class=o >=</span> <span class=n >Instant</span><span class=o >.</span><span class=n >date_time</span><span class=p >(</span><span class=n >DateTime</span><span class=p >(</span><span class=mi >2018</span><span class=p >,</span> <span class=mi >9</span><span class=p >,</span> <span class=mi >5</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >),</span> <span class=n >Scale</span><span class=o >.</span><span class=n >UTC</span><span class=p >)</span>
+
+<span class=n >keplerian_model</span> <span class=o >=</span> <span class=n >Kepler</span><span class=p >(</span>
+    <span class=n >coe</span><span class=p >,</span> <span class=n >epoch</span><span class=p >,</span> <span class=n >earth</span><span class=p >,</span> <span class=n >Kepler</span><span class=o >.</span><span class=n >PerturbationType</span><span class=o >.</span><span class=n >No</span><span class=p >,</span> <span class=kc >True</span>
+<span class=p >)</span>  <span class=c1 ># True = COE expressed in ITRF frame</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >keplerian_model</span><span class=o >.</span><span class=n >get_classical_orbital_elements</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output text_plain highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>-- Classical Orbital Elements ----------------------------------------------------------------------
+    Semi-major axis:                         6999999.9999999972 [m]                   
+    Eccentricity:                            2.6250607414312717e-16                   
+    Inclination:                             44.972897836604517 [deg]                 
+    Right ascension of the ascending node:   343.91390293099067 [deg]                 
+    Argument of periapsis:                   0.0 [deg]                                
+    True anomaly:                            359.86030748978823 [deg]                 
+----------------------------------------------------------------------------------------------------
+</pre></div> </div> </div> </div> <p>We then obtain the satellite orbit (which is a trajectory):</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >satellite_orbit</span> <span class=o >=</span> <span class=n >Orbit</span><span class=p >(</span><span class=n >keplerian_model</span><span class=p >,</span> <span class=n >earth</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >start_instant</span> <span class=o >=</span> <span class=n >Instant</span><span class=o >.</span><span class=n >date_time</span><span class=p >(</span><span class=n >DateTime</span><span class=p >(</span><span class=mi >2018</span><span class=p >,</span> <span class=mi >9</span><span class=p >,</span> <span class=mi >5</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >),</span> <span class=n >Scale</span><span class=o >.</span><span class=n >UTC</span><span class=p >)</span>
+<span class=n >end_instant</span> <span class=o >=</span> <span class=n >start_instant</span> <span class=o >+</span> <span class=n >coe</span><span class=o >.</span><span class=n >get_orbital_period</span><span class=p >(</span>
+    <span class=n >earth</span><span class=o >.</span><span class=n >get_gravitational_parameter</span><span class=p >()</span>
+<span class=p >)</span>
+
+<span class=n >interval</span> <span class=o >=</span> <span class=n >Interval</span><span class=o >.</span><span class=n >closed</span><span class=p >(</span><span class=n >start_instant</span><span class=p >,</span> <span class=n >end_instant</span><span class=p >);</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >step</span> <span class=o >=</span> <span class=n >Duration</span><span class=o >.</span><span class=n >seconds</span><span class=p >(</span><span class=mf >300.0</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >instants</span> <span class=o >=</span> <span class=n >interval</span><span class=o >.</span><span class=n >generate_grid</span><span class=p >(</span><span class=n >step</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >states</span> <span class=o >=</span> <span class=p >[</span><span class=n >satellite_orbit</span><span class=o >.</span><span class=n >get_state_at</span><span class=p >(</span><span class=n >instant</span><span class=p >)</span> <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span><span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >states_lla</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >LLA</span><span class=o >.</span><span class=n >cartesian</span><span class=p >(</span>
+        <span class=n >state</span><span class=o >.</span><span class=n >in_frame</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >ITRF</span><span class=p >())</span><span class=o >.</span><span class=n >get_position</span><span class=p >()</span><span class=o >.</span><span class=n >get_coordinates</span><span class=p >(),</span>
+        <span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >(),</span>
+        <span class=n >earth</span><span class=o >.</span><span class=n >get_flattening</span><span class=p >(),</span>
+    <span class=p >)</span>
+    <span class=k >for</span> <span class=n >state</span> <span class=ow >in</span> <span class=n >states</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >states_line_string</span> <span class=o >=</span> <span class=n >LineString2d</span><span class=p >(</span>
+    <span class=p >[</span>
+        <span class=n >Point2d</span><span class=p >(</span>
+            <span class=n >state_lla</span><span class=o >.</span><span class=n >get_longitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >(),</span>
+            <span class=n >state_lla</span><span class=o >.</span><span class=n >get_latitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >(),</span>
+        <span class=p >)</span>
+        <span class=k >for</span> <span class=n >state_lla</span> <span class=ow >in</span> <span class=n >states_lla</span>
+    <span class=p >]</span>
+<span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >ground_track_df</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >DataFrame</span><span class=p >(</span>
+    <span class=p >[</span>
+        <span class=p >[</span>
+            <span class=nb >float</span><span class=p >(</span><span class=n >state_lla</span><span class=o >.</span><span class=n >get_longitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >()),</span>
+            <span class=nb >float</span><span class=p >(</span><span class=n >state_lla</span><span class=o >.</span><span class=n >get_latitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >()),</span>
+        <span class=p >]</span>
+        <span class=k >for</span> <span class=n >state_lla</span> <span class=ow >in</span> <span class=n >states_lla</span>
+    <span class=p >],</span>
+    <span class=n >columns</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >,</span> <span class=s2 >"Latitude"</span><span class=p >],</span>
+<span class=p >);</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >ground_track_df</span><span class=o >.</span><span class=n >head</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output text_html"><div> <style scoped=""> .dataframe tbody tr th:only-of-type { vertical-align: middle; } .dataframe tbody tr th { vertical-align: top; } .dataframe thead th { text-align: right; } </style> <table border=1  class=dataframe > <thead> <tr style="text-align: right;"> <th> <th>Longitude <th>Latitude <tr> <th>0 <td>3.356969e-12 <td>3.376763e-12 <tr> <th>1 <td>1.207971e+01 <td>1.306305e+01 <tr> <th>2 <td>2.559488e+01 <td>2.535757e+01 <tr> <th>3 <td>4.214941e+01 <td>3.585366e+01 <tr> <th>4 <td>6.306843e+01 <td>4.302728e+01 </table> </div></div></div> </div> </section> </section> <section id=target > <h2 id=target >Target<a class=headerlink  href="#target" title="Link to this heading">¶</a></h2> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >latitude</span> <span class=o >=</span> <span class=n >Angle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >0.0</span><span class=p >)</span>
+<span class=n >longitude</span> <span class=o >=</span> <span class=n >Angle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >0.0</span><span class=p >)</span>
+<span class=n >altitude</span> <span class=o >=</span> <span class=n >Length</span><span class=o >.</span><span class=n >meters</span><span class=p >(</span><span class=mf >10.0</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >target_lla</span> <span class=o >=</span> <span class=n >LLA</span><span class=p >(</span><span class=n >latitude</span><span class=p >,</span> <span class=n >longitude</span><span class=p >,</span> <span class=n >altitude</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >target_position</span> <span class=o >=</span> <span class=n >Position</span><span class=o >.</span><span class=n >meters</span><span class=p >(</span>
+    <span class=n >target_lla</span><span class=o >.</span><span class=n >to_cartesian</span><span class=p >(</span><span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >(),</span> <span class=n >earth</span><span class=o >.</span><span class=n >get_flattening</span><span class=p >()),</span>
+    <span class=n >Frame</span><span class=o >.</span><span class=n >ITRF</span><span class=p >(),</span>
+<span class=p >)</span>
+</pre></div> </div> </div> </div> <section id=sensor > <h3 id=sensor >Sensor<a class=headerlink  href="#sensor" title="Link to this heading">¶</a></h3> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >orbital_frame</span> <span class=o >=</span> <span class=n >satellite_orbit</span><span class=o >.</span><span class=n >get_orbital_frame</span><span class=p >(</span><span class=n >Orbit</span><span class=o >.</span><span class=n >FrameType</span><span class=o >.</span><span class=n >NED</span><span class=p >)</span>
+<span class=n >orbital_frame</span> <span class=o >=</span> <span class=n >satellite_orbit</span><span class=o >.</span><span class=n >get_orbital_frame</span><span class=p >(</span><span class=n >Orbit</span><span class=o >.</span><span class=n >FrameType</span><span class=o >.</span><span class=n >VVLH</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >alt_states</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >orbital_frame</span><span class=o >.</span><span class=n >get_origin_in</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >(),</span> <span class=n >instant</span><span class=p >)</span> <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >alt_states_lla</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >LLA</span><span class=o >.</span><span class=n >cartesian</span><span class=p >(</span>
+        <span class=n >orbital_frame</span><span class=o >.</span><span class=n >get_origin_in</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >ITRF</span><span class=p >(),</span> <span class=n >instant</span><span class=p >)</span><span class=o >.</span><span class=n >get_coordinates</span><span class=p >(),</span>
+        <span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >(),</span>
+        <span class=n >earth</span><span class=o >.</span><span class=n >get_flattening</span><span class=p >(),</span>
+    <span class=p >)</span>
+    <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >alt_ground_track_df</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >DataFrame</span><span class=p >(</span>
+    <span class=p >[</span>
+        <span class=p >[</span>
+            <span class=nb >float</span><span class=p >(</span><span class=n >state_lla</span><span class=o >.</span><span class=n >get_longitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >()),</span>
+            <span class=nb >float</span><span class=p >(</span><span class=n >state_lla</span><span class=o >.</span><span class=n >get_latitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >()),</span>
+        <span class=p >]</span>
+        <span class=k >for</span> <span class=n >state_lla</span> <span class=ow >in</span> <span class=n >alt_states_lla</span>
+    <span class=p >],</span>
+    <span class=n >columns</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >,</span> <span class=s2 >"Latitude"</span><span class=p >],</span>
+<span class=p >);</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >ground_track_df</span> <span class=o >=</span> <span class=n >alt_ground_track_df</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >axes</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >np</span><span class=o >.</span><span class=n >transpose</span><span class=p >(</span><span class=n >orbital_frame</span><span class=o >.</span><span class=n >get_axes_in</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >(),</span> <span class=n >instant</span><span class=p >)</span><span class=o >.</span><span class=n >x</span><span class=p >())</span>
+    <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >calculate_attitude</span><span class=p >(</span><span class=n >state</span><span class=p >,</span> <span class=n >target</span><span class=p >):</span>
+    <span class=n >q_ORB_GCRF</span> <span class=o >=</span> <span class=p >(</span>
+        <span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >()</span>
+        <span class=o >.</span><span class=n >get_transform_to</span><span class=p >(</span><span class=n >orbital_frame</span><span class=p >,</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >())</span>
+        <span class=o >.</span><span class=n >get_orientation</span><span class=p >()</span>
+    <span class=p >)</span>
+
+    <span class=n >q_B_ORB</span> <span class=o >=</span> <span class=n >Quaternion</span><span class=o >.</span><span class=n >unit</span><span class=p >()</span>
+    <span class=n >q_B_ORB</span> <span class=o >=</span> <span class=n >Quaternion</span><span class=o >.</span><span class=n >rotation_vector</span><span class=p >(</span><span class=n >RotationVector</span><span class=o >.</span><span class=n >x</span><span class=p >(</span><span class=n >MathAngle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >0.0</span><span class=p >)))</span>
+
+    <span class=n >q_B_GCRF</span> <span class=o >=</span> <span class=p >(</span><span class=n >q_B_ORB</span> <span class=o >*</span> <span class=n >q_ORB_GCRF</span><span class=p >)</span><span class=o >.</span><span class=n >to_normalized</span><span class=p >()</span>
+
+    <span class=k >return</span> <span class=n >q_B_GCRF</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >body_frame_transform_generator</span><span class=p >(</span><span class=n >instant</span><span class=p >):</span>
+    <span class=n >state</span> <span class=o >=</span> <span class=n >satellite_orbit</span><span class=o >.</span><span class=n >get_state_at</span><span class=p >(</span><span class=n >instant</span><span class=p >)</span>
+
+    <span class=n >q_B_GCRF</span> <span class=o >=</span> <span class=n >calculate_attitude</span><span class=p >(</span><span class=n >state</span><span class=p >,</span> <span class=n >target_position</span><span class=p >)</span>
+
+    <span class=k >return</span> <span class=n >Transform</span><span class=o >.</span><span class=n >passive</span><span class=p >(</span>
+        <span class=n >instant</span><span class=p >,</span>
+        <span class=o >-</span><span class=n >state</span><span class=o >.</span><span class=n >get_position</span><span class=p >()</span><span class=o >.</span><span class=n >get_coordinates</span><span class=p >(),</span>
+        <span class=n >np</span><span class=o >.</span><span class=n >array</span><span class=p >((</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >)),</span>
+        <span class=n >q_B_GCRF</span><span class=p >,</span>
+        <span class=n >np</span><span class=o >.</span><span class=n >array</span><span class=p >((</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >)),</span>
+    <span class=p >)</span>
+
+
+<span class=n >body_frame_provider</span> <span class=o >=</span> <span class=n >DynamicFrameProvider</span><span class=p >(</span><span class=n >body_frame_transform_generator</span><span class=p >)</span>
+
+<span class=k >if</span> <span class=n >Frame</span><span class=o >.</span><span class=n >exists</span><span class=p >(</span><span class=s2 >"Body"</span><span class=p >):</span>
+    <span class=n >Frame</span><span class=o >.</span><span class=n >destruct</span><span class=p >(</span><span class=s2 >"Body"</span><span class=p >)</span>
+
+<span class=n >body_frame</span> <span class=o >=</span> <span class=n >Frame</span><span class=o >.</span><span class=n >construct</span><span class=p >(</span><span class=s2 >"Body"</span><span class=p >,</span> <span class=kc >False</span><span class=p >,</span> <span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >(),</span> <span class=n >body_frame_provider</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >calculate_intersection</span><span class=p >(</span><span class=n >target</span><span class=p >,</span> <span class=n >state</span><span class=p >,</span> <span class=n >sensor_geometry</span><span class=p >):</span>
+    <span class=n >target_lla</span> <span class=o >=</span> <span class=n >LLA</span><span class=o >.</span><span class=n >cartesian</span><span class=p >(</span>
+        <span class=n >target</span><span class=o >.</span><span class=n >get_coordinates</span><span class=p >(),</span> <span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >(),</span> <span class=n >earth</span><span class=o >.</span><span class=n >get_flattening</span><span class=p >()</span>
+    <span class=p >)</span>
+
+    <span class=n >ned_frame</span> <span class=o >=</span> <span class=n >earth</span><span class=o >.</span><span class=n >get_frame_at</span><span class=p >(</span><span class=n >target_lla</span><span class=p >,</span> <span class=n >Celestial</span><span class=o >.</span><span class=n >FrameType</span><span class=o >.</span><span class=n >NED</span><span class=p >)</span>
+
+    <span class=n >target_position_NED</span> <span class=o >=</span> <span class=n >target</span><span class=o >.</span><span class=n >in_frame</span><span class=p >(</span><span class=n >ned_frame</span><span class=p >,</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >())</span>
+    <span class=n >satellite_position_NED</span> <span class=o >=</span> <span class=n >state</span><span class=o >.</span><span class=n >get_position</span><span class=p >()</span><span class=o >.</span><span class=n >in_frame</span><span class=p >(</span>
+        <span class=n >ned_frame</span><span class=p >,</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >()</span>
+    <span class=p >)</span>
+
+    <span class=n >aer</span> <span class=o >=</span> <span class=n >AER</span><span class=o >.</span><span class=n >from_position_to_position</span><span class=p >(</span><span class=n >target_position_NED</span><span class=p >,</span> <span class=n >satellite_position_NED</span><span class=p >)</span>
+
+    <span class=n >observer_geometry_ITRF</span> <span class=o >=</span> <span class=n >sensor_geometry</span><span class=o >.</span><span class=n >in_frame</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >ITRF</span><span class=p >(),</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >())</span>
+
+    <span class=n >intersection_ITRF</span> <span class=o >=</span> <span class=n >observer_geometry_ITRF</span><span class=o >.</span><span class=n >intersection_with</span><span class=p >(</span><span class=n >earth_geometry</span><span class=p >)</span>
+
+    <span class=k >if</span> <span class=ow >not</span> <span class=n >intersection_ITRF</span><span class=o >.</span><span class=n >is_defined</span><span class=p >():</span>
+        <span class=k >return</span> <span class=kc >None</span>
+
+    <span class=n >intersection_points</span> <span class=o >=</span> <span class=p >[</span>
+        <span class=n >Point2d</span><span class=p >(</span><span class=n >lla</span><span class=o >.</span><span class=n >get_longitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >(),</span> <span class=n >lla</span><span class=o >.</span><span class=n >get_latitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >())</span>
+        <span class=k >for</span> <span class=n >lla</span> <span class=ow >in</span> <span class=p >[</span>
+            <span class=n >LLA</span><span class=o >.</span><span class=n >cartesian</span><span class=p >(</span>
+                <span class=n >point_ITRF</span><span class=o >.</span><span class=n >as_vector</span><span class=p >(),</span>
+                <span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >(),</span>
+                <span class=n >earth</span><span class=o >.</span><span class=n >get_flattening</span><span class=p >(),</span>
+            <span class=p >)</span>
+            <span class=k >for</span> <span class=n >point_ITRF</span> <span class=ow >in</span> <span class=n >intersection_ITRF</span><span class=o >.</span><span class=n >access_composite</span><span class=p >()</span>
+            <span class=o >.</span><span class=n >access_object_at</span><span class=p >(</span><span class=mi >0</span><span class=p >)</span>
+            <span class=o >.</span><span class=n >as_line_string</span><span class=p >()</span>
+        <span class=p >]</span>
+    <span class=p >]</span>
+
+    <span class=k >if</span> <span class=nb >len</span><span class=p >(</span><span class=n >intersection_points</span><span class=p >)</span> <span class=o >&lt;</span> <span class=mi >3</span><span class=p >:</span>
+        <span class=k >return</span> <span class=kc >None</span>
+
+    <span class=n >intersection_polygon</span> <span class=o >=</span> <span class=n >Polygon2d</span><span class=p >(</span><span class=n >intersection_points</span><span class=p >)</span>
+
+    <span class=k >return</span> <span class=n >intersection_ITRF</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >apex_B</span> <span class=o >=</span> <span class=n >Point3d</span><span class=p >(</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >)</span>
+<span class=n >base_B</span> <span class=o >=</span> <span class=n >Polygon3d</span><span class=p >(</span>
+    <span class=n >Polygon2d</span><span class=p >(</span>
+        <span class=p >[</span>
+            <span class=n >Point2d</span><span class=p >(</span><span class=o >-</span><span class=mf >1.0</span><span class=p >,</span> <span class=o >-</span><span class=mf >1.0</span><span class=p >),</span>
+            <span class=n >Point2d</span><span class=p >(</span><span class=o >+</span><span class=mf >1.0</span><span class=p >,</span> <span class=o >-</span><span class=mf >1.0</span><span class=p >),</span>
+            <span class=n >Point2d</span><span class=p >(</span><span class=o >+</span><span class=mf >1.0</span><span class=p >,</span> <span class=o >+</span><span class=mf >1.0</span><span class=p >),</span>
+            <span class=n >Point2d</span><span class=p >(</span><span class=o >-</span><span class=mf >1.0</span><span class=p >,</span> <span class=o >+</span><span class=mf >1.0</span><span class=p >),</span>
+        <span class=p >]</span>
+    <span class=p >),</span>
+    <span class=n >apex_B</span> <span class=o >+</span> <span class=n >np</span><span class=o >.</span><span class=n >array</span><span class=p >((</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >,</span> <span class=mf >1.0</span><span class=p >)),</span>
+    <span class=n >np</span><span class=o >.</span><span class=n >array</span><span class=p >((</span><span class=mf >1.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >)),</span>
+    <span class=n >np</span><span class=o >.</span><span class=n >array</span><span class=p >((</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >1.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >)),</span>
+<span class=p >)</span>
+
+<span class=n >pyramid_B</span> <span class=o >=</span> <span class=n >Pyramid</span><span class=p >(</span><span class=n >base_B</span><span class=p >,</span> <span class=n >apex_B</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >cone_B</span> <span class=o >=</span> <span class=n >Cone</span><span class=p >(</span><span class=n >apex_B</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >array</span><span class=p >((</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >,</span> <span class=mf >1.0</span><span class=p >)),</span> <span class=n >MathAngle</span><span class=o >.</span><span class=n >degrees</span><span class=p >(</span><span class=mf >30.0</span><span class=p >))</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >sensor_geometry</span> <span class=o >=</span> <span class=n >Geometry</span><span class=p >(</span><span class=n >pyramid_B</span><span class=p >,</span> <span class=n >body_frame</span><span class=p >)</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >intersections_ITRF</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >calculate_intersection</span><span class=p >(</span><span class=n >target_position</span><span class=p >,</span> <span class=n >state</span><span class=p >,</span> <span class=n >sensor_geometry</span><span class=p >)</span> <span class=k >for</span> <span class=n >state</span> <span class=ow >in</span> <span class=n >states</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >intersections_ITRF</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >intersection_ITRF</span>
+    <span class=k >for</span> <span class=n >intersection_ITRF</span> <span class=ow >in</span> <span class=n >intersections_ITRF</span>
+    <span class=k >if</span> <span class=n >intersection_ITRF</span> <span class=ow >is</span> <span class=ow >not</span> <span class=kc >None</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >intersections_LLs</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=p >[</span>
+        <span class=n >Point2d</span><span class=p >(</span><span class=n >lla</span><span class=o >.</span><span class=n >get_longitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >(),</span> <span class=n >lla</span><span class=o >.</span><span class=n >get_latitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_degrees</span><span class=p >())</span>
+        <span class=k >for</span> <span class=n >lla</span> <span class=ow >in</span> <span class=p >[</span>
+            <span class=n >LLA</span><span class=o >.</span><span class=n >cartesian</span><span class=p >(</span>
+                <span class=n >point_ITRF</span><span class=o >.</span><span class=n >as_vector</span><span class=p >(),</span>
+                <span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >(),</span>
+                <span class=n >earth</span><span class=o >.</span><span class=n >get_flattening</span><span class=p >(),</span>
+            <span class=p >)</span>
+            <span class=k >for</span> <span class=n >point_ITRF</span> <span class=ow >in</span> <span class=n >intersection_ITRF</span><span class=o >.</span><span class=n >access_composite</span><span class=p >()</span>
+            <span class=o >.</span><span class=n >access_object_at</span><span class=p >(</span><span class=mi >0</span><span class=p >)</span>
+            <span class=o >.</span><span class=n >as_line_string</span><span class=p >()</span>
+        <span class=p >]</span>
+    <span class=p >]</span>
+    <span class=k >for</span> <span class=n >intersection_ITRF</span> <span class=ow >in</span> <span class=n >intersections_ITRF</span>
+<span class=p >]</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >intersection_dfs</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=n >pd</span><span class=o >.</span><span class=n >DataFrame</span><span class=p >(</span>
+        <span class=p >[</span>
+            <span class=p >[</span><span class=nb >float</span><span class=p >(</span><span class=n >intersection_point</span><span class=o >.</span><span class=n >x</span><span class=p >()),</span> <span class=nb >float</span><span class=p >(</span><span class=n >intersection_point</span><span class=o >.</span><span class=n >y</span><span class=p >())]</span>
+            <span class=k >for</span> <span class=n >intersection_point</span> <span class=ow >in</span> <span class=n >intersection_LLs</span>
+        <span class=p >],</span>
+        <span class=n >columns</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >,</span> <span class=s2 >"Latitude"</span><span class=p >],</span>
+    <span class=p >)</span>
+    <span class=k >for</span> <span class=n >intersection_LLs</span> <span class=ow >in</span> <span class=n >intersections_LLs</span>
+<span class=p >];</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >intersection_dfs</span><span class=p >[</span><span class=mi >0</span><span class=p >]</span><span class=o >.</span><span class=n >head</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output text_html"><div> <style scoped=""> .dataframe tbody tr th:only-of-type { vertical-align: middle; } .dataframe tbody tr th { vertical-align: top; } .dataframe thead th { text-align: right; } </style> <table border=1  class=dataframe > <thead> <tr style="text-align: right;"> <th> <th>Longitude <th>Latitude <tr> <th>0 <td>-8.915019 <td>3.339982e-12 <tr> <th>1 <td>-7.484489 <td>-1.152781e+00 <tr> <th>2 <td>-6.373103 <td>-2.114364e+00 <tr> <th>3 <td>-5.433459 <td>-2.975470e+00 <tr> <th>4 <td>-4.586204 <td>-3.792032e+00 </table> </div></div></div> </div> </section> </section> <hr class=docutils /> <section id=visualization > <h2 id=visualization >Visualization<a class=headerlink  href="#visualization" title="Link to this heading">¶</a></h2> <p>2D plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >data</span> <span class=o >=</span> <span class=p >[]</span>
+
+<span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+    <span class=n >go</span><span class=o >.</span><span class=n >Scattergeo</span><span class=p >(</span>
+        <span class=n >lon</span><span class=o >=</span><span class=n >ground_track_df</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >],</span>
+        <span class=n >lat</span><span class=o >=</span><span class=n >ground_track_df</span><span class=p >[</span><span class=s2 >"Latitude"</span><span class=p >],</span>
+        <span class=n >mode</span><span class=o >=</span><span class=s2 >"lines"</span><span class=p >,</span>
+        <span class=n >line</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+            <span class=n >width</span><span class=o >=</span><span class=mi >1</span><span class=p >,</span>
+            <span class=n >color</span><span class=o >=</span><span class=s2 >"rgba(255, 0, 0, 0.5)"</span><span class=p >,</span>
+        <span class=p >),</span>
+    <span class=p >)</span>
+<span class=p >)</span>
+
+<span class=k >for</span> <span class=n >intersection_df</span> <span class=ow >in</span> <span class=n >intersection_dfs</span><span class=p >:</span>
+    <span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+        <span class=n >go</span><span class=o >.</span><span class=n >Scattergeo</span><span class=p >(</span>
+            <span class=n >lon</span><span class=o >=</span><span class=n >intersection_df</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >],</span>
+            <span class=n >lat</span><span class=o >=</span><span class=n >intersection_df</span><span class=p >[</span><span class=s2 >"Latitude"</span><span class=p >],</span>
+            <span class=n >mode</span><span class=o >=</span><span class=s2 >"lines"</span><span class=p >,</span>
+            <span class=n >line</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                <span class=n >width</span><span class=o >=</span><span class=mi >1</span><span class=p >,</span>
+                <span class=n >color</span><span class=o >=</span><span class=s2 >"rgba(0, 0, 255, 0.5)"</span><span class=p >,</span>
+            <span class=p >),</span>
+        <span class=p >)</span>
+    <span class=p >)</span>
+
+<span class=n >figure</span> <span class=o >=</span> <span class=n >go</span><span class=o >.</span><span class=n >Figure</span><span class=p >(</span>
+    <span class=n >data</span><span class=o >=</span><span class=n >data</span><span class=p >,</span>
+    <span class=n >layout</span><span class=o >=</span><span class=n >go</span><span class=o >.</span><span class=n >Layout</span><span class=p >(</span>
+        <span class=n >title</span><span class=o >=</span><span class=kc >None</span><span class=p >,</span>
+        <span class=n >showlegend</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span>
+        <span class=n >height</span><span class=o >=</span><span class=mi >600</span><span class=p >,</span>
+        <span class=n >width</span><span class=o >=</span><span class=mi >1200</span><span class=p >,</span>
+        <span class=n >geo</span><span class=o >=</span><span class=n >go</span><span class=o >.</span><span class=n >layout</span><span class=o >.</span><span class=n >Geo</span><span class=p >(</span>
+            <span class=n >showland</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+            <span class=n >landcolor</span><span class=o >=</span><span class=s2 >"rgb(243, 243, 243)"</span><span class=p >,</span>
+            <span class=n >countrycolor</span><span class=o >=</span><span class=s2 >"rgb(204, 204, 204)"</span><span class=p >,</span>
+            <span class=n >lonaxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >showgrid</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span> <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(102, 102, 102)"</span><span class=p >,</span> <span class=n >gridwidth</span><span class=o >=</span><span class=mf >0.1</span><span class=p >),</span>
+            <span class=n >lataxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >showgrid</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span> <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(102, 102, 102)"</span><span class=p >,</span> <span class=n >gridwidth</span><span class=o >=</span><span class=mf >0.1</span><span class=p >),</span>
+        <span class=p >),</span>
+    <span class=p >),</span>
+<span class=p >)</span>
+
+<span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/c21a797cf9a32156208732e81b181e0d0f48d4eeda3800dd21d0b693209bfaa4.svg" src="../_images/c21a797cf9a32156208732e81b181e0d0f48d4eeda3800dd21d0b693209bfaa4.svg"/></div> </div> <p>3D plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >data</span> <span class=o >=</span> <span class=p >[]</span>
+
+<span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+    <span class=n >go</span><span class=o >.</span><span class=n >Scattergeo</span><span class=p >(</span>
+        <span class=n >lon</span><span class=o >=</span><span class=n >ground_track_df</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >],</span>
+        <span class=n >lat</span><span class=o >=</span><span class=n >ground_track_df</span><span class=p >[</span><span class=s2 >"Latitude"</span><span class=p >],</span>
+        <span class=n >mode</span><span class=o >=</span><span class=s2 >"lines"</span><span class=p >,</span>
+        <span class=n >line</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >width</span><span class=o >=</span><span class=mi >1</span><span class=p >,</span> <span class=n >color</span><span class=o >=</span><span class=s2 >"rgba(255, 0, 0, 0.5)"</span><span class=p >),</span>
+    <span class=p >)</span>
+<span class=p >)</span>
+
+<span class=k >for</span> <span class=n >intersection_df</span> <span class=ow >in</span> <span class=n >intersection_dfs</span><span class=p >:</span>
+    <span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+        <span class=n >go</span><span class=o >.</span><span class=n >Scattergeo</span><span class=p >(</span>
+            <span class=n >lon</span><span class=o >=</span><span class=n >intersection_df</span><span class=p >[</span><span class=s2 >"Longitude"</span><span class=p >],</span>
+            <span class=n >lat</span><span class=o >=</span><span class=n >intersection_df</span><span class=p >[</span><span class=s2 >"Latitude"</span><span class=p >],</span>
+            <span class=n >mode</span><span class=o >=</span><span class=s2 >"lines"</span><span class=p >,</span>
+            <span class=n >line</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                <span class=n >width</span><span class=o >=</span><span class=mi >2</span><span class=p >,</span>
+                <span class=n >color</span><span class=o >=</span><span class=s2 >"rgba(0, 0, 255, 0.5)"</span><span class=p >,</span>
+            <span class=p >),</span>
+        <span class=p >)</span>
+    <span class=p >)</span>
+
+<span class=n >figure</span> <span class=o >=</span> <span class=n >go</span><span class=o >.</span><span class=n >Figure</span><span class=p >(</span>
+    <span class=n >data</span><span class=o >=</span><span class=n >data</span><span class=p >,</span>
+    <span class=n >layout</span><span class=o >=</span><span class=n >go</span><span class=o >.</span><span class=n >Layout</span><span class=p >(</span>
+        <span class=n >title</span><span class=o >=</span><span class=kc >None</span><span class=p >,</span>
+        <span class=n >showlegend</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span>
+        <span class=n >height</span><span class=o >=</span><span class=mi >1000</span><span class=p >,</span>
+        <span class=n >geo</span><span class=o >=</span><span class=n >go</span><span class=o >.</span><span class=n >layout</span><span class=o >.</span><span class=n >Geo</span><span class=p >(</span>
+            <span class=n >showland</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+            <span class=n >showlakes</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+            <span class=n >showcountries</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span>
+            <span class=n >showocean</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+            <span class=n >countrywidth</span><span class=o >=</span><span class=mf >0.0</span><span class=p >,</span>
+            <span class=n >landcolor</span><span class=o >=</span><span class=s2 >"rgb(100, 100, 100)"</span><span class=p >,</span>
+            <span class=n >lakecolor</span><span class=o >=</span><span class=s2 >"rgb(240, 240, 240)"</span><span class=p >,</span>
+            <span class=n >oceancolor</span><span class=o >=</span><span class=s2 >"rgb(240, 240, 240)"</span><span class=p >,</span>
+            <span class=n >projection</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=nb >type</span><span class=o >=</span><span class=s2 >"orthographic"</span><span class=p >,</span> <span class=n >rotation</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >lon</span><span class=o >=</span><span class=mi >0</span><span class=p >,</span> <span class=n >lat</span><span class=o >=</span><span class=mi >0</span><span class=p >,</span> <span class=n >roll</span><span class=o >=</span><span class=mi >0</span><span class=p >)),</span>
+            <span class=n >lonaxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >showgrid</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span> <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(102, 102, 102)"</span><span class=p >,</span> <span class=n >gridwidth</span><span class=o >=</span><span class=mf >0.5</span><span class=p >),</span>
+            <span class=n >lataxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >showgrid</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span> <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(102, 102, 102)"</span><span class=p >,</span> <span class=n >gridwidth</span><span class=o >=</span><span class=mf >0.5</span><span class=p >),</span>
+        <span class=p >),</span>
+    <span class=p >),</span>
+<span class=p >)</span>
+
+<span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/eebf07089e49d3abd604efd6c5ef633317c1c86a0ccdb8a6cbfd6e6249aedf8b.svg" src="../_images/eebf07089e49d3abd604efd6c5ef633317c1c86a0ccdb8a6cbfd6e6249aedf8b.svg"/></div> </div> <p>Satellite body frame orientation plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >earth_data</span><span class=p >(</span><span class=n >earth</span><span class=p >):</span>
+    <span class=n >theta</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >linspace</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=mi >2</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >pi</span><span class=p >,</span> <span class=mi >30</span><span class=p >)</span>
+    <span class=n >phi</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >linspace</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >pi</span><span class=p >,</span> <span class=mi >30</span><span class=p >)</span>
+
+    <span class=n >theta_grid</span><span class=p >,</span> <span class=n >phi_grid</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >meshgrid</span><span class=p >(</span><span class=n >theta</span><span class=p >,</span> <span class=n >phi</span><span class=p >)</span>
+
+    <span class=n >r</span> <span class=o >=</span> <span class=nb >float</span><span class=p >(</span><span class=n >earth</span><span class=o >.</span><span class=n >get_equatorial_radius</span><span class=p >()</span><span class=o >.</span><span class=n >in_meters</span><span class=p >())</span>
+
+    <span class=n >x</span> <span class=o >=</span> <span class=n >r</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >cos</span><span class=p >(</span><span class=n >theta_grid</span><span class=p >)</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >sin</span><span class=p >(</span><span class=n >phi_grid</span><span class=p >)</span>
+    <span class=n >y</span> <span class=o >=</span> <span class=n >r</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >sin</span><span class=p >(</span><span class=n >theta_grid</span><span class=p >)</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >sin</span><span class=p >(</span><span class=n >phi_grid</span><span class=p >)</span>
+    <span class=n >z</span> <span class=o >=</span> <span class=n >r</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >cos</span><span class=p >(</span><span class=n >phi_grid</span><span class=p >)</span>
+
+    <span class=n >earth_figure</span> <span class=o >=</span> <span class=n >go</span><span class=o >.</span><span class=n >Surface</span><span class=p >(</span><span class=n >x</span><span class=o >=</span><span class=n >x</span><span class=p >,</span> <span class=n >y</span><span class=o >=</span><span class=n >y</span><span class=p >,</span> <span class=n >z</span><span class=o >=</span><span class=n >z</span><span class=p >,</span> <span class=n >colorscale</span><span class=o >=</span><span class=s2 >"Viridis"</span><span class=p >,</span> <span class=n >showscale</span><span class=o >=</span><span class=kc >False</span><span class=p >)</span>
+
+    <span class=k >return</span> <span class=n >earth_figure</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >orbit_data</span><span class=p >(</span><span class=n >states</span><span class=p >):</span>
+    <span class=n >states_GCRF</span> <span class=o >=</span> <span class=p >[</span>
+        <span class=n >state</span><span class=o >.</span><span class=n >in_frame</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >())</span><span class=o >.</span><span class=n >get_position</span><span class=p >()</span><span class=o >.</span><span class=n >get_coordinates</span><span class=p >()</span>
+        <span class=k >for</span> <span class=n >state</span> <span class=ow >in</span> <span class=n >states</span>
+    <span class=p >]</span>
+
+    <span class=n >trace</span> <span class=o >=</span> <span class=n >go</span><span class=o >.</span><span class=n >Scatter3d</span><span class=p >(</span>
+        <span class=n >x</span><span class=o >=</span><span class=p >[</span><span class=n >state_GCRF</span><span class=p >[</span><span class=mi >0</span><span class=p >]</span> <span class=k >for</span> <span class=n >state_GCRF</span> <span class=ow >in</span> <span class=n >states_GCRF</span><span class=p >],</span>
+        <span class=n >y</span><span class=o >=</span><span class=p >[</span><span class=n >state_GCRF</span><span class=p >[</span><span class=mi >1</span><span class=p >]</span> <span class=k >for</span> <span class=n >state_GCRF</span> <span class=ow >in</span> <span class=n >states_GCRF</span><span class=p >],</span>
+        <span class=n >z</span><span class=o >=</span><span class=p >[</span><span class=n >state_GCRF</span><span class=p >[</span><span class=mi >2</span><span class=p >]</span> <span class=k >for</span> <span class=n >state_GCRF</span> <span class=ow >in</span> <span class=n >states_GCRF</span><span class=p >],</span>
+        <span class=n >mode</span><span class=o >=</span><span class=s2 >"lines"</span><span class=p >,</span>
+        <span class=n >marker</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >size</span><span class=o >=</span><span class=mi >0</span><span class=p >,</span> <span class=n >showscale</span><span class=o >=</span><span class=kc >False</span><span class=p >),</span>
+        <span class=n >line</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >width</span><span class=o >=</span><span class=mi >1</span><span class=p >),</span>
+    <span class=p >)</span>
+
+    <span class=k >return</span> <span class=n >trace</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >frame_data</span><span class=p >(</span><span class=n >frame</span><span class=p >,</span> <span class=n >instants</span><span class=p >,</span> <span class=n >scale</span><span class=p >):</span>
+    <span class=n >frame_origins_GCRF</span> <span class=o >=</span> <span class=p >[</span>
+        <span class=n >np</span><span class=o >.</span><span class=n >transpose</span><span class=p >(</span><span class=n >frame</span><span class=o >.</span><span class=n >get_origin_in</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >(),</span> <span class=n >instant</span><span class=p >)</span><span class=o >.</span><span class=n >get_coordinates</span><span class=p >())</span>
+        <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span>
+    <span class=p >]</span>
+    <span class=n >frame_axess_GCRF</span> <span class=o >=</span> <span class=p >[</span>
+        <span class=n >frame</span><span class=o >.</span><span class=n >get_axes_in</span><span class=p >(</span><span class=n >Frame</span><span class=o >.</span><span class=n >GCRF</span><span class=p >(),</span> <span class=n >instant</span><span class=p >)</span> <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span>
+    <span class=p >]</span>
+
+    <span class=k >def</span> <span class=nf >axis_data</span><span class=p >(</span><span class=n >origin</span><span class=p >,</span> <span class=n >axis</span><span class=p >,</span> <span class=n >color</span><span class=p >):</span>
+        <span class=n >data</span> <span class=o >=</span> <span class=n >go</span><span class=o >.</span><span class=n >Scatter3d</span><span class=p >(</span>
+            <span class=n >x</span><span class=o >=</span><span class=p >[</span><span class=n >origin</span><span class=p >[</span><span class=mi >0</span><span class=p >],</span> <span class=n >origin</span><span class=p >[</span><span class=mi >0</span><span class=p >]</span> <span class=o >+</span> <span class=n >scale</span> <span class=o >*</span> <span class=n >axis</span><span class=p >],</span>
+            <span class=n >y</span><span class=o >=</span><span class=p >[</span><span class=n >origin</span><span class=p >[</span><span class=mi >1</span><span class=p >],</span> <span class=n >origin</span><span class=p >[</span><span class=mi >1</span><span class=p >]</span> <span class=o >+</span> <span class=n >scale</span> <span class=o >*</span> <span class=n >axis</span><span class=p >],</span>
+            <span class=n >z</span><span class=o >=</span><span class=p >[</span><span class=n >origin</span><span class=p >[</span><span class=mi >2</span><span class=p >],</span> <span class=n >origin</span><span class=p >[</span><span class=mi >2</span><span class=p >]</span> <span class=o >+</span> <span class=n >scale</span> <span class=o >*</span> <span class=n >axis</span><span class=p >],</span>
+            <span class=n >marker</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >size</span><span class=o >=</span><span class=mi >1</span><span class=p >),</span>
+            <span class=n >line</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >color</span><span class=o >=</span><span class=n >color</span><span class=p >,</span> <span class=n >width</span><span class=o >=</span><span class=mi >6</span><span class=p >),</span>
+        <span class=p >)</span>
+
+        <span class=k >return</span> <span class=n >data</span>
+
+    <span class=n >data</span> <span class=o >=</span> <span class=p >[]</span>
+
+    <span class=k >for</span> <span class=p >[</span><span class=n >frame_origin_GCRF</span><span class=p >,</span> <span class=n >frame_axes_GCRF</span><span class=p >]</span> <span class=ow >in</span> <span class=nb >zip</span><span class=p >(</span>
+        <span class=n >frame_origins_GCRF</span><span class=p >,</span> <span class=n >frame_axess_GCRF</span>
+    <span class=p >):</span>
+        <span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+            <span class=n >axis_data</span><span class=p >(</span><span class=n >frame_origin_GCRF</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >transpose</span><span class=p >(</span><span class=n >frame_axes_GCRF</span><span class=o >.</span><span class=n >x</span><span class=p >())[</span><span class=mi >0</span><span class=p >],</span> <span class=s2 >"red"</span><span class=p >)</span>
+        <span class=p >)</span>
+        <span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+            <span class=n >axis_data</span><span class=p >(</span><span class=n >frame_origin_GCRF</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >transpose</span><span class=p >(</span><span class=n >frame_axes_GCRF</span><span class=o >.</span><span class=n >y</span><span class=p >())[</span><span class=mi >0</span><span class=p >],</span> <span class=s2 >"blue"</span><span class=p >)</span>
+        <span class=p >)</span>
+        <span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
+            <span class=n >axis_data</span><span class=p >(</span><span class=n >frame_origin_GCRF</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >transpose</span><span class=p >(</span><span class=n >frame_axes_GCRF</span><span class=o >.</span><span class=n >z</span><span class=p >())[</span><span class=mi >0</span><span class=p >],</span> <span class=s2 >"green"</span><span class=p >)</span>
+        <span class=p >)</span>
+
+    <span class=k >return</span> <span class=n >data</span>
+</pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >figure</span> <span class=o >=</span> <span class=n >go</span><span class=o >.</span><span class=n >Figure</span><span class=p >(</span>
+    <span class=n >data</span><span class=o >=</span><span class=p >[</span>
+        <span class=n >earth_data</span><span class=p >(</span><span class=n >earth</span><span class=p >),</span>
+        <span class=n >orbit_data</span><span class=p >(</span><span class=n >states</span><span class=p >),</span>
+        <span class=o >*</span><span class=n >frame_data</span><span class=p >(</span><span class=n >body_frame</span><span class=p >,</span> <span class=n >instants</span><span class=p >,</span> <span class=n >scale</span><span class=o >=</span><span class=mi >500000</span><span class=p >),</span>
+    <span class=p >],</span>
+    <span class=n >layout</span><span class=o >=</span><span class=n >go</span><span class=o >.</span><span class=n >Layout</span><span class=p >(</span>
+        <span class=n >title</span><span class=o >=</span><span class=kc >None</span><span class=p >,</span>
+        <span class=n >showlegend</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span>
+        <span class=n >height</span><span class=o >=</span><span class=mi >1000</span><span class=p >,</span>
+        <span class=n >width</span><span class=o >=</span><span class=mi >600</span><span class=p >,</span>
+        <span class=n >scene</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+            <span class=n >xaxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(255, 255, 255)"</span><span class=p >,</span>
+                <span class=n >zerolinecolor</span><span class=o >=</span><span class=s2 >"rgb(255, 255, 255)"</span><span class=p >,</span>
+                <span class=n >showbackground</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+                <span class=n >backgroundcolor</span><span class=o >=</span><span class=s2 >"rgb(230, 230,230)"</span><span class=p >,</span>
+            <span class=p >),</span>
+            <span class=n >yaxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(255, 255, 255)"</span><span class=p >,</span>
+                <span class=n >zerolinecolor</span><span class=o >=</span><span class=s2 >"rgb(255, 255, 255)"</span><span class=p >,</span>
+                <span class=n >showbackground</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+                <span class=n >backgroundcolor</span><span class=o >=</span><span class=s2 >"rgb(230, 230,230)"</span><span class=p >,</span>
+            <span class=p >),</span>
+            <span class=n >zaxis</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                <span class=n >gridcolor</span><span class=o >=</span><span class=s2 >"rgb(255, 255, 255)"</span><span class=p >,</span>
+                <span class=n >zerolinecolor</span><span class=o >=</span><span class=s2 >"rgb(255, 255, 255)"</span><span class=p >,</span>
+                <span class=n >showbackground</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
+                <span class=n >backgroundcolor</span><span class=o >=</span><span class=s2 >"rgb(230, 230,230)"</span><span class=p >,</span>
+            <span class=p >),</span>
+            <span class=n >camera</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                <span class=n >up</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >x</span><span class=o >=</span><span class=mi >0</span><span class=p >,</span> <span class=n >y</span><span class=o >=</span><span class=mi >0</span><span class=p >,</span> <span class=n >z</span><span class=o >=</span><span class=mi >1</span><span class=p >),</span>
+                <span class=n >eye</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span>
+                    <span class=n >x</span><span class=o >=-</span><span class=mf >1.7428</span><span class=p >,</span>
+                    <span class=n >y</span><span class=o >=</span><span class=mf >0.5707</span><span class=p >,</span>
+                    <span class=n >z</span><span class=o >=</span><span class=mf >0.9100</span><span class=p >,</span>
+                <span class=p >),</span>
+            <span class=p >),</span>
+            <span class=n >aspectratio</span><span class=o >=</span><span class=nb >dict</span><span class=p >(</span><span class=n >x</span><span class=o >=</span><span class=mi >1</span><span class=p >,</span> <span class=n >y</span><span class=o >=</span><span class=mi >1</span><span class=p >,</span> <span class=n >z</span><span class=o >=</span><span class=mi >1</span><span class=p >),</span>
+            <span class=n >aspectmode</span><span class=o >=</span><span class=s2 >"manual"</span><span class=p >,</span>
+        <span class=p >),</span>
+    <span class=p >),</span>
+<span class=p >)</span>
+
+<span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"png"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/cb151a0a6dd64b4d75c26d12080e7b910829fab672289f1264c41f87804007d3.png" src="../_images/cb151a0a6dd64b4d75c26d12080e7b910829fab672289f1264c41f87804007d3.png"/> </div> </div> <hr class=docutils /> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href=QLaw-examples.html  title="Orbit Station-keeping with QLaw" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Orbit Station-keeping with QLaw </span> </div> </a> <a href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" title="Altitude + Eccentricity Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Altitude + Eccentricity Station-keeping Sequence </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.2.6. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>

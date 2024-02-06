@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_attitude_quaternion_8hpp" kind="file" language="C++">
+    <compoundname>AttitudeQuaternion.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Transform.hpp</includes>
+    <includes refid="_coordinates_broker_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</includes>
+    <includedby refid="_angular_velocity_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp</includedby>
+    <includedby refid="_attitude_quaternion_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.cpp</includedby>
+    <includedby refid="_trajectory_2_state_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp</includedby>
+    <incdepgraph>
+      <node id="13">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</label>
+        <link refid="_coordinates_broker_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp</label>
+        <link refid="_attitude_quaternion_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Core/Types/Index.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Core/Containers/Map.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp</label>
+      </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</label>
+        <link refid="_coordinates_subset_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>OpenSpaceToolkit/Core/Types/String.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Core/Containers/Array.hpp</label>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Core/Types/Shared.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Transform.hpp</label>
+      </node>
+      <node id="12">
+        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp</label>
+        <link refid="_attitude_quaternion_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp</label>
+        <link refid="_trajectory_2_state_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp</label>
+        <link refid="_angular_velocity_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.cpp</label>
+        <link refid="_angular_velocity_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.cpp</label>
+        <link refid="_attitude_quaternion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion" prot="public">ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory">ostk::astro::trajectory</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1state">ostk::astro::trajectory::state</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets">ostk::astro::trajectory::state::coordinatessubsets</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Transform.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_coordinates_broker_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">trajectory</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">state</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coordinatessubsets</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Shared;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::String;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::geometry::d3::transformation::rotation::Quaternion;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::Transform;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">ostk::astro::trajectory::state::CoordinatesSubset</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker" kindref="compound">ostk::astro::trajectory::state::CoordinatesBroker</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion" kindref="compound">AttitudeQuaternion</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1a53039ec53fb6ad14a9d47127a517a513" kindref="member">AttitudeQuaternion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1aa070ecdca1407bcb4c79c03d37d233e1" kindref="member">~AttitudeQuaternion</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1a10aab9197d407eeaa5f3a45281d483fc" kindref="member">inFrame</ref>(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>fromFrame,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>toFrame,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinatesBroker&gt;&amp;<sp/>aCoordinatesBrokerSPtr</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Quaternion<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1abb41bc4ad696cfc2ed52f436967b8df2" kindref="member">coordinatesToQuaternion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>coordinates);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>VectorXd<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1a2104f046ae597805e574bbdbd4217e68" kindref="member">quaterionToCoordinates</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Quaternion&amp;<sp/>quaternion);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>AttitudeQuaternion&gt;<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1a765aaaf3f38e0d249b75989bea7d3b23" kindref="member">Default</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coordinatessubsets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp"/>
+  </compounddef>
+</doxygen>

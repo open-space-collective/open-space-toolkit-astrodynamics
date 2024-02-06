@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::solvers::TemporalConditionSolver</compoundname>
+    <includes refid="_temporal_condition_solver_8hpp" local="no">TemporalConditionSolver.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" prot="public" static="no">
+        <type>std::function&lt; bool(const Instant &amp;)&gt;</type>
+        <definition>typedef std::function&lt;bool(const Instant&amp;)&gt; ostk::astro::solvers::TemporalConditionSolver::Condition</definition>
+        <argsstring></argsstring>
+        <name>Condition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="34" column="27" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1abd335e2b18718643ed95a105adad70f2" prot="private" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astro::solvers::TemporalConditionSolver::timeStep_</definition>
+        <argsstring></argsstring>
+        <name>timeStep_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="85" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ae1bbbeb93fd8dfb790010e16d5335c72" prot="private" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astro::solvers::TemporalConditionSolver::tolerance_</definition>
+        <argsstring></argsstring>
+        <name>tolerance_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="86" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ac6ada1e6b728db093c1d21917c7f9dc1" prot="private" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astro::solvers::TemporalConditionSolver::maximumIterationCount_</definition>
+        <argsstring></argsstring>
+        <name>maximumIterationCount_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="87" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6d335782200af6296ee5ff45cd418cc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::solvers::TemporalConditionSolver::TemporalConditionSolver</definition>
+        <argsstring>(const Duration &amp;aTimeStep, const Duration &amp;aTolerance, const Size &amp;aMaximumIterationCount=DEFAULT_MAXIMUM_ITERATION_COUNT)</argsstring>
+        <name>TemporalConditionSolver</name>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aTimeStep</declname>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aTolerance</declname>
+        </param>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>aMaximumIterationCount</declname>
+          <defval><ref refid="_temporal_condition_solver_8hpp_1a6b90a4cd3ed333cab756eedeeac79b73" kindref="member">DEFAULT_MAXIMUM_ITERATION_COUNT</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6d335782200af6296ee5ff45cd418cc0" kindref="member">TemporalConditionSolver</ref><sp/>temporalConditionSolver<sp/>=<sp/>{<sp/>Duration::Minutes(1.0),</highlight></codeline>
+<codeline><highlight class="normal">Duration::Microseconds(1.0)<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTimeStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A time step used to generate the temporal grid. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A temporal tolerance used to determine the switching instant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMaximumIterationCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum iteration count for the solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="46" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="18" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1af3183946cbe55d279b54cf5b0b3fce60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astro::solvers::TemporalConditionSolver::getTimeStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimeStep</name>
+        <briefdescription>
+<para>Get the time step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Time step. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="55" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ae4b5bc52dcd9ec53262106a0de1d808f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astro::solvers::TemporalConditionSolver::getTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getTolerance</name>
+        <briefdescription>
+<para>Get the tolerance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Tolerance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="60" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1aa07c73ba5042b84d2bc0e06d269cf3ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astro::solvers::TemporalConditionSolver::getMaximumIterationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaximumIterationCount</name>
+        <briefdescription>
+<para>Get the maximum iteration count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Maximum iteration count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="65" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a1f68bdd28f692bb69ac3363c025580e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Interval &gt;</type>
+        <definition>Array&lt; Interval &gt; ostk::astro::solvers::TemporalConditionSolver::solve</definition>
+        <argsstring>(const TemporalConditionSolver::Condition &amp;aCondition, const Interval &amp;anInterval) const</argsstring>
+        <name>solve</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" kindref="member">TemporalConditionSolver::Condition</ref> &amp;</type>
+          <declname>aCondition</declname>
+        </param>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <briefdescription>
+<para>Find the intervals over which the provided condition is true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCondition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A temporal condition. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A time interval within which to perform the search.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An array of time intervals. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="73" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a83ed3b4bae98d16e0e352199516a9741" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Interval &gt;</type>
+        <definition>Array&lt; Interval &gt; ostk::astro::solvers::TemporalConditionSolver::solve</definition>
+        <argsstring>(const Array&lt; TemporalConditionSolver::Condition &gt; &amp;aConditionArray, const Interval &amp;anInterval) const</argsstring>
+        <name>solve</name>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" kindref="member">TemporalConditionSolver::Condition</ref> &gt; &amp;</type>
+          <declname>aConditionArray</declname>
+        </param>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <briefdescription>
+<para>Find the intervals over which all provided conditions are true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aConditionArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of temporal conditions. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A time interval within which to perform the search.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An array of time intervals. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="81" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="49" bodyend="114"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ac3ae03cc01b83e958d6ce48c45dd6f30" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::solvers::TemporalConditionSolver::findSwitchingInstant</definition>
+        <argsstring>(const Instant &amp;aPreviousInstant, const Instant &amp;aNextInstant, const Array&lt; TemporalConditionSolver::Condition &gt; &amp;aConditionArray) const</argsstring>
+        <name>findSwitchingInstant</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>aPreviousInstant</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>aNextInstant</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" kindref="member">TemporalConditionSolver::Condition</ref> &gt; &amp;</type>
+          <declname>aConditionArray</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="89" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="116" bodyend="138"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6f9c388bfb7bf3b41dc64d1a1c00a50c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::solvers::TemporalConditionSolver::EvaluateConditionAt</definition>
+        <argsstring>(const Instant &amp;anInstant, const Array&lt; TemporalConditionSolver::Condition &gt; &amp;aConditionArray)</argsstring>
+        <name>EvaluateConditionAt</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" kindref="member">TemporalConditionSolver::Condition</ref> &gt; &amp;</type>
+          <declname>aConditionArray</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="95" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="140" bodyend="152"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Given a set of conditions and a time interval, this solver computes all sub-intervals over which conditions are met. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" bodystart="31" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>Condition</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6f9c388bfb7bf3b41dc64d1a1c00a50c" prot="private" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>EvaluateConditionAt</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ac3ae03cc01b83e958d6ce48c45dd6f30" prot="private" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>findSwitchingInstant</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1aa07c73ba5042b84d2bc0e06d269cf3ce" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>getMaximumIterationCount</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1af3183946cbe55d279b54cf5b0b3fce60" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>getTimeStep</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ae4b5bc52dcd9ec53262106a0de1d808f" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>getTolerance</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ac6ada1e6b728db093c1d21917c7f9dc1" prot="private" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>maximumIterationCount_</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a1f68bdd28f692bb69ac3363c025580e5" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>solve</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a83ed3b4bae98d16e0e352199516a9741" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>solve</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6d335782200af6296ee5ff45cd418cc0" prot="public" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>TemporalConditionSolver</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1abd335e2b18718643ed95a105adad70f2" prot="private" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>timeStep_</name></member>
+      <member refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ae1bbbeb93fd8dfb790010e16d5335c72" prot="private" virt="non-virtual"><scope>ostk::astro::solvers::TemporalConditionSolver</scope><name>tolerance_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

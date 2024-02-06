@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_satellite_system_8hpp" kind="file" language="C++">
+    <compoundname>SatelliteSystem.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Real.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Units/Mass.hpp</includes>
+    <includes refid="_system_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/System.hpp</includes>
+    <includes refid="_propulsion_system_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</includes>
+    <includedby refid="_atmospheric_drag_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp</includedby>
+    <includedby refid="_position_derivative_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp</includedby>
+    <includedby refid="_thruster_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</includedby>
+    <includedby refid="_satellite_system_builder_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp</includedby>
+    <includedby refid="_propagator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</includedby>
+    <includedby refid="_sequence_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</includedby>
+    <includedby refid="_satellite_system_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>OpenSpaceToolkit/Physics/Data/Scalar.hpp</label>
+      </node>
+      <node id="10">
+        <label>OpenSpaceToolkit/Physics/Data/Direction.hpp</label>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</label>
+        <link refid="_propulsion_system_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp</label>
+        <link refid="_satellite_system_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>OpenSpaceToolkit/Physics/Units/Derived.hpp</label>
+      </node>
+      <node id="12">
+        <label>OpenSpaceToolkit/Physics/Unit.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp</label>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Astrodynamics/Flight/System.hpp</label>
+        <link refid="_system_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Physics/Units/Mass.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Physics/Units/Time.hpp</label>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="16">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp</label>
+        <link refid="_satellite_system_builder_8hpp"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp</label>
+        <link refid="_dynamics_8cpp"/>
+      </node>
+      <node id="18">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
+        <link refid="_propagator_8hpp"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp</label>
+        <link refid="_satellite_system_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
+        <link refid="_constant_thrust_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</label>
+        <link refid="_atmospheric_drag_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
+        <link refid="_propagator_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp</label>
+        <link refid="_satellite_system_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp</label>
+        <link refid="_position_derivative_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</label>
+        <link refid="_thruster_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp</label>
+        <link refid="_atmospheric_drag_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
+        <link refid="_sequence_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp</label>
+        <link refid="_propagated_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp</label>
+        <link refid="_position_derivative_8cpp"/>
+      </node>
+      <node id="9">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</label>
+        <link refid="_constant_thrust_8hpp"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp</label>
+        <link refid="_satellite_system_builder_8cpp"/>
+      </node>
+      <node id="11">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
+        <link refid="_segment_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp</label>
+        <link refid="_propagated_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp</label>
+        <link refid="_thruster_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
+        <link refid="_sequence_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
+        <link refid="_segment_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" prot="public">ostk::astro::flight::system::SatelliteSystem</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1flight">ostk::astro::flight</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1flight_1_1system">ostk::astro::flight::system</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Real.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Objects/Vector.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Units/Mass.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_system_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Flight/System.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_propulsion_system_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">flight</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">system</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Real;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::geometry::d3::objects::Composite;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::geometry::d3::objects::Cuboid;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::geometry::d3::objects::Point;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::Matrix3d;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::Vector3d;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::units::Mass;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1_system" kindref="compound">ostk::astro::flight::System</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">ostk::astro::flight::system::PropulsionSystem</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1_system" kindref="compound">System</ref></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a82127fe5971221429b8d18fcca9200f1" kindref="member">SatelliteSystem</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Mass&amp;<sp/>aDryMass,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Composite&amp;<sp/>aSatelliteGeometry,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Matrix3d&amp;<sp/>anInertiaTensor,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aCrossSectionalSurfaceArea,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aDragCoefficient,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref>&amp;<sp/>aPropulsionSystem<sp/>=<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1bccf402afccdcfdaf7445fc25e64bf4" kindref="member">PropulsionSystem::Undefined</ref>()</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a9d49e1a03773c4d78ba6dc579b24b713" kindref="member">~SatelliteSystem</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref>*<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1ab72eb53f29c3f6f9839eaefd5667f218" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1aa74775f808a686c2452a9868d72ab5ef" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref>&amp;<sp/>aSatelliteSystem)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a67e71754b00cc21140555fd3632705e0" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref>&amp;<sp/>aSatelliteSystem)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1aab00cabfb6e244285ddc39aae94d2190" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref>&amp;<sp/>aSatelliteSystem);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a6d10fc37776cc87a74fe8b7e2ccb9843" kindref="member">isDefined</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref>&amp;<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1abe34f4724424acccb7e9a2033c72d133" kindref="member">accessPropulsionSystem</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>Matrix3d<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a5b4919deec7bbc637878f553542490b2" kindref="member">getInertiaTensor</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1ac857e04d890280e233c89037a61044d9" kindref="member">getCrossSectionalSurfaceArea</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a4e6dcdae45be7ead5fe0924a540ae2cd" kindref="member">getDragCoefficient</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a3fd043e5e7c2dd4bcf19f00d4c9b429d" kindref="member">getPropulsionSystem</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a0d4ca06c426773f667018581945dbf57" kindref="member">print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a71f5822114d8ff43d11a33bdf982aaa7" kindref="member">Undefined</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a586f05b15d55e12722c5a2eaef6d3cd6" kindref="member">Default</ref>();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>Matrix3d<sp/>inertiaTensor_;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>crossSectionalSurfaceArea_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>dragCoefficient_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref><sp/>propulsionSystem_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>flight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp"/>
+  </compounddef>
+</doxygen>

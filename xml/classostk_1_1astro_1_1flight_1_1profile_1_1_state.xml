@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::flight::profile::State</compoundname>
+    <includes refid="_flight_2_profile_2_state_8hpp" local="no">State.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a13fdf0b8a6c7a33a50a7cec9e8a6dfb3" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::flight::profile::State::instant_</definition>
+        <argsstring></argsstring>
+        <name>instant_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="83" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1abad637d50db949b7182780e6646c22a6" prot="private" static="no" mutable="no">
+        <type>Position</type>
+        <definition>Position ostk::astro::flight::profile::State::position_</definition>
+        <argsstring></argsstring>
+        <name>position_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="84" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a329af1fc89438a4d6eee5dc93dba9545" prot="private" static="no" mutable="no">
+        <type>Velocity</type>
+        <definition>Velocity ostk::astro::flight::profile::State::velocity_</definition>
+        <argsstring></argsstring>
+        <name>velocity_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="85" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a292082fb295631ae7302a3c945390d0f" prot="private" static="no" mutable="no">
+        <type>Quaternion</type>
+        <definition>Quaternion ostk::astro::flight::profile::State::attitude_</definition>
+        <argsstring></argsstring>
+        <name>attitude_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="86" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a14e022c5d53e1b9804dcf217e350110b" prot="private" static="no" mutable="no">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astro::flight::profile::State::angularVelocity_</definition>
+        <argsstring></argsstring>
+        <name>angularVelocity_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="87" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ab672f02ca01a7fe3d09032003d940556" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astro::flight::profile::State::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="88" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1aa68f2e3268146c8bcb581beb8dcd5412" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::profile::State::State</definition>
+        <argsstring>(const Instant &amp;anInstant, const Position &amp;aPosition, const Velocity &amp;aVelocity, const Quaternion &amp;anAttitude, const Vector3d &amp;anAngularVelocity, const Shared&lt; const Frame &gt; &amp;aReferenceFrame)</argsstring>
+        <name>State</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Position &amp;</type>
+          <declname>aPosition</declname>
+        </param>
+        <param>
+          <type>const Velocity &amp;</type>
+          <declname>aVelocity</declname>
+        </param>
+        <param>
+          <type>const Quaternion &amp;</type>
+          <declname>anAttitude</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>anAngularVelocity</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aReferenceFrame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="37" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="17" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a4f6023c3c1d9590ec701bf10b0724ebf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::profile::State::operator==</definition>
+        <argsstring>(const State &amp;aState) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="46" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="34" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a300ff5bdda0b2bba50912f95287aba5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::profile::State::operator!=</definition>
+        <argsstring>(const State &amp;aState) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="48" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ab69f291582ca4b31c9f340d9d5f83269" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::profile::State::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="52" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a6537111ca0de878dc9ccba7fbc037d41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astro::flight::profile::State::accessInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>accessInstant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="54" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a92a98a15aac3aff680a619cc925f45c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Position &amp;</type>
+        <definition>const Position &amp; ostk::astro::flight::profile::State::accessPosition</definition>
+        <argsstring>() const</argsstring>
+        <name>accessPosition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="56" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1af24c195994d32133d7ab9dbcc0124aed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Velocity &amp;</type>
+        <definition>const Velocity &amp; ostk::astro::flight::profile::State::accessVelocity</definition>
+        <argsstring>() const</argsstring>
+        <name>accessVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="58" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="85" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ad2ce6847d15311d2d1cb7a3662a1d5e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Quaternion &amp;</type>
+        <definition>const Quaternion &amp; ostk::astro::flight::profile::State::accessAttitude</definition>
+        <argsstring>() const</argsstring>
+        <name>accessAttitude</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="60" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ad0118d95481db7a1bee0820aa20720af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Vector3d &amp;</type>
+        <definition>const Vector3d &amp; ostk::astro::flight::profile::State::accessAngularVelocity</definition>
+        <argsstring>() const</argsstring>
+        <name>accessAngularVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="62" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1aef2c7d2c1f6831280e3933bb2d83a290" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::flight::profile::State::getInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getInstant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="64" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1afb70771069e2bc1357ca9e7c885b5dee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Position</type>
+        <definition>Position ostk::astro::flight::profile::State::getPosition</definition>
+        <argsstring>() const</argsstring>
+        <name>getPosition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="66" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1af6faff1154fb9aeb49685bdb6c5257e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Velocity</type>
+        <definition>Velocity ostk::astro::flight::profile::State::getVelocity</definition>
+        <argsstring>() const</argsstring>
+        <name>getVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="68" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="125" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a8b765a7ebcfc0a7202bce31cafbc3a30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Quaternion</type>
+        <definition>Quaternion ostk::astro::flight::profile::State::getAttitude</definition>
+        <argsstring>() const</argsstring>
+        <name>getAttitude</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="70" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="130" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1acd3702013017327ab64023ff86d1c3c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astro::flight::profile::State::getAngularVelocity</definition>
+        <argsstring>() const</argsstring>
+        <name>getAngularVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="72" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="135" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a6e06bfcca971466bf36c2c0a0837e429" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt; const Frame &gt; ostk::astro::flight::profile::State::getFrame</definition>
+        <argsstring>() const</argsstring>
+        <name>getFrame</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="74" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="140" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ab5f93d12e52218cc6d5684a5a9519b87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astro::flight::profile::State::inFrame</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const</argsstring>
+        <name>inFrame</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="76" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="150" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1afc8060bca36e76f1b3b7f2ab8ad6df16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::flight::profile::State::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="78" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="187" bodyend="209"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1abba03f039f2534d691a1dc28426e8b89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const State &amp;aState)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="50" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1af18b40557aa14bfd0b46d14ad04d33fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astro::flight::profile::State::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="80" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="211" bodyend="221"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Spacecraft flight profile state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp" bodystart="34" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ad0118d95481db7a1bee0820aa20720af" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>accessAngularVelocity</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ad2ce6847d15311d2d1cb7a3662a1d5e4" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>accessAttitude</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a6537111ca0de878dc9ccba7fbc037d41" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>accessInstant</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a92a98a15aac3aff680a619cc925f45c6" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>accessPosition</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1af24c195994d32133d7ab9dbcc0124aed" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>accessVelocity</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a14e022c5d53e1b9804dcf217e350110b" prot="private" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>angularVelocity_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a292082fb295631ae7302a3c945390d0f" prot="private" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>attitude_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ab672f02ca01a7fe3d09032003d940556" prot="private" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1acd3702013017327ab64023ff86d1c3c2" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>getAngularVelocity</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a8b765a7ebcfc0a7202bce31cafbc3a30" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>getAttitude</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a6e06bfcca971466bf36c2c0a0837e429" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>getFrame</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1aef2c7d2c1f6831280e3933bb2d83a290" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>getInstant</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1afb70771069e2bc1357ca9e7c885b5dee" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>getPosition</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1af6faff1154fb9aeb49685bdb6c5257e2" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>getVelocity</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ab5f93d12e52218cc6d5684a5a9519b87" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>inFrame</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a13fdf0b8a6c7a33a50a7cec9e8a6dfb3" prot="private" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>instant_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1ab69f291582ca4b31c9f340d9d5f83269" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a300ff5bdda0b2bba50912f95287aba5e" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1abba03f039f2534d691a1dc28426e8b89" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a4f6023c3c1d9590ec701bf10b0724ebf" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1abad637d50db949b7182780e6646c22a6" prot="private" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>position_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1afc8060bca36e76f1b3b7f2ab8ad6df16" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1aa68f2e3268146c8bcb581beb8dcd5412" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>State</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1af18b40557aa14bfd0b46d14ad04d33fc" prot="public" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>Undefined</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state_1a329af1fc89438a4d6eee5dc93dba9545" prot="private" virt="non-virtual"><scope>ostk::astro::flight::profile::State</scope><name>velocity_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

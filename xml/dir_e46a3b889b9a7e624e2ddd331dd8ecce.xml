@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_e46a3b889b9a7e624e2ddd331dd8ecce" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Flight/System</compoundname>
+    <innerfile refid="_propulsion_system_8cpp">PropulsionSystem.cpp</innerfile>
+    <innerfile refid="_satellite_system_8cpp">SatelliteSystem.cpp</innerfile>
+    <innerfile refid="_satellite_system_builder_8cpp">SatelliteSystemBuilder.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/"/>
+  </compounddef>
+</doxygen>

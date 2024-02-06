@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_d6e2ab32d564fa62dd9f9ace46d4d196" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX</compoundname>
+    <innerfile refid="_o_p_m_8cpp">OPM.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/"/>
+  </compounddef>
+</doxygen>

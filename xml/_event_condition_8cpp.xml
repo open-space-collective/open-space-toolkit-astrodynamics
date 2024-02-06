@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_event_condition_8cpp" kind="file" language="C++">
+    <compoundname>EventCondition.cpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Error.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Utilities.hpp</includes>
+    <includes refid="_event_condition_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</includes>
+    <incdepgraph>
+      <node id="15">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp</label>
+      </node>
+      <node id="19">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</label>
+        <link refid="_coordinates_broker_8hpp"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
+        <link refid="_trajectory_2_state_8hpp"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp</label>
+        <link refid="_event_condition_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
+      </node>
+      <node id="12">
+        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</label>
+        <link refid="_event_condition_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Physics/Units/Length.hpp</label>
+      </node>
+      <node id="21">
+        <label>OpenSpaceToolkit/Core/Types/Index.hpp</label>
+      </node>
+      <node id="18">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="20">
+        <label>OpenSpaceToolkit/Core/Containers/Map.hpp</label>
+      </node>
+      <node id="13">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp</label>
+      </node>
+      <node id="22">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</label>
+        <link refid="_coordinates_subset_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Core/Types/String.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Error.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
+      </node>
+      <node id="17">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
+      </node>
+      <node id="10">
+        <label>OpenSpaceToolkit/Core/Containers/Array.hpp</label>
+      </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Core/Types/Shared.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Utilities.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Error.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_event_condition_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1aaca2e5d3eadd04687afe6c0ffa42bb05" kindref="member">EventCondition::Target::Target</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aValue,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Type&amp;<sp/>aType)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>value(aValue),</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type(aType)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1aaca2e5d3eadd04687afe6c0ffa42bb05" kindref="member">EventCondition::Target::Target</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>anAngle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Type&amp;<sp/>aType)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>value(anAngle.inRadians(0.0,<sp/>Real::TwoPi())),</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type(aType)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1aaca2e5d3eadd04687afe6c0ffa42bb05" kindref="member">EventCondition::Target::Target</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length&amp;<sp/>aLength,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Type&amp;<sp/>aType)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>value(aLength.inMeters()),</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type(aType)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a399f7505c3cea80f676f9caca57791d2" kindref="member">EventCondition::Target::operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EventCondition::Target&amp;<sp/>aTarget)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="32"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a58e78b07ffd3aa26e7031519cdae567e" kindref="member">value</ref>.isDefined()<sp/>||<sp/>!aTarget.value.isDefined())</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a4884cdd3bbb32d0dbd0a7b382825b5dd" kindref="member">type</ref><sp/>==<sp/>aTarget.type)<sp/>&amp;&amp;<sp/>(<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a58e78b07ffd3aa26e7031519cdae567e" kindref="member">value</ref><sp/>==<sp/>aTarget.value);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a1e8d2e01db3c25ca40ce72d13b2e174e" kindref="member">EventCondition::Target::operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EventCondition::Target&amp;<sp/>aTarget)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="42"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aTarget);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1af01ff36b5b285c7704b69fd80a455aaf" kindref="member">EventCondition::Target::isDefined</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="47"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value.isDefined();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">String<sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a65d03cf5cf9870e84e7d620f4afb77b1" kindref="member">EventCondition::Target::StringFromType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1ad4f282cf21bc328fa6e4197a68eb48e5" kindref="member">EventCondition::Target::Type</ref>&amp;<sp/>aType)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aType)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1ad4f282cf21bc328fa6e4197a68eb48e5ab51ca26c6c89cfc9bec338f7a0d3e0c8" kindref="member">EventCondition::Target::Type::Absolute</ref>:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Absolute&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1ad4f282cf21bc328fa6e4197a68eb48e5a2ca9469819fb0fb61ff98e914a7ccca0" kindref="member">EventCondition::Target::Type::Relative</ref>:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Relative&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Type&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="classostk_1_1astro_1_1_event_condition_1ac52f7f9df65ed558df5a0aaf7a1613ba" kindref="member">EventCondition::EventCondition</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;Real(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;)&gt;&amp;<sp/>anEvaluator,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EventCondition::Target&amp;<sp/>aTarget</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ae1e396a2c12ebb12e040727ae84003b3" kindref="member">name_</ref>(aName),</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ac58153e421a6928188bfc93b5e26c12e" kindref="member">evaluator_</ref>(anEvaluator),</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" kindref="member">target_</ref>(aTarget)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="classostk_1_1astro_1_1_event_condition_1ac52f7f9df65ed558df5a0aaf7a1613ba" kindref="member">EventCondition::EventCondition</ref>(</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;Real(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;)&gt;&amp;<sp/>anEvaluator,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aTargetValue</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>name_(aName),</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>evaluator_(anEvaluator),</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>target_({aTargetValue,<sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1ad4f282cf21bc328fa6e4197a68eb48e5ab51ca26c6c89cfc9bec338f7a0d3e0c8" kindref="member">EventCondition::Target::Type::Absolute</ref>})</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="classostk_1_1astro_1_1_event_condition_1a8c33b8dc74c54cfeb89e673fa0548de0" kindref="member">EventCondition::~EventCondition</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astro_1ad6bf403749e98996e2e56cd6dc8cc848" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EventCondition&amp;<sp/>anEventCondition)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>anEventCondition.print(anOutputStream);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">String<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a4059c751030da6877a63a6cff90576e7" kindref="member">EventCondition::getName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="92"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ae1e396a2c12ebb12e040727ae84003b3" kindref="member">name_</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">std::function&lt;Real(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;)&gt;<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a498e794a6eed5cf46e66c0b4acad4d50" kindref="member">EventCondition::getEvaluator</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="97"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ac58153e421a6928188bfc93b5e26c12e" kindref="member">evaluator_</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">EventCondition::Target<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ada7ab6f4ab76ee6e67399d16097dab5f" kindref="member">EventCondition::getTarget</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="102"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" kindref="member">target_</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1adbec683a19790e6f1b4d3b94f93b36c7" kindref="member">EventCondition::updateTarget</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classostk_1_1astro_1_1_event_condition_1ac58153e421a6928188bfc93b5e26c12e" kindref="member">evaluator_</ref>)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Evaluator&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" kindref="member">target_</ref>.<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a4884cdd3bbb32d0dbd0a7b382825b5dd" kindref="member">type</ref><sp/>==<sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1ad4f282cf21bc328fa6e4197a68eb48e5a2ca9469819fb0fb61ff98e914a7ccca0" kindref="member">EventCondition::Target::Type::Relative</ref>)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" kindref="member">target_</ref>.<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a567b1b96e91c22a9e91e165153c54d16" kindref="member">valueOffset</ref><sp/>=<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ac58153e421a6928188bfc93b5e26c12e" kindref="member">evaluator_</ref>(aState);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a72cf3353323b6b21f4406c8e152b2d30" kindref="member">EventCondition::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="120"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>Condition&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Name:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1ae1e396a2c12ebb12e040727ae84003b3" kindref="member">name_</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Target:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" kindref="member">target_</ref>.<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a58e78b07ffd3aa26e7031519cdae567e" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Target<sp/>Type:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a65d03cf5cf9870e84e7d620f4afb77b1" kindref="member">EventCondition::Target::StringFromType</ref>(<ref refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" kindref="member">target_</ref>.<ref refid="structostk_1_1astro_1_1_event_condition_1_1_target_1a4884cdd3bbb32d0dbd0a7b382825b5dd" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astro_1_1_dynamics_1_1_context" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astro::Dynamics::Context</compoundname>
+    <includes refid="_dynamics_8hpp" local="no">Dynamics.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astro_1_1_dynamics_1_1_context_1a571dbf2cdd482c380b78a2900f922012" prot="public" static="no" mutable="no">
+        <type>Shared&lt; <ref refid="classostk_1_1astro_1_1_dynamics" kindref="compound">Dynamics</ref> &gt;</type>
+        <definition>Shared&lt;Dynamics&gt; ostk::astro::Dynamics::Context::dynamics</definition>
+        <argsstring></argsstring>
+        <name>dynamics</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="59" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astro_1_1_dynamics_1_1_context_1a5d0d57b47b2c195b08f203e6e32a3a4f" prot="public" static="no" mutable="no">
+        <type>Array&lt; Pair&lt; Index, Size &gt; &gt;</type>
+        <definition>Array&lt;Pair&lt;Index, Size&gt; &gt; ostk::astro::Dynamics::Context::readIndexes</definition>
+        <argsstring></argsstring>
+        <name>readIndexes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="60" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astro_1_1_dynamics_1_1_context_1ac1fd08773a4165bb26e1427f763f5b1b" prot="public" static="no" mutable="no">
+        <type>Array&lt; Pair&lt; Index, Size &gt; &gt;</type>
+        <definition>Array&lt;Pair&lt;Index, Size&gt; &gt; ostk::astro::Dynamics::Context::writeIndexes</definition>
+        <argsstring></argsstring>
+        <name>writeIndexes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="61" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astro_1_1_dynamics_1_1_context_1ada5a035e78b6c90e46c4323e86034642" prot="public" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astro::Dynamics::Context::readStateSize</definition>
+        <argsstring></argsstring>
+        <name>readStateSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="62" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astro_1_1_dynamics_1_1_context_1a277c863d6b705c194aed18ecd3e695e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::Dynamics::Context::Context</definition>
+        <argsstring>(const Shared&lt; Dynamics &gt; &amp;aDynamicsSPtr, const Array&lt; Pair&lt; Index, Size &gt;&gt; &amp;aReadIndexes, const Array&lt; Pair&lt; Index, Size &gt;&gt; &amp;aWriteIndexes)</argsstring>
+        <name>Context</name>
+        <param>
+          <type>const Shared&lt; <ref refid="classostk_1_1astro_1_1_dynamics" kindref="compound">Dynamics</ref> &gt; &amp;</type>
+          <declname>aDynamicsSPtr</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Pair&lt; Index, Size &gt;&gt; &amp;</type>
+          <declname>aReadIndexes</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Pair&lt; Index, Size &gt;&gt; &amp;</type>
+          <declname>aWriteIndexes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="53" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="29" bodyend="43"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>Shared&lt; ostk::astro::Dynamics &gt;</label>
+      </node>
+      <node id="3">
+        <label>Array&lt; Pair&lt; Index, Size &gt; &gt;</label>
+      </node>
+      <node id="4">
+        <label>Size</label>
+      </node>
+      <node id="1">
+        <label>ostk::astro::Dynamics::Context</label>
+        <link refid="structostk_1_1astro_1_1_dynamics_1_1_context"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>dynamics</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>writeIndexes</edgelabel>
+          <edgelabel>readIndexes</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>readStateSize</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="52" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="51" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astro_1_1_dynamics_1_1_context_1a277c863d6b705c194aed18ecd3e695e0" prot="public" virt="non-virtual"><scope>ostk::astro::Dynamics::Context</scope><name>Context</name></member>
+      <member refid="structostk_1_1astro_1_1_dynamics_1_1_context_1a571dbf2cdd482c380b78a2900f922012" prot="public" virt="non-virtual"><scope>ostk::astro::Dynamics::Context</scope><name>dynamics</name></member>
+      <member refid="structostk_1_1astro_1_1_dynamics_1_1_context_1a5d0d57b47b2c195b08f203e6e32a3a4f" prot="public" virt="non-virtual"><scope>ostk::astro::Dynamics::Context</scope><name>readIndexes</name></member>
+      <member refid="structostk_1_1astro_1_1_dynamics_1_1_context_1ada5a035e78b6c90e46c4323e86034642" prot="public" virt="non-virtual"><scope>ostk::astro::Dynamics::Context</scope><name>readStateSize</name></member>
+      <member refid="structostk_1_1astro_1_1_dynamics_1_1_context_1ac1fd08773a4165bb26e1427f763f5b1b" prot="public" virt="non-virtual"><scope>ostk::astro::Dynamics::Context</scope><name>writeIndexes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

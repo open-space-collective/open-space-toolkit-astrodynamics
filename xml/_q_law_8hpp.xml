@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_q_law_8hpp" kind="file" language="C++">
+    <compoundname>QLaw.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Containers/Map.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Units/Derived.hpp</includes>
+    <includes refid="_guidance_law_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</includes>
+    <includes refid="_finite_difference_solver_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp</includes>
+    <includes refid="_c_o_e_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp</includes>
+    <includes refid="_state_builder_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</includes>
+    <includedby refid="_q_law_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="24">
+        <label>OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp</label>
+      </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp</label>
+        <link refid="_finite_difference_solver_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</label>
+        <link refid="_coordinates_broker_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
+        <link refid="_trajectory_2_state_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</label>
+        <link refid="_guidance_law_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
+      </node>
+      <node id="13">
+        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
+      </node>
+      <node id="22">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp</label>
+        <link refid="_c_o_e_8hpp"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>OpenSpaceToolkit/Physics/Units/Length.hpp</label>
+      </node>
+      <node id="20">
+        <label>OpenSpaceToolkit/Core/Types/Index.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Containers/Map.hpp</label>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Physics/Units/Derived.hpp</label>
+      </node>
+      <node id="21">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</label>
+        <link refid="_coordinates_subset_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>OpenSpaceToolkit/Core/Containers/Pair.hpp</label>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Core/Types/String.hpp</label>
+      </node>
+      <node id="26">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
+        <link refid="_state_builder_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
+      </node>
+      <node id="18">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</label>
+        <link refid="_q_law_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>OpenSpaceToolkit/Core/Containers/Array.hpp</label>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Core/Types/Shared.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
+      </node>
+      <node id="27">
+        <label>OpenSpaceToolkit/Core/Types/Integer.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
+        <link refid="_q_law_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</label>
+        <link refid="_q_law_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law" prot="public">ostk::astro::guidancelaw::QLaw</innerclass>
+    <innerclass refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters" prot="public">ostk::astro::guidancelaw::QLaw::Parameters</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1guidancelaw">ostk::astro::guidancelaw</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Containers/Map.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Objects/Vector.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Units/Derived.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_guidance_law_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_finite_difference_solver_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_c_o_e_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_state_builder_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">guidancelaw</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Real;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Size;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Shared;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::ctnr::Tuple;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::ctnr::Array;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::ctnr::Map;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::Vector3d;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::Matrix3d;</highlight></codeline>
+<codeline lineno="34" refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/>=<sp/>Eigen::Matrix&lt;double,<sp/>5,<sp/>1&gt;;</highlight></codeline>
+<codeline lineno="35" refid="namespaceostk_1_1astro_1_1guidancelaw_1abff1901c0c566316d83ac15ccc30ed24" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1abff1901c0c566316d83ac15ccc30ed24" kindref="member">Matrix5d</ref><sp/>=<sp/>Eigen::Matrix&lt;double,<sp/>5,<sp/>5&gt;;</highlight></codeline>
+<codeline lineno="36" refid="namespaceostk_1_1astro_1_1guidancelaw_1a73c581733c8705e189293ab575031897" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a73c581733c8705e189293ab575031897" kindref="member">Matrix53d</ref><sp/>=<sp/>Eigen::Matrix&lt;double,<sp/>5,<sp/>3&gt;;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::Vector6d;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::MatrixXd;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::VectorXd;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Duration;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::Frame;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::units::Derived;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::units::Length;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_guidance_law" kindref="compound">ostk::astro::GuidanceLaw</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">ostk::astro::trajectory::orbit::models::kepler::COE</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver" kindref="compound">ostk::astro::solvers::FiniteDifferenceSolver</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1_state_builder" kindref="compound">ostk::astro::trajectory::StateBuilder</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law" kindref="compound">QLaw</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1_guidance_law" kindref="compound">GuidanceLaw</ref></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters" kindref="compound">Parameters</ref></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a84f79c7349a001abcad0c046631592cf" kindref="member">Parameters</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;<ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94" kindref="member">COE::Element</ref>,<sp/>Tuple&lt;double,<sp/>double&gt;&gt;&amp;<sp/>anElementWeightsMap,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aMValue<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aNValue<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aRValue<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aBValue<sp/>=<sp/>0.01,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aKValue<sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aPeriapsisWeight<sp/>=<sp/>0.0,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length&amp;<sp/>minimumPeriapsisradius<sp/>=<sp/>Length::Kilometers(6578.0),</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a3e25a328c855a3e7a04fb228f9238ded" kindref="member">absoluteEffectivityThreshold</ref><sp/>=<sp/>Real::Undefined(),</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1aeadef81a479748828d3c2084b7a5d4db" kindref="member">relativeEffectivityThreshold</ref><sp/>=<sp/>Real::Undefined()</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a04f16b6d1fd3fe048600a6af25864b73" kindref="member">getControlWeights</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Length<sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1af04d6a76f79f6c98eb7d9764307505dd" kindref="member">getMinimumPeriapsisRadius</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a67994e4751be669eea93803e67099214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a67994e4751be669eea93803e67099214" kindref="member">m</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1af32e7d7abce09df9da78593615b99341" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1af32e7d7abce09df9da78593615b99341" kindref="member">n</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a2e70e97a8c1686cfcf0aee8095470f27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a2e70e97a8c1686cfcf0aee8095470f27" kindref="member">r</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a3844538c67133a4a844ecb0bf388337d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a3844538c67133a4a844ecb0bf388337d" kindref="member">b</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1ae3a8b90bfc64f3ee62513e4426b8c141" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1ae3a8b90bfc64f3ee62513e4426b8c141" kindref="member">k</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a5ed66f443671d098cbcd11def7356268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a5ed66f443671d098cbcd11def7356268" kindref="member">periapsisWeight</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a3e25a328c855a3e7a04fb228f9238ded" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a3e25a328c855a3e7a04fb228f9238ded" kindref="member">absoluteEffectivityThreshold</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1aeadef81a479748828d3c2084b7a5d4db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1aeadef81a479748828d3c2084b7a5d4db" kindref="member">relativeEffectivityThreshold</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a4436cbbe98875cf6482e05dacf48b863" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1guidancelaw_1_1_q_law_1_1_parameters_1a4436cbbe98875cf6482e05dacf48b863" kindref="member">QLaw</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minimumPeriapsisRadius_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/>convergenceThresholds_;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/>controlWeights_;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;COE::Element&gt;<sp/>validElements_<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a0799caf6dcb819282bb8808aae40e4db" kindref="member">COE::Element::SemiMajorAxis</ref>,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a1078f8f87d6348dce5960e3d861c0053" kindref="member">COE::Element::Eccentricity</ref>,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94ad5077cca37d144dc8530e4a9db417dc5" kindref="member">COE::Element::Inclination</ref>,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a6953d46ff06cf818c4941a2d7d93a923" kindref="member">COE::Element::Raan</ref>,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a0b506ccfa4de59cfa64646a72ff019ed" kindref="member">COE::Element::Aop</ref>,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48" kindref="member">GradientStrategy</ref></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48a607b56b49ff25410a090c25286efb7cc" kindref="member">Analytical</ref>,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23" kindref="member">FiniteDifference</ref></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a4fb73ade7e47bd9ba101bacc316c0638" kindref="member">QLaw</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref>&amp;<sp/>aCOE,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Parameters&amp;<sp/>aParameterSet,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48" kindref="member">GradientStrategy</ref>&amp;<sp/>aGradientStrategy<sp/>=<sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48a187530090e204f0fcd551c3c96519e23" kindref="member">GradientStrategy::FiniteDifference</ref></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a23e523139e6e0f68549df27edd303eea" kindref="member">~QLaw</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a8f94cc3d8532a14a66eda491ca8d0e72" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law" kindref="compound">QLaw</ref>&amp;<sp/>aGuidanceLaw);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>Parameters<sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a11b114a151863e416e4e318cc6129ff2" kindref="member">getParameters</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a3f3d351991b5d218e740916f15be1231" kindref="member">getTargetCOE</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48" kindref="member">GradientStrategy</ref><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a8ae6aef650fd2c82acb7352fec31018c" kindref="member">getGradientStrategy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1af79760ef166ff0b817beac9981550a41" kindref="member">print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Vector3d<sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a048346071989ea9da87fdf1991b82ed0" kindref="member">calculateThrustAccelerationAt</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aPositionCoordinates,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aVelocityCoordinates,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustAcceleration,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>outputFrameSPtr</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a199792f8f11fb6cf0a1f0891b482f57b" kindref="member">computeOrbitalElementsMaximalChange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aThrustAcceleration)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a72b0e87c8b9d330ab808eb0c8ed91dfc" kindref="member">computeQ</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aThrustAcceleration)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a336f7f1c6143ea8f8092f16535c72065" kindref="member">compute_dQ_dOE</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aThrustAcceleration)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3d<sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1ac2fb93df1b6719ed684e59bf2d8d464c" kindref="member">computeThrustDirection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector6d&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aThrustAcceleration)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a73c581733c8705e189293ab575031897" kindref="member">Matrix53d</ref><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a7639ade3092b62ea5b36b2c3acd5a870" kindref="member">Compute_dOE_dF</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector6d&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Matrix3d<sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a15ce7b785c09c451d48e8929e8f151d4" kindref="member">ThetaRHToGCRF</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aPositionCoordinates,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aVelocityCoordinates);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Parameters<sp/>parameters_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mu_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector6d<sp/>targetCOEVector_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived<sp/>gravitationalParameter_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1guidancelaw_1_1_q_law_1a6b6c584c030257d1a060a69c0f71bf48" kindref="member">GradientStrategy</ref><sp/>gradientStrategy_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref><sp/>finiteDifferenceSolver_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref><sp/>stateBuilder_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd<sp/>trueAnomalyAngles_<sp/>=<sp/>VectorXd::LinSpaced(50,<sp/>0.0,<sp/>2.0<sp/>*<sp/>M_PI);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/>computeDeltaCOE(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>aCOEVector)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/>computeAnalytical_dQ_dOE(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aThrustAcceleration)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref><sp/>computeNumerical_dQ_dOE(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aThrustAcceleration)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>Tuple&lt;double,<sp/>double&gt;<sp/>computeEffectivity(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector6d&amp;<sp/>aCOEVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aThrustDirection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astro_1_1guidancelaw_1a962bac78289f90d5f0595d01df71287a" kindref="member">Vector5d</ref>&amp;<sp/>dQ_dOE</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>guidancelaw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp"/>
+  </compounddef>
+</doxygen>

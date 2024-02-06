@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1flight_1_1_profile" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::flight::Profile</compoundname>
+    <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PointingMode</name>
+        <enumvalue id="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4aec0fc0100c4fc1ce4eea230c3dc10360" prot="public">
+          <name>Undefined</name>
+          <briefdescription>
+<para>Undefined pointing mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4a4d5cc7bc19ef3d1ab992ba044dc0ebe4" prot="public">
+          <name>Inertial</name>
+          <briefdescription>
+<para>Inertial pointing mode (the spacecraft points to a celestial object) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4ae749bd0537284ea6e823e91c9edcb528" prot="public">
+          <name>Nadir</name>
+          <briefdescription>
+<para>Nadir pointing mode (the spacecraft points points &quot;directly down&quot;) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4ac41a31890959544c6523af684561abe5" prot="public">
+          <name>Target</name>
+          <briefdescription>
+<para>Target pointing mode (the spacecraft points to a given target position) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4a90589c47f06eb971d548591f23c285af" prot="public">
+          <name>Custom</name>
+          <briefdescription>
+<para>Custom pointing mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="53" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1_profile_1a49a67dd2dc37e43dbcbe4bf3a9357c18" prot="private" static="no" mutable="no">
+        <type>Unique&lt; <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &gt;</type>
+        <definition>Unique&lt;Model&gt; ostk::astro::flight::Profile::modelUPtr_</definition>
+        <argsstring></argsstring>
+        <name>modelUPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="177" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::Profile::Profile</definition>
+        <argsstring>(const Model &amp;aModel)</argsstring>
+        <name>Profile</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="65" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="13" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a67dc07f205bb3c49c5da9f2013f81f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::Profile::Profile</definition>
+        <argsstring>(const Profile &amp;aProfile)</argsstring>
+        <name>Profile</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref> &amp;</type>
+          <declname>aProfile</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A flight profile </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="70" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a81696f834f8d29cf107edad1963e5c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref> &amp;</type>
+        <definition>Profile &amp; ostk::astro::flight::Profile::operator=</definition>
+        <argsstring>(const Profile &amp;aProfile)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref> &amp;</type>
+          <declname>aProfile</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A flight profile </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="76" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="23" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1ad29d08d46698fae962e74105f16985a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::Profile::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if profile is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref>(...).isDefined()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if profile is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="96" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a086758b767464ee2dc06cfda71fa3d48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astro::flight::Profile::getStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const</argsstring>
+        <name>getStateAt</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Get state at a given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>profile.getStateAt(instant)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>State </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="108" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="45" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1af35830c9e26ca7fffcc6e7e3ce86e9b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref> &gt;</type>
+        <definition>Array&lt; State &gt; ostk::astro::flight::Profile::getStatesAt</definition>
+        <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray) const</argsstring>
+        <name>getStatesAt</name>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <briefdescription>
+<para>Get states at a given instants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;State&gt;<sp/>state<sp/>=<sp/>profile.getStatesAt(instants)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of states </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="120" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a04d4ef9a89d42586e8a782d1af9ee031" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Axes</type>
+        <definition>Axes ostk::astro::flight::Profile::getAxesAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const</argsstring>
+        <name>getAxesAt</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Get axes at a given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Axes<sp/>axes<sp/>=<sp/>profile.getAxesAt(instant)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Axes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="132" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1abc2383de781cf911f4c275a5d02f3311" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt; const Frame &gt; ostk::astro::flight::Profile::getBodyFrame</definition>
+        <argsstring>(const String &amp;aFrameName) const</argsstring>
+        <name>getBodyFrame</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aFrameName</declname>
+        </param>
+        <briefdescription>
+<para>Get body frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A body frame name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to body frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="138" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a006797a25daa09426084c4df95e13b83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::flight::Profile::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print flight profile to output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">profile.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="149" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="85" bodyend="92"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1flight_1_1_profile_1a8747e69fc10f1b068a0dd02d79da3b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Profile &amp;aProfile)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref> &amp;</type>
+          <declname>aProfile</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref>(...)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A flight profile </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="87" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1aa966c10872c2d193d43c358b25f64289" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
+        <definition>Profile ostk::astro::flight::Profile::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Constructs an undefined flight profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/><ref refid="classostk_1_1astro_1_1flight_1_1_profile_1aa966c10872c2d193d43c358b25f64289" kindref="member">Profile::Undefined</ref>()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="158" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="94" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a17e61fe4527fb08c012c56a01fa23292" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
+        <definition>Profile ostk::astro::flight::Profile::InertialPointing</definition>
+        <argsstring>(const Trajectory &amp;aTrajectory, const Quaternion &amp;aQuaternion)</argsstring>
+        <name>InertialPointing</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Quaternion &amp;</type>
+          <declname>aQuaternion</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a flight profile with inertial pointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A trajectory </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aQuaternion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointing in GCRF </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="165" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1ab618c70fde205ab0df2c963628223ad8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
+        <definition>Profile ostk::astro::flight::Profile::NadirPointing</definition>
+        <argsstring>(const trajectory::Orbit &amp;anOrbit, const trajectory::Orbit::FrameType &amp;anOrbitalFrameType)</argsstring>
+        <name>NadirPointing</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_orbit" kindref="compound">trajectory::Orbit</ref> &amp;</type>
+          <declname>anOrbit</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_orbit_1a1cc449ad56374471a8ab4300dde979e7" kindref="member">trajectory::Orbit::FrameType</ref> &amp;</type>
+          <declname>anOrbitalFrameType</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a flight profile with nadir pointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOrbitalFrameType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbital frame type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="172" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1_profile_1a39585590660e507ba63c0276fc76a95a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::Profile::Profile</definition>
+        <argsstring>()</argsstring>
+        <name>Profile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="179" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="113" bodyend="116"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Spacecraft flight profile. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="50" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="49" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a04d4ef9a89d42586e8a782d1af9ee031" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>getAxesAt</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1abc2383de781cf911f4c275a5d02f3311" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>getBodyFrame</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a086758b767464ee2dc06cfda71fa3d48" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>getStateAt</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1af35830c9e26ca7fffcc6e7e3ce86e9b2" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>getStatesAt</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a17e61fe4527fb08c012c56a01fa23292" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>InertialPointing</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1ad29d08d46698fae962e74105f16985a4" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a49a67dd2dc37e43dbcbe4bf3a9357c18" prot="private" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>modelUPtr_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1ab618c70fde205ab0df2c963628223ad8" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>NadirPointing</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a8747e69fc10f1b068a0dd02d79da3b95" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a81696f834f8d29cf107edad1963e5c00" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>operator=</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a01d9e77f30ba7131c70e81d12b237ea4" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>PointingMode</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a006797a25daa09426084c4df95e13b83" prot="public" virt="virtual"><scope>ostk::astro::flight::Profile</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a09d523b4a58db0d8cc082b4a4d1418a7" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>Profile</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a67dc07f205bb3c49c5da9f2013f81f40" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>Profile</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1a39585590660e507ba63c0276fc76a95a" prot="private" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>Profile</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1_profile_1aa966c10872c2d193d43c358b25f64289" prot="public" virt="non-virtual"><scope>ostk::astro::flight::Profile</scope><name>Undefined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

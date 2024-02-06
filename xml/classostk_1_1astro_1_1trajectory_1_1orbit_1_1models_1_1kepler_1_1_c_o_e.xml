@@ -1,0 +1,1680 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::trajectory::orbit::models::kepler::COE</compoundname>
+    <derivedcompoundref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean" prot="public" virt="non-virtual">ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean</derivedcompoundref>
+    <includes refid="_c_o_e_8hpp" local="no">COE.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Element</name>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a0799caf6dcb819282bb8808aae40e4db" prot="public">
+          <name>SemiMajorAxis</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a1078f8f87d6348dce5960e3d861c0053" prot="public">
+          <name>Eccentricity</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94ad5077cca37d144dc8530e4a9db417dc5" prot="public">
+          <name>Inclination</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a6953d46ff06cf818c4941a2d7d93a923" prot="public">
+          <name>Raan</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a0b506ccfa4de59cfa64646a72ff019ed" prot="public">
+          <name>Aop</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94add9bb4f5c8ac7051efe788f0a62d1200" prot="public">
+          <name>TrueAnomaly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94ac8e43235334b06bbdc80f063364309c5" prot="public">
+          <name>MeanAnomaly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94a3361420b1530eeff8345432804abbae9" prot="public">
+          <name>EccentricAnomaly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="60" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="59" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="enum" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AnomalyType</name>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0faf827cf462f62848df37c5e1e94a4da74" prot="public">
+          <name>True</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0fa3d6c9ac08ada31c184094bbc67afe00d" prot="public">
+          <name>Mean</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0fab149e685f8c77dd4cbd5079601d78f4f" prot="public">
+          <name>Eccentric</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="72" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a410fdbf5aa25ed4651f1b7337c678edc" prot="public" static="no">
+        <type>Pair&lt; Position, Velocity &gt;</type>
+        <definition>typedef Pair&lt;Position, Velocity&gt; ostk::astro::trajectory::orbit::models::kepler::COE::CartesianState</definition>
+        <argsstring></argsstring>
+        <name>CartesianState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="78" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1acfebeb89693d778b3ff27da941ed4597" prot="protected" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astro::trajectory::orbit::models::kepler::COE::semiMajorAxis_</definition>
+        <argsstring></argsstring>
+        <name>semiMajorAxis_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="323" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ab26b1f41201b5cfd5a7c3afc84aae257" prot="protected" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::kepler::COE::eccentricity_</definition>
+        <argsstring></argsstring>
+        <name>eccentricity_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="324" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a228173562d31e942612b5fc8b89c6d91" prot="protected" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::inclination_</definition>
+        <argsstring></argsstring>
+        <name>inclination_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="325" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a9b63625b1f7fe150d5732d0f0e786859" prot="protected" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::raan_</definition>
+        <argsstring></argsstring>
+        <name>raan_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="326" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1aef80b781c56fefa26466a5bfbc64f0da" prot="protected" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::aop_</definition>
+        <argsstring></argsstring>
+        <name>aop_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="327" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a40465f2522463aad87d7c01dcdd6e9d3" prot="protected" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::anomaly_</definition>
+        <argsstring></argsstring>
+        <name>anomaly_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="328" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3b964f5f22dd42cbb8710b0723059b4b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" kindref="member">AnomalyType</ref></type>
+        <definition>AnomalyType ostk::astro::trajectory::orbit::models::kepler::COE::anomalyType_</definition>
+        <argsstring></argsstring>
+        <name>anomalyType_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="329" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ad978e3d9271251a8ded920e56f2862f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::models::kepler::COE::COE</definition>
+        <argsstring>(const Length &amp;aSemiMajorAxis, const Real &amp;anEccentricity, const Angle &amp;anInclination, const Angle &amp;aRaan, const Angle &amp;anAop, const Angle &amp;aTrueAnomaly)</argsstring>
+        <name>COE</name>
+        <param>
+          <type>const Length &amp;</type>
+          <declname>aSemiMajorAxis</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anInclination</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aRaan</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAop</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aTrueAnomaly</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSemiMajorAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A semi-major axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInclination</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inclination </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRaan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A raan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAop</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An aop </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTrueAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A true anomaly </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="88" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="50" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a02a4cbc11da755b76c84cb89d191af12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::kepler::COE::operator==</definition>
+        <argsstring>(const COE &amp;aCOE) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
+          <declname>aCOE</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A set of <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if COEs are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="99" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="68" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a072f00e44aa7f55d6433aa39c52f367e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::kepler::COE::operator!=</definition>
+        <argsstring>(const COE &amp;aCOE) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
+          <declname>aCOE</declname>
+        </param>
+        <briefdescription>
+<para>Not Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A set of <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if COEs are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="105" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a77c39d17b08185697c0e369de127053b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::models::kepler::COE::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="121" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="92" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4ef3444242660722bd7b4d81df81e04f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Length</type>
+        <definition>Length ostk::astro::trajectory::orbit::models::kepler::COE::getSemiMajorAxis</definition>
+        <argsstring>() const</argsstring>
+        <name>getSemiMajorAxis</name>
+        <briefdescription>
+<para>Get Semi Major Axis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Semi Major Axis </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="126" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1aa560280115b92a228a6aa7a570870dcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::kepler::COE::getEccentricity</definition>
+        <argsstring>() const</argsstring>
+        <name>getEccentricity</name>
+        <briefdescription>
+<para>Get Eccentricity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Eccentricity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="131" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="108" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a898cdb82f58745f66529fc0888be1442" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::getInclination</definition>
+        <argsstring>() const</argsstring>
+        <name>getInclination</name>
+        <briefdescription>
+<para>Get Inclination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Inclination </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="136" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a76b2061390f51954a16579940c6a81c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::getRaan</definition>
+        <argsstring>() const</argsstring>
+        <name>getRaan</name>
+        <briefdescription>
+<para>Get Right ascenscion of the ascending node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Right ascenscion of the ascending node </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="141" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="128" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a046e29af64478c59cc37a60e62af0564" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::getAop</definition>
+        <argsstring>() const</argsstring>
+        <name>getAop</name>
+        <briefdescription>
+<para>Get Argument of periapsis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Argument of periapsis </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="146" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a291fe898d738de282115866339f6cb79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::getTrueAnomaly</definition>
+        <argsstring>() const</argsstring>
+        <name>getTrueAnomaly</name>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_1a471d6a3db39f22cc7507ab679238a7cf">getTrueAnomaly</reimplementedby>
+        <briefdescription>
+<para>Get True anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="151" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="148" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ab82e0224409b81f27adf1f0943e7c838" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::getMeanAnomaly</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanAnomaly</name>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_1a8f54461034f97c24b59d217062c55416">getMeanAnomaly</reimplementedby>
+        <briefdescription>
+<para>Get Mean anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mean anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="156" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a63227bc5369988d4dfa8e1e30fb994dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::getEccentricAnomaly</definition>
+        <argsstring>() const</argsstring>
+        <name>getEccentricAnomaly</name>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_1ab8af6a9abeef92deda9b3f9a4d6d323f">getEccentricAnomaly</reimplementedby>
+        <briefdescription>
+<para>Get Eccentric anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Eccentric anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="161" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="168" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a64ebfde270ce5dc39f1547f129ace1e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Length</type>
+        <definition>Length ostk::astro::trajectory::orbit::models::kepler::COE::getPeriapsisRadius</definition>
+        <argsstring>() const</argsstring>
+        <name>getPeriapsisRadius</name>
+        <briefdescription>
+<para>Get Periapsis radius. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Periapsis radius </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="166" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="178" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ac1c4361ac117fcf6a120624ad2754319" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Length</type>
+        <definition>Length ostk::astro::trajectory::orbit::models::kepler::COE::getApoapsisRadius</definition>
+        <argsstring>() const</argsstring>
+        <name>getApoapsisRadius</name>
+        <briefdescription>
+<para>Get Apoapsis radius. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Apoapsis radius </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="171" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="188" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ab399c1ce0d9b6a8a4136783f6c5ef1a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Length</type>
+        <definition>Length ostk::astro::trajectory::orbit::models::kepler::COE::getSemiLatusRectum</definition>
+        <argsstring>() const</argsstring>
+        <name>getSemiLatusRectum</name>
+        <briefdescription>
+<para>Get Semi-Latus Rectum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Semi-Latus Rectum </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="176" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a10714471b0dfc6a1f55dee0760a0dae6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Length</type>
+        <definition>Length ostk::astro::trajectory::orbit::models::kepler::COE::getRadialDistance</definition>
+        <argsstring>() const</argsstring>
+        <name>getRadialDistance</name>
+        <briefdescription>
+<para>Get Radial Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Radiaul Distance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="181" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="208" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3e4b9d04da2fda55379e90b89a4613fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Derived</type>
+        <definition>Derived ostk::astro::trajectory::orbit::models::kepler::COE::getAngularMomentum</definition>
+        <argsstring>(const Derived &amp;aGravitationalParameter) const</argsstring>
+        <name>getAngularMomentum</name>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Get Angular Momentum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Angular Momentum </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="186" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="222" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1aad38a937538991a69cc88d3ded204516" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Derived</type>
+        <definition>Derived ostk::astro::trajectory::orbit::models::kepler::COE::getMeanMotion</definition>
+        <argsstring>(const Derived &amp;aGravitationalParameter) const</argsstring>
+        <name>getMeanMotion</name>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Get Mean motion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Mean motion </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="192" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="237" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a57f28aed6d08617af88c0025bb7b6ccf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astro::trajectory::orbit::models::kepler::COE::getOrbitalPeriod</definition>
+        <argsstring>(const Derived &amp;aGravitationalParameter) const</argsstring>
+        <name>getOrbitalPeriod</name>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Get Orbital period. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Orbital period </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="198" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="262" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3ebb7ead964fda0471f1342ef6701080" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a410fdbf5aa25ed4651f1b7337c678edc" kindref="member">COE::CartesianState</ref></type>
+        <definition>COE::CartesianState ostk::astro::trajectory::orbit::models::kepler::COE::getCartesianState</definition>
+        <argsstring>(const Derived &amp;aGravitationalParameter, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const</argsstring>
+        <name>getCartesianState</name>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Get Cartesian state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cartesian state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="205" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="282" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a78ec213363e8bdfbb7d66cbc471c5b64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector6d</type>
+        <definition>Vector6d ostk::astro::trajectory::orbit::models::kepler::COE::getSIVector</definition>
+        <argsstring>(const AnomalyType &amp;anAnomalyType) const</argsstring>
+        <name>getSIVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" kindref="member">AnomalyType</ref> &amp;</type>
+          <declname>anAnomalyType</declname>
+        </param>
+        <briefdescription>
+<para>Get vector of elements in SI units. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAnomalyType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="212" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="359" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3a6d1f36f7caa0009c8dd653ed5ddd33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::models::kepler::COE::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="218" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="371" bodyend="412"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a32e0ab4a9a11b3315114f2932c58f68c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const COE &amp;aCOE)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
+          <declname>aCOE</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ad978e3d9271251a8ded920e56f2862f8" kindref="member">COE</ref>(...)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCOE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A set of <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="116" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a65869bb9f9417dde5e230bbd4ab52fac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
+        <definition>COE ostk::astro::trajectory::orbit::models::kepler::COE::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Construct an undefined <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ad978e3d9271251a8ded920e56f2862f8" kindref="member">COE</ref><sp/>coe<sp/>=<sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a65869bb9f9417dde5e230bbd4ab52fac" kindref="member">COE::Undefined</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined coe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="227" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="414" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a6fd98b5a37cd8143667c47418513fea5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
+        <definition>COE ostk::astro::trajectory::orbit::models::kepler::COE::Cartesian</definition>
+        <argsstring>(const COE::CartesianState &amp;aCartesianState, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Cartesian</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a410fdbf5aa25ed4651f1b7337c678edc" kindref="member">COE::CartesianState</ref> &amp;</type>
+          <declname>aCartesianState</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> from a cartesian state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCartesianState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A cartesian state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="234" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="426" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ad2179a88244ded3ad19f1fa3efc8ac29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
+        <definition>COE ostk::astro::trajectory::orbit::models::kepler::COE::FromSIVector</definition>
+        <argsstring>(const Vector6d &amp;aCOEVector, const AnomalyType &amp;anAnomalyType)</argsstring>
+        <name>FromSIVector</name>
+        <param>
+          <type>const Vector6d &amp;</type>
+          <declname>aCOEVector</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" kindref="member">AnomalyType</ref> &amp;</type>
+          <declname>anAnomalyType</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> from a vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOEVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAnomalyType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="241" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="630" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a862d6d129ee8b17faa4b786ffec9e1f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::EccentricAnomalyFromTrueAnomaly</definition>
+        <argsstring>(const Angle &amp;aTrueAnomaly, const Real &amp;anEccentricity)</argsstring>
+        <name>EccentricAnomalyFromTrueAnomaly</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aTrueAnomaly</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <briefdescription>
+<para>Convert True anomaly to Eccentric anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrueAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A true anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Eccentric anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="248" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="642" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a840b51ad645eee26060462d8ffff83af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::TrueAnomalyFromEccentricAnomaly</definition>
+        <argsstring>(const Angle &amp;anEccentricAnomaly, const Real &amp;anEccentricity)</argsstring>
+        <name>TrueAnomalyFromEccentricAnomaly</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anEccentricAnomaly</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <briefdescription>
+<para>Convert Eccentric anomaly to True anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEccentricAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentric anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="255" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="725" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ac45f3543991d1c81a0341e141713126f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::MeanAnomalyFromEccentricAnomaly</definition>
+        <argsstring>(const Angle &amp;anEccentricAnomaly, const Real &amp;anEccentricity)</argsstring>
+        <name>MeanAnomalyFromEccentricAnomaly</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anEccentricAnomaly</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <briefdescription>
+<para>Convert Mean anomaly to Eccentric anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMeanAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A mean anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Eccentric anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="262" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="746" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a03697221660ff4c30f4eb19ecdc89159" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::EccentricAnomalyFromMeanAnomaly</definition>
+        <argsstring>(const Angle &amp;aMeanAnomaly, const Real &amp;anEccentricity, const Real &amp;aTolerance)</argsstring>
+        <name>EccentricAnomalyFromMeanAnomaly</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aMeanAnomaly</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aTolerance</declname>
+        </param>
+        <briefdescription>
+<para>Convert Eccentric anomaly to Mean anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEccentricAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentric anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a tolerance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Mean anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="270" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="764" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1ed1f5655785c3588126d82190f76933" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::TrueAnomalyFromMeanAnomaly</definition>
+        <argsstring>(const Angle &amp;aMeanAnomly, const Real &amp;anEccentricity, const Real &amp;aTolerance)</argsstring>
+        <name>TrueAnomalyFromMeanAnomaly</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aMeanAnomly</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aTolerance</declname>
+        </param>
+        <briefdescription>
+<para>Convert Mean anomaly to True anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMeanAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A mean anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a tolerance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="280" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="848" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a42f53eced685997749bdf0ad9aabf5af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::kepler::COE::ComputeSemiLatusRectum</definition>
+        <argsstring>(const Real &amp;aSemiMajorAxis, const Real &amp;anEccentricity)</argsstring>
+        <name>ComputeSemiLatusRectum</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aSemiMajorAxis</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <briefdescription>
+<para>Compute the semi-latus rectum of the orbit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSemiMajorAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semi-major axis of the orbit in meters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Eccentricity of the orbit. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Real Semi-latus rectum. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="289" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="855" bodyend="858"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ac87b482421f17aa59471cf85eb4abb3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::kepler::COE::ComputeAngularMomentum</definition>
+        <argsstring>(const Real &amp;aSemiMajorAxis, const Real &amp;anEccentricity, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ComputeAngularMomentum</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aSemiMajorAxis</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Compute the angular momentum of the orbit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSemiMajorAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semi-major axis of the orbit in meters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Eccentricity of the orbit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gravitational parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Angular momentum. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="297" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="865" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a7631116f439902f4eca8e6f9aa7da6e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::kepler::COE::ComputeAngularMomentum</definition>
+        <argsstring>(const Real &amp;aSemiLatusRectum, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ComputeAngularMomentum</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aSemiLatusRectum</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Compute the angular momentum of the orbit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSemiLatusRectum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semi-latus rectum of the orbit in meters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gravitational parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Angular momentum. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="306" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="874" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1afe23b587215f128dbf21b713f6578a1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::trajectory::orbit::models::kepler::COE::ComputeRadialDistance</definition>
+        <argsstring>(const Real &amp;aSemiMajorAxis, const Real &amp;anEccentricity, const Real &amp;trueAnomaly)</argsstring>
+        <name>ComputeRadialDistance</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aSemiMajorAxis</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>trueAnomaly</declname>
+        </param>
+        <briefdescription>
+<para>Compute the radial distance at a given true anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSemiMajorAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semi-major axis of the orbit in meters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Eccentricity of the orbit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trueAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True anomaly in radians. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Radial distance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="314" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="860" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a226fd03919cb117cc8180bcc8e677f3a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::models::kepler::COE::StringFromElement</definition>
+        <argsstring>(const COE::Element &amp;anElement)</argsstring>
+        <name>StringFromElement</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94" kindref="member">COE::Element</ref> &amp;</type>
+          <declname>anElement</declname>
+        </param>
+        <briefdescription>
+<para>Convert element to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anElement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An element </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representing the element </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="320" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="881" bodyend="904"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a83a14175137d40da476fd5c606f76bfd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::models::kepler::COE::COE</definition>
+        <argsstring>(const Length &amp;aSemiMajorAxis, const Real &amp;anEccentricity, const Angle &amp;anInclination, const Angle &amp;aRaan, const Angle &amp;anAop, const Angle &amp;anAnomaly, const AnomalyType &amp;anAnomalyType)</argsstring>
+        <name>COE</name>
+        <param>
+          <type>const Length &amp;</type>
+          <declname>aSemiMajorAxis</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anInclination</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aRaan</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAop</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAnomaly</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" kindref="member">AnomalyType</ref> &amp;</type>
+          <declname>anAnomalyType</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSemiMajorAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A semi-major axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInclination</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inclination </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRaan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A raan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAop</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An aop </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAnomalyType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="340" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="906" bodyend="923"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a51dc537149866e3220b7405bed794c59" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::trajectory::orbit::models::kepler::COE::ConvertAnomaly</definition>
+        <argsstring>(const Angle &amp;anAnomaly, const Real &amp;anEccentricity, const AnomalyType &amp;fromAnomalyType, const AnomalyType &amp;toAnomalyType, const Real &amp;aTolerance)</argsstring>
+        <name>ConvertAnomaly</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAnomaly</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" kindref="member">AnomalyType</ref> &amp;</type>
+          <declname>fromAnomalyType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" kindref="member">AnomalyType</ref> &amp;</type>
+          <declname>toAnomalyType</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aTolerance</declname>
+        </param>
+        <briefdescription>
+<para>Convert anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromAnomalyType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toAnomalyType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An anomaly type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a tolerance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Anomaly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="357" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="925" bodyend="985"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Classical Orbital Elements (<ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref>) </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ulink url="https://en.wikipedia.org/wiki/Orbital_elements">https://en.wikipedia.org/wiki/Orbital_elements</ulink> <ulink url="http://help.agi.com/stk/index.htm#stk/vehSat_coordType_classical.htm">http://help.agi.com/stk/index.htm#stk/vehSat_coordType_classical.htm</ulink> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astro::trajectory::orbit::models::kepler::COE</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e"/>
+      </node>
+      <node id="3">
+        <label>ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_long"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1blm_1_1_brouwer_lyddane_mean_short"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astro::trajectory::orbit::models::kepler::COE</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>eccentricity_</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>inclination_</edgelabel>
+          <edgelabel>anomaly_</edgelabel>
+          <edgelabel>aop_</edgelabel>
+          <edgelabel>raan_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>semiMajorAxis_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Angle</label>
+      </node>
+      <node id="4">
+        <label>Length</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" bodystart="56" bodyend="364"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a40465f2522463aad87d7c01dcdd6e9d3" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>anomaly_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4bdb6ef15f4fbb6c68b261be07c55b0f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>AnomalyType</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3b964f5f22dd42cbb8710b0723059b4b" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>anomalyType_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1aef80b781c56fefa26466a5bfbc64f0da" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>aop_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a6fd98b5a37cd8143667c47418513fea5" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>Cartesian</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a410fdbf5aa25ed4651f1b7337c678edc" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>CartesianState</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ad978e3d9271251a8ded920e56f2862f8" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>COE</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a83a14175137d40da476fd5c606f76bfd" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>COE</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ac87b482421f17aa59471cf85eb4abb3f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>ComputeAngularMomentum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a7631116f439902f4eca8e6f9aa7da6e8" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>ComputeAngularMomentum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1afe23b587215f128dbf21b713f6578a1d" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>ComputeRadialDistance</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a42f53eced685997749bdf0ad9aabf5af" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>ComputeSemiLatusRectum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a51dc537149866e3220b7405bed794c59" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>ConvertAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a03697221660ff4c30f4eb19ecdc89159" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>EccentricAnomalyFromMeanAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a862d6d129ee8b17faa4b786ffec9e1f4" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>EccentricAnomalyFromTrueAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ab26b1f41201b5cfd5a7c3afc84aae257" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>eccentricity_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1887b5ac618d22ebe63521063038ad94" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>Element</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ad2179a88244ded3ad19f1fa3efc8ac29" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>FromSIVector</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3e4b9d04da2fda55379e90b89a4613fa" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getAngularMomentum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a046e29af64478c59cc37a60e62af0564" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getAop</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ac1c4361ac117fcf6a120624ad2754319" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getApoapsisRadius</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3ebb7ead964fda0471f1342ef6701080" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getCartesianState</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a63227bc5369988d4dfa8e1e30fb994dd" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getEccentricAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1aa560280115b92a228a6aa7a570870dcd" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getEccentricity</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a898cdb82f58745f66529fc0888be1442" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getInclination</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ab82e0224409b81f27adf1f0943e7c838" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getMeanAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1aad38a937538991a69cc88d3ded204516" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getMeanMotion</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a57f28aed6d08617af88c0025bb7b6ccf" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getOrbitalPeriod</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a64ebfde270ce5dc39f1547f129ace1e7" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getPeriapsisRadius</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a76b2061390f51954a16579940c6a81c9" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getRaan</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a10714471b0dfc6a1f55dee0760a0dae6" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getRadialDistance</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ab399c1ce0d9b6a8a4136783f6c5ef1a4" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getSemiLatusRectum</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a4ef3444242660722bd7b4d81df81e04f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getSemiMajorAxis</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a78ec213363e8bdfbb7d66cbc471c5b64" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getSIVector</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a291fe898d738de282115866339f6cb79" prot="public" virt="virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>getTrueAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a228173562d31e942612b5fc8b89c6d91" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>inclination_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a77c39d17b08185697c0e369de127053b" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1ac45f3543991d1c81a0341e141713126f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>MeanAnomalyFromEccentricAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a072f00e44aa7f55d6433aa39c52f367e" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a32e0ab4a9a11b3315114f2932c58f68c" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a02a4cbc11da755b76c84cb89d191af12" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a3a6d1f36f7caa0009c8dd653ed5ddd33" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a9b63625b1f7fe150d5732d0f0e786859" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>raan_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1acfebeb89693d778b3ff27da941ed4597" prot="protected" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>semiMajorAxis_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a226fd03919cb117cc8180bcc8e677f3a" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>StringFromElement</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a840b51ad645eee26060462d8ffff83af" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>TrueAnomalyFromEccentricAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a1ed1f5655785c3588126d82190f76933" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>TrueAnomalyFromMeanAnomaly</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_1a65869bb9f9417dde5e230bbd4ab52fac" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::models::kepler::COE</scope><name>Undefined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

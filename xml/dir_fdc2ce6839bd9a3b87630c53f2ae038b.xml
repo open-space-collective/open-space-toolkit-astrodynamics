@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_fdc2ce6839bd9a3b87630c53f2ae038b" kind="dir">
+    <compoundname>src/OpenSpaceToolkit</compoundname>
+    <innerdir refid="dir_168f0d47388952730fc4bc2bc6e393cf">src/OpenSpaceToolkit/Astrodynamics</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/"/>
+  </compounddef>
+</doxygen>

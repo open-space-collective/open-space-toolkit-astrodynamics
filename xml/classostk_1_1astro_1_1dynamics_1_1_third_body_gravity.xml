@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::dynamics::ThirdBodyGravity</compoundname>
+    <basecompoundref refid="classostk_1_1astro_1_1_dynamics" prot="public" virt="non-virtual">ostk::astro::Dynamics</basecompoundref>
+    <includes refid="_third_body_gravity_8hpp" local="no">ThirdBodyGravity.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a348de0ce175dd74db1dd8830b3d9efcd" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Celestial &gt;</type>
+        <definition>Shared&lt;const Celestial&gt; ostk::astro::dynamics::ThirdBodyGravity::celestialObjectSPtr_</definition>
+        <argsstring></argsstring>
+        <name>celestialObjectSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="104" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a10388facdc9faea43d942a81e701a63e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::dynamics::ThirdBodyGravity::ThirdBodyGravity</definition>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial)</argsstring>
+        <name>ThirdBodyGravity</name>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestial</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>aCelestial<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a10388facdc9faea43d942a81e701a63e" kindref="member">ThirdBodyGravity</ref><sp/>thirdBodyGravity<sp/>=<sp/>{<sp/>aCelestial<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCelestial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A celestial object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a27a8a34b376a6e008d96b39dff30c510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::dynamics::ThirdBodyGravity::ThirdBodyGravity</definition>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial, const String &amp;aName)</argsstring>
+        <name>ThirdBodyGravity</name>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestial</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>aCelestial<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>aName<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a10388facdc9faea43d942a81e701a63e" kindref="member">ThirdBodyGravity</ref><sp/>thirdBodyGravity<sp/>=<sp/>{<sp/>aCelestial,<sp/>aName<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCelestial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A celestial object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="38" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1aa0f555a888ddc107169a17edcaf71f69" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astro::dynamics::ThirdBodyGravity::~ThirdBodyGravity</definition>
+        <argsstring>() override</argsstring>
+        <name>~ThirdBodyGravity</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="55" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1af8dd288ea8d53c2ad3af6af8b47ae97f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::dynamics::ThirdBodyGravity::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1a41b321dd678aa88df95f8a7c9fb5eba8">isDefined</reimplements>
+        <briefdescription>
+<para>Check if third body gravity dynamics is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if third body gravity dynamics is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="67" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1aeb28d723f44064582e8b8a714ec75439" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Celestial &gt;</type>
+        <definition>Shared&lt; const Celestial &gt; ostk::astro::dynamics::ThirdBodyGravity::getCelestial</definition>
+        <argsstring>() const</argsstring>
+        <name>getCelestial</name>
+        <briefdescription>
+<para>Get celestial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A celestial object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="72" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="68" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a68628fa328b2799b93c6fd05a81498c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinatesSubset &gt; &gt; ostk::astro::dynamics::ThirdBodyGravity::getReadCoordinatesSubsets</definition>
+        <argsstring>() const override</argsstring>
+        <name>getReadCoordinatesSubsets</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1abad8ede80d4404db1adf272f137760b0">getReadCoordinatesSubsets</reimplements>
+        <briefdescription>
+<para>Return the coordinates subsets that the instance reads from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinates subsets that the instance reads from </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="77" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="78" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a5f8b006a7fe6d1859b3a01dfe72dedcf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinatesSubset &gt; &gt; ostk::astro::dynamics::ThirdBodyGravity::getWriteCoordinatesSubsets</definition>
+        <argsstring>() const override</argsstring>
+        <name>getWriteCoordinatesSubsets</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1abd3fe0e2bb0feb82e109d569d39cafff">getWriteCoordinatesSubsets</reimplements>
+        <briefdescription>
+<para>Return the coordinates subsets that the instance writes to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinates subsets that the instance writes to </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="82" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a533154f87a8d7b88258ccae70843f60c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astro::dynamics::ThirdBodyGravity::computeContribution</definition>
+        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</argsstring>
+        <name>computeContribution</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1a625e6436f0874734702c9ace5674a924">computeContribution</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the contribution to the state derivative. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reduced state vector (this vector will follow the structure determined by the &apos;read&apos; coordinate subsets) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The frame in which the state vector is expressed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reduced derivative state vector (this vector must follow the structure determined by the &apos;write&apos; coordinate subsets) expressed in the given frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="93" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="92" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a70e243034149c75f9a79585dcf6bcb7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::dynamics::ThirdBodyGravity::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1a91aded9e46ede32da8eaf958b7e3f08e">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print third body gravity dynamics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="101" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="117" bodyend="126"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1ac1786ca36fd51a873d3acc3db67e3e42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const ThirdBodyGravity &amp;aThirdBodyGravity)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity" kindref="compound">ThirdBodyGravity</ref> &amp;</type>
+          <declname>aThirdBodyGravity</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThirdBodyGravity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A third body gravity dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="62" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Define the acceleration experienced by a point mass due to gravity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astro::dynamics::ThirdBodyGravity</label>
+        <link refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::Dynamics</label>
+        <link refid="classostk_1_1astro_1_1_dynamics"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astro::dynamics::ThirdBodyGravity</label>
+        <link refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::Dynamics</label>
+        <link refid="classostk_1_1astro_1_1_dynamics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" bodystart="29" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a348de0ce175dd74db1dd8830b3d9efcd" prot="private" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>celestialObjectSPtr_</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a533154f87a8d7b88258ccae70843f60c" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>computeContribution</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1a7f186c02659534b19b6321c4d301d204" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>Dynamics</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1a6155745266cb6fc7b22a3becb5ae0e40" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>FromEnvironment</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1aeb28d723f44064582e8b8a714ec75439" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>getCelestial</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1a9302bdfcf5b79afe591b76af2eda7974" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>getName</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a68628fa328b2799b93c6fd05a81498c8" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>getReadCoordinatesSubsets</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1af1bf40db40b1059efa15873d8ca645fb" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>GetSystemOfEquations</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a5f8b006a7fe6d1859b3a01dfe72dedcf" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>getWriteCoordinatesSubsets</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1af8dd288ea8d53c2ad3af6af8b47ae97f" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1ac1786ca36fd51a873d3acc3db67e3e42" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a70e243034149c75f9a79585dcf6bcb7d" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a10388facdc9faea43d942a81e701a63e" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>ThirdBodyGravity</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1a27a8a34b376a6e008d96b39dff30c510" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>ThirdBodyGravity</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1ac40f08ea4bd324c8828e8ae60421a808" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>~Dynamics</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_1aa0f555a888ddc107169a17edcaf71f69" prot="public" virt="virtual"><scope>ostk::astro::dynamics::ThirdBodyGravity</scope><name>~ThirdBodyGravity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

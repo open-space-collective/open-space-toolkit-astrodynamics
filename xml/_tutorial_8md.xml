@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_tutorial_8md" kind="file" language="Markdown">
+    <compoundname>Tutorial.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">Tutorial</highlight></codeline>
+<codeline><highlight class="normal">========</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Below<sp/>are<sp/>examples<sp/>illustrating<sp/>a<sp/>few<sp/>common<sp/>use-cases.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[TOC]</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Setup<sp/>{#Setup}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*To<sp/>be<sp/>completed...*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Examples<sp/>{#Examples}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*To<sp/>be<sp/>completed...*</highlight></codeline>
+    </programlisting>
+    <location file="docs/Tutorial.md"/>
+  </compounddef>
+</doxygen>

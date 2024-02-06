@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1trajectory_1_1models" kind="namespace" language="C++">
+    <compoundname>ostk::astro::trajectory::models</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1models_1_1_static" prot="public">ostk::astro::trajectory::models::Static</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated" prot="public">ostk::astro::trajectory::models::Tabulated</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1trajectory_1_1models_1acc744b9f63a8365d6d34bac040f761d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::trajectory::models::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Static &amp;aStaticModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1models_1_1_static" kindref="compound">Static</ref> &amp;</type>
+          <declname>aStaticModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.cpp" line="43" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1trajectory_1_1models_1a933b83adb88de6c966eee5d228d8a31c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::trajectory::models::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Tabulated &amp;aTabulatedModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated" kindref="compound">Tabulated</ref> &amp;</type>
+          <declname>aTabulatedModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.cpp" line="100" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

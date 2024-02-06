@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1dynamics" kind="namespace" language="C++">
+    <compoundname>ostk::astro::dynamics</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag" prot="public">ostk::astro::dynamics::AtmosphericDrag</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity" prot="public">ostk::astro::dynamics::CentralBodyGravity</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1dynamics_1_1_position_derivative" prot="public">ostk::astro::dynamics::PositionDerivative</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1dynamics_1_1_tabulated" prot="public">ostk::astro::dynamics::Tabulated</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity" prot="public">ostk::astro::dynamics::ThirdBodyGravity</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1dynamics_1_1_thruster" prot="public">ostk::astro::dynamics::Thruster</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1dynamics_1ab838751f9512a2bcc85d11b7cb21cc16" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::dynamics::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" line="32" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1dynamics_1ab838751f9512a2bcc85d11b7cb21cc16" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::dynamics::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" line="28" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1dynamics_1ab838751f9512a2bcc85d11b7cb21cc16" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::dynamics::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" line="30" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1dynamics_1ad6f7a481bf1e3797adefb38c8676b0aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::dynamics::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const AtmosphericDrag &amp;anAtmosphericDrag)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag" kindref="compound">AtmosphericDrag</ref> &amp;</type>
+          <declname>anAtmosphericDrag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAtmosphericDrag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An atmospheric drag dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" line="52" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1dynamics_1ae92913a77f01a31cacf31ca762b612e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::dynamics::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const CentralBodyGravity &amp;aCentralBodyGravity)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_central_body_gravity" kindref="compound">CentralBodyGravity</ref> &amp;</type>
+          <declname>aCentralBodyGravity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCentralBodyGravity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A central body gravity dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1dynamics_1a90e4a754fa0d55087f7f3ba2d9f31e96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::dynamics::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const PositionDerivative &amp;aPositionDerivative)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_position_derivative" kindref="compound">PositionDerivative</ref> &amp;</type>
+          <declname>aPositionDerivative</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPositionDerivative</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A position derivative dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1dynamics_1abe6f24c4246b5faf02e23b04d9b5e719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::dynamics::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Tabulated &amp;aTabulated)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_tabulated" kindref="compound">Tabulated</ref> &amp;</type>
+          <declname>aTabulated</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Dynamics(...)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTabulated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astro_1_1dynamics_1_1_tabulated" kindref="compound">Tabulated</ref> dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" line="71" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1dynamics_1ad320888d072559f534722e01f893798e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::dynamics::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const ThirdBodyGravity &amp;aThirdBodyGravity)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_third_body_gravity" kindref="compound">ThirdBodyGravity</ref> &amp;</type>
+          <declname>aThirdBodyGravity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThirdBodyGravity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A third body gravity dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" line="56" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="20" column="1"/>
+  </compounddef>
+</doxygen>

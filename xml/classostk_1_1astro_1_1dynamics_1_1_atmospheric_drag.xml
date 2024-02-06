@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::dynamics::AtmosphericDrag</compoundname>
+    <basecompoundref refid="classostk_1_1astro_1_1_dynamics" prot="public" virt="non-virtual">ostk::astro::Dynamics</basecompoundref>
+    <includes refid="_atmospheric_drag_8hpp" local="no">AtmosphericDrag.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1adffd5a53e728d052c2dee313acf1d4ee" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Celestial &gt;</type>
+        <definition>Shared&lt;const Celestial&gt; ostk::astro::dynamics::AtmosphericDrag::celestialObjectSPtr_</definition>
+        <argsstring></argsstring>
+        <name>celestialObjectSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="108" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a346ab98377d2e67bd8e664d270d718a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::dynamics::AtmosphericDrag::AtmosphericDrag</definition>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial)</argsstring>
+        <name>AtmosphericDrag</name>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestial</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Celestial<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a346ab98377d2e67bd8e664d270d718a2" kindref="member">AtmosphericDrag</ref><sp/>atmosphericDrag<sp/>=<sp/>{<sp/>aCelestial<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCelestial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A celestial object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="44" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1ab0477bac993500b3382e46be22ee901e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::dynamics::AtmosphericDrag::AtmosphericDrag</definition>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial, const String &amp;aName)</argsstring>
+        <name>AtmosphericDrag</name>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestial</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Celestial<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>aName<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a346ab98377d2e67bd8e664d270d718a2" kindref="member">AtmosphericDrag</ref><sp/>atmosphericDrag<sp/>=<sp/>{<sp/>aCelestial,<sp/>aName<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCelestial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A celestial object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="56" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="40" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a0a86b2c4b8c7707915f93fcc40ea1957" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astro::dynamics::AtmosphericDrag::~AtmosphericDrag</definition>
+        <argsstring>() override</argsstring>
+        <name>~AtmosphericDrag</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="59" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a8cd7da63d6416e7208393903ffb40ba3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::dynamics::AtmosphericDrag::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1a41b321dd678aa88df95f8a7c9fb5eba8">isDefined</reimplements>
+        <briefdescription>
+<para>Check if atmospheric drag dynamics is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if atmospheric drag dynamics is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="71" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1afc2a4c3e6041e5b23e5ecd9bd25096f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Celestial &gt;</type>
+        <definition>Shared&lt; const Celestial &gt; ostk::astro::dynamics::AtmosphericDrag::getCelestial</definition>
+        <argsstring>() const</argsstring>
+        <name>getCelestial</name>
+        <briefdescription>
+<para>Get celestial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A celestial object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="76" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a236972339073c8483983b9a42db3d8a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinatesSubset &gt; &gt; ostk::astro::dynamics::AtmosphericDrag::getReadCoordinatesSubsets</definition>
+        <argsstring>() const override</argsstring>
+        <name>getReadCoordinatesSubsets</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1abad8ede80d4404db1adf272f137760b0">getReadCoordinatesSubsets</reimplements>
+        <briefdescription>
+<para>Return the coordinates subsets that the instance reads from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinates subsets that the instance reads from </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="81" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="74" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a5873af593b64ce337fed031b9b186f3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinatesSubset &gt; &gt; ostk::astro::dynamics::AtmosphericDrag::getWriteCoordinatesSubsets</definition>
+        <argsstring>() const override</argsstring>
+        <name>getWriteCoordinatesSubsets</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1abd3fe0e2bb0feb82e109d569d39cafff">getWriteCoordinatesSubsets</reimplements>
+        <briefdescription>
+<para>Return the coordinates subsets that the instance writes to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinates subsets that the instance writes to </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="86" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a864795902a6b6b4c17410c903c63384c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astro::dynamics::AtmosphericDrag::computeContribution</definition>
+        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</argsstring>
+        <name>computeContribution</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1a625e6436f0874734702c9ace5674a924">computeContribution</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the contribution to the state derivative. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reduced state vector (this vector will follow the structure determined by the &apos;read&apos; coordinate subsets) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The frame in which the state vector is expressed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reduced derivative state vector (this vector must follow the structure determined by the &apos;write&apos; coordinate subsets) expressed in the given frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="97" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="92" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a64f2ae87c856bc2bd977e54328751dea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::dynamics::AtmosphericDrag::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astro_1_1_dynamics_1a91aded9e46ede32da8eaf958b7e3f08e">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print atmospheric drag dynamics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="105" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="124" bodyend="133"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1acef8f9c08fcb130a4493461e53bd80bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const AtmosphericDrag &amp;anAtmosphericDrag)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag" kindref="compound">AtmosphericDrag</ref> &amp;</type>
+          <declname>anAtmosphericDrag</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAtmosphericDrag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An atmospheric drag dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="66" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Define the acceleration experienced by a spacecraft due to atmospheric drag. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astro::dynamics::AtmosphericDrag</label>
+        <link refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::Dynamics</label>
+        <link refid="classostk_1_1astro_1_1_dynamics"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astro::dynamics::AtmosphericDrag</label>
+        <link refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::Dynamics</label>
+        <link refid="classostk_1_1astro_1_1_dynamics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp" bodystart="33" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a346ab98377d2e67bd8e664d270d718a2" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>AtmosphericDrag</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1ab0477bac993500b3382e46be22ee901e" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>AtmosphericDrag</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1adffd5a53e728d052c2dee313acf1d4ee" prot="private" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>celestialObjectSPtr_</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a864795902a6b6b4c17410c903c63384c" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>computeContribution</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1a7f186c02659534b19b6321c4d301d204" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>Dynamics</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1a6155745266cb6fc7b22a3becb5ae0e40" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>FromEnvironment</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1afc2a4c3e6041e5b23e5ecd9bd25096f2" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>getCelestial</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1a9302bdfcf5b79afe591b76af2eda7974" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>getName</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a236972339073c8483983b9a42db3d8a9" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>getReadCoordinatesSubsets</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1af1bf40db40b1059efa15873d8ca645fb" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>GetSystemOfEquations</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a5873af593b64ce337fed031b9b186f3d" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>getWriteCoordinatesSubsets</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a8cd7da63d6416e7208393903ffb40ba3" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1acef8f9c08fcb130a4493461e53bd80bd" prot="public" virt="non-virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a64f2ae87c856bc2bd977e54328751dea" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_1a0a86b2c4b8c7707915f93fcc40ea1957" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>~AtmosphericDrag</name></member>
+      <member refid="classostk_1_1astro_1_1_dynamics_1ac40f08ea4bd324c8828e8ae60421a808" prot="public" virt="virtual"><scope>ostk::astro::dynamics::AtmosphericDrag</scope><name>~Dynamics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

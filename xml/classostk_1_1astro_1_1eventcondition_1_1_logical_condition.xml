@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::eventcondition::LogicalCondition</compoundname>
+    <basecompoundref refid="classostk_1_1astro_1_1_event_condition" prot="public" virt="non-virtual">ostk::astro::EventCondition</basecompoundref>
+    <includes refid="_logical_condition_8hpp" local="no">LogicalCondition.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <enumvalue id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101ac33315685a0cba3ce53be378b3c7874b" prot="public">
+          <name>And</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101a3a2d5fe857d8f9541136a124c2edec6c" prot="public">
+          <name>Or</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a22b7dfe488189f3b215833daeefc1d1e" prot="private" static="no">
+        <type>std::function&lt; bool(const Array&lt; Shared&lt; <ref refid="classostk_1_1astro_1_1_event_condition" kindref="compound">EventCondition</ref> &gt;&gt; &amp;, const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;currentState, const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;previousState)&gt;</type>
+        <definition>typedef std::function&lt; bool(const Array&lt;Shared&lt;EventCondition&gt;&gt;&amp;, const State&amp; currentState, const State&amp; previousState)&gt; ostk::astro::eventcondition::LogicalCondition::evaluationSignature</definition>
+        <argsstring></argsstring>
+        <name>evaluationSignature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="91" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ab6d5c3076803c9cb42c136fec0bfe297" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101" kindref="member">Type</ref></type>
+        <definition>Type ostk::astro::eventcondition::LogicalCondition::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="93" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ac7acc0e408c88d504dfab985b9416314" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astro_1_1_event_condition" kindref="compound">EventCondition</ref> &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;EventCondition&gt; &gt; ostk::astro::eventcondition::LogicalCondition::eventConditions_</definition>
+        <argsstring></argsstring>
+        <name>eventConditions_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="94" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a631118fd7b50c398996b7e431190e6ab" prot="private" static="no" mutable="no">
+        <type>evaluationSignature</type>
+        <definition>evaluationSignature ostk::astro::eventcondition::LogicalCondition::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="95" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ade3df53a80cc4ee994d5718abb62ff67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::eventcondition::LogicalCondition::LogicalCondition</definition>
+        <argsstring>(const String &amp;aName, const LogicalCondition::Type &amp;aConnective, const Array&lt; Shared&lt; EventCondition &gt;&gt; &amp;eventConditions)</argsstring>
+        <name>LogicalCondition</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101" kindref="member">LogicalCondition::Type</ref> &amp;</type>
+          <declname>aConnective</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Shared&lt; <ref refid="classostk_1_1astro_1_1_event_condition" kindref="compound">EventCondition</ref> &gt;&gt; &amp;</type>
+          <declname>eventConditions</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ade3df53a80cc4ee994d5718abb62ff67" kindref="member">LogicalCondition</ref><sp/>logicalCondition<sp/>=<sp/>{aName,<sp/>eventConditions,<sp/>aConnective};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string representing the name of the Logical Connective Event Condition. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aConnective</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A logical connective to apply to the Event Condition instances. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>eventConditions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An Array of shared pointers to Event Condition instances, representing the individual event conditions to be evaluated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="47" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="12" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ac79f9d61b68f2a5f19fd365cdedea4e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::eventcondition::LogicalCondition::~LogicalCondition</definition>
+        <argsstring>()</argsstring>
+        <name>~LogicalCondition</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="54" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1afb23a1cb522cbed81db776fd8b00c3f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101" kindref="member">LogicalCondition::Type</ref></type>
+        <definition>LogicalCondition::Type ostk::astro::eventcondition::LogicalCondition::getType</definition>
+        <argsstring>() const</argsstring>
+        <name>getType</name>
+        <briefdescription>
+<para>Get the type of the logical connective. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The type. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="59" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a40bf584788641739fddefbf210fec5f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::eventcondition::LogicalCondition::updateTarget</definition>
+        <argsstring>(const State &amp;aState) override</argsstring>
+        <name>updateTarget</name>
+        <reimplements refid="classostk_1_1astro_1_1_event_condition_1adbec683a19790e6f1b4d3b94f93b36c7">updateTarget</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+<para>Update the target of the individual event conditions composing the Logical Connective Event Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="65" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1aab9c41f8d984d91f568f7fcc2fc18e29" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astro_1_1_event_condition" kindref="compound">EventCondition</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; EventCondition &gt; &gt; ostk::astro::eventcondition::LogicalCondition::getEventConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>getEventConditions</name>
+        <briefdescription>
+<para>Get the individual event conditions composing the Logical Connective Event Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>An Array of shared pointers to <ref refid="classostk_1_1astro_1_1_event_condition" kindref="compound">EventCondition</ref> instances, representing the individual event conditions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="71" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1aa8f6d2cc1732d240e22a196afe81d815" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::eventcondition::LogicalCondition::isSatisfied</definition>
+        <argsstring>(const State &amp;currentState, const State &amp;previousState) const override</argsstring>
+        <name>isSatisfied</name>
+        <reimplements refid="classostk_1_1astro_1_1_event_condition_1a957cc41bd3695b9f84f8a5cb6c1277e8">isSatisfied</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>currentState</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>previousState</declname>
+        </param>
+        <briefdescription>
+<para>Check if the Logical Connective Event Condition is satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>currentState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>previousState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the Logical Connective Event Condition is satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="79" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a6e4f486bfdcd7d3d6d6829bc83557c1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::eventcondition::LogicalCondition::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astro_1_1_event_condition_1a72cf3353323b6b21f4406c8e152b2d30">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the Logical Connective Event Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A boolean indicating whether or not to display decorator during the printing process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="86" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="47" bodyend="60"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a6b29df8e566d7a9ce59b88c2b1dd8fd2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>evaluationSignature</type>
+        <definition>LogicalCondition::evaluationSignature ostk::astro::eventcondition::LogicalCondition::GenerateEvaluator</definition>
+        <argsstring>(const Type &amp;aType)</argsstring>
+        <name>GenerateEvaluator</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="97" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="62" bodyend="99"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A logical connective event condition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ulink url="https://en.wikipedia.org/wiki/Logical_connective">https://en.wikipedia.org/wiki/Logical_connective</ulink> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astro::eventcondition::LogicalCondition</label>
+        <link refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::EventCondition</label>
+        <link refid="classostk_1_1astro_1_1_event_condition"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>ostk::astro::EventCondition::Target</label>
+        <link refid="structostk_1_1astro_1_1_event_condition_1_1_target"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>valueOffset</edgelabel>
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>String</label>
+      </node>
+      <node id="4">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astro::eventcondition::LogicalCondition</label>
+        <link refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::EventCondition</label>
+        <link refid="classostk_1_1astro_1_1_event_condition"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>target_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="29" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="28" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a22b7dfe488189f3b215833daeefc1d1e" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>evaluationSignature</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a631118fd7b50c398996b7e431190e6ab" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>evaluator_</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ac52f7f9df65ed558df5a0aaf7a1613ba" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a89150353f36a9cfd971da4cbb7c2b586" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ac7acc0e408c88d504dfab985b9416314" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>eventConditions_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a6b29df8e566d7a9ce59b88c2b1dd8fd2" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>GenerateEvaluator</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a498e794a6eed5cf46e66c0b4acad4d50" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>getEvaluator</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1aab9c41f8d984d91f568f7fcc2fc18e29" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>getEventConditions</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a4059c751030da6877a63a6cff90576e7" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>getName</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ada7ab6f4ab76ee6e67399d16097dab5f" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1afb23a1cb522cbed81db776fd8b00c3f4" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>getType</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1aa8f6d2cc1732d240e22a196afe81d815" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>isSatisfied</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ade3df53a80cc4ee994d5718abb62ff67" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>LogicalCondition</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ae1e396a2c12ebb12e040727ae84003b3" prot="protected" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>name_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a6e4f486bfdcd7d3d6d6829bc83557c1c" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" prot="protected" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>target_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ad58255a624646da35d3c83b39c57c101" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>Type</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ab6d5c3076803c9cb42c136fec0bfe297" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>type_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1a40bf584788641739fddefbf210fec5f3" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>updateTarget</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a8c33b8dc74c54cfeb89e673fa0548de0" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>~EventCondition</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_logical_condition_1ac79f9d61b68f2a5f19fd365cdedea4e9" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::LogicalCondition</scope><name>~LogicalCondition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

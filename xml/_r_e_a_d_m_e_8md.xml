@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Open<sp/>Space<sp/>Toolkit<sp/>▸<sp/>Astrodynamics</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[![Build<sp/>and<sp/>Test](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/build-test.yml/badge.svg?branch=main)](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/build-test.yml)</highlight></codeline>
+<codeline><highlight class="normal">[![Code<sp/>Coverage](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics/branch/main/graph/badge.svg)](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics)</highlight></codeline>
+<codeline><highlight class="normal">[![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)</highlight></codeline>
+<codeline><highlight class="normal">[![GitHub<sp/>version](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics)</highlight></codeline>
+<codeline><highlight class="normal">[![PyPI<sp/>version](https://badge.fury.io/py/open-space-toolkit-astrodynamics.svg)](https://badge.fury.io/py/open-space-toolkit-astrodynamics)</highlight></codeline>
+<codeline><highlight class="normal">[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Orbit,<sp/>attitude,<sp/>access,<sp/>mission<sp/>analysis.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;img<sp/>src=&quot;./docs/assets/example.svg&quot;<sp/>height=&quot;500px&quot;<sp/>width=&quot;auto&quot;&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Getting<sp/>Started</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Want<sp/>to<sp/>get<sp/>started?<sp/>This<sp/>is<sp/>the<sp/>simplest<sp/>and<sp/>quickest<sp/>way:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/main?urlpath=lab/tree/notebooks)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*Nothing<sp/>to<sp/>download<sp/>or<sp/>install!<sp/>This<sp/>will<sp/>automatically<sp/>start<sp/>a<sp/>[JupyterLab](https://jupyterlab.readthedocs.io/en/stable/)<sp/>environment<sp/>in<sp/>your<sp/>browser<sp/>with<sp/>Open<sp/>Space<sp/>Toolkit<sp/>libraries<sp/>and<sp/>example<sp/>notebooks<sp/>ready<sp/>to<sp/>use.*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Alternatives</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Docker<sp/>Images</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[Docker](https://www.docker.com/)<sp/>must<sp/>be<sp/>installed<sp/>on<sp/>your<sp/>system.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>iPython</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>command<sp/>will<sp/>start<sp/>an<sp/>[iPython](https://ipython.org/)<sp/>shell<sp/>within<sp/>a<sp/>container<sp/>where<sp/>the<sp/>OSTk<sp/>components<sp/>are<sp/>already<sp/>installed:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-it<sp/>openspacecollective/open-space-toolkit-astrodynamics-python</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Once<sp/>the<sp/>shell<sp/>is<sp/>up<sp/>and<sp/>running,<sp/>playing<sp/>with<sp/>it<sp/>is<sp/>easy:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```py</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>ostk.physics<sp/>import<sp/>Environment</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>ostk.physics.time<sp/>import<sp/>Instant</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>ostk.astrodynamics.trajectory<sp/>import<sp/>Orbit</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>ostk.astrodynamics.trajectory.orbit.models<sp/>import<sp/>SGP4</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>ostk.astrodynamics.trajectory.orbit.models.sgp4<sp/>import<sp/>TLE</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">tle<sp/>=<sp/>TLE(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&apos;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>18231.17878740<sp/><sp/>.00000187<sp/><sp/>00000-0<sp/><sp/>10196-4<sp/>0<sp/><sp/>9994&apos;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&apos;2<sp/>25544<sp/><sp/>51.6447<sp/><sp/>64.7824<sp/>0005971<sp/><sp/>73.1467<sp/><sp/>36.4366<sp/>15.53848234128316&apos;</highlight></codeline>
+<codeline><highlight class="normal">)<sp/><sp/>#<sp/>Construct<sp/>Two-Line<sp/>Element<sp/>set</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">earth<sp/>=<sp/>Environment.default().access_celestial_object_with_name(&apos;Earth&apos;)<sp/><sp/>#<sp/>Access<sp/>Earth<sp/>model</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">orbit<sp/>=<sp/>Orbit(SGP4(tle),<sp/>earth)<sp/><sp/>#<sp/>Construct<sp/>orbit<sp/>using<sp/>SGP4<sp/>model</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">orbit.get_state_at(Instant.now())<sp/><sp/>#<sp/>Compute<sp/>and<sp/>display<sp/>current<sp/>satellite<sp/>state<sp/>(position,<sp/>velocity)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>default,<sp/>OSTk<sp/>fetches<sp/>the<sp/>ephemeris<sp/>from<sp/>JPL,<sp/>Earth<sp/>Orientation<sp/>Parameters<sp/>(EOP)<sp/>and<sp/>leap<sp/>second<sp/>count<sp/>from<sp/>IERS.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">As<sp/>a<sp/>result,<sp/>when<sp/>running<sp/>OSTk<sp/>for<sp/>the<sp/>first<sp/>time,<sp/>it<sp/>may<sp/>take<sp/>a<sp/>minute<sp/>to<sp/>fetch<sp/>all<sp/>the<sp/>necessary<sp/>data.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*Tip:<sp/>Use<sp/>tab<sp/>for<sp/>auto-completion!*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>JupyterLab</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>command<sp/>will<sp/>start<sp/>a<sp/>[JupyterLab](https://jupyterlab.readthedocs.io/en/stable/)<sp/>server<sp/>within<sp/>a<sp/>container<sp/>where<sp/>the<sp/>OSTk<sp/>components<sp/>are<sp/>already<sp/>installed:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>--publish=8888:8888<sp/>openspacecollective/open-space-toolkit-astrodynamics-jupyter</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Once<sp/>the<sp/>container<sp/>is<sp/>running,<sp/>access<sp/>[http://localhost:8888/lab](http://localhost:8888/lab)<sp/>and<sp/>create<sp/>a<sp/>Python<sp/>3<sp/>Notebook.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Installation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>C++</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>binary<sp/>packages<sp/>are<sp/>hosted<sp/>using<sp/>[GitHub<sp/>Releases](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Runtime<sp/>libraries:<sp/>`open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-runtime`</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>C++<sp/>headers:<sp/>`open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-devel`</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Python<sp/>bindings:<sp/>`open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-python`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Debian<sp/>/<sp/>Ubuntu</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">After<sp/>downloading<sp/>the<sp/>relevant<sp/>`.deb`<sp/>binary<sp/>packages,<sp/>install:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">apt<sp/>install<sp/>open-space-toolkit-astrodynamics-*.deb</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Python</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Install<sp/>from<sp/>[PyPI](https://pypi.org/project/open-space-toolkit-astrodynamics/):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">pip<sp/>install<sp/>open-space-toolkit-astrodynamics</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Documentation<sp/>is<sp/>available<sp/>[here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;details&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;summary&gt;Structure&lt;/summary&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;p&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>library<sp/>exhibits<sp/>the<sp/>following<sp/>detailed<sp/>and<sp/>descriptive<sp/>structure:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```txt</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>NumericalSolver</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>Trajectory</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>State</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Orbit</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Kepler</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Classical<sp/>Orbital<sp/>Elements<sp/>(COE)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>SGP4</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Two-Line<sp/>Element<sp/>set<sp/>(TLE)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Tabulated<sp/>(input<sp/>csv)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Propagated<sp/>(numerical<sp/>integration)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Pass</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Messages</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>SpaceX</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>OPM</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Static</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Tabulated</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>Propagator</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>Flight</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Profile</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Transform</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Tabulated</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>└──<sp/>State</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>System</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>├──<sp/>SatelliteSystem</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>Dynamics</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>PositionDerivative</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CentralBodyGravity</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>ThirdBodyGravity</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>AtmosphericDrag</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>Access</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>Generator</highlight></codeline>
+<codeline><highlight class="normal">└──<sp/>Conjunction</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└──<sp/>Messages</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CCSDS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CDM</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;/p&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;/details&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Tutorials</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Tutorials<sp/>are<sp/>available<sp/>here:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>C++<sp/>(in<sp/>progress)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Python](https://github.com/open-space-collective/open-space-toolkit/tree/main/notebooks)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Setup</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Development<sp/>Environment</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Using<sp/>[Docker](https://www.docker.com)<sp/>for<sp/>development<sp/>is<sp/>recommended,<sp/>to<sp/>simplify<sp/>the<sp/>installation<sp/>of<sp/>the<sp/>necessary<sp/>build<sp/>tools<sp/>and<sp/>dependencies.</highlight></codeline>
+<codeline><highlight class="normal">Instructions<sp/>on<sp/>how<sp/>to<sp/>install<sp/>Docker<sp/>are<sp/>available<sp/>[here](https://docs.docker.com/install/).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>start<sp/>the<sp/>development<sp/>environment:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>start-development</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>will:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/>Build<sp/>the<sp/>`openspacecollective/open-space-toolkit-astrodynamics-development`<sp/>Docker<sp/>image.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>Create<sp/>a<sp/>development<sp/>environment<sp/>container<sp/>with<sp/>local<sp/>source<sp/>files<sp/>and<sp/>helper<sp/>scripts<sp/>mounted.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>Start<sp/>a<sp/>`bash`<sp/>shell<sp/>from<sp/>the<sp/>`./build`<sp/>working<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>installing<sp/>Docker<sp/>is<sp/>not<sp/>an<sp/>option,<sp/>you<sp/>can<sp/>manually<sp/>install<sp/>the<sp/>development<sp/>tools<sp/>(GCC,<sp/>CMake)<sp/>and<sp/>all<sp/>required<sp/>dependencies,</highlight></codeline>
+<codeline><highlight class="normal">by<sp/>following<sp/>a<sp/>procedure<sp/>similar<sp/>to<sp/>the<sp/>one<sp/>described<sp/>in<sp/>the<sp/>[Development<sp/>Dockerfile](./docker/development/Dockerfile).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Build</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>the<sp/>`./build`<sp/>directory:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">cmake<sp/>..</highlight></codeline>
+<codeline><highlight class="normal">make</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*Tip:<sp/>The<sp/>`ostk-build`<sp/>command<sp/>simplifies<sp/>building<sp/>from<sp/>within<sp/>the<sp/>development<sp/>environment.*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Test</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>start<sp/>a<sp/>container<sp/>to<sp/>build<sp/>and<sp/>run<sp/>the<sp/>tests:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>test</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Or<sp/>to<sp/>run<sp/>them<sp/>manually:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">./bin/open-space-toolkit-astrodynamics.test</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*Tip:<sp/>The<sp/>`ostk-test`<sp/>command<sp/>simplifies<sp/>running<sp/>tests<sp/>from<sp/>within<sp/>the<sp/>development<sp/>environment.*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Benchmark</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>run<sp/>benchmarks:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>benchmark</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Benchmarks<sp/>are<sp/>pushed<sp/>to<sp/>the<sp/>[GitHub<sp/>pages](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/dev/bench/).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Validation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">OSTk<sp/>has<sp/>a<sp/>cross-validation<sp/>framework<sp/>built<sp/>into<sp/>it<sp/>(inside<sp/>the<sp/>`/validation`<sp/>folder),<sp/>which<sp/>allows<sp/>us<sp/>to<sp/>compare<sp/>its<sp/>end-to-end<sp/>propagation<sp/>accuracy<sp/>of<sp/>a<sp/>full<sp/>&quot;mission<sp/>sequence&quot;<sp/>to<sp/>other<sp/>flight<sp/>qualified<sp/>tools<sp/>like<sp/>GMAT<sp/>and<sp/>Orekit.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Scenario<sp/>Definition</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>standardized<sp/>input<sp/>format<sp/>(a<sp/>yaml<sp/>file)<sp/>to<sp/>define<sp/>the<sp/>particular<sp/>mission<sp/>sequence<sp/>scenario<sp/>is<sp/>used,<sp/>and<sp/>is<sp/>tooling<sp/>agnostic.<sp/>An<sp/>example<sp/>of<sp/>it<sp/>is<sp/>shown<sp/>below.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>The<sp/>spacecraft&apos;s<sp/>parameters<sp/>and<sp/>initial<sp/>state<sp/>are<sp/>defined<sp/>under<sp/>the<sp/>`spacecraft`<sp/>header</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>The<sp/>sequence<sp/>header<sp/>contains<sp/>the<sp/>dynamic<sp/>forces<sp/>to<sp/>be<sp/>applied<sp/>during<sp/>propagation,<sp/>the<sp/>type<sp/>of<sp/>numerical<sp/>propagator<sp/>to<sp/>use,<sp/>and<sp/>the<sp/>segments<sp/>(burning<sp/>or<sp/>coasting)<sp/>to<sp/>execute<sp/>during<sp/>the<sp/>mission<sp/>sequence</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Finally,<sp/>the<sp/>output<sp/>header<sp/>contains<sp/>the<sp/>quantities<sp/>that<sp/>we<sp/>want<sp/>to<sp/>output<sp/>(in<sp/>this<sp/>case<sp/>time<sp/>elapsed,<sp/>position,<sp/>and<sp/>velocity),<sp/>and<sp/>the<sp/>interval<sp/>at<sp/>which<sp/>to<sp/>report<sp/>them</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```yaml</highlight></codeline>
+<codeline><highlight class="normal">type:<sp/>MISSION_SEQUENCE</highlight></codeline>
+<codeline><highlight class="normal">data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>spacecraft:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mass:<sp/>100.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>drag-cross-section:<sp/>1.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>drag-coefficient:<sp/>2.2</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>orbit:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type:<sp/>CARTESIAN</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>date:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>time-scale:<sp/>UTC</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value:<sp/>&quot;2023-01-01T00:00:00&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frame:<sp/>GCRF</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>EARTH</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x:<sp/>-4283387.412456233</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>y:<sp/>-4451426.776125101</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>z:<sp/>-2967617.850750065</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vx:<sp/>4948.074939732174</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vy:<sp/>-957.3429532772124</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vz:<sp/>-5721.173027553034</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>sequence:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>max-duration:<sp/>86400.1</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>forces:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>type:<sp/>GRAVITY</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>EARTH</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model:<sp/>EGM96</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>degree:<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>order:<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>propagator:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type:<sp/>RUNGE_KUTTA_DORMAND_PRINCE_45</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initial-step:<sp/>30.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>min-step:<sp/>0.001</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max-step:<sp/>2700.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relative-tolerance:<sp/>1.0e-12</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>absolute-tolerance:<sp/>1.0e-12</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>segments:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>type:<sp/>COAST</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop-condition:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type:<sp/>RELATIVE_TIME</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>duration:<sp/>86400.0</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>output:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>step:<sp/>120.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>include:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>ELAPSED_SECONDS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>CARTESIAN_POSITION_GCRF</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>CARTESIAN_VELOCITY_GCRF</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Cross<sp/>Validation<sp/>and<sp/>Accuracy<sp/>Tolerances</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>validation<sp/>framework<sp/>takes<sp/>this<sp/>yaml<sp/>scenario<sp/>definition<sp/>(from<sp/>the<sp/>`/validation/data/scenarios`<sp/>folder)<sp/>and<sp/>runs<sp/>the<sp/>scenario<sp/>using<sp/>OSTk.<sp/>Next,<sp/>it<sp/>compares<sp/>the<sp/>specified<sp/>outputs<sp/>(quantities<sp/>like<sp/>the<sp/>position,<sp/>velocity,<sp/>mass,<sp/>acceleration<sp/>of<sp/>the<sp/>spacecraft)<sp/>at<sp/>the<sp/>desired<sp/>reporting<sp/>step<sp/>generated<sp/>by<sp/>OSTk<sp/>with<sp/>each<sp/>external<sp/>validation<sp/>tool<sp/>(whose<sp/>outputs<sp/>were<sp/>generated<sp/>via<sp/>the<sp/>same<sp/>process<sp/>and<sp/>are<sp/>in<sp/>the<sp/>`/validation/data/gmat_astrodynamics`<sp/>or<sp/>`/validation/data/orekit_astrodynamics`<sp/>folder<sp/>as<sp/>`.csv`),<sp/>to<sp/>ensure<sp/>they<sp/>are<sp/>within<sp/>a<sp/>certain<sp/>tolerance<sp/>of<sp/>each<sp/>other.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**To<sp/>add<sp/>a<sp/>scenario:**</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>Write<sp/>a<sp/>scenario<sp/>definition<sp/>using<sp/>the<sp/>`.yaml`<sp/>format<sp/>above,<sp/>and<sp/>name<sp/>it<sp/>`scenarioX-mission-sequence.yaml`,<sp/>and<sp/>put<sp/>it<sp/>in<sp/>wth<sp/>the<sp/>others.<sp/>If<sp/>the<sp/>format<sp/>isn&apos;t<sp/>correct<sp/>or<sp/>there<sp/>is<sp/>another<sp/>issue,<sp/>OSTk<sp/>will<sp/>throw<sp/>an<sp/>error<sp/>when<sp/>validating.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>Generate<sp/>the<sp/>`.csv`<sp/>outputs<sp/>from<sp/>the<sp/>external<sp/>tools<sp/>you<sp/>want<sp/>to<sp/>compare<sp/>OSTk<sp/>against<sp/>(repos<sp/>with<sp/>an<sp/>GMAT<sp/>and<sp/>Orekit<sp/>wrapper<sp/>that<sp/>can<sp/>ingest<sp/>this<sp/>`.yaml`<sp/>format<sp/>do<sp/>exist<sp/>and<sp/>will<sp/>be<sp/>open<sp/>sourced<sp/>soon).</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>Add<sp/>another<sp/>test<sp/>case<sp/>to<sp/>the<sp/>`Framework.validation.cpp`<sp/>file,<sp/>with<sp/>the<sp/>scenario<sp/>name,<sp/>the<sp/>tool<sp/>to<sp/>compare<sp/>against,<sp/>and<sp/>the<sp/>output<sp/>quantities<sp/>and<sp/>comparison<sp/>tolerances<sp/>for<sp/>those.<sp/>An<sp/>exampe<sp/>of<sp/>this<sp/>is<sp/>provided<sp/>below.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;scenario001-mission-sequence&quot;,<sp/><sp/>//<sp/>Spherical<sp/>gravity<sp/>only</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tool::GMAT,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_POSITION_GCRF,<sp/>1.1e-0},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_VELOCITY_GCRF,<sp/>1.2e-3},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tool::OREKIT,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_POSITION_GCRF,<sp/>1.1e-0},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_VELOCITY_GCRF,<sp/>1.2e-3},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Running<sp/>the<sp/>Validation<sp/>Tests</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>validation<sp/>tests<sp/>can<sp/>be<sp/>run<sp/>with<sp/>`ostk-validate`<sp/>from<sp/>within<sp/>the<sp/>dev<sp/>container,<sp/>or<sp/>`make<sp/>validation`<sp/>as<sp/>a<sp/>standalone.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Dependencies</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Version<sp/><sp/><sp/>|<sp/>License<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Link<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-----------<sp/>|<sp/>---------<sp/>|<sp/>------------------<sp/>|<sp/>------------------------------------------------------------------------------------------------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Pybind11<sp/><sp/><sp/><sp/>|<sp/>`2.10.1`<sp/><sp/>|<sp/>BSD-3-Clause<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>[github.com/pybind/pybind11](https://github.com/pybind/pybind11)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>ordered-map<sp/>|<sp/>`0.6.0`<sp/><sp/><sp/>|<sp/>MIT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>[github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Eigen<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`3.3.7`<sp/><sp/><sp/>|<sp/>MPL2<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>[eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>SGP4<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`6a448b4`<sp/>|<sp/>Apache<sp/>License<sp/>2.0<sp/>|<sp/>[github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>NLopt<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`2.5.0`<sp/><sp/><sp/>|<sp/>LGPL<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>[github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>benchmark<sp/><sp/><sp/>|<sp/>`1.8.2`<sp/><sp/><sp/>|<sp/>Apache<sp/>License<sp/>2.0<sp/>|<sp/>[github.com/google/benchmark](https://github.com/google/benchmark)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Core<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`main`<sp/><sp/><sp/><sp/>|<sp/>Apache<sp/>License<sp/>2.0<sp/>|<sp/>[github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>I/O<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`main`<sp/><sp/><sp/><sp/>|<sp/>Apache<sp/>License<sp/>2.0<sp/>|<sp/>[github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Mathematics<sp/>|<sp/>`main`<sp/><sp/><sp/><sp/>|<sp/>Apache<sp/>License<sp/>2.0<sp/>|<sp/>[github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics)<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Physics<sp/><sp/><sp/><sp/><sp/>|<sp/>`main`<sp/><sp/><sp/><sp/>|<sp/>Apache<sp/>License<sp/>2.0<sp/>|<sp/>[github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Contribution</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Contributions<sp/>are<sp/>more<sp/>than<sp/>welcome!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>the<sp/>contributing<sp/>guide,<sp/>please<sp/>consult<sp/>the<sp/>CONTRIBUTING.md<sp/>in<sp/>the<sp/>[open-space-toolkit](https://github.com/open-space-collective/open-space-toolkit)<sp/>base<sp/>repo<sp/>[here](https://github.com/open-space-collective/open-space-toolkit/blob/main/CONTRIBUTING.md).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Special<sp/>Thanks</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[![Loft<sp/>Orbital](https://github.com/open-space-collective/open-space-toolkit/blob/main/assets/thanks/loft_orbital.png)](https://www.loftorbital.com/)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>License</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Apache<sp/>License<sp/>2.0</highlight></codeline>
+    </programlisting>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>

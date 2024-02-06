@@ -1,0 +1,640 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::eventcondition::AngularCondition</compoundname>
+    <basecompoundref refid="classostk_1_1astro_1_1_event_condition" prot="public" virt="non-virtual">ostk::astro::EventCondition</basecompoundref>
+    <includes refid="_angular_condition_8hpp" local="no">AngularCondition.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Criterion</name>
+        <enumvalue id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4aa87074e622d8fecce2c96877e39ac8e8a" prot="public">
+          <name>AnyCrossing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4aa35f12699e9d62145f3a7222ef63e496d" prot="public">
+          <name>PositiveCrossing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4aa9b59d568492405fa7baf90ef51c09a2b" prot="public">
+          <name>NegativeCrossing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4aa9d3b7edf5d8e24edd6a44803bd3a7691" prot="public">
+          <name>WithinRange</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="33" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a98e38c0bcaa19855601440c815f30ea6" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref></type>
+        <definition>Criterion ostk::astro::eventcondition::AngularCondition::criterion_</definition>
+        <argsstring></argsstring>
+        <name>criterion_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="131" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a4ee3d69d8bb3acfb24eff75ec0cf9e2f" prot="private" static="no" mutable="no">
+        <type>std::function&lt; bool(const Real &amp;, const Real &amp;, const Real &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const Real&amp;, const Real&amp;, const Real&amp;)&gt; ostk::astro::eventcondition::AngularCondition::comparator_</definition>
+        <argsstring></argsstring>
+        <name>comparator_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="132" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a720542f0e3a2d613c6f418d94f6e84da" prot="private" static="no" mutable="no">
+        <type>Pair&lt; Real, Real &gt;</type>
+        <definition>Pair&lt;Real, Real&gt; ostk::astro::eventcondition::AngularCondition::targetRange_</definition>
+        <argsstring></argsstring>
+        <name>targetRange_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="133" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1af00ad6d8626f050b30133e3e20ad34cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::eventcondition::AngularCondition::AngularCondition</definition>
+        <argsstring>(const String &amp;aName, const Criterion &amp;aCriterion, const std::function&lt; Real(const State &amp;)&gt; &amp;anEvaluator, const Angle &amp;aTargetAngle)</argsstring>
+        <name>AngularCondition</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; Real(const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>anEvaluator</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aTargetAngle</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1af00ad6d8626f050b30133e3e20ad34cc" kindref="member">AngularCondition</ref><sp/>angularCondition<sp/>=<sp/>{aName,<sp/>aCriterion,<sp/>anEvaluator,<sp/>aTargetAngle};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string representing the name of the Angular Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An enum indicating the criterion used to determine if the Angular Event Condition is met </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEvaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function evaluating a state to an angle in radians </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetAngle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A target angle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="17" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a7c9e77dc09fd6b3dc302b4504d15cb0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::eventcondition::AngularCondition::AngularCondition</definition>
+        <argsstring>(const String &amp;aName, const Criterion &amp;aCriterion, const std::function&lt; Real(const State &amp;)&gt; &amp;anEvaluator, const Target &amp;aTarget)</argsstring>
+        <name>AngularCondition</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; Real(const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>anEvaluator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astro_1_1_event_condition_1_1_target" kindref="compound">Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1af00ad6d8626f050b30133e3e20ad34cc" kindref="member">AngularCondition</ref><sp/>angularCondition<sp/>=<sp/>{aName,<sp/>aCriterion,<sp/>anEvaluator,<sp/>aTarget};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string representing the name of the Angular Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An enum indicating the criterion used to determine if the Angular Event Condition is met </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEvaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function evaluating a state to an angle in radians </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A target </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="70" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="30" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1aef38c986e84cc10aa8bdcb83d2083ccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astro::eventcondition::AngularCondition::~AngularCondition</definition>
+        <argsstring>()</argsstring>
+        <name>~AngularCondition</name>
+        <briefdescription>
+<para>Virtual destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="78" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a81049b73b9cfc6522f030d11330d4895" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref></type>
+        <definition>AngularCondition::Criterion ostk::astro::eventcondition::AngularCondition::getCriterion</definition>
+        <argsstring>() const</argsstring>
+        <name>getCriterion</name>
+        <briefdescription>
+<para>Get the criterion of the Event Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Enum representing the criterion of the Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="83" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ac2f247acf91e8eb31d5cbe2f807894d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astro::eventcondition::AngularCondition::getTargetAngle</definition>
+        <argsstring>() const</argsstring>
+        <name>getTargetAngle</name>
+        <briefdescription>
+<para>Get target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Target </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="88" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a2982a2eddf085267bfcaf69662d0d752" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Pair&lt; Angle, Angle &gt;</type>
+        <definition>Pair&lt; Angle, Angle &gt; ostk::astro::eventcondition::AngularCondition::getTargetRange</definition>
+        <argsstring>() const</argsstring>
+        <name>getTargetRange</name>
+        <briefdescription>
+<para>Get target range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Target range </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="93" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ae698c9eb4d449023ff8839b5483cc494" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astro::eventcondition::AngularCondition::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astro_1_1_event_condition_1a72cf3353323b6b21f4406c8e152b2d30">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the Event Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream where the Event Condition will be printed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A boolean indicating whether or not to display decorator during printing </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="100" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="70" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a3cceb7b525a6f3d3d3cf4ac5cd95dec8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::eventcondition::AngularCondition::isSatisfied</definition>
+        <argsstring>(const State &amp;currentState, const State &amp;previousState) const override</argsstring>
+        <name>isSatisfied</name>
+        <reimplements refid="classostk_1_1astro_1_1_event_condition_1a957cc41bd3695b9f84f8a5cb6c1277e8">isSatisfied</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>currentState</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>previousState</declname>
+        </param>
+        <briefdescription>
+<para>Check if the Event Condition is satisfied based on current state and previous state/time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>currentState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>previousState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The previous state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Boolean value indicating if the Event Condition is met </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="109" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ab73edb80fe4b41acfbf170660fa10859" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astro::eventcondition::AngularCondition::WithinRange</definition>
+        <argsstring>(const String &amp;aName, const std::function&lt; Real(const State &amp;)&gt; &amp;anEvaluator, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange)</argsstring>
+        <name>WithinRange</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; Real(const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>anEvaluator</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <briefdescription>
+<para>Create an angular condition that is satisfied when the angle is within a range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string representing the name of the Angular Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEvaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function evaluating a state to an angle in radians </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pair of angles representing the range of angles that satisfy the </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Angular Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="117" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ab0822e4657dccdd088f2da6e36ed0f33" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::eventcondition::AngularCondition::StringFromCriterion</definition>
+        <argsstring>(const Criterion &amp;aCriterion)</argsstring>
+        <name>StringFromCriterion</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <briefdescription>
+<para>Convert criterion to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An enum representing the criterion</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representing the given criterion </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="128" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="103" bodyend="118"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9169ad61b3e99561773d632ed5c17500" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::eventcondition::AngularCondition::IsPositiveCrossing</definition>
+        <argsstring>(const Real &amp;currentAngle, const Real &amp;previousAngle, const Real &amp;targetAngle)</argsstring>
+        <name>IsPositiveCrossing</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>currentAngle</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>previousAngle</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>targetAngle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="135" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="120" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ac5b37536785fba1eb8fb0487c7c334fb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::eventcondition::AngularCondition::IsNegativeCrossing</definition>
+        <argsstring>(const Real &amp;currentAngle, const Real &amp;previousAngle, const Real &amp;targetAngle)</argsstring>
+        <name>IsNegativeCrossing</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>currentAngle</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>previousAngle</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>targetAngle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="136" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="138" bodyend="154"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1abb2b7dbe4195d57d59ae2f03ce0e7001" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; bool(const Real &amp;, const Real &amp;, const Real &amp;)&gt;</type>
+        <definition>std::function&lt; bool(const Real &amp;, const Real &amp;, const Real &amp;)&gt; ostk::astro::eventcondition::AngularCondition::GenerateComparator</definition>
+        <argsstring>(const Criterion &amp;aCriterion)</argsstring>
+        <name>GenerateComparator</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="138" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="156" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a1662b618bb82636ba0f2a42164540d59" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::eventcondition::AngularCondition::AngularCondition</definition>
+        <argsstring>(const String &amp;aName, const Criterion &amp;aCriterion, const std::function&lt; Real(const State &amp;)&gt; &amp;anEvaluator, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange)</argsstring>
+        <name>AngularCondition</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" kindref="member">Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; Real(const <ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>anEvaluator</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="140" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="187" bodyend="208"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>An Event Condition that works with angles. Handles wrapping angle to [0,360). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astro::eventcondition::AngularCondition</label>
+        <link refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::EventCondition</label>
+        <link refid="classostk_1_1astro_1_1_event_condition"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>ostk::astro::EventCondition::Target</label>
+        <link refid="structostk_1_1astro_1_1_event_condition_1_1_target"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>valueOffset</edgelabel>
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>String</label>
+      </node>
+      <node id="4">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astro::eventcondition::AngularCondition</label>
+        <link refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astro::EventCondition</label>
+        <link refid="classostk_1_1astro_1_1_event_condition"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>target_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="31" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="30" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1af00ad6d8626f050b30133e3e20ad34cc" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>AngularCondition</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a7c9e77dc09fd6b3dc302b4504d15cb0f" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>AngularCondition</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a1662b618bb82636ba0f2a42164540d59" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>AngularCondition</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a4ee3d69d8bb3acfb24eff75ec0cf9e2f" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>comparator_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9dbebc22b37e4050303374d7a0867a4a" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>Criterion</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a98e38c0bcaa19855601440c815f30ea6" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>criterion_</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ac58153e421a6928188bfc93b5e26c12e" prot="protected" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>evaluator_</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ac52f7f9df65ed558df5a0aaf7a1613ba" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a89150353f36a9cfd971da4cbb7c2b586" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1abb2b7dbe4195d57d59ae2f03ce0e7001" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>GenerateComparator</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a81049b73b9cfc6522f030d11330d4895" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>getCriterion</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a498e794a6eed5cf46e66c0b4acad4d50" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>getEvaluator</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a4059c751030da6877a63a6cff90576e7" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>getName</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ada7ab6f4ab76ee6e67399d16097dab5f" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ac2f247acf91e8eb31d5cbe2f807894d8" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>getTargetAngle</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a2982a2eddf085267bfcaf69662d0d752" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>getTargetRange</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ac5b37536785fba1eb8fb0487c7c334fb" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>IsNegativeCrossing</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a9169ad61b3e99561773d632ed5c17500" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>IsPositiveCrossing</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a3cceb7b525a6f3d3d3cf4ac5cd95dec8" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>isSatisfied</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1ae1e396a2c12ebb12e040727ae84003b3" prot="protected" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>name_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ae698c9eb4d449023ff8839b5483cc494" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ab0822e4657dccdd088f2da6e36ed0f33" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>StringFromCriterion</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a73427fa8ca6b8383e00958c90d41fd23" prot="protected" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>target_</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1a720542f0e3a2d613c6f418d94f6e84da" prot="private" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>targetRange_</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1adbec683a19790e6f1b4d3b94f93b36c7" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>updateTarget</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1ab73edb80fe4b41acfbf170660fa10859" prot="public" virt="non-virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>WithinRange</name></member>
+      <member refid="classostk_1_1astro_1_1eventcondition_1_1_angular_condition_1aef38c986e84cc10aa8bdcb83d2083ccf" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>~AngularCondition</name></member>
+      <member refid="classostk_1_1astro_1_1_event_condition_1a8c33b8dc74c54cfeb89e673fa0548de0" prot="public" virt="virtual"><scope>ostk::astro::eventcondition::AngularCondition</scope><name>~EventCondition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

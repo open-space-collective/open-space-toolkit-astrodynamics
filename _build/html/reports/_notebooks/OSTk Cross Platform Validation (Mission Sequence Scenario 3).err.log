@@ -1,0 +1,87 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+all_comparison_states = []
+
+for ind, filename in enumerate(filenames):
+    with open(f"{os.getcwd()}/data/{filename}") as csvfile:
+        reader = csv.DictReader(csvfile)
+        comparison_states = []
+        comparison_instants = []
+        for row in reader:
+            instant_iter = start_instant + Duration.seconds(
+                float(row[reader.fieldnames[0]])
+            )
+            position_iter = Position.meters(
+                [
+                    row[reader.fieldnames[1]],
+                    row[reader.fieldnames[2]],
+                    row[reader.fieldnames[3]],
+                ],
+                Frame.GCRF(),
+            )
+            velocity_iter = Velocity.meters_per_second(
+                [
+                    row[reader.fieldnames[4]],
+                    row[reader.fieldnames[5]],
+                    row[reader.fieldnames[6]],
+                ],
+                Frame.GCRF(),
+            )
+
+            position_iter_m = np.multiply(
+                position_iter.get_coordinates(), multiplication_factors[ind]
+            )
+            velocity_iter_ms = np.multiply(
+                velocity_iter.get_coordinates(), multiplication_factors[ind]
+            )
+
+            comparison_instants.append(instant_iter)
+            comparison_states.append(
+                State(
+                    instant_iter,
+                    Position.meters(position_iter_m, Frame.GCRF()),
+                    Velocity.meters_per_second(velocity_iter_ms, Frame.GCRF()),
+                )
+            )
+    all_comparison_states.append(comparison_states)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[12], line 4[0m
+[1;32m      1[0m all_comparison_states [38;5;241m=[39m []
+[1;32m      3[0m [38;5;28;01mfor[39;00m ind, filename [38;5;129;01min[39;00m [38;5;28menumerate[39m(filenames):
+[0;32m----> 4[0m     [38;5;28;01mwith[39;00m [38;5;28;43mopen[39;49m[43m([49m[38;5;124;43mf[39;49m[38;5;124;43m"[39;49m[38;5;132;43;01m{[39;49;00m[43mos[49m[38;5;241;43m.[39;49m[43mgetcwd[49m[43m([49m[43m)[49m[38;5;132;43;01m}[39;49;00m[38;5;124;43m/data/[39;49m[38;5;132;43;01m{[39;49;00m[43mfilename[49m[38;5;132;43;01m}[39;49;00m[38;5;124;43m"[39;49m[43m)[49m [38;5;28;01mas[39;00m csvfile:
+[1;32m      5[0m         reader [38;5;241m=[39m csv[38;5;241m.[39mDictReader(csvfile)
+[1;32m      6[0m         comparison_states [38;5;241m=[39m []
+
+File [0;32m/usr/local/lib/python3.11/site-packages/IPython/core/interactiveshell.py:310[0m, in [0;36m_modified_open[0;34m(file, *args, **kwargs)[0m
+[1;32m    303[0m [38;5;28;01mif[39;00m file [38;5;129;01min[39;00m {[38;5;241m0[39m, [38;5;241m1[39m, [38;5;241m2[39m}:
+[1;32m    304[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[1;32m    305[0m         [38;5;124mf[39m[38;5;124m"[39m[38;5;124mIPython won[39m[38;5;124m'[39m[38;5;124mt let you open fd=[39m[38;5;132;01m{[39;00mfile[38;5;132;01m}[39;00m[38;5;124m by default [39m[38;5;124m"[39m
+[1;32m    306[0m         [38;5;124m"[39m[38;5;124mas it is likely to crash IPython. If you know what you are doing, [39m[38;5;124m"[39m
+[1;32m    307[0m         [38;5;124m"[39m[38;5;124myou can use builtins[39m[38;5;124m'[39m[38;5;124m open.[39m[38;5;124m"[39m
+[1;32m    308[0m     )
+[0;32m--> 310[0m [38;5;28;01mreturn[39;00m [43mio_open[49m[43m([49m[43mfile[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: '/app/docs/_notebooks/data/gmat_astrodynamics/scenario003-mission-sequence.csv'
+

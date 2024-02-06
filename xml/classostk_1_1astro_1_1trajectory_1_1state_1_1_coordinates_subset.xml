@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::trajectory::state::CoordinatesSubset</compoundname>
+    <derivedcompoundref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity" prot="public" virt="non-virtual">ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion" prot="public" virt="non-virtual">ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position" prot="public" virt="non-virtual">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity" prot="public" virt="non-virtual">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</derivedcompoundref>
+    <includes refid="_coordinates_subset_8hpp" local="no">CoordinatesSubset.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a092390c749623f2a488824525b6b0788" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::state::CoordinatesSubset::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="148" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a0d96d62dbd5a4a01efdb7f1cee372bcc" prot="private" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astro::trajectory::state::CoordinatesSubset::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="149" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a46d37e248ef6f93965b343f3c30fe353" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::state::CoordinatesSubset::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="150" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a0b72dfab727ef003a56b9382d93d2c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::state::CoordinatesSubset::CoordinatesSubset</definition>
+        <argsstring>(const String &amp;aName, const Size &amp;aSize)</argsstring>
+        <name>CoordinatesSubset</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>aSize</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>         The default CoordinatesSubset instance is frame-invariant and implements element-wise
+         addition/subtraction.
+</verbatim> <programlisting filename=".cpp"><codeline><highlight class="normal">CoordinateSubset<sp/>coordinateSubset<sp/>=<sp/>{aName,<sp/>aSize};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A size (i.e. dimension) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="50" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="17" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1affc65fb1429cbe580b41c64e9b67e671" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::state::CoordinatesSubset::operator==</definition>
+        <argsstring>(const CoordinatesSubset &amp;aCoordinatesSubset) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &amp;</type>
+          <declname>aCoordinatesSubset</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinatesSubset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coordinate subset to compare it to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if CoordinatesSubsets are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="57" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ab8497937b78fa04873cb7e92cc0ae08c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::state::CoordinatesSubset::operator!=</definition>
+        <argsstring>(const CoordinatesSubset &amp;aCoordinatesSubset) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &amp;</type>
+          <declname>aCoordinatesSubset</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinatesSubset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coordinate subset to compare it to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if CoordinatesSubsets are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="64" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a8400f8968ba03028278b0b0e81861ac2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::state::CoordinatesSubset::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <briefdescription>
+<para>Return the unique identifier of the instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The unique identifier of the instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="69" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ad20dbe8a07f3591b5d7ee6467ca4197b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::state::CoordinatesSubset::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <briefdescription>
+<para>Return the name of the instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The name of the instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="74" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a88e08cd16d5dde166c01df3d2b4bba21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astro::trajectory::state::CoordinatesSubset::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <briefdescription>
+<para>Return the size (i.e. dimension) of the instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The size (i.e. dimension) of the instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a2916b940f84aa8c64a469c4a1945b486" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astro::trajectory::state::CoordinatesSubset::add</definition>
+        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const CoordinatesBroker &gt; &amp;aCoordinatesBrokerSPtr) const</argsstring>
+        <name>add</name>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position_1a7e4ee70f049a63d75479d07a0d0c114b">add</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity_1a87e8d0e6f0e3c7763f0bf830bb344905">add</reimplementedby>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>anotherFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker" kindref="compound">CoordinatesBroker</ref> &gt; &amp;</type>
+          <declname>aCoordinatesBrokerSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Add two coordinates subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the instant associated to the coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>first set of all coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anotherFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>second set of all coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the reference frame in which the coordinates are resolved </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinatesBrokerSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a coordinates broker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resulting coordinates subset value (subset_1 + subset_2) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="90" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="58" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ac78eb15d674e9ceb96b83d10e416c7d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astro::trajectory::state::CoordinatesSubset::subtract</definition>
+        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const CoordinatesBroker &gt; &amp;aCoordinatesBrokerSPtr) const</argsstring>
+        <name>subtract</name>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position_1a99d337d020bd0eeb2bef8832f7f5c6b5">subtract</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity_1a997ac7bf6115ef1e05342eb335cc4a31">subtract</reimplementedby>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>anotherFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker" kindref="compound">CoordinatesBroker</ref> &gt; &amp;</type>
+          <declname>aCoordinatesBrokerSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Subtract two coordinates subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the instant associated to the coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>first set of all coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anotherFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>second set of all coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the reference frame associated to the coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinatesBrokerSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a coordinates broker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resulting coordinates subset value (subset_1 - subset_2) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="107" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="69" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a45305e29e0e31f9dc346713352f8e778" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astro::trajectory::state::CoordinatesSubset::inFrame</definition>
+        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;fromFrameSPtr, const Shared&lt; const Frame &gt; &amp;toFrameSPtr, const Shared&lt; const CoordinatesBroker &gt; &amp;aCoordinatesBrokerSPtr) const</argsstring>
+        <name>inFrame</name>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity_1a4c692f418e5cc44bf6892edf07dbaa1b">inFrame</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity_1af772163bb8a848905c6a2d4d56286723">inFrame</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion_1a10aab9197d407eeaa5f3a45281d483fc">inFrame</reimplementedby>
+        <reimplementedby refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position_1aec01ab36d8a242de350dc5ea44720c8b">inFrame</reimplementedby>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>fromFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>toFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker" kindref="compound">CoordinatesBroker</ref> &gt; &amp;</type>
+          <declname>aCoordinatesBrokerSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Transform the coordinate subset from one frame to another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the reference frame associated to the coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>all coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the reference frame associated to the coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the reference frame in which the coordinates are to be transformed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinatesBrokerSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a coordinates broker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resulting coordinates subset value expressed in the desired reference frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="124" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="80" bodyend="91"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a8faedc2387293553c635d15b366ec018" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt;</type>
+        <definition>Shared&lt; const CoordinatesSubset &gt; ostk::astro::trajectory::state::CoordinatesSubset::Mass</definition>
+        <argsstring>()</argsstring>
+        <name>Mass</name>
+        <briefdescription>
+<para>Return a default Mass instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The default Mass shared pointer instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="135" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1afeda94f106873b120e3c072ec0771c06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt;</type>
+        <definition>Shared&lt; const CoordinatesSubset &gt; ostk::astro::trajectory::state::CoordinatesSubset::SurfaceArea</definition>
+        <argsstring>()</argsstring>
+        <name>SurfaceArea</name>
+        <briefdescription>
+<para>Return a default Surface Area instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The default Surface Area shared pointer instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="140" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="99" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1af85187aa5554d67cf1cda4a03053c533" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const <ref refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" kindref="compound">CoordinatesSubset</ref> &gt;</type>
+        <definition>Shared&lt; const CoordinatesSubset &gt; ostk::astro::trajectory::state::CoordinatesSubset::DragCoefficient</definition>
+        <argsstring>()</argsstring>
+        <name>DragCoefficient</name>
+        <briefdescription>
+<para>Return a default DragCoefficient instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The default DragCoefficient shared pointer instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="145" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.cpp" bodystart="105" bodyend="110"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref> coordinates subset. It contains information related to a particular group of coordinates. It does not contain the coordinate values. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_angular_velocity"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astro::trajectory::state::CoordinatesSubset</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset"/>
+      </node>
+      <node id="3">
+        <label>ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_attitude_quaternion"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</label>
+        <link refid="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" line="38" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp" bodystart="37" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a2916b940f84aa8c64a469c4a1945b486" prot="public" virt="virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>add</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a0b72dfab727ef003a56b9382d93d2c00" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>CoordinatesSubset</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1af85187aa5554d67cf1cda4a03053c533" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>DragCoefficient</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a8400f8968ba03028278b0b0e81861ac2" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>getId</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ad20dbe8a07f3591b5d7ee6467ca4197b" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>getName</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a88e08cd16d5dde166c01df3d2b4bba21" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>getSize</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a46d37e248ef6f93965b343f3c30fe353" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>id_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a45305e29e0e31f9dc346713352f8e778" prot="public" virt="virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>inFrame</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a8faedc2387293553c635d15b366ec018" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>Mass</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a092390c749623f2a488824525b6b0788" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>name_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ab8497937b78fa04873cb7e92cc0ae08c" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1affc65fb1429cbe580b41c64e9b67e671" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1a0d96d62dbd5a4a01efdb7f1cee372bcc" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>size_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1ac78eb15d674e9ceb96b83d10e416c7d5" prot="public" virt="virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>subtract</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_1afeda94f106873b120e3c072ec0771c06" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::state::CoordinatesSubset</scope><name>SurfaceArea</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

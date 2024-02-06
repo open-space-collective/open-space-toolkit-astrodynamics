@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_0f45249bf766a0a020a7ab9b555aad0f" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Flight</compoundname>
+    <innerdir refid="dir_7d590b7d63bda445bfb81b3161a88efa">src/OpenSpaceToolkit/Astrodynamics/Flight/Profile</innerdir>
+    <innerdir refid="dir_e46a3b889b9a7e624e2ddd331dd8ecce">src/OpenSpaceToolkit/Astrodynamics/Flight/System</innerdir>
+    <innerfile refid="_profile_8cpp">Profile.cpp</innerfile>
+    <innerfile refid="_system_8cpp">System.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/"/>
+  </compounddef>
+</doxygen>

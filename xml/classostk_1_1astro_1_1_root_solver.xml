@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1_root_solver" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::RootSolver</compoundname>
+    <includes refid="_root_solver_8hpp" local="no">RootSolver.hpp</includes>
+    <innerclass refid="structostk_1_1astro_1_1_root_solver_1_1_solution" prot="public">ostk::astro::RootSolver::Solution</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1_root_solver_1a4271e6c7dc9e0d1cad24bc8db95bf624" prot="private" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astro::RootSolver::maximumIterationCount_</definition>
+        <argsstring></argsstring>
+        <name>maximumIterationCount_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="107" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1_root_solver_1a922aa9b7afe9dd5444b399adad8acd93" prot="private" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astro::RootSolver::tolerance_</definition>
+        <argsstring></argsstring>
+        <name>tolerance_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="108" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1a78723603d5fe41663965fa76a24f29cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::RootSolver::RootSolver</definition>
+        <argsstring>(const Size &amp;aMaximumIterationCount, const Real &amp;aTolerance)</argsstring>
+        <name>RootSolver</name>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>aMaximumIterationCount</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aTolerance</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1_root_solver_1a78723603d5fe41663965fa76a24f29cb" kindref="member">RootSolver</ref><sp/>rootSolver<sp/>=<sp/>{aMaximumIterationCount,<sp/>aTolerance};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMaximumIterationCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum iteration count for the solver </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The tolerance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="36" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="15" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1aa147532dbe3edaf67053d6cdf81396f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astro::RootSolver::~RootSolver</definition>
+        <argsstring>()</argsstring>
+        <name>~RootSolver</name>
+        <briefdescription>
+<para>Virtual destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="39" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1a0ac1ca26dda8a792a48d0f76a6dde171" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astro::RootSolver::getMaximumIterationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaximumIterationCount</name>
+        <briefdescription>
+<para>Get maximum iterations count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Maximum iterations count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="51" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1ac7fde22b2a3f2527479a69c0741b7d13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astro::RootSolver::getTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getTolerance</name>
+        <briefdescription>
+<para>Get number of digits of precision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of digits of precision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="56" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1a585799cd7e2b297b9f1a98417ff0c1f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></type>
+        <definition>RootSolver::Solution ostk::astro::RootSolver::bracketAndSolve</definition>
+        <argsstring>(const std::function&lt; double(const double &amp;)&gt; &amp;aFunction, const double &amp;anInitialGuess, const bool &amp;isRising, const double &amp;aFactor=2.0) const</argsstring>
+        <name>bracketAndSolve</name>
+        <param>
+          <type>const std::function&lt; double(const double &amp;)&gt; &amp;</type>
+          <declname>aFunction</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>anInitialGuess</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isRising</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>aFactor</declname>
+          <defval>2.0</defval>
+        </param>
+        <briefdescription>
+<para>Solve for root given a function, an initial guess and function direction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFunction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialGuess</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An initial guess </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isRising</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A boolean indicating whether the function is rising </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>aFactor A factor</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The solution </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="66" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="40" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1a9eb2294ce4db4a697ed83b6c6324896a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></type>
+        <definition>RootSolver::Solution ostk::astro::RootSolver::solve</definition>
+        <argsstring>(const std::function&lt; double(const double &amp;)&gt; &amp;aFunction, const double &amp;aLowerBound, const double &amp;anUpperBound) const</argsstring>
+        <name>solve</name>
+        <param>
+          <type>const std::function&lt; double(const double &amp;)&gt; &amp;</type>
+          <declname>aFunction</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>aLowerBound</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>anUpperBound</declname>
+        </param>
+        <briefdescription>
+<para>Solve for root given a function, and bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFunction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aLowerBound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A lower bound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anUpperBound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An upper bound</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The solution </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="80" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="60" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1a5c67cb0f8e94778f9492f420a16733be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structostk_1_1astro_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></type>
+        <definition>RootSolver::Solution ostk::astro::RootSolver::bisection</definition>
+        <argsstring>(const std::function&lt; double(const double &amp;)&gt; &amp;aFunction, const double &amp;aLowerBound, const double &amp;anUpperBound) const</argsstring>
+        <name>bisection</name>
+        <param>
+          <type>const std::function&lt; double(const double &amp;)&gt; &amp;</type>
+          <declname>aFunction</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>aLowerBound</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>anUpperBound</declname>
+        </param>
+        <briefdescription>
+<para>Bisection solve for root given a function, and bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFunction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aLowerBound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A lower bound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anUpperBound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An upper bound</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The solution </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="91" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="80" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1abcdaf99efcc8343b7609b8228b314787" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::RootSolver::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print root solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="99" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="100" bodyend="108"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1_root_solver_1a1446e254dd3d0df1f1a1254dca41345b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const RootSolver &amp;aRootSolver)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1_root_solver" kindref="compound">RootSolver</ref> &amp;</type>
+          <declname>aRootSolver</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRootSolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Root Solver </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="46" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1a1183671b30532b0b9096ab24e7c675f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1_root_solver" kindref="compound">RootSolver</ref></type>
+        <definition>RootSolver ostk::astro::RootSolver::Default</definition>
+        <argsstring>()</argsstring>
+        <name>Default</name>
+        <briefdescription>
+<para>Default root solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Default root solver </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="104" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1_root_solver_1ab1cb477346a58834d8e5004479433292" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; bool(const double &amp;, const double &amp;)&gt;</type>
+        <definition>std::function&lt; bool(const double &amp;, const double &amp;)&gt; ostk::astro::RootSolver::getToleranceFunction</definition>
+        <argsstring>() const</argsstring>
+        <name>getToleranceFunction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="110" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="115" bodyend="121"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="19" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="18" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a5c67cb0f8e94778f9492f420a16733be" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>bisection</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a585799cd7e2b297b9f1a98417ff0c1f7" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>bracketAndSolve</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a1183671b30532b0b9096ab24e7c675f4" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>Default</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a0ac1ca26dda8a792a48d0f76a6dde171" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>getMaximumIterationCount</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1ac7fde22b2a3f2527479a69c0741b7d13" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>getTolerance</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1ab1cb477346a58834d8e5004479433292" prot="private" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>getToleranceFunction</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a4271e6c7dc9e0d1cad24bc8db95bf624" prot="private" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>maximumIterationCount_</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a1446e254dd3d0df1f1a1254dca41345b" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1abcdaf99efcc8343b7609b8228b314787" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a78723603d5fe41663965fa76a24f29cb" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>RootSolver</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a9eb2294ce4db4a697ed83b6c6324896a" prot="public" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>solve</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1a922aa9b7afe9dd5444b399adad8acd93" prot="private" virt="non-virtual"><scope>ostk::astro::RootSolver</scope><name>tolerance_</name></member>
+      <member refid="classostk_1_1astro_1_1_root_solver_1aa147532dbe3edaf67053d6cdf81396f4" prot="public" virt="virtual"><scope>ostk::astro::RootSolver</scope><name>~RootSolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="md_docs_index" kind="page">
+    <compoundname>md_docs_index</compoundname>
+    <title>index</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting filename=".include"><codeline><highlight class="normal">:relative-docs:<sp/>./</highlight></codeline>
+<codeline><highlight class="normal">:relative-images:</highlight></codeline>
+</programlisting></para>
+<para><programlisting filename=".toctree"><codeline><highlight class="normal">:maxdepth:<sp/>1</highlight></codeline>
+<codeline><highlight class="normal">:hidden:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">cpp</highlight></codeline>
+<codeline><highlight class="normal">python</highlight></codeline>
+<codeline><highlight class="normal">notebook</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

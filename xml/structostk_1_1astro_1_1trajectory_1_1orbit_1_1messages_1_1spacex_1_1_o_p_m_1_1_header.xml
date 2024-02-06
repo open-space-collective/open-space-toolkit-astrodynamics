@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astro::trajectory::orbit::messages::spacex::OPM::Header</compoundname>
+    <includes refid="_o_p_m_8hpp" local="no">OPM.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header_1a1fa4e1566cb7c57213e1112f355fce82" prot="public" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::messages::spacex::OPM::Header::generationDate</definition>
+        <argsstring></argsstring>
+        <name>generationDate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp" line="88" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header_1a4790963173b1dfc89bfe3ee9b3ce93c6" prot="public" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::messages::spacex::OPM::Header::launchDate</definition>
+        <argsstring></argsstring>
+        <name>launchDate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp" line="89" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astro::trajectory::orbit::messages::spacex::OPM::Header</label>
+        <link refid="structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>generationDate</edgelabel>
+          <edgelabel>launchDate</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Instant</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp" line="87" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp" bodystart="86" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header_1a1fa4e1566cb7c57213e1112f355fce82" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::messages::spacex::OPM::Header</scope><name>generationDate</name></member>
+      <member refid="structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header_1a4790963173b1dfc89bfe3ee9b3ce93c6" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::messages::spacex::OPM::Header</scope><name>launchDate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,696 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::trajectory::orbit::Pass</compoundname>
+    <includes refid="_pass_8hpp" local="no">Pass.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febcc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febccaec0fc0100c4fc1ce4eea230c3dc10360" prot="public">
+          <name>Undefined</name>
+          <briefdescription>
+<para>The type is undefined. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febccaae94f80b3ce82062a5dd7815daa04f9d" prot="public">
+          <name>Complete</name>
+          <briefdescription>
+<para>The pass is a complete revolution. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febcca44ffd38a6dea695cbe2b34efdcc6cf27" prot="public">
+          <name>Partial</name>
+          <briefdescription>
+<para>The pass is a partial revolution. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The type of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="40" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a9fb48e13f29c899a8b74c43091fe4203" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Phase</name>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a9fb48e13f29c899a8b74c43091fe4203aec0fc0100c4fc1ce4eea230c3dc10360" prot="public">
+          <name>Undefined</name>
+          <briefdescription>
+<para>The phase is undefined. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a9fb48e13f29c899a8b74c43091fe4203acf3fb1ff52ea1eed3347ac5401ee7f0c" prot="public">
+          <name>Ascending</name>
+          <briefdescription>
+<para>The pass is in the ascending phase. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a9fb48e13f29c899a8b74c43091fe4203ae3cf5ac19407b1a62c6fccaff675a53b" prot="public">
+          <name>Descending</name>
+          <briefdescription>
+<para>The pass is in the descending phase. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The phase of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a6056b9aa32e6cc62510b1c8e2bd4faee" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febcc" kindref="member">Pass::Type</ref></type>
+        <definition>Pass::Type ostk::astro::trajectory::orbit::Pass::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="165" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1aace10a035f1da547d1f17aac7bfcbfe3" prot="private" static="no" mutable="no">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::Pass::revolutionNumber_</definition>
+        <argsstring></argsstring>
+        <name>revolutionNumber_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="167" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a0538501194712a1a550f057178edcdd7" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::Pass::instantAtAscendingNode_</definition>
+        <argsstring></argsstring>
+        <name>instantAtAscendingNode_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="168" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ab667cf652728bdb708505c106205a98d" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::Pass::instantAtNorthPoint_</definition>
+        <argsstring></argsstring>
+        <name>instantAtNorthPoint_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="169" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ae64f018b8fa6f66854f701a9734413ca" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::Pass::instantAtDescendingNode_</definition>
+        <argsstring></argsstring>
+        <name>instantAtDescendingNode_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="170" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1addbcb9f913cf2287ba1cf9d8c4d35362" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::Pass::instantAtSouthPoint_</definition>
+        <argsstring></argsstring>
+        <name>instantAtSouthPoint_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="171" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a88e88e8474d13cc4fc6bf8cc2f561812" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astro::trajectory::orbit::Pass::instantAtPassBreak_</definition>
+        <argsstring></argsstring>
+        <name>instantAtPassBreak_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="172" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a3e4072abac1191aa4b31e68e90cdd993" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::trajectory::orbit::Pass::Pass</definition>
+        <argsstring>(const Integer &amp;aRevolutionNumber, const Instant &amp;anInstantAtAscendingNode, const Instant &amp;anInstantAtNorthPoint, const Instant &amp;anInstantAtDescendingNode, const Instant &amp;anInstantAtSouthPoint, const Instant &amp;anInstantAtPassBreak)</argsstring>
+        <name>Pass</name>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumber</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstantAtAscendingNode</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstantAtNorthPoint</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstantAtDescendingNode</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstantAtSouthPoint</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstantAtPassBreak</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The revolution number of the pass. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantAtAscendingNode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at the ascending node of the pass. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantAtNorthPoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at the north point of the pass. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantAtDescendingNode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at the descending node of the pass. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantAtSouthPoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at the south point of the pass. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantAtPassBreak</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at the pass break, i.e. next ascending node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="63" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="17" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ad2980a78e9a34cc95c906d72839450a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::Pass::operator==</definition>
+        <argsstring>(const Pass &amp;aPass) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &amp;</type>
+          <declname>aPass</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass to compare to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the passes are equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="76" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="85" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ab5b73ab2c54e082774dc9cc16ad5097f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::Pass::operator!=</definition>
+        <argsstring>(const Pass &amp;aPass) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &amp;</type>
+          <declname>aPass</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass to compare to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the passes are not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="82" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1acaf286ca5433a63f9e6e7b226cde7b81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::Pass::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Checks if the pass is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the pass is defined. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="94" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1af25e2c67077dbe78999af64bae0a6f83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::trajectory::orbit::Pass::isComplete</definition>
+        <argsstring>() const</argsstring>
+        <name>isComplete</name>
+        <briefdescription>
+<para>Checks if the pass is complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the pass is complete. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="99" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a059f8209971303cc8961a747e690258e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febcc" kindref="member">Pass::Type</ref></type>
+        <definition>Pass::Type ostk::astro::trajectory::orbit::Pass::getType</definition>
+        <argsstring>() const</argsstring>
+        <name>getType</name>
+        <briefdescription>
+<para>Gets the type of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The type of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="104" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="154" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1abfc538f6a638420298886228f972855d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astro::trajectory::orbit::Pass::getRevolutionNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getRevolutionNumber</name>
+        <briefdescription>
+<para>Gets the revolution number of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The revolution number of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="109" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="164" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a24ae85ff9798ebcf03fd679aa97c1eb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astro::trajectory::orbit::Pass::getDuration</definition>
+        <argsstring>() const</argsstring>
+        <name>getDuration</name>
+        <briefdescription>
+<para>Gets the duration of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The duration of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="114" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="174" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ac53192a54b8d5fac7175d7624fe37b33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtAscendingNode</definition>
+        <argsstring>() const</argsstring>
+        <name>accessInstantAtAscendingNode</name>
+        <briefdescription>
+<para>Accesses the instant at the ascending node of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The instant at the ascending node of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="119" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="189" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a7ebe5ce7299bff0d0679df076542755c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtNorthPoint</definition>
+        <argsstring>() const</argsstring>
+        <name>accessInstantAtNorthPoint</name>
+        <briefdescription>
+<para>Accesses the instant at the north point of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The instant at the north point of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="124" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="199" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a2093761b6a4ad91b9795a962d575cac4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtDescendingNode</definition>
+        <argsstring>() const</argsstring>
+        <name>accessInstantAtDescendingNode</name>
+        <briefdescription>
+<para>Accesses the instant at the descending node of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The instant at the descending node of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="129" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1af927b5e6fc4ffa6e12627bdba2d18cb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtSouthPoint</definition>
+        <argsstring>() const</argsstring>
+        <name>accessInstantAtSouthPoint</name>
+        <briefdescription>
+<para>Accesses the instant at the south point of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The instant at the south point of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="134" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="219" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a4e113507418add9255e21e74b6af7a77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astro::trajectory::orbit::Pass::accessInstantAtPassBreak</definition>
+        <argsstring>() const</argsstring>
+        <name>accessInstantAtPassBreak</name>
+        <briefdescription>
+<para>Accesses the instant at the break of the pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The instant at the break of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="139" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="229" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a137d76c79f749ed214c0bf4a3410f602" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::trajectory::orbit::Pass::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether or not to display the decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="145" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="239" bodyend="264"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a62c2257085205d3c714c5ca4350f84f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Pass &amp;aPass)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &amp;</type>
+          <declname>aPass</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass to output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="89" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="132" bodyend="137"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ad1f97ee5361bce2ea9d3dd2211fa52bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref></type>
+        <definition>Pass ostk::astro::trajectory::orbit::Pass::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Creates an undefined pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>An undefined pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="150" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="266" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ae3ba229e53fe1041c96a44c1609d3d28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::Pass::StringFromType</definition>
+        <argsstring>(const Pass::Type &amp;aType)</argsstring>
+        <name>StringFromType</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febcc" kindref="member">Pass::Type</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <briefdescription>
+<para>Converts a pass type to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The string representation of the pass type. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="156" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="278" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1aff910b1d0ea72c538ee087ff39cd62fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astro::trajectory::orbit::Pass::StringFromPhase</definition>
+        <argsstring>(const Pass::Phase &amp;aPhase)</argsstring>
+        <name>StringFromPhase</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a9fb48e13f29c899a8b74c43091fe4203" kindref="member">Pass::Phase</ref> &amp;</type>
+          <declname>aPhase</declname>
+        </param>
+        <briefdescription>
+<para>Converts a pass phase to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPhase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The string representation of the pass phase. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="162" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="298" bodyend="316"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A revolution of an orbiting object. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class represents a pass, which is a revolution of an orbiting object. It provides methods to get the type of the pass, the revolution number, and the instants at various points of the pass. <simplesect kind="see"><para><ulink url="http://help.agi.com/stk/11.3.0/index.htm#vo/sat_pass.htm">http://help.agi.com/stk/11.3.0/index.htm#vo/sat_pass.htm</ulink> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="34" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ac53192a54b8d5fac7175d7624fe37b33" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>accessInstantAtAscendingNode</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a2093761b6a4ad91b9795a962d575cac4" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>accessInstantAtDescendingNode</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a7ebe5ce7299bff0d0679df076542755c" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>accessInstantAtNorthPoint</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a4e113507418add9255e21e74b6af7a77" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>accessInstantAtPassBreak</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1af927b5e6fc4ffa6e12627bdba2d18cb3" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>accessInstantAtSouthPoint</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a24ae85ff9798ebcf03fd679aa97c1eb1" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>getDuration</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1abfc538f6a638420298886228f972855d" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>getRevolutionNumber</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a059f8209971303cc8961a747e690258e" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>getType</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a0538501194712a1a550f057178edcdd7" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>instantAtAscendingNode_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ae64f018b8fa6f66854f701a9734413ca" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>instantAtDescendingNode_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ab667cf652728bdb708505c106205a98d" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>instantAtNorthPoint_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a88e88e8474d13cc4fc6bf8cc2f561812" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>instantAtPassBreak_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1addbcb9f913cf2287ba1cf9d8c4d35362" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>instantAtSouthPoint_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1af25e2c67077dbe78999af64bae0a6f83" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>isComplete</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1acaf286ca5433a63f9e6e7b226cde7b81" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ab5b73ab2c54e082774dc9cc16ad5097f" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a62c2257085205d3c714c5ca4350f84f4" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ad2980a78e9a34cc95c906d72839450a0" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a3e4072abac1191aa4b31e68e90cdd993" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>Pass</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a9fb48e13f29c899a8b74c43091fe4203" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>Phase</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a137d76c79f749ed214c0bf4a3410f602" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1aace10a035f1da547d1f17aac7bfcbfe3" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>revolutionNumber_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1aff910b1d0ea72c538ee087ff39cd62fa" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>StringFromPhase</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ae3ba229e53fe1041c96a44c1609d3d28" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>StringFromType</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a74449dbd104c6a24462b373cc55febcc" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>Type</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1a6056b9aa32e6cc62510b1c8e2bd4faee" prot="private" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>type_</name></member>
+      <member refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass_1ad1f97ee5361bce2ea9d3dd2211fa52bc" prot="public" virt="non-virtual"><scope>ostk::astro::trajectory::orbit::Pass</scope><name>Undefined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

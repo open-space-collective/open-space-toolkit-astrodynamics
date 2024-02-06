@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1access" kind="namespace" language="C++">
+    <compoundname>ostk::astro::access</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1access_1_1_generator" prot="public">ostk::astro::access::Generator</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1access_1_1_generator_context" prot="public">ostk::astro::access::GeneratorContext</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="28" column="1"/>
+  </compounddef>
+</doxygen>

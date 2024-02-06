@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_1bfc2fbb47e87e19ceee78634aee8736" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models</compoundname>
+    <innerfile refid="_static_8hpp">Static.hpp</innerfile>
+    <innerfile refid="_trajectory_2_models_2_tabulated_8hpp">Tabulated.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/"/>
+  </compounddef>
+</doxygen>

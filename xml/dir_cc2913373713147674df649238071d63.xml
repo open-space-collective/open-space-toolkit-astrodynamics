@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_cc2913373713147674df649238071d63" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages</compoundname>
+    <innerdir refid="dir_56cd02c3723c9117f37004f0a3c8c01c">src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_63b6b1ec5d4fb1381aa2ced999c67fda" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics</compoundname>
+    <innerdir refid="dir_e660970c113be06650bd01f013c1c0f6">include/OpenSpaceToolkit/Astrodynamics/Access</innerdir>
+    <innerdir refid="dir_27bf2a9effe12d13a0dd0b2a43415894">include/OpenSpaceToolkit/Astrodynamics/Conjunction</innerdir>
+    <innerdir refid="dir_0b6608e3d374155cbf0f51bbaa9dd801">include/OpenSpaceToolkit/Astrodynamics/Dynamics</innerdir>
+    <innerdir refid="dir_e41b2cba089ed3ee71bd9bdec1b42eda">include/OpenSpaceToolkit/Astrodynamics/EventCondition</innerdir>
+    <innerdir refid="dir_a9475479c97067a34c1b41ad9be87160">include/OpenSpaceToolkit/Astrodynamics/Flight</innerdir>
+    <innerdir refid="dir_24a764cd8ceb16d81396c7a9f4a45711">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw</innerdir>
+    <innerdir refid="dir_0ff8e11cbb54ee7aeff85ec17a62416d">include/OpenSpaceToolkit/Astrodynamics/Solvers</innerdir>
+    <innerdir refid="dir_487c49ff17ded48b6f4eeef50bd2df5e">include/OpenSpaceToolkit/Astrodynamics/Trajectory</innerdir>
+    <innerfile refid="_access_8hpp">Access.hpp</innerfile>
+    <innerfile refid="_dynamics_8hpp">Dynamics.hpp</innerfile>
+    <innerfile refid="_event_condition_8hpp">EventCondition.hpp</innerfile>
+    <innerfile refid="_flight_8hpp">Flight.hpp</innerfile>
+    <innerfile refid="_guidance_law_8hpp">GuidanceLaw.hpp</innerfile>
+    <innerfile refid="_root_solver_8hpp">RootSolver.hpp</innerfile>
+    <innerfile refid="_trajectory_8hpp">Trajectory.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/"/>
+  </compounddef>
+</doxygen>

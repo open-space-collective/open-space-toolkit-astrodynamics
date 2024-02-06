@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_33bc04004086b47a9b6ad74db778a20e" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/EventCondition</compoundname>
+    <innerfile refid="_angular_condition_8cpp">AngularCondition.cpp</innerfile>
+    <innerfile refid="_boolean_condition_8cpp">BooleanCondition.cpp</innerfile>
+    <innerfile refid="_c_o_e_condition_8cpp">COECondition.cpp</innerfile>
+    <innerfile refid="_instant_condition_8cpp">InstantCondition.cpp</innerfile>
+    <innerfile refid="_logical_condition_8cpp">LogicalCondition.cpp</innerfile>
+    <innerfile refid="_real_condition_8cpp">RealCondition.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/EventCondition/"/>
+  </compounddef>
+</doxygen>

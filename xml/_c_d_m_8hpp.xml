@@ -1,0 +1,495 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_c_d_m_8hpp" kind="file" language="C++">
+    <compoundname>CDM.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Containers/Array.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Containers/Dictionary.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Containers/Map.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/FileSystem/File.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Index.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Integer.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Real.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/Shared.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Types/String.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/IAU/Theory.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Position.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Units/Length.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Units/Mass.hpp</includes>
+    <includes refid="_trajectory_2_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
+    <includedby refid="_c_d_m_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="22">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</label>
+        <link refid="_coordinates_broker_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
+        <link refid="_trajectory_2_state_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp</label>
+        <link refid="_c_d_m_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/IAU/Theory.hpp</label>
+      </node>
+      <node id="20">
+        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
+      </node>
+      <node id="17">
+        <label>OpenSpaceToolkit/Physics/Units/Length.hpp</label>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Core/Types/Index.hpp</label>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Core/Containers/Map.hpp</label>
+      </node>
+      <node id="21">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Core/FileSystem/File.hpp</label>
+      </node>
+      <node id="23">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</label>
+        <link refid="_coordinates_subset_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>OpenSpaceToolkit/Core/Types/String.hpp</label>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
+      </node>
+      <node id="15">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
+      </node>
+      <node id="18">
+        <label>OpenSpaceToolkit/Physics/Units/Mass.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Containers/Dictionary.hpp</label>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Containers/Array.hpp</label>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Core/Types/Shared.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Core/Types/Integer.hpp</label>
+      </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp</label>
+        <link refid="_c_d_m_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp</label>
+        <link refid="_c_d_m_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" prot="public">ostk::astro::conjunction::messages::ccsds::CDM</innerclass>
+    <innerclass refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header" prot="public">ostk::astro::conjunction::messages::ccsds::CDM::Header</innerclass>
+    <innerclass refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" prot="public">ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata</innerclass>
+    <innerclass refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata" prot="public">ostk::astro::conjunction::messages::ccsds::CDM::Metadata</innerclass>
+    <innerclass refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data" prot="public">ostk::astro::conjunction::messages::ccsds::CDM::Data</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1conjunction">ostk::astro::conjunction</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1conjunction_1_1messages">ostk::astro::conjunction::messages</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds">ostk::astro::conjunction::messages::ccsds</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Containers/Array.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Containers/Dictionary.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Containers/Map.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/FileSystem/File.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Index.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Integer.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Real.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Shared.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/String.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Objects/Vector.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/IAU/Theory.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Position.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Units/Length.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Units/Mass.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_trajectory_2_state_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32" refid="namespaceostk_1_1astro_1_1conjunction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">conjunction</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34" refid="namespaceostk_1_1astro_1_1conjunction_1_1messages" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">messages</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36" refid="namespaceostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ccsds</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ctnr<sp/>=<sp/>ostk::core::ctnr;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::ctnr::Array;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::ctnr::Map;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::filesystem::File;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Index;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Integer;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Real;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Shared;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::String;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::math::object::MatrixXd;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::Frame;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::Position;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::Velocity;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coord::frame::providers::iau::Theory;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Duration;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::units::Length;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::units::Mass;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">ostk::astro::trajectory::State</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="comment">//<sp/>TBI:<sp/>Figure<sp/>out<sp/>how<sp/>to<sp/>adapt<sp/>based<sp/>on<sp/>providers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TBI:<sp/>Find<sp/>a<sp/>good<sp/>way<sp/>to<sp/>handle<sp/>comments<sp/>and<sp/>extra<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TBI:<sp/>Self-contained,<sp/>create<sp/>a<sp/>RSO<sp/>class<sp/>to<sp/>hold<sp/>Object<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TBI:<sp/>Add<sp/>getters<sp/>at<sp/>structs<sp/>level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TBI:<sp/>Improve<sp/>handling<sp/>of<sp/>covariance<sp/>matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80" refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71" kindref="member">ObjectType</ref></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71a00f4e5788aab6d3546bb433842dbbefc" kindref="member">Payload</ref>,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71adbf0f8cc46650179a9710985f21747b4" kindref="member">RocketBody</ref>,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71a7e4a693bfe182987626f234139a8dc83" kindref="member">Debris</ref>,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">Unknown</ref>,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71a6311ae17c1ee52b36e68aaf4ad066387" kindref="member">Other</ref></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header" kindref="compound">Header</ref></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a3050d7ef808f9ee8f10fd3346ffcb23f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a3050d7ef808f9ee8f10fd3346ffcb23f" kindref="member">ccsdsCdmVersion</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a5f903615e1e7bb48a7335ef4337a6218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a5f903615e1e7bb48a7335ef4337a6218" kindref="member">comment</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="93" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a2188a4fc3aca51a6d96f3eedc5205d72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a2188a4fc3aca51a6d96f3eedc5205d72" kindref="member">creationDate</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1aaff1cbfa0ac968d01e6f5d03a70a30ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1aaff1cbfa0ac968d01e6f5d03a70a30ce" kindref="member">originator</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1aa82722c53756f396de0dafeeda1fc327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1aa82722c53756f396de0dafeeda1fc327" kindref="member">messageFor</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="96" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a9f8a18247622e0fa0b4394bfa51b501c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header_1a9f8a18247622e0fa0b4394bfa51b501c" kindref="member">messageId</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" kindref="compound">RelativeMetadata</ref></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ab4c20facaf507c8968f1705ac09f67a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ab4c20facaf507c8968f1705ac09f67a5" kindref="member">comment</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a5ff54bfc2f15a679244cc84cda3b5adc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a5ff54bfc2f15a679244cc84cda3b5adc" kindref="member">TCA</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a1196e463771c0f0199c4f54a1f1a05e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Length<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a1196e463771c0f0199c4f54a1f1a05e7" kindref="member">missDistance</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a659e2e07a69047b7716bca49ff0d00f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a659e2e07a69047b7716bca49ff0d00f8" kindref="member">relativePosition</ref><sp/>=<sp/>Position::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>expressed<sp/>in<sp/>RTN<sp/>frame<sp/>at<sp/>TCA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a2f1782200bd13c7a473769667a060870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a2f1782200bd13c7a473769667a060870" kindref="member">relativeVelocity</ref><sp/>=<sp/>Velocity::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>expressed<sp/>in<sp/>RTN<sp/>frame<sp/>at<sp/>TCA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a41ed2de13d3990a54ee5184698e1df4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a41ed2de13d3990a54ee5184698e1df4a" kindref="member">startScreenPeriod</ref><sp/>=<sp/>Instant::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>UTC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4131e67ee276fb8e09a814ef543dd7f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4131e67ee276fb8e09a814ef543dd7f0" kindref="member">endScreenPeriod</ref><sp/>=<sp/>Instant::Undefined();<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UTC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1aab6e00cedd6f308cdccf01d605659130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1aab6e00cedd6f308cdccf01d605659130" kindref="member">screenVolumeFrame</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="111" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a5c61458a82b76eb15898a9394921d540" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a5c61458a82b76eb15898a9394921d540" kindref="member">screenVolumeShape</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="112" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a440c344301f3da0914287fc27efdecc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a440c344301f3da0914287fc27efdecc3" kindref="member">screenVolumeX</ref><sp/>=<sp/>Real::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>TBI:<sp/>Make<sp/>it<sp/>a<sp/>vector?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ac4af249795dd088566aad3eba225a140" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ac4af249795dd088566aad3eba225a140" kindref="member">screenVolumeY</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="114" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a9a8574e2bc75a5200ff14b90c231f700" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a9a8574e2bc75a5200ff14b90c231f700" kindref="member">screenVolumeZ</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="115" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a66f0717458e9b17d7efd7db99c933f3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a66f0717458e9b17d7efd7db99c933f3f" kindref="member">screenEntryTime</ref><sp/>=<sp/>Instant::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>UTC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4ec3cda5aff9fbd3b1037e5143c4e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4ec3cda5aff9fbd3b1037e5143c4e7c5" kindref="member">screenExitTime</ref><sp/>=<sp/>Instant::Undefined();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UTC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a86d304c892baba0130a1ca23e6eb9d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a86d304c892baba0130a1ca23e6eb9d3b" kindref="member">collisionProbability</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="119" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ad4a50fb4d316c140053d56e203985005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ad4a50fb4d316c140053d56e203985005" kindref="member">collisionProbabilityMethod</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata" kindref="compound">Metadata</ref></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a96b46dae4032dba90f24601425a8ace8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a96b46dae4032dba90f24601425a8ace8" kindref="member">comment</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="125" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ace0fe39627c532a8b21a84c9c6886372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ace0fe39627c532a8b21a84c9c6886372" kindref="member">object</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a135bbf761e45624d5cf29677756cce18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a135bbf761e45624d5cf29677756cce18" kindref="member">objectDesignator</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a91b077a0f07ebf0c75816ad7f2fb4ba1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a91b077a0f07ebf0c75816ad7f2fb4ba1" kindref="member">catalogName</ref>;</highlight></codeline>
+<codeline lineno="128" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a842210f2ca1dacc597cfd570aa57c19d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a842210f2ca1dacc597cfd570aa57c19d" kindref="member">objectName</ref>;</highlight></codeline>
+<codeline lineno="129" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac11a59f1a624a5e7ada91a82b24bde2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac11a59f1a624a5e7ada91a82b24bde2c" kindref="member">internationalDesignator</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ace0a28e8456b7e950def75e9be2488da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71" kindref="member">ObjectType</ref><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ace0a28e8456b7e950def75e9be2488da" kindref="member">objectType</ref><sp/>=<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ObjectType::Unknown</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6a891404a543cb582f1ea6289dc7bc59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6a891404a543cb582f1ea6289dc7bc59" kindref="member">operatorContactPosition</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="133" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ada18b3efa3a6bb2df54ffc6f00cbbaaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ada18b3efa3a6bb2df54ffc6f00cbbaaf" kindref="member">operatorOrgnization</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="134" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a410654e822689ffb55db47df0ca8cbbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a410654e822689ffb55db47df0ca8cbbf" kindref="member">operatorPhone</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="135" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a0a577646ca9eb97424c29615f34ca477" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a0a577646ca9eb97424c29615f34ca477" kindref="member">operatorEmail</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a0c07d1d437162f4cb2c0e0ac9404e72c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a0c07d1d437162f4cb2c0e0ac9404e72c" kindref="member">ephemerisName</ref>;</highlight></codeline>
+<codeline lineno="138" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1aa75d6df4752331b1fdd080556fa602c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1aa75d6df4752331b1fdd080556fa602c6" kindref="member">covarianceMethod</ref>;</highlight></codeline>
+<codeline lineno="139" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1af05d99ba66c816043e0fd1e25f050111" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1af05d99ba66c816043e0fd1e25f050111" kindref="member">maneuverable</ref>;</highlight></codeline>
+<codeline lineno="140" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a850262b5d5528e0d4e871c747043f11f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a850262b5d5528e0d4e871c747043f11f" kindref="member">orbitCenter</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="141" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a1f7760be8ce00cf588146c557a7511b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a1f7760be8ce00cf588146c557a7511b4" kindref="member">refFrame</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TBI:<sp/>Use<sp/>Frame<sp/>later</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac277170a570e49b737771b55005a9bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac277170a570e49b737771b55005a9bb4" kindref="member">gravityModel</ref><sp/>=<sp/>String::Empty();<sp/><sp/></highlight><highlight class="comment">//<sp/>TBI:<sp/>Check<sp/>String<sp/>or<sp/>actual<sp/>pointer<sp/>to<sp/>GravityModel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a7c3419da001046c4d3b65072989dc563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a7c3419da001046c4d3b65072989dc563" kindref="member">atmosphericModel</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="144" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a938eed4b4146a7e02e24d37fb35d1e26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a938eed4b4146a7e02e24d37fb35d1e26" kindref="member">nBodyPerturbations</ref><sp/>=<sp/>String::Empty();</highlight></codeline>
+<codeline lineno="145" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a1f391661d25def1092b6051327e120cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a1f391661d25def1092b6051327e120cb" kindref="member">solarRadiationPressure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a059320ce7123670321382151ff465409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1a059320ce7123670321382151ff465409" kindref="member">earthTides</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ad5bded86c0fe3b4589f66c135d41016a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata_1ad5bded86c0fe3b4589f66c135d41016a" kindref="member">inTrackThrust</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>CDM<sp/>Data<sp/>section<sp/>shall<sp/>be<sp/>formed<sp/>as<sp/>logical<sp/>blocks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>–<sp/>OD<sp/>Parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>–<sp/>Additional<sp/>Parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>–<sp/>State<sp/>Vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>–<sp/>Covariance<sp/>Matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data" kindref="compound">Data</ref></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OD<sp/>Parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>String<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ODComment<sp/>=<sp/>String::Empty()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1ad554f0dd23c5ec30e6de4a5f2d7a2ece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1ad554f0dd23c5ec30e6de4a5f2d7a2ece" kindref="member">timeLastObStart</ref><sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="162" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1abfcfb812c643a21e44307f68cdf62225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1abfcfb812c643a21e44307f68cdf62225" kindref="member">timeLastObEnd</ref><sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="163" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a60bd4f519dad47a722abe9390348495f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a60bd4f519dad47a722abe9390348495f" kindref="member">recommendedODSpan</ref><sp/>=<sp/>Duration::Undefined();</highlight></codeline>
+<codeline lineno="164" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a4515fd382236aebbaf829770dca9820e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a4515fd382236aebbaf829770dca9820e" kindref="member">actualODSpan</ref><sp/>=<sp/>Duration::Undefined();</highlight></codeline>
+<codeline lineno="165" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a71664e7f7550dc091d65527a16c343fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a71664e7f7550dc091d65527a16c343fb" kindref="member">obsAvailable</ref><sp/>=<sp/>Integer::Undefined();</highlight></codeline>
+<codeline lineno="166" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a1500fda81608b90de6e2f8ee2f8de237" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a1500fda81608b90de6e2f8ee2f8de237" kindref="member">obsUsed</ref><sp/>=<sp/>Integer::Undefined();</highlight></codeline>
+<codeline lineno="167" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a4dc2ead201237e6599d4e6d3ef4b91ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a4dc2ead201237e6599d4e6d3ef4b91ec" kindref="member">tracksAvailable</ref><sp/>=<sp/>Integer::Undefined();</highlight></codeline>
+<codeline lineno="168" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1aee9cd2e0a4277eb259710128397d0c14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1aee9cd2e0a4277eb259710128397d0c14" kindref="member">tracksUsed</ref><sp/>=<sp/>Integer::Undefined();</highlight></codeline>
+<codeline lineno="169" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a762ebadedd5504222e2eac267a89bf10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a762ebadedd5504222e2eac267a89bf10" kindref="member">residualsAccepted</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="170" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1ace9f33401b6e7a3efe39207ae1c37467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1ace9f33401b6e7a3efe39207ae1c37467" kindref="member">weightedRMS</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>Parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>String<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>additionParametersComment<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a00e55a441c2166dd9a12d1b7c2a3226d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a00e55a441c2166dd9a12d1b7c2a3226d" kindref="member">areaPC</ref><sp/>=<sp/>Real::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>Area,<sp/>add<sp/>Unit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a177b42a7dcc3c591fac300b882ffd805" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a177b42a7dcc3c591fac300b882ffd805" kindref="member">areaDrag</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="177" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a8a4b0ec1a6210d85e7c65bab4a1d454a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a8a4b0ec1a6210d85e7c65bab4a1d454a" kindref="member">areaSRP</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="178" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1afb47c311d8067e63cc690794792ebe27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Mass<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1afb47c311d8067e63cc690794792ebe27" kindref="member">mass</ref><sp/>=<sp/>Mass::Undefined();</highlight></codeline>
+<codeline lineno="179" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1ad0d237d262a42a1b04d1e06818ed4693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1ad0d237d262a42a1b04d1e06818ed4693" kindref="member">cdAreaOverMass</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="180" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1aac7f59e59dd55c9455eacc083ebec670" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1aac7f59e59dd55c9455eacc083ebec670" kindref="member">crAreaOverMass</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="181" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a375d41d5e93b600ab5eebc5eafee0331" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a375d41d5e93b600ab5eebc5eafee0331" kindref="member">thrustAcceleration</ref><sp/>=<sp/>Real::Undefined();<sp/><sp/></highlight><highlight class="comment">//<sp/>Acceleration,<sp/>add<sp/>Unit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a0722a1292f11b07ca172d94208442089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a0722a1292f11b07ca172d94208442089" kindref="member">SEDR</ref><sp/>=<sp/>Real::Undefined();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>Vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>String<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stateVectorComment<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a14c73382f6696f7c91e28ae5a5d29653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1a14c73382f6696f7c91e28ae5a5d29653" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Covariance<sp/>Matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>String<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>covarianceComment<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1af9abcc054f93b08477a3162c432a8d46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MatrixXd<sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data_1af9abcc054f93b08477a3162c432a8d46" kindref="member">covarianceMatrix</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Usually<sp/>defined<sp/>in<sp/>RTN<sp/>Frame</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a7384b77a16261388ac290456f9691da2" kindref="member">CDM</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header" kindref="compound">CDM::Header</ref>&amp;<sp/>aHeader,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" kindref="compound">CDM::RelativeMetadata</ref>&amp;<sp/>aRelativeMetadata,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;CDM::Metadata&gt;&amp;<sp/>aMetadataArray,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;CDM::Data&gt;<sp/>aDataArray);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1ab7d7c6540081780b8224959e4bf0532e" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref>&amp;<sp/>anCDM);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a39f28f415e78bef70b530192bb30cd29" kindref="member">isDefined</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header" kindref="compound">CDM::Header</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1ac00f056f87d9b31a531da727d3d3f09b" kindref="member">getHeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" kindref="compound">CDM::RelativeMetadata</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9985ac10e77d5397948029614fdba672" kindref="member">getRelativeMetadata</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;CDM::Metadata&gt;<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a2a2e07c7f8993b028aba46ac4d6d7f9c" kindref="member">getMetadataArray</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;CDM::Data&gt;<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1aa9349ce65e7a723c1acd54259b4a432e" kindref="member">getDataArray</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata" kindref="compound">CDM::Metadata</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a56417d8fc01b6d21b8daa60315306e8a" kindref="member">getObjectMetadataAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data" kindref="compound">CDM::Data</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a85aa2c1a85b11269cb9d3959aab5a6b0" kindref="member">getObjectDataAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Header<sp/>getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a296b90cccabb587922cbb751371b307c" kindref="member">getCCSDSCDMVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a11fd7cdbb4c7dae61fa28cecfea3c8ef" kindref="member">getCreationDate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9e01b351ceb60243b78fd66836427d94" kindref="member">getOriginator</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1ae7762cdbd576f6431003d30cef1e5ba6" kindref="member">getMessageFor</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a912baf7125357181bcfcf44696e7d75a" kindref="member">getMessageId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relative<sp/>Metadata<sp/>getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a2b700f334c4c08dd3b9fd72cb9c702dc" kindref="member">getTCA</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>Length<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a40c7d5b606e08430b2911c9bb35e3656" kindref="member">getMissDistance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>Position<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1adb363b9c8acd269e068d6759359f3711" kindref="member">getRelativePosition</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>Velocity<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a68703343174a89e0da870b6bccb84586" kindref="member">getRelativeVelocity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a1a77fac319da01e08ba4df8e6e3f97eb" kindref="member">getCollisionProbability</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a2495fa0813f45c8c9551c15330384d59" kindref="member">getCollisionProbabilityMethod</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Object<sp/>Metadata<sp/>getters.<sp/>TBI:<sp/>Create<sp/>Resident<sp/>Space<sp/>Object<sp/>(RSO)<sp/>class<sp/>and<sp/>add<sp/>these<sp/>methods<sp/>under<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>Integer<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a4cf0e373d7e25b3ba66ca21b9b9a5cf9" kindref="member">getObjectDesignator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a193a38d7c617e9939484ee28b71bd102" kindref="member">getObjectName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9789c4364467b7669d5fd63fba25cf5a" kindref="member">getObjectInternationalDesignator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71" kindref="member">CDM::ObjectType</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a2648441cd3ca2d768d0b332e3fea8026" kindref="member">getObjectType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a17433975239d4a9be39de9134e51894b" kindref="member">getObjectEphemerisName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1abe474c1a7ca51045e47c753c2e0e226b" kindref="member">getObjectCovarianceMethod</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a4fc6a3384890598b1cfada26ec56e738" kindref="member">getObjectManeuverability</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a274eb98bbdf4b25b2dec33438ce0f0f2" kindref="member">getObjectReferenceFrame</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Object<sp/>Data<sp/>getters.<sp/>TBI:<sp/>Create<sp/>Resident<sp/>Space<sp/>Object<sp/>(RSO)<sp/>class<sp/>and<sp/>add<sp/>these<sp/>methods<sp/>under<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1trajectory_1_1_state" kindref="compound">State</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1aa0515281ff803e871d4865dc6e49d6ae" kindref="member">getObjectStateAtTCA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>MatrixXd<sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1aeb251c6893a475cf33a9d90ffa433423" kindref="member">getObjectCovarianceMatrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Index&amp;<sp/>anIndex)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1adea2a7c079bb4666c03df1ecefd687a3" kindref="member">print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1ad4bfbcaaa89c1d3d83a42eda836b4068" kindref="member">Undefined</ref>();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1ac7cef63b8d05b25f645498278e46c8d6" kindref="member">Dictionary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ctnr::Dictionary&amp;<sp/>aDictionary);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a6b1d12654994bb2b1bc9d3a679ff765a" kindref="member">Parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aString);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a2a696b242f9e21c81549183cd921379c" kindref="member">Load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>File&amp;<sp/>aFile);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1a9ef446f2327904fc0516249120ec9d71" kindref="member">CDM::ObjectType</ref><sp/><ref refid="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1aa36004f5a58ca60e4815aa1c286013ce" kindref="member">ObjectTypeFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aString);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header" kindref="compound">CDM::Header</ref><sp/>header_;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" kindref="compound">CDM::RelativeMetadata</ref><sp/>relativeMetadata_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;CDM::Metadata&gt;<sp/>objectsMetadata_;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;CDM::Data&gt;<sp/>objectsData_;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ccsds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>messages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>conjunction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp"/>
+  </compounddef>
+</doxygen>

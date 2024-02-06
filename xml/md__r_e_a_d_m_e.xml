@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="md__r_e_a_d_m_e" kind="page">
+    <compoundname>md_README</compoundname>
+    <title>Open Space Toolkit ▸ Astrodynamics</title>
+    <briefdescription>
+<para>Structure </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure</para>
+<para><ulink url="https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/build-test.yml"><image type="html" name="badge.svg?branch=main" inline="yes"></image>
+</ulink> <ulink url="https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics"><image type="html" name="badge.svg" inline="yes"></image>
+</ulink> <ulink url="https://open-space-collective.github.io/open-space-toolkit-astrodynamics"><image type="html" name="stable.svg" inline="yes"></image>
+</ulink> <ulink url="https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics"><image type="html" name="open-space-collective%2Fopen-space-toolkit-astrodynamics.svg" inline="yes"></image>
+</ulink> <ulink url="https://badge.fury.io/py/open-space-toolkit-astrodynamics"><image type="html" name="open-space-toolkit-astrodynamics.svg" inline="yes"></image>
+</ulink> <ulink url="https://opensource.org/licenses/Apache-2.0"><image type="html" name="License-Apache%202.0-blue.svg" inline="yes"></image>
+</ulink></para>
+<para>Orbit, attitude, access, mission analysis.</para>
+<para><image type="html" name="example.svg" inline="yes"></image>
+</para>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md1">
+<title>Getting Started</title>
+<para>Want to get started? This is the simplest and quickest way:</para>
+<para><ulink url="https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/main?urlpath=lab/tree/notebooks"><image type="html" name="badge_logo.svg" inline="yes"></image>
+</ulink></para>
+<para><emphasis>Nothing to download or install! This will automatically start a <ulink url="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</ulink> environment in your browser with Open Space Toolkit libraries and example notebooks ready to use.</emphasis></para>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md2">
+<title>Alternatives</title>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md3">
+<title>Docker Images</title>
+<para><ulink url="https://www.docker.com/">Docker</ulink> must be installed on your system.</para>
+<sect4 id="md__r_e_a_d_m_e_1autotoc_md4">
+<title>iPython</title>
+<para>The following command will start an <ulink url="https://ipython.org/">iPython</ulink> shell within a container where the OSTk components are already installed:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">docker<sp/>run<sp/>-it<sp/>openspacecollective/open-space-toolkit-astrodynamics-python</highlight></codeline>
+</programlisting></para>
+<para>Once the shell is up and running, playing with it is easy:</para>
+<para><programlisting filename=".py"><codeline><highlight class="normal">from<sp/>ostk.physics<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Environment</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.physics.time<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Instant</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.astrodynamics.trajectory<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Orbit</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.astrodynamics.trajectory.orbit.models<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SGP4</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.astrodynamics.trajectory.orbit.models.sgp4<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TLE</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">tle<sp/>=<sp/>TLE(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>18231.17878740<sp/><sp/>.00000187<sp/><sp/>00000-0<sp/><sp/>10196-4<sp/>0<sp/><sp/>9994&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;2<sp/>25544<sp/><sp/>51.6447<sp/><sp/>64.7824<sp/>0005971<sp/><sp/>73.1467<sp/><sp/>36.4366<sp/>15.53848234128316&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>Construct<sp/>Two-Line<sp/>Element<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">earth<sp/>=<sp/>Environment.default().access_celestial_object_with_name(</highlight><highlight class="stringliteral">&apos;Earth&apos;</highlight><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>Access<sp/>Earth<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">orbit<sp/>=<sp/>Orbit(SGP4(tle),<sp/>earth)<sp/><sp/></highlight><highlight class="comment">#<sp/>Construct<sp/>orbit<sp/>using<sp/>SGP4<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">orbit.get_state_at(Instant.now())<sp/><sp/></highlight><highlight class="comment">#<sp/>Compute<sp/>and<sp/>display<sp/>current<sp/>satellite<sp/>state<sp/>(position,<sp/>velocity)</highlight></codeline>
+</programlisting></para>
+<para>By default, OSTk fetches the ephemeris from JPL, Earth Orientation Parameters (EOP) and leap second count from IERS.</para>
+<para>As a result, when running OSTk for the first time, it may take a minute to fetch all the necessary data.</para>
+<para><emphasis>Tip: Use tab for auto-completion!</emphasis></para>
+</sect4>
+<sect4 id="md__r_e_a_d_m_e_1autotoc_md5">
+<title>JupyterLab</title>
+<para>The following command will start a <ulink url="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</ulink> server within a container where the OSTk components are already installed:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">docker<sp/>run<sp/>--publish=8888:8888<sp/>openspacecollective/open-space-toolkit-astrodynamics-jupyter</highlight></codeline>
+</programlisting></para>
+<para>Once the container is running, access <ulink url="http://localhost:8888/lab">http://localhost:8888/lab</ulink> and create a Python 3 Notebook.</para>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md6">
+<title>Installation</title>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md7">
+<title>C++</title>
+<para>The binary packages are hosted using <ulink url="https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases">GitHub Releases</ulink>:</para>
+<para><itemizedlist>
+<listitem><para>Runtime libraries: <computeroutput>open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-runtime</computeroutput></para>
+</listitem><listitem><para>C++ headers: <computeroutput>open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-devel</computeroutput></para>
+</listitem><listitem><para>Python bindings: <computeroutput>open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-python</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md8">
+<title>Debian / Ubuntu</title>
+<para>After downloading the relevant <computeroutput>.deb</computeroutput> binary packages, install:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">apt<sp/>install<sp/>open-space-toolkit-astrodynamics-*.deb</highlight></codeline>
+</programlisting></para>
+</sect3>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md9">
+<title>Python</title>
+<para>Install from <ulink url="https://pypi.org/project/open-space-toolkit-astrodynamics/">PyPI</ulink>:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">pip<sp/>install<sp/>open-space-toolkit-astrodynamics</highlight></codeline>
+</programlisting></para>
+</sect2>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md10">
+<title>Documentation</title>
+<para>Documentation is available <ulink url="https://open-space-collective.github.io/open-space-toolkit-astrodynamics">here</ulink>:</para>
+<para>&lt;details&gt;</para>
+<para>The library exhibits the following detailed and descriptive structure:</para>
+<para><programlisting filename=".txt"><codeline><highlight class="normal">├──<sp/>NumericalSolver</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>Trajectory</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>State</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Orbit</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Kepler</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Classical<sp/>Orbital<sp/>Elements<sp/>(COE)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>SGP4</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Two-Line<sp/>Element<sp/>set<sp/>(TLE)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Tabulated<sp/>(input<sp/>csv)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Propagated<sp/>(numerical<sp/>integration)</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Pass</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Messages</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>SpaceX</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>OPM</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Static</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Tabulated</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>Propagator</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>Flight</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Profile</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Transform</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Tabulated</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>└──<sp/>State</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>System</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>├──<sp/>SatelliteSystem</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>Dynamics</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>PositionDerivative</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CentralBodyGravity</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>ThirdBodyGravity</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>AtmosphericDrag</highlight></codeline>
+<codeline><highlight class="normal">├──<sp/>Access</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>Generator</highlight></codeline>
+<codeline><highlight class="normal">└──<sp/>Conjunction</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└──<sp/>Messages</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CCSDS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CDM</highlight></codeline>
+</programlisting></para>
+<para>&lt;/details&gt;</para>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md11">
+<title>Tutorials</title>
+<para>Tutorials are available here:</para>
+<para><itemizedlist>
+<listitem><para>C++ (in progress)</para>
+</listitem><listitem><para><ulink url="https://github.com/open-space-collective/open-space-toolkit/tree/main/notebooks">Python</ulink></para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md12">
+<title>Setup</title>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md13">
+<title>Development Environment</title>
+<para>Using <ulink url="https://www.docker.com">Docker</ulink> for development is recommended, to simplify the installation of the necessary build tools and dependencies. Instructions on how to install Docker are available <ulink url="https://docs.docker.com/install/">here</ulink>.</para>
+<para>To start the development environment:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">make<sp/>start-development</highlight></codeline>
+</programlisting></para>
+<para>This will:</para>
+<para><orderedlist>
+<listitem><para>Build the <computeroutput>openspacecollective/open-space-toolkit-astrodynamics-development</computeroutput> Docker image.</para>
+</listitem><listitem><para>Create a development environment container with local source files and helper scripts mounted.</para>
+</listitem><listitem><para>Start a <computeroutput>bash</computeroutput> shell from the <computeroutput>./build</computeroutput> working directory.</para>
+</listitem></orderedlist>
+</para>
+<para>If installing Docker is not an option, you can manually install the development tools (GCC, CMake) and all required dependencies, by following a procedure similar to the one described in the <ulink url="./docker/development/Dockerfile">Development Dockerfile</ulink>.</para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md14">
+<title>Build</title>
+<para>From the <computeroutput>./build</computeroutput> directory:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">cmake<sp/>..</highlight></codeline>
+<codeline><highlight class="normal">make</highlight></codeline>
+</programlisting></para>
+<para><emphasis>Tip: The <computeroutput>ostk-build</computeroutput> command simplifies building from within the development environment.</emphasis></para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md15">
+<title>Test</title>
+<para>To start a container to build and run the tests:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">make<sp/>test</highlight></codeline>
+</programlisting></para>
+<para>Or to run them manually:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">./bin/open-space-toolkit-astrodynamics.test</highlight></codeline>
+</programlisting></para>
+<para><emphasis>Tip: The <computeroutput>ostk-test</computeroutput> command simplifies running tests from within the development environment.</emphasis></para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md16">
+<title>Benchmark</title>
+<para>To run benchmarks:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">make<sp/>benchmark</highlight></codeline>
+</programlisting></para>
+<para>Benchmarks are pushed to the <ulink url="https://open-space-collective.github.io/open-space-toolkit-astrodynamics/dev/bench/">GitHub pages</ulink>.</para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md17">
+<title>Validation</title>
+<para>OSTk has a cross-validation framework built into it (inside the <computeroutput>/validation</computeroutput> folder), which allows us to compare its end-to-end propagation accuracy of a full &quot;mission sequence&quot; to other flight qualified tools like GMAT and Orekit.</para>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md18">
+<title>Scenario Definition</title>
+<para>A standardized input format (a yaml file) to define the particular mission sequence scenario is used, and is tooling agnostic. An example of it is shown below.</para>
+<para><itemizedlist>
+<listitem><para>The spacecraft&apos;s parameters and initial state are defined under the <computeroutput>spacecraft</computeroutput> header</para>
+</listitem><listitem><para>The sequence header contains the dynamic forces to be applied during propagation, the type of numerical propagator to use, and the segments (burning or coasting) to execute during the mission sequence</para>
+</listitem><listitem><para>Finally, the output header contains the quantities that we want to output (in this case time elapsed, position, and velocity), and the interval at which to report them</para>
+</listitem></itemizedlist>
+</para>
+<para><programlisting filename=".yaml"><codeline><highlight class="normal">type:<sp/>MISSION_SEQUENCE</highlight></codeline>
+<codeline><highlight class="normal">data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>spacecraft:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mass:<sp/>100.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>drag-cross-section:<sp/>1.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>drag-coefficient:<sp/>2.2</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>orbit:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type:<sp/>CARTESIAN</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>date:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>time-scale:<sp/>UTC</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value:<sp/>&quot;2023-01-01T00:00:00&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frame:<sp/>GCRF</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>EARTH</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x:<sp/>-4283387.412456233</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>y:<sp/>-4451426.776125101</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>z:<sp/>-2967617.850750065</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vx:<sp/>4948.074939732174</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vy:<sp/>-957.3429532772124</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vz:<sp/>-5721.173027553034</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>sequence:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>max-duration:<sp/>86400.1</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>forces:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>type:<sp/>GRAVITY</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>EARTH</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model:<sp/>EGM96</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>degree:<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>order:<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>propagator:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type:<sp/>RUNGE_KUTTA_DORMAND_PRINCE_45</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initial-step:<sp/>30.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>min-step:<sp/>0.001</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max-step:<sp/>2700.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relative-tolerance:<sp/>1.0e-12</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>absolute-tolerance:<sp/>1.0e-12</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>segments:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>type:<sp/>COAST</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop-condition:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type:<sp/>RELATIVE_TIME</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>duration:<sp/>86400.0</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>output:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>step:<sp/>120.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>include:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>ELAPSED_SECONDS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>CARTESIAN_POSITION_GCRF</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>CARTESIAN_VELOCITY_GCRF</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md19">
+<title>Cross Validation and Accuracy Tolerances</title>
+<para>The validation framework takes this yaml scenario definition (from the <computeroutput>/validation/data/scenarios</computeroutput> folder) and runs the scenario using OSTk. Next, it compares the specified outputs (quantities like the position, velocity, mass, acceleration of the spacecraft) at the desired reporting step generated by OSTk with each external validation tool (whose outputs were generated via the same process and are in the <computeroutput>/validation/data/gmat_astrodynamics</computeroutput> or <computeroutput>/validation/data/orekit_astrodynamics</computeroutput> folder as <computeroutput>.csv</computeroutput>), to ensure they are within a certain tolerance of each other.</para>
+<para><bold>To add a scenario:</bold><orderedlist>
+<listitem><para>Write a scenario definition using the <computeroutput>.yaml</computeroutput> format above, and name it <computeroutput>scenarioX-mission-sequence.yaml</computeroutput>, and put it in wth the others. If the format isn&apos;t correct or there is another issue, OSTk will throw an error when validating.</para>
+</listitem><listitem><para>Generate the <computeroutput>.csv</computeroutput> outputs from the external tools you want to compare OSTk against (repos with an GMAT and Orekit wrapper that can ingest this <computeroutput>.yaml</computeroutput> format do exist and will be open sourced soon).</para>
+</listitem><listitem><para>Add another test case to the <computeroutput>Framework.validation.cpp</computeroutput> file, with the scenario name, the tool to compare against, and the output quantities and comparison tolerances for those. An exampe of this is provided below.</para>
+</listitem></orderedlist>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;scenario001-mission-sequence&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>Spherical<sp/>gravity<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tool::GMAT,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_POSITION_GCRF,<sp/>1.1e-0},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_VELOCITY_GCRF,<sp/>1.2e-3},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tool::OREKIT,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_POSITION_GCRF,<sp/>1.1e-0},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{Quantity::CARTESIAN_VELOCITY_GCRF,<sp/>1.2e-3},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal">},</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md20">
+<title>Running the Validation Tests</title>
+<para>The validation tests can be run with <computeroutput>ostk-validate</computeroutput> from within the dev container, or <computeroutput>make validation</computeroutput> as a standalone.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md21">
+<title>Dependencies</title>
+<para><table rows="11" cols="4"><row>
+<entry thead="yes"><para>Name </para>
+</entry><entry thead="yes"><para>Version </para>
+</entry><entry thead="yes"><para>License </para>
+</entry><entry thead="yes"><para>Link  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Pybind11 </para>
+</entry><entry thead="no"><para><computeroutput>2.10.1</computeroutput> </para>
+</entry><entry thead="no"><para>BSD-3-Clause </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/pybind/pybind11">github.com/pybind/pybind11</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ordered-map </para>
+</entry><entry thead="no"><para><computeroutput>0.6.0</computeroutput> </para>
+</entry><entry thead="no"><para>MIT </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/Tessil/ordered-map">github.com/Tessil/ordered-map</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Eigen </para>
+</entry><entry thead="no"><para><computeroutput>3.3.7</computeroutput> </para>
+</entry><entry thead="no"><para>MPL2 </para>
+</entry><entry thead="no"><para><ulink url="http://eigen.tuxfamily.org/index.php">eigen.tuxfamily.org</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SGP4 </para>
+</entry><entry thead="no"><para><computeroutput>6a448b4</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/dnwrnr/sgp4">github.com/dnwrnr/sgp4</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>NLopt </para>
+</entry><entry thead="no"><para><computeroutput>2.5.0</computeroutput> </para>
+</entry><entry thead="no"><para>LGPL </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/stevengj/nlopt">github.com/stevengj/nlopt</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>benchmark </para>
+</entry><entry thead="no"><para><computeroutput>1.8.2</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/google/benchmark">github.com/google/benchmark</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Core </para>
+</entry><entry thead="no"><para><computeroutput>main</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/open-space-collective/open-space-toolkit-core">github.com/open-space-collective/open-space-toolkit-core</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>I/O </para>
+</entry><entry thead="no"><para><computeroutput>main</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/open-space-collective/open-space-toolkit-io">github.com/open-space-collective/open-space-toolkit-io</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Mathematics </para>
+</entry><entry thead="no"><para><computeroutput>main</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/open-space-collective/open-space-toolkit-mathematics">github.com/open-space-collective/open-space-toolkit-mathematics</ulink>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Physics </para>
+</entry><entry thead="no"><para><computeroutput>main</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/open-space-collective/open-space-toolkit-physics">github.com/open-space-collective/open-space-toolkit-physics</ulink>  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md22">
+<title>Contribution</title>
+<para>Contributions are more than welcome!</para>
+<para>For the contributing guide, please consult the CONTRIBUTING.md in the <ulink url="https://github.com/open-space-collective/open-space-toolkit">open-space-toolkit</ulink> base repo <ulink url="https://github.com/open-space-collective/open-space-toolkit/blob/main/CONTRIBUTING.md">here</ulink>.</para>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md23">
+<title>Special Thanks</title>
+<para><ulink url="https://www.loftorbital.com/"><image type="html" name="loft_orbital.png" inline="yes"></image>
+</ulink></para>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md24">
+<title>License</title>
+<para>Apache License 2.0 </para>
+</sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

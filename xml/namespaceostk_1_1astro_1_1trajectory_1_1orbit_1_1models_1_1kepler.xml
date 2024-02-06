@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler" kind="namespace" language="C++">
+    <compoundname>ostk::astro::trajectory::orbit::models::kepler</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" prot="public">ostk::astro::trajectory::orbit::models::kepler::COE</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1aaa637f2225f1ca47ba727efcac94d6d3" prot="public" static="no">
+        <type>ostk::physics::environment::gravitational::Earth</type>
+        <definition>using ostk::astro::trajectory::orbit::models::kepler::EarthGravitationalModel = typedef ostk::physics::environment::gravitational::Earth</definition>
+        <argsstring></argsstring>
+        <name>EarthGravitationalModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" line="32" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1afc742337dfd1a4c4b0649333f8a0729d" prot="public" static="yes" mutable="no">
+        <type>const Real</type>
+        <definition>const Real ostk::astro::trajectory::orbit::models::kepler::Tolerance</definition>
+        <argsstring></argsstring>
+        <name>Tolerance</name>
+        <initializer>= 1e-30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" line="34" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1a2bc228c189a19851e96ed3de6c183560" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::trajectory::orbit::models::kepler::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" line="35" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1a597a5224cd46bd81dd9547fe814e82cf" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astro::trajectory::orbit::models::kepler::AngularMomentumSIUnit</definition>
+        <argsstring></argsstring>
+        <name>AngularMomentumSIUnit</name>
+        <initializer>= {
+    Length::Unit::Meter,
+    {2},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-2},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" line="37" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1a1c001113578333c1fb99c4cf329215d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::trajectory::orbit::models::kepler::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const COE &amp;aCOE)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
+          <declname>aCOE</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>COE(...)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCOE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A set of <ref refid="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" line="85" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

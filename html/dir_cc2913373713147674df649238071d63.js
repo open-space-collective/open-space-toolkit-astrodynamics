@@ -1,4 +1,0 @@
-var dir_cc2913373713147674df649238071d63 =
-[
-    [ "CCSDS", "dir_56cd02c3723c9117f37004f0a3c8c01c.html", "dir_56cd02c3723c9117f37004f0a3c8c01c" ]
-];

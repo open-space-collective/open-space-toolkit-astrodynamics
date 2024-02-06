@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_0b6608e3d374155cbf0f51bbaa9dd801" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Dynamics</compoundname>
+    <innerfile refid="_atmospheric_drag_8hpp">AtmosphericDrag.hpp</innerfile>
+    <innerfile refid="_central_body_gravity_8hpp">CentralBodyGravity.hpp</innerfile>
+    <innerfile refid="_position_derivative_8hpp">PositionDerivative.hpp</innerfile>
+    <innerfile refid="_dynamics_2_tabulated_8hpp">Tabulated.hpp</innerfile>
+    <innerfile refid="_third_body_gravity_8hpp">ThirdBodyGravity.hpp</innerfile>
+    <innerfile refid="_thruster_8hpp">Thruster.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/"/>
+  </compounddef>
+</doxygen>

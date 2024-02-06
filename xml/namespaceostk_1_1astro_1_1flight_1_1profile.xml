@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astro_1_1flight_1_1profile" kind="namespace" language="C++">
+    <compoundname>ostk::astro::flight::profile</compoundname>
+    <innerclass refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" prot="public">ostk::astro::flight::profile::Model</innerclass>
+    <innerclass refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" prot="public">ostk::astro::flight::profile::State</innerclass>
+    <innernamespace refid="namespaceostk_1_1astro_1_1flight_1_1profile_1_1models">ostk::astro::flight::profile::models</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1flight_1_1profile_1a71513e36c79ebe7508be4aedb67d6a50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::flight::profile::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Model &amp;aModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" line="26" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astro_1_1flight_1_1profile_1ac541dd34ecd497de53634c897e4f5a07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astro::flight::profile::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const State &amp;aState)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1profile_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" line="51" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

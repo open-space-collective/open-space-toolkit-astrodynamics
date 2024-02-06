@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astro::flight::system::PropulsionSystem</compoundname>
+    <includes refid="_propulsion_system_8hpp" local="no">PropulsionSystem.hpp</includes>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" prot="public" static="yes" mutable="no">
+        <type>Unit</type>
+        <definition>ostk::physics::Unit ostk::astro::flight::system::PropulsionSystem::thrustSIUnit</definition>
+        <argsstring></argsstring>
+        <name>thrustSIUnit</name>
+        <initializer>= Unit::Derived(Derived::Unit(
+    Length::Unit::Meter,
+    {1},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-2},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0}
+))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="39" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" prot="public" static="yes" mutable="no">
+        <type>Unit</type>
+        <definition>ostk::physics::Unit ostk::astro::flight::system::PropulsionSystem::specificImpulseSIUnit</definition>
+        <argsstring></argsstring>
+        <name>specificImpulseSIUnit</name>
+        <initializer>= Unit::Derived(Derived::Unit(
+    Length::Unit::Undefined,
+    {0},
+    Mass::Unit::Undefined,
+    {0},
+    Time::Unit::Second,
+    {1},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0}
+))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="40" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad1be3acb99584c2eea0ef2eb8441e51f" prot="public" static="yes" mutable="no">
+        <type>Unit</type>
+        <definition>ostk::physics::Unit ostk::astro::flight::system::PropulsionSystem::massFlowRateSIUnit</definition>
+        <argsstring></argsstring>
+        <name>massFlowRateSIUnit</name>
+        <initializer>= Unit::Derived(Derived::Unit(
+    Length::Unit::Undefined,
+    {0},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-1},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0}
+))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="41" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aeda708825765c08ad7dcc5ca5c2941df" prot="private" static="no" mutable="no">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::thrust_</definition>
+        <argsstring></argsstring>
+        <name>thrust_</name>
+        <initializer>= Scalar::Undefined()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="149" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a15e6e54e60dc879d494ced422b19452a" prot="private" static="no" mutable="no">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::specificImpulse_</definition>
+        <argsstring></argsstring>
+        <name>specificImpulse_</name>
+        <initializer>= Scalar::Undefined()</initializer>
+        <briefdescription>
+<para>Thrust [N]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="150" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a0bf369d23bba1b21b2ac8430c7245c0b" prot="private" static="no" mutable="no">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::massFlowRate_</definition>
+        <argsstring></argsstring>
+        <name>massFlowRate_</name>
+        <initializer>= Scalar::Undefined()</initializer>
+        <briefdescription>
+<para>Specific impulse [s]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="151" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::system::PropulsionSystem::PropulsionSystem</definition>
+        <argsstring>(const Scalar &amp;aThrust, const Scalar &amp;aSpecificImpulse)</argsstring>
+        <name>PropulsionSystem</name>
+        <param>
+          <type>const Scalar &amp;</type>
+          <declname>aThrust</declname>
+        </param>
+        <param>
+          <type>const Scalar &amp;</type>
+          <declname>aSpecificImpulse</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" kindref="member">PropulsionSystem</ref><sp/>propulsion<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aThrust</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrust (scalar) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSpecificImpulse</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Specific impulse (scalar) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="51" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="60" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1abb95b82001d2bad30b30d71f23769928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astro::flight::system::PropulsionSystem::PropulsionSystem</definition>
+        <argsstring>(const Real &amp;aThrustInSIUnit, const Real &amp;aSpecificImpulseInSIUnit)</argsstring>
+        <name>PropulsionSystem</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aThrustInSIUnit</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aSpecificImpulseInSIUnit</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" kindref="member">PropulsionSystem</ref><sp/>propulsion<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aThrustInSIUnit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrust value in SI Unit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSpecificImpulseInSIUnit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Specific impulse in SI Unit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="61" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="73" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad774fbc3870c13fe05308dcd7adf2a04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::system::PropulsionSystem::operator==</definition>
+        <argsstring>(const PropulsionSystem &amp;aPropulsionSystem) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &amp;</type>
+          <declname>aPropulsionSystem</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPropulsionSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propulsion system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if propulsion systems are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="67" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="84" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1abc97cb2152b617d21d7e7174fdb15fbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::system::PropulsionSystem::operator!=</definition>
+        <argsstring>(const PropulsionSystem &amp;aPropulsionSystem) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &amp;</type>
+          <declname>aPropulsionSystem</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPropulsionSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propulsion system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if propulsion systems are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="73" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astro::flight::system::PropulsionSystem::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if propulsion system is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if propulsion system is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad0d3d57d2cb264ccfb6fa99d6647c245" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astro::flight::system::PropulsionSystem::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print propulsion system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="91" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="112" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aa017bf07b19fcd65f9719e62ba72d718" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::getThrust</definition>
+        <argsstring>() const</argsstring>
+        <name>getThrust</name>
+        <briefdescription>
+<para>Get propulsion system&apos;s thrust. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Scalar<sp/>thrust<sp/>=<sp/>propulsionSystem.getThrust();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Scalar </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="100" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="126" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a41f180c90124e255df448d712314a465" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::getSpecificImpulse</definition>
+        <argsstring>() const</argsstring>
+        <name>getSpecificImpulse</name>
+        <briefdescription>
+<para>Get propulsion system&apos;s specific impulse <ulink url="https://en.wikipedia.org/wiki/Specific_impulse">https://en.wikipedia.org/wiki/Specific_impulse</ulink>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Scalar<sp/>specificImpulse<sp/>=<sp/>propulsionSystem.getSpecificImpulse();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Scalar </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="110" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="136" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1a4d93ddac6c64334a619178a6f78669" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::getMassFlowRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getMassFlowRate</name>
+        <briefdescription>
+<para>Get propulsion system&apos;s mass flow rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Scalar<sp/>massFlowRate<sp/>=<sp/>propulsionSystem.getMassFlowRate();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Scalar </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="119" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a4843f2e4d62a6f457dc3edbd61ed6e3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Scalar</type>
+        <definition>Scalar ostk::astro::flight::system::PropulsionSystem::getAcceleration</definition>
+        <argsstring>(const Mass &amp;aMass) const</argsstring>
+        <name>getAcceleration</name>
+        <param>
+          <type>const Mass &amp;</type>
+          <declname>aMass</declname>
+        </param>
+        <briefdescription>
+<para>Get propulsion system&apos;s acceleration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Scalar<sp/>acceleration<sp/>=<sp/>propulsionSystem.getAcceleration();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Scalar </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="128" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="156" bodyend="167"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aecc9048ab6de59f78a491c3548fd0e86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const PropulsionSystem &amp;aPropulsionSystem)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &amp;</type>
+          <declname>aPropulsionSystem</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPropulsionSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propulsion system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="80" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1bccf402afccdcfdaf7445fc25e64bf4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref></type>
+        <definition>PropulsionSystem ostk::astro::flight::system::PropulsionSystem::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Undefined propulsion system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" kindref="member">PropulsionSystem</ref><sp/>propulsionSystem<sp/>=<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1bccf402afccdcfdaf7445fc25e64bf4" kindref="member">PropulsionSystem::Undefined</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>An undefined propulsion system </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="137" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="169" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8b124c884a5b67047c132f9f84ac5ba2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref></type>
+        <definition>PropulsionSystem ostk::astro::flight::system::PropulsionSystem::Default</definition>
+        <argsstring>()</argsstring>
+        <name>Default</name>
+        <briefdescription>
+<para>Default propulsion system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" kindref="member">PropulsionSystem</ref><sp/>propulsionSystem<sp/>=<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8b124c884a5b67047c132f9f84ac5ba2" kindref="member">PropulsionSystem::Default</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A default propulsion system </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="146" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="177" bodyend="183"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Define a propulsion system (constant thrust, constant Isp for now) </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>Unit</label>
+      </node>
+      <node id="1">
+        <label>ostk::astro::flight::system::PropulsionSystem</label>
+        <link refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>massFlowRateSIUnit</edgelabel>
+          <edgelabel>thrustSIUnit</edgelabel>
+          <edgelabel>specificImpulseSIUnit</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" bodystart="36" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8b124c884a5b67047c132f9f84ac5ba2" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>Default</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a4843f2e4d62a6f457dc3edbd61ed6e3e" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>getAcceleration</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1a4d93ddac6c64334a619178a6f78669" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>getMassFlowRate</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a41f180c90124e255df448d712314a465" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>getSpecificImpulse</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aa017bf07b19fcd65f9719e62ba72d718" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>getThrust</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a0bf369d23bba1b21b2ac8430c7245c0b" prot="private" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>massFlowRate_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad1be3acb99584c2eea0ef2eb8441e51f" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>massFlowRateSIUnit</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1abc97cb2152b617d21d7e7174fdb15fbe" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aecc9048ab6de59f78a491c3548fd0e86" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad774fbc3870c13fe05308dcd7adf2a04" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad0d3d57d2cb264ccfb6fa99d6647c245" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>print</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>PropulsionSystem</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1abb95b82001d2bad30b30d71f23769928" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>PropulsionSystem</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a15e6e54e60dc879d494ced422b19452a" prot="private" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>specificImpulse_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>specificImpulseSIUnit</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aeda708825765c08ad7dcc5ca5c2941df" prot="private" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>thrust_</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>thrustSIUnit</name></member>
+      <member refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1bccf402afccdcfdaf7445fc25e64bf4" prot="public" virt="non-virtual"><scope>ostk::astro::flight::system::PropulsionSystem</scope><name>Undefined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
