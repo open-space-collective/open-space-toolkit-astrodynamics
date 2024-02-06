@@ -201,7 +201,7 @@ build-documentation-standalone: ## Build documentation (standalone)
 		&& git pull origin main \
 		&& find . -type f -name "*.ipynb" -exec mv {} . \; \
 		&& cd /app/docs \
-		&& breathe-apidoc -o _build/html/cpp_rst xml -g class \
+		&& breathe-apidoc -o cpp_rst xml -g class \
 		&& sphinx-build -j 4 -b html . _build/html"
 
 .PHONY: build-documentation-standalone

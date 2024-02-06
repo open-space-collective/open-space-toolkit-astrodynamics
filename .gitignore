@@ -45,6 +45,7 @@ docs/xml/
 docs/_autosummary
 docs/_build
 docs/_notebooks
+docs/cpp_rst
 
 ## Misc.
 
