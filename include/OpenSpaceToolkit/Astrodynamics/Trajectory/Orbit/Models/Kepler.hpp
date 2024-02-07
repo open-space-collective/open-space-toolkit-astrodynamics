@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler__
 
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -27,9 +27,9 @@ namespace orbit
 namespace models
 {
 
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;

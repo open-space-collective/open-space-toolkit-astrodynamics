@@ -2,10 +2,10 @@
 
 #include "benchmark/benchmark.h"
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -20,8 +20,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;

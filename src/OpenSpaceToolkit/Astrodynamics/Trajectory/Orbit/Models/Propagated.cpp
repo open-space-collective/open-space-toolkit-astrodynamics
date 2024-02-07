@@ -16,10 +16,10 @@ namespace orbit
 namespace models
 {
 
-using ostk::core::types::Size;
+using ostk::core::type::Size;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;

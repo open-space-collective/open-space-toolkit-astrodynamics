@@ -8,8 +8,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_TemporalConditionSolver(pybi
 {
     using namespace pybind11;
 
-    using ostk::core::types::Size;
-    using ostk::core::ctnr::Array;
+    using ostk::core::type::Size;
+    using ostk::core::container::Array;
 
     using ostk::physics::time::Duration;
     using ostk::physics::time::Interval;

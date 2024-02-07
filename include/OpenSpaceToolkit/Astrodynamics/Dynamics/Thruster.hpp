@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
@@ -19,9 +19,9 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::core::types::String;
-using ostk::core::types::Shared;
-using ostk::core::ctnr::Array;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
+using ostk::core::container::Array;
 
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;

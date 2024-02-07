@@ -1,14 +1,14 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 
 using namespace pybind11;
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::LogicalCondition;

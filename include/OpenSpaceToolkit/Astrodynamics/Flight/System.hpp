@@ -3,8 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System__
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
@@ -15,8 +15,8 @@ namespace astro
 namespace flight
 {
 
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::units::Mass;
 

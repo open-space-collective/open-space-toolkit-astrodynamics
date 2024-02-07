@@ -32,11 +32,11 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::Uint8;
-using ostk::core::types::Real;
-using ostk::core::types::Index;
+using ostk::core::type::Uint8;
+using ostk::core::type::Real;
+using ostk::core::type::Index;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
@@ -369,10 +369,10 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
 Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) const
 {
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
-    using ostk::math::geometry::d3::transformation::rotation::RotationVector;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::coord::spherical::LLA;
     using ostk::physics::time::Duration;
@@ -769,7 +769,7 @@ Orbit Orbit::GeoSynchronous(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::coord::spherical::LLA;
     using ostk::physics::coord::Position;

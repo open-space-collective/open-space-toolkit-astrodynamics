@@ -66,9 +66,9 @@ Interval Tabulated::getInterval() const
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::core::types::Real;
+    using ostk::core::type::Real;
 
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
@@ -161,7 +161,7 @@ Shared<const Frame> Tabulated::getBodyFrame(const String& aFrameName) const
 
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 
@@ -219,7 +219,7 @@ bool Tabulated::operator!=(const Model& aModel) const
 
 Pair<const State*, const State*> Tabulated::accessStateRangeAt(const Instant& anInstant) const
 {
-    using ostk::core::ctnr::Unpack;
+    using ostk::core::container::Unpack;
 
     State const* previousStatePtr = nullptr;
     State const* nextStatePtr = nullptr;

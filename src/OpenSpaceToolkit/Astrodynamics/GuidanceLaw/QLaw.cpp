@@ -14,10 +14,10 @@ namespace astro
 namespace guidancelaw
 {
 
-using ostk::core::types::Index;
+using ostk::core::type::Index;
 
-using ostk::math::object::Vector6d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::Vector6d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;

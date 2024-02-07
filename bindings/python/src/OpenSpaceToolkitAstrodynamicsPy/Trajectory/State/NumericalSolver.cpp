@@ -6,11 +6,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 {
     using namespace pybind11;
 
-    using ostk::core::ctnr::Array;
+    using ostk::core::container::Array;
 
     using ostk::physics::time::Instant;
 
-    using MathNumericalSolver = ostk::math::solvers::NumericalSolver;
+    using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
     using ostk::astro::EventCondition;
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::state::NumericalSolver;

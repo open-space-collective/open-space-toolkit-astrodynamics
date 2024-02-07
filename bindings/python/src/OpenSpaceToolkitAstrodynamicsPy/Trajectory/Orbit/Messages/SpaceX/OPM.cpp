@@ -6,10 +6,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 {
     using namespace pybind11;
 
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::container::Array;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;

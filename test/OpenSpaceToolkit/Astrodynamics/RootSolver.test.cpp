@@ -4,8 +4,8 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Size;
-using ostk::core::types::Real;
+using ostk::core::type::Size;
+using ostk::core::type::Real;
 
 using ostk::astro::RootSolver;
 

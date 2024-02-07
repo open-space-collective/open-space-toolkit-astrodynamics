@@ -6,10 +6,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 {
     using namespace pybind11;
 
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::String;
-    using ostk::core::types::Shared;
-    using ostk::core::types::Size;
+    using ostk::core::container::Array;
+    using ostk::core::type::String;
+    using ostk::core::type::Shared;
+    using ostk::core::type::Size;
 
     using ostk::physics::time::Duration;
 

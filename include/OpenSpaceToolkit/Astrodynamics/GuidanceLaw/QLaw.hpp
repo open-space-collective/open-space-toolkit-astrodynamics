@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
@@ -22,21 +22,21 @@ namespace astro
 namespace guidancelaw
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::Size;
-using ostk::core::types::Shared;
-using ostk::core::ctnr::Tuple;
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
+using ostk::core::type::Real;
+using ostk::core::type::Size;
+using ostk::core::type::Shared;
+using ostk::core::container::Tuple;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Matrix3d;
 using Vector5d = Eigen::Matrix<double, 5, 1>;
 using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
-using ostk::math::object::Vector6d;
-using ostk::math::object::MatrixXd;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::Vector6d;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;

@@ -2,15 +2,15 @@
 
 #include <boost/numeric/odeint.hpp>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -33,20 +33,20 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Tuple;
-using ostk::core::ctnr::Table;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::container::Tuple;
+using ostk::core::container::Table;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::geometry::d3::objects::Cuboid;
-using ostk::math::geometry::d3::objects::Point;
-using ostk::math::object::VectorXd;
-using ostk::math::object::Matrix3d;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::data::Scalar;
 

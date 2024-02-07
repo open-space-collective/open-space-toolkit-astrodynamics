@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
@@ -20,8 +20,8 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::coord::Vector3d;
 using ostk::physics::coord::frame::Transform;

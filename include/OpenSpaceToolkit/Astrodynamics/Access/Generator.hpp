@@ -3,12 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 #define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -27,13 +27,13 @@ namespace astro
 namespace access
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
-using ostk::core::ctnr::Pair;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::container::Pair;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::math::object::Interval;
+using ostk::mathematics::object::Interval;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Position;

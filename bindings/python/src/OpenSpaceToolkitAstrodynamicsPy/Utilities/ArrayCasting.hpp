@@ -3,14 +3,14 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
 namespace pybind11
 {
 namespace detail
 {
 
-using ostk::core::ctnr::Array;
+using ostk::core::container::Array;
 
 template <typename T>
 struct type_caster<Array<T>> : list_caster<Array<T>, T>

@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model__
 
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -19,7 +19,7 @@ namespace trajectory
 namespace orbit
 {
 
-using ostk::core::types::Integer;
+using ostk::core::type::Integer;
 
 using ostk::physics::time::Instant;
 

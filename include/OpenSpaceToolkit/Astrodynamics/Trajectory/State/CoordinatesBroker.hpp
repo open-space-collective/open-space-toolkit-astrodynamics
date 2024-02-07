@@ -3,12 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
@@ -21,12 +21,12 @@ namespace trajectory
 namespace state
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
-using ostk::core::types::Index;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::type::Index;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 

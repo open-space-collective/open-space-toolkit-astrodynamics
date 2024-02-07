@@ -3,11 +3,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/BarycentricRational.hpp>
@@ -30,16 +30,16 @@ namespace trajectory
 namespace models
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
+using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::filesystem::File;
-using ostk::core::types::Index;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
+using ostk::core::type::Index;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
 
-using ostk::math::curvefitting::interpolator::Interpolator;
-using ostk::math::object::MatrixXd;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::curvefitting::interpolator::Interpolator;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;

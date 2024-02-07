@@ -6,7 +6,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(pybind11
 {
     using namespace pybind11;
 
-    using ostk::core::types::Shared;
+    using ostk::core::type::Shared;
 
     using ostk::physics::environment::object::Celestial;
 

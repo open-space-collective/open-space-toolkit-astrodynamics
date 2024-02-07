@@ -8,7 +8,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 {
     using namespace pybind11;
 
-    using ostk::core::types::Real;
+    using ostk::core::type::Real;
 
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::time::Instant;

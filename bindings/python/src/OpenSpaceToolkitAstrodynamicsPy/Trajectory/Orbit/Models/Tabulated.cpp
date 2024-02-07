@@ -4,8 +4,8 @@
 
 using namespace pybind11;
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Integer;
+using ostk::core::container::Array;
+using ostk::core::type::Integer;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::models::Tabulated;

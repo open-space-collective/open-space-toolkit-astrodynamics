@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
@@ -16,8 +16,8 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::Unit;
 using ostk::physics::units::Derived;

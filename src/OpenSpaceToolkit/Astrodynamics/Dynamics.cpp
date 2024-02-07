@@ -13,10 +13,10 @@ namespace ostk
 namespace astro
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
-using ostk::core::types::Index;
-using ostk::core::types::Size;
+using ostk::core::container::Array;
+using ostk::core::container::Pair;
+using ostk::core::type::Index;
+using ostk::core::type::Size;
 
 using ostk::physics::time::Duration;
 using ostk::physics::environment::object::Celestial;

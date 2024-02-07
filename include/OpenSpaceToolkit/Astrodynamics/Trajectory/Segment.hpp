@@ -3,12 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -27,12 +27,12 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::math::object::MatrixXd;
+using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;

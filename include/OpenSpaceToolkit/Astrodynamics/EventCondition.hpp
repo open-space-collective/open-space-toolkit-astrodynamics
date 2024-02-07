@@ -3,8 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
@@ -16,8 +16,8 @@ namespace ostk
 namespace astro
 {
 
-using ostk::core::types::String;
-using ostk::core::types::Real;
+using ostk::core::type::String;
+using ostk::core::type::Real;
 
 using ostk::physics::units::Angle;
 using ostk::physics::units::Length;

@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition__
 
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 
@@ -18,9 +18,9 @@ namespace astro
 namespace eventcondition
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
-using ostk::core::ctnr::Pair;
+using ostk::core::type::Real;
+using ostk::core::type::String;
+using ostk::core::container::Pair;
 
 using ostk::physics::units::Angle;
 

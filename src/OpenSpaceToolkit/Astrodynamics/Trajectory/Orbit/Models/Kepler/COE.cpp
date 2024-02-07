@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
@@ -283,10 +283,10 @@ COE::CartesianState COE::getCartesianState(
     const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    using ostk::core::types::Shared;
+    using ostk::core::type::Shared;
 
-    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
     using ostk::physics::units::Time;
@@ -370,7 +370,7 @@ Vector6d COE::getSIVector(const COE::AnomalyType& anAnomalyType) const
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void();
 
@@ -425,7 +425,7 @@ COE COE::Undefined()
 
 COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter)
 {
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
     using ostk::physics::units::Time;
@@ -765,8 +765,8 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
 )
 {
-    using ostk::core::types::Real;
-    using ostk::core::types::Size;
+    using ostk::core::type::Real;
+    using ostk::core::type::Size;
 
     if (!aMeanAnomaly.isDefined())
     {

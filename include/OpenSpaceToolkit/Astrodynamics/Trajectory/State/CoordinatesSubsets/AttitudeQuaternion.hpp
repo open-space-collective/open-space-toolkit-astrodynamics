@@ -20,10 +20,10 @@ namespace state
 namespace coordinatessubsets
 {
 
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::coord::Transform;
 using ostk::physics::time::Instant;

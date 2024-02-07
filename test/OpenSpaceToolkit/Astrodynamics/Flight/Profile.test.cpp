@@ -1,12 +1,12 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -196,7 +196,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 
         EXPECT_EQ(referenceStates.getSize(), states.getSize());
 
-        for (const auto stateTuple : ostk::core::ctnr::iterators::Zip(referenceStates, states))
+        for (const auto stateTuple : ostk::core::container::iterator::Zip(referenceStates, states))
         {
             const State& referenceState = std::get<0>(stateTuple);
             const State& state = std::get<1>(stateTuple);
@@ -763,7 +763,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
 
         EXPECT_EQ(referenceStates.getSize(), states.getSize());
 
-        for (const auto stateTuple : ostk::core::ctnr::iterators::Zip(referenceStates, states))
+        for (const auto stateTuple : ostk::core::container::iterator::Zip(referenceStates, states))
         {
             const State& referenceState = std::get<0>(stateTuple);
             const State& state = std::get<1>(stateTuple);

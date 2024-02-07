@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
@@ -20,7 +20,7 @@ namespace flight
 namespace system
 {
 
-using ostk::core::types::Real;
+using ostk::core::type::Real;
 
 using ostk::physics::data::Direction;
 using ostk::physics::data::Scalar;

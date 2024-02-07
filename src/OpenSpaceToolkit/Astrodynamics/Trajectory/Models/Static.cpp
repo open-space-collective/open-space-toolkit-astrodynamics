@@ -71,7 +71,7 @@ State Static::calculateStateAt(const Instant& anInstant) const
 
 void Static::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Static") : void();
 

@@ -24,18 +24,18 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::types::Index;
-using ostk::core::types::Real;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::Index;
+using ostk::core::type::Real;
 
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::geometry::d3::objects::Cuboid;
-using ostk::math::geometry::d3::objects::Point;
-using ostk::math::object::Matrix3d;
-using ostk::math::object::Vector3d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;

@@ -3,16 +3,16 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_RootSolver__
 #define __OpenSpaceToolkit_Astrodynamics_RootSolver__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 
-using ostk::core::types::Size;
-using ostk::core::types::Real;
+using ostk::core::type::Size;
+using ostk::core::type::Real;
 
 /// @brief A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.
 class RootSolver

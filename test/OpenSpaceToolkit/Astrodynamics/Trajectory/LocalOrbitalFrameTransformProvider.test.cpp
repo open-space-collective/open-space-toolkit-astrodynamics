@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
@@ -11,9 +11,9 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Shared;
+using ostk::core::type::Shared;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;

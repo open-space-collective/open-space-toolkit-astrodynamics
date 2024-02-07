@@ -3,7 +3,7 @@
 #include <iostream>
 #include <regex>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -442,8 +442,8 @@ TLE TLE::Undefined()
 
 bool TLE::CanParse(const String& aString)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Size;
+    using ostk::core::container::Array;
+    using ostk::core::type::Size;
 
     Array<String> lines = Array<String>::Empty();
 
@@ -500,8 +500,8 @@ bool TLE::CanParse(const String& aFirstLine, const String& aSecondLine)
 
 TLE TLE::Parse(const String& aString)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Size;
+    using ostk::core::container::Array;
+    using ostk::core::type::Size;
 
     if (aString.isEmpty())
     {
@@ -773,7 +773,7 @@ TLE TLE::Construct(
 
 Integer TLE::GenerateChecksum(const String& aLine)
 {
-    using ostk::core::types::Index;
+    using ostk::core::type::Index;
 
     if (aLine.getLength() != 69)
     {
@@ -795,7 +795,7 @@ Integer TLE::GenerateChecksum(const String& aLine)
 
 Real TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
 {
-    using ostk::core::types::Index;
+    using ostk::core::type::Index;
 
     String string = aString;
 

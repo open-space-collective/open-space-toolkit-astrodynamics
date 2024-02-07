@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -17,13 +17,13 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::Real;
+using ostk::core::type::String;
+using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::Vector6d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector6d;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
@@ -421,9 +421,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -446,9 +446,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -471,9 +471,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -496,9 +496,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -754,9 +754,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -779,9 +779,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;
@@ -804,9 +804,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
 //     using ostk::physics::units::Length ;
 //     using ostk::physics::units::Angle ;

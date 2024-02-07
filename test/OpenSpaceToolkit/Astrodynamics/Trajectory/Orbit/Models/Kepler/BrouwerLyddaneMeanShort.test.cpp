@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -15,12 +15,12 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Real;
-using ostk::core::types::Index;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::Real;
+using ostk::core::type::Index;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::Vector6d;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector6d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;

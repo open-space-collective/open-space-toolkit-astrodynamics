@@ -3,8 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -16,8 +16,8 @@ namespace astro
 namespace eventcondition
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;

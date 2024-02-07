@@ -4,7 +4,7 @@
 
 using namespace pybind11;
 
-using ostk::core::types::Shared;
+using ostk::core::type::Shared;
 
 using ostk::physics::time::Instant;
 

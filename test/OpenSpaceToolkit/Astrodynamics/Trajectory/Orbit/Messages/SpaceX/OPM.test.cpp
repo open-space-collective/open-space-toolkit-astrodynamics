@@ -6,12 +6,12 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
+using ostk::core::container::Array;
 using ostk::core::filesystem::File;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -215,8 +215,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Unde
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Dictionary)
 {
-    using ostk::core::ctnr::Dictionary;
-    using ostk::core::ctnr::Object;
+    using ostk::core::container::Dictionary;
+    using ostk::core::container::Object;
 
     {
         Dictionary opmDictionary = Dictionary::Empty();

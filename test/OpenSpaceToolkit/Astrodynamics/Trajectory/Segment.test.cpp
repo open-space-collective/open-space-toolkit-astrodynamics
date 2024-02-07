@@ -21,15 +21,15 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Map;
-using ostk::core::ctnr::Array;
-using ostk::core::types::String;
-using ostk::core::types::Shared;
-using ostk::core::types::Real;
-using ostk::core::types::Size;
+using ostk::core::container::Map;
+using ostk::core::container::Array;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
+using ostk::core::type::Real;
+using ostk::core::type::Size;
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;

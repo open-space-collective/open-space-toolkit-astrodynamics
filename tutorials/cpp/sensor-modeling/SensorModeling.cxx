@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/2D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/2D/Objects/Polygon.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/LineString.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Polygon.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Pyramid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/2D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/2D/Object/Polygon.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/LineString.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Polygon.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Pyramid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
@@ -24,19 +24,19 @@
 
 int main()
 {
-    using ostk::core::types::Shared;
-    using ostk::core::types::Real;
-    using ostk::core::ctnr::Array;
+    using ostk::core::type::Shared;
+    using ostk::core::type::Real;
+    using ostk::core::container::Array;
 
-    using ostk::math::object::Vector3d;
-    using Point2d = ostk::math::geometry::d2::objects::Point;
-    using Polygon2d = ostk::math::geometry::d2::objects::Polygon;
-    using Point3d = ostk::math::geometry::d3::objects::Point;
-    using LineString3d = ostk::math::geometry::d3::objects::LineString;
-    using Polygon3d = ostk::math::geometry::d3::objects::Polygon;
-    using ostk::math::geometry::d3::objects::Pyramid;
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::mathematics::object::Vector3d;
+    using Point2d = ostk::mathematics::geometry::d2::object::Point;
+    using Polygon2d = ostk::mathematics::geometry::d2::object::Polygon;
+    using Point3d = ostk::mathematics::geometry::d3::object::Point;
+    using LineString3d = ostk::mathematics::geometry::d3::object::LineString;
+    using Polygon3d = ostk::mathematics::geometry::d3::object::Polygon;
+    using ostk::mathematics::geometry::d3::object::Pyramid;
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 
     using ostk::physics::units::Length;
     using ostk::physics::units::Angle;

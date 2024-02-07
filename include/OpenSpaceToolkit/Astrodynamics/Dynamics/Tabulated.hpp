@@ -3,12 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/BarycentricRational.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -23,13 +23,13 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::core::types::Shared;
-using ostk::core::types::Real;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::Real;
+using ostk::core::container::Array;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::MatrixXd;
-using ostk::math::curvefitting::interpolator::BarycentricRational;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::curvefitting::interpolator::BarycentricRational;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;

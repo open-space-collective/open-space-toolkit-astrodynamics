@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
@@ -27,8 +27,8 @@ namespace profile
 namespace models
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::type::String;
 
 using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 using ostk::math::object::Vector3d;

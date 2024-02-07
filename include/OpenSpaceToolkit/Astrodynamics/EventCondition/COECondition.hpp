@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventConditions_COECondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventConditions_COECondition__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
@@ -22,11 +22,11 @@ namespace astro
 namespace eventcondition
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;

@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
@@ -21,8 +21,8 @@ namespace models
 namespace blm
 {
 
-using ostk::core::types::Size;
-using ostk::core::types::Integer;
+using ostk::core::type::Size;
+using ostk::core::type::Integer;
 
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 

@@ -15,7 +15,7 @@ namespace astro
 namespace guidancelaw
 {
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;

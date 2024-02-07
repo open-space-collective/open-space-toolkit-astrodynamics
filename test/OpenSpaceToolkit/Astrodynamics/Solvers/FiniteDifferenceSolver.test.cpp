@@ -2,23 +2,23 @@
 
 #include <gtest/gtest.h>
 
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
-using ostk::core::types::Size;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Size;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::coord::Frame;
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::MatrixXd;
 
 using ostk::astro::solvers::FiniteDifferenceSolver;
 using ostk::astro::trajectory::State;

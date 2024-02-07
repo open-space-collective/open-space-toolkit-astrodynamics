@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
@@ -15,15 +15,15 @@
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -72,15 +72,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, EqualToOperator)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -123,15 +123,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, EqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -174,15 +174,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -212,15 +212,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, StreamOperator)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -253,15 +253,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, StreamOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -294,15 +294,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 
@@ -337,15 +337,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::geometry::d3::objects::Cuboid;
-    using ostk::math::geometry::d3::objects::Point;
-    using ostk::math::object::Matrix3d;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Matrix3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::units::Mass;
 

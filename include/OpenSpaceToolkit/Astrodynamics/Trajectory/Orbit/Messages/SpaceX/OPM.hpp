@@ -3,13 +3,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Dictionary.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -32,14 +32,14 @@ namespace messages
 namespace spacex
 {
 
-namespace ctnr = ostk::core::ctnr;
+namespace ctnr = ostk::core::container;
 
-using ostk::core::ctnr::Array;
+using ostk::core::container::Array;
 using ostk::core::filesystem::File;
-using ostk::core::types::Index;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Index;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;

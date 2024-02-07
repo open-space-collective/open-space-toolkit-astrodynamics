@@ -8,7 +8,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
 {
     using namespace pybind11;
 
-    using ostk::core::types::Real;
+    using ostk::core::type::Real;
 
     using ostk::physics::Unit;
     using ostk::physics::units::Mass;

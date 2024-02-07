@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition__
 
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -15,7 +15,7 @@ namespace astro
 namespace eventcondition
 {
 
-using ostk::core::types::String;
+using ostk::core::type::String;
 
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;

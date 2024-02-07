@@ -3,8 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
@@ -17,8 +17,8 @@ namespace astro
 namespace eventcondition
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::time::Duration;
 

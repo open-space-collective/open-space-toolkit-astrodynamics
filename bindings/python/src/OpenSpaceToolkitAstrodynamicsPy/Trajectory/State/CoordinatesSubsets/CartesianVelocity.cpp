@@ -4,8 +4,8 @@
 
 using namespace pybind11;
 
-using ostk::core::types::String;
-using ostk::core::types::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
 
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::trajectory::state::CoordinatesSubset;

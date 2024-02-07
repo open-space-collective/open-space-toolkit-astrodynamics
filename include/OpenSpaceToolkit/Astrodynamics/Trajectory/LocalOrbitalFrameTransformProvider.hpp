@@ -3,8 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider__
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -19,8 +19,8 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::String;
-using ostk::core::types::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Transform;

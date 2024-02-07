@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
@@ -19,8 +19,8 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::units::Mass;
 

@@ -12,17 +12,17 @@ using ostk::astro::validation::QuantityComparison;
 using ostk::astro::validation::Tool;
 using ostk::astro::validation::ToolComparison;
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
 using ostk::core::filesystem::Path;
 using ostk::core::filesystem::File;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;

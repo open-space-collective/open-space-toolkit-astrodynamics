@@ -3,17 +3,17 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Dictionary.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/IAU/Theory.hpp>
@@ -36,18 +36,18 @@ namespace messages
 namespace ccsds
 {
 
-namespace ctnr = ostk::core::ctnr;
+namespace ctnr = ostk::core::container;
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::filesystem::File;
-using ostk::core::types::Index;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::type::Index;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::math::object::MatrixXd;
+using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;

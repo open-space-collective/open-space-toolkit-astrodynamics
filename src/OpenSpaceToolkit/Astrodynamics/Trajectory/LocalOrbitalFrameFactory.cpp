@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -23,9 +23,9 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::String;
-using ostk::core::types::Shared;
-using ostk::math::object::Vector3d;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coord::Frame;
 using FrameManager = ostk::physics::coord::frame::Manager;

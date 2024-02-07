@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -17,12 +17,12 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Real;
-using ostk::core::types::Index;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::Real;
+using ostk::core::type::Index;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::Vector6d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector6d;
 
 using ostk::physics::units::Angle;
 using ostk::physics::coord::Frame;
