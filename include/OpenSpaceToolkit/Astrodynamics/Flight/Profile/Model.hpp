@@ -7,7 +7,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -26,7 +26,7 @@ using ostk::physics::coord::Axes;
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astro::flight::profile::State;
+using ostk::astro::trajectory::State;
 
 /// @brief Profile model (abstract)
 class Model

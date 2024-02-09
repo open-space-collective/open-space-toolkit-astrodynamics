@@ -106,9 +106,9 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
                 previousState.accessVelocity().getUnit(),
                 previousState.accessVelocity().accessFrame()
             },
-            Quaternion::SLERP(previousState.accessAttitude(), nextState.accessAttitude(), ratio),
-            previousState.accessAngularVelocity() +
-                ratio * (nextState.accessAngularVelocity() - previousState.accessAngularVelocity()),
+            Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
+            previousState.getAngularVelocity() +
+                ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity()),
             previousState.getFrame()
         };
     }

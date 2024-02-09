@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 namespace ostk
@@ -35,7 +35,7 @@ using ostk::physics::time::Interval;
 using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
 
 using ostk::astro::flight::profile::Model;
-using ostk::astro::flight::profile::State;
+using ostk::astro::trajectory::State;
 
 /// @brief Transform provided profile model
 class Transform : public virtual Model
