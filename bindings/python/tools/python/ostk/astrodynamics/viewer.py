@@ -97,6 +97,7 @@ class Viewer:
         show_orbital_track: bool = False,
         cesium_asset_id: int | None = None,
         sensors: list[Sensor] | None = None,
+        show_xyz_axes: bool = False,
     ) -> None:
         """
         Add Profile to Viewer.
@@ -107,11 +108,40 @@ class Viewer:
             show_orbital_track (bool, optional): Whether to show the orbital track. Defaults to False.
             cesium_asset_id (int, optional): The Cesium asset ID. Defaults to None.
             sensors (list[Sensor], optional): Sensors to be added to the asset. Defaults to None.
+            show_xyz_axes (bool, optional): Whether to show the XYZ axes. Defaults to False.
         """
 
         instants: list[Instant] = self._interval.generate_grid(step)
         states: list[State] = profile.get_states_at(instants)
         llas: list[LLA] = _generate_llas(states)
+
+        sensors = sensors or []
+        if show_xyz_axes:
+            sensors.extend(
+                [
+                    ConicSensor(
+                        name="x_axis",
+                        direction=(+1.0, 0.0, 0.0),
+                        half_angle=Angle.degrees(1.0),
+                        length=Length.meters(2.0),
+                        color="red",
+                    ),
+                    ConicSensor(
+                        name="y_axis",
+                        direction=(0.0, +1.0, 0.0),
+                        half_angle=Angle.degrees(1.0),
+                        length=Length.meters(2.0),
+                        color="blue",
+                    ),
+                    ConicSensor(
+                        name="z_axis",
+                        direction=(0.0, 0.0, +1.0),
+                        half_angle=Angle.degrees(1.0),
+                        length=Length.meters(2.0),
+                        color="green",
+                    ),
+                ]
+            )
 
         satellite = cesiumpy.Satellite(
             position=_generate_sampled_position(instants, llas),

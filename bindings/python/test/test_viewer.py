@@ -93,6 +93,7 @@ class TestViewer:
                     color="red",
                 ),
             ],
+            show_xyz_axes=True,
         )
 
         rendered_html: str = viewer.render()
