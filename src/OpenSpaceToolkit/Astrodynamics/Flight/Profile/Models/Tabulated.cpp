@@ -42,6 +42,11 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
     return this->states_ == aTabulatedModel.states_;
 }
 
+bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
+{
+    return !((*this) == aTabulatedModel);
+}
+
 std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulatedModel)
 {
     aTabulatedModel.print(anOutputStream);

@@ -49,6 +49,8 @@ class Tabulated : public virtual Model
 
     bool operator==(const Tabulated& aTabulatedModel) const;
 
+    bool operator!=(const Tabulated& aTabulatedModel) const;
+
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulatedModel);
 
     virtual bool isDefined() const override;
