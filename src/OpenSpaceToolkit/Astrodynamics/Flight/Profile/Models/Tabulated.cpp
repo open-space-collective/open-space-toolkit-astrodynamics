@@ -18,13 +18,57 @@ namespace profile
 namespace model
 {
 
+using ostk::core::types::Real;
+
+using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-Tabulated::Tabulated(const Array<State>& aStateArray)
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::time::Duration;
+
+Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
       states_(aStateArray),
-      stateIndex_(0)
+      stateBuilder_(aStateArray.accessFirst().accessFrame(), aStateArray.accessFirst().accessCoordinatesBroker())
 {
+    Array<State> stateArray = aStateArray;
+
+    std::sort(
+        stateArray.begin(),
+        stateArray.end(),
+        [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.getInstant() < rhs.getInstant();
+        }
+    );
+
+    firstState_ = stateArray.accessFirst();
+    lastState_ = stateArray.accessLast();
+
+    VectorXd timestamps(stateArray.getSize());
+    MatrixXd coordinates(stateArray.getSize(), 9);  // 3 Position, 3 Velocity, 3 Angular Velocity
+    // TBI: Should we just interpolate Quaternions directly or should we use SLERP?
+
+    for (Index i = 0; i < stateArray.getSize(); ++i)
+    {
+        timestamps(i) = (stateArray[i].accessInstant() - stateArray.accessFirst().accessInstant()).inSeconds();
+
+        VectorXd coordinatesRow(9);
+        coordinatesRow << stateArray[i].accessCoordinates()[0], stateArray[i].accessCoordinates()[1],
+            stateArray[i].accessCoordinates()[2], stateArray[i].accessCoordinates()[3],
+            stateArray[i].accessCoordinates()[4], stateArray[i].accessCoordinates()[5],
+            stateArray[i].accessCoordinates()[10], stateArray[i].accessCoordinates()[11],
+            stateArray[i].accessCoordinates()[12];
+        coordinates.row(i) = coordinatesRow
+    }
+
+    interpolators_.reserve(coordinates.cols());
+
+    for (Index i = 0; i < Size(coordinates.cols()); ++i)
+    {
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
+    }
 }
 
 Tabulated* Tabulated::clone() const
@@ -56,7 +100,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
 
 bool Tabulated::isDefined() const
 {
-    return !this->states_.isEmpty();
+    return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined();
 }
 
 Interval Tabulated::getInterval() const
@@ -66,19 +110,11 @@ Interval Tabulated::getInterval() const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return Interval::Closed(this->states_.accessFirst().accessInstant(), this->states_.accessLast().accessInstant());
+    return Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant());
 }
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::core::type::Real;
-
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::coordinate::Position;
-    using ostk::physics::coordinate::Velocity;
-    using ostk::physics::time::Duration;
-
     if (!anInstant.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Instant");
@@ -89,7 +125,27 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    const Pair<const State*, const State*> stateRange = this->accessStateRangeAt(anInstant);
+    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
+    {
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Provided instant [{}] is outside of interpolation range [{}, {}].",
+            anInstant.toString(),
+            firstState_.accessInstant().toString(),
+            lastState_.accessInstant().toString()
+        ));
+    }
+
+    VectorXd interpolatedCoordinates(interpolators_.getSize());
+
+    for (Index i = 0; i < interpolators_.getSize(); ++i)
+    {
+        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
+    }
+
+    const Shared<const Frame>& frame = firstState_.accessFrame();
+    const Shared<const CoordinatesBroker>& coordinatesBroker = firstState_.accessCoordinatesBroker();
+
+    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker);
 
     if ((stateRange.first != nullptr) && (stateRange.second != nullptr))
     {

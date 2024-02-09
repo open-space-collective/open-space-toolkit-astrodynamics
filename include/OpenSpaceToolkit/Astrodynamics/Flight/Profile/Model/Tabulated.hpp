@@ -8,11 +8,14 @@
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -36,14 +39,18 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
+using ostk::mathematics::curvefitting::Interpolator;
+
 using ostk::astrodynamics::flight::profile::Model;
+using ostk::astrodynamics::flight::profile::State;
+using ostk::astrodynamics::flight::profile::StateBuilder;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief Tabulated profile model
 class Tabulated : public virtual Model
 {
    public:
-    Tabulated(const Array<State>& aStateArray);
+    Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType);
 
     virtual Tabulated* clone() const override;
 
@@ -73,12 +80,12 @@ class Tabulated : public virtual Model
     virtual bool operator!=(const Model& aModel) const override;
 
    private:
-    Array<State> states_;
-    mutable Index stateIndex_;
+    State firstState_;
+    State lastState_;
 
-    Pair<const State*, const State*> accessStateRangeAt(const Instant& anInstant) const;
+    StateBuilder stateBuilder_;
 
-    Pair<const State*, const State*> accessStateRangeAtIndex(const Index& anIndex) const;
+    Array<Shared<Interpolator>> interpolator_ = Array<Shared<Interpolator>>::Empty();
 };
 
 }  // namespace model
