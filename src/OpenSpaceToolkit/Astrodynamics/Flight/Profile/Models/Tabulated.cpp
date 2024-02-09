@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.hpp>
 
 namespace ostk
@@ -15,6 +17,8 @@ namespace profile
 {
 namespace models
 {
+
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 
 Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
@@ -93,18 +97,18 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         return {
             anInstant,
             Position {
-                previousState.accessPosition().accessCoordinates() +
-                    ratio * (nextState.accessPosition().accessCoordinates() -
-                             previousState.accessPosition().accessCoordinates()),
-                previousState.accessPosition().getUnit(),
-                previousState.accessPosition().accessFrame()
+                previousState.getPosition().accessCoordinates() +
+                    ratio *
+                        (nextState.getPosition().accessCoordinates() - previousState.getPosition().accessCoordinates()),
+                previousState.getPosition().getUnit(),
+                previousState.getPosition().accessFrame()
             },
             Velocity {
-                previousState.accessVelocity().accessCoordinates() +
-                    ratio * (nextState.accessVelocity().accessCoordinates() -
-                             previousState.accessVelocity().accessCoordinates()),
-                previousState.accessVelocity().getUnit(),
-                previousState.accessVelocity().accessFrame()
+                previousState.getVelocity().accessCoordinates() +
+                    ratio *
+                        (nextState.getVelocity().accessCoordinates() - previousState.getVelocity().accessCoordinates()),
+                previousState.getVelocity().getUnit(),
+                previousState.getVelocity().accessFrame()
             },
             Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
             previousState.getAngularVelocity() +
@@ -177,8 +181,8 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << (firstState.isDefined() ? String::Format(
                                              "{} - {} - {}",
                                              firstState.accessInstant().toString(),
-                                             firstState.accessPosition().toString(),
-                                             firstState.accessVelocity().toString()
+                                             firstState.getPosition().toString(),
+                                             firstState.getVelocity().toString()
                                          )
                                        : "Undefined");
     }
@@ -192,8 +196,8 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << (lastState.isDefined() ? String::Format(
                                             "{} - {} - {}",
                                             lastState.accessInstant().toString(),
-                                            lastState.accessPosition().toString(),
-                                            lastState.accessVelocity().toString()
+                                            lastState.getPosition().toString(),
+                                            lastState.getVelocity().toString()
                                         )
                                       : "Undefined");
     }

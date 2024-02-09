@@ -169,6 +169,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             )doc"
         )
         .def(
+            "get_attitude",
+            &State::getAttitude,
+            R"doc(
+                Get the attitude of the state.
+
+                Returns:
+                    Quaternion: The attitude of the state.
+            )doc"
+        )
+        .def(
+            "get_angular_velocity",
+            &State::getAngularVelocity,
+            R"doc(
+                Get the angular velocity of the state.
+
+                Returns:
+                    np.array: The angular velocity of the state.
+            )doc"
+        )
+        .def(
             "get_coordinates",
             &State::getCoordinates,
             R"doc(

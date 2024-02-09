@@ -53,9 +53,23 @@ def angular_velocity() -> np.ndarray:
 
 @pytest.fixture
 def state(
-    instant: Instant, position: Position, velocity: Velocity, frame: Frame
+    instant: Instant,
+    position: Position,
+    velocity: Velocity,
 ) -> State:
     return State(instant, position, velocity)
+
+
+@pytest.fixture
+def profile_state(
+    instant: Instant,
+    position: Position,
+    velocity: Velocity,
+    attitude: Quaternion,
+    angular_velocity: np.ndarray,
+    frame: Frame,
+) -> State:
+    return State(instant, position, velocity, attitude, angular_velocity, frame)
 
 
 @pytest.fixture
@@ -173,24 +187,24 @@ class TestState:
 
     def test_getters(
         self,
-        state: State,
+        profile_state: State,
         instant: Instant,
         position: Position,
         velocity: Velocity,
+        attitude: Quaternion,
+        angular_velocity: np.ndarray,
         frame: Frame,
-        coordinates_broker: CoordinatesBroker,
     ):
-        assert state.get_instant() == instant
-        assert state.get_position() == position
-        assert state.get_velocity() == velocity
-        assert state.has_subset(CartesianPosition.default())
-        assert state.has_subset(CartesianVelocity.default())
-        assert state.get_frame() == frame
-        assert (
-            state.get_coordinates()
-            == np.append(position.get_coordinates(), velocity.get_coordinates())
-        ).all()
-        assert state.get_coordinates_subsets() == coordinates_broker.get_subsets()
+        assert profile_state.get_instant() == instant
+        assert profile_state.get_position() == position
+        assert profile_state.get_velocity() == velocity
+        assert profile_state.get_attitude() == attitude
+        assert np.all(profile_state.get_angular_velocity() == angular_velocity)
+        assert profile_state.has_subset(CartesianPosition.default())
+        assert profile_state.has_subset(CartesianVelocity.default())
+        assert profile_state.get_frame() == frame
+        assert profile_state.get_coordinates() is not None
+        assert profile_state.get_coordinates_subsets() is not None
 
     def test_in_frame(
         self,

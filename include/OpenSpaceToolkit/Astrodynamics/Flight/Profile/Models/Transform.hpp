@@ -6,13 +6,15 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -27,6 +29,9 @@ namespace models
 
 using ostk::core::ctnr::Array;
 using ostk::core::types::String;
+
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::math::object::Vector3d;
 
 using ostk::physics::coord::Axes;
 using ostk::physics::coord::Frame;

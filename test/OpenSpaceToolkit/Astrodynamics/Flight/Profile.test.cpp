@@ -37,6 +37,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::math::geometry::d3::transformation::rotation::RotationVector;
 using ostk::math::object::Vector3d;
 
 using ostk::physics::Environment;
@@ -50,8 +51,12 @@ using ostk::physics::time::Scale;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
 
 using ostk::astro::flight::Profile;
+using ostk::astro::flight::profile::models::Transform;
+using ostk::astro::flight::profile::models::Tabulated;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::orbit::models::Kepler;
@@ -227,7 +232,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 {
-
     {
         const Environment environment = Environment::Default();
 

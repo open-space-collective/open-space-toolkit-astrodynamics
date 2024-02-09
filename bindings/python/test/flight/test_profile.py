@@ -21,8 +21,8 @@ from ostk.physics.coordinate.frame.providers import Dynamic as DynamicProvider
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight import Profile
-from ostk.astrodynamics.flight.profile import State
 from ostk.astrodynamics.flight.profile.models import Transform as TransformModel
 from ostk.astrodynamics.flight.profile.models import Tabulated as TabulatedModel
 
@@ -124,7 +124,7 @@ class TestProfile:
                         ),
                         attitude=Quaternion.unit(),
                         angular_velocity=(0.0, 0.0, 0.0),
-                        reference_frame=Frame.GCRF(),
+                        attitude_frame=Frame.GCRF(),
                     ),
                     State(
                         instant=Instant.date_time(
@@ -136,7 +136,7 @@ class TestProfile:
                         ),
                         attitude=Quaternion.unit(),
                         angular_velocity=(0.0, 0.0, 0.0),
-                        reference_frame=Frame.GCRF(),
+                        attitude_frame=Frame.GCRF(),
                     ),
                 ],
             ),
