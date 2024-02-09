@@ -232,6 +232,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> refactor!: remove profile state and use trajectory state
     {
         const Environment environment = Environment::Default();
 
