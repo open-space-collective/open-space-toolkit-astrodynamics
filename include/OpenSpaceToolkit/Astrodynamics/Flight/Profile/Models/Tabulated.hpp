@@ -12,7 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -37,7 +37,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 using ostk::astro::flight::profile::Model;
-using ostk::astro::flight::profile::State;
+using ostk::astro::trajectory::State;
 
 /// @brief Tabulated profile model
 class Tabulated : public virtual Model

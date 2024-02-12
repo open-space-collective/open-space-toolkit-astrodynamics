@@ -28,30 +28,45 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Table;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+using ostk::core::types::String;
+
+using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::math::geometry::d3::transformation::rotation::RotationVector;
+using ostk::math::object::Vector3d;
+
+using ostk::physics::Environment;
+using ostk::physics::coord::Frame;
+using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Derived;
+using ostk::physics::units::Length;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+
 using ostk::astro::flight::Profile;
+using ostk::astro::flight::profile::models::Transform;
+using ostk::astro::flight::profile::models::Tabulated;
+using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Orbit;
+using ostk::astro::trajectory::orbit::models::Kepler;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 {
    protected:
     void SetUp() override
     {
-        using ostk::core::types::Real;
-
-        using ostk::physics::Environment;
-        using ostk::physics::coord::Frame;
-        using ostk::physics::environment::gravitational::Earth;
-        using ostk::physics::time::DateTime;
-        using ostk::physics::time::Instant;
-        using ostk::physics::time::Scale;
-        using ostk::physics::units::Angle;
-        using ostk::physics::units::Derived;
-        using ostk::physics::units::Length;
-
-        using ostk::astro::flight::Profile;
-        using ostk::astro::trajectory::orbit::models::Kepler;
-        using ostk::astro::trajectory::orbit::models::kepler::COE;
-
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -84,8 +99,6 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Constructor)
 {
-    using ostk::astro::flight::profile::models::Transform;
-
     {
         EXPECT_NO_THROW(Profile {Transform::Undefined()};);
     }
@@ -93,8 +106,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Constructor)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CopyConstructor)
 {
-    using ostk::astro::flight::profile::models::Transform;
-
     {
         EXPECT_NO_THROW(Profile profile(profile_););
     }
@@ -102,8 +113,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CopyConstructor)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CopyAssignmentOperator)
 {
-    using ostk::astro::flight::profile::models::Transform;
-
     {
         EXPECT_NO_THROW(Profile profile = profile_;);
     }
@@ -122,8 +131,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, StreamOperator)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
 {
-    using ostk::astro::flight::Profile;
-
     {
         EXPECT_TRUE(profile_.isDefined());
     }
@@ -135,16 +142,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
 {
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::time::Instant;
-    using ostk::physics::units::Angle;
-
-    using ostk::astro::flight::Profile;
-    using ostk::astro::flight::profile::State;
-
     {
         const State state = profile_.getStateAt(Instant::J2000());
 
@@ -167,22 +164,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 {
-    using ostk::core::ctnr::Array;
-
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-
-    using ostk::astro::flight::Profile;
-    using ostk::astro::flight::profile::State;
-
     {
         const Array<Instant> referenceInstants = {
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 0), Scale::UTC),
@@ -251,35 +232,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::filesystem::File;
-    using ostk::core::filesystem::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-    using ostk::core::types::String;
-
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::environment::gravitational::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::flight::Profile;
-    using ostk::astro::flight::profile::State;
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Environment environment = Environment::Default();
 
@@ -391,35 +343,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::filesystem::File;
-    using ostk::core::filesystem::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-    using ostk::core::types::String;
-
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::environment::gravitational::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::flight::Profile;
-    using ostk::astro::flight::profile::State;
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     // VVLH #1
 
     {
@@ -753,24 +676,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
 {
-    using ostk::core::ctnr::Array;
-
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::geometry::d3::transformation::rotation::RotationVector;
-    using ostk::math::object::Vector3d;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-
-    using ostk::astro::flight::Profile;
-    using ostk::astro::flight::profile::State;
-    using ostk::astro::flight::profile::models::Tabulated;
-
     {
         const Array<State> tabulatedStates = {
             {

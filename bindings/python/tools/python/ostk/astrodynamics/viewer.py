@@ -24,7 +24,7 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 
 from ostk.astrodynamics.flight import Profile
-from ostk.astrodynamics.flight.profile import State
+from ostk.astrodynamics.trajectory import State
 
 from .converters import coerce_to_datetime
 from .utilities import lla_from_position

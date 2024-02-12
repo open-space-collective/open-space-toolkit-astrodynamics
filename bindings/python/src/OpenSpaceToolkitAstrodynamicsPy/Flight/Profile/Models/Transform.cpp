@@ -13,8 +13,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Transform(pybi
     using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
 
     using ostk::astro::flight::profile::Model;
-    using ostk::astro::flight::profile::State;
     using ostk::astro::flight::profile::models::Transform;
+    using ostk::astro::trajectory::State;
 
     class_<Transform, Model>(
         aModule,
