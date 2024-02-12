@@ -2,8 +2,8 @@
 
 import pytest
 
-from ostk.physics.environment.objects.celestial import Earth
-from ostk.physics.units import Length, Angle
+from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.unit import Length, Angle
 from ostk.physics.time import Scale, Instant, DateTime, Time, Duration, Interval
 
 from ostk.astrodynamics.trajectory import Orbit, State

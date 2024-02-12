@@ -4,11 +4,11 @@ import pytest
 
 import numpy as np
 
-from ostk.mathematics.geometry.d3.objects import Cuboid
-from ostk.mathematics.geometry.d3.objects import Composite
-from ostk.mathematics.geometry.d3.objects import Point
+from ostk.mathematics.geometry.d3.object import Cuboid
+from ostk.mathematics.geometry.d3.object import Composite
+from ostk.mathematics.geometry.d3.object import Point
 
-from ostk.physics.units import Mass
+from ostk.physics.unit import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale

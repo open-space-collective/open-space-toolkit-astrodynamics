@@ -4,11 +4,11 @@ import pytest
 
 import numpy as np
 
-from ostk.mathematics.geometry.d3.objects import Cuboid
-from ostk.mathematics.geometry.d3.objects import Composite
-from ostk.mathematics.geometry.d3.objects import Point
+from ostk.mathematics.geometry.d3.object import Cuboid
+from ostk.mathematics.geometry.d3.object import Composite
+from ostk.mathematics.geometry.d3.object import Point
 
-from ostk.physics.units import Mass
+from ostk.physics.unit import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
@@ -18,7 +18,7 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
-from ostk.physics.environment.objects.celestial import Earth
+from ostk.physics.environment.object.celestial import Earth
 
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset
 from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition

@@ -3,8 +3,8 @@
 import pytest
 
 from ostk.physics import Environment
-from ostk.physics.units import Angle
-from ostk.physics.units import Length
+from ostk.physics.unit import Angle
+from ostk.physics.unit import Length
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale

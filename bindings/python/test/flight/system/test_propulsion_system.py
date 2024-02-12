@@ -10,7 +10,7 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-Mass = physics.units.Mass
+Mass = physics.unit.Mass
 
 PropulsionSystem = astrodynamics.flight.system.PropulsionSystem
 

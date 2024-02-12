@@ -7,9 +7,9 @@ import tempfile
 from ostk.core.filesystem import Path
 from ostk.core.filesystem import File
 
-from ostk.physics.units import Time
-from ostk.physics.units import Angle
-from ostk.physics.units import Derived
+from ostk.physics.unit import Time
+from ostk.physics.unit import Angle
+from ostk.physics.unit import Derived
 from ostk.physics.time import Instant
 from ostk.physics.time import Scale
 from ostk.physics.time import DateTime

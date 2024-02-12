@@ -1,19 +1,19 @@
 # Apache License 2.0
 
-from ostk.mathematics.objects import RealInterval
+from ostk.mathematics.object import RealInterval
 
 from ostk.physics import Environment
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
-from ostk.physics.environment.objects import Celestial
+from ostk.physics.environment.object import Celestial
 from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics.time import Scale
-from ostk.physics.units import Length
-from ostk.physics.units import Angle
+from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics import display

@@ -3,7 +3,7 @@
 import pytest
 
 from ostk.physics.environment.gravitational import Earth
-from ostk.physics.units import Derived, Length, Angle
+from ostk.physics.unit import Derived, Length, Angle
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics import EventCondition

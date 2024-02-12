@@ -6,15 +6,15 @@ import pandas as pd
 
 import plotly.graph_objs as go
 
-from ostk.mathematics.objects import RealInterval
+from ostk.mathematics.object import RealInterval
 
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
-from ostk.physics.environment.objects import Celestial
+from ostk.physics.environment.object import Celestial
 from ostk.physics.time import Duration
 from ostk.physics.time import Instant
-from ostk.physics.units import Length
+from ostk.physics.unit import Length
 
 from ostk.astrodynamics import Access
 from ostk.astrodynamics import Trajectory

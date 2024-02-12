@@ -4,7 +4,7 @@ import pytest
 
 from ostk.physics.time import Instant, DateTime, Scale
 from ostk.physics.coordinate import Frame, Position, Velocity
-from ostk.physics.units import Angle
+from ostk.physics.unit import Angle
 
 from ostk.astrodynamics.trajectory import State
 

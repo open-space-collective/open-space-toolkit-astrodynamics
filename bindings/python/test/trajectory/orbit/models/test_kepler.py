@@ -4,8 +4,8 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-Length = physics.units.Length
-Angle = physics.units.Angle
+Length = physics.unit.Length
+Angle = physics.unit.Angle
 Scale = physics.time.Scale
 Instant = physics.time.Instant
 Interval = physics.time.Interval
