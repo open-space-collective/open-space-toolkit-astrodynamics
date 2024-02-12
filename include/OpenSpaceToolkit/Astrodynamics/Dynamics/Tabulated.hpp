@@ -7,10 +7,11 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/BarycentricRational.hpp>
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
@@ -27,15 +28,17 @@ using ostk::core::type::Shared;
 using ostk::core::type::Real;
 using ostk::core::container::Array;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::MatrixXd;
-using ostk::mathematics::curvefitting::interpolator::BarycentricRational;
 
 using ostk::physics::coordinate::Frame;
-using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+
+#define DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
 /// @brief A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics.
 class Tabulated : public Dynamics
@@ -45,13 +48,15 @@ class Tabulated : public Dynamics
     ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param aContributionProfile A contribution profile, one row for each instant
-    /// @param aWriteCoordinateSubsets An array of coordinate subsets to write to
+    /// @param aWriteCoordinateSubset An array of coordinate subsets to write to
     /// @param aFrameSPtr A frame
+    /// @param anInterpolationType An interpolation type
     Tabulated(
         const Array<Instant>& anInstantArray,
         const MatrixXd& aContributionProfile,
-        const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
-        const Shared<const Frame>& aFrameSPtr
+        const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubset,
+        const Shared<const Frame>& aFrameSPtr,
+        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE
     );
 
     /// @brief Output stream operator
@@ -95,6 +100,11 @@ class Tabulated : public Dynamics
     /// @return The frame
     Shared<const Frame> getFrame() const;
 
+    /// @brief Get the interpolation type
+    ///
+    /// @return The interpolation type
+    Interpolator::Type getInterpolationType() const;
+
     /// @brief Check if dynamics is defined (pure virtual)
     ///
     /// @return True if dynamics is defined
@@ -130,11 +140,11 @@ class Tabulated : public Dynamics
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
-    const MatrixXd contributionProfile_;
     const Array<Instant> instants_;
-    const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets_;
+    const MatrixXd contributionProfile_;
+    const Array<Shared<const CoordinateSubset>> writeCoordinateSubset_;
     const Shared<const Frame> frameSPtr_;
-    Array<BarycentricRational> interpolators_;
+    Array<Shared<const Interpolator>> interpolators_;
 };
 
 }  // namespace dynamics

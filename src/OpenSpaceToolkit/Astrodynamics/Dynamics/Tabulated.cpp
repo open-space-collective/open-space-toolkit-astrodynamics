@@ -21,13 +21,14 @@ using ostk::mathematics::object::VectorXd;
 Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,
     const MatrixXd& aContributionProfile,
-    const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
-    const Shared<const Frame>& aFrameSPtr
+    const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubset,
+    const Shared<const Frame>& aFrameSPtr,
+    const Interpolator::Type& anInterpolationType
 )
     : Dynamics("Tabulated"),
-      contributionProfile_(aContributionProfile),
       instants_(anInstantArray),
-      writeCoordinateSubsets_(aWriteCoordinateSubsets),
+      contributionProfile_(aContributionProfile),
+      writeCoordinateSubset_(aWriteCoordinateSubset),
       frameSPtr_(aFrameSPtr)
 {
     if (anInstantArray.getSize() != (Index)aContributionProfile.rows())
@@ -37,7 +38,7 @@ Tabulated::Tabulated(
         );
     }
 
-    if (aWriteCoordinateSubsets
+    if (aWriteCoordinateSubset
             .map<Index>(
                 [](const auto& coordinatesSubset)
                 {
@@ -63,8 +64,9 @@ Tabulated::Tabulated(
     interpolators_.reserve(aContributionProfile.cols());
     for (i = 0; i < (Index)aContributionProfile.cols(); ++i)
     {
-        // TBI: In the future we can allow the user to specify the interpolator type.
-        interpolators_.add(BarycentricRational(timestamps, aContributionProfile.col(i)));
+        interpolators_.add(
+            Interpolator::GenerateInterpolator(anInterpolationType, timestamps, aContributionProfile.col(i))
+        );
     }
 }
 
@@ -105,6 +107,12 @@ Shared<const Frame> Tabulated::getFrame() const
     return accessFrame();
 }
 
+Interpolator::Type Tabulated::getInterpolationType() const
+{
+    // Since all interpolators are of the same type, we can just return the type of the first one.
+    return interpolators_[0]->getInterpolationType();
+}
+
 bool Tabulated::isDefined() const
 {
     return true;
@@ -117,14 +125,14 @@ Array<Shared<const CoordinateSubset>> Tabulated::getReadCoordinateSubsets() cons
 
 Array<Shared<const CoordinateSubset>> Tabulated::getWriteCoordinateSubsets() const
 {
-    return writeCoordinateSubsets_;
+    return writeCoordinateSubset_;
 }
 
 VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBI: Eventually we can check if the values can be converted using the subset inFrame methods.
+    // TBM: Convert this using the Maneuver class' conversion mehtod.
     if (aFrameSPtr != frameSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Frame");
@@ -140,7 +148,7 @@ VectorXd Tabulated::computeContribution(
     VectorXd contribution(interpolators_.getSize());
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
-        contribution(i) = interpolators_[i].evaluate(epoch);
+        contribution(i) = interpolators_[i]->evaluate(epoch);
     }
 
     return contribution;
@@ -152,7 +160,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     Dynamics::print(anOutputStream, false);
 
-    for (const auto& subset : writeCoordinateSubsets_)
+    for (const auto& subset : writeCoordinateSubset_)
     {
         ostk::core::utils::Print::Line(anOutputStream) << subset->getName() << subset->getSize();
     }

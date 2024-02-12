@@ -17,6 +17,7 @@ class TestImport:
         from ostk.astrodynamics.trajectory.orbit.model import Propagated
         from ostk.astrodynamics.flight import Profile
         from ostk.astrodynamics.flight import System
+        from ostk.astrodynamics.flight import Maneuver
         from ostk.astrodynamics.flight.system import SatelliteSystem
         from ostk.astrodynamics.dynamics import CentralBodyGravity
         from ostk.astrodynamics.dynamics import AtmosphericDrag
