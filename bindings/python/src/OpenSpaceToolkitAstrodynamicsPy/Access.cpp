@@ -9,7 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
     using namespace pybind11;
 
     using ostk::physics::time::Instant;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 

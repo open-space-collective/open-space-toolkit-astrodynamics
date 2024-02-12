@@ -27,9 +27,9 @@ using ostk::core::type::String;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::AngularCondition;

@@ -13,8 +13,8 @@ using ostk::core::container::Tuple;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
-using ostk::physics::units::Derived;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::unit::Derived;
 
 using ostk::astro::GuidanceLaw;
 using ostk::astro::guidancelaw::QLaw;

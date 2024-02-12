@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
 
@@ -21,9 +21,9 @@ using ostk::core::type::Size;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);

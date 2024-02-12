@@ -17,7 +17,7 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth, Sun
+from ostk.physics.environment.objects.celestial import Earth, Sun
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel

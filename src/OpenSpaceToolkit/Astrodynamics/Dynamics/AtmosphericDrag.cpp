@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
@@ -20,10 +20,10 @@ using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::Unit;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
-using ostk::physics::coord::Position;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
+using ostk::physics::coordinate::Position;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;

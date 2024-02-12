@@ -36,7 +36,7 @@ using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::NumericalSolver;

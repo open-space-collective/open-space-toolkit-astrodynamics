@@ -18,7 +18,7 @@ namespace trajectory
 namespace models
 {
 
-using ostk::physics::coord::Position;
+using ostk::physics::coordinate::Position;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 

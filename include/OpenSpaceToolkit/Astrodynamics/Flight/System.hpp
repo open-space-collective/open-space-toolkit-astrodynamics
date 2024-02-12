@@ -6,7 +6,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 namespace ostk
 {
@@ -18,7 +18,7 @@ namespace flight
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 /// @brief Defines the generic physical system that has a mass and a certain geometry that can be
 /// composed of multiple subgeometries

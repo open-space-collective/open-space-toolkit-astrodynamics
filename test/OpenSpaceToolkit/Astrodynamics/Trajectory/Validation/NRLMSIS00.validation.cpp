@@ -24,13 +24,13 @@
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
@@ -65,7 +65,7 @@ using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
@@ -81,7 +81,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::AtmosphericDrag;

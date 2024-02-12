@@ -118,7 +118,7 @@ OPM OPM::Undefined()
 
 OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
 {
-    using ostk::physics::coord::Frame;
+    using ostk::physics::coordinate::Frame;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Scale;
 

@@ -163,7 +163,7 @@ class Trajectory
     ///
     /// @param aPosition A position
     /// @return Static trajectory
-    static Trajectory Position(const physics::coord::Position& aPosition);
+    static Trajectory Position(const physics::coordinate::Position& aPosition);
 
    private:
     Unique<Model> modelUPtr_;

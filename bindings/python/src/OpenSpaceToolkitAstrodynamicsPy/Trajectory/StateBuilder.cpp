@@ -9,7 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
     using ostk::core::type::Shared;
     using ostk::core::container::Array;
 
-    using ostk::physics::coord::Frame;
+    using ostk::physics::coordinate::Frame;
 
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::StateBuilder;

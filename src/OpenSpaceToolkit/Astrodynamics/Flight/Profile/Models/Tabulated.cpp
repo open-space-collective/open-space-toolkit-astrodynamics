@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 
@@ -70,8 +70,8 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::Duration;
 
     if (!anInstant.isDefined())

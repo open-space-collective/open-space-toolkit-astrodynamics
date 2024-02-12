@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
     using ostk::mathematics::object::MatrixXd;
 
     using ostk::physics::time::Instant;
-    using ostk::physics::coord::Frame;
+    using ostk::physics::coordinate::Frame;
 
     using ostk::astro::Dynamics;
     using ostk::astro::dynamics::Tabulated;

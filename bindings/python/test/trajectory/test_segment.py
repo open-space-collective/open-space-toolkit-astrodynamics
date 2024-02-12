@@ -9,7 +9,7 @@ from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial import Earth
 
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem

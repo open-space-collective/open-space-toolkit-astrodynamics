@@ -20,7 +20,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
-using ostk::physics::coord::Transform;
+using ostk::physics::coordinate::Transform;
 
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 

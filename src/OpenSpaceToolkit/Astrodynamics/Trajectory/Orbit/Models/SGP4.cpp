@@ -5,7 +5,7 @@
 #include <sgp4/SGP4.h>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
@@ -22,7 +22,7 @@ namespace orbit
 namespace models
 {
 
-using ostk::physics::coord::Transform;
+using ostk::physics::coordinate::Transform;
 
 class SGP4::Impl
 {

@@ -18,7 +18,7 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial import Earth
 
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset
 from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition

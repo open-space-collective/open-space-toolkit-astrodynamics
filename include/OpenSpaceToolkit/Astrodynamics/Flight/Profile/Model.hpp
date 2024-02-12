@@ -22,8 +22,8 @@ using ostk::core::container::Array;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
-using ostk::physics::coord::Axes;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Axes;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;

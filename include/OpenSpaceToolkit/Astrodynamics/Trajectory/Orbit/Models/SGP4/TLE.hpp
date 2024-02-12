@@ -9,8 +9,8 @@
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 namespace ostk
 {
@@ -31,8 +31,8 @@ using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::time::Instant;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 
 /// @brief A Two-Line Element set (TLE) is data format encoding a list of orbital elements
 ///                      of an Earth-orbiting object for a given point in time

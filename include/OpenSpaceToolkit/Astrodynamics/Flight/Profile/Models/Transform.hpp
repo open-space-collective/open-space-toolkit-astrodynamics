@@ -6,9 +6,9 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
@@ -33,11 +33,11 @@ using ostk::core::type::String;
 using ostk::math::geometry::d3::transformation::rotation::Quaternion;
 using ostk::math::object::Vector3d;
 
-using ostk::physics::coord::Axes;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Axes;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
-using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
+using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 
 using ostk::astro::flight::profile::Model;
 using ostk::astro::trajectory::State;

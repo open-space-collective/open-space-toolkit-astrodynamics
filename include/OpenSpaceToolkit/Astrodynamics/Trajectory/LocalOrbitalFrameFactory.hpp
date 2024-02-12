@@ -23,9 +23,9 @@ namespace trajectory
 using ostk::core::type::String;
 using ostk::core::type::Shared;
 
-using ostk::physics::coord::frame::Provider;
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Vector3d;
+using ostk::physics::coordinate::frame::Provider;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Vector3d;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;

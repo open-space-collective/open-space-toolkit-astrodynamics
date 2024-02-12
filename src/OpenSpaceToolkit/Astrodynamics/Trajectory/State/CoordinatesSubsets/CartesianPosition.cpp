@@ -17,7 +17,7 @@ namespace coordinatessubsets
 
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Position;
+using ostk::physics::coordinate::Position;
 
 CartesianPosition::CartesianPosition(const String& aName)
     : CoordinatesSubset(aName, 3)

@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp>
 
@@ -54,7 +54,7 @@ bool Static::isDefined() const
 
 State Static::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::physics::coord::Position;
+    using ostk::physics::coordinate::Position;
 
     if (!anInstant.isDefined())
     {

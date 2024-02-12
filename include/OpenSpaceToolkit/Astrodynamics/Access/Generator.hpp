@@ -14,8 +14,8 @@
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
@@ -36,12 +36,12 @@ using ostk::core::type::Shared;
 using ostk::mathematics::object::Interval;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::spherical::AER;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::AER;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 using ostk::physics::environment::object::Celestial;
 
 using ostk::astro::Access;

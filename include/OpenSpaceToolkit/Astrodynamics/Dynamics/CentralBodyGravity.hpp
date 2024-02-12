@@ -5,7 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>

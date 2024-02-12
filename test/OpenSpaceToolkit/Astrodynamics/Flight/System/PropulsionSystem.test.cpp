@@ -6,7 +6,7 @@
 
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
@@ -15,12 +15,12 @@
 using ostk::core::type::Real;
 
 using ostk::physics::data::Scalar;
-using ostk::physics::units::Length;
-using ostk::physics::units::Mass;
-using ostk::physics::units::Time;
-using ostk::physics::units::ElectricCurrent;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Time;
+using ostk::physics::unit::ElectricCurrent;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 using ostk::physics::Unit;
 
 using ostk::physics::environment::gravitational::Earth;

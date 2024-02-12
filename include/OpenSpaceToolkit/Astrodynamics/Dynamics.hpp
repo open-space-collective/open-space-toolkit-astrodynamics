@@ -9,7 +9,7 @@
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -38,7 +38,7 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::state::CoordinatesBroker;

@@ -143,7 +143,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_MAJOR="4"
+ARG OSTK_PHYSICS_MAJOR="5"
 ARG OSTK_PHYSICS_MINOR="0"
 
 ## Force an image rebuild when new Physics patch versions are detected

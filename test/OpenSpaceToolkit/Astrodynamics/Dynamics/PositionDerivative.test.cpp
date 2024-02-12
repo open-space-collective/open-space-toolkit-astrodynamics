@@ -20,7 +20,7 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astro::Dynamics;

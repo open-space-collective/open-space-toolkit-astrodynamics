@@ -8,7 +8,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
@@ -40,9 +40,9 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
-using ostk::physics::coord::Frame;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::GuidanceLaw;
 using ostk::astro::trajectory::orbit::models::kepler::COE;

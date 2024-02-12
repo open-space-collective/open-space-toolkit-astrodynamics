@@ -19,7 +19,7 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::Dynamics;

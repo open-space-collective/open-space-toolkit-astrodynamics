@@ -325,7 +325,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclina
 {
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -347,7 +347,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
 {
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -389,7 +389,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
 {
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -411,7 +411,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAno
 {
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -433,9 +433,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMot
 {
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -910,9 +910,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     using ostk::core::type::Integer;
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -1075,9 +1075,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
     using ostk::core::filesystem::Path;
     using ostk::core::type::String;
 
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 
@@ -1182,9 +1182,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 

@@ -31,8 +31,8 @@ using ostk::core::filesystem::File;
 using ostk::core::type::Index;
 using ostk::core::type::String;
 
-using ostk::physics::coord::Axes;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Axes;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 

@@ -20,7 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::core::type::Shared;
 
     using ostk::physics::environment::object::Celestial;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;

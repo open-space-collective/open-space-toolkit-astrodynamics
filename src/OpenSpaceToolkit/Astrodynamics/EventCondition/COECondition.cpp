@@ -14,13 +14,13 @@ namespace eventcondition
 
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::trajectory::State;

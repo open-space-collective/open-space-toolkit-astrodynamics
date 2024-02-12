@@ -11,7 +11,7 @@ using ostk::core::container::Array;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::Dynamics;

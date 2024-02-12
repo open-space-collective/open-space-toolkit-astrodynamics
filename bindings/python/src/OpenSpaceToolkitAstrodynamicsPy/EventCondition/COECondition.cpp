@@ -8,8 +8,8 @@ using ostk::core::type::Real;
 using ostk::core::type::String;
 using ostk::core::type::Shared;
 
-using ostk::physics::units::Derived;
-using ostk::physics::coord::Frame;
+using ostk::physics::unit::Derived;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::eventcondition::RealCondition;

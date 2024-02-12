@@ -6,7 +6,7 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Solvers/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Mathematics/Solver/NumericalSolver.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 

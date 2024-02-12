@@ -7,7 +7,7 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
@@ -22,7 +22,7 @@ using ostk::core::type::Real;
 using ostk::core::type::String;
 using ostk::core::container::Pair;
 
-using ostk::physics::units::Angle;
+using ostk::physics::unit::Angle;
 
 using ostk::astro::trajectory::State;
 

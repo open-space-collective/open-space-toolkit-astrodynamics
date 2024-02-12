@@ -2,7 +2,7 @@
 
 import pytest
 
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial import Earth
 from ostk.physics.units import Length, Angle
 from ostk.physics.time import Scale, Instant, DateTime, Time, Duration, Interval
 

@@ -23,12 +23,12 @@ using ostk::core::type::String;
 using ostk::core::type::Shared;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Transform;
-using ostk::physics::coord::frame::Provider;
-using ostk::physics::coord::frame::Transform;
-using ostk::physics::coord::Vector3d;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Transform;
+using ostk::physics::coordinate::frame::Provider;
+using ostk::physics::coordinate::frame::Transform;
+using ostk::physics::coordinate::Vector3d;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 
 /// @brief Local orbital frame transform provider, frame provider
 ///

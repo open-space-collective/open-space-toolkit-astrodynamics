@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_AttitudeQuaternion__
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
@@ -25,7 +25,7 @@ using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-using ostk::physics::coord::Transform;
+using ostk::physics::coordinate::Transform;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;

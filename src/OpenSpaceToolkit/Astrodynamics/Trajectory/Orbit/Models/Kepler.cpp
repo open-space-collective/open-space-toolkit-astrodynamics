@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 
@@ -18,9 +18,9 @@ namespace orbit
 namespace models
 {
 
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
 
 static const Real Tolerance = 1e-8;
 static const Derived::Unit GravitationalParameterSIUnit =
@@ -306,7 +306,7 @@ COE Kepler::InertialCoeFromFixedCoe(
     const COE& aClassicalOrbitalElementSet, const Instant& anEpoch, const Celestial& aCelestialObject
 )
 {
-    using ostk::physics::coord::Transform;
+    using ostk::physics::coordinate::Transform;
 
     const Shared<const Frame> fixedFrame = aCelestialObject.accessFrame();
 
@@ -341,9 +341,9 @@ State Kepler::CalculateNoneStateAt(
 )
 {
     using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
 
     // Duration from epoch
 
@@ -434,10 +434,10 @@ State Kepler::CalculateJ2StateAt(
 )
 {
     using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Mass;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Mass;
+    using ostk::physics::unit::Time;
 
     // Setup
 
@@ -572,10 +572,10 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
 
     //     // https://www.mathworks.com/matlabcentral/fileexchange/39550-orbital-periods-of-a-satellite
 
-    //     using ostk::physics::units::Mass ;
-    //     using ostk::physics::units::Time ;
-    //     using ostk::physics::units::Derived ;
-    //     using ostk::physics::units::Angle ;
+    //     using ostk::physics::unit::Mass ;
+    //     using ostk::physics::unit::Time ;
+    //     using ostk::physics::unit::Derived ;
+    //     using ostk::physics::unit::Angle ;
 
     //     const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
     //     const Real ecc = aClassicalOrbitalElementSet.getEccentricity() ;
@@ -677,10 +677,10 @@ State Kepler::CalculateJ4StateAt(
 )
 {
     using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Mass;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Mass;
+    using ostk::physics::unit::Time;
 
     // Setup
 

@@ -17,7 +17,7 @@ namespace coordinatessubsets
 
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Position;
+using ostk::physics::coordinate::Position;
 
 AttitudeQuaternion::AttitudeQuaternion(const String& aName)
     : CoordinatesSubset(aName, 4)

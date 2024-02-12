@@ -29,7 +29,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Scale;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;

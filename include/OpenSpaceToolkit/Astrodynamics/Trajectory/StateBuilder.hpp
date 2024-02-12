@@ -31,7 +31,7 @@ using ostk::core::container::Array;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::physics::time::Instant;
 

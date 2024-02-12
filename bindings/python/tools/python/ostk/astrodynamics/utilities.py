@@ -11,7 +11,7 @@ from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial import Earth
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 
 

@@ -5,7 +5,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
@@ -39,13 +39,13 @@ using ostk::mathematics::geometry::d3::object::Cuboid;
 using ostk::mathematics::geometry::d3::object::Point;
 
 using ostk::physics::data::Scalar;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::celestial::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 

@@ -7,7 +7,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
@@ -25,7 +25,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -82,7 +82,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, EqualToOperator)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -133,7 +133,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -184,7 +184,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -222,7 +222,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, StreamOperator)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -263,7 +263,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -304,7 +304,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 
@@ -347,7 +347,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
     using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
 

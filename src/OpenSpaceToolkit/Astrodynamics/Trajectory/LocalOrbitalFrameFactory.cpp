@@ -5,12 +5,12 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utilities.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utility.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -27,12 +27,12 @@ using ostk::core::type::String;
 using ostk::core::type::Shared;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Frame;
-using FrameManager = ostk::physics::coord::frame::Manager;
-using ostk::physics::coord::Transform;
-using ostk::physics::coord::frame::Provider;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using FrameManager = ostk::physics::coordinate::frame::Manager;
+using ostk::physics::coordinate::Transform;
+using ostk::physics::coordinate::frame::Provider;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;

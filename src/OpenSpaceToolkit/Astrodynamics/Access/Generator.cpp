@@ -6,7 +6,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Segment.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
@@ -14,8 +14,8 @@
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::spherical::LLA;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::astro::solvers::TemporalConditionSolver;

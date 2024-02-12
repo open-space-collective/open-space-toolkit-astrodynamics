@@ -5,9 +5,9 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 
@@ -298,7 +298,7 @@ Derived TLE::getMeanMotion() const
 
     return Derived(
         Real::Parse(secondLine_.getSubstring(52, 11).trim()),
-        Derived::Unit::AngularVelocity(Angle::Unit::Revolution, physics::units::Time::Unit::Day)
+        Derived::Unit::AngularVelocity(Angle::Unit::Revolution, physics::unit::Time::Unit::Day)
     );
 }
 
@@ -584,9 +584,9 @@ TLE TLE::Construct(
 
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
 
     if (aSatelliteNumber > 99999)
     {

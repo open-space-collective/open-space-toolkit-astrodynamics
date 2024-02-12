@@ -10,7 +10,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -33,7 +33,7 @@ using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::flight::System;
 using ostk::astro::flight::system::SatelliteSystem;

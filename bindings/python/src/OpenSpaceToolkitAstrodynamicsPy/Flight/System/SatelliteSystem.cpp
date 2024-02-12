@@ -11,7 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
     using ostk::mathematics::geometry::d3::object::Composite;
     using ostk::mathematics::object::Matrix3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
     using ostk::astro::flight::system::PropulsionSystem;

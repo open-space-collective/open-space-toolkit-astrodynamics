@@ -14,7 +14,7 @@ using ostk::core::type::Shared;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::GuidanceLaw;
 

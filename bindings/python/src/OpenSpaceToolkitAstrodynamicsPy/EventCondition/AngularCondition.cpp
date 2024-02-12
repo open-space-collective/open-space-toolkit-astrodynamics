@@ -12,7 +12,7 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::units::Angle;
+using ostk::physics::unit::Angle;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::AngularCondition;

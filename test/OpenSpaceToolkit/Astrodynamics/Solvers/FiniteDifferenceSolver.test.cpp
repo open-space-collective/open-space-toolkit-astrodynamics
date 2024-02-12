@@ -15,7 +15,7 @@ using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::MatrixXd;

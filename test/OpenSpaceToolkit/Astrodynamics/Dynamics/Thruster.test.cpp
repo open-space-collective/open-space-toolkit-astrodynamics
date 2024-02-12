@@ -25,7 +25,7 @@ using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;

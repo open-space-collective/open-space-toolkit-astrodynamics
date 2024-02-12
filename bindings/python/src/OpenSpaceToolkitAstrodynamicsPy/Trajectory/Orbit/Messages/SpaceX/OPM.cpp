@@ -11,12 +11,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
     using ostk::core::type::Real;
     using ostk::core::type::String;
 
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Length;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Length;
 
     using ostk::astro::trajectory::orbit::messages::spacex::OPM;
 

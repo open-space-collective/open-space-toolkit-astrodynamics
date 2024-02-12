@@ -30,9 +30,9 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using ostk::physics::environment::Object;
@@ -49,7 +49,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::AtmosphericDrag;

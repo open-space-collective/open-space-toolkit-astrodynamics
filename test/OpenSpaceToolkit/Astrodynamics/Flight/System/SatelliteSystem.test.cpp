@@ -9,7 +9,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
@@ -26,12 +26,12 @@ using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::data::Scalar;
-using ostk::physics::units::Length;
-using ostk::physics::units::Mass;
-using ostk::physics::units::Time;
-using ostk::physics::units::ElectricCurrent;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Time;
+using ostk::physics::unit::ElectricCurrent;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 using ostk::physics::Unit;
 
 using ostk::astro::flight::system::SatelliteSystem;

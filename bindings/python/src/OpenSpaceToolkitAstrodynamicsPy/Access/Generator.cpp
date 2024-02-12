@@ -13,7 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
     using ostk::core::type::Shared;
 
     using ostk::physics::Environment;
-    using ostk::physics::coord::spherical::AER;
+    using ostk::physics::coordinate::spherical::AER;
     using ostk::physics::time::Duration;
 
     using ostk::astro::Access;

@@ -31,7 +31,7 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::curvefitting::interpolator::BarycentricRational;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 

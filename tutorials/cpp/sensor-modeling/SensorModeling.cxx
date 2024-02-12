@@ -6,17 +6,17 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Polygon.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Pyramid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Geometry.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
@@ -38,21 +38,21 @@ int main()
     using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
     using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 
-    using ostk::physics::units::Length;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
+    using ostk::physics::unit::Length;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
     using ostk::physics::time::Scale;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Interval;
     using ostk::physics::time::DateTime;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::frame::Provider;
-    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
-    using ostk::physics::coord::Transform;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::coord::spherical::LLA;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::frame::Provider;
+    using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
+    using ostk::physics::coordinate::Transform;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
+    using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::Environment;
     using ostk::physics::environment::object::Geometry;
     using ostk::physics::environment::object::Celestial;

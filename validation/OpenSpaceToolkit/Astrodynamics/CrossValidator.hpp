@@ -35,7 +35,7 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;
