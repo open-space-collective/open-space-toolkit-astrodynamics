@@ -16,8 +16,8 @@ except ImportError:
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
-from ostk.physics.units import Length
-from ostk.physics.units import Angle
+from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 from ostk.physics.time import Instant, Interval, Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame

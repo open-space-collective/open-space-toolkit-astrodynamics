@@ -1,18 +1,18 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
 
 using namespace pybind11;
 
-using ostk::core::types::String;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::units::Angle;
+using ostk::physics::unit::Angle;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::AngularCondition;

@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Model__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -18,12 +18,12 @@ namespace flight
 namespace profile
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::physics::coord::Axes;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Axes;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;

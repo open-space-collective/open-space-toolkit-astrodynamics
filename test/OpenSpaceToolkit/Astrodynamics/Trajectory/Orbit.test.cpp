@@ -1,24 +1,24 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
@@ -29,25 +29,25 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
-using ostk::core::ctnr::Pair;
-using ostk::core::ctnr::Table;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::container::Pair;
+using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::types::Index;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
+using ostk::core::type::Index;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-using ostk::math::object::Vector3d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
@@ -56,9 +56,9 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::time::Time;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::trajectory::Orbit;

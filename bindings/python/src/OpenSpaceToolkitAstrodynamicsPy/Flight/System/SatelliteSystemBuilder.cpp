@@ -6,12 +6,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
 {
     using namespace pybind11;
 
-    using ostk::core::types::Real;
+    using ostk::core::type::Real;
 
-    using ostk::math::geometry::d3::objects::Composite;
-    using ostk::math::object::Matrix3d;
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::object::Matrix3d;
 
-    using ostk::physics::units::Mass;
+    using ostk::physics::unit::Mass;
 
     using ostk::astro::flight::System;
     using ostk::astro::flight::system::PropulsionSystem;

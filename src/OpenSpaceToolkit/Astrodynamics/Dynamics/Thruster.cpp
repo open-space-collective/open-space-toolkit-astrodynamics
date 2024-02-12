@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
@@ -19,10 +19,10 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;

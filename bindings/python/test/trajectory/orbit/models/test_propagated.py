@@ -10,7 +10,7 @@ from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.object.celestial import Earth
 
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory import State

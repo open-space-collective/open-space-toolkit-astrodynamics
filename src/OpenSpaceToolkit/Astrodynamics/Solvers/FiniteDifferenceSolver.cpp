@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
@@ -12,8 +12,8 @@ namespace astro
 namespace solvers
 {
 
-using ostk::core::types::Size;
-using ostk::core::types::Index;
+using ostk::core::type::Size;
+using ostk::core::type::Index;
 
 using ostk::physics::time::Duration;
 

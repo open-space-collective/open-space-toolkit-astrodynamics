@@ -2,35 +2,35 @@
 
 #include <numeric>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
@@ -50,25 +50,25 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Tuple;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
-using ostk::core::types::Size;
+using ostk::core::container::Array;
+using ostk::core::container::Tuple;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Size;
 
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::geometry::d3::objects::Cuboid;
-using ostk::math::geometry::d3::objects::Point;
-using ostk::math::object::Matrix3d;
-using ostk::math::object::MatrixXd;
-using ostk::math::object::Vector3d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -81,10 +81,10 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Time;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Mass;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::CentralBodyGravity;

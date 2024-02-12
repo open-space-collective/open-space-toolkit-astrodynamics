@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp>
 
@@ -34,9 +34,9 @@ bool Transform::isDefined() const
 
 State Transform::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Transform;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Transform;
+    using ostk::physics::coordinate::Velocity;
 
     if (!anInstant.isDefined())
     {
@@ -70,7 +70,7 @@ State Transform::calculateStateAt(const Instant& anInstant) const
 
 Axes Transform::getAxesAt(const Instant& anInstant) const
 {
-    using ostk::physics::coord::Transform;
+    using ostk::physics::coordinate::Transform;
 
     if (!anInstant.isDefined())
     {
@@ -95,7 +95,7 @@ Axes Transform::getAxesAt(const Instant& anInstant) const
 
 Shared<const Frame> Transform::getBodyFrame(const String& aFrameName) const
 {
-    using ostk::physics::coord::Transform;
+    using ostk::physics::coordinate::Transform;
 
     if (!this->isDefined())
     {
@@ -128,7 +128,7 @@ Transform Transform::Undefined()
 
 Transform Transform::InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion)
 {
-    using ostk::physics::coord::Transform;
+    using ostk::physics::coordinate::Transform;
 
     if (!aTrajectory.isDefined())
     {
@@ -161,7 +161,7 @@ Transform Transform::NadirPointing(
     const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
 )
 {
-    using ostk::physics::coord::Transform;
+    using ostk::physics::coordinate::Transform;
 
     if (!anOrbit.isDefined())
     {

@@ -3,22 +3,22 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Validation_Parser__
 #define __OpenSpaceToolkit_Astrodynamics_Validation_Parser__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Object.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Dictionary.hpp>
+#include <OpenSpaceToolkit/Core/Container/Object.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -29,15 +29,15 @@
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/CrossValidator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
@@ -77,28 +77,28 @@ using ostk::astro::validation::Tool;
 using ostk::astro::validation::ToolComparison;
 using ostk::astro::validation::CrossValidator;
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
-using CntrObject = ostk::core::ctnr::Object;
-using ostk::core::ctnr::Dictionary;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
+using CntrObject = ostk::core::container::Object;
+using ostk::core::container::Dictionary;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::filesystem::Directory;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
-using ostk::core::types::Size;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Size;
 
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::geometry::d3::objects::Cuboid;
-using ostk::math::object::Vector3d;
-using ostk::math::object::Matrix3d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -112,7 +112,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::Dynamics;
 using ostk::astro::dynamics::AtmosphericDrag;

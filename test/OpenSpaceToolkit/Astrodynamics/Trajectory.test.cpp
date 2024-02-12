@@ -9,12 +9,12 @@
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -62,12 +62,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -137,12 +137,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -212,12 +212,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, StreamOperator)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -252,12 +252,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, StreamOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -292,12 +292,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -332,12 +332,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -402,12 +402,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -522,12 +522,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Shared;
+    using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;

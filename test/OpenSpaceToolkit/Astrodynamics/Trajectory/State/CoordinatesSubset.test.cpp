@@ -1,20 +1,20 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Shared;
-using ostk::core::types::String;
-using ostk::core::types::Size;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Size;
+using ostk::core::container::Array;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::state::CoordinatesBroker;

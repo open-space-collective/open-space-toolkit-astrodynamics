@@ -3,19 +3,19 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 #define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
@@ -27,21 +27,21 @@ namespace astro
 namespace access
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Map;
-using ostk::core::ctnr::Pair;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
+using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::container::Pair;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::math::object::Interval;
+using ostk::mathematics::object::Interval;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::spherical::AER;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::AER;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 using ostk::physics::environment::object::Celestial;
 
 using ostk::astro::Access;

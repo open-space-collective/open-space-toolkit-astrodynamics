@@ -311,7 +311,7 @@ String CDM::getObjectReferenceFrame(const Index& anIndex) const
 
 void CDM::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Conjunction Data Message") : void();
 
@@ -348,7 +348,7 @@ CDM CDM::Undefined()
     };
 }
 
-CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
+CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 {
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Scale;
@@ -633,14 +633,14 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
 
 CDM CDM::Parse(const String& aString)
 {
-    using ostk::core::ctnr::Object;
+    using ostk::core::container::Object;
 
     return CDM::Dictionary(Object::Parse(aString, Object::Format::JSON).accessDictionary());
 }
 
 CDM CDM::Load(const File& aFile)
 {
-    using ostk::core::ctnr::Object;
+    using ostk::core::container::Object;
 
     return CDM::Dictionary(Object::Load(aFile, Object::Format::JSON).accessDictionary());
 }

@@ -1,18 +1,18 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Ephemeris/Analytical.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
@@ -26,27 +26,27 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
-using ostk::core::types::Index;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::container::Pair;
+using ostk::core::type::Index;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
 using ostk::physics::environment::object::celestial::Sun;
-using ostk::physics::environment::ephemerides::Analytical;
-using ostk::physics::coord::Frame;
+using ostk::physics::environment::ephemeris::Analytical;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Length;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Time;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;

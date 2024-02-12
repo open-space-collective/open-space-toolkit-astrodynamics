@@ -2,8 +2,8 @@
 
 #include "benchmark/benchmark.h"
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -16,12 +16,12 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;

@@ -6,7 +6,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 {
     using namespace pybind11;
 
-    using ostk::core::types::Integer;
+    using ostk::core::type::Integer;
 
     using ostk::physics::time::Interval;
 

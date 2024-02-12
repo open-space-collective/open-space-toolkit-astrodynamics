@@ -3,12 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Axes.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -27,16 +27,16 @@ namespace astro
 namespace flight
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
-using ostk::core::types::Unique;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Unique;
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Axes;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Axes;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;

@@ -2,8 +2,8 @@
 
 import pytest
 
-from ostk.physics.units import Length
-from ostk.physics.units import Angle
+from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 from ostk.physics.environment.gravitational import Earth
 
 from ostk.astrodynamics.trajectory.orbit.models.kepler import COE

@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
@@ -16,11 +16,11 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Index;
-using ostk::core::ctnr::Pair;
+using ostk::core::container::Array;
+using ostk::core::type::Index;
+using ostk::core::container::Pair;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::environment::object::Celestial;
 

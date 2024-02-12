@@ -6,10 +6,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 {
     using namespace pybind11;
 
-    using ostk::core::types::Real;
+    using ostk::core::type::Real;
 
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Length;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Length;
 
     using ostk::astro::trajectory::orbit::models::kepler::COE;
 

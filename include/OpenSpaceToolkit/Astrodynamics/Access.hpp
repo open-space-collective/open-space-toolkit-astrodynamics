@@ -3,27 +3,27 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access__
 #define __OpenSpaceToolkit_Astrodynamics_Access__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::type::String;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
-using ostk::physics::units::Angle;
+using ostk::physics::unit::Angle;
 
 /// @brief Object-to-object visibility
 class Access

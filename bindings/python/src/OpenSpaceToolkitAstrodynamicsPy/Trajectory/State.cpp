@@ -10,14 +10,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 {
     using namespace pybind11;
 
-    using ostk::core::types::Shared;
+    using ostk::core::type::Shared;
 
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::coord::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
+    using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
 
     using ostk::astro::trajectory::State;

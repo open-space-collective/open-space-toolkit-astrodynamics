@@ -3,21 +3,21 @@
 #include <iostream>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utilities.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utility.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
@@ -32,18 +32,18 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::Uint8;
-using ostk::core::types::Real;
-using ostk::core::types::Index;
+using ostk::core::type::Uint8;
+using ostk::core::type::Real;
+using ostk::core::type::Index;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Mass;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Length;
 using ostk::physics::environment::object::celestial::Sun;
 using orbit::models::Kepler;
 using orbit::models::kepler::COE;
@@ -51,7 +51,7 @@ using orbit::models::kepler::COE;
 using ostk::astro::RootSolver;
 
 static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::unit::Time::Unit::Second);
 
 static const Real epsilon = 1e-6;
 
@@ -84,7 +84,7 @@ Orbit::Orbit(const Orbit& anOrbit)
 
 Orbit::~Orbit()
 {
-    using FrameManager = ostk::physics::coord::frame::Manager;
+    using FrameManager = ostk::physics::coordinate::frame::Manager;
 
     static const Array<Orbit::FrameType> frameTypes = {
         Orbit::FrameType::NED,
@@ -369,16 +369,16 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
 Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) const
 {
-    using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
-    using ostk::math::geometry::d3::transformation::rotation::RotationVector;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
+    using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::coord::spherical::LLA;
+    using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::time::Duration;
-    using FrameManager = ostk::physics::coord::frame::Manager;
-    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
-    using ostk::physics::coord::Transform;
+    using FrameManager = ostk::physics::coordinate::frame::Manager;
+    using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
+    using ostk::physics::coordinate::Transform;
 
     if (!this->isDefined())
     {
@@ -458,7 +458,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
                 // Compute the NED frame to central body centered, central body fixed frame transform at position
 
-                const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(
+                const Transform transform = ostk::physics::coordinate::frame::utilities::NorthEastDownTransformAt(
                     lla,
                     this->celestialObjectSPtr_->getEquatorialRadius(),
                     celestialObjectSPtr_->getFlattening()
@@ -769,10 +769,10 @@ Orbit Orbit::GeoSynchronous(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::coord::spherical::LLA;
-    using ostk::physics::coord::Position;
+    using ostk::physics::coordinate::spherical::LLA;
+    using ostk::physics::coordinate::Position;
 
     using orbit::models::Kepler;
     using orbit::models::kepler::COE;

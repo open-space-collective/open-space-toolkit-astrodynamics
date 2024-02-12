@@ -6,13 +6,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 {
     using namespace pybind11;
 
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Real;
+    using ostk::core::type::String;
 
     using ostk::physics::time::Instant;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE;
 

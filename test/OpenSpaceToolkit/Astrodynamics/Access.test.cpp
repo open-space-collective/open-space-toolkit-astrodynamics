@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
@@ -14,7 +14,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, Constructor)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -54,7 +54,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, EqualToOperator)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -142,7 +142,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, NotEqualToOperator)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -230,7 +230,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, StreamOperator)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -256,7 +256,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, IsDefined)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -282,7 +282,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, IsComplete)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -320,7 +320,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetType)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -358,7 +358,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetAcquisitionOfSignal)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -384,7 +384,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetTimeOfClosestApproach)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -410,7 +410,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetLossOfSignal)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -437,7 +437,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetInterval)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Interval;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -464,7 +464,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetDuration)
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 
@@ -491,7 +491,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, GetMaxElevation)
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
+    using ostk::physics::unit::Angle;
 
     using ostk::astro::Access;
 

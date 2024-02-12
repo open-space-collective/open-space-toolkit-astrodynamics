@@ -11,13 +11,13 @@ from ostk.physics.time import DateTime
 from ostk.physics.time import Time
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
-from ostk.physics.units import Length
+from ostk.physics.unit import Length
 from ostk.physics.coordinate import Transform
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate import Axes
-from ostk.physics.coordinate.frame.providers import Dynamic as DynamicProvider
+from ostk.physics.coordinate.frame.provider import Dynamic as DynamicProvider
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit

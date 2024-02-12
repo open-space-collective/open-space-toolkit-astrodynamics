@@ -3,14 +3,14 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler__
 
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
@@ -27,14 +27,14 @@ namespace orbit
 namespace models
 {
 
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::models::kepler::COE;

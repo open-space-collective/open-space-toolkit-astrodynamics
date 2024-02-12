@@ -7,14 +7,14 @@
 
 using namespace pybind11;
 
-using ostk::core::types::String;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::GuidanceLaw;
 

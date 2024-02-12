@@ -1,15 +1,15 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
@@ -20,29 +20,29 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
-using ostk::core::ctnr::Tuple;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
+using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::coord::spherical::LLA;
-using ostk::physics::coord::spherical::AER;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::coordinate::spherical::AER;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::Access;
 using ostk::astro::Trajectory;
@@ -353,7 +353,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
 
     ASSERT_EQ(referenceData.getRowCount(), accesses.getSize());
 
-    for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+    for (const auto accessTuple : ostk::core::container::iterator::Zip(referenceData, accesses))
     {
         const auto& referenceRow = std::get<0>(accessTuple);
         const Access& access = std::get<1>(accessTuple);
@@ -448,7 +448,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
 
     ASSERT_EQ(referenceData.getRowCount(), accesses.getSize());
 
-    for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+    for (const auto accessTuple : ostk::core::container::iterator::Zip(referenceData, accesses))
     {
         const auto& referenceRow = std::get<0>(accessTuple);
         const Access& access = std::get<1>(accessTuple);
@@ -531,7 +531,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
 
     ASSERT_EQ(referenceData.getRowCount(), accesses.getSize());
 
-    for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+    for (const auto accessTuple : ostk::core::container::iterator::Zip(referenceData, accesses))
     {
         const auto& referenceRow = std::get<0>(accessTuple);
         const Access& access = std::get<1>(accessTuple);
@@ -746,10 +746,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
 
         const Environment environment = Environment::Default();
 
-        const ostk::math::object::Interval<Real> azimuthRange = ostk::math::object::Interval<Real>::Closed(0.0, 360.0);
-        const ostk::math::object::Interval<Real> elevationRange =
-            ostk::math::object::Interval<Real>::Closed(60.0, 90.0);
-        const ostk::math::object::Interval<Real> rangeRange = ostk::math::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<Real> azimuthRange = ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<Real> elevationRange =
+            ostk::mathematics::object::Interval<Real>::Closed(60.0, 90.0);
+        const ostk::mathematics::object::Interval<Real> rangeRange = ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
         const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment);
 
@@ -816,7 +816,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
 
         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize());
 
-        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+        for (const auto accessTuple : ostk::core::container::iterator::Zip(referenceData, accesses))
         {
             const auto& referenceRow = std::get<0>(accessTuple);
             const Access& access = std::get<1>(accessTuple);
@@ -851,10 +851,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
 
         const Environment environment = Environment::Default();
 
-        const ostk::core::ctnr::Map<Real, Real> azimuthElevationMask = {
+        const ostk::core::container::Map<Real, Real> azimuthElevationMask = {
             {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0}
         };
-        const ostk::math::object::Interval<Real> rangeRange = ostk::math::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<Real> rangeRange = ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
         const Generator generator = Generator::AerMask(azimuthElevationMask, rangeRange, environment);
 
@@ -920,7 +920,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
 
         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize());
 
-        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+        for (const auto accessTuple : ostk::core::container::iterator::Zip(referenceData, accesses))
         {
             const auto& referenceRow = std::get<0>(accessTuple);
             const Access& access = std::get<1>(accessTuple);

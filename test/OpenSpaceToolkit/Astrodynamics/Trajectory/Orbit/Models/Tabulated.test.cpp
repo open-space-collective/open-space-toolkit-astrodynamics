@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -11,27 +11,27 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Integer;
-using ostk::core::types::Size;
-using ostk::core::types::Index;
-using ostk::core::types::Real;
-using ostk::core::types::String;
-using ostk::core::ctnr::Table;
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::Integer;
+using ostk::core::type::Size;
+using ostk::core::type::Index;
+using ostk::core::type::Real;
+using ostk::core::type::String;
+using ostk::core::container::Table;
+using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 using ostk::core::filesystem::Path;
 using ostk::core::filesystem::File;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Scale;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Orbit;

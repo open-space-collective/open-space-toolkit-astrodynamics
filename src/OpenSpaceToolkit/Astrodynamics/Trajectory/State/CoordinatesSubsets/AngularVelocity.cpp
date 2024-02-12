@@ -15,10 +15,10 @@ namespace state
 namespace coordinatessubsets
 {
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 
 AngularVelocity::AngularVelocity(const Shared<const AttitudeQuaternion>& aAttitudeQuaternionSPtr, const String& aName)
     : CoordinatesSubset(aName, 3),

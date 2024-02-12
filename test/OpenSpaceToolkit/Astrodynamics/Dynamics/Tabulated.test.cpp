@@ -1,10 +1,10 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -13,24 +13,24 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
-using ostk::core::types::Shared;
-using ostk::core::types::Index;
+using ostk::core::type::Real;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
+using ostk::core::type::Index;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
-using ostk::core::ctnr::Tuple;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::MatrixXd;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::dynamics::Tabulated;
 using ostk::astro::trajectory::state::CoordinatesSubset;

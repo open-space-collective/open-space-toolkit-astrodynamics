@@ -260,7 +260,7 @@ const Array<Shared<const CoordinatesSubset>> StateBuilder::getCoordinatesSubsets
 
 void StateBuilder::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: StateBuilder") : void();
 

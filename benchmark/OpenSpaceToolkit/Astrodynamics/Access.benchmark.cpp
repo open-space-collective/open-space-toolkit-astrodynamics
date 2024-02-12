@@ -2,14 +2,14 @@
 
 #include "benchmark/benchmark.h"
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
@@ -20,20 +20,20 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Shared;
+using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::spherical::LLA;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::time::Interval;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 
 using ostk::astro::Access;
 using ostk::astro::Trajectory;

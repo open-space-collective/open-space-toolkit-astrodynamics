@@ -2,8 +2,8 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -14,15 +14,15 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
-using ostk::physics::units::Length;
-using ostk::physics::units::Angle;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Angle;
 
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;

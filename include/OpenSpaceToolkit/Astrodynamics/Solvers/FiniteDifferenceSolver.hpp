@@ -3,11 +3,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver__
 #define __OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -21,13 +21,13 @@ namespace astro
 namespace solvers
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::Size;
-using ostk::core::types::String;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Real;
+using ostk::core::type::Size;
+using ostk::core::type::String;
+using ostk::core::container::Array;
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;

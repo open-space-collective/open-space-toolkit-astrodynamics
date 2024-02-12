@@ -11,20 +11,20 @@ using ostk::astro::validation::QuantityComparison;
 using ostk::astro::validation::Quantity;
 using ostk::astro::validation::MissionSequence;
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
-using CntrObject = ostk::core::ctnr::Object;
-using ostk::core::ctnr::Dictionary;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
+using CntrObject = ostk::core::container::Object;
+using ostk::core::container::Dictionary;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::filesystem::Directory;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
-using ostk::core::types::Size;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Size;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::Environment;
 using ostk::physics::time::DateTime;

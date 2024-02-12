@@ -3,15 +3,15 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -26,19 +26,19 @@ namespace ostk
 namespace astro
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
-using ostk::core::types::Index;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::container::Array;
+using ostk::core::container::Pair;
+using ostk::core::type::Index;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::state::CoordinatesBroker;

@@ -2,20 +2,20 @@
 
 #include <nlopt.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Segment.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Segment.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
 
-using ostk::math::geometry::d3::objects::Point;
-using ostk::math::geometry::d3::objects::Segment;
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::geometry::d3::object::Segment;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::spherical::LLA;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::astro::solvers::TemporalConditionSolver;
@@ -218,7 +218,7 @@ Generator Generator::AerRanges(
     const Environment& anEnvironment
 )
 {
-    using ostk::core::types::Real;
+    using ostk::core::type::Real;
 
     const Interval<Real> azimuthRange_deg = anAzimuthRange;
     const Interval<Real> elevationRange_deg = anElevationRange;
@@ -251,10 +251,10 @@ Generator Generator::AerMask(
     const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeRange, const Environment& anEnvironment
 )
 {
-    using ostk::core::ctnr::Map;
-    using ostk::core::types::Real;
+    using ostk::core::container::Map;
+    using ostk::core::type::Real;
 
-    using ostk::math::object::Vector2d;
+    using ostk::mathematics::object::Vector2d;
 
     if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
         (anAzimuthElevationMask.rbegin()->first > 360.0))

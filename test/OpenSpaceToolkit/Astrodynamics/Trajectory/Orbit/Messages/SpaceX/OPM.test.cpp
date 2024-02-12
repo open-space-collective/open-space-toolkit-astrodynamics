@@ -6,22 +6,22 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
+using ostk::core::container::Array;
 using ostk::core::filesystem::File;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::orbit::messages::spacex::OPM;
 
@@ -215,8 +215,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Unde
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Dictionary)
 {
-    using ostk::core::ctnr::Dictionary;
-    using ostk::core::ctnr::Object;
+    using ostk::core::container::Dictionary;
+    using ostk::core::container::Object;
 
     {
         Dictionary opmDictionary = Dictionary::Empty();

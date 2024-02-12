@@ -1,10 +1,10 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
@@ -23,12 +23,12 @@ namespace models
 namespace kepler
 {
 
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Mass;
-using ostk::physics::units::ElectricCurrent;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::ElectricCurrent;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
@@ -236,8 +236,8 @@ Derived COE::getAngularMomentum(const Derived& aGravitationalParameter) const
 
 Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 {
-    using ostk::physics::units::Mass;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Mass;
+    using ostk::physics::unit::Time;
 
     if (!aGravitationalParameter.isDefined())
     {
@@ -261,7 +261,7 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 
 Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
 {
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Time;
 
     if (!aGravitationalParameter.isDefined())
     {
@@ -283,13 +283,13 @@ COE::CartesianState COE::getCartesianState(
     const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    using ostk::core::types::Shared;
+    using ostk::core::type::Shared;
 
-    using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+    using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Mass;
+    using ostk::physics::unit::Time;
 
     if (!aGravitationalParameter.isDefined())
     {
@@ -370,7 +370,7 @@ Vector6d COE::getSIVector(const COE::AnomalyType& anAnomalyType) const
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void();
 
@@ -425,10 +425,10 @@ COE COE::Undefined()
 
 COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter)
 {
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::units::Mass;
-    using ostk::physics::units::Time;
+    using ostk::physics::unit::Mass;
+    using ostk::physics::unit::Time;
 
     if ((!aCartesianState.first.isDefined()) || (!aCartesianState.second.isDefined()))
     {
@@ -765,8 +765,8 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
 )
 {
-    using ostk::core::types::Real;
-    using ostk::core::types::Size;
+    using ostk::core::type::Real;
+    using ostk::core::type::Size;
 
     if (!aMeanAnomaly.isDefined())
     {

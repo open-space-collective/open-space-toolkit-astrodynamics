@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -15,7 +15,7 @@ namespace astro
 namespace guidancelaw
 {
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;

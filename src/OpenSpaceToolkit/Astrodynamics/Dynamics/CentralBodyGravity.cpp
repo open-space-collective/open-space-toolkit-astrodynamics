@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
@@ -14,13 +14,13 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Position;
+using ostk::physics::coordinate::Position;
 using ostk::physics::data::Vector;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
 
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;

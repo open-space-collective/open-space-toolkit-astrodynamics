@@ -1,22 +1,22 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
@@ -24,28 +24,28 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
@@ -55,26 +55,26 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor)
 // {
 
-//     using ostk::core::types::Shared ;
-//     using ostk::core::types::Real ;
-//     using ostk::core::ctnr::Array ;
-//     using ostk::core::ctnr::Table ;
+//     using ostk::core::type::Shared ;
+//     using ostk::core::type::Real ;
+//     using ostk::core::container::Array ;
+//     using ostk::core::container::Table ;
 //     using ostk::core::filesystem::Path ;
 //     using ostk::core::filesystem::File ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Scale ;
 //     using ostk::physics::time::Instant ;
 //     using ostk::physics::time::Duration ;
 //     using ostk::physics::time::Interval ;
 //     using ostk::physics::time::DateTime ;
-//     using ostk::physics::coord::Frame ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Frame ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::Orbit ;

@@ -9,10 +9,10 @@
 
 using namespace pybind11;
 
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 

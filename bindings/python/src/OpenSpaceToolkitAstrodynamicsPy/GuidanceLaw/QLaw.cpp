@@ -4,17 +4,17 @@
 
 using namespace pybind11;
 
-using ostk::core::types::String;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::ctnr::Map;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::container::Map;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
-using ostk::physics::units::Derived;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::unit::Derived;
 
 using ostk::astro::GuidanceLaw;
 using ostk::astro::guidancelaw::QLaw;

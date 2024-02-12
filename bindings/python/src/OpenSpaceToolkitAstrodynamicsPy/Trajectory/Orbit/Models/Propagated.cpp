@@ -6,9 +6,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
 {
     using namespace pybind11;
 
-    using ostk::core::types::Shared;
-    using ostk::core::types::Integer;
-    using ostk::core::ctnr::Array;
+    using ostk::core::type::Shared;
+    using ostk::core::type::Integer;
+    using ostk::core::container::Array;
 
     using ostk::physics::time::Instant;
 

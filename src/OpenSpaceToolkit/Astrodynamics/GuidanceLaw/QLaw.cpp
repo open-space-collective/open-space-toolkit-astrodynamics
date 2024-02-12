@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -14,14 +14,14 @@ namespace astro
 namespace guidancelaw
 {
 
-using ostk::core::types::Index;
+using ostk::core::type::Index;
 
-using ostk::math::object::Vector6d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::Vector6d;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;

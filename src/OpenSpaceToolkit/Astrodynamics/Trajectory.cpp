@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp>
@@ -117,7 +117,7 @@ Trajectory Trajectory::Undefined()
     return Trajectory();
 }
 
-Trajectory Trajectory::Position(const physics::coord::Position& aPosition)
+Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 {
     using ostk::astro::trajectory::models::Static;
 

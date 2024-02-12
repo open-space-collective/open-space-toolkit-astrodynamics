@@ -5,20 +5,20 @@
 
 #include <mutex>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Unique.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
@@ -32,21 +32,21 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
-using ostk::core::ctnr::Map;
-using ostk::core::types::Index;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::Unique;
+using ostk::core::container::Array;
+using ostk::core::container::Pair;
+using ostk::core::container::Map;
+using ostk::core::type::Index;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::Unique;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Time;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 
 using ostk::astro::Trajectory;
 using ostk::astro::trajectory::State;

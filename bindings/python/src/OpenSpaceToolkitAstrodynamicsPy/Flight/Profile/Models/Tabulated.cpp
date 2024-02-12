@@ -6,7 +6,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Tabulated(pybi
 {
     using namespace pybind11;
 
-    using ostk::core::ctnr::Array;
+    using ostk::core::container::Array;
 
     using ostk::astro::flight::profile::Model;
     using ostk::astro::trajectory::State;

@@ -3,20 +3,20 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_BrouwerLyddaneMean_BrouwerLyddaneMean__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_BrouwerLyddaneMean_BrouwerLyddaneMean__
 
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
@@ -33,20 +33,20 @@ namespace models
 namespace blm
 {
 
-using ostk::core::ctnr::Pair;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::container::Pair;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::math::object::Vector6d;
+using ostk::mathematics::object::Vector6d;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Duration;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 

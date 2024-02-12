@@ -10,11 +10,11 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-Cuboid = mathematics.geometry.d3.objects.Cuboid
-Composite = mathematics.geometry.d3.objects.Composite
-Point = mathematics.geometry.d3.objects.Point
+Cuboid = mathematics.geometry.d3.object.Cuboid
+Composite = mathematics.geometry.d3.object.Composite
+Point = mathematics.geometry.d3.object.Point
 
-Mass = physics.units.Mass
+Mass = physics.unit.Mass
 
 System = astrodynamics.flight.System
 

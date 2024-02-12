@@ -11,14 +11,14 @@
 
 using namespace pybind11;
 
-using ostk::core::types::Shared;
+using ostk::core::type::Shared;
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::Dynamics;
 using ostk::astro::trajectory::state::CoordinatesSubset;

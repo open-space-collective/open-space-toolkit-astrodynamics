@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -13,14 +13,14 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Shared;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Shared;
+using ostk::core::container::Array;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;

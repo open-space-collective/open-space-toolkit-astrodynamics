@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -25,9 +25,9 @@ namespace orbit
 namespace models
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
+using ostk::core::container::Array;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
 
 using ostk::physics::time::Instant;
 

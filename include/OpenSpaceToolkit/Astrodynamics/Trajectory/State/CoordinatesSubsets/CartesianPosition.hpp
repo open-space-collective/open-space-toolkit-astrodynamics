@@ -16,8 +16,8 @@ namespace state
 namespace coordinatessubsets
 {
 
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::physics::time::Instant;
 

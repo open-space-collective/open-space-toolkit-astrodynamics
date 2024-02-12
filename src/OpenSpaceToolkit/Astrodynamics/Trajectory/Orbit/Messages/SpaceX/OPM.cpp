@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Containers/Object.hpp>
+#include <OpenSpaceToolkit/Core/Container/Object.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
@@ -19,9 +19,11 @@ namespace messages
 namespace spacex
 {
 
-using ostk::math::object::Vector3d;
+using ostk::core::container::Object;
 
-Vector3d vector3dFromObject(const ctnr::Object& anObject)
+using ostk::mathematics::object::Vector3d;
+
+Vector3d vector3dFromObject(const Object& anObject)
 {
     return {
         anObject.accessArray()[0].accessReal(),
@@ -98,7 +100,7 @@ OPM::Deployment OPM::getDeploymentWithName(const String& aName) const
 
 void OPM::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Orbit Parameter Message") : void();
 
@@ -116,9 +118,9 @@ OPM OPM::Undefined()
     return {{Instant::Undefined(), Instant::Undefined()}, Array<Deployment>::Empty()};
 }
 
-OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
+OPM OPM::Dictionary(const container::Dictionary& aDictionary)
 {
-    using ostk::physics::coord::Frame;
+    using ostk::physics::coordinate::Frame;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Scale;
 
@@ -169,14 +171,14 @@ OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
 
 OPM OPM::Parse(const String& aString)
 {
-    using ostk::core::ctnr::Object;
+    using ostk::core::container::Object;
 
     return OPM::Dictionary(Object::Parse(aString, Object::Format::YAML).accessDictionary());
 }
 
 OPM OPM::Load(const File& aFile)
 {
-    using ostk::core::ctnr::Object;
+    using ostk::core::container::Object;
 
     return OPM::Dictionary(Object::Load(aFile, Object::Format::YAML).accessDictionary());
 }

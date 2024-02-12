@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -15,17 +15,17 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
-using ostk::core::types::Shared;
-using ostk::core::types::String;
-using ostk::core::types::Real;
-using ostk::core::types::Index;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
+using ostk::core::type::Real;
+using ostk::core::type::Index;
+using ostk::core::container::Array;
 
-using ostk::math::object::VectorXd;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;

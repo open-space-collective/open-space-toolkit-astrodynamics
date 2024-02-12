@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity__
 
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
@@ -17,8 +17,8 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::core::types::Integer;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::String;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;

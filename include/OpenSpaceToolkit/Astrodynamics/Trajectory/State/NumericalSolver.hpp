@@ -3,10 +3,10 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Solvers/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Mathematics/Solver/NumericalSolver.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -23,13 +23,13 @@ namespace trajectory
 namespace state
 {
 
-using ostk::core::ctnr::Array;
+using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::RootSolver;
-using MathNumericalSolver = ostk::math::solvers::NumericalSolver;
+using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 
 /// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics
 /// Numerical Solver.

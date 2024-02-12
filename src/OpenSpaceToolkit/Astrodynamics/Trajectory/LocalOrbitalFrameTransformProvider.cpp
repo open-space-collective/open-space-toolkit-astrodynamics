@@ -1,15 +1,15 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utilities.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utility.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
@@ -20,14 +20,14 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::math::geometry::d3::transformation::rotation::RotationMatrix;
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-using ostk::physics::coord::Vector3d;
-using ostk::physics::coord::frame::Transform;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::coord::spherical::LLA;
+using ostk::physics::coordinate::Vector3d;
+using ostk::physics::coordinate::frame::Transform;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::gravitational::Earth;
 
 Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(
@@ -122,7 +122,7 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
 
             // Compute the NED frame to central body centered, central body fixed frame transform at position
 
-            const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(
+            const Transform transform = ostk::physics::coordinate::frame::utilities::NorthEastDownTransformAt(
                 lla, Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_
             );
 

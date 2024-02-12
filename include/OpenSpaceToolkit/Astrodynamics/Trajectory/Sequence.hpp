@@ -3,13 +3,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
@@ -23,12 +23,12 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::Real;
-using ostk::core::types::Size;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Real;
+using ostk::core::type::Size;
+using ostk::core::container::Array;
 
 using ostk::physics::Environment;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Mass;
 
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;

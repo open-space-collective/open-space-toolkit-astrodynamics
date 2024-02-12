@@ -15,10 +15,10 @@ namespace state
 namespace coordinatessubsets
 {
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 
 CartesianVelocity::CartesianVelocity(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName)
     : CoordinatesSubset(aName, aCartesianPositionSPtr->getSize()),

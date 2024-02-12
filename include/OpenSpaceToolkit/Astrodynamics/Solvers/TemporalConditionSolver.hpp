@@ -3,8 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver__
 #define __OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -17,8 +17,8 @@ namespace astro
 namespace solvers
 {
 
-using ostk::core::types::Size;
-using ostk::core::ctnr::Array;
+using ostk::core::type::Size;
+using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;

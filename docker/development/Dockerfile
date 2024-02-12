@@ -95,8 +95,8 @@ RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark
 
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_MAJOR="1"
-ARG OSTK_CORE_MINOR="0"
+ARG OSTK_CORE_MAJOR="2"
+ARG OSTK_CORE_MINOR="1"
 
 ## Force an image rebuild when new Core patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR}.${OSTK_CORE_MINOR} /tmp/open-space-toolkit-core/versions.json
@@ -111,7 +111,7 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ## Open Space Toolkit ▸ I/O
 
-ARG OSTK_IO_MAJOR="1"
+ARG OSTK_IO_MAJOR="2"
 ARG OSTK_IO_MINOR="0"
 
 ## Force an image rebuild when new IO patch versions are detected
@@ -127,7 +127,7 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
 
 ## Open Space Toolkit ▸ Mathematics
 
-ARG OSTK_MATHEMATICS_MAJOR="1"
+ARG OSTK_MATHEMATICS_MAJOR="2"
 ARG OSTK_MATHEMATICS_MINOR="0"
 
 ## Force an image rebuild when new Mathematics patch versions are detected
@@ -143,7 +143,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_MAJOR="4"
+ARG OSTK_PHYSICS_MAJOR="5"
 ARG OSTK_PHYSICS_MINOR="0"
 
 ## Force an image rebuild when new Physics patch versions are detected

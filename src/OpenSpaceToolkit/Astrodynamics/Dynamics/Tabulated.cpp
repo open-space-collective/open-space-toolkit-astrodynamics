@@ -3,7 +3,7 @@
 #include <numeric>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 
@@ -14,9 +14,9 @@ namespace astro
 namespace dynamics
 {
 
-using ostk::core::types::Index;
+using ostk::core::type::Index;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
 Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,

@@ -10,7 +10,7 @@ from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Moon
+from ostk.physics.environment.object.celestial import Moon
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics import Dynamics

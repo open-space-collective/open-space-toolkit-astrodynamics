@@ -3,11 +3,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -17,13 +17,13 @@ namespace ostk
 namespace astro
 {
 
-using ostk::core::types::String;
-using ostk::core::types::Shared;
-using ostk::core::types::Real;
+using ostk::core::type::String;
+using ostk::core::type::Shared;
+using ostk::core::type::Real;
 
-using ostk::math::object::Vector3d;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 
 using ostk::physics::time::Instant;
 

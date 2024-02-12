@@ -3,11 +3,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset__
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -21,13 +21,13 @@ namespace trajectory
 namespace state
 {
 
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
-using ostk::core::types::String;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 class CoordinatesBroker;

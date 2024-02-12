@@ -10,10 +10,10 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-RealInterval = mathematics.objects.RealInterval
+RealInterval = mathematics.object.RealInterval
 Quaternion = mathematics.geometry.d3.transformation.rotation.Quaternion
-Length = physics.units.Length
-Angle = physics.units.Angle
+Length = physics.unit.Length
+Angle = physics.unit.Angle
 DateTime = physics.time.DateTime
 Scale = physics.time.Scale
 Duration = physics.time.Duration
@@ -22,9 +22,9 @@ Interval = physics.time.Interval
 Transform = physics.coordinate.Transform
 Frame = physics.coordinate.Frame
 Axes = physics.coordinate.Axes
-DynamicProvider = physics.coordinate.frame.providers.Dynamic
+DynamicProvider = physics.coordinate.frame.provider.Dynamic
 Environment = physics.Environment
-Earth = physics.environment.objects.celestial_bodies.Earth
+Earth = physics.environment.object.celestial.Earth
 Trajectory = astrodynamics.Trajectory
 Profile = astrodynamics.flight.Profile
 Orbit = astrodynamics.trajectory.Orbit

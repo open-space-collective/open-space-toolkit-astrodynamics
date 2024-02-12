@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
@@ -21,31 +21,31 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Size;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::Size;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::Matrix3d;
-using ostk::math::object::Vector3d;
-using ostk::math::object::Vector6d;
-using ostk::math::object::VectorXd;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector6d;
+using ostk::mathematics::object::VectorXd;
 using Vector5d = Eigen::Matrix<double, 5, 1>;
 using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::geometry::d3::objects::Cuboid;
-using ostk::math::geometry::d3::objects::Point;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::geometry::d3::object::Point;
 
 using ostk::physics::data::Scalar;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Length;
-using ostk::physics::units::Mass;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::celestial::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 

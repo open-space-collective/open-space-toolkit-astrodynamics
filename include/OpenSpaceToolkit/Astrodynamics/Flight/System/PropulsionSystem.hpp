@@ -3,13 +3,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem__
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Unit.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 namespace ostk
 {
@@ -20,16 +20,16 @@ namespace flight
 namespace system
 {
 
-using ostk::core::types::Real;
+using ostk::core::type::Real;
 
 using ostk::physics::data::Direction;
 using ostk::physics::data::Scalar;
-using ostk::physics::units::Length;
-using ostk::physics::units::Mass;
-using ostk::physics::units::Time;
-using ostk::physics::units::ElectricCurrent;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Time;
+using ostk::physics::unit::ElectricCurrent;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 using ostk::physics::Unit;
 
 /// @brief Define a propulsion system (constant thrust, constant Isp for now)

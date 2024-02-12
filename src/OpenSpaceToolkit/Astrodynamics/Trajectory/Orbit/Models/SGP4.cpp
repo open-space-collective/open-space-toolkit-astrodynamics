@@ -5,7 +5,7 @@
 #include <sgp4/SGP4.h>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
@@ -22,7 +22,7 @@ namespace orbit
 namespace models
 {
 
-using ostk::physics::coord::Transform;
+using ostk::physics::coordinate::Transform;
 
 class SGP4::Impl
 {
@@ -51,7 +51,7 @@ SGP4::Impl::Impl(const TLE& aTle)
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::math::object::Vector3d;
+    using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::time::Duration;
 

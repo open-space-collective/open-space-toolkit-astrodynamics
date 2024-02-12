@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -10,7 +10,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp>
 
-using ostk::core::types::Integer;
+using ostk::core::type::Integer;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;

@@ -4,13 +4,13 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE__
 
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 namespace ostk
 {
@@ -26,13 +26,13 @@ namespace sgp4
 {
 
 using ostk::core::filesystem::File;
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::time::Instant;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 
 /// @brief A Two-Line Element set (TLE) is data format encoding a list of orbital elements
 ///                      of an Earth-orbiting object for a given point in time

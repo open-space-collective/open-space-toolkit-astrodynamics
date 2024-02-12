@@ -3,10 +3,10 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
@@ -25,14 +25,14 @@ namespace profile
 namespace models
 {
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
+using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::filesystem::File;
-using ostk::core::types::Index;
-using ostk::core::types::String;
+using ostk::core::type::Index;
+using ostk::core::type::String;
 
-using ostk::physics::coord::Axes;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Axes;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 

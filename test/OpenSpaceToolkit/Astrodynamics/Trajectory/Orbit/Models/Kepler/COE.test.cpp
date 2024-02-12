@@ -1,15 +1,15 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
@@ -17,22 +17,22 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Real;
-using ostk::core::types::String;
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Tuple;
+using ostk::core::type::Real;
+using ostk::core::type::String;
+using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::Vector6d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector6d;
 
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::Duration;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong;
@@ -421,16 +421,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -446,16 +446,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -471,16 +471,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -496,16 +496,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -754,16 +754,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -779,16 +779,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -804,16 +804,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
 // {
 
-//     using ostk::core::types::Real ;
+//     using ostk::core::type::Real ;
 
-//     using ostk::math::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
+//     using ostk::physics::unit::Length ;
+//     using ostk::physics::unit::Angle ;
+//     using ostk::physics::unit::Derived ;
 //     using ostk::physics::time::Duration ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::coordinate::Position ;
+//     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
 //     using ostk::astro::trajectory::orbit::models::kepler::COE ;

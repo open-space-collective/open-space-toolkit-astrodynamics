@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
@@ -17,7 +17,7 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::Index;
+using ostk::core::type::Index;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity;
@@ -492,7 +492,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: State") : void();
 

@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -16,7 +16,7 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::ctnr::Array;
+using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 

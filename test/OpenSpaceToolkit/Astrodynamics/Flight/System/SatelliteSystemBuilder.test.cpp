@@ -1,38 +1,38 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Integer;
-using ostk::core::types::Real;
-using ostk::core::types::String;
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
-using ostk::math::geometry::d3::objects::Composite;
-using ostk::math::geometry::d3::objects::Cuboid;
-using ostk::math::geometry::d3::objects::Point;
-using ostk::math::object::Matrix3d;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::data::Scalar;
-using ostk::physics::units::Length;
-using ostk::physics::units::Mass;
-using ostk::physics::units::Time;
-using ostk::physics::units::ElectricCurrent;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Time;
+using ostk::physics::unit::ElectricCurrent;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 using ostk::physics::Unit;
 
 using ostk::astro::flight::system::SatelliteSystem;

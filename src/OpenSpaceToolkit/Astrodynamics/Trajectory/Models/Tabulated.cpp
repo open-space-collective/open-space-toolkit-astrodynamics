@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
@@ -19,9 +19,9 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
     : Model(),
       interpolationType_(anInterpolationType)
 {
-    using ostk::math::curvefitting::interpolator::BarycentricRational;
-    using ostk::math::curvefitting::interpolator::CubicSpline;
-    using ostk::math::curvefitting::interpolator::Linear;
+    using ostk::mathematics::curvefitting::interpolator::BarycentricRational;
+    using ostk::mathematics::curvefitting::interpolator::CubicSpline;
+    using ostk::mathematics::curvefitting::interpolator::Linear;
 
     if (aStateArray.getSize() < 2)
     {
@@ -141,8 +141,8 @@ State Tabulated::getLastState() const
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::core::types::Index;
-    using ostk::core::types::String;
+    using ostk::core::type::Index;
+    using ostk::core::type::String;
 
     using ostk::astro::trajectory::state::CoordinatesBroker;
 
@@ -181,7 +181,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
 Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
-    using ostk::core::types::Index;
+    using ostk::core::type::Index;
 
     if (anInstantArray.isEmpty())
     {
@@ -205,7 +205,7 @@ Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) 
 
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::types::String;
+    using ostk::core::type::String;
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 

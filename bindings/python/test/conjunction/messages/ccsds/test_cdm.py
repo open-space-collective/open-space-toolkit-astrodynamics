@@ -4,11 +4,11 @@ import pytest
 
 from datetime import datetime
 
-from ostk.core.containers import Dictionary
+from ostk.core.container import Dictionary
 from ostk.core.filesystem import File
 
-from ostk.physics.units import Length
-from ostk.physics.units import Mass
+from ostk.physics.unit import Length
+from ostk.physics.unit import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import Scale
 from ostk.physics.time import Duration
