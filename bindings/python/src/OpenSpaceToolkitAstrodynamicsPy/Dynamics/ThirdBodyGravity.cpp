@@ -11,7 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::
     using ostk::physics::environment::object::Celestial;
 
     using ostk::astro::Dynamics;
-    using ostk::astro::dynamics::ThirdBodyGravity;
+    using ostk::astro::dynamic::ThirdBodyGravity;
 
     {
         class_<ThirdBodyGravity, Dynamics, Shared<ThirdBodyGravity>>(

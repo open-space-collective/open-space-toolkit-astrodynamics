@@ -34,9 +34,9 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong;
-using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
+using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 {
@@ -433,7 +433,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 
@@ -458,7 +458,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 
@@ -483,7 +483,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 
@@ -508,7 +508,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAngul
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 
@@ -766,7 +766,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 
@@ -791,7 +791,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 
@@ -816,7 +816,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVe
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     {
 

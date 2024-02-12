@@ -55,8 +55,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::SGP4;
-    using ostk::astro::trajectory::orbit::models::sgp4::TLE;
+    using ostk::astro::trajectory::orbit::model::SGP4;
+    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
 
     {
         // Environment setup

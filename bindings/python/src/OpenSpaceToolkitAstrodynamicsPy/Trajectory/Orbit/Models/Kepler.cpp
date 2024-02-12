@@ -15,8 +15,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Length;
 
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
+    using ostk::astro::trajectory::orbit::model::Kepler;
+    using ostk::astro::trajectory::orbit::model::kepler::COE;
 
     {
         class_<Kepler, ostk::astro::trajectory::orbit::Model> kepler_class(

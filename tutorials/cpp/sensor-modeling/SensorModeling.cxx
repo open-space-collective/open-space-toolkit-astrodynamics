@@ -60,8 +60,8 @@ int main()
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
+    using ostk::astro::trajectory::orbit::model::Kepler;
+    using ostk::astro::trajectory::orbit::model::kepler::COE;
 
     // Environment
 

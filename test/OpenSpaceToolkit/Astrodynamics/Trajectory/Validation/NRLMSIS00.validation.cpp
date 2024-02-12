@@ -84,9 +84,9 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamic::AtmosphericDrag;
+using ostk::astro::dynamic::CentralBodyGravity;
+using ostk::astro::dynamic::PositionDerivative;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::SatelliteSystemBuilder;

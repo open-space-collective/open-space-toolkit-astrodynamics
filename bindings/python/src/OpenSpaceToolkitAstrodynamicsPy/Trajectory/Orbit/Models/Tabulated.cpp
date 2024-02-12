@@ -8,7 +8,7 @@ using ostk::core::container::Array;
 using ostk::core::type::Integer;
 
 using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::models::Tabulated;
+using ostk::astro::trajectory::orbit::model::Tabulated;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(pybind11::module& aModule)
 {

@@ -49,8 +49,8 @@ using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::models::Kepler;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::Kepler;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor)
 // {
@@ -79,8 +79,8 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 //     using ostk::astro::trajectory::Orbit ;
 //     using ostk::astro::trajectory::State ;
-//     using ostk::astro::trajectory::orbit::models::Kepler ;
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::model::Kepler ;
+//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
 
 //     // {
 

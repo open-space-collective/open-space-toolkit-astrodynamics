@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Derived;
 
-    using ostk::astro::trajectory::orbit::models::sgp4::TLE;
+    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
 
     class_<TLE>(
         aModule,

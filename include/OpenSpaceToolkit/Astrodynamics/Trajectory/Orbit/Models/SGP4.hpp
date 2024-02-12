@@ -39,7 +39,7 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::models::sgp4::TLE;
+using ostk::astro::trajectory::orbit::model::sgp4::TLE;
 
 class SGP4 : public ostk::astro::trajectory::orbit::Model
 {

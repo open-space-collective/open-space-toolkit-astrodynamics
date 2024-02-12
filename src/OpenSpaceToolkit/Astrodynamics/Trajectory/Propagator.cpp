@@ -24,10 +24,10 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::environment::object::Celestial;
 
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::ThirdBodyGravity;
-using ostk::astro::dynamics::AtmosphericDrag;
+using ostk::astro::dynamic::PositionDerivative;
+using ostk::astro::dynamic::CentralBodyGravity;
+using ostk::astro::dynamic::ThirdBodyGravity;
+using ostk::astro::dynamic::AtmosphericDrag;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();

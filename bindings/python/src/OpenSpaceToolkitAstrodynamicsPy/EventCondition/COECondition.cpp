@@ -11,7 +11,7 @@ using ostk::core::type::Shared;
 using ostk::physics::unit::Derived;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::COECondition;
 

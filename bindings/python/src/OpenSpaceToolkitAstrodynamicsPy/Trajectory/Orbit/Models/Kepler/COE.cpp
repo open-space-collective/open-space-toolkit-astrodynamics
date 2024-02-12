@@ -11,7 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Length;
 
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
+    using ostk::astro::trajectory::orbit::model::kepler::COE;
 
     class_<COE> coe(
         aModule,

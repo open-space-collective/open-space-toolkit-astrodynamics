@@ -12,7 +12,7 @@ namespace ostk
 namespace astro
 {
 
-using ostk::astro::trajectory::models::Tabulated;
+using ostk::astro::trajectory::model::Tabulated;
 
 Trajectory::Trajectory(const Model& aModel)
     : modelUPtr_(aModel.clone())
@@ -119,7 +119,7 @@ Trajectory Trajectory::Undefined()
 
 Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 {
-    using ostk::astro::trajectory::models::Static;
+    using ostk::astro::trajectory::model::Static;
 
     if (!aPosition.isDefined())
     {

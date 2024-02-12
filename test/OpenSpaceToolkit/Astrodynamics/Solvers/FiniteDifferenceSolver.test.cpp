@@ -20,7 +20,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::MatrixXd;
 
-using ostk::astro::solvers::FiniteDifferenceSolver;
+using ostk::astro::solver::FiniteDifferenceSolver;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 

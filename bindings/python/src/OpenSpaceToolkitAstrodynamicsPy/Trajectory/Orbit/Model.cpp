@@ -10,9 +10,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
     using namespace pybind11;
 
     using ostk::astro::trajectory::orbit::Model;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::Propagated;
-    using ostk::astro::trajectory::orbit::models::SGP4;
+    using ostk::astro::trajectory::orbit::model::Kepler;
+    using ostk::astro::trajectory::orbit::model::Propagated;
+    using ostk::astro::trajectory::orbit::model::SGP4;
 
     class_<Model>(
         aModule,

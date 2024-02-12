@@ -115,11 +115,11 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::ThirdBodyGravity;
-using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamic::AtmosphericDrag;
+using ostk::astro::dynamic::CentralBodyGravity;
+using ostk::astro::dynamic::PositionDerivative;
+using ostk::astro::dynamic::ThirdBodyGravity;
+using ostk::astro::dynamic::Thruster;
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::flight::system::PropulsionSystem;

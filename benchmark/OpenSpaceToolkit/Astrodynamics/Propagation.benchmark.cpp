@@ -32,8 +32,8 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::CentralBodyGravity;
+using ostk::astro::dynamic::PositionDerivative;
+using ostk::astro::dynamic::CentralBodyGravity;
 
 static const int DEFAULT_ITERATIONS = 10;
 

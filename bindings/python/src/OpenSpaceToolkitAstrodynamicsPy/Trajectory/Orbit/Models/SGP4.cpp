@@ -8,8 +8,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(pybind1
 {
     using namespace pybind11;
 
-    using ostk::astro::trajectory::orbit::models::SGP4;
-    using ostk::astro::trajectory::orbit::models::sgp4::TLE;
+    using ostk::astro::trajectory::orbit::model::SGP4;
+    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
 
     {
         class_<SGP4, ostk::astro::trajectory::orbit::Model>(

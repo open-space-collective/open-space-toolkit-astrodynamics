@@ -31,8 +31,8 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, Constructor)
 {

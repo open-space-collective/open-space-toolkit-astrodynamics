@@ -15,7 +15,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamic::Thruster;
 using ostk::astro::GuidanceLaw;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;

@@ -64,10 +64,10 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Pass;
-using ostk::astro::trajectory::orbit::models::Kepler;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::orbit::models::SGP4;
-using ostk::astro::trajectory::orbit::models::sgp4::TLE;
+using ostk::astro::trajectory::orbit::model::Kepler;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astro::trajectory::orbit::model::SGP4;
+using ostk::astro::trajectory::orbit::model::sgp4::TLE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {

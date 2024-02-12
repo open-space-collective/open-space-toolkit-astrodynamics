@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
     using ostk::physics::coordinate::Frame;
 
     using ostk::astro::Dynamics;
-    using ostk::astro::dynamics::Tabulated;
+    using ostk::astro::dynamic::Tabulated;
     using ostk::astro::trajectory::state::CoordinatesSubset;
 
     {

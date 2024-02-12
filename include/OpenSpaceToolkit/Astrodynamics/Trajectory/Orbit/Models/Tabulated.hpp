@@ -31,7 +31,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;
 
-class Tabulated : public virtual trajectory::orbit::Model, public trajectory::models::Tabulated
+class Tabulated : public virtual trajectory::orbit::Model, public trajectory::model::Tabulated
 {
    public:
     Tabulated(

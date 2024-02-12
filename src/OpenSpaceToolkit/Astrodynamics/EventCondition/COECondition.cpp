@@ -22,7 +22,7 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 using ostk::astro::trajectory::State;
 
 RealCondition COECondition::SemiMajorAxis(

@@ -18,7 +18,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::celestial::Earth;
-using ostk::astro::solvers::TemporalConditionSolver;
+using ostk::astro::solver::TemporalConditionSolver;
 
 namespace ostk
 {
