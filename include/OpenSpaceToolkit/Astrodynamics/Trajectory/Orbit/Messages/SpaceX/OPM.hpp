@@ -32,7 +32,7 @@ namespace messages
 namespace spacex
 {
 
-namespace ctnr = ostk::core::container;
+namespace container = ostk::core::container;
 
 using ostk::core::container::Array;
 using ostk::core::filesystem::File;
@@ -126,7 +126,7 @@ class OPM
 
     static OPM Undefined();
 
-    static OPM Dictionary(const ctnr::Dictionary& aDictionary);
+    static OPM Dictionary(const container::Dictionary& aDictionary);
 
     static OPM Parse(const String& aString);
 

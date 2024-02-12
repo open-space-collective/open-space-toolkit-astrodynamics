@@ -36,7 +36,7 @@ namespace messages
 namespace ccsds
 {
 
-namespace ctnr = ostk::core::container;
+namespace container = ostk::core::container;
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
@@ -267,7 +267,7 @@ class CDM
 
     static CDM Undefined();
 
-    static CDM Dictionary(const ctnr::Dictionary& aDictionary);
+    static CDM Dictionary(const container::Dictionary& aDictionary);
 
     static CDM Parse(const String& aString);
 

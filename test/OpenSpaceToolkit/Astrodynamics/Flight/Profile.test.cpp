@@ -28,31 +28,31 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Table;
+using ostk::core::container::Array;
+using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::types::Real;
-using ostk::core::types::Shared;
-using ostk::core::types::String;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-using ostk::math::geometry::d3::transformation::rotation::RotationVector;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::Environment;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Angle;
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 
 using ostk::astro::flight::Profile;
 using ostk::astro::flight::profile::models::Transform;

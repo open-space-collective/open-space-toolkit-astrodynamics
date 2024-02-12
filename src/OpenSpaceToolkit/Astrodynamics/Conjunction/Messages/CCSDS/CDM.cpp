@@ -348,7 +348,7 @@ CDM CDM::Undefined()
     };
 }
 
-CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
+CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 {
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Scale;

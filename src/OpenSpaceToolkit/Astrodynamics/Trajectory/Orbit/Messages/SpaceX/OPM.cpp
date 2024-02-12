@@ -19,9 +19,11 @@ namespace messages
 namespace spacex
 {
 
+using ostk::core::container::Object;
+
 using ostk::mathematics::object::Vector3d;
 
-Vector3d vector3dFromObject(const ctnr::Object& anObject)
+Vector3d vector3dFromObject(const Object& anObject)
 {
     return {
         anObject.accessArray()[0].accessReal(),
@@ -116,7 +118,7 @@ OPM OPM::Undefined()
     return {{Instant::Undefined(), Instant::Undefined()}, Array<Deployment>::Empty()};
 }
 
-OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
+OPM OPM::Dictionary(const container::Dictionary& aDictionary)
 {
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::DateTime;

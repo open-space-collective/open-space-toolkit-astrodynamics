@@ -30,8 +30,8 @@ namespace models
 using ostk::core::container::Array;
 using ostk::core::type::String;
 
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
-using ostk::math::object::Vector3d;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
