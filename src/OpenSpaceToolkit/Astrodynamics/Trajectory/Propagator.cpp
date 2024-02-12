@@ -41,6 +41,21 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
     this->setDynamics(aDynamicsArray);
 }
 
+Propagator::Propagator(
+    const NumericalSolver& aNumericalSolver,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
+    const Array<Maneuver>& aManeuverArray,
+    const Interpolator::Type& anInterpolationType
+)
+    : Propagator(aNumericalSolver, aDynamicsArray)
+{
+    // TBM: in the future maybe sanitize the instants of each maneuver to make sure none of them are overalapping
+    for (const Maneuver& maneuver : aManeuverArray)
+    {
+        this->addManeuver(maneuver, anInterpolationType);
+    }
+}
+
 Propagator::Propagator(const Propagator& aPropagator)
     : coordinatesBrokerSPtr_(std::make_shared<CoordinateBroker>(*aPropagator.coordinatesBrokerSPtr_)),
       dynamicsContexts_(aPropagator.dynamicsContexts_),
@@ -134,6 +149,11 @@ void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
     {
         this->addDynamics(aDynamicsSPtr);
     }
+}
+
+void Propagator::addManeuver(const Maneuver& aManeuver, const Interpolator::Type& anInterpolationType)
+{
+    this->addDynamics(aManeuver.toTabulatedDynamics(IntegrationFrameSPtr, anInterpolationType));
 }
 
 void Propagator::addDynamics(const Shared<Dynamics>& aDynamicsSPtr)

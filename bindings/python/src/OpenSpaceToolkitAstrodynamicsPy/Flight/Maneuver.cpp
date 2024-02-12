@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     instants (list[Instant]): An array of instants, must be sorted.
                     acceleration_profile (list[numpy.ndarray]): An acceleration profile of the maneuver, one numpy.ndarray per instant in m/s^2.
                     frame (Frame): A frame in which the acceleration profile is defined.
-                    mass_flow_rate_profile (list[float]):  A mass flow rate profile of the maneuver, one float per instant in kg/s.
+                    mass_flow_rate_profile (list[float]):  A mass flow rate profile of the maneuver (negative numbers expected), one float per instant in kg/s.
             )doc"
         )
 
@@ -174,7 +174,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     instants (list[Instant]): An array of instants, must be sorted.
                     acceleration_profile (list[numpy.ndarray]): An acceleration profile of the maneuver, one numpy.ndarray per instant.
                     frame (Frame): A frame in which the acceleration profile is defined.
-                    mass_flow_rate (float): The constant mass flow rate.
+                    mass_flow_rate (float): The constant mass flow rate (negative number expected).
 
                 Returns:
                     Maneuver: The created maneuver.

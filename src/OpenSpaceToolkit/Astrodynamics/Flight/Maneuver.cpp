@@ -31,6 +31,17 @@ Maneuver::Maneuver(
       massFlowRateProfile_(aMassFlowRateProfile)
 {
     // Sanitize the inputs
+    if (this->instants_.isEmpty() || this->accelerationProfileDefaultFrame_.isEmpty() ||
+        this->massFlowRateProfile_.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No instants or accompanying accelerations/mass flow rates provided.");
+    }
+
+    if (instants_.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError("At least two instants are required to define a maneuver.");
+    }
+
     if (instants_.getSize() != accelerationProfileDefaultFrame_.getSize())
     {
         throw ostk::core::error::RuntimeError(
@@ -38,10 +49,11 @@ Maneuver::Maneuver(
         );
     }
 
-    if (this->instants_.isEmpty() || this->accelerationProfileDefaultFrame_.isEmpty() ||
-        this->massFlowRateProfile_.isEmpty())
+    if (instants_.getSize() != massFlowRateProfile_.getSize())
     {
-        throw ostk::core::error::RuntimeError("No instants or accompanying accelerations/mass flow rates provided.");
+        throw ostk::core::error::RuntimeError(
+            "Mass flow rate profile must have the same number of elements as the number of instants."
+        );
     }
 
     for (Size k = 0; k < instants_.getSize() - 1; ++k)
@@ -50,6 +62,19 @@ Maneuver::Maneuver(
         {
             throw ostk::core::error::runtime::Wrong("Unsorted Instant Array");
         }
+    }
+
+    // Ensure that mass flow rate profile is expressed in negative numbers
+    if (std::any_of(
+            massFlowRateProfile_.begin(),
+            massFlowRateProfile_.end(),
+            [](Real aMassFlowRate)
+            {
+                return aMassFlowRate >= 0.0;
+            }
+        ))
+    {
+        throw ostk::core::error::RuntimeError("Mass flow rate profile must be expressed in negative numbers.");
     }
 
     // Convert to the default frame if necessary
@@ -102,6 +127,7 @@ Interval Maneuver::getInterval() const
 
 Real Maneuver::calculateDeltaV() const
 {
+    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
     Real weightedAccelerationMagnitudeSum = 0.0;
     Real totalTime = 0.0;
 
@@ -117,13 +143,14 @@ Real Maneuver::calculateDeltaV() const
 
 Mass Maneuver::calculateDeltaMass() const
 {
+    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
     Real weightedMassSum = 0.0;
 
     for (Size i = 0; i < instants_.getSize(); i++)
     {
         const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
 
-        weightedMassSum += timeStep * massFlowRateProfile_[i];
+        weightedMassSum += timeStep * std::abs(massFlowRateProfile_[i]);
     }
 
     return {weightedMassSum, Mass::Unit::Kilogram};
@@ -131,6 +158,7 @@ Mass Maneuver::calculateDeltaMass() const
 
 Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 {
+    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
     Real weightedThrustSum = 0.0;
     Real weightedMassSum = anInitialSpacecraftMass.inKilograms();
     Real totalTime = 0.0;
@@ -138,7 +166,7 @@ Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
     for (Size i = 0; i < instants_.getSize(); i++)
     {
         const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
-        weightedMassSum -= massFlowRateProfile_[i];
+        weightedMassSum += std::abs(massFlowRateProfile_[i]);
         weightedThrustSum += timeStep * accelerationProfileDefaultFrame_[i].norm() * weightedMassSum;
         totalTime += timeStep;
     }
@@ -191,7 +219,54 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Maneuver Maneuver::ConstantMassFlowRateProfile(
+Maneuver Maneuver::FromTabulatedDynamics(const Shared<Dynamics>& aTabulatedDynamicsSPtr)
+{
+    if (aTabulatedDynamicsSPtr == nullptr || !aTabulatedDynamicsSPtr->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tabulated Dynamics");
+    }
+
+    // Downcast to TabulatedDynamics
+    Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
+        std::dynamic_pointer_cast<TabulatedDynamics>(aTabulatedDynamicsSPtr);
+
+    if (tabulatedDynamicsSPtr)
+    {
+        const Array<Shared<const CoordinateSubset>> expectedWriteCoordinateSubsets = {
+            CartesianVelocity::Default(), CoordinateSubset::Mass()
+        };
+
+        if (tabulatedDynamicsSPtr->getWriteCoordinateSubsets() != expectedWriteCoordinateSubsets)
+        {
+            throw ostk::core::error::runtime::Wrong("Tabulated Dynamics Write Coordinate Subsets");
+        }
+
+        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfile();
+        Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
+        Array<Real> massFlowRateProfile = Array<Real>::Empty();
+
+        for (Size i = 0; i < tabulatedDynamicsSPtr->getInstants().getSize(); i++)
+        {
+            accelerationProfile.add(
+                Vector3d(contributionProfile(i, 0), contributionProfile(i, 1), contributionProfile(i, 2))
+            );
+            massFlowRateProfile.add(contributionProfile(i, 3));
+        }
+
+        return {
+            tabulatedDynamicsSPtr->getInstants(),
+            accelerationProfile,
+            tabulatedDynamicsSPtr->getFrame(),
+            massFlowRateProfile
+        };
+    }
+    else
+    {
+        throw ostk::core::error::RuntimeError("Dynamics object is not a TabulatedDynamics object.");
+    }
+}
+
+Maneuver Maneuver::FromConstantMassFlowRateProfile(
     const Array<Instant>& anInstantArray,
     const Array<Vector3d>& anAccelerationProfile,
     const Shared<const Frame>& aFrameSPtr,

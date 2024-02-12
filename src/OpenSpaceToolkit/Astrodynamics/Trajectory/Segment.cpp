@@ -4,6 +4,8 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -16,9 +18,10 @@ namespace astrodynamics
 namespace trajectory
 {
 
-using ostk::physics::time::Duration;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
+using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
@@ -103,6 +106,56 @@ Mass Segment::Solution::computeDeltaMass() const
     }
 
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
+{
+    if (this->states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No states exist within segment.");
+    }
+
+    if (this->segmentType != Segment::Type::Maneuver)
+    {
+        return {};
+    }
+
+    // Loop through dynamics to find Thruster dynamics
+    Shared<Thruster> thrusterDynamics = nullptr;
+    for (const Shared<Dynamics>& dynamic : this->dynamics)
+    {
+        thrusterDynamics = std::dynamic_pointer_cast<Thruster>(dynamic);
+
+        if (thrusterDynamics)
+        {
+            break;
+        }
+    }
+
+    const Array<Instant> instantArray = this->states.map<Instant>(
+        [](const State& aState) -> Instant
+        {
+            return aState.accessInstant();
+        }
+    );
+
+    // TBI: Implement logic to check if "multiple" maneuvers (stop and start) actually occured during this segment
+    const MatrixXd thrusterContributionProfile = this->getDynamicsContribution(
+        thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+    );
+
+    // Don't actually need to interpolate, because we convert straight to a maneuver, but specifying linear
+    // interpolation allows us to get away with segments that only have two states, as opposed to needing more than two
+    // states present to use the other higher order interpolators
+    const TabulatedDynamics tabulatedDynamics = {
+        instantArray,
+        thrusterContributionProfile,
+        {CartesianVelocity::Default(), CoordinateSubset::Mass()},
+        aFrameSPtr,
+        Interpolator::Type::Linear,
+    };
+
+    return {Maneuver::FromTabulatedDynamics(std::make_shared<TabulatedDynamics>(tabulatedDynamics))};
 }
 
 Array<State> Segment::Solution::calculateStatesAt(
