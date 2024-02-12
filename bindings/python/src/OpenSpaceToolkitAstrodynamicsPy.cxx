@@ -18,8 +18,6 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Solvers.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
 
-#define PYBIND11_DETAILED_ERROR_MESSAGES
-
 PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 {
     // Add optional docstring for package OpenSpaceToolkitAstrodynamicsPy
