@@ -5,20 +5,20 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::ctnr::Array;
-using ostk::core::ctnr::String;
+using ostk::core::container::Array;
+using ostk::core::container::String;
 
-using ostk::math::object::Vector3d;
-using ostk::math::object::VectorXd;
-using ostk::math::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::time::Interval;
 using ostk::physics::time::Instant;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Scale;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::coord::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::coordinate::Frame;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::profile::models::Tabulated;
