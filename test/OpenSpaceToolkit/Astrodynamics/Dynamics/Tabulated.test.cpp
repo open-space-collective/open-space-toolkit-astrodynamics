@@ -32,7 +32,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::dynamics::Tabulated;
+using ostk::astro::dynamic::Tabulated;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 

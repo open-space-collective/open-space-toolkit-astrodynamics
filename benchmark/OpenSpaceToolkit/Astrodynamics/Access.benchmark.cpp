@@ -39,8 +39,8 @@ using ostk::astro::Access;
 using ostk::astro::Trajectory;
 using ostk::astro::access::Generator;
 using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::orbit::models::SGP4;
-using ostk::astro::trajectory::orbit::models::sgp4::TLE;
+using ostk::astro::trajectory::orbit::model::SGP4;
+using ostk::astro::trajectory::orbit::model::sgp4::TLE;
 
 static const int DEFAULT_ITERATIONS = 10;
 

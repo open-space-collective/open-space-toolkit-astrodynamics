@@ -13,8 +13,8 @@ using ostk::core::type::Real;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Angle;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMean;
 
 // Trampoline class for virtual member functions
 class PyBrouwerLyddaneMean : public BrouwerLyddaneMean

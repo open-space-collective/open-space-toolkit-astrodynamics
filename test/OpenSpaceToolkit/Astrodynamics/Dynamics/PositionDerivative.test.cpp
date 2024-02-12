@@ -24,7 +24,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamic::PositionDerivative;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;

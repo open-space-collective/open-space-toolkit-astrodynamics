@@ -45,8 +45,8 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Mass;
 using ostk::physics::unit::Length;
 using ostk::physics::environment::object::celestial::Sun;
-using orbit::models::Kepler;
-using orbit::models::kepler::COE;
+using orbit::model::Kepler;
+using orbit::model::kepler::COE;
 
 using ostk::astro::RootSolver;
 
@@ -69,7 +69,7 @@ Orbit::Orbit(
     const Integer& anInitialRevolutionNumber,
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
-    : Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
+    : Trajectory(orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber)),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
@@ -662,8 +662,8 @@ Orbit Orbit::Circular(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
+    using orbit::model::Kepler;
+    using orbit::model::kepler::COE;
 
     if (!anEpoch.isDefined())
     {
@@ -706,8 +706,8 @@ Orbit Orbit::Equatorial(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
+    using orbit::model::Kepler;
+    using orbit::model::kepler::COE;
 
     if (!anEpoch.isDefined())
     {
@@ -774,8 +774,8 @@ Orbit Orbit::GeoSynchronous(
     using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::coordinate::Position;
 
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
+    using orbit::model::Kepler;
+    using orbit::model::kepler::COE;
 
     if (!anEpoch.isDefined())
     {

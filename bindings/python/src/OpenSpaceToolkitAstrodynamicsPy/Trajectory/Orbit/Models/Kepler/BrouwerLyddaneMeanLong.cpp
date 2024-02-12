@@ -13,8 +13,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_BrouwerLydda
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Length;
 
-    using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
-    using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanLong;
+    using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMean;
+    using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 
     class_<BrouwerLyddaneMeanLong, BrouwerLyddaneMean> brouwerLyddaneMeanLong(
         aModule,

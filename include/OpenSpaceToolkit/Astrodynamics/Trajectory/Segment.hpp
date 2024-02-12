@@ -40,9 +40,9 @@ using ostk::physics::unit::Mass;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::orbit::models::Propagated;
+using ostk::astro::trajectory::orbit::model::Propagated;
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamic::Thruster;
 using ostk::astro::EventCondition;
 
 /// @brief Represent a propagation segment for astrodynamics purposes

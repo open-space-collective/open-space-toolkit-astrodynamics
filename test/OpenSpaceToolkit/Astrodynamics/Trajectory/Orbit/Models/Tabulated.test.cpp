@@ -36,7 +36,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::orbit::Model;
-using ostk::astro::trajectory::orbit::models::Tabulated;
+using ostk::astro::trajectory::orbit::model::Tabulated;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public ::testing::Test
 {

@@ -53,7 +53,7 @@ using ostk::astro::guidancelaw::QLaw;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
@@ -61,9 +61,9 @@ using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamic::CentralBodyGravity;
+using ostk::astro::dynamic::Thruster;
+using ostk::astro::dynamic::PositionDerivative;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public ::testing::Test
 {

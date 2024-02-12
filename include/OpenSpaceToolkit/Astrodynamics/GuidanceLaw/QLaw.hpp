@@ -45,8 +45,8 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astro::GuidanceLaw;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::solvers::FiniteDifferenceSolver;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astro::solver::FiniteDifferenceSolver;
 using ostk::astro::trajectory::StateBuilder;
 
 /// @brief    The Q-law is a Lyapunov feedback control law developed by Petropoulos,

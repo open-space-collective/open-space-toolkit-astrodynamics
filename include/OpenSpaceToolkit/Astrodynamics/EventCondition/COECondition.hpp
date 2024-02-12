@@ -36,7 +36,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::AngularCondition;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 using ostk::astro::trajectory::State;
 
 /// @brief A Classical Orbital Element based event condition

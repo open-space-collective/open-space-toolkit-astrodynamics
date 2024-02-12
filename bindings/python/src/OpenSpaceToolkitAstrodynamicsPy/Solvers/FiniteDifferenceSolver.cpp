@@ -16,7 +16,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
     using ostk::physics::time::Duration;
 
     using ostk::astro::trajectory::State;
-    using ostk::astro::solvers::FiniteDifferenceSolver;
+    using ostk::astro::solver::FiniteDifferenceSolver;
 
     class_<FiniteDifferenceSolver> finiteDifferenceSolver(
         aModule,
@@ -44,7 +44,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
     finiteDifferenceSolver
 
         .def(
-            init<const ostk::astro::solvers::FiniteDifferenceSolver::Type&, const Real&, const Duration&>(),
+            init<const ostk::astro::solver::FiniteDifferenceSolver::Type&, const Real&, const Duration&>(),
             R"doc(
                 Construct a FiniteDifferenceSolver.
 
@@ -97,7 +97,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
 
         .def(
             "compute_jacobian",
-            +[](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
+            +[](const ostk::astro::solver::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Array<Instant>& anInstantArray,
                 const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
@@ -124,7 +124,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
         )
         .def(
             "compute_jacobian",
-            +[](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
+            +[](const ostk::astro::solver::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Instant& anInstant,
                 const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
@@ -151,7 +151,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(pybin
         )
         .def(
             "compute_gradient",
-            [](const ostk::astro::solvers::FiniteDifferenceSolver& solver,
+            [](const ostk::astro::solver::FiniteDifferenceSolver& solver,
                const State& aState,
                std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates) -> VectorXd
             {

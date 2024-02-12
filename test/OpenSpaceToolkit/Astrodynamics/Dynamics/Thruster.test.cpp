@@ -30,7 +30,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::GuidanceLaw;
-using ostk::astro::dynamics::Thruster;
+using ostk::astro::dynamic::Thruster;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 

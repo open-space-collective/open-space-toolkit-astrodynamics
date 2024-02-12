@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_TemporalConditionSolver(pybi
     using ostk::physics::time::Duration;
     using ostk::physics::time::Interval;
 
-    using ostk::astro::solvers::TemporalConditionSolver;
+    using ostk::astro::solver::TemporalConditionSolver;
 
     class_<TemporalConditionSolver>(
         aModule,

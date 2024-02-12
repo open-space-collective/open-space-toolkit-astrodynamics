@@ -61,12 +61,12 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::Dynamics;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::CentralBodyGravity;
+using ostk::astro::dynamic::PositionDerivative;
+using ostk::astro::dynamic::CentralBodyGravity;
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::orbit::models::Propagated;
+using ostk::astro::trajectory::orbit::model::Propagated;
 using ostk::astro::trajectory::state::NumericalSolver;
 
 /* UNIT TESTS */

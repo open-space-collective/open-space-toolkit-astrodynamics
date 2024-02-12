@@ -49,8 +49,8 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using classicalOE = ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
+using classicalOE = ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMean;
 
 /// @brief Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
 /// averaged.

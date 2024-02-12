@@ -33,8 +33,8 @@ using ostk::physics::unit::Mass;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::trajectory::orbit::models::Propagated;
-using ostk::astro::dynamics::Thruster;
+using ostk::astro::trajectory::orbit::model::Propagated;
+using ostk::astro::dynamic::Thruster;
 
 /// @brief Represent a sequence of trajectory segments executed in order.
 class Sequence

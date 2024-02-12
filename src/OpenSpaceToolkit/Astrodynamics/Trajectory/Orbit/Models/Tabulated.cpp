@@ -22,7 +22,7 @@ Tabulated::Tabulated(
     const InterpolationType& anInterpolationType
 )
     : trajectory::orbit::Model(),
-      trajectory::models::Tabulated(aStateArray, anInterpolationType),
+      trajectory::model::Tabulated(aStateArray, anInterpolationType),
       initialRevolutionNumber_(anInitialRevolutionNumber)
 {
 }
@@ -39,7 +39,7 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         return false;
     }
 
-    return (trajectory::models::Tabulated::operator==(aTabulatedModel)) &&
+    return (trajectory::model::Tabulated::operator==(aTabulatedModel)) &&
            (initialRevolutionNumber_ == aTabulatedModel.initialRevolutionNumber_);
 }
 
@@ -50,7 +50,7 @@ bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
 
 bool Tabulated::isDefined() const
 {
-    return trajectory::models::Tabulated::isDefined() && initialRevolutionNumber_.isDefined();
+    return trajectory::model::Tabulated::isDefined() && initialRevolutionNumber_.isDefined();
 }
 
 Instant Tabulated::getEpoch() const
@@ -75,7 +75,7 @@ Integer Tabulated::getRevolutionNumberAtEpoch() const
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
-    return trajectory::models::Tabulated::calculateStateAt(anInstant);
+    return trajectory::model::Tabulated::calculateStateAt(anInstant);
 }
 
 Integer Tabulated::calculateRevolutionNumberAt(const Instant& anInstant) const
@@ -99,7 +99,7 @@ Integer Tabulated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    trajectory::models::Tabulated::print(anOutputStream, displayDecorator);
+    trajectory::model::Tabulated::print(anOutputStream, displayDecorator);
 }
 
 bool Tabulated::operator==(const trajectory::Model& aModel) const

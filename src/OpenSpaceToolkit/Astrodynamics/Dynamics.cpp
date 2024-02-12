@@ -21,10 +21,10 @@ using ostk::core::type::Size;
 using ostk::physics::time::Duration;
 using ostk::physics::environment::object::Celestial;
 
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::ThirdBodyGravity;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamic::CentralBodyGravity;
+using ostk::astro::dynamic::ThirdBodyGravity;
+using ostk::astro::dynamic::AtmosphericDrag;
+using ostk::astro::dynamic::PositionDerivative;
 
 Dynamics::Context::Context(
     const Shared<Dynamics>& aDynamicsSPtr,

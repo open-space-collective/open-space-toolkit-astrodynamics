@@ -24,10 +24,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
     using ostk::astro::trajectory::Orbit;
     using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::Propagated;
-    using ostk::astro::trajectory::orbit::models::Tabulated;
-    using ostk::astro::trajectory::orbit::models::SGP4;
+    using ostk::astro::trajectory::orbit::model::Kepler;
+    using ostk::astro::trajectory::orbit::model::Propagated;
+    using ostk::astro::trajectory::orbit::model::Tabulated;
+    using ostk::astro::trajectory::orbit::model::SGP4;
 
     {
         class_<Orbit, ostk::astro::Trajectory> orbit_class(

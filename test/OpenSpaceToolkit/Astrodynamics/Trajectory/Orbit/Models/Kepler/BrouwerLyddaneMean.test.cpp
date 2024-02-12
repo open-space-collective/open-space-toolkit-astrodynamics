@@ -31,8 +31,8 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMean;
+using ostk::astro::trajectory::orbit::model::kepler::COE;
 
 class BrouwerLyddaneMeanMock : public BrouwerLyddaneMean
 {
