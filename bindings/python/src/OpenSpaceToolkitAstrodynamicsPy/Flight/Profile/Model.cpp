@@ -109,10 +109,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
             arg("frame_name")
         );
 
-            // Create "models" python submodule
-    auto models = aModule.def_submodule("models");
+    // Create "model" python submodule
+    auto model = aModule.def_submodule("model");
 
-    // add objects to "models" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(models);
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(models);
+    // add objects to "model" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(model);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(model);
 }

@@ -4,9 +4,9 @@
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message(pybind11::module& aModule)
 {
-    // Create "messages" python submodule
+    // Create "message" python submodule
     auto message = aModule.def_submodule("message");
 
-    // Add objects to "messages" submodule
+    // Add objects to "message" submodule
     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS(message);
 }

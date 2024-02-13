@@ -39,8 +39,8 @@ Once the shell is up and running, playing with it is easy:
 from ostk.physics import Environment
 from ostk.physics.time import Instant
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import SGP4
-from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 tle = TLE(
     '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',

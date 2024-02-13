@@ -23,8 +23,8 @@ from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight import Profile
-from ostk.astrodynamics.flight.profile.models import Transform as TransformModel
-from ostk.astrodynamics.flight.profile.models import Tabulated as TabulatedModel
+from ostk.astrodynamics.flight.profile.model import Transform as TransformModel
+from ostk.astrodynamics.flight.profile.model import Tabulated as TabulatedModel
 
 
 @pytest.fixture
