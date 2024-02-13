@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 Access::Access(
@@ -202,5 +202,5 @@ String Access::StringFromType(const Access::Type& aType)
     return String::Empty();
 }
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

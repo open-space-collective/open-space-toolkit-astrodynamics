@@ -25,14 +25,14 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace validation
 {
 
-using ostk::astro::validation::Parser;
-using ostk::astro::validation::ToolComparison;
-using ostk::astro::validation::QuantityComparison;
+using ostk::astrodynamics::validation::Parser;
+using ostk::astrodynamics::validation::ToolComparison;
+using ostk::astrodynamics::validation::QuantityComparison;
 
 using ostk::core::container::Array;
 using ostk::core::container::Dictionary;
@@ -47,10 +47,10 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::Environment;
 
-using ostk::astro::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::trajectory::Sequence;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::Sequence;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Holds the OSTk objects and data required to define and run a "Mission Sequence".
 class MissionSequence
@@ -104,7 +104,7 @@ class MissionSequence
 };
 
 }  // namespace validation
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

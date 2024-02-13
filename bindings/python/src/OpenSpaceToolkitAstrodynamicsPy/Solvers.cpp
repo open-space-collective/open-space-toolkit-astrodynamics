@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Solvers/FiniteDifferenceSolver.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Solvers/TemporalConditionSolver.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Solver/FiniteDifferenceSolver.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Solver/TemporalConditionSolver.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Solvers(pybind11::module& aModule)
 {

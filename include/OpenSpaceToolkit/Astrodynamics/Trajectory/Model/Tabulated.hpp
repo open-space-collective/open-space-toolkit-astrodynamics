@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -23,11 +23,11 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
-namespace models
+namespace model
 {
 
 using ostk::core::container::Array;
@@ -45,8 +45,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
-using ostk::astro::trajectory::Model;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::Model;
+using ostk::astrodynamics::trajectory::State;
 
 #define DEFAULT_TABULATED_INTERPOLATION_TYPE Tabulated::InterpolationType::Linear
 
@@ -112,9 +112,9 @@ class Tabulated : public virtual Model
     Array<Shared<Interpolator>> interpolators_ = Array<Shared<Interpolator>>::Empty();
 };
 
-}  // namespace models
+}  // namespace model
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -1,18 +1,24 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
+// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/BrouwerLyddaneMean.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Propagated.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Tabulated.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::module& aModule)
 {
     using namespace pybind11;
 
-    using ostk::astro::trajectory::orbit::Model;
-    using ostk::astro::trajectory::orbit::model::Kepler;
-    using ostk::astro::trajectory::orbit::model::Propagated;
-    using ostk::astro::trajectory::orbit::model::SGP4;
+    using ostk::astrodynamics::trajectory::orbit::Model;
+    using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+    using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+    using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
     class_<Model>(
         aModule,
@@ -195,4 +201,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
         )
 
         ;
+
+        // Create "models" python submodule
+    auto model = aModule.def_submodule("model");
+
+    // add objects to "models" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(model);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(model);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(model);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(model);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean(model);
 }

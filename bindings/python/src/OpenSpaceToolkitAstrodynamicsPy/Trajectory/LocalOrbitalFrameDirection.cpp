@@ -6,8 +6,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
 {
     using namespace pybind11;
 
-    using ostk::astro::trajectory::LocalOrbitalFrameDirection;
-    using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
     class_<LocalOrbitalFrameDirection>(
         aModule,

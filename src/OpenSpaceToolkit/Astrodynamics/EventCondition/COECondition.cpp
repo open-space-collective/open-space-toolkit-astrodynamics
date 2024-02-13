@@ -3,11 +3,11 @@
 #include <iostream>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -22,8 +22,8 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 
 RealCondition COECondition::SemiMajorAxis(
     const RealCondition::Criterion& aCriterion,
@@ -183,5 +183,5 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
 }
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

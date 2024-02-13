@@ -20,11 +20,11 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
 
@@ -54,13 +54,13 @@ using ostk::physics::unit::Length;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 
-using ostk::astro::flight::Profile;
-using ostk::astro::flight::profile::models::Transform;
-using ostk::astro::flight::profile::models::Tabulated;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::orbit::models::Kepler;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astrodynamics::flight::Profile;
+using ostk::astrodynamics::flight::profile::model::Transform;
+using ostk::astrodynamics::flight::profile::model::Tabulated;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 {
@@ -222,7 +222,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 {
-    using ostk::astro::flight::Profile;
+    using ostk::astrodynamics::flight::Profile;
 
     {
         EXPECT_NO_THROW(Profile::Undefined());

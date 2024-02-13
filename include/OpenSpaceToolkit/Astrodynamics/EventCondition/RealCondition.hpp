@@ -12,7 +12,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -22,7 +22,7 @@ using ostk::core::type::String;
 
 using ostk::physics::time::Duration;
 
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief An Event Condition that can evaluate each state to a real number. Meant for non-cyclic
 /// continuous real numbers. For cyclic numbers (like angles), use AngularCondition.
@@ -128,7 +128,7 @@ class RealCondition : public EventCondition
 };
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

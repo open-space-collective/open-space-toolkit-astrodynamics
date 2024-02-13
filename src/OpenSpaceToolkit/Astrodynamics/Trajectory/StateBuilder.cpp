@@ -6,16 +6,16 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
 
 StateBuilder::StateBuilder(
-    const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+    const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
 )
     : frameSPtr_(aFrameSPtr),
-      coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinatesSubsetsArray)))
+      coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinateSubsetsArray)))
 {
 }
 
@@ -58,40 +58,40 @@ bool StateBuilder::operator!=(const StateBuilder& aStateBuilder) const
     return !((*this) == aStateBuilder);
 }
 
-const StateBuilder StateBuilder::operator+(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+const StateBuilder StateBuilder::operator+(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("StateBuilder");
     }
 
-    if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
+    if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinateSubsetSPtr))
     {
-        throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
+        throw ostk::core::error::RuntimeError("Duplicate CoordinateSubset: [{}]", aCoordinateSubsetSPtr->getName());
     }
 
-    Array<Shared<const CoordinatesSubset>> expandedSubsets = coordinatesBrokerSPtr_->getSubsets();
-    expandedSubsets.add(aCoordinatesSubsetSPtr);
+    Array<Shared<const CoordinateSubset>> expandedSubsets = coordinatesBrokerSPtr_->getSubsets();
+    expandedSubsets.add(aCoordinateSubsetSPtr);
 
     return StateBuilder(this->frameSPtr_, expandedSubsets);
 }
 
-const StateBuilder StateBuilder::operator-(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+const StateBuilder StateBuilder::operator-(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("StateBuilder");
     }
 
-    if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
+    if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinateSubsetSPtr))
     {
-        throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
+        throw ostk::core::error::RuntimeError("Missing CoordinateSubset: [{}]", aCoordinateSubsetSPtr->getName());
     }
 
-    Array<Shared<const CoordinatesSubset>> contractedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
+    Array<Shared<const CoordinateSubset>> contractedSubsets = Array<Shared<const CoordinateSubset>>::Empty();
     for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
-        if (subset != aCoordinatesSubsetSPtr)
+        if (subset != aCoordinateSubsetSPtr)
         {
             contractedSubsets.add(subset);
         }
@@ -146,7 +146,7 @@ const State StateBuilder::reduce(const State& aState) const
     {
         if (!aState.accessCoordinatesBroker()->hasSubset(subset))
         {
-            throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", subset->getName());
+            throw ostk::core::error::RuntimeError("Missing CoordinateSubset: [{}]", subset->getName());
         }
 
         const VectorXd subsetCoordinates = aState.extractCoordinate(subset);
@@ -208,7 +208,7 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
 
         if (!subsetDetected)
         {
-            throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", subset->getName());
+            throw ostk::core::error::RuntimeError("Missing CoordinateSubset: [{}]", subset->getName());
         }
 
         coordinates.segment(nextIndex, subsetCoordinates.size()) = subsetCoordinates;
@@ -248,7 +248,7 @@ Shared<const Frame> StateBuilder::getFrame() const
     return this->accessFrame();
 }
 
-const Array<Shared<const CoordinatesSubset>> StateBuilder::getCoordinatesSubsets() const
+const Array<Shared<const CoordinateSubset>> StateBuilder::getCoordinateSubsets() const
 {
     if (!this->isDefined())
     {
@@ -273,7 +273,7 @@ void StateBuilder::print(std::ostream& anOutputStream, bool displayDecorator) co
     }
     else
     {
-        const Array<Shared<const CoordinatesSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
+        const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 
         for (const auto& subset : subsets)
         {
@@ -289,5 +289,5 @@ StateBuilder StateBuilder::Undefined()
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

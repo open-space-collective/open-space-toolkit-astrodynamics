@@ -16,9 +16,9 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
-namespace solvers
+namespace solver
 {
 
 using ostk::core::type::Real;
@@ -32,7 +32,7 @@ using ostk::mathematics::object::MatrixXd;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Finite Difference solver
 class FiniteDifferenceSolver
@@ -151,8 +151,8 @@ class FiniteDifferenceSolver
     const Duration stepDuration_;
 };
 
-}  // namespace solvers
-}  // namespace astro
+}  // namespace solver
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

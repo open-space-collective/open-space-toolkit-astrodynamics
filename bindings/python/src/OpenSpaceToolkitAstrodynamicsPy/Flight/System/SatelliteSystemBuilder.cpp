@@ -13,10 +13,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
-    using ostk::astro::flight::system::PropulsionSystem;
-    using ostk::astro::flight::system::SatelliteSystem;
-    using ostk::astro::flight::system::SatelliteSystemBuilder;
+    using ostk::astrodynamics::flight::System;
+    using ostk::astrodynamics::flight::system::PropulsionSystem;
+    using ostk::astrodynamics::flight::system::SatelliteSystem;
+    using ostk::astrodynamics::flight::system::SatelliteSystemBuilder;
 
     {
         class_<SatelliteSystemBuilder>(

@@ -10,7 +10,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::container::Array;
@@ -21,10 +21,10 @@ using ostk::core::type::Size;
 using ostk::physics::time::Duration;
 using ostk::physics::environment::object::Celestial;
 
-using ostk::astro::dynamic::CentralBodyGravity;
-using ostk::astro::dynamic::ThirdBodyGravity;
-using ostk::astro::dynamic::AtmosphericDrag;
-using ostk::astro::dynamic::PositionDerivative;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::PositionDerivative;
 
 Dynamics::Context::Context(
     const Shared<Dynamics>& aDynamicsSPtr,
@@ -184,5 +184,5 @@ Array<Shared<Dynamics>> Dynamics::FromEnvironment(const Environment& anEnvironme
     return dynamicsArray;
 }
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

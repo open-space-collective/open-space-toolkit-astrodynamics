@@ -13,10 +13,10 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 
 #include <Global.test.hpp>
 
@@ -44,15 +44,15 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::Access;
-using ostk::astro::Trajectory;
-using ostk::astro::access::Generator;
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::model::Kepler;
-using ostk::astro::trajectory::orbit::model::SGP4;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::Access;
+using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::access::Generator;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
 {

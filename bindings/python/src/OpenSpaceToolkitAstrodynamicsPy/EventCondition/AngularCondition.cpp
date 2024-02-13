@@ -14,9 +14,9 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::unit::Angle;
 
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::AngularCondition;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybind11::module& aModule)
 {

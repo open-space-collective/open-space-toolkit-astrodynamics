@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace test
 {
@@ -43,5 +43,5 @@ class Environment : public testing::Environment
 };
 
 }  // namespace test
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

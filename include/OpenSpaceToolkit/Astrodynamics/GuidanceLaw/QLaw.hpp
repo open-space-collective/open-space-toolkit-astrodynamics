@@ -11,13 +11,13 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace guidancelaw
 {
@@ -44,10 +44,10 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::GuidanceLaw;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::solver::FiniteDifferenceSolver;
-using ostk::astro::trajectory::StateBuilder;
+using ostk::astrodynamics::GuidanceLaw;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::solver::FiniteDifferenceSolver;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 /// @brief    The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
@@ -250,7 +250,7 @@ class QLaw : public GuidanceLaw
 };
 
 }  // namespace guidancelaw
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

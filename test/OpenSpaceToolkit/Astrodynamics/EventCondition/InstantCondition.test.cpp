@@ -22,10 +22,10 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition : public ::testing::Test
 {
@@ -35,7 +35,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition : public ::
     const VectorXd defaultCoordinates_;
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
     const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(Array<Shared<const CoordinatesSubset>>::Empty());
+        std::make_shared<CoordinatesBroker>(Array<Shared<const CoordinateSubset>>::Empty());
     const InstantCondition defaultCondition_ = InstantCondition(defaultCriterion_, defaultInstant_);
 
     const State generateState(const Instant& anInstant)

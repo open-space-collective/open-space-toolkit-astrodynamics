@@ -12,9 +12,9 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::eventcondition::BooleanCondition;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::BooleanCondition;
+using ostk::astrodynamics::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)
 {

@@ -12,7 +12,7 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import (
     NumericalSolver,
     CoordinatesBroker,
-    CoordinatesSubset,
+    CoordinateSubset,
 )
 from ostk.astrodynamics.event_condition import RealCondition
 
@@ -28,15 +28,15 @@ def get_state_vec(time: float) -> np.ndarray:
 
 
 @pytest.fixture
-def coordinates_subsets() -> list[CoordinatesSubset]:
-    return [CoordinatesSubset("Subset", 2)]
+def coordinate_subsets() -> list[CoordinateSubset]:
+    return [CoordinateSubset("Subset", 2)]
 
 
 @pytest.fixture
 def coordinates_broker(
-    coordinates_subsets: list[CoordinatesSubset],
+    coordinate_subsets: list[CoordinateSubset],
 ) -> CoordinatesBroker:
-    return CoordinatesBroker(coordinates_subsets)
+    return CoordinatesBroker(coordinate_subsets)
 
 
 @pytest.fixture

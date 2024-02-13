@@ -21,10 +21,10 @@ using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::Dynamics;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class DynamicsMock : public Dynamics
 {
@@ -34,9 +34,9 @@ class DynamicsMock : public Dynamics
 
     MOCK_METHOD(bool, isDefined, (), (const, override));
 
-    MOCK_METHOD(Array<Shared<const CoordinatesSubset>>, getReadCoordinatesSubsets, (), (const, override));
+    MOCK_METHOD(Array<Shared<const CoordinateSubset>>, getReadCoordinateSubsets, (), (const, override));
 
-    MOCK_METHOD(Array<Shared<const CoordinatesSubset>>, getWriteCoordinatesSubsets, (), (const, override));
+    MOCK_METHOD(Array<Shared<const CoordinateSubset>>, getWriteCoordinateSubsets, (), (const, override));
 
     MOCK_METHOD(
         VectorXd,

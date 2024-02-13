@@ -13,11 +13,11 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -33,11 +33,11 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::eventcondition::AngularCondition;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief A Classical Orbital Element based event condition
 class COECondition
@@ -168,7 +168,7 @@ class COECondition
 };
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

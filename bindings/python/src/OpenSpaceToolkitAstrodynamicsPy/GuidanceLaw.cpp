@@ -16,7 +16,7 @@ using ostk::mathematics::object::Vector3d;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::GuidanceLaw;
+using ostk::astrodynamics::GuidanceLaw;
 
 // Trampoline class for virtual member functions
 class PyGuidanceLaw : public GuidanceLaw

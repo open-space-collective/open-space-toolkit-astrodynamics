@@ -15,7 +15,7 @@ from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
 )
@@ -204,7 +204,7 @@ class TestState:
         assert profile_state.has_subset(CartesianVelocity.default())
         assert profile_state.get_frame() == frame
         assert profile_state.get_coordinates() is not None
-        assert profile_state.get_coordinates_subsets() is not None
+        assert profile_state.get_coordinate_subsets() is not None
 
     def test_in_frame(
         self,

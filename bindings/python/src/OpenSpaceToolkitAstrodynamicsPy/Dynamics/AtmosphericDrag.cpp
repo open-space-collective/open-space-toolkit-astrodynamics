@@ -10,8 +10,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
 
     using ostk::physics::environment::object::Celestial;
 
-    using ostk::astro::Dynamics;
-    using ostk::astro::dynamic::AtmosphericDrag;
+    using ostk::astrodynamics::Dynamics;
+    using ostk::astrodynamics::dynamics::AtmosphericDrag;
 
     {
         class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(

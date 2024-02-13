@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Messages.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Message.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction(pybind11::module& aModule)
 {
@@ -8,5 +8,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction(pybind11::module& aModul
     auto conjunction = aModule.def_submodule("conjunction");
 
     // Add objects to "conjunction" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages(conjunction);
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message(conjunction);
 }

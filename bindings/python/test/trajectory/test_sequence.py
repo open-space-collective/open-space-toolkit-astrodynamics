@@ -37,10 +37,10 @@ from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.trajectory import Sequence
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state import NumericalSolver
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 
 
 @pytest.fixture
@@ -117,9 +117,9 @@ def coordinates_broker() -> CoordinatesBroker:
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
-            CoordinatesSubset.surface_area(),
-            CoordinatesSubset.drag_coefficient(),
+            CoordinateSubset.mass(),
+            CoordinateSubset.surface_area(),
+            CoordinateSubset.drag_coefficient(),
         ]
     )
 

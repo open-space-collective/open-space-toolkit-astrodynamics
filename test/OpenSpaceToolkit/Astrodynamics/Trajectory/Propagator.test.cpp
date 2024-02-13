@@ -41,9 +41,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -89,25 +89,25 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamic::PositionDerivative;
-using ostk::astro::dynamic::CentralBodyGravity;
-using ostk::astro::dynamic::ThirdBodyGravity;
-using ostk::astro::dynamic::AtmosphericDrag;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /* UNIT TESTS */
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -174,14 +174,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     Propagator defaultPropagator_ = Propagator::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constructor)
 {
     {
         EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, defaultDynamics_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, EqualToOperator)
 {
     {
         const Propagator propagator_x = {defaultPropagator_};
@@ -199,7 +199,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, EqualT
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, NotEqualToOperator)
 {
     {
         const Propagator propagatorX = {defaultPropagator_};
@@ -217,7 +217,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NotEqu
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, IsDefined)
 {
     {
         EXPECT_TRUE(defaultPropagator_.isDefined());
@@ -229,7 +229,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, IsDefi
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Undefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Undefined)
 {
     {
         EXPECT_NO_THROW(Propagator::Undefined());
@@ -238,7 +238,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Undefi
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, StreamOperator)
 {
     {
         testing::internal::CaptureStdout();
@@ -249,7 +249,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Stream
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Print)
 {
     {
         testing::internal::CaptureStdout();
@@ -260,7 +260,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AccessCoordinatesBroker)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessCoordinatesBroker)
 {
     {
         EXPECT_TRUE(defaultPropagator_.accessCoordinatesBroker() != nullptr);
@@ -271,7 +271,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Access
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AccessNumericalSolver)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessNumericalSolver)
 {
     {
         EXPECT_NO_THROW(defaultPropagator_.accessNumericalSolver());
@@ -282,7 +282,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Access
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Getters)
 {
     {
         EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
@@ -293,7 +293,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Getter
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, SetDynamics)
 {
     {
         EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
@@ -313,7 +313,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDyn
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AddDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddDynamics)
 {
     {
         EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
@@ -333,7 +333,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AddDyn
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ClearDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ClearDynamics)
 {
     {
         EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
@@ -345,7 +345,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ClearD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStateAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CalculateStateAt)
 {
     // Current state and instant setup
     const State state = {
@@ -402,18 +402,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         VectorXd coords(8);
         coords << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 1, 2;
 
-        const Array<Shared<const CoordinatesSubset>> coordinatesSubsets = {
+        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra1", 1)),
-            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra2", 1)),
+            std::make_shared<CoordinateSubset>(CoordinateSubset("extra1", 1)),
+            std::make_shared<CoordinateSubset>(CoordinateSubset("extra2", 1)),
         };
 
         const State bigState = {
             Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
             coords,
             gcrfSPtr_,
-            coordinatesSubsets,
+            coordinateSubsets,
         };
 
         // Confirm the propagator only needs 6 dimensions
@@ -423,12 +423,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const State outputState = defaultPropagator_.calculateStateAt(bigState, instantArray[0]);
 
         EXPECT_NE(bigState, outputState);
-        EXPECT_EQ(bigState.getCoordinatesSubsets(), outputState.getCoordinatesSubsets());
+        EXPECT_EQ(bigState.getCoordinateSubsets(), outputState.getCoordinateSubsets());
         EXPECT_EQ(outputState.getCoordinates().size(), 8);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStateAt_Condition)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CalculateStateAt_Condition)
 {
     {
         // Current state and instant setup
@@ -521,18 +521,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         VectorXd coords(8);
         coords << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 1, 2;
 
-        const Array<Shared<const CoordinatesSubset>> coordinatesSubsets = {
+        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra1", 1)),
-            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra2", 1)),
+            std::make_shared<CoordinateSubset>(CoordinateSubset("extra1", 1)),
+            std::make_shared<CoordinateSubset>(CoordinateSubset("extra2", 1)),
         };
 
         const State bigState = {
             Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
             coords,
             gcrfSPtr_,
-            coordinatesSubsets,
+            coordinateSubsets,
         };
 
         // Setup instants
@@ -555,12 +555,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const State outputState = conditionSolution.state;
 
         EXPECT_NE(bigState, outputState);
-        EXPECT_EQ(bigState.getCoordinatesSubsets(), outputState.getCoordinatesSubsets());
+        EXPECT_EQ(bigState.getCoordinateSubsets(), outputState.getCoordinateSubsets());
         EXPECT_EQ(outputState.getCoordinates().size(), 8);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStatesAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CalculateStatesAt)
 {
     // Test exception for unsorted instant array
     {
@@ -584,7 +584,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
     /// Test full state results against reference trajectory
     // Reference data setup
     const Table referenceData = Table::Load(
-        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
                                "Propagated/CalculateStatesAt_StateValidation.csv")),
         Table::Format::CSV,
         true
@@ -764,18 +764,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         VectorXd coords(8);
         coords << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 1, 2;
 
-        const Array<Shared<const CoordinatesSubset>> coordinatesSubsets = {
+        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra1", 1)),
-            std::make_shared<CoordinatesSubset>(CoordinatesSubset("extra2", 1)),
+            std::make_shared<CoordinateSubset>(CoordinateSubset("extra1", 1)),
+            std::make_shared<CoordinateSubset>(CoordinateSubset("extra2", 1)),
         };
 
         const State bigState = {
             Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
             coords,
             gcrfSPtr_,
-            coordinatesSubsets,
+            coordinateSubsets,
         };
 
         // Confirm the propagator only needs 6 dimensions
@@ -787,13 +787,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         for (size_t i = 0; i < outputStates.getSize(); i++)
         {
             EXPECT_NE(bigState, outputStates[i]);
-            EXPECT_EQ(bigState.getCoordinatesSubsets(), outputStates[i].getCoordinatesSubsets());
+            EXPECT_EQ(bigState.getCoordinateSubsets(), outputStates[i].getCoordinateSubsets());
             EXPECT_EQ(outputStates[i].getCoordinates().size(), 8);
         }
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Default)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Default)
 {
     {
         EXPECT_NO_THROW(Propagator::Default());
@@ -807,7 +807,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Defaul
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, FromEnvironment)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, FromEnvironment)
 {
     {
         Environment environment = Environment::Default();

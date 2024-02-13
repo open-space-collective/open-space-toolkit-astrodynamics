@@ -9,7 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
     using ostk::core::type::Real;
     using ostk::core::type::Size;
 
-    using ostk::astro::RootSolver;
+    using ostk::astrodynamics::RootSolver;
 
     typedef std::function<double(const double&)> pythonFunctionSignature;
 

@@ -13,7 +13,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -24,7 +24,7 @@ using ostk::core::container::Pair;
 
 using ostk::physics::unit::Angle;
 
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief An Event Condition that works with angles. Handles wrapping angle to [0,360).
 class AngularCondition : public EventCondition
@@ -146,7 +146,7 @@ class AngularCondition : public EventCondition
 };
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

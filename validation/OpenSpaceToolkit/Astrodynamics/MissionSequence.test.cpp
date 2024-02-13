@@ -4,12 +4,12 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/MissionSequence.hpp>
 
-using ostk::astro::validation::Parser;
-using ostk::astro::validation::ToolComparison;
-using ostk::astro::validation::Tool;
-using ostk::astro::validation::QuantityComparison;
-using ostk::astro::validation::Quantity;
-using ostk::astro::validation::MissionSequence;
+using ostk::astrodynamics::validation::Parser;
+using ostk::astrodynamics::validation::ToolComparison;
+using ostk::astrodynamics::validation::Tool;
+using ostk::astrodynamics::validation::QuantityComparison;
+using ostk::astrodynamics::validation::Quantity;
+using ostk::astrodynamics::validation::MissionSequence;
 
 using ostk::core::container::Array;
 using ostk::core::container::Table;
@@ -31,10 +31,10 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
-using ostk::astro::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::trajectory::Sequence;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::Sequence;
+using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence : public ::testing::Test
 {

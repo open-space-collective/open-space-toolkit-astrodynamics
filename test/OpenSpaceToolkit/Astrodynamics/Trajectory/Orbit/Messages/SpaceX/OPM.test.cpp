@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp>
 
 #include <Global.test.hpp>
 
@@ -23,9 +23,9 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::orbit::messages::spacex::OPM;
+using ostk::astrodynamics::trajectory::orbit::message::spacex::OPM;
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -71,7 +71,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM : publ
     OPM opm_ = OPM::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Constructor)
 {
     const OPM opm = {
         OPM::Header {
@@ -96,7 +96,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Cons
     };
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, IsDefined)
 {
     {
         EXPECT_TRUE(this->opm_.isDefined());
@@ -107,7 +107,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, IsDe
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetHeader)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetHeader)
 {
     {
         const OPM::Header header = this->opm_.getHeader();
@@ -121,7 +121,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetH
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetDeployments)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDeployments)
 {
     {
         const Array<OPM::Deployment> deployments = this->opm_.getDeployments();
@@ -148,7 +148,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetDeploymentAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDeploymentAt)
 {
     {
         const OPM::Deployment deployment = this->opm_.getDeploymentAt(0);
@@ -177,7 +177,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetDeploymentWithName)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDeploymentWithName)
 {
     {
         const OPM::Deployment deployment = this->opm_.getDeploymentWithName("B");
@@ -206,14 +206,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, GetD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Undefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Undefined)
 {
     {
         EXPECT_NO_THROW(OPM::Undefined());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Dictionary)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Dictionary)
 {
     using ostk::core::container::Dictionary;
     using ostk::core::container::Object;
@@ -241,21 +241,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Dict
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Parse)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Parse)
 {
     {
         EXPECT_ANY_THROW(OPM::Parse(String::Empty()));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Load)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Load)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
 
     {
         const OPM opm = OPM::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM/opm_1.yaml")
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM/opm_1.yaml")
         ));
 
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 1, 12, 34, 56, 789), Scale::UTC), opm.getHeader().generationDate);
@@ -305,9 +305,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Load
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, DeploymentToState)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, DeploymentToState)
 {
-    using ostk::astro::trajectory::State;
+    using ostk::astrodynamics::trajectory::State;
 
     {
         const OPM::Deployment deployment = this->opm_.getDeploymentWithName("B");

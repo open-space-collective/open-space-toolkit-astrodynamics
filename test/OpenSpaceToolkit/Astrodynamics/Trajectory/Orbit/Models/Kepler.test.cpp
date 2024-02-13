@@ -19,8 +19,8 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
 
@@ -47,12 +47,12 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::model::Kepler;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Constructor)
 // {
 
 //     using ostk::core::type::Shared ;
@@ -77,10 +77,10 @@ using ostk::astro::trajectory::orbit::model::kepler::COE;
 //     using ostk::physics::coordinate::Velocity ;
 //     using ostk::physics::environment::object::celestial::Earth ;
 
-//     using ostk::astro::trajectory::Orbit ;
-//     using ostk::astro::trajectory::State ;
-//     using ostk::astro::trajectory::orbit::model::Kepler ;
-//     using ostk::astro::trajectory::orbit::model::kepler::COE ;
+//     using ostk::astrodynamics::trajectory::Orbit ;
+//     using ostk::astrodynamics::trajectory::State ;
+//     using ostk::astrodynamics::trajectory::orbit::model::Kepler ;
+//     using ostk::astrodynamics::trajectory::orbit::model::kepler::COE ;
 
 //     // {
 
@@ -130,23 +130,23 @@ using ostk::astro::trajectory::orbit::model::kepler::COE;
 
 // }
 
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, EqualToOperator)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, NotEqualToOperator)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, StreamOperator)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, IsDefined)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetClassicalOrbitalElements)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetEpoch)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetRevolutionNumberAtEpoch)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetGravitationalParameter)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetEquatorialRadius)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetJ2)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetJ4)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetPerturbationType)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, CalculateStateAt)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, CalculateRevolutionNumberAt)
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, StringFromPerturbationType)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, EqualToOperator)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, NotEqualToOperator)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, StreamOperator)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, IsDefined)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetClassicalOrbitalElements)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetEpoch)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetRevolutionNumberAtEpoch)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetGravitationalParameter)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetEquatorialRadius)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetJ2)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetJ4)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, GetPerturbationType)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateStateAt)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevolutionNumberAt)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, StringFromPerturbationType)
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
 {
     {
         // Environment setup
@@ -182,7 +182,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true
@@ -257,7 +257,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
 {
     {
         // Environment setup
@@ -293,7 +293,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_2/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true
@@ -375,7 +375,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_3)
 {
     {
         // Environment setup
@@ -411,7 +411,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_3/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_3/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true
@@ -482,7 +482,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_4)
 {
     {
         // Environment setup
@@ -518,7 +518,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_4/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true
@@ -589,7 +589,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_5)
 {
     {
         // Environment setup
@@ -625,7 +625,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_5/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_5/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true
@@ -696,7 +696,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
 {
     {
         // Environment setup
@@ -732,7 +732,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_6/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_6/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true

@@ -4,12 +4,12 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -22,8 +22,8 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -69,14 +69,14 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
     return celestialObjectSPtr_;
 }
 
-Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> CentralBodyGravity::getReadCoordinateSubsets() const
 {
     return {
         CartesianPosition::Default(),
     };
 }
 
-Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> CentralBodyGravity::getWriteCoordinateSubsets() const
 {
     return {
         CartesianVelocity::Default(),
@@ -116,5 +116,5 @@ void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorat
 }
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

@@ -21,12 +21,12 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 
 #include <Global.test.hpp>
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 {
     using ostk::core::container::Array;
     using ostk::core::container::Table;
@@ -53,10 +53,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Length;
 
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::model::SGP4;
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::Orbit;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         // Environment setup
@@ -66,7 +66,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
         // Orbital model setup
 
         const TLE tle = TLE::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite.tle")
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
         ));
 
         const SGP4 sgp4Model = {tle};
@@ -79,7 +79,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite Orbit.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true

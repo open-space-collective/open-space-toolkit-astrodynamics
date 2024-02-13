@@ -22,7 +22,7 @@ using ostk::physics::time::Scale;
 
 using ostk::physics::coordinate::Transform;
 
-using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider : public ::testing::Test
 {

@@ -10,7 +10,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
     using ostk::physics::time::Interval;
 
-    using ostk::astro::trajectory::orbit::Pass;
+    using ostk::astrodynamics::trajectory::orbit::Pass;
 
     class_<Pass> pass_class(
         aModule,

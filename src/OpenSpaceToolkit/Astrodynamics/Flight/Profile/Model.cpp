@@ -7,7 +7,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -51,5 +51,5 @@ Array<State> Model::calculateStatesAt(const Array<Instant>& anInstantArray) cons
 
 }  // namespace profile
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

@@ -6,18 +6,18 @@
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
 
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 PositionDerivative::PositionDerivative()
     : Dynamics("Position Derivative")
@@ -38,14 +38,14 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
     return anOutputStream;
 }
 
-Array<Shared<const CoordinatesSubset>> PositionDerivative::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> PositionDerivative::getReadCoordinateSubsets() const
 {
     return {
         CartesianVelocity::Default(),
     };
 }
 
-Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> PositionDerivative::getWriteCoordinateSubsets() const
 {
     return {
         CartesianPosition::Default(),
@@ -70,5 +70,5 @@ void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorat
 }
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

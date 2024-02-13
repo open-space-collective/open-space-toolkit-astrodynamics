@@ -13,7 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp>
 
 #include <Global.test.hpp>
 
@@ -31,8 +31,8 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMean;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 class BrouwerLyddaneMeanMock : public BrouwerLyddaneMean
 {
@@ -52,7 +52,7 @@ class BrouwerLyddaneMeanMock : public BrouwerLyddaneMean
     MOCK_METHOD(COE, toCOE, (), (const, override));
 };
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMean : public ::testing::Test
 {
    protected:
     const Length semiMajorAxis_ = Length::Kilometers(6973.743736075629);
@@ -72,14 +72,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydda
     };
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMean, Constructor)
 {
     {
         EXPECT_NO_THROW(BrouwerLyddaneMeanMock(semiMajorAxis_, eccentricity_, inclination_, raan_, aop_, meanAnomaly_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMean, Getters)
 {
     {
         EXPECT_TRUE(brouwerLyddaneMean_.getMeanAnomaly() == meanAnomaly_);

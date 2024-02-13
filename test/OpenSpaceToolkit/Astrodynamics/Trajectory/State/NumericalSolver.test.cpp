@@ -11,7 +11,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -31,11 +31,11 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Scale;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::State;
 
 // Simple duration based condition
 
@@ -107,7 +107,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public :
 
     VectorXd defaultStateVector_;
     const Shared<CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({std::make_shared<CoordinatesSubset>("Test", 2)}));
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker({std::make_shared<CoordinateSubset>("Test", 2)}));
     const Instant defaultStartInstant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 

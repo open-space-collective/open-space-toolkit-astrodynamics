@@ -5,13 +5,13 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -25,9 +25,9 @@ using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 using ostk::physics::coordinate::Position;
 
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -71,18 +71,18 @@ Shared<const Celestial> AtmosphericDrag::getCelestial() const
     return celestialObjectSPtr_;
 }
 
-Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> AtmosphericDrag::getReadCoordinateSubsets() const
 {
     return {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
-        CoordinatesSubset::SurfaceArea(),
-        CoordinatesSubset::DragCoefficient(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
     };
 }
 
-Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> AtmosphericDrag::getWriteCoordinateSubsets() const
 {
     return {
         CartesianVelocity::Default(),
@@ -133,5 +133,5 @@ void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator)
 }
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

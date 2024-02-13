@@ -48,9 +48,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -91,23 +91,23 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamic::AtmosphericDrag;
-using ostk::astro::dynamic::CentralBodyGravity;
-using ostk::astro::dynamic::PositionDerivative;
-using ostk::astro::dynamic::Tabulated;
-using ostk::astro::dynamic::Thruster;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::SatelliteSystemBuilder;
-using ostk::astro::guidancelaw::ConstantThrust;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystemBuilder;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testing::Test
 {
@@ -168,9 +168,9 @@ class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testin
     const Shared<CoordinatesBroker> dragCoordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
         {CartesianPosition::Default(),
          CartesianVelocity::Default(),
-         CoordinatesSubset::Mass(),
-         CoordinatesSubset::SurfaceArea(),
-         CoordinatesSubset::DragCoefficient()}
+         CoordinateSubset::Mass(),
+         CoordinateSubset::SurfaceArea(),
+         CoordinateSubset::DragCoefficient()}
     ));
 };
 
@@ -247,7 +247,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     const Tabulated tabulated = {
         instants,
         contributions,
-        {CartesianVelocity::Default(), CoordinatesSubset::Mass()},
+        {CartesianVelocity::Default(), CoordinateSubset::Mass()},
         gcrfSPtr_,
     };
 

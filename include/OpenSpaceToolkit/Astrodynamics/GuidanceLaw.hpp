@@ -14,7 +14,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::type::String;
@@ -84,7 +84,7 @@ class GuidanceLaw
     const String name_;
 };
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

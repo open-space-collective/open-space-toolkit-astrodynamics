@@ -9,14 +9,14 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 
 /// @brief A duration based event condition
 class InstantCondition : public RealCondition
@@ -42,7 +42,7 @@ class InstantCondition : public RealCondition
 };
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

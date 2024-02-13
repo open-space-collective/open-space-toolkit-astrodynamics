@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Static__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Static__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static__
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
@@ -11,19 +11,19 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
-namespace models
+namespace model
 {
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
-using ostk::astro::trajectory::Model;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::Model;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Static trajectory model
 class Static : public virtual Model
@@ -54,9 +54,9 @@ class Static : public virtual Model
     Position position_;
 };
 
-}  // namespace models
+}  // namespace model
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

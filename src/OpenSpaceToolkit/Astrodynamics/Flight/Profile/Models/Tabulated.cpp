@@ -5,17 +5,17 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
 namespace profile
 {
-namespace models
+namespace model
 {
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
@@ -313,8 +313,8 @@ Pair<const State*, const State*> Tabulated::accessStateRangeAtIndex(const Index&
     return {previousStatePtr, nextStatePtr};
 }
 
-}  // namespace models
+}  // namespace model
 }  // namespace profile
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

@@ -29,9 +29,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -69,14 +69,14 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::Dynamics;
-using ostk::astro::dynamic::AtmosphericDrag;
-using ostk::astro::dynamic::CentralBodyGravity;
-using ostk::astro::dynamic::PositionDerivative;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -212,23 +212,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, GetCelestial)
     EXPECT_TRUE(atmosphericDynamics.getCelestial() == earthSPtr_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, GetReadCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, GetReadCoordinateSubsets)
 {
     AtmosphericDrag atmosphericDrag(earthSPtr_);
 
-    const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getReadCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = atmosphericDrag.getReadCoordinateSubsets();
 
     EXPECT_EQ(5, subsets.size());
     EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
     EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
-    EXPECT_EQ(CoordinatesSubset::Mass(), subsets[2]);
+    EXPECT_EQ(CoordinateSubset::Mass(), subsets[2]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, GetWriteCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, GetWriteCoordinateSubsets)
 {
     AtmosphericDrag atmosphericDrag(earthSPtr_);
 
-    const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getWriteCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = atmosphericDrag.getWriteCoordinateSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);

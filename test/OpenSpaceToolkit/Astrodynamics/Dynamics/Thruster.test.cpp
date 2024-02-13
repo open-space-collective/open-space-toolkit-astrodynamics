@@ -11,9 +11,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 using ostk::core::type::Shared;
 using ostk::core::type::String;
@@ -27,12 +27,12 @@ using ostk::mathematics::object::Vector3d;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::GuidanceLaw;
-using ostk::astro::dynamic::Thruster;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::GuidanceLaw;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 class MockGuidanceLaw : public GuidanceLaw
 {
@@ -111,15 +111,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetName)
     EXPECT_EQ(defaultThruster_.getName(), defaultName_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetReadCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetReadCoordinateSubsets)
 {
-    const Array<Shared<const CoordinatesSubset>> expectedSubsets = {
+    const Array<Shared<const CoordinateSubset>> expectedSubsets = {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
+        CoordinateSubset::Mass(),
     };
 
-    const Array<Shared<const CoordinatesSubset>> readSubsets = defaultThruster_.getReadCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> readSubsets = defaultThruster_.getReadCoordinateSubsets();
 
     for (Index i = 0; i < expectedSubsets.getSize(); ++i)
     {
@@ -127,14 +127,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetReadCoordinatesSubse
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetWriteCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetWriteCoordinateSubsets)
 {
-    const Array<Shared<const CoordinatesSubset>> expectedSubsets = {
+    const Array<Shared<const CoordinateSubset>> expectedSubsets = {
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
+        CoordinateSubset::Mass(),
     };
 
-    const Array<Shared<const CoordinatesSubset>> writeSubsets = defaultThruster_.getWriteCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> writeSubsets = defaultThruster_.getWriteCoordinateSubsets();
 
     for (Index i = 0; i < expectedSubsets.getSize(); ++i)
     {

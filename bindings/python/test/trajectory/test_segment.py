@@ -20,10 +20,10 @@ from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.event_condition import InstantCondition
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 
 
 @pytest.fixture
@@ -48,7 +48,7 @@ def state() -> State:
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
+            CoordinateSubset.mass(),
         ]
     )
     return State(instant, coordinates, frame, coordinates_broker)

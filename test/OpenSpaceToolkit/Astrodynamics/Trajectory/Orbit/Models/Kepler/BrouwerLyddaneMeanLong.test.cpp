@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 
 #include <Global.test.hpp>
 
@@ -31,10 +31,10 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Constructor)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, Constructor)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -48,7 +48,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, ToBrouwerLyddaneMeanLong)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, ToBrouwerLyddaneMeanLong)
 {
     {
         const COE coe = COE::FromSIVector(
@@ -74,7 +74,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean_Parametrized
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMean_Parametrized
     : public ::testing::TestWithParam<std::tuple<Position, Velocity, Vector6d>>
 {
 };
@@ -82,7 +82,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydda
 // Values taken from GMAT
 INSTANTIATE_TEST_SUITE_P(
     Cartesian,
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean_Parametrized,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMean_Parametrized,
     ::testing::Values(
         std::make_tuple(
             Position::Meters({853730.214, -382070.813, 6892445.528}, Frame::GCRF()),
@@ -123,7 +123,7 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean_Parametrized, Cartesian)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMean_Parametrized, Cartesian)
 {
     const auto& [position, velocity, expectedMeanElements] = GetParam();
     const BrouwerLyddaneMeanLong brouwerMeanLongOE = BrouwerLyddaneMeanLong::Cartesian(
@@ -138,7 +138,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydd
     EXPECT_LT(std::abs(brouwerMeanLongOE.getMeanAnomaly().inRadians() - expectedMeanElements[5]), 1e-5);
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Cartesian_EdgeCases)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, Cartesian_EdgeCases)
 {
     {
         const COE coe = {
@@ -194,7 +194,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
 }
 
 // Values taken from GMAT
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, ToCOE)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, ToCOE)
 {
     {
         const BrouwerLyddaneMeanLong brouwerMeanLongOE = BrouwerLyddaneMeanLong({
@@ -260,7 +260,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, GetCartesianState)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, GetCartesianState)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(6973.743586220524);
@@ -323,7 +323,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Undefined)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, Undefined)
 {
     {
         EXPECT_NO_THROW(BrouwerLyddaneMeanLong::Undefined());

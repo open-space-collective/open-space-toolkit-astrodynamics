@@ -24,4 +24,4 @@ Python API Documentation
    ostk.astrodynamics.trajectory.orbit.models.kepler
    ostk.astrodynamics.trajectory.orbit.models.sgp4
    ostk.astrodynamics.trajectory.state
-   ostk.astrodynamics.trajectory.state.coordinates_subset
+   ostk.astrodynamics.trajectory.state.coordinate_subset

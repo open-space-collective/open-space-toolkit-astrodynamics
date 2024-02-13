@@ -11,7 +11,7 @@ from ostk.physics.time import Duration
 
 from ostk.astrodynamics.solvers import FiniteDifferenceSolver
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
 
 
 @pytest.fixture
@@ -36,8 +36,8 @@ def finite_difference_solver(request, step_percentage: float, step_duration: Dur
 
 
 @pytest.fixture
-def coordinates_subsets() -> list[CoordinatesSubset]:
-    return [CoordinatesSubset("Position", 1), CoordinatesSubset("Velocity", 1)]
+def coordinate_subsets() -> list[CoordinateSubset]:
+    return [CoordinateSubset("Position", 1), CoordinateSubset("Velocity", 1)]
 
 
 @pytest.fixture
@@ -47,9 +47,9 @@ def frame() -> Frame:
 
 @pytest.fixture
 def state(
-    initial_instant: Instant, frame: Frame, coordinates_subsets: list[CoordinatesSubset]
+    initial_instant: Instant, frame: Frame, coordinate_subsets: list[CoordinateSubset]
 ):
-    return State(initial_instant, [1, 0], frame, coordinates_subsets)
+    return State(initial_instant, [1, 0], frame, coordinate_subsets)
 
 
 @pytest.fixture

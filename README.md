@@ -119,7 +119,7 @@ The library exhibits the following detailed and descriptive structure:
 │   │   │   ├── Tabulated (input csv)
 │   │   │   └── Propagated (numerical integration)
 │   │   ├── Pass
-│   │   └── Messages
+│   │   └── Message
 │   │       └── SpaceX
 │   │           └── OPM
 │   ├── Models
@@ -142,7 +142,7 @@ The library exhibits the following detailed and descriptive structure:
 ├── Access
 │   └── Generator
 └── Conjunction
-    └── Messages
+    └── Message
         └── CCSDS
             └── CDM
 ```

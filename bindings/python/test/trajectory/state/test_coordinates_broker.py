@@ -2,17 +2,17 @@
 
 import pytest
 
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker, CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker, CoordinateSubset
 
 
 @pytest.fixture
-def coordinates_subsets() -> list:
-    return [CoordinatesSubset("Subset1", 2), CoordinatesSubset("Subset2", 3)]
+def coordinate_subsets() -> list:
+    return [CoordinateSubset("Subset1", 2), CoordinateSubset("Subset2", 3)]
 
 
 @pytest.fixture
-def coordinates_broker(coordinates_subsets) -> CoordinatesBroker:
-    return CoordinatesBroker(coordinates_subsets)
+def coordinates_broker(coordinate_subsets) -> CoordinatesBroker:
+    return CoordinatesBroker(coordinate_subsets)
 
 
 @pytest.fixture
@@ -31,9 +31,9 @@ class TestCoordinatesBroker:
         assert (coordinates_broker != coordinates_broker) == False
 
     def test_access_subsets(
-        self, coordinates_broker: CoordinatesBroker, coordinates_subsets: list
+        self, coordinates_broker: CoordinatesBroker, coordinate_subsets: list
     ):
-        assert coordinates_broker.access_subsets() == coordinates_subsets
+        assert coordinates_broker.access_subsets() == coordinate_subsets
 
     def test_get_number_of_coordinates(self, coordinates_broker: CoordinatesBroker):
         assert coordinates_broker.get_number_of_coordinates() == 5
@@ -42,33 +42,33 @@ class TestCoordinatesBroker:
         assert coordinates_broker.get_number_of_subsets() == 2
 
     def test_get_subsets(
-        self, coordinates_broker: CoordinatesBroker, coordinates_subsets: list
+        self, coordinates_broker: CoordinatesBroker, coordinate_subsets: list
     ):
-        assert coordinates_broker.get_subsets() == coordinates_subsets
+        assert coordinates_broker.get_subsets() == coordinate_subsets
 
     def test_add_subset(self, coordinates_broker: CoordinatesBroker):
-        new_subset = CoordinatesSubset("NewSubset", 4)
+        new_subset = CoordinateSubset("NewSubset", 4)
         number_of_coordinates = coordinates_broker.get_number_of_coordinates()
         assert coordinates_broker.add_subset(new_subset) == number_of_coordinates
         assert coordinates_broker.has_subset(new_subset)
 
     def test_has_subset(
-        self, coordinates_broker: CoordinatesBroker, coordinates_subsets: list
+        self, coordinates_broker: CoordinatesBroker, coordinate_subsets: list
     ):
-        assert coordinates_broker.has_subset(coordinates_subsets[0])
+        assert coordinates_broker.has_subset(coordinate_subsets[0])
 
     def test_extract_coordinate(
         self,
         coordinates_broker: CoordinatesBroker,
         coordinates: list[float],
-        coordinates_subsets: list[CoordinatesSubset],
+        coordinate_subsets: list[CoordinateSubset],
     ):
         assert (
-            coordinates_broker.extract_coordinate(coordinates, coordinates_subsets[0])
+            coordinates_broker.extract_coordinate(coordinates, coordinate_subsets[0])
             == [1.0, 2.0]
         ).all()
         assert (
-            coordinates_broker.extract_coordinate(coordinates, coordinates_subsets[1])
+            coordinates_broker.extract_coordinate(coordinates, coordinate_subsets[1])
             == [3.0, 4.0, 5.0]
         ).all()
 
@@ -76,9 +76,9 @@ class TestCoordinatesBroker:
         self,
         coordinates_broker: CoordinatesBroker,
         coordinates: list[float],
-        coordinates_subsets: list[CoordinatesSubset],
+        coordinate_subsets: list[CoordinateSubset],
     ):
         assert (
-            coordinates_broker.extract_coordinates(coordinates, coordinates_subsets)
+            coordinates_broker.extract_coordinates(coordinates, coordinate_subsets)
             == [1.0, 2.0, 3.0, 4.0, 5.0]
         ).all()

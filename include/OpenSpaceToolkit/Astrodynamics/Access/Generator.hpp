@@ -22,7 +22,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace access
 {
@@ -44,9 +44,9 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 using ostk::physics::environment::object::Celestial;
 
-using ostk::astro::Access;
-using ostk::astro::Trajectory;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::Access;
+using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::trajectory::State;
 
 #define DEFAULT_STEP Duration::Minutes(1.0)
 #define DEFAULT_TOLERANCE Duration::Microseconds(1.0)
@@ -196,7 +196,7 @@ class GeneratorContext
 };
 
 }  // namespace access
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

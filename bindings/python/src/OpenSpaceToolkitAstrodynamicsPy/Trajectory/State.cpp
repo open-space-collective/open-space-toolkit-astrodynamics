@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesBroker.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubset.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/NumericalSolver.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& aModule)
@@ -20,8 +20,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
 
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::state::CoordinatesBroker;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
 
     class_<State>(
         aModule,
@@ -93,7 +93,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 const Instant&,
                 const VectorXd&,
                 const Shared<const Frame>&,
-                const Array<Shared<const CoordinatesSubset>>&>(),
+                const Array<Shared<const CoordinateSubset>>&>(),
             R"doc(
                  Constructor with coordinate subsets.
                  
@@ -101,12 +101,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                      instant (Instant): An instant
                      coordinates (numpy.ndarray): The coordinates at the instant in International System of Units
                      frame (Frame): The reference frame in which the coordinates are referenced to and resolved in
-                     coordinates_subsets (CoordinatesBroker): The coordinates subsets associated to the coordinates
+                     coordinate_subsets (CoordinatesBroker): The coordinates subsets associated to the coordinates
              )doc",
             arg("instant"),
             arg("coordinates"),
             arg("frame"),
-            arg("coordinates_subsets")
+            arg("coordinate_subsets")
         )
         .def(init<const State&>(), arg("state"))
 
@@ -199,13 +199,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             )doc"
         )
         .def(
-            "get_coordinates_subsets",
-            &State::getCoordinatesSubsets,
+            "get_coordinate_subsets",
+            &State::getCoordinateSubsets,
             R"doc(
                 Get the coordinates subsets associated to the state.
 
                 Returns:
-                    list[CoordinatesSubset]: The coordinates subsets associated to the state.
+                    list[CoordinateSubset]: The coordinates subsets associated to the state.
             )doc"
         )
         .def(
@@ -226,7 +226,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 Check if the state has a given subset.
 
                 Args:
-                    subset (CoordinatesSubset): The subset to check.
+                    subset (CoordinateSubset): The subset to check.
 
                 Returns:
                     bool: True if the state has the subset, False otherwise.
@@ -240,12 +240,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 Extract the coordinates associated to a subset of the state.
 
                 Args:
-                    coordinates_subset (CoordinatesSubset): The coordinates subset to extract.
+                    coordinate_subset (CoordinateSubset): The coordinates subset to extract.
 
                 Returns:
                     np.array: The coordinates associated to the subset.
             )doc",
-            arg("coordinates_subset")
+            arg("coordinate_subset")
         )
         .def(
             "extract_coordinates",
@@ -254,12 +254,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 Extract the coordinates associated to a set of subsets of the state.
 
                 Args:
-                    coordinates_subsets (list[CoordinatesSubset]): The coordinates subsets to extract.
+                    coordinate_subsets (list[CoordinateSubset]): The coordinates subsets to extract.
 
                 Returns:
                     np.array: The coordinates associated to the subsets.
             )doc",
-            arg("coordinates_subsets")
+            arg("coordinate_subsets")
         )
 
         .def(
@@ -294,6 +294,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
     auto state = aModule.def_submodule("state");
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(state);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(state);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(state);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(state);
 }
