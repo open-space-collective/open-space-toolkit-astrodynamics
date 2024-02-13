@@ -71,14 +71,14 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
-using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::Dynamics;
-using ostk::astro::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
 
 using namespace boost::numeric::odeint;
 

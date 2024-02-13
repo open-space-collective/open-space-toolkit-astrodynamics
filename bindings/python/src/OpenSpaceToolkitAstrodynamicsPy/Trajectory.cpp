@@ -19,8 +19,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
 
     using ostk::core::container::Array;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
 
     class_<Trajectory>(
         aModule,
@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     )
 
         .def(
-            init<const ostk::astro::trajectory::Model&>(),
+            init<const ostk::astrodynamics::trajectory::Model&>(),
             R"doc(
                 Construct a `Trajectory` object from a model.
 

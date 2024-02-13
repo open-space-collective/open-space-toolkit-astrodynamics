@@ -10,15 +10,15 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace guidancelaw
 {
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 
 ConstantThrust::ConstantThrust(const LocalOrbitalFrameDirection& aThrustDirection)
     : GuidanceLaw("Constant Thrust"),
@@ -88,5 +88,5 @@ ConstantThrust ConstantThrust::Intrack(const bool& velocityDirection)
 }
 
 }  // namespace guidancelaw
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

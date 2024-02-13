@@ -9,7 +9,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 RootSolver::RootSolver(const Size& aMaximumIterationCount, const Real& aTolerance)
@@ -120,5 +120,5 @@ std::function<bool(const double&, const double&)> RootSolver::getToleranceFuncti
     };
 }
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

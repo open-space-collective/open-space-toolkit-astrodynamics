@@ -10,7 +10,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -400,5 +400,5 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

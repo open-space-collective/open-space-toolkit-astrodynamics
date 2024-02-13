@@ -16,9 +16,9 @@ using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::unit::Derived;
 
-using ostk::astro::GuidanceLaw;
-using ostk::astro::guidancelaw::QLaw;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::GuidanceLaw;
+using ostk::astrodynamics::guidancelaw::QLaw;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 {

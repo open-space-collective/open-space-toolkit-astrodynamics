@@ -24,8 +24,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Angle;
 
-using ostk::astro::EventCondition;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::trajectory::State;
 
 class TestCondition : public EventCondition
 {

@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace validation
 {
@@ -115,5 +115,5 @@ Array<VectorXd> MissionSequence::compareResults(const Table& referenceData, cons
 }
 
 }  // namespace validation
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

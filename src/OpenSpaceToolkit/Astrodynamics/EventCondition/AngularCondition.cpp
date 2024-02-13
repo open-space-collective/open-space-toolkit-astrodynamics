@@ -9,7 +9,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -208,5 +208,5 @@ AngularCondition::AngularCondition(
 }
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

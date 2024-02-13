@@ -10,8 +10,8 @@ from ostk.physics.time import Duration
 from ostk.physics.time import Scale
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import Tabulated
 
@@ -51,7 +51,7 @@ def contribution_profile() -> np.ndarray:
 
 
 @pytest.fixture
-def coordinates_subsets() -> list[CoordinatesSubset]:
+def coordinate_subsets() -> list[CoordinateSubset]:
     return [
         CartesianVelocity.default(),
     ]
@@ -66,10 +66,10 @@ def frame() -> Frame:
 def dynamics(
     instants: list[Instant],
     contribution_profile: np.ndarray,
-    coordinates_subsets: list[CoordinatesSubset],
+    coordinate_subsets: list[CoordinateSubset],
     frame: Frame,
 ) -> Tabulated:
-    return Tabulated(instants, contribution_profile, coordinates_subsets, frame)
+    return Tabulated(instants, contribution_profile, coordinate_subsets, frame)
 
 
 class TestTabulated:

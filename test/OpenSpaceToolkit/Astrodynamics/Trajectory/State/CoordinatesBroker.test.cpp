@@ -3,7 +3,7 @@
 #include <gmock/gmock.h>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 #include <Global.test.hpp>
 
@@ -17,14 +17,14 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-class CoordinatesSubsetMock : public CoordinatesSubset
+class CoordinateSubsetMock : public CoordinateSubset
 {
    public:
-    CoordinatesSubsetMock(const String& aName, const Size& aSize)
-        : CoordinatesSubset(aName, aSize) {};
+    CoordinateSubsetMock(const String& aName, const Size& aSize)
+        : CoordinateSubset(aName, aSize) {};
 
     MOCK_METHOD(
         VectorXd,
@@ -63,11 +63,11 @@ class CoordinatesSubsetMock : public CoordinatesSubset
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker : public ::testing::Test
 {
    protected:
-    const Shared<CoordinatesSubsetMock> subset_1 = std::make_shared<CoordinatesSubsetMock>("S1", 1);
-    const Shared<CoordinatesSubsetMock> subset_2 = std::make_shared<CoordinatesSubsetMock>("S2", 2);
-    const Shared<CoordinatesSubsetMock> subset_3 = std::make_shared<CoordinatesSubsetMock>("S3", 3);
-    const Shared<CoordinatesSubsetMock> subset_4 = std::make_shared<CoordinatesSubsetMock>("S4", 1);
-    const Shared<CoordinatesSubsetMock> subsetDuplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+    const Shared<CoordinateSubsetMock> subset_1 = std::make_shared<CoordinateSubsetMock>("S1", 1);
+    const Shared<CoordinateSubsetMock> subset_2 = std::make_shared<CoordinateSubsetMock>("S2", 2);
+    const Shared<CoordinateSubsetMock> subset_3 = std::make_shared<CoordinateSubsetMock>("S3", 3);
+    const Shared<CoordinateSubsetMock> subset_4 = std::make_shared<CoordinateSubsetMock>("S4", 1);
+    const Shared<CoordinateSubsetMock> subsetDuplicate = std::make_shared<CoordinateSubsetMock>("S1", 1);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
@@ -360,19 +360,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         VectorXd fullCoordinatesVector(6);
         fullCoordinatesVector << 0.0, 1.0, 2.0, 3.0, 4.0, 5.0;
 
-        Array<Shared<const CoordinatesSubset>> subsets_1 = {subset_1};
+        Array<Shared<const CoordinateSubset>> subsets_1 = {subset_1};
         const VectorXd subset_1_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_1);
         EXPECT_EQ(1, subset_1_coordinates.size());
         EXPECT_EQ(0.0, subset_1_coordinates(0));
 
-        Array<Shared<const CoordinatesSubset>> subsets_12 = {subset_1, subset_2};
+        Array<Shared<const CoordinateSubset>> subsets_12 = {subset_1, subset_2};
         const VectorXd subset_12_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_12);
         EXPECT_EQ(3, subset_12_coordinates.size());
         EXPECT_EQ(0.0, subset_12_coordinates(0));
         EXPECT_EQ(1.0, subset_12_coordinates(1));
         EXPECT_EQ(2.0, subset_12_coordinates(2));
 
-        Array<Shared<const CoordinatesSubset>> subsets_13 = {subset_1, subset_3};
+        Array<Shared<const CoordinateSubset>> subsets_13 = {subset_1, subset_3};
         const VectorXd subset_13_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_13);
         EXPECT_EQ(4, subset_13_coordinates.size());
         EXPECT_EQ(0.0, subset_13_coordinates(0));
@@ -380,7 +380,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         EXPECT_EQ(4.0, subset_13_coordinates(2));
         EXPECT_EQ(5.0, subset_13_coordinates(3));
 
-        Array<Shared<const CoordinatesSubset>> subsets_31 = {subset_3, subset_1};
+        Array<Shared<const CoordinateSubset>> subsets_31 = {subset_3, subset_1};
         const VectorXd subset_31_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_31);
         EXPECT_EQ(4, subset_31_coordinates.size());
         EXPECT_EQ(3.0, subset_31_coordinates(0));
@@ -388,7 +388,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         EXPECT_EQ(5.0, subset_31_coordinates(2));
         EXPECT_EQ(0.0, subset_31_coordinates(3));
 
-        Array<Shared<const CoordinatesSubset>> subsets_123 = {subset_1, subset_2, subset_3};
+        Array<Shared<const CoordinateSubset>> subsets_123 = {subset_1, subset_2, subset_3};
         const VectorXd subset_123_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_123);
         EXPECT_EQ(6, subset_123_coordinates.size());
         EXPECT_EQ(0.0, subset_123_coordinates(0));
@@ -398,7 +398,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         EXPECT_EQ(4.0, subset_123_coordinates(4));
         EXPECT_EQ(5.0, subset_123_coordinates(5));
 
-        Array<Shared<const CoordinatesSubset>> subsets_14 = {subset_1, subset_4};
+        Array<Shared<const CoordinateSubset>> subsets_14 = {subset_1, subset_4};
         EXPECT_ANY_THROW(broker.extractCoordinates(fullCoordinatesVector, subsets_14));
     }
 }

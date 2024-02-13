@@ -4,26 +4,26 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
 
 using ostk::core::type::Index;
 
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity;
-using ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 State::State(
     const Instant& anInstant,
@@ -46,12 +46,12 @@ State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
-    const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+    const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
 )
     : instant_(anInstant),
       coordinates_(aCoordinates),
       frameSPtr_(aFrameSPtr),
-      coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinatesSubsetsArray)))
+      coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinateSubsetsArray)))
 {
 }
 
@@ -194,7 +194,7 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
         if (!aState.coordinatesBrokerSPtr_->hasSubset(subset))
         {
@@ -239,7 +239,7 @@ State State::operator+(const State& aState) const
 
     VectorXd addedCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
-    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
         Size subsetSize = subset->getSize();
         addedCoordinates.segment(i, subsetSize) = subset->add(
@@ -284,7 +284,7 @@ State State::operator-(const State& aState) const
 
     VectorXd subtractedCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
-    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
         Size subsetSize = subset->getSize();
         subtractedCoordinates.segment(i, subsetSize) = subset->subtract(
@@ -423,7 +423,7 @@ VectorXd State::getCoordinates() const
     return this->accessCoordinates();
 }
 
-const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() const
+const Array<Shared<const CoordinateSubset>> State::getCoordinateSubsets() const
 {
     if (!this->isDefined())
     {
@@ -433,7 +433,7 @@ const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() cons
     return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
-bool State::hasSubset(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
+bool State::hasSubset(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
     if (!this->isDefined())
     {
@@ -443,14 +443,14 @@ bool State::hasSubset(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
     return this->coordinatesBrokerSPtr_->hasSubset(aSubsetSPtr);
 }
 
-VectorXd State::extractCoordinate(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
+VectorXd State::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
     return this->coordinatesBrokerSPtr_->extractCoordinate(this->accessCoordinates(), aSubsetSPtr);
 }
 
-VectorXd State::extractCoordinates(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray) const
+VectorXd State::extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const
 {
-    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aCoordinatesSubsetsArray);
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aCoordinateSubsetsArray);
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
@@ -472,7 +472,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 
     VectorXd inFrameCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
-    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
         const VectorXd subsetInFrame = subset->inFrame(
             this->instant_, this->coordinates_, this->frameSPtr_, aFrameSPtr, this->coordinatesBrokerSPtr_
@@ -507,7 +507,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
     else
     {
-        const Array<Shared<const CoordinatesSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
+        const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 
         for (const auto& subset : subsets)
         {
@@ -524,5 +524,5 @@ State State::Undefined()
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

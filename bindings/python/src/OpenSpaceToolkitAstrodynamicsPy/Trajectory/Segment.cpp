@@ -12,10 +12,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
     using ostk::physics::time::Duration;
 
-    using ostk::astro::trajectory::state::NumericalSolver;
-    using ostk::astro::trajectory::state::CoordinatesSubset;
-    using ostk::astro::trajectory::Segment;
-    using ostk::astro::Dynamics;
+    using ostk::astrodynamics::trajectory::state::NumericalSolver;
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+    using ostk::astrodynamics::trajectory::Segment;
+    using ostk::astrodynamics::Dynamics;
 
     class_<Segment> segment(
         aModule,
@@ -210,14 +210,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             &Segment::Solution::getDynamicsContribution,
             arg("dynamics"),
             arg("frame"),
-            arg("coordinates_subsets") = Array<Shared<const CoordinatesSubset>>::Empty(),
+            arg("coordinate_subsets") = Array<Shared<const CoordinateSubset>>::Empty(),
             R"doc(
                 Compute the contribution of the provided dynamics in the provided frame for all states associated with the segment.
 
                 Args:
                     dynamics (Dynamics): The dynamics.
                     frame (Frame): The frame.
-                    coordinates_subsets (list[CoordinatesSubset], optional): A subset of the dynamics writing coordinates subsets to consider.
+                    coordinate_subsets (list[CoordinateSubset], optional): A subset of the dynamics writing coordinates subsets to consider.
 
                 Returns:
                     MatrixXd: The matrix of dynamics contributions for the selected coordinates subsets of the dynamics.

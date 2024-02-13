@@ -3,14 +3,14 @@
 #include <gtest/gtest.h>
 
 #include <OpenSpaceToolkit/Astrodynamics/CrossValidator.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
-using ostk::astro::validation::CrossValidator;
-using ostk::astro::validation::Quantity;
-using ostk::astro::validation::QuantityComparison;
-using ostk::astro::validation::Tool;
-using ostk::astro::validation::ToolComparison;
+using ostk::astrodynamics::validation::CrossValidator;
+using ostk::astrodynamics::validation::Quantity;
+using ostk::astrodynamics::validation::QuantityComparison;
+using ostk::astrodynamics::validation::Tool;
+using ostk::astrodynamics::validation::ToolComparison;
 
 using ostk::core::container::Array;
 using ostk::core::container::Table;
@@ -31,11 +31,11 @@ using ostk::physics::time::DateTime;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testing::Test
 {
@@ -88,7 +88,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testin
     const Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker({
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
+        CoordinateSubset::Mass(),
     }));
 
     State defaultState_ = State::Undefined();

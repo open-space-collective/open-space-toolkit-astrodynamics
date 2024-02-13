@@ -13,7 +13,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::type::String;
@@ -22,7 +22,7 @@ using ostk::core::type::Real;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief An Event Condition defines a criterion that can be evaluated
 ///                      based on a current/previous state vectors and times
@@ -133,7 +133,7 @@ class EventCondition
     Target target_;
 };
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

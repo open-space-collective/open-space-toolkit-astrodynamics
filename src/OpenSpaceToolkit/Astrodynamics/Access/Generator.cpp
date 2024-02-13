@@ -9,7 +9,7 @@
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
@@ -18,11 +18,11 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::celestial::Earth;
-using ostk::astro::solver::TemporalConditionSolver;
+using ostk::astrodynamics::solver::TemporalConditionSolver;
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace access
 {
@@ -558,5 +558,5 @@ AER GeneratorContext::CalculateAer(
 }
 
 }  // namespace access
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

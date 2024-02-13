@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
 #include <Global.test.hpp>
 
@@ -21,10 +21,10 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::conjunction::messages::ccsds::CDM;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::conjunction::message::ccsds::CDM;
+using ostk::astrodynamics::trajectory::State;
 
-class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::testing::Test
 {
    protected:
     // https://public.ccsds.org/Pubs/508x0b1e2c2.pdf (section 3.6.3 - page 3-12)
@@ -156,7 +156,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
     CDM cdm_ = CDM::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, IsDefined)
 {
     {
         EXPECT_TRUE(this->cdm_.isDefined());
@@ -167,7 +167,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, IsDefined)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetHeader)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetHeader)
 {
     {
         const CDM::Header header = this->cdm_.getHeader();
@@ -185,7 +185,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetHeader)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetRelativeMetadata)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativeMetadata)
 {
     {
         const CDM::RelativeMetadata relativeMetadata = this->cdm_.getRelativeMetadata();
@@ -221,7 +221,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetRelativ
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMetadataArray)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMetadataArray)
 {
     {
         const Array<CDM::Metadata> objectsMetadataArray = this->cdm_.getMetadataArray();
@@ -234,7 +234,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMetadat
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetDataArray)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetDataArray)
 {
     {
         const Array<CDM::Data> objectsDataArray = this->cdm_.getDataArray();
@@ -247,7 +247,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetDataArr
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectMetadataAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectMetadataAt)
 {
     {
         const CDM::Metadata objectMetadata = this->cdm_.getObjectMetadataAt(0);
@@ -285,7 +285,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectM
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectDataAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDataAt)
 {
     {
         const CDM::Data objectData = this->cdm_.getObjectDataAt(0);
@@ -325,7 +325,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetCCSDSCDMVersion)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCCSDSCDMVersion)
 {
     {
         EXPECT_EQ("1.0", this->cdm_.getCCSDSCDMVersion());
@@ -336,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetCCSDSCD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, getCreationDate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, getCreationDate)
 {
     {
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 22, 31, 12), Scale::UTC), this->cdm_.getCreationDate());
@@ -347,7 +347,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, getCreatio
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetOriginator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetOriginator)
 {
     {
         EXPECT_EQ("JSPOC", this->cdm_.getOriginator());
@@ -358,7 +358,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetOrigina
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMessageFor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMessageFor)
 {
     {
         EXPECT_EQ("SATELLITE A", this->cdm_.getMessageFor());
@@ -369,7 +369,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMessage
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMessageId)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMessageId)
 {
     {
         EXPECT_EQ("201113719185", this->cdm_.getMessageId());
@@ -380,7 +380,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMessage
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetTCA)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetTCA)
 {
     {
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC), this->cdm_.getTCA());
@@ -391,7 +391,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetTCA)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMissDistance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMissDistance)
 {
     {
         EXPECT_EQ(Length::Meters(715.0), this->cdm_.getMissDistance());
@@ -402,7 +402,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMissDis
     }
 }
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetRelativePosition)
+// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativePosition)
 // {
 
 //     {
@@ -419,7 +419,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMissDis
 
 // }
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetRelativeVelocity)
+// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativeVelocity)
 // {
 
 //     {
@@ -436,7 +436,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetMissDis
 
 // }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetCollisionProbability)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisionProbability)
 {
     {
         EXPECT_EQ(0.0000435, this->cdm_.getCollisionProbability());
@@ -447,7 +447,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetCollisi
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetCollisionProbabilityMethod)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisionProbabilityMethod)
 {
     {
         EXPECT_EQ("FOSTER-1992", this->cdm_.getCollisionProbabilityMethod());
@@ -458,7 +458,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetCollisi
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectDesignator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDesignator)
 {
     {
         EXPECT_EQ(30337, this->cdm_.getObjectDesignator(1));
@@ -469,7 +469,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectName)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectName)
 {
     {
         EXPECT_EQ("FENGYUN 1C DEB", this->cdm_.getObjectName(1));
@@ -480,7 +480,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectN
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectInternationalDesignator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectInternationalDesignator)
 {
     {
         EXPECT_EQ("1999-025AA", this->cdm_.getObjectInternationalDesignator(1));
@@ -491,7 +491,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectI
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectType)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectType)
 {
     {
         EXPECT_EQ(CDM::ObjectType::Debris, this->cdm_.getObjectType(1));
@@ -502,7 +502,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectT
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectEphemerisName)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectEphemerisName)
 {
     {
         EXPECT_EQ("NONE", this->cdm_.getObjectEphemerisName(1));
@@ -513,7 +513,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectE
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectCovarianceMethod)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectCovarianceMethod)
 {
     {
         EXPECT_EQ("CALCULATED", this->cdm_.getObjectCovarianceMethod(1));
@@ -524,7 +524,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectC
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectManeuverability)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectManeuverability)
 {
     {
         EXPECT_EQ("NO", this->cdm_.getObjectManeuverability(1));
@@ -535,7 +535,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectM
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectReferenceFrame)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectReferenceFrame)
 {
     {
         EXPECT_EQ("EME2000", this->cdm_.getObjectReferenceFrame(1));
@@ -546,7 +546,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectR
     }
 }
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectStateAtTCA)
+// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectStateAtTCA)
 // {
 
 //     {
@@ -563,7 +563,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectR
 
 // }
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectCovarianceMatrix)
+// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectCovarianceMatrix)
 // {
 
 //     {
@@ -580,14 +580,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectR
 
 // }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Undefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Undefined)
 {
     {
         EXPECT_NO_THROW(CDM::Undefined());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Dictionary)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Dictionary)
 {
     using ostk::core::container::Dictionary;
     using ostk::core::container::Object;
@@ -597,21 +597,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Dictionary
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Parse)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Parse)
 {
     {
         EXPECT_ANY_THROW(CDM::Parse(String::Empty()));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Load)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Load)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
 
     {
         const CDM cdm = CDM::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM/cdm.json"))
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM/cdm.json"))
         );
     }
 
@@ -620,7 +620,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Load)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, ObjectTypeFromString)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, ObjectTypeFromString)
 {
     {
         EXPECT_EQ(CDM::ObjectType::Payload, CDM::ObjectTypeFromString("PAYLOAD"));

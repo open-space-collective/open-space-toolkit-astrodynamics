@@ -43,9 +43,9 @@ using ostk::physics::unit::Derived;
 
 using ostk::physics::coordinate::Transform;
 
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
-using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection : public ::testing::Test
 {

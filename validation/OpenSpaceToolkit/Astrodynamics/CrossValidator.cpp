@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace validation
 {
@@ -158,5 +158,5 @@ String CrossValidator::ToolToPath(const Tool& aTool)
 }
 
 }  // namespace validation
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

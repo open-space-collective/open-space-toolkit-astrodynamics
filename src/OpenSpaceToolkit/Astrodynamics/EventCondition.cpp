@@ -7,7 +7,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 EventCondition::Target::Target(const Real& aValue, const Type& aType)
@@ -128,5 +128,5 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

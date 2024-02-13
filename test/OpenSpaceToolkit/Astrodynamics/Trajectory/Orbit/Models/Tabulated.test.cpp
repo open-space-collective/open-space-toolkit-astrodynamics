@@ -7,7 +7,7 @@
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 
 #include <Global.test.hpp>
 
@@ -33,12 +33,12 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::orbit::Model;
-using ostk::astro::trajectory::orbit::model::Tabulated;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::Model;
+using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -60,7 +60,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public 
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated/propagated_states.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated/propagated_states.csv"
             )),
             Table::Format::CSV,
             true
@@ -99,7 +99,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public 
     Array<State> referenceStates_ = Array<State>::Empty();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Constructor)
 {
     const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
 
@@ -108,7 +108,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Constru
     const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, GetInterval)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInterval)
 {
     using ostk::physics::time::Interval;
 
@@ -121,7 +121,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, GetInte
     );
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, EqualToOperator)
 {
     const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
     const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
@@ -129,7 +129,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, EqualTo
     EXPECT_TRUE(tabulated == anotherTabulated);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, NotEqualToOperator)
 {
     const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::CubicSpline);
     const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
@@ -137,7 +137,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, NotEqua
     EXPECT_TRUE(tabulated != anotherTabulated);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStateAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, CalculateStateAt)
 {
     loadData();
 
@@ -172,7 +172,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Calcula
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStatesAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, CalculateStatesAt)
 {
     loadData();
 

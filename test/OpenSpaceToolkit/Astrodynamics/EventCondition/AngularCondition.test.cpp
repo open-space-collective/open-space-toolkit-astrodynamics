@@ -13,7 +13,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 #include <Global.test.hpp>
@@ -31,12 +31,12 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::AngularCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::StateBuilder;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::testing::Test
 {
@@ -53,8 +53,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::
         defaultName_, defaultCriterion_, defaultEvaluator_, defaultTargetAngle_
     };
 
-    const Array<Shared<const CoordinatesSubset>> defaultSubsets_ = {
-        std::make_shared<CoordinatesSubset>(CoordinatesSubset("ANGLE", 1))
+    const Array<Shared<const CoordinateSubset>> defaultSubsets_ = {
+        std::make_shared<CoordinateSubset>(CoordinateSubset("ANGLE", 1))
     };
     const StateBuilder defaultStateBuilder_ = StateBuilder(Frame::GCRF(), defaultSubsets_);
 

@@ -11,10 +11,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
     using ostk::physics::coordinate::Frame;
 
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::StateBuilder;
-    using ostk::astro::trajectory::state::CoordinatesBroker;
-    using ostk::astro::trajectory::state::CoordinatesSubset;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::StateBuilder;
+    using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     class_<StateBuilder>(
         aModule,
@@ -26,15 +26,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
     )
 
         .def(
-            init<const Shared<const Frame>&, const Array<Shared<const CoordinatesSubset>>&>(),
+            init<const Shared<const Frame>&, const Array<Shared<const CoordinateSubset>>&>(),
             arg("frame"),
-            arg("coordinates_subsets"),
+            arg("coordinate_subsets"),
             R"doc(
                 Construct a new `StateBuilder` object.
 
                 Arguments:
                     frame (Frame): The reference frame.
-                    coordinates_subsets list[CoordinatesSubset]: The coordinates subsets.
+                    coordinate_subsets list[CoordinateSubset]: The coordinates subsets.
 
                 Returns:
                     StateBuilder 
@@ -94,16 +94,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         )
         .def(
             "__add__",
-            [](const StateBuilder& aStateBuilder, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+            [](const StateBuilder& aStateBuilder, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
             {
-                return aStateBuilder + aCoordinatesSubsetSPtr;
+                return aStateBuilder + aCoordinateSubsetSPtr;
             },
             is_operator(),
             R"doc(
                 Add a coordinates subset to the `StateBuilder`.
 
                 Arguments:
-                    coordinates_subsets (CoordinatesSubset): The coordinates subset to add.
+                    coordinate_subsets (CoordinateSubset): The coordinates subset to add.
 
                 Returns:
                     StateBuilder: The `StateBuilder` with the added coordinates subset.
@@ -112,16 +112,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         )
         .def(
             "__sub__",
-            [](const StateBuilder& aStateBuilder, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+            [](const StateBuilder& aStateBuilder, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
             {
-                return aStateBuilder - aCoordinatesSubsetSPtr;
+                return aStateBuilder - aCoordinateSubsetSPtr;
             },
             is_operator(),
             R"doc(
                 Remove a coordinates subset from the `StateBuilder`.
 
                 Arguments:
-                    coordinates_subset (CoordinatesSubset): The coordinates subset to remove.
+                    coordinate_subset (CoordinateSubset): The coordinates subset to remove.
 
                 Returns:
                     StateBuilder: The `StateBuilder` with the removed coordinates subset.
@@ -195,13 +195,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         )
 
         .def(
-            "get_coordinates_subsets",
-            &StateBuilder::getCoordinatesSubsets,
+            "get_coordinate_subsets",
+            &StateBuilder::getCoordinateSubsets,
             R"doc(
                 Get the coordinates subsets of the `StateBuilder`.
 
                 Returns:
-                    Array<Shared<const CoordinatesSubset>>: The coordinates subsets of the `StateBuilder`.
+                    Array<Shared<const CoordinateSubset>>: The coordinates subsets of the `StateBuilder`.
 
             )doc"
         )

@@ -3,17 +3,17 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
 namespace profile
 {
-namespace models
+namespace model
 {
 
 Transform::Transform(const DynamicProvider& aDynamicTransformProvider, const Shared<const Frame>& aFrameSPtr)
@@ -201,8 +201,8 @@ bool Transform::operator==(const Model& aModel) const
     return (this->frameSPtr_ == transformModelPtr->frameSPtr_);
 }
 
-}  // namespace models
+}  // namespace model
 }  // namespace profile
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

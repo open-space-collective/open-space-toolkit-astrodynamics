@@ -21,11 +21,11 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Utilities.test.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Utility.test.hpp>
 
 #include <Global.test.hpp>
 
@@ -61,13 +61,13 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::Pass;
-using ostk::astro::trajectory::orbit::model::Kepler;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::trajectory::orbit::model::SGP4;
-using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::orbit::Pass;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {
@@ -262,7 +262,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Passes.csv"
             )),
             Table::Format::CSV,
             true
@@ -320,7 +320,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Passes.csv"
             )),
             Table::Format::CSV,
             true
@@ -469,7 +469,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
                                    "Satellite Passes.csv")),
             Table::Format::CSV,
             true
@@ -600,7 +600,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
                                    "Satellite Passes.csv")),
             Table::Format::CSV,
             true
@@ -664,7 +664,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_2/"
                                    "Satellite Passes.csv")),
             Table::Format::CSV,
             true
@@ -728,7 +728,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_4/"
                                    "Satellite Passes.csv")),
             Table::Format::CSV,
             true

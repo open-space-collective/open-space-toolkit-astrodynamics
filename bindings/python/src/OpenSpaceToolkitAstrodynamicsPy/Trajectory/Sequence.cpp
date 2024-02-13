@@ -13,11 +13,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
     using ostk::physics::time::Duration;
 
-    using ostk::astro::trajectory::state::NumericalSolver;
-    using ostk::astro::trajectory::Sequence;
-    using ostk::astro::trajectory::Segment;
-    using ostk::astro::Dynamics;
-    using ostk::astro::flight::system::SatelliteSystem;
+    using ostk::astrodynamics::trajectory::state::NumericalSolver;
+    using ostk::astrodynamics::trajectory::Sequence;
+    using ostk::astrodynamics::trajectory::Segment;
+    using ostk::astrodynamics::Dynamics;
+    using ostk::astrodynamics::flight::system::SatelliteSystem;
 
     class_<Sequence> sequence(
         aModule,

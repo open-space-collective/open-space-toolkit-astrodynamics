@@ -10,8 +10,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11
 
     using ostk::physics::environment::object::Celestial;
 
-    using ostk::astro::Dynamics;
-    using ostk::astro::dynamic::CentralBodyGravity;
+    using ostk::astrodynamics::Dynamics;
+    using ostk::astrodynamics::dynamics::CentralBodyGravity;
 
     {
         class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(

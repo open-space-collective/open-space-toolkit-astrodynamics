@@ -12,9 +12,9 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
-namespace solvers
+namespace solver
 {
 
 using ostk::core::type::Size;
@@ -97,8 +97,8 @@ class TemporalConditionSolver
     );
 };
 
-}  // namespace solvers
-}  // namespace astro
+}  // namespace solver
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

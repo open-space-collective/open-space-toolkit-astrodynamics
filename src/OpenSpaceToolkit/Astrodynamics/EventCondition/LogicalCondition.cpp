@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -99,5 +99,5 @@ LogicalCondition::evaluationSignature LogicalCondition::GenerateEvaluator(const 
 }
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

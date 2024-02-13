@@ -15,7 +15,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -28,7 +28,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Vector3d;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
 /// @brief A local orbital frame factory
 ///
@@ -138,7 +138,7 @@ class LocalOrbitalFrameFactory
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

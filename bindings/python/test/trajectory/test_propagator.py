@@ -25,9 +25,9 @@ from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 
@@ -40,8 +40,8 @@ from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import AtmosphericDrag
 from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinatesBroker
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
 )
@@ -104,7 +104,7 @@ def coordinates_broker_7d():
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
+            CoordinateSubset.mass(),
         ]
     )
 
@@ -115,9 +115,9 @@ def coordinates_broker_9d():
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
-            CoordinatesSubset.surface_area(),
-            CoordinatesSubset.drag_coefficient(),
+            CoordinateSubset.mass(),
+            CoordinateSubset.surface_area(),
+            CoordinateSubset.drag_coefficient(),
         ]
     )
 

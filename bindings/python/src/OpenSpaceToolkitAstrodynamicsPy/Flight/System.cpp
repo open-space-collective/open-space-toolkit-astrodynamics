@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     {
         class_<System>(

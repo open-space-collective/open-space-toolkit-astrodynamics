@@ -4,12 +4,12 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -24,8 +24,8 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -75,14 +75,14 @@ Shared<const Celestial> ThirdBodyGravity::getCelestial() const
     return celestialObjectSPtr_;
 }
 
-Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> ThirdBodyGravity::getReadCoordinateSubsets() const
 {
     return {
         CartesianPosition::Default(),
     };
 }
 
-Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> ThirdBodyGravity::getWriteCoordinateSubsets() const
 {
     return {
         CartesianVelocity::Default(),
@@ -126,5 +126,5 @@ void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator
 }
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

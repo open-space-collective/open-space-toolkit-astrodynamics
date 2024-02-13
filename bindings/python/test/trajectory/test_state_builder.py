@@ -15,9 +15,9 @@ from ostk.astrodynamics.trajectory import (
 )
 from ostk.astrodynamics.trajectory.state import (
     CoordinatesBroker,
-    CoordinatesSubset,
+    CoordinateSubset,
 )
-from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
 )
@@ -34,7 +34,7 @@ def frame() -> Frame:
 
 
 @pytest.fixture
-def coordinates_subsets() -> list[CoordinatesSubset]:
+def coordinate_subsets() -> list[CoordinateSubset]:
     return [CartesianPosition.default(), CartesianVelocity.default()]
 
 
@@ -45,9 +45,9 @@ def coordinates() -> list[float]:
 
 @pytest.fixture
 def coordinates_broker(
-    coordinates_subsets: list[CoordinatesSubset],
+    coordinate_subsets: list[CoordinateSubset],
 ) -> CoordinatesBroker:
-    return CoordinatesBroker(coordinates_subsets)
+    return CoordinatesBroker(coordinate_subsets)
 
 
 @pytest.fixture
@@ -79,9 +79,9 @@ class TestStateBuilder:
     def test_subsets_constructor(
         self,
         frame: Frame,
-        coordinates_subsets: list[CoordinatesSubset],
+        coordinate_subsets: list[CoordinateSubset],
     ):
-        builder = StateBuilder(frame, coordinates_subsets)
+        builder = StateBuilder(frame, coordinate_subsets)
         assert builder is not None
         assert isinstance(builder, StateBuilder)
         assert builder.is_defined()
@@ -103,7 +103,7 @@ class TestStateBuilder:
         self,
         state_builder: StateBuilder,
     ):
-        added_builder: StateBuilder = state_builder + CoordinatesSubset.mass()
+        added_builder: StateBuilder = state_builder + CoordinateSubset.mass()
         assert isinstance(added_builder, StateBuilder)
         assert state_builder != added_builder
 
@@ -125,7 +125,7 @@ class TestStateBuilder:
         assert state.get_instant() == instant
         assert (state.get_coordinates() == coordinates).all()
         assert state.get_frame() == state_builder.get_frame()
-        assert state.get_coordinates_subsets() == state_builder.get_coordinates_subsets()
+        assert state.get_coordinate_subsets() == state_builder.get_coordinate_subsets()
 
     def test_reduce(
         self,
@@ -146,14 +146,14 @@ class TestStateBuilder:
             [
                 CartesianPosition.default(),
                 CartesianVelocity.default(),
-                CoordinatesSubset.mass(),
+                CoordinateSubset.mass(),
             ],
         )
         default_state: State = State(
             state.get_instant(),
             [100],
             state.get_frame(),
-            CoordinatesBroker([CoordinatesSubset.mass()]),
+            CoordinatesBroker([CoordinateSubset.mass()]),
         )
         expanded_state: State = builder.expand(state, default_state)
 
@@ -168,4 +168,4 @@ class TestStateBuilder:
         coordinates_broker: CoordinatesBroker,
     ):
         assert state_builder.get_frame() == frame
-        assert state_builder.get_coordinates_subsets() == coordinates_broker.get_subsets()
+        assert state_builder.get_coordinate_subsets() == coordinates_broker.get_subsets()

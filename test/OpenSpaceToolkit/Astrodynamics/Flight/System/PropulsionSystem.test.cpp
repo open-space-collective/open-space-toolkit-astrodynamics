@@ -25,7 +25,7 @@ using ostk::physics::Unit;
 
 using ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem : public ::testing::Test
 {

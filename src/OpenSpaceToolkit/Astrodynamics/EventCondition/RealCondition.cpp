@@ -9,7 +9,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -148,5 +148,5 @@ std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(
 }
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

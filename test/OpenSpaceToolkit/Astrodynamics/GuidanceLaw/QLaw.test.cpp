@@ -15,9 +15,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -49,21 +49,21 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::celestial::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::guidancelaw::QLaw;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::Dynamics;
-using ostk::astro::dynamic::CentralBodyGravity;
-using ostk::astro::dynamic::Thruster;
-using ostk::astro::dynamic::PositionDerivative;
+using ostk::astrodynamics::guidancelaw::QLaw;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::dynamics::PositionDerivative;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public ::testing::Test
 {
@@ -560,7 +560,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
             Instant::J2000(),
             coordinates,
             Frame::GCRF(),
-            {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()}
+            {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
         };
 
         const Vector3d acceleration = qlaw.calculateThrustAccelerationAt(

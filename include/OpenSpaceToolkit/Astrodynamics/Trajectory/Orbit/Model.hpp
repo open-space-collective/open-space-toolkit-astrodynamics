@@ -12,7 +12,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -23,9 +23,9 @@ using ostk::core::type::Integer;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::State;
 
-class Model : public virtual ostk::astro::trajectory::Model
+class Model : public virtual ostk::astrodynamics::trajectory::Model
 {
    public:
     Model();
@@ -49,7 +49,7 @@ class Model : public virtual ostk::astro::trajectory::Model
 
 }  // namespace orbit
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -13,7 +13,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::container::Array;
@@ -83,7 +83,7 @@ class Access
     Angle maxElevation_;
 };
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

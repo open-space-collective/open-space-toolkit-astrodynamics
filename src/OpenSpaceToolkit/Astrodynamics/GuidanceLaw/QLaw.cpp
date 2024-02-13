@@ -5,11 +5,11 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace guidancelaw
 {
@@ -23,8 +23,8 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 QLaw::Parameters::Parameters(
     const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
@@ -116,7 +116,7 @@ QLaw::QLaw(
       finiteDifferenceSolver_(
           FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
       ),
-      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinatesSubset>("QLaw Element Vector", 5)})
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)})
 {
 }
 
@@ -731,5 +731,5 @@ Tuple<double, double> QLaw::computeEffectivity(
 }
 
 }  // namespace guidancelaw
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

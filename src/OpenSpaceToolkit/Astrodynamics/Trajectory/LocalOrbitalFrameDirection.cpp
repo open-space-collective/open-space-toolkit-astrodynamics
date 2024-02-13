@@ -8,7 +8,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -103,5 +103,5 @@ LocalOrbitalFrameDirection LocalOrbitalFrameDirection::Undefined()
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

@@ -37,15 +37,15 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -86,23 +86,23 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamic::CentralBodyGravity;
-using ostk::astro::dynamic::PositionDerivative;
-using ostk::astro::dynamic::Thruster;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::guidancelaw::QLaw;
-using ostk::astro::solver::FiniteDifferenceSolver;
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::guidancelaw::QLaw;
+using ostk::astrodynamics::solver::FiniteDifferenceSolver;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation
     : public ::testing::Test,
@@ -165,9 +165,9 @@ class OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation
     const Shared<CoordinatesBroker> dragCoordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
         {CartesianPosition::Default(),
          CartesianVelocity::Default(),
-         CoordinatesSubset::Mass(),
-         CoordinatesSubset::SurfaceArea(),
-         CoordinatesSubset::DragCoefficient()}
+         CoordinateSubset::Mass(),
+         CoordinateSubset::SurfaceArea(),
+         CoordinateSubset::DragCoefficient()}
     ));
 };
 
@@ -270,7 +270,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         Instant::J2000(),
         coordinates,
         Frame::GCRF(),
-        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()}
+        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
     };
 
     const State state =
@@ -370,7 +370,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         Instant::J2000(),
         coordinates,
         Frame::GCRF(),
-        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()}
+        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
     };
 
     const State state =
@@ -441,7 +441,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         Instant::DateTime(DateTime(2024, 10, 1, 0, 0, 0), Scale::UTC),
         coordinates,
         Frame::GCRF(),
-        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()}
+        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
     };
 
     // SMA Targeting

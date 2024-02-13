@@ -10,15 +10,15 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
 
 using ostk::core::type::String;
 
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief An Event Condition that can evaluate each state to a boolean.
 class BooleanCondition : public RealCondition
@@ -64,7 +64,7 @@ class BooleanCondition : public RealCondition
 };
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

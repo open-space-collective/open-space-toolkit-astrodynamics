@@ -17,8 +17,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 
 using ostk::core::container::Array;
 using ostk::core::type::Shared;
@@ -35,12 +35,12 @@ using ostk::physics::time::Interval;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
-using ostk::astro::Access;
-using ostk::astro::Trajectory;
-using ostk::astro::access::Generator;
-using ostk::astro::trajectory::Orbit;
-using ostk::astro::trajectory::orbit::model::SGP4;
-using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::Access;
+using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::access::Generator;
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
 static const int DEFAULT_ITERATIONS = 10;
 

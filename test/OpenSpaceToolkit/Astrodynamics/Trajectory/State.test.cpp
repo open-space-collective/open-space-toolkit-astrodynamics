@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AngularVelocity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/AttitudeQuaternion.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -26,13 +26,13 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::AngularVelocity;
-using ostk::astro::trajectory::state::coordinatessubsets::AttitudeQuaternion;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 {
@@ -52,7 +52,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         VectorXd coordinates(6);
         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
 
-        const Array<Shared<const CoordinatesSubset>> subsets = {
+        const Array<Shared<const CoordinateSubset>> subsets = {
             CartesianPosition::Default(), CartesianVelocity::Default()
         };
         EXPECT_NO_THROW(State state(instant, coordinates, Frame::GCRF(), subsets));
@@ -271,7 +271,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)
         VectorXd anotherCoordinates(7);
         anotherCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 100.0;
         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()})
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()})
         );
 
         const State anotherState = {instant, anotherCoordinates, Frame::GCRF(), brokerSPtr2};
@@ -517,7 +517,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
         VectorXd anotherCoordinates(7);
         anotherCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 100.0;
         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()})
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()})
         );
 
         const State anotherState = {instant, anotherCoordinates, Frame::GCRF(), brokerSPtr2};
@@ -1014,7 +1014,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(attitude, state.getAttitude());
         EXPECT_EQ(angularVelocity, state.getAngularVelocity());
         EXPECT_EQ(coordinates, state.getCoordinates());
-        EXPECT_EQ(state.getCoordinatesSubsets(), brokerSPtr->getSubsets());
+        EXPECT_EQ(state.getCoordinateSubsets(), brokerSPtr->getSubsets());
         EXPECT_TRUE(state.hasSubset(CartesianPosition::Default()));
         EXPECT_TRUE(state.hasSubset(CartesianVelocity::Default()));
         EXPECT_TRUE(state.hasSubset(AttitudeQuaternion::Default()));
@@ -1094,7 +1094,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getAttitude());
         EXPECT_ANY_THROW(State::Undefined().getAngularVelocity());
         EXPECT_ANY_THROW(State::Undefined().getCoordinates());
-        EXPECT_ANY_THROW(State::Undefined().getCoordinatesSubsets());
+        EXPECT_ANY_THROW(State::Undefined().getCoordinateSubsets());
         EXPECT_ANY_THROW(State::Undefined().hasSubset(CartesianPosition::Default()));
         EXPECT_ANY_THROW(State::Undefined().getFrame());
     }
@@ -1201,13 +1201,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
         );
         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
 
-        const Array<Shared<const CoordinatesSubset>> positionSubset = {CartesianPosition::Default()};
+        const Array<Shared<const CoordinateSubset>> positionSubset = {CartesianPosition::Default()};
         EXPECT_EQ(coordinates.segment(0, 3), aState.extractCoordinates(positionSubset));
 
-        const Array<Shared<const CoordinatesSubset>> velocitySubset = {CartesianVelocity::Default()};
+        const Array<Shared<const CoordinateSubset>> velocitySubset = {CartesianVelocity::Default()};
         EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinates(velocitySubset));
 
-        const Array<Shared<const CoordinatesSubset>> positionAndVelocitySubset = {
+        const Array<Shared<const CoordinateSubset>> positionAndVelocitySubset = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
         };

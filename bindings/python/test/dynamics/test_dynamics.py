@@ -5,7 +5,7 @@ import pytest
 from ostk.physics import Environment
 
 from ostk.astrodynamics import Dynamics
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 
 
 @pytest.fixture
@@ -24,10 +24,10 @@ def dynamics(name: str) -> Dynamics:
         def is_defined():
             return True
 
-        def get_read_coordinates_subsets(self):
+        def get_read_coordinate_subsets(self):
             return [CartesianPosition.default()]
 
-        def get_write_coordinates_subsets(self):
+        def get_write_coordinate_subsets(self):
             return [CartesianPosition.default()]
 
         def compute_contribution(self, instant, state_vector, frame):

@@ -18,7 +18,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -34,8 +34,8 @@ using ostk::physics::coordinate::frame::Provider;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
 struct SharedFrameEnabler : public Frame
 {
@@ -142,5 +142,5 @@ String LocalOrbitalFrameFactory::generateFrameName(
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

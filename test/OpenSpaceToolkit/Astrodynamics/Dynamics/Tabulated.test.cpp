@@ -9,7 +9,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -32,9 +32,9 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::dynamic::Tabulated;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
 {
@@ -51,7 +51,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
         Instant::DateTime(DateTime(2018, 01, 01, 0, 0, 10, 000), Scale::UTC),
         Instant::DateTime(DateTime(2018, 01, 01, 0, 0, 15, 000), Scale::UTC),
     };
-    const Array<Shared<const CoordinatesSubset>> defaultWriteCoordinatesSubsets_ = {CartesianVelocity::Default()};
+    const Array<Shared<const CoordinateSubset>> defaultWriteCoordinateSubsets_ = {CartesianVelocity::Default()};
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
 
     MatrixXd contributionProfile_;
@@ -90,7 +90,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Constructor)
 {
     {
         EXPECT_NO_THROW(
-            Tabulated(defaultInstants_, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_)
+            Tabulated(defaultInstants_, contributionProfile_, defaultWriteCoordinateSubsets_, defaultFrameSPtr_)
         );
     }
 
@@ -99,7 +99,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Constructor)
             {
                 try
                 {
-                    Tabulated({}, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_);
+                    Tabulated({}, contributionProfile_, defaultWriteCoordinateSubsets_, defaultFrameSPtr_);
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -119,7 +119,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Constructor)
             {
                 try
                 {
-                    Tabulated(defaultInstants_, contributionProfile_, {CoordinatesSubset::Mass()}, defaultFrameSPtr_);
+                    Tabulated(defaultInstants_, contributionProfile_, {CoordinateSubset::Mass()}, defaultFrameSPtr_);
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -143,7 +143,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, StreamOperator)
     Tabulated tabulated = {
         defaultInstants_,
         contributionProfile_,
-        defaultWriteCoordinatesSubsets_,
+        defaultWriteCoordinateSubsets_,
         defaultFrameSPtr_,
     };
 
@@ -159,7 +159,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Print)
     Tabulated tabulated = {
         defaultInstants_,
         contributionProfile_,
-        defaultWriteCoordinatesSubsets_,
+        defaultWriteCoordinateSubsets_,
         defaultFrameSPtr_,
     };
 
@@ -174,7 +174,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Accessors)
     Tabulated tabulated = {
         defaultInstants_,
         contributionProfile_,
-        defaultWriteCoordinatesSubsets_,
+        defaultWriteCoordinateSubsets_,
         defaultFrameSPtr_,
     };
 
@@ -196,7 +196,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Getters)
     Tabulated tabulated = {
         defaultInstants_,
         contributionProfile_,
-        defaultWriteCoordinatesSubsets_,
+        defaultWriteCoordinateSubsets_,
         defaultFrameSPtr_,
     };
 
@@ -218,7 +218,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
     const VectorXd x;  // Not used
     {
         Tabulated tabulated = {
-            defaultInstants_, contributionProfile_, defaultWriteCoordinatesSubsets_, defaultFrameSPtr_
+            defaultInstants_, contributionProfile_, defaultWriteCoordinateSubsets_, defaultFrameSPtr_
         };
 
         // Wrong frame
@@ -253,7 +253,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
         const Tabulated tabulated = {
             instants,
             contributionProfile,
-            defaultWriteCoordinatesSubsets_,
+            defaultWriteCoordinateSubsets_,
             defaultFrameSPtr_,
         };
 

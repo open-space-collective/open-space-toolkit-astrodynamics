@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
 
 #include <Global.test.hpp>
 
@@ -31,10 +31,10 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astro::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
-using ostk::astro::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, Constructor)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, Constructor)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -48,7 +48,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, ToBrouwerLyddaneMeanShort)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, ToBrouwerLyddaneMeanShort)
 {
     {
         const COE coe = COE::FromSIVector(
@@ -74,7 +74,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort_Parametrized
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort_Parametrized
     : public ::testing::TestWithParam<std::tuple<Position, Velocity, Vector6d>>
 {
 };
@@ -82,7 +82,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydda
 // Values taken from GMAT
 INSTANTIATE_TEST_SUITE_P(
     Cartesian,
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort_Parametrized,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort_Parametrized,
     ::testing::Values(std::make_tuple(
         Position::Meters({6596065.624114551, 2282234.953292401, -18030.93992064121}, Frame::GCRF()),
         Velocity::MetersPerSecond({345.4716519563907, -967.0404288726759, 7488.686029827369}, Frame::GCRF()),
@@ -97,7 +97,7 @@ INSTANTIATE_TEST_SUITE_P(
     ))
 );
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort_Parametrized, Cartesian)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort_Parametrized, Cartesian)
 {
     const auto& [position, velocity, expectedMeanElements] = GetParam();
     const BrouwerLyddaneMeanShort brouwerMeanShortOE = BrouwerLyddaneMeanShort::Cartesian(
@@ -113,7 +113,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydd
 }
 
 // Values taken from GMAT
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, ToCOE)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, ToCOE)
 {
     {
         const BrouwerLyddaneMeanShort brouwerMeanShortOE = BrouwerLyddaneMeanShort({
@@ -179,7 +179,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, GetCartesianState)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, GetCartesianState)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(6973.743736075629);
@@ -244,7 +244,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, Undefined)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, Undefined)
 {
     {
         EXPECT_NO_THROW(BrouwerLyddaneMeanShort::Undefined());

@@ -20,8 +20,8 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Angle;
 
-using ostk::astro::EventCondition;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::trajectory::State;
 
 // Trampoline class for virtual member functions
 class PyEventCondition : public EventCondition

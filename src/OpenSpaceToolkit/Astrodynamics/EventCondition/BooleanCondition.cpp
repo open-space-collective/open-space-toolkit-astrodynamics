@@ -7,7 +7,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -50,5 +50,5 @@ void BooleanCondition::print(std::ostream& anOutputStream, bool displayDecorator
 }
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

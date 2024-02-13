@@ -7,7 +7,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -15,16 +15,16 @@ namespace state
 {
 
 CoordinatesBroker::CoordinatesBroker()
-    : nextCoordinatesSubsetIndex_(0),
-      coordinatesSubsets_({}),
-      coordinatesSubsetsIndexMap_({})
+    : nextCoordinateSubsetIndex_(0),
+      coordinateSubsets_({}),
+      coordinateSubsetsIndexMap_({})
 {
 }
 
-CoordinatesBroker::CoordinatesBroker(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray)
+CoordinatesBroker::CoordinatesBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray)
     : CoordinatesBroker()
 {
-    for (Shared<const CoordinatesSubset> subset : aCoordinatesSubsetsArray)
+    for (Shared<const CoordinateSubset> subset : aCoordinateSubsetsArray)
     {
         this->addSubset(subset);
     }
@@ -42,7 +42,7 @@ bool CoordinatesBroker::operator==(const CoordinatesBroker& aCoordinatesBroker) 
         return false;
     }
 
-    for (const auto& element : this->coordinatesSubsetsIndexMap_)
+    for (const auto& element : this->coordinateSubsetsIndexMap_)
     {
         const String id = element.first;
         if (!aCoordinatesBroker.hasSubset(id))
@@ -64,99 +64,99 @@ bool CoordinatesBroker::operator!=(const CoordinatesBroker& aCoordinatesBroker) 
     return !((*this) == aCoordinatesBroker);
 }
 
-const Array<Shared<const CoordinatesSubset>>& CoordinatesBroker::accessSubsets() const
+const Array<Shared<const CoordinateSubset>>& CoordinatesBroker::accessSubsets() const
 {
-    return this->coordinatesSubsets_;
+    return this->coordinateSubsets_;
 }
 
 Size CoordinatesBroker::getNumberOfCoordinates() const
 {
-    return this->nextCoordinatesSubsetIndex_;
+    return this->nextCoordinateSubsetIndex_;
 }
 
 Size CoordinatesBroker::getNumberOfSubsets() const
 {
-    return (size_t)this->coordinatesSubsetsIndexMap_.size();
+    return (size_t)this->coordinateSubsetsIndexMap_.size();
 }
 
-Array<Shared<const CoordinatesSubset>> CoordinatesBroker::getSubsets() const
+Array<Shared<const CoordinateSubset>> CoordinatesBroker::getSubsets() const
 {
     return this->accessSubsets();
 }
 
-Index CoordinatesBroker::addSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+Index CoordinatesBroker::addSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
 {
-    const auto search = this->coordinatesSubsetsIndexMap_.find(aCoordinatesSubsetSPtr->getId());
+    const auto search = this->coordinateSubsetsIndexMap_.find(aCoordinateSubsetSPtr->getId());
 
-    if (search != this->coordinatesSubsetsIndexMap_.end())
+    if (search != this->coordinateSubsetsIndexMap_.end())
     {
         return search->second;
     }
 
-    const Index coordinatesSubsetIndex = this->nextCoordinatesSubsetIndex_;
+    const Index coordinatesSubsetIndex = this->nextCoordinateSubsetIndex_;
 
-    this->coordinatesSubsets_.add(aCoordinatesSubsetSPtr);
-    this->coordinatesSubsetsIndexMap_.insert({aCoordinatesSubsetSPtr->getId(), this->nextCoordinatesSubsetIndex_});
-    this->nextCoordinatesSubsetIndex_ += aCoordinatesSubsetSPtr->getSize();
+    this->coordinateSubsets_.add(aCoordinateSubsetSPtr);
+    this->coordinateSubsetsIndexMap_.insert({aCoordinateSubsetSPtr->getId(), this->nextCoordinateSubsetIndex_});
+    this->nextCoordinateSubsetIndex_ += aCoordinateSubsetSPtr->getSize();
 
     return coordinatesSubsetIndex;
 }
 
-bool CoordinatesBroker::hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+bool CoordinatesBroker::hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
 {
-    return this->hasSubset(aCoordinatesSubsetSPtr->getId());
+    return this->hasSubset(aCoordinateSubsetSPtr->getId());
 }
 
 VectorXd CoordinatesBroker::extractCoordinate(
-    const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset
+    const VectorXd& aFullCoordinatesVector, const CoordinateSubset& aCoordinateSubset
 ) const
 {
     return aFullCoordinatesVector.segment(
-        this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize()
+        this->getSubsetIndex(aCoordinateSubset.getId()), aCoordinateSubset.getSize()
     );
 }
 
 VectorXd CoordinatesBroker::extractCoordinates(
-    const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+    const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
 ) const
 {
-    Size coordinatesSubsetsSize = 0;
-    for (const auto& subset : aCoordinatesSubsetsArray)
+    Size coordinateSubsetsSize = 0;
+    for (const auto& subset : aCoordinateSubsetsArray)
     {
-        coordinatesSubsetsSize += subset->getSize();
+        coordinateSubsetsSize += subset->getSize();
     }
 
-    VectorXd coordinatesSubsetsVector(coordinatesSubsetsSize);
+    VectorXd coordinateSubsetsVector(coordinateSubsetsSize);
 
     int startIndex = 0;
-    for (const auto& subset : aCoordinatesSubsetsArray)
+    for (const auto& subset : aCoordinateSubsetsArray)
     {
-        coordinatesSubsetsVector.segment(startIndex, subset->getSize()) =
+        coordinateSubsetsVector.segment(startIndex, subset->getSize()) =
             aFullCoordinatesVector.segment(this->getSubsetIndex(subset->getId()), subset->getSize());
 
         startIndex += subset->getSize();
     }
 
-    return coordinatesSubsetsVector;
+    return coordinateSubsetsVector;
 }
 
 VectorXd CoordinatesBroker::extractCoordinate(
-    const VectorXd& aFullCoordinatesVector, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
+    const VectorXd& aFullCoordinatesVector, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr
 ) const
 {
-    return this->extractCoordinate(aFullCoordinatesVector, *aCoordinatesSubsetSPtr);
+    return this->extractCoordinate(aFullCoordinatesVector, *aCoordinateSubsetSPtr);
 }
 
 bool CoordinatesBroker::hasSubset(const String& anId) const
 {
-    return this->coordinatesSubsetsIndexMap_.count(anId) > 0;
+    return this->coordinateSubsetsIndexMap_.count(anId) > 0;
 }
 
 Index CoordinatesBroker::getSubsetIndex(const String& anId) const
 {
-    auto search = this->coordinatesSubsetsIndexMap_.find(anId);
+    auto search = this->coordinateSubsetsIndexMap_.find(anId);
 
-    if (search == this->coordinatesSubsetsIndexMap_.end())
+    if (search == this->coordinateSubsetsIndexMap_.end())
     {
         throw ostk::core::error::RuntimeError("Coordinates subset [{}] not found", anId);
     }
@@ -166,5 +166,5 @@ Index CoordinatesBroker::getSubsetIndex(const String& anId) const
 
 }  // namespace state
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

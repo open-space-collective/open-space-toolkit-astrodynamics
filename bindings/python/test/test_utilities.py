@@ -22,7 +22,7 @@ Trajectory = astrodynamics.Trajectory
 State = astrodynamics.trajectory.State
 
 
-class TestUtilities:
+class TestUtility:
     def test_lla_from_state(
         self,
         state: State,

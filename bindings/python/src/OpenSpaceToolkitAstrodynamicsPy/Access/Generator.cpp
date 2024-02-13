@@ -16,9 +16,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
     using ostk::physics::coordinate::spherical::AER;
     using ostk::physics::time::Duration;
 
-    using ostk::astro::Access;
-    using ostk::astro::access::Generator;
-    using ostk::astro::trajectory::State;
+    using ostk::astrodynamics::Access;
+    using ostk::astrodynamics::access::Generator;
+    using ostk::astrodynamics::trajectory::State;
 
     class_<Generator, Shared<Generator>>(
         aModule,

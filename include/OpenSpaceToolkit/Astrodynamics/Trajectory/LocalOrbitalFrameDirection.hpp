@@ -9,7 +9,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -22,7 +22,7 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
 /// @brief Local Orbital Frame Direction
 ///
@@ -100,7 +100,7 @@ class LocalOrbitalFrameDirection
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -14,9 +14,9 @@ from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
 
 from ostk.astrodynamics.trajectory import State
@@ -82,7 +82,7 @@ def coordinates_broker() -> CoordinatesBroker:
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
+            CoordinateSubset.mass(),
         ]
     )
 
@@ -105,8 +105,8 @@ class TestThruster:
     def test_getters(self, dynamics: Thruster):
         assert dynamics.get_satellite_system() is not None
         assert dynamics.get_guidance_law() is not None
-        assert dynamics.get_read_coordinates_subsets() is not None
-        assert dynamics.get_write_coordinates_subsets() is not None
+        assert dynamics.get_read_coordinate_subsets() is not None
+        assert dynamics.get_write_coordinate_subsets() is not None
 
     def test_compute_contribution_success(self, dynamics: Thruster, state: State):
         contribution = dynamics.compute_contribution(

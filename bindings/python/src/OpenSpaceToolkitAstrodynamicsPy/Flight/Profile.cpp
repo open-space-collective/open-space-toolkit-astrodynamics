@@ -3,7 +3,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aModule)
 {
@@ -14,9 +13,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
     using ostk::physics::coordinate::Frame;
 
-    using ostk::astro::flight::Profile;
-    using ostk::astro::flight::profile::Model;
-    using ostk::astro::trajectory::State;
+    using ostk::astrodynamics::flight::Profile;
+    using ostk::astrodynamics::flight::profile::Model;
+    using ostk::astrodynamics::trajectory::State;
 
     class_<Profile>(
         aModule,
@@ -164,5 +163,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
     // Add objects to "profile" submodule
     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(profile);
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models(profile);
 }

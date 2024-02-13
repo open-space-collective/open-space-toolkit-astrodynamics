@@ -5,7 +5,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 GuidanceLaw::GuidanceLaw(const String& aName)
@@ -35,5 +35,5 @@ void GuidanceLaw::print(std::ostream& anOutputStream, bool displayDecorator) con
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

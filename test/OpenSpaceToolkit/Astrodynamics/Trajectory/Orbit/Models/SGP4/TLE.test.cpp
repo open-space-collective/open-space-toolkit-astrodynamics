@@ -2,15 +2,15 @@
 
 #include <sstream>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 
 #include <Global.test.hpp>
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Constructor)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Constructor)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -35,11 +35,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Constructo
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, EqualToOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, EqualToOperator)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -61,11 +61,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, EqualToOpe
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualToOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, NotEqualToOperator)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -87,11 +87,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualTo
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, StreamOperator)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String satelliteName = "ISS (ZARYA)";
@@ -108,11 +108,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOper
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelliteNumber)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatelliteNumber)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -128,11 +128,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelli
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getClassification)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getClassification)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -148,11 +148,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getClassif
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInternationalDesignator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getInternationalDesignator)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -168,7 +168,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInterna
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEpoch)
 {
     using ostk::core::type::String;
 
@@ -176,7 +176,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -192,11 +192,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionFirstTimeDerivativeDividedByTwo)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMotionFirstTimeDerivativeDividedByTwo)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -212,11 +212,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMot
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionSecondTimeDerivativeDividedBySix)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMotionSecondTimeDerivativeDividedBySix)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -232,11 +232,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMot
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getBStarDragTerm)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getBStarDragTerm)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -252,11 +252,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getBStarDr
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEphemerisType)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEphemerisType)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -272,11 +272,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEphemer
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getElementSetNumber)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getElementSetNumber)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -292,11 +292,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getElement
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstLineChecksum)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getFirstLineChecksum)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -321,13 +321,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstLi
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclination)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getInclination)
 {
     using ostk::core::type::String;
 
     using ostk::physics::unit::Angle;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -343,13 +343,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclina
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getRaan)
 {
     using ostk::core::type::String;
 
     using ostk::physics::unit::Angle;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -365,11 +365,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEccentricity)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEccentricity)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -385,13 +385,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEccentr
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getAop)
 {
     using ostk::core::type::String;
 
     using ostk::physics::unit::Angle;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -407,13 +407,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAnomaly)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanAnomaly)
 {
     using ostk::core::type::String;
 
     using ostk::physics::unit::Angle;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -429,7 +429,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAno
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotion)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMotion)
 {
     using ostk::core::type::String;
 
@@ -437,7 +437,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMot
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -456,11 +456,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMot
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumberAtEpoch)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getRevolutionNumberAtEpoch)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -476,11 +476,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolut
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getSecondLineChecksum)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getSecondLineChecksum)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -505,12 +505,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getSecondL
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetSatelliteNumber)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatelliteNumber)
 {
     using ostk::core::type::Integer;
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995";
@@ -585,7 +585,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetSatelli
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetEpoch)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
 {
     using ostk::core::type::String;
 
@@ -594,7 +594,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetEpoch)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
@@ -654,12 +654,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetEpoch)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetRevolutionNumberAtEpoch)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevolutionNumberAtEpoch)
 {
     using ostk::core::type::Integer;
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995";
@@ -751,9 +751,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetRevolut
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Undefined)
 {
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         EXPECT_NO_THROW(TLE::Undefined());
@@ -761,14 +761,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
     using ostk::core::type::Integer;
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         EXPECT_TRUE(
@@ -860,7 +860,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 
     {
         const File activeTlesFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt")
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt")
         );
 
         const String allTles = activeTlesFile.getContents();
@@ -903,7 +903,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
@@ -914,7 +914,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const TLE tle = TLE::Parse(
@@ -1020,7 +1020,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 
     {
         const File activeTlesFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt")
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt")
         );
 
         const String allTles = activeTlesFile.getContents();
@@ -1069,7 +1069,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Load)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
@@ -1079,11 +1079,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const TLE tle = TLE::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/A.tle"))
         );
 
         EXPECT_TRUE(tle.isDefined());
@@ -1111,7 +1111,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
         const TLE tle = TLE::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/B.tle"))
         );
 
         EXPECT_TRUE(tle.isDefined());
@@ -1140,7 +1140,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
         const TLE tle = TLE::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/C.tle"))
         );
 
         EXPECT_TRUE(tle.isDefined());
@@ -1173,7 +1173,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 {
     using ostk::core::type::Integer;
     using ostk::core::type::Real;
@@ -1186,7 +1186,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String satelliteName = "Satellite";
@@ -2196,11 +2196,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GenerateChecksum)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GenerateChecksum)
 {
     using ostk::core::type::String;
 
-    using ostk::astro::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
