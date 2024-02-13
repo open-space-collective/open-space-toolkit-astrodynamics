@@ -7,8 +7,8 @@ using namespace pybind11;
 using ostk::core::type::String;
 using ostk::core::type::Shared;
 
-using ostk::astrodynamics::trajectory::state::coordinatessubset::AngularVelocity;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_AngularVelocity(
@@ -19,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_An
         aModule,
         "AngularVelocity",
         R"doc(
-            Angular velocity coordinates subset.
+            Angular velocity coordinate subset.
 
             Defined with respect to a reference frame and a Attitude quaternion.
 

@@ -61,8 +61,8 @@ using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
@@ -347,7 +347,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
         EXPECT_FALSE(dynamics->getWriteCoordinateSubsets().contains(coordinatesSubset));
 
         const String expectedString =
-            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+            "Provided coordinate subset is not part of the dynamics write coordinate subsets.";
 
         // Test the throw and the message that is thrown
         EXPECT_THROW(
@@ -413,7 +413,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
 
         // Check error for PositionDerivative
         const String expectedString =
-            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+            "Provided coordinate subset is not part of the dynamics write coordinate subsets.";
 
         // Test the throw and the message that is thrown
         EXPECT_THROW(
@@ -458,7 +458,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAll
             );  // Check the number of rows corresponds to the number of states
             EXPECT_GT(
                 contributions.at(dynamics).cols(), dynamics->getWriteCoordinateSubsets().getSize()
-            );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
+            );  // Check the number of columns corresponds to the number of coordinate subsets to which the dynamics
                 // writes
         }
     }
@@ -480,7 +480,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAll
             );  // Check the number of rows corresponds to the number of states
             EXPECT_GT(
                 contributions.at(dynamics).cols(), dynamics->getWriteCoordinateSubsets().getSize()
-            );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
+            );  // Check the number of columns corresponds to the number of coordinate subsets to which the dynamics
                 // writes
         }
     }

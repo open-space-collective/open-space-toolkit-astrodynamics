@@ -43,7 +43,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                     Args:
                         instants (list[Instant]): An array of instants.
                         contribution_profile (numpy.ndarray): A contribution profile.
-                        coordinate_subsets (list[CoordinateSubset]): An array of coordinates subsets related to the contribution profile.
+                        coordinate_subsets (list[CoordinateSubset]): An array of coordinate subsets related to the contribution profile.
                         frame (Frame): A frame.
 
                 )doc"

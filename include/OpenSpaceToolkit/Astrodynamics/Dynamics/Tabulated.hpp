@@ -45,7 +45,7 @@ class Tabulated : public Dynamics
     ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param aContributionProfile A contribution profile, one row for each instant
-    /// @param aWriteCoordinateSubsets An array of coordinates subsets to write to
+    /// @param aWriteCoordinateSubsets An array of coordinate subsets to write to
     /// @param aFrameSPtr A frame
     Tabulated(
         const Array<Instant>& anInstantArray,
@@ -100,14 +100,14 @@ class Tabulated : public Dynamics
     /// @return True if dynamics is defined
     virtual bool isDefined() const override;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
+    /// @return The coordinate subsets that the instance reads from
     virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
+    /// @return The coordinate subsets that the instance writes to
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.

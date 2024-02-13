@@ -45,8 +45,8 @@ using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
     : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real>>

@@ -129,10 +129,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
             "get_read_coordinate_subsets",
             &Dynamics::getReadCoordinateSubsets,
             R"doc(
-                Get the coordinates subsets that the dynamics reads.
+                Get the coordinate subsets that the dynamics reads.
 
                 Returns:
-                    read_coordinate_subsets (Array<CoordinateSubset>): The coordinates subsets that the dynamics reads.
+                    read_coordinate_subsets (Array<CoordinateSubset>): The coordinate subsets that the dynamics reads.
             )doc"
         )
 
@@ -140,10 +140,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
             "get_write_coordinate_subsets",
             &Dynamics::getWriteCoordinateSubsets,
             R"doc(
-                Get the coordinates subsets that the dynamics writes.
+                Get the coordinate subsets that the dynamics writes.
 
                 Returns:
-                    write_coordinate_subsets (Array<CoordinateSubset>): The coordinates subsets that the dynamics writes.
+                    write_coordinate_subsets (Array<CoordinateSubset>): The coordinate subsets that the dynamics writes.
             )doc"
         )
 

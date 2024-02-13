@@ -31,8 +31,8 @@ using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::dynamics::Thruster;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class MockGuidanceLaw : public GuidanceLaw
 {

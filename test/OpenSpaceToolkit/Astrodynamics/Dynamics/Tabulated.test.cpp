@@ -34,7 +34,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
 {
@@ -125,7 +125,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Constructor)
                 {
                     EXPECT_EQ(
                         "Contribution profile must have the same number of columns as the sum of the sizes of the "
-                        "write coordinates subsets.",
+                        "write coordinate subsets.",
                         e.getMessage()
                     );
                     throw;

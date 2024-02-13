@@ -14,7 +14,7 @@ namespace trajectory
 {
 namespace state
 {
-namespace coordinatessubset
+namespace coordinatesubset
 {
 
 using ostk::core::type::Shared;
@@ -25,7 +25,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 
 /// @brief  Angular Velocity.
 
@@ -53,9 +53,9 @@ class AngularVelocity : public CoordinateSubset
     /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinateBrokerSPtr a coordinates broker
+    /// @param              [in] aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return             The resulting coordinates subset value expressed in the desired reference frame
+    /// @return             The resulting coordinate subset value expressed in the desired reference frame
 
     VectorXd inFrame(
         const Instant& anInstant,
@@ -75,7 +75,7 @@ class AngularVelocity : public CoordinateSubset
     Shared<const AttitudeQuaternion> attitudeQuaternionSPtr_;
 };
 
-}  // namespace coordinatessubset
+}  // namespace coordinatesubset
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

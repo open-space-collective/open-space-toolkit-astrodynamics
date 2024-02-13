@@ -103,9 +103,9 @@ class Propagator
     /// @return True if propagator is defined
     bool isDefined() const;
 
-    /// @brief Access the coordinates broker
+    /// @brief Access the coordinate broker
     ///
-    /// @return The coordinates broker
+    /// @return The coordinate broker
     const Shared<CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Access the numerical solver

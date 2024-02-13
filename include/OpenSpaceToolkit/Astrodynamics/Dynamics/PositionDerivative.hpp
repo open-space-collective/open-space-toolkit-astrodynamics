@@ -49,14 +49,14 @@ class PositionDerivative : public Dynamics
     /// @return True if position derivative dynamics is defined
     virtual bool isDefined() const override;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
+    /// @return The coordinate subsets that the instance reads from
     virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
+    /// @return The coordinate subsets that the instance writes to
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.

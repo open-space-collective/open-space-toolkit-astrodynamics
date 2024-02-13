@@ -91,7 +91,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
         aModule,
         "CoordinateSubset",
         R"doc(
-            State coordinates subset. It contains information related to a particular group of coordinates. It does not
+            State coordinate subset. It contains information related to a particular group of coordinates. It does not
             contain the coordinate values.
 
         )doc"
@@ -103,8 +103,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                 Constructor.
 
                 Args:
-                    name (str): The name of the coordinates subset.
-                    size (int): The size of the coordinates subset.
+                    name (str): The name of the coordinate subset.
+                    size (int): The size of the coordinate subset.
 
             )doc",
             arg("name"),
@@ -118,30 +118,30 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
             "get_id",
             &CoordinateSubset::getId,
             R"doc(
-                Get the identifier of the coordinates subset.
+                Get the identifier of the coordinate subset.
 
                 Returns:
-                    str: The identifier of the coordinates subset.
+                    str: The identifier of the coordinate subset.
             )doc"
         )
         .def(
             "get_name",
             &CoordinateSubset::getName,
             R"doc(
-                Get the name of the coordinates subset.
+                Get the name of the coordinate subset.
 
                 Returns:
-                    str: The name of the coordinates subset.
+                    str: The name of the coordinate subset.
             )doc"
         )
         .def(
             "get_size",
             &CoordinateSubset::getSize,
             R"doc(
-                Get the size of the coordinates subset.
+                Get the size of the coordinate subset.
 
                 Returns:
-                    int: The size of the coordinates subset.
+                    int: The size of the coordinate subset.
             )doc"
         )
 
@@ -219,7 +219,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
             "mass",
             &CoordinateSubset::Mass,
             R"doc(
-                Get the mass coordinates subset.
+                Get the mass coordinate subset.
 
                 Returns:
                     CoordinateSubset: The mass coordinate subset.
@@ -229,7 +229,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
             "surface_area",
             &CoordinateSubset::SurfaceArea,
             R"doc(
-                Get the surface area coordinates subset.
+                Get the surface area coordinate subset.
 
                 Returns:
                     CoordinateSubset: The surface area coordinate subset.

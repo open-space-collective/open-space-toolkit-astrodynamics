@@ -100,8 +100,8 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation

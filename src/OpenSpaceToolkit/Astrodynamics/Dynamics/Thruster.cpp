@@ -25,8 +25,8 @@ using ostk::mathematics::object::Vector3d;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Thruster::Thruster(
     const SatelliteSystem& aSatelliteSystem, const Shared<const GuidanceLaw>& aGuidanceLaw, const String& aName

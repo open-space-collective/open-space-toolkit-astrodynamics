@@ -21,7 +21,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Segment::Solution::Solution(
     const String& aName,
@@ -158,17 +158,17 @@ MatrixXd Segment::Solution::getDynamicsContribution(
         throw ostk::core::error::RuntimeError("Provided dynamics is not part of the segment dynamics.");
     }
 
-    // Extract write coordinates subsets from dynamics
+    // Extract write coordinate subsets from dynamics
     const Array<Shared<const CoordinateSubset>> dynamicsWriteCoordinateSubsets =
         aDynamicsSPtr->getWriteCoordinateSubsets();
 
-    // Check that the provided coordinates subsets are part of the dynamics write coordinates subsets
+    // Check that the provided coordinate subsets are part of the dynamics write coordinate subsets
     for (auto aCoordinateSubsetSPtr : aCoordinateSubsetSPtrArray)
     {
         if (!dynamicsWriteCoordinateSubsets.contains(aCoordinateSubsetSPtr))
         {
             throw ostk::core::error::RuntimeError(String::Format(
-                "Provided coordinates subset [{}] is not part of the dynamics write coordinates subsets.",
+                "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
                 aCoordinateSubsetSPtr->getName()
             ));
         }
