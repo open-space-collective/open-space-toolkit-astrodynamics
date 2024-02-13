@@ -22,7 +22,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
 // Trampoline class for virtual member functions
 class PyDynamics : public Dynamics

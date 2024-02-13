@@ -12,7 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -35,7 +35,7 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::testing::Test

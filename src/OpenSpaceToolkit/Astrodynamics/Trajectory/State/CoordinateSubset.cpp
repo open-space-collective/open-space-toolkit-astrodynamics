@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
@@ -60,7 +60,7 @@ VectorXd CoordinateSubset::add(
     [[maybe_unused]] const VectorXd& aFullCoordinatesVector,
     [[maybe_unused]] const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    [[maybe_unused]] const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
     throw ostk::core::error::runtime::Wrong("Addition operation");
@@ -71,7 +71,7 @@ VectorXd CoordinateSubset::subtract(
     [[maybe_unused]] const VectorXd& aFullCoordinatesVector,
     [[maybe_unused]] const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    [[maybe_unused]] const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
     throw ostk::core::error::runtime::Wrong("Subtraction operation");
@@ -82,10 +82,10 @@ VectorXd CoordinateSubset::inFrame(
     const VectorXd& aFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& fromFrame,
     [[maybe_unused]] const Shared<const Frame>& toFrame,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
-    VectorXd coordinates = aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
+    VectorXd coordinates = aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     return coordinates;
 }

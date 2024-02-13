@@ -5,7 +5,7 @@ import pytest
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker, CoordinateSubset
+from ostk.astrodynamics.trajectory.state import CoordinateBroker, CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 
 
@@ -39,8 +39,8 @@ def frame() -> Frame:
 @pytest.fixture
 def coordinates_broker(
     coordinate_subsets: list[CoordinateSubset],
-) -> CoordinatesBroker:
-    return CoordinatesBroker(coordinate_subsets)
+) -> CoordinateBroker:
+    return CoordinateBroker(coordinate_subsets)
 
 
 @pytest.fixture
@@ -64,7 +64,7 @@ class TestCartesianPosition:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
     ):
         assert all(
             cartesian_position.add(
@@ -80,7 +80,7 @@ class TestCartesianPosition:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
     ):
         assert all(
             cartesian_position.subtract(
@@ -96,7 +96,7 @@ class TestCartesianPosition:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
     ):
         for value, expected in zip(
             cartesian_position.in_frame(

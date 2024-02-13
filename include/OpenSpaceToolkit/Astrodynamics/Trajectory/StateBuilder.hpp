@@ -14,7 +14,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
@@ -36,7 +36,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Factory class to generate States with common reference frame and coordinates subsets
@@ -57,8 +57,8 @@ class StateBuilder
     ///
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinatesBroker Shared pointer to an existing Coordinates Broker
-    StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr);
+    /// @param aCoordinateBroker Shared pointer to an existing Coordinates Broker
+    StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr);
 
     /// @brief Constructor.
     ///
@@ -129,7 +129,7 @@ class StateBuilder
     /// @brief Access the coordinates broker associated with the  StateBuilder.
     ///
     /// @return The coordinates broker associated to the State
-    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Get the reference frame associated with the  StateBuilder.
     ///
@@ -154,7 +154,7 @@ class StateBuilder
 
    private:
     Shared<const Frame> frameSPtr_;
-    Shared<const CoordinatesBroker> coordinatesBrokerSPtr_;
+    Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
 };
 
 }  // namespace trajectory

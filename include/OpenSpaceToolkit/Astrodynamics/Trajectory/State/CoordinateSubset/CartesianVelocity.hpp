@@ -24,7 +24,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 
 /// @brief Cartesian Velocity.
@@ -50,7 +50,7 @@ class CartesianVelocity : public CoordinateSubset
     /// @param aFullCoordinatesVector first set of all coordinates
     /// @param anotherFullCoordinatesVector second set of all coordinates
     /// @param aFrameSPtr the reference frame in which the coordinates are resolved
-    /// @param aCoordinatesBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return The resulting coordinates subset value (subset_1 + subset_2)
     virtual VectorXd add(
@@ -58,7 +58,7 @@ class CartesianVelocity : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
     /// @brief Subtract two coordinates subsets
@@ -67,7 +67,7 @@ class CartesianVelocity : public CoordinateSubset
     /// @param aFullCoordinatesVector first set of all coordinates
     /// @param anotherFullCoordinatesVector second set of all coordinates
     /// @param aFrameSPtr the reference frame associated to the coordinates
-    /// @param aCoordinatesBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return The resulting coordinates subset value (subset_1 - subset_2)
     virtual VectorXd subtract(
@@ -75,7 +75,7 @@ class CartesianVelocity : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
     /// @brief Transforms the coordinate subset from one frame to another
@@ -84,7 +84,7 @@ class CartesianVelocity : public CoordinateSubset
     /// @param aFullCoordinatesVector all coordinates
     /// @param fromFrame the reference frame associated to the coordinates
     /// @param toFrame the reference frame in which the coordinates are to be transformed
-    /// @param aCoordinatesBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return The resulting coordinates subset value expressed in the desired reference frame
     VectorXd inFrame(
@@ -92,7 +92,7 @@ class CartesianVelocity : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
     /// @brief Return the default instance

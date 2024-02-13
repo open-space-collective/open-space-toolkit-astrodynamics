@@ -23,10 +23,10 @@ from ostk.physics.environment.object.celestial import Earth
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
@@ -65,8 +65,8 @@ def dynamics(earth: Earth) -> AtmosphericDrag:
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker(
+def coordinates_broker() -> CoordinateBroker:
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
@@ -100,7 +100,7 @@ def state(
     dry_mass: float,
     surface_area: float,
     drag_coefficient: float,
-    coordinates_broker: CoordinatesBroker,
+    coordinates_broker: CoordinateBroker,
 ) -> State:
     coordinates = (
         position_coordinates

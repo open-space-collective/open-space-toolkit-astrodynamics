@@ -14,7 +14,7 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
 
@@ -26,8 +26,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQ
     const Array<Shared<const CoordinateSubset>> defaultCoordinateSubsets_ = {
         std::make_shared<AttitudeQuaternion>(defaultAttitudeQuaternion_)
     };
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(defaultCoordinateSubsets_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQuaternion, Constructor)
@@ -51,7 +51,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Attitude
         secondCoordinates << 0.0, 0.0, 0.0, 1.0;
 
         EXPECT_ANY_THROW(defaultAttitudeQuaternion_.add(
-            Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinatesBroker_
+            Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinateBroker_
         ));
     }
 }
@@ -65,7 +65,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Attitude
         secondCoordinates << 0.0, 0.0, 0.0, 1.0;
 
         EXPECT_ANY_THROW(defaultAttitudeQuaternion_.subtract(
-            Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinatesBroker_
+            Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinateBroker_
         ));
     }
 }
@@ -78,7 +78,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Attitude
         const Shared<const Frame> toFrame = Frame::TEME();
         VectorXd fullCoordinatesVector(4);
         fullCoordinatesVector << 0.0, 0.0, 0.0, 1.0;
-        const Shared<const CoordinatesBroker> brokerkSPtr = defaultCoordinatesBroker_;
+        const Shared<const CoordinateBroker> brokerkSPtr = defaultCoordinateBroker_;
 
         // TBI: check actual values
         EXPECT_NO_THROW(

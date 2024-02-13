@@ -50,7 +50,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
@@ -113,7 +113,7 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -183,7 +183,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation : public ::testi
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
 
-    const Shared<CoordinatesBroker> dragCoordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+    const Shared<CoordinateBroker> dragCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker(
         {CartesianPosition::Default(),
          CartesianVelocity::Default(),
          CoordinateSubset::Mass(),
@@ -662,8 +662,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
 
     // Coordinates Broker (scenario-independent)
-    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinateSubset::Mass(),
@@ -1209,8 +1209,8 @@ TEST_P(
         LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
 
     // Coordinates Broker (scenario-independent)
-    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinateSubset::Mass(),

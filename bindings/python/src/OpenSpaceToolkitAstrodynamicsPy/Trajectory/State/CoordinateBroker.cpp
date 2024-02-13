@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -10,12 +10,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
 
     using ostk::mathematics::object::VectorXd;
 
-    using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+    using ostk::astrodynamics::trajectory::state::CoordinateBroker;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-    class_<CoordinatesBroker, Shared<CoordinatesBroker>>(
+    class_<CoordinateBroker, Shared<CoordinateBroker>>(
         aModule,
-        "CoordinatesBroker",
+        "CoordinateBroker",
         R"doc(
             Class to manage the coordinates subsets of a state.
         
@@ -45,7 +45,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
 
         .def(
             "access_subsets",
-            &CoordinatesBroker::accessSubsets,
+            &CoordinateBroker::accessSubsets,
             R"doc(
                 Access the list of coordinates subsets.
 
@@ -56,7 +56,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "get_number_of_coordinates",
-            &CoordinatesBroker::getNumberOfCoordinates,
+            &CoordinateBroker::getNumberOfCoordinates,
             R"doc(
                 Get the total number of coordinates.
 
@@ -67,7 +67,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "get_number_of_subsets",
-            &CoordinatesBroker::getNumberOfSubsets,
+            &CoordinateBroker::getNumberOfSubsets,
             R"doc(
                 Get the number of coordinates subsets.
 
@@ -78,7 +78,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "get_subsets",
-            &CoordinatesBroker::getSubsets,
+            &CoordinateBroker::getSubsets,
             R"doc(
                 Get the list of coordinates subsets.
 
@@ -89,7 +89,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "add_subset",
-            &CoordinatesBroker::addSubset,
+            &CoordinateBroker::addSubset,
             R"doc(
                 Add a coordinates subset.
 
@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "has_subset",
-            overload_cast<const Shared<const CoordinateSubset>&>(&CoordinatesBroker::hasSubset, const_),
+            overload_cast<const Shared<const CoordinateSubset>&>(&CoordinateBroker::hasSubset, const_),
             arg("coordinate_subset"),
             R"doc(
                 Check if the coordinates broker has a given coordinates subset.
@@ -118,7 +118,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         .def(
             "extract_coordinate",
             overload_cast<const VectorXd&, const Shared<const CoordinateSubset>&>(
-                &CoordinatesBroker::extractCoordinate, const_
+                &CoordinateBroker::extractCoordinate, const_
             ),
             arg("coordinates"),
             arg("coordinate_subset"),
@@ -136,7 +136,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
         )
         .def(
             "extract_coordinates",
-            &CoordinatesBroker::extractCoordinates,
+            &CoordinateBroker::extractCoordinates,
             arg("coordinates"),
             arg("coordinate_subsets"),
             R"doc(

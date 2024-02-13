@@ -36,7 +36,7 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.trajectory import Sequence
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
@@ -112,8 +112,8 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker(
+def coordinates_broker() -> CoordinateBroker:
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
@@ -143,7 +143,7 @@ def state(
     wet_mass: Mass,
     cross_sectional_surface_area: float,
     drag_coefficient: float,
-    coordinates_broker: CoordinatesBroker,
+    coordinates_broker: CoordinateBroker,
 ) -> State:
     frame: Frame = Frame.GCRF()
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)

@@ -18,7 +18,7 @@ using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
 // Trampoline class for virtual member functions
 class PyThruster : public Thruster

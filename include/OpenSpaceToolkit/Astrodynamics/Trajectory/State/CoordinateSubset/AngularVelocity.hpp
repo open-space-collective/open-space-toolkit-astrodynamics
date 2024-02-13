@@ -24,7 +24,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
 
 /// @brief  Angular Velocity.
@@ -53,7 +53,7 @@ class AngularVelocity : public CoordinateSubset
     /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    /// @param              [in] aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return             The resulting coordinates subset value expressed in the desired reference frame
 
@@ -62,7 +62,7 @@ class AngularVelocity : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
     /// @brief              Return the default instance

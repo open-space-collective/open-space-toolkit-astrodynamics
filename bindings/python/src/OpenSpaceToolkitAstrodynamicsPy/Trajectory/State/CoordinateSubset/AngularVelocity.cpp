@@ -51,7 +51,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_An
                     coordinates (numpy.ndarray): The Angular velocity to convert.
                     from_frame (str): The reference frame of the input Angular velocity.
                     to_frame (str): The reference frame of the output Angular velocity.
-                    coordinates_broker (CoordinatesBroker): The coordinates broker.
+                    coordinates_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     numpy.ndarray: The Angular velocity in the output reference frame.

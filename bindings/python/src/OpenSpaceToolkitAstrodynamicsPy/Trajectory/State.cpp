@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesBroker.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateBroker.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/NumericalSolver.cpp>
 
@@ -21,7 +21,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
     using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::State;
-    using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+    using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
     class_<State>(
         aModule,
@@ -73,7 +73,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("attitude_frame")
         )
         .def(
-            init<const Instant&, const VectorXd&, const Shared<const Frame>&, const Shared<const CoordinatesBroker>&>(),
+            init<const Instant&, const VectorXd&, const Shared<const Frame>&, const Shared<const CoordinateBroker>&>(),
             R"doc(
                  Constructor with a pre-defined Coordinates Broker.
                  
@@ -81,7 +81,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                      instant (Instant): An instant
                      coordinates (numpy.ndarray): The coordinates at the instant in International System of Units
                      frame (Frame): The reference frame in which the coordinates are referenced to and resolved in
-                     coordinates_broker (CoordinatesBroker): The coordinates broker associated to the coordinates
+                     coordinates_broker (CoordinateBroker): The coordinates broker associated to the coordinates
              )doc",
             arg("instant"),
             arg("coordinates"),
@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                      instant (Instant): An instant
                      coordinates (numpy.ndarray): The coordinates at the instant in International System of Units
                      frame (Frame): The reference frame in which the coordinates are referenced to and resolved in
-                     coordinate_subsets (CoordinatesBroker): The coordinates subsets associated to the coordinates
+                     coordinate_subsets (CoordinateBroker): The coordinates subsets associated to the coordinates
              )doc",
             arg("instant"),
             arg("coordinates"),
@@ -293,7 +293,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
     // Create "state" python submodule
     auto state = aModule.def_submodule("state");
 
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(state);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(state);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(state);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(state);
 }

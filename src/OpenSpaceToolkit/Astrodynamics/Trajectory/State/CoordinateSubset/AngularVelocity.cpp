@@ -33,13 +33,13 @@ VectorXd AngularVelocity::inFrame(
     const VectorXd& aFullCoordinatesVector,
     const Shared<const Frame>& fromFrame,
     const Shared<const Frame>& toFrame,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
-    const VectorXd coordinates = aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
+    const VectorXd coordinates = aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     const VectorXd attitudeCoordinatesInFrame = this->attitudeQuaternionSPtr_->inFrame(
-        anInstant, aFullCoordinatesVector, fromFrame, toFrame, aCoordinatesBrokerSPtr
+        anInstant, aFullCoordinatesVector, fromFrame, toFrame, aCoordinateBrokerSPtr
     );
     const Quaternion quaternionInFrame =
         AttitudeQuaternion::coordinatesToQuaternion(attitudeCoordinatesInFrame).toNormalized();

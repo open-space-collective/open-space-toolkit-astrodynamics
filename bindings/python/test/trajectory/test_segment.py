@@ -21,7 +21,7 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 
@@ -44,7 +44,7 @@ def state() -> State:
         300.0,
     ]
     frame: Frame = Frame.GCRF()
-    coordinates_broker: CoordinatesBroker = CoordinatesBroker(
+    coordinates_broker: CoordinateBroker = CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),

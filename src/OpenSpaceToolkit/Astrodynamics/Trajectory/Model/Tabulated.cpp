@@ -4,7 +4,7 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
 namespace ostk
 {
@@ -144,7 +144,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     using ostk::core::type::Index;
     using ostk::core::type::String;
 
-    using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+    using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
     if (!anInstant.isDefined())
     {
@@ -174,7 +174,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     }
 
     const Shared<const Frame>& frame = firstState_.accessFrame();
-    const Shared<const CoordinatesBroker>& coordinatesBroker = firstState_.accessCoordinatesBroker();
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
 
     return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker);
 }

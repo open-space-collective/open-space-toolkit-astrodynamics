@@ -15,7 +15,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
@@ -38,7 +38,7 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Trajectory State
@@ -51,12 +51,12 @@ class State
     /// @param aCoordinates The coordinates at the instant in International System of Units
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinatesBrokerSPtr The coordinates broker associated to the coordinates
+    /// @param aCoordinateBrokerSPtr The coordinates broker associated to the coordinates
     State(
         const Instant& anInstant,
         const VectorXd& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     );
 
     /// @brief Constructor. This constructor makes a new Coordinates Broker under the hood for every
@@ -166,7 +166,7 @@ class State
     /// @brief Access the coordinates broker associated with the State.
     ///
     /// @return The coordinates broker associated to the State
-    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Get the size of the State.
     ///
@@ -254,7 +254,7 @@ class State
     Instant instant_;
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
-    Shared<const CoordinatesBroker> coordinatesBrokerSPtr_;
+    Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
 };
 
 }  // namespace trajectory

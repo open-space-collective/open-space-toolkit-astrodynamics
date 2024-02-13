@@ -29,12 +29,12 @@ State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 )
     : instant_(anInstant),
       coordinates_(aCoordinates),
       frameSPtr_(aFrameSPtr),
-      coordinatesBrokerSPtr_(aCoordinatesBrokerSPtr)
+      coordinatesBrokerSPtr_(aCoordinateBrokerSPtr)
 {
     if (coordinatesBrokerSPtr_ && (Size)coordinates_.size() != coordinatesBrokerSPtr_->getNumberOfCoordinates())
     {
@@ -51,7 +51,7 @@ State::State(
     : instant_(anInstant),
       coordinates_(aCoordinates),
       frameSPtr_(aFrameSPtr),
-      coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinateSubsetsArray)))
+      coordinatesBrokerSPtr_(std::make_shared<CoordinateBroker>(CoordinateBroker(aCoordinateSubsetsArray)))
 {
 }
 
@@ -82,8 +82,8 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    static const Shared<CoordinatesBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    static const Shared<CoordinateBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
         }));
@@ -139,8 +139,8 @@ State::State(
     coordinates.segment(6, 4) = AttitudeQuaternion::quaterionToCoordinates(anAttitude);
     coordinates.segment(10, 3) = anAngularVelocity;
 
-    static const Shared<CoordinatesBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+    static const Shared<CoordinateBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker(
             {CartesianPosition::Default(),
              CartesianVelocity::Default(),
              AttitudeQuaternion::Default(),
@@ -348,7 +348,7 @@ const VectorXd& State::accessCoordinates() const
     return this->coordinates_;
 }
 
-const Shared<const CoordinatesBroker>& State::accessCoordinatesBroker() const
+const Shared<const CoordinateBroker>& State::accessCoordinateBroker() const
 {
     if (!this->isDefined())
     {

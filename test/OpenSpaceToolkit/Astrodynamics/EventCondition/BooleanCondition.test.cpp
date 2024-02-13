@@ -12,7 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -31,7 +31,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::astrodynamics::eventcondition::BooleanCondition;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::testing::Test
@@ -52,8 +52,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::
     };
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinateSubset>>::Empty()));
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(CoordinateBroker(Array<Shared<const CoordinateSubset>>::Empty()));
 
     const Array<Shared<const CoordinateSubset>> defaultSubsets_ = {
         std::make_shared<CoordinateSubset>(CoordinateSubset("ANGLE", 1))

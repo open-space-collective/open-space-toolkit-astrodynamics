@@ -93,7 +93,7 @@ Array<State> NumericalSolver::integrateTime(
             anInstantArray[i],
             solution.first,
             aState.accessFrame(),
-            aState.accessCoordinatesBroker(),
+            aState.accessCoordinateBroker(),
         };
         states.add(state);
     }

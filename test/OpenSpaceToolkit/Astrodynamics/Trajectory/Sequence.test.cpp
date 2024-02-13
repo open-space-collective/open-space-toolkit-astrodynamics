@@ -62,7 +62,7 @@ using ostk::astrodynamics::trajectory::Sequence;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
@@ -595,8 +595,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
     );
 
-    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinateSubset::Mass(),

@@ -9,7 +9,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
 #include <Global.test.hpp>
 
@@ -24,7 +24,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition : public ::testing::Test
@@ -34,13 +34,13 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition : public ::
     const Instant defaultInstant_ = Instant::J2000();
     const VectorXd defaultCoordinates_;
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(Array<Shared<const CoordinateSubset>>::Empty());
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(Array<Shared<const CoordinateSubset>>::Empty());
     const InstantCondition defaultCondition_ = InstantCondition(defaultCriterion_, defaultInstant_);
 
     const State generateState(const Instant& anInstant)
     {
-        return State(anInstant, defaultCoordinates_, defaultFrame_, defaultCoordinatesBroker_);
+        return State(anInstant, defaultCoordinates_, defaultFrame_, defaultCoordinateBroker_);
     }
 };
 
