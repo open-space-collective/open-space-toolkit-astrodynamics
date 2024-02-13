@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_At
                     coordinates (numpy.ndarray): The Attitude quaternion to convert.
                     from_frame (str): The reference frame of the input Attitude quaternion.
                     to_frame (str): The reference frame of the output Attitude quaternion.
-                    coordinate_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     numpy.ndarray: The Attitude quaternion in the output reference frame.
