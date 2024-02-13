@@ -6,12 +6,12 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -19,9 +19,9 @@ namespace trajectory
 using ostk::physics::time::Duration;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Segment::Solution::Solution(
     const String& aName,
@@ -65,7 +65,7 @@ Mass Segment::Solution::getInitialMass() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Mass::Kilograms(this->states.accessFirst().extractCoordinate(CoordinatesSubset::Mass())[0]);
+    return Mass::Kilograms(this->states.accessFirst().extractCoordinate(CoordinateSubset::Mass())[0]);
 }
 
 Mass Segment::Solution::getFinalMass() const
@@ -75,7 +75,7 @@ Mass Segment::Solution::getFinalMass() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Mass::Kilograms(this->states.accessLast().extractCoordinate(CoordinatesSubset::Mass())[0]);
+    return Mass::Kilograms(this->states.accessLast().extractCoordinate(CoordinateSubset::Mass())[0]);
 }
 
 Duration Segment::Solution::getPropagationDuration() const
@@ -149,7 +149,7 @@ Array<State> Segment::Solution::calculateStatesAt(
 MatrixXd Segment::Solution::getDynamicsContribution(
     const Shared<Dynamics>& aDynamicsSPtr,
     const Shared<const Frame>& aFrameSPtr,
-    const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray
+    const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray
 ) const
 {
     // Check dynamics is part of the segment dynamics
@@ -158,46 +158,46 @@ MatrixXd Segment::Solution::getDynamicsContribution(
         throw ostk::core::error::RuntimeError("Provided dynamics is not part of the segment dynamics.");
     }
 
-    // Extract write coordinates subsets from dynamics
-    const Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
-        aDynamicsSPtr->getWriteCoordinatesSubsets();
+    // Extract write coordinate subsets from dynamics
+    const Array<Shared<const CoordinateSubset>> dynamicsWriteCoordinateSubsets =
+        aDynamicsSPtr->getWriteCoordinateSubsets();
 
-    // Check that the provided coordinates subsets are part of the dynamics write coordinates subsets
-    for (auto aCoordinatesSubsetSPtr : aCoordinatesSubsetSPtrArray)
+    // Check that the provided coordinate subsets are part of the dynamics write coordinate subsets
+    for (auto aCoordinateSubsetSPtr : aCoordinateSubsetSPtrArray)
     {
-        if (!dynamicsWriteCoordinatesSubsets.contains(aCoordinatesSubsetSPtr))
+        if (!dynamicsWriteCoordinateSubsets.contains(aCoordinateSubsetSPtr))
         {
             throw ostk::core::error::RuntimeError(String::Format(
-                "Provided coordinates subset [{}] is not part of the dynamics write coordinates subsets.",
-                aCoordinatesSubsetSPtr->getName()
+                "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
+                aCoordinateSubsetSPtr->getName()
             ));
         }
     }
 
     // Initialize the definitive coordinate subset array
-    Array<Shared<const CoordinatesSubset>> definitiveCoordinateSubsetArray = aCoordinatesSubsetSPtrArray;
+    Array<Shared<const CoordinateSubset>> definitiveCoordinateSubsetArray = aCoordinateSubsetSPtrArray;
 
-    // Check value for aCoordinatesSubsetSPtrArray
-    if (aCoordinatesSubsetSPtrArray.isEmpty())
+    // Check value for aCoordinateSubsetSPtrArray
+    if (aCoordinateSubsetSPtrArray.isEmpty())
     {
-        definitiveCoordinateSubsetArray = aDynamicsSPtr->getWriteCoordinatesSubsets();
+        definitiveCoordinateSubsetArray = aDynamicsSPtr->getWriteCoordinateSubsets();
     }
 
     // Extract states size
     const Size numberOfstates = this->states.getSize();
 
     // Extract dynamics context and behavior relative to state
-    Array<Shared<const CoordinatesSubset>> dynamicsReadCoordinatesSubsets = aDynamicsSPtr->getReadCoordinatesSubsets();
+    Array<Shared<const CoordinateSubset>> dynamicsReadCoordinateSubsets = aDynamicsSPtr->getReadCoordinateSubsets();
 
     // Construct state builder
-    const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinatesSubsets);
+    const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinateSubsets);
 
     // Compute the size of dynamicsContributionMatrix
     Size dynamicsWriteSize = std::accumulate(
         definitiveCoordinateSubsetArray.begin(),
         definitiveCoordinateSubsetArray.end(),
         0,
-        [](int sum, const Shared<const CoordinatesSubset>& subset)
+        [](int sum, const Shared<const CoordinateSubset>& subset)
         {
             return sum + subset->getSize();
         }
@@ -442,5 +442,5 @@ Segment Segment::Maneuver(
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

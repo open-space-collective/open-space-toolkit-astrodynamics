@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 
 #include <Global.test.hpp>
 
@@ -19,9 +19,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -72,9 +72,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -147,9 +147,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -222,9 +222,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, StreamOperator)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -262,9 +262,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -302,9 +302,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -342,9 +342,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -412,9 +412,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     // Test correct handling of state array dimensions
     {
@@ -532,9 +532,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
 
-    using ostk::astro::Trajectory;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::models::Tabulated;
+    using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
 
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -563,7 +563,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Undefined)
 {
-    using ostk::astro::Trajectory;
+    using ostk::astrodynamics::Trajectory;
 
     {
         EXPECT_NO_THROW(Trajectory::Undefined());

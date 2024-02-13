@@ -19,8 +19,8 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 int main()
 {
@@ -58,10 +58,10 @@ int main()
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::environment::object::celestial::Earth;
 
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
+    using ostk::astrodynamics::trajectory::Orbit;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+    using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
     // Environment
 

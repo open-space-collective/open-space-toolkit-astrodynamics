@@ -10,8 +10,8 @@ using ostk::core::container::Array;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::LogicalCondition;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::LogicalCondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybind11::module& aModule)
 {

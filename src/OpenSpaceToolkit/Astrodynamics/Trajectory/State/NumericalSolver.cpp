@@ -12,7 +12,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -23,8 +23,8 @@ using namespace boost::numeric::odeint;
 
 using ostk::physics::time::Duration;
 
-using ostk::astro::RootSolver;
-using ostk::astro::trajectory::StateBuilder;
+using ostk::astrodynamics::RootSolver;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 typedef runge_kutta_dopri5<NumericalSolver::StateVector> dense_stepper_type_5;
 
@@ -93,7 +93,7 @@ Array<State> NumericalSolver::integrateTime(
             anInstantArray[i],
             solution.first,
             aState.accessFrame(),
-            aState.accessCoordinatesBroker(),
+            aState.accessCoordinateBroker(),
         };
         states.add(state);
     }
@@ -365,5 +365,5 @@ void NumericalSolver::observeState(const State& aState)
 
 }  // namespace state
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

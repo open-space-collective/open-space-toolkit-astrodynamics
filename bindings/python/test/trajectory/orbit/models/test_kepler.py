@@ -19,10 +19,10 @@ Trajectory = astrodynamics.Trajectory
 Model = astrodynamics.trajectory.Model
 Orbit = astrodynamics.trajectory.Orbit
 Pass = astrodynamics.trajectory.orbit.Pass
-Kepler = astrodynamics.trajectory.orbit.models.Kepler
-COE = astrodynamics.trajectory.orbit.models.kepler.COE
-SGP4 = astrodynamics.trajectory.orbit.models.SGP4
-TLE = astrodynamics.trajectory.orbit.models.sgp4.TLE
+Kepler = astrodynamics.trajectory.orbit.model.Kepler
+COE = astrodynamics.trajectory.orbit.model.kepler.COE
+SGP4 = astrodynamics.trajectory.orbit.model.SGP4
+TLE = astrodynamics.trajectory.orbit.model.sgp4.TLE
 State = astrodynamics.trajectory.State
 Access = astrodynamics.Access
 

@@ -8,7 +8,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::type::Size;
@@ -110,7 +110,7 @@ class RootSolver
     std::function<bool(const double&, const double&)> getToleranceFunction() const;
 };
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -16,11 +16,11 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace validation
 {
@@ -37,8 +37,8 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 enum Quantity  // Enum values here correspond to index of each output in the csv file
 {
@@ -129,7 +129,7 @@ class CrossValidator
 };
 
 }  // namespace validation
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

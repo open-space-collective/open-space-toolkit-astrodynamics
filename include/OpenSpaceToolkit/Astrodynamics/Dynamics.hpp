@@ -17,13 +17,13 @@
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::container::Array;
@@ -40,9 +40,9 @@ using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Define a dynamical system subject to equations of motion
 class Dynamics
@@ -97,15 +97,15 @@ class Dynamics
     /// @return True if dynamics is defined
     virtual bool isDefined() const = 0;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
-    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const = 0;
+    /// @return The coordinate subsets that the instance reads from
+    virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const = 0;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
-    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const = 0;
+    /// @return The coordinate subsets that the instance writes to
+    virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const = 0;
 
     /// @brief Compute the contribution to the state derivative.
     ///
@@ -159,7 +159,7 @@ class Dynamics
     );
 };
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

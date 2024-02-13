@@ -15,7 +15,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace guidancelaw
 {
@@ -26,7 +26,7 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 
 /// @brief Define the acceleration experienced by a point mass due to a constant thrust
 /// guidance law
@@ -100,7 +100,7 @@ class ConstantThrust : public GuidanceLaw
 };
 
 }  // namespace guidancelaw
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -39,8 +39,8 @@ Once the shell is up and running, playing with it is easy:
 from ostk.physics import Environment
 from ostk.physics.time import Instant
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import SGP4
-from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 tle = TLE(
     '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
@@ -111,7 +111,7 @@ The library exhibits the following detailed and descriptive structure:
 ├── Trajectory
 │   ├── State
 │   ├── Orbit
-│   │   ├── Models
+│   │   ├── Model
 │   │   │   ├── Kepler
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
@@ -119,16 +119,16 @@ The library exhibits the following detailed and descriptive structure:
 │   │   │   ├── Tabulated (input csv)
 │   │   │   └── Propagated (numerical integration)
 │   │   ├── Pass
-│   │   └── Messages
+│   │   └── Message
 │   │       └── SpaceX
 │   │           └── OPM
-│   ├── Models
+│   ├── Model
 │   │   ├── Static
 │   │   └── Tabulated
 │   └── Propagator
 ├── Flight
 │   ├── Profile
-│   │    ├── Models
+│   │    ├── Model
 │   │    │   ├── Transform
 │   │    │   └── Tabulated
 │   │    └── State
@@ -142,7 +142,7 @@ The library exhibits the following detailed and descriptive structure:
 ├── Access
 │   └── Generator
 └── Conjunction
-    └── Messages
+    └── Message
         └── CCSDS
             └── CDM
 ```
@@ -315,18 +315,19 @@ The validation framework takes this yaml scenario definition (from the `/validat
 ```
 
 #### Running the Validation Tests
+
 The validation tests can be run with `ostk-validate` from within the dev container, or `make validation` as a standalone.
 
 ## Dependencies
 
-| Name        | Version   | License            | Link                                                                                                                                       |
-| ----------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name        | Version       | License            | Link                                                                                                                                       |
+| ----------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Pybind11    | `2.10.1`  | BSD-3-Clause       | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)                                                                           |
 | ordered-map | `0.6.0`   | MIT                | [github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)                                                                     |
 | Eigen       | `3.3.7`   | MPL2               | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
 | SGP4        | `6a448b4` | Apache License 2.0 | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
 | NLopt       | `2.5.0`   | LGPL               | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
-| benchmark   | `1.8.2`   | Apache License 2.0 | [github.com/google/benchmark](https://github.com/google/benchmark)                                                                             |
+| benchmark   | `1.8.2`   | Apache License 2.0 | [github.com/google/benchmark](https://github.com/google/benchmark)                                                                         |
 | Core        | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
 | I/O         | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
 | Mathematics | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |

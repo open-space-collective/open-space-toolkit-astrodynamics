@@ -8,13 +8,13 @@
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -24,9 +24,9 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::unit::Mass;
 
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Thruster::Thruster(
     const SatelliteSystem& aSatelliteSystem, const Shared<const GuidanceLaw>& aGuidanceLaw, const String& aName
@@ -58,20 +58,20 @@ Shared<const GuidanceLaw> Thruster::getGuidanceLaw() const
     return guidanceLaw_;
 }
 
-Array<Shared<const CoordinatesSubset>> Thruster::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> Thruster::getReadCoordinateSubsets() const
 {
     return {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
+        CoordinateSubset::Mass(),
     };
 }
 
-Array<Shared<const CoordinatesSubset>> Thruster::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> Thruster::getWriteCoordinateSubsets() const
 {
     return {
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
+        CoordinateSubset::Mass(),
     };
 }
 
@@ -120,5 +120,5 @@ void Thruster::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

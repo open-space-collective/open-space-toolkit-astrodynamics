@@ -13,14 +13,14 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
 
 using ostk::core::type::Integer;
 
-using ostk::astro::Dynamics;
+using ostk::astrodynamics::Dynamics;
 
 /// @brief Define the contribution to the position due to velocity
 class PositionDerivative : public Dynamics
@@ -49,15 +49,15 @@ class PositionDerivative : public Dynamics
     /// @return True if position derivative dynamics is defined
     virtual bool isDefined() const override;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
-    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance reads from
+    virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
-    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance writes to
+    virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.
     ///
@@ -80,7 +80,7 @@ class PositionDerivative : public Dynamics
 };
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

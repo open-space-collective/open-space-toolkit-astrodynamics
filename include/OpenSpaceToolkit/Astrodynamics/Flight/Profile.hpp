@@ -22,7 +22,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -41,9 +41,9 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
-using ostk::astro::Trajectory;
-using ostk::astro::flight::profile::Model;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::flight::profile::Model;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Spacecraft flight profile
 class Profile
@@ -180,7 +180,7 @@ class Profile
 };
 
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

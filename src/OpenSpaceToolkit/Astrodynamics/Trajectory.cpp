@@ -4,15 +4,15 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
-using ostk::astro::trajectory::models::Tabulated;
+using ostk::astrodynamics::trajectory::model::Tabulated;
 
 Trajectory::Trajectory(const Model& aModel)
     : modelUPtr_(aModel.clone())
@@ -119,7 +119,7 @@ Trajectory Trajectory::Undefined()
 
 Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 {
-    using ostk::astro::trajectory::models::Static;
+    using ostk::astrodynamics::trajectory::model::Static;
 
     if (!aPosition.isDefined())
     {
@@ -134,5 +134,5 @@ Trajectory::Trajectory()
 {
 }
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

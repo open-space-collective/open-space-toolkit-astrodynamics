@@ -6,7 +6,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
 {
     using namespace pybind11;
 
-    using BaseModel = ostk::astro::trajectory::Model;
+    using BaseModel = ostk::astrodynamics::trajectory::Model;
 
     class_<BaseModel>(
         aModule,

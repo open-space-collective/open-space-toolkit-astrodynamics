@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -32,5 +32,5 @@ Instant InstantCondition::getInstant() const
 }
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

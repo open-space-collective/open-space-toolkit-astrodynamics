@@ -7,7 +7,7 @@
 using ostk::core::type::Size;
 using ostk::core::type::Real;
 
-using ostk::astro::RootSolver;
+using ostk::astrodynamics::RootSolver;
 
 class OpenSpaceToolkit_Astrodynamics_RootSolver : public ::testing::Test
 {

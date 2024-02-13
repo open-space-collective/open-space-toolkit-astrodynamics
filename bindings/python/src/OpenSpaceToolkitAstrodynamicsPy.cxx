@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ArrayCasting.hpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ShiftToString.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utility/ArrayCasting.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utility/ShiftToString.hpp>
 #include <pybind11/eigen.h>
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>

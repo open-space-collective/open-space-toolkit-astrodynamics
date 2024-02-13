@@ -2,15 +2,15 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace conjunction
 {
-namespace messages
+namespace message
 {
 namespace ccsds
 {
@@ -666,7 +666,7 @@ CDM::ObjectType CDM::ObjectTypeFromString(const String& aString)
 }
 
 }  // namespace ccsds
-}  // namespace messages
+}  // namespace message
 }  // namespace conjunction
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

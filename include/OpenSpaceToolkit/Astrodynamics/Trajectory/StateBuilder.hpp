@@ -14,12 +14,12 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -35,11 +35,11 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief Factory class to generate States with common reference frame and coordinates subsets
+/// @brief Factory class to generate States with common reference frame and coordinate subsets
 class StateBuilder
 {
    public:
@@ -47,18 +47,18 @@ class StateBuilder
     ///
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinatesSubsetsArray The array of coordinates subsets defining the output
+    /// @param aCoordinateSubsetsArray The array of coordinate subsets defining the output
     /// States
     StateBuilder(
-        const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+        const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
     );
 
     /// @brief Constructor.
     ///
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinatesBroker Shared pointer to an existing Coordinates Broker
-    StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr);
+    /// @param aCoordinateBroker Shared pointer to an existing Coordinates Broker
+    StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr);
 
     /// @brief Constructor.
     ///
@@ -77,19 +77,19 @@ class StateBuilder
     /// @return True if the  StateBuilders are not equal, false otherwise
     bool operator!=(const StateBuilder& aStateBuilder) const;
 
-    /// @brief Return a new StateBuilder with the additional CoordinatesSubset.
+    /// @brief Return a new StateBuilder with the additional CoordinateSubset.
     ///
-    /// @param aCoordinatesSubsetSPtr The CoordinatesSubset to append
+    /// @param aCoordinateSubsetSPtr The CoordinateSubset to append
     ///
     /// @return A new StateBuilder
-    const StateBuilder operator+(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+    const StateBuilder operator+(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
-    /// @brief Return a new StateBuilder without the given CoordinatesSubset.
+    /// @brief Return a new StateBuilder without the given CoordinateSubset.
     ///
-    /// @param aCoordinatesSubsetSPtr The CoordinatesSubset to remove
+    /// @param aCoordinateSubsetSPtr The CoordinateSubset to remove
     ///
     /// @return A new StateBuilder
-    const StateBuilder operator-(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+    const StateBuilder operator-(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
     /// @brief Stream insertion operator.
     ///
@@ -108,17 +108,17 @@ class StateBuilder
     /// @return A State linked to the Frame and Coordinates Broker of the StateBuilder
     const State build(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
-    /// @brief Produce a State with the CoordinatesSubsets specified by the StateBuilder.
+    /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder.
     ///
     /// @param aState the state from which the coordinates will be taken.
-    /// @return A State with the CoordinatesSubsets of the StateBuilder.
+    /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State reduce(const State& aState) const;
 
-    /// @brief Produce a State with the CoordinatesSubsets specified by the StateBuilder.
+    /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder.
     ///
     /// @param aState the state from which the coordinates will be taken.
     /// @param defaultState the state from which missing coordinates will be taken.
-    /// @return A State with the CoordinatesSubsets of the StateBuilder.
+    /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State expand(const State& aState, const State& defaultState) const;
 
     /// @brief Accessor for the reference frame.
@@ -126,20 +126,20 @@ class StateBuilder
     /// @return The reference frame
     const Shared<const Frame> accessFrame() const;
 
-    /// @brief Access the coordinates broker associated with the  StateBuilder.
+    /// @brief Access the coordinate broker associated with the  StateBuilder.
     ///
-    /// @return The coordinates broker associated to the State
-    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    /// @return The coordinate broker associated to the State
+    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Get the reference frame associated with the  StateBuilder.
     ///
     /// @return The reference frame
     Shared<const Frame> getFrame() const;
 
-    /// @brief Get the coordinates subsets of the  StateBuilder.
+    /// @brief Get the coordinate subsets of the  StateBuilder.
     ///
-    /// @return The coordinates subsets
-    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
+    /// @return The coordinate subsets
+    const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
 
     /// @brief Print the StateBuilder to an output stream.
     ///
@@ -154,11 +154,11 @@ class StateBuilder
 
    private:
     Shared<const Frame> frameSPtr_;
-    Shared<const CoordinatesBroker> coordinatesBrokerSPtr_;
+    Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

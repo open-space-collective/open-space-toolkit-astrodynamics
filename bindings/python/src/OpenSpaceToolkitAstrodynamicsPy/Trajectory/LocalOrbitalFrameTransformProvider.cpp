@@ -10,7 +10,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
 
     using ostk::physics::time::Instant;
 
-    using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
     class_<LocalOrbitalFrameTransformProvider, Shared<LocalOrbitalFrameTransformProvider>>
         localOrbitalFrameTransformProviderClass(

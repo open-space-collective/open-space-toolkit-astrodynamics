@@ -13,12 +13,12 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::GuidanceLaw;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::GuidanceLaw;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
 // Trampoline class for virtual member functions
 class PyThruster : public Thruster
@@ -38,20 +38,20 @@ class PyThruster : public Thruster
         PYBIND11_OVERRIDE_PURE_NAME(bool, Thruster, "is_defined", isDefined);
     }
 
-    Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override
+    Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinatesSubset>>, Thruster, "get_read_coordinates_subsets", getReadCoordinatesSubsets
+            Array<Shared<const CoordinateSubset>>, Thruster, "get_read_coordinate_subsets", getReadCoordinateSubsets
         );
     }
 
-    Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override
+    Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinatesSubset>>,
+            Array<Shared<const CoordinateSubset>>,
             Thruster,
-            "get_write_coordinates_subsets",
-            getWriteCoordinatesSubsets
+            "get_write_coordinate_subsets",
+            getWriteCoordinateSubsets
         );
     }
 

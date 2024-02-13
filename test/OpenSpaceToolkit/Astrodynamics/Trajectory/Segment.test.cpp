@@ -15,8 +15,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -43,26 +43,26 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::guidancelaw::ConstantThrust;
-using ostk::astro::trajectory::Segment;
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::eventcondition::COECondition;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::COECondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
@@ -73,11 +73,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
     {
         VectorXd initialCoordinates(7);
         initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
-        initialStateWithMass_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinatesBrokerSPtr_};
+        initialStateWithMass_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
 
         VectorXd finalCoordinates(7);
         finalCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 180.0;
-        finalStateWithMass_ = {Instant::J2000(), finalCoordinates, Frame::GCRF(), thrustCoordinatesBrokerSPtr_};
+        finalStateWithMass_ = {Instant::J2000(), finalCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
     }
 
    protected:
@@ -115,11 +115,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
     const Segment defaultCoastSegment_ =
         Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_);
 
-    const Shared<CoordinatesBroker> thrustCoordinatesBrokerSPtr_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<CoordinateBroker> thrustCoordinateBrokerSPtr_ =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            CoordinatesSubset::Mass(),
+            CoordinateSubset::Mass(),
         }));
 
     State initialStateWithMass_ = State::Undefined();
@@ -308,10 +308,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
         for (const Shared<Dynamics>& dynamics : defaultDynamics_)
         {
             const MatrixXd contributionDefault = segmentSolution.getDynamicsContribution(dynamics, stateFrame);
-            const Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
-                dynamics->getWriteCoordinatesSubsets();
+            const Array<Shared<const CoordinateSubset>> dynamicsWriteCoordinateSubsets =
+                dynamics->getWriteCoordinateSubsets();
             const MatrixXd contributionExplicit =
-                segmentSolution.getDynamicsContribution(dynamics, stateFrame, dynamicsWriteCoordinatesSubsets);
+                segmentSolution.getDynamicsContribution(dynamics, stateFrame, dynamicsWriteCoordinateSubsets);
             EXPECT_EQ(contributionDefault, contributionExplicit);
         }
     }
@@ -324,12 +324,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
 
         for (const Shared<Dynamics>& dynamics : defaultDynamics_)
         {
-            const Array<Shared<const CoordinatesSubset>> dynamicsWriteCoordinatesSubsets =
-                dynamics->getWriteCoordinatesSubsets();
-            const Shared<const CoordinatesSubset> dynamicsWriteCoordinatesSubset = dynamicsWriteCoordinatesSubsets[0];
+            const Array<Shared<const CoordinateSubset>> dynamicsWriteCoordinateSubsets =
+                dynamics->getWriteCoordinateSubsets();
+            const Shared<const CoordinateSubset> dynamicsWriteCoordinateSubset = dynamicsWriteCoordinateSubsets[0];
             const MatrixXd contribution =
-                segmentSolution.getDynamicsContribution(dynamics, stateFrame, {dynamicsWriteCoordinatesSubset});
-            EXPECT_EQ(contribution.cols(), dynamicsWriteCoordinatesSubset->getSize());
+                segmentSolution.getDynamicsContribution(dynamics, stateFrame, {dynamicsWriteCoordinateSubset});
+            EXPECT_EQ(contribution.cols(), dynamicsWriteCoordinateSubset->getSize());
             EXPECT_EQ(contribution.rows(), segmentSolution.states.getSize());
         }
     }
@@ -342,12 +342,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
 
         // Construct a coordinatesSubset not part of the dynamics for which the contribution is requested
         const Shared<Dynamics> dynamics = defaultDynamics_[0];
-        const Shared<const CoordinatesSubset> coordinatesSubset = CoordinatesSubset::DragCoefficient();
+        const Shared<const CoordinateSubset> coordinatesSubset = CoordinateSubset::DragCoefficient();
 
-        EXPECT_FALSE(dynamics->getWriteCoordinatesSubsets().contains(coordinatesSubset));
+        EXPECT_FALSE(dynamics->getWriteCoordinateSubsets().contains(coordinatesSubset));
 
         const String expectedString =
-            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+            "Provided coordinate subset is not part of the dynamics write coordinate subsets.";
 
         // Test the throw and the message that is thrown
         EXPECT_THROW(
@@ -413,7 +413,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
 
         // Check error for PositionDerivative
         const String expectedString =
-            "Provided coordinates subset is not part of the dynamics write coordinates subsets.";
+            "Provided coordinate subset is not part of the dynamics write coordinate subsets.";
 
         // Test the throw and the message that is thrown
         EXPECT_THROW(
@@ -457,8 +457,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAll
                 segmentSolution.states.getSize(), contributions.at(dynamics).rows()
             );  // Check the number of rows corresponds to the number of states
             EXPECT_GT(
-                contributions.at(dynamics).cols(), dynamics->getWriteCoordinatesSubsets().getSize()
-            );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
+                contributions.at(dynamics).cols(), dynamics->getWriteCoordinateSubsets().getSize()
+            );  // Check the number of columns corresponds to the number of coordinate subsets to which the dynamics
                 // writes
         }
     }
@@ -479,8 +479,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetAll
                 segmentSolution.states.getSize(), contributions.at(dynamics).rows()
             );  // Check the number of rows corresponds to the number of states
             EXPECT_GT(
-                contributions.at(dynamics).cols(), dynamics->getWriteCoordinatesSubsets().getSize()
-            );  // Check the number of columns corresponds to the number of coordinates subsets to which the dynamics
+                contributions.at(dynamics).cols(), dynamics->getWriteCoordinateSubsets().getSize()
+            );  // Check the number of columns corresponds to the number of coordinate subsets to which the dynamics
                 // writes
         }
     }

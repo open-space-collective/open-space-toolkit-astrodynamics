@@ -6,13 +6,13 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
-namespace solvers
+namespace solver
 {
 
 TemporalConditionSolver::TemporalConditionSolver(
@@ -151,6 +151,6 @@ bool TemporalConditionSolver::EvaluateConditionAt(
     );
 }
 
-}  // namespace solvers
-}  // namespace astro
+}  // namespace solver
+}  // namespace astrodynamics
 }  // namespace ostk

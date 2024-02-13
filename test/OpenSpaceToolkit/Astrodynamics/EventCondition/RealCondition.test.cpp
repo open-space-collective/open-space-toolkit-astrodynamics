@@ -12,8 +12,8 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 #include <Global.test.hpp>
@@ -29,11 +29,11 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::StateBuilder;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::testing::Test
 {
@@ -48,11 +48,11 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
     const RealCondition defaultCondition_ = {defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_};
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(CoordinateBroker(Array<Shared<const CoordinateSubset>>::Empty()));
 
-    const Array<Shared<const CoordinatesSubset>> defaultSubsets_ = {
-        std::make_shared<CoordinatesSubset>(CoordinatesSubset("REAL", 1))
+    const Array<Shared<const CoordinateSubset>> defaultSubsets_ = {
+        std::make_shared<CoordinateSubset>(CoordinateSubset("REAL", 1))
     };
     const StateBuilder defaultStateBuilder_ = StateBuilder(defaultFrame_, defaultSubsets_);
 

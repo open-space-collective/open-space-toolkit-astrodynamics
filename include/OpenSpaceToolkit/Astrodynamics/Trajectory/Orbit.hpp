@@ -27,7 +27,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -48,9 +48,9 @@ using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
-using ostk::astro::Trajectory;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::orbit::Pass;
+using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::orbit::Pass;
 
 /// @brief Gravitationally curved trajectory of an object
 ///
@@ -223,7 +223,7 @@ class Orbit : public Trajectory
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

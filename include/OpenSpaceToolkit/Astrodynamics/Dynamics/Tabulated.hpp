@@ -14,11 +14,11 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -35,7 +35,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics.
 class Tabulated : public Dynamics
@@ -45,12 +45,12 @@ class Tabulated : public Dynamics
     ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param aContributionProfile A contribution profile, one row for each instant
-    /// @param aWriteCoordinatesSubsets An array of coordinates subsets to write to
+    /// @param aWriteCoordinateSubsets An array of coordinate subsets to write to
     /// @param aFrameSPtr A frame
     Tabulated(
         const Array<Instant>& anInstantArray,
         const MatrixXd& aContributionProfile,
-        const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets,
+        const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
         const Shared<const Frame>& aFrameSPtr
     );
 
@@ -100,15 +100,15 @@ class Tabulated : public Dynamics
     /// @return True if dynamics is defined
     virtual bool isDefined() const override;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
-    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance reads from
+    virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
-    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance writes to
+    virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.
     ///
@@ -132,13 +132,13 @@ class Tabulated : public Dynamics
    private:
     const MatrixXd contributionProfile_;
     const Array<Instant> instants_;
-    const Array<Shared<const CoordinatesSubset>> writeCoordinatesSubsets_;
+    const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets_;
     const Shared<const Frame> frameSPtr_;
     Array<BarycentricRational> interpolators_;
 };
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

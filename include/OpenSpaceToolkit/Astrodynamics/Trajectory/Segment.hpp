@@ -16,13 +16,13 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -38,12 +38,12 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::orbit::models::Propagated;
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::EventCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::EventCondition;
 
 /// @brief Represent a propagation segment for astrodynamics purposes
 class Segment
@@ -117,13 +117,13 @@ class Segment
         ///
         /// @param aDynamicsSPtr Dynamics
         /// @param aFrameSPtr Frame
-        /// @param aCoordinatesSubsetSPtrArray Array of coordinates subsets
+        /// @param aCoordinateSubsetSPtrArray Array of coordinate subsets
         /// @return Dynamics contribution
         MatrixXd getDynamicsContribution(
             const Shared<Dynamics>& aDynamicsSPtr,
             const Shared<const Frame>& aFrameSPtr,
-            const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray =
-                Array<Shared<const CoordinatesSubset>>::Empty()
+            const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray =
+                Array<Shared<const CoordinateSubset>>::Empty()
         ) const;
 
         /// @brief Get dynamics acceleration contribution
@@ -260,7 +260,7 @@ class Segment
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif  // __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__

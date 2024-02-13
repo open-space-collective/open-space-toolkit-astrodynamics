@@ -15,12 +15,12 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -38,8 +38,8 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Trajectory State
 class State
@@ -51,12 +51,12 @@ class State
     /// @param aCoordinates The coordinates at the instant in International System of Units
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinatesBrokerSPtr The coordinates broker associated to the coordinates
+    /// @param aCoordinateBrokerSPtr The coordinate broker associated to the coordinates
     State(
         const Instant& anInstant,
         const VectorXd& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     );
 
     /// @brief Constructor. This constructor makes a new Coordinates Broker under the hood for every
@@ -67,12 +67,12 @@ class State
     /// @param aCoordinates The coordinates at the instant in International System of Units
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinatesSubsetsArray The coordinates subsets associated to the coordinates
+    /// @param aCoordinateSubsetsArray The coordinate subsets associated to the coordinates
     State(
         const Instant& anInstant,
         const VectorXd& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,
-        const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+        const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
     );
 
     /// @brief Utility constructor for Position/Velocity/Attitude/Angular Velocity.
@@ -163,10 +163,10 @@ class State
     /// @return The coordinates
     const VectorXd& accessCoordinates() const;
 
-    /// @brief Access the coordinates broker associated with the State.
+    /// @brief Access the coordinate broker associated with the State.
     ///
-    /// @return The coordinates broker associated to the State
-    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    /// @return The coordinate broker associated to the State
+    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Get the size of the State.
     ///
@@ -209,29 +209,29 @@ class State
     /// @return The coordinates
     VectorXd getCoordinates() const;
 
-    /// @brief Get the coordinates subsets of the State.
+    /// @brief Get the coordinate subsets of the State.
     ///
-    /// @return The coordinates subsets
-    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
+    /// @return The coordinate subsets
+    const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
 
-    /// @brief Check if the State has a given coordinates subset.
+    /// @brief Check if the State has a given coordinate subset.
     ///
-    /// @param aCoordinatesSubsetSPtr the coordinates subset to be checked
+    /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
     ///
-    /// @return True if the coordinates subset is included in the State
-    bool hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+    /// @return True if the coordinate subset is included in the State
+    bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
     /// @brief Extract the coordinates for a single subset.
     ///
     /// @param aSubsetSPtr The subset to extract the coordinates for
     /// @return The coordinates for the subset
-    VectorXd extractCoordinate(const Shared<const CoordinatesSubset>& aSubsetSPtr) const;
+    VectorXd extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const;
 
     /// @brief Extract the coordinates for multiple subsets.
     ///
-    /// @param aCoordinatesSubsetsArray The array of subsets to extract the coordinates for
+    /// @param aCoordinateSubsetsArray The array of subsets to extract the coordinates for
     /// @return The coordinates for the subsets
-    VectorXd extractCoordinates(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray) const;
+    VectorXd extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const;
 
     /// @brief Transform the State to a different reference frame.
     ///
@@ -254,11 +254,11 @@ class State
     Instant instant_;
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
-    Shared<const CoordinatesBroker> coordinatesBrokerSPtr_;
+    Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -14,10 +14,10 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -38,15 +38,15 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Derived;
 
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::COECondition;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::eventcondition::AngularCondition;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::COECondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
     : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real>>

@@ -14,8 +14,8 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
 )
@@ -73,8 +73,8 @@ def profile_state(
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker([CartesianPosition.default(), CartesianVelocity.default()])
+def coordinate_broker() -> CoordinateBroker:
+    return CoordinateBroker([CartesianPosition.default(), CartesianVelocity.default()])
 
 
 class TestState:
@@ -109,7 +109,7 @@ class TestState:
         position: Position,
         velocity: Velocity,
         frame: Frame,
-        coordinates_broker: CoordinatesBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         state = State(instant, position, velocity)
         assert state is not None
@@ -120,7 +120,7 @@ class TestState:
             instant,
             np.append(position.get_coordinates(), velocity.get_coordinates()),
             frame,
-            coordinates_broker,
+            coordinate_broker,
         )
 
         assert state is not None
@@ -204,7 +204,7 @@ class TestState:
         assert profile_state.has_subset(CartesianVelocity.default())
         assert profile_state.get_frame() == frame
         assert profile_state.get_coordinates() is not None
-        assert profile_state.get_coordinates_subsets() is not None
+        assert profile_state.get_coordinate_subsets() is not None
 
     def test_in_frame(
         self,

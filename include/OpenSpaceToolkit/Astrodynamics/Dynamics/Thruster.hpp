@@ -10,11 +10,11 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -23,10 +23,10 @@ using ostk::core::type::String;
 using ostk::core::type::Shared;
 using ostk::core::container::Array;
 
-using ostk::astro::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::GuidanceLaw;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::GuidanceLaw;
 
 /// @brief Define the acceleration experienced by a point mass due to thrust
 class Thruster : public Dynamics
@@ -55,15 +55,15 @@ class Thruster : public Dynamics
     /// @return Guidance law
     Shared<const GuidanceLaw> getGuidanceLaw() const;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
-    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance reads from
+    virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
-    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance writes to
+    virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Check if constant thrust thruster dynamics is defined
     ///
@@ -98,7 +98,7 @@ class Thruster : public Dynamics
 };
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

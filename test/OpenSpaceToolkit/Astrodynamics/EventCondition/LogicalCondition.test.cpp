@@ -16,7 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
 #include <Global.test.hpp>
 
@@ -31,13 +31,13 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::LogicalCondition;
-using ostk::astro::eventcondition::BooleanCondition;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::LogicalCondition;
+using ostk::astrodynamics::eventcondition::BooleanCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::testing::Test
 {
@@ -66,10 +66,10 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     LogicalCondition defaultLogicalCondition_ = LogicalCondition(defaultName_, defaultType_, defaultEventConditions_);
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(CoordinateBroker(Array<Shared<const CoordinateSubset>>::Empty()));
     const VectorXd defaultCoordinates_;
-    const State defaultState_ = State(defaultInstant_, defaultCoordinates_, defaultFrame_, defaultCoordinatesBroker_);
+    const State defaultState_ = State(defaultInstant_, defaultCoordinates_, defaultFrame_, defaultCoordinateBroker_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Constructor)

@@ -2,14 +2,14 @@
 
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
-namespace solvers
+namespace solver
 {
 
 using ostk::core::type::Size;
@@ -17,7 +17,7 @@ using ostk::core::type::Index;
 
 using ostk::physics::time::Duration;
 
-using ostk::astro::trajectory::StateBuilder;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 FiniteDifferenceSolver::FiniteDifferenceSolver(
     const FiniteDifferenceSolver::Type& aType, const Real& aStepPercentage, const Duration& aStepDuration
@@ -255,6 +255,6 @@ FiniteDifferenceSolver FiniteDifferenceSolver::Default()
     };
 }
 
-}  // namespace solvers
-}  // namespace astro
+}  // namespace solver
+}  // namespace astrodynamics
 }  // namespace ostk

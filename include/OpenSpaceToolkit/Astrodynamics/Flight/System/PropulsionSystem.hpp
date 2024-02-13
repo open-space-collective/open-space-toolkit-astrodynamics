@@ -13,7 +13,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -153,7 +153,7 @@ class PropulsionSystem
 
 }  // namespace system
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

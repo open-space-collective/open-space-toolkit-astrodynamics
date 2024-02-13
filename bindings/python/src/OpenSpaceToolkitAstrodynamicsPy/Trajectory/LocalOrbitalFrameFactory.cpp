@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
     using ostk::physics::time::Instant;
 
-    using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
     class_<LocalOrbitalFrameFactory, Shared<LocalOrbitalFrameFactory>>(
         aModule,

@@ -7,7 +7,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -122,5 +122,5 @@ SatelliteSystemBuilder SatelliteSystemBuilder::Default()
 
 }  // namespace system
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

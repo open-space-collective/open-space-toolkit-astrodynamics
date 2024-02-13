@@ -20,8 +20,8 @@ from ostk.astrodynamics import display
 from ostk.astrodynamics.access import Generator as AccessGenerator
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.orbit.models import SGP4
-from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 
 class TestDisplay:

@@ -16,7 +16,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Duration;
 
-using ostk::astro::trajectory::orbit::Pass;
+using ostk::astrodynamics::trajectory::orbit::Pass;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass : public ::testing::Test
 {

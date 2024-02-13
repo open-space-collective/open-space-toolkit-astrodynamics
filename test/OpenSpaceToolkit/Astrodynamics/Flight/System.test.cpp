@@ -27,7 +27,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     // Normal constructor
     {
@@ -84,7 +84,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, EqualToOperator)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     // Normal constructor
     {
@@ -135,7 +135,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     // Normal constructor
     {
@@ -186,7 +186,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     {
         // Define satellite mass
@@ -224,7 +224,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, StreamOperator)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     {
         // Define satellite mass
@@ -265,7 +265,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     {
         // Define satellite mass
@@ -306,7 +306,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     {
         // Define satellite mass
@@ -349,7 +349,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
 
     using ostk::physics::unit::Mass;
 
-    using ostk::astro::flight::System;
+    using ostk::astrodynamics::flight::System;
 
     {
         // Define satellite geometry

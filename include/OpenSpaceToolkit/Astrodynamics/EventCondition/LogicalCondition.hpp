@@ -11,7 +11,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace eventcondition
 {
@@ -19,8 +19,8 @@ namespace eventcondition
 using ostk::core::container::Array;
 using ostk::core::type::Shared;
 
-using ostk::astro::EventCondition;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief A logical connective event condition.
 ///
@@ -98,7 +98,7 @@ class LogicalCondition : public EventCondition
 };
 
 }  // namespace eventcondition
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

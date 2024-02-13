@@ -9,9 +9,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -23,11 +23,11 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative : public ::testing::Test
 {
@@ -78,21 +78,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, GetReadCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, GetReadCoordinateSubsets)
 {
     const PositionDerivative positionDerivative = PositionDerivative();
 
-    const Array<Shared<const CoordinatesSubset>> subsets = positionDerivative.getReadCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = positionDerivative.getReadCoordinateSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, GetWriteCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, GetWriteCoordinateSubsets)
 {
     const PositionDerivative positionDerivative = PositionDerivative();
 
-    const Array<Shared<const CoordinatesSubset>> subsets = positionDerivative.getWriteCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = positionDerivative.getWriteCoordinateSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianPosition::Default(), subsets[0]);

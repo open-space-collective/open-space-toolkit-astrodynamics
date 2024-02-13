@@ -11,10 +11,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
     using ostk::physics::coordinate::Frame;
 
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::StateBuilder;
-    using ostk::astro::trajectory::state::CoordinatesBroker;
-    using ostk::astro::trajectory::state::CoordinatesSubset;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::StateBuilder;
+    using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     class_<StateBuilder>(
         aModule,
@@ -26,15 +26,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
     )
 
         .def(
-            init<const Shared<const Frame>&, const Array<Shared<const CoordinatesSubset>>&>(),
+            init<const Shared<const Frame>&, const Array<Shared<const CoordinateSubset>>&>(),
             arg("frame"),
-            arg("coordinates_subsets"),
+            arg("coordinate_subsets"),
             R"doc(
                 Construct a new `StateBuilder` object.
 
                 Arguments:
                     frame (Frame): The reference frame.
-                    coordinates_subsets list[CoordinatesSubset]: The coordinates subsets.
+                    coordinate_subsets list[CoordinateSubset]: The coordinate subsets.
 
                 Returns:
                     StateBuilder 
@@ -42,15 +42,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
         .def(
-            init<const Shared<const Frame>&, const Shared<const CoordinatesBroker>&>(),
+            init<const Shared<const Frame>&, const Shared<const CoordinateBroker>&>(),
             arg("frame"),
-            arg("coordinates_broker"),
+            arg("coordinate_broker"),
             R"doc(
                 Construct a new `StateBuilder` object.
 
                 Arguments:
                     frame (Frame): The reference frame.
-                    coordinates_broker (CoordinatesBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     StateBuilder: The new `StateBuilder` object.
@@ -94,37 +94,37 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         )
         .def(
             "__add__",
-            [](const StateBuilder& aStateBuilder, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+            [](const StateBuilder& aStateBuilder, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
             {
-                return aStateBuilder + aCoordinatesSubsetSPtr;
+                return aStateBuilder + aCoordinateSubsetSPtr;
             },
             is_operator(),
             R"doc(
-                Add a coordinates subset to the `StateBuilder`.
+                Add a coordinate subset to the `StateBuilder`.
 
                 Arguments:
-                    coordinates_subsets (CoordinatesSubset): The coordinates subset to add.
+                    coordinate_subsets (CoordinateSubset): The coordinate subset to add.
 
                 Returns:
-                    StateBuilder: The `StateBuilder` with the added coordinates subset.
+                    StateBuilder: The `StateBuilder` with the added coordinate subset.
 
             )doc"
         )
         .def(
             "__sub__",
-            [](const StateBuilder& aStateBuilder, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+            [](const StateBuilder& aStateBuilder, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
             {
-                return aStateBuilder - aCoordinatesSubsetSPtr;
+                return aStateBuilder - aCoordinateSubsetSPtr;
             },
             is_operator(),
             R"doc(
-                Remove a coordinates subset from the `StateBuilder`.
+                Remove a coordinate subset from the `StateBuilder`.
 
                 Arguments:
-                    coordinates_subset (CoordinatesSubset): The coordinates subset to remove.
+                    coordinate_subset (CoordinateSubset): The coordinate subset to remove.
 
                 Returns:
-                    StateBuilder: The `StateBuilder` with the removed coordinates subset.
+                    StateBuilder: The `StateBuilder` with the removed coordinate subset.
 
             )doc"
         )
@@ -195,24 +195,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         )
 
         .def(
-            "get_coordinates_subsets",
-            &StateBuilder::getCoordinatesSubsets,
+            "get_coordinate_subsets",
+            &StateBuilder::getCoordinateSubsets,
             R"doc(
-                Get the coordinates subsets of the `StateBuilder`.
+                Get the coordinate subsets of the `StateBuilder`.
 
                 Returns:
-                    Array<Shared<const CoordinatesSubset>>: The coordinates subsets of the `StateBuilder`.
+                    Array<Shared<const CoordinateSubset>>: The coordinate subsets of the `StateBuilder`.
 
             )doc"
         )
         .def(
-            "access_coordinates_broker",
-            &StateBuilder::accessCoordinatesBroker,
+            "access_coordinate_broker",
+            &StateBuilder::accessCoordinateBroker,
             R"doc(
-                Access the coordinates broker of the `StateBuilder`.
+                Access the coordinate broker of the `StateBuilder`.
 
                 Returns:
-                    CoordinatesBroker: The coordinates broker of the `StateBuilder`.
+                    CoordinateBroker: The coordinate broker of the `StateBuilder`.
 
             )doc"
         )

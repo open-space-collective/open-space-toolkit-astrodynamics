@@ -7,7 +7,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -317,5 +317,5 @@ String Pass::StringFromPhase(const Pass::Phase& aPhase)
 
 }  // namespace orbit
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

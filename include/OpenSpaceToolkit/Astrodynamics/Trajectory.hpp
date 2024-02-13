@@ -17,7 +17,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 
 using ostk::core::container::Array;
@@ -28,8 +28,8 @@ using ostk::core::type::Unique;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
-using ostk::astro::trajectory::Model;
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::Model;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Path followed by an object through space as a function of time
 ///
@@ -171,7 +171,7 @@ class Trajectory
     Trajectory();
 };
 
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

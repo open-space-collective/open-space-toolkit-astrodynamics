@@ -20,9 +20,9 @@ using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::Dynamics;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
 // Trampoline class for virtual member functions
 class PyDynamics : public Dynamics
@@ -42,20 +42,20 @@ class PyDynamics : public Dynamics
         PYBIND11_OVERRIDE_PURE_NAME(bool, Dynamics, "is_defined", isDefined);
     }
 
-    Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override
+    Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinatesSubset>>, Dynamics, "get_read_coordinates_subsets", getReadCoordinatesSubsets
+            Array<Shared<const CoordinateSubset>>, Dynamics, "get_read_coordinate_subsets", getReadCoordinateSubsets
         );
     }
 
-    Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override
+    Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinatesSubset>>,
+            Array<Shared<const CoordinateSubset>>,
             Dynamics,
-            "get_write_coordinates_subsets",
-            getWriteCoordinatesSubsets
+            "get_write_coordinate_subsets",
+            getWriteCoordinateSubsets
         );
     }
 
@@ -78,8 +78,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
             
             Can inherit and provide the virtual methods:
                 - is_defined
-                - get_read_coordinates_subsets
-                - get_write_coordinates_subsets
+                - get_read_coordinate_subsets
+                - get_write_coordinate_subsets
                 - compute_contribution
             to create a custom dynamics class
 
@@ -126,24 +126,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
         )
 
         .def(
-            "get_read_coordinates_subsets",
-            &Dynamics::getReadCoordinatesSubsets,
+            "get_read_coordinate_subsets",
+            &Dynamics::getReadCoordinateSubsets,
             R"doc(
-                Get the coordinates subsets that the dynamics reads.
+                Get the coordinate subsets that the dynamics reads.
 
                 Returns:
-                    read_coordinates_subsets (Array<CoordinatesSubset>): The coordinates subsets that the dynamics reads.
+                    read_coordinate_subsets (Array<CoordinateSubset>): The coordinate subsets that the dynamics reads.
             )doc"
         )
 
         .def(
-            "get_write_coordinates_subsets",
-            &Dynamics::getWriteCoordinatesSubsets,
+            "get_write_coordinate_subsets",
+            &Dynamics::getWriteCoordinateSubsets,
             R"doc(
-                Get the coordinates subsets that the dynamics writes.
+                Get the coordinate subsets that the dynamics writes.
 
                 Returns:
-                    write_coordinates_subsets (Array<CoordinatesSubset>): The coordinates subsets that the dynamics writes.
+                    write_coordinate_subsets (Array<CoordinateSubset>): The coordinate subsets that the dynamics writes.
             )doc"
         )
 

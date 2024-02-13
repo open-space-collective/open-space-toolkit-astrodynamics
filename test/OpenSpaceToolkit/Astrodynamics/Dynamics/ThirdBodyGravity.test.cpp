@@ -21,9 +21,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -52,13 +52,13 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::ThirdBodyGravity;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -209,17 +209,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, GetCelestial)
     EXPECT_TRUE(defaultThirdBodyGravity_.getCelestial() == sphericalMoonSPtr_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, GetReadCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, GetReadCoordinateSubsets)
 {
-    const Array<Shared<const CoordinatesSubset>> subsets = defaultThirdBodyGravity_.getReadCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = defaultThirdBodyGravity_.getReadCoordinateSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, GetWriteCoordinatesSubsets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, GetWriteCoordinateSubsets)
 {
-    const Array<Shared<const CoordinatesSubset>> subsets = defaultThirdBodyGravity_.getWriteCoordinatesSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = defaultThirdBodyGravity_.getWriteCoordinateSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);

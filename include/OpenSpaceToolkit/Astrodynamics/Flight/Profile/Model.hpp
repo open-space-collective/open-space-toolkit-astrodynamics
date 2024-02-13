@@ -11,7 +11,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -26,7 +26,7 @@ using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::State;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Profile model (abstract)
 class Model
@@ -84,7 +84,7 @@ class Model
 
 }  // namespace profile
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

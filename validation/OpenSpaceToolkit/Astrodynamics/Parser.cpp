@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace validation
 {
@@ -98,12 +98,12 @@ State Parser::CreateInitialState(const Dictionary& aDictionary, const SatelliteS
         throw ostk::core::error::runtime::Wrong("KEPLERIAN initial conditions not yet supported");
     }
 
-    const Array<Shared<const CoordinatesSubset>> subsets = {
+    const Array<Shared<const CoordinateSubset>> subsets = {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
-        CoordinatesSubset::SurfaceArea(),
-        CoordinatesSubset::DragCoefficient()
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient()
     };
 
     return StateBuilder(frame, subsets).build(initialInstant, coordinates);
@@ -355,5 +355,5 @@ Segment Parser::CreateSegment(
 }
 
 }  // namespace validation
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

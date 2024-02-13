@@ -47,10 +47,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -91,23 +91,23 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::Tabulated;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::SatelliteSystemBuilder;
-using ostk::astro::guidancelaw::ConstantThrust;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystemBuilder;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testing::Test
 {
@@ -165,12 +165,12 @@ class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testin
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
 
-    const Shared<CoordinatesBroker> dragCoordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+    const Shared<CoordinateBroker> dragCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker(
         {CartesianPosition::Default(),
          CartesianVelocity::Default(),
-         CoordinatesSubset::Mass(),
-         CoordinatesSubset::SurfaceArea(),
-         CoordinatesSubset::DragCoefficient()}
+         CoordinateSubset::Mass(),
+         CoordinateSubset::SurfaceArea(),
+         CoordinateSubset::DragCoefficient()}
     ));
 };
 
@@ -184,7 +184,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0, 0), Scale::UTC),
         coordinates,
         Frame::GCRF(),
-        dragCoordinatesBrokerSPtr_,
+        dragCoordinateBrokerSPtr_,
     };
 
     const Earth earth = Earth::FromModels(
@@ -247,7 +247,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     const Tabulated tabulated = {
         instants,
         contributions,
-        {CartesianVelocity::Default(), CoordinatesSubset::Mass()},
+        {CartesianVelocity::Default(), CoordinateSubset::Mass()},
         gcrfSPtr_,
     };
 

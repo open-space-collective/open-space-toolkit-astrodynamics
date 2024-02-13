@@ -18,7 +18,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -35,9 +35,9 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::unit::Mass;
 
-using ostk::astro::flight::System;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::System;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
 
 /// @brief Satellite System builder, meant to simplify creation of a SatelliteSystem, by allowing
 /// you to only specify the parameters you want. There are two ways of doing this:
@@ -138,7 +138,7 @@ class SatelliteSystemBuilder
 
 }  // namespace system
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

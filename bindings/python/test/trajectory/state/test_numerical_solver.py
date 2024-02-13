@@ -11,8 +11,8 @@ from ostk.physics.coordinate import Frame
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import (
     NumericalSolver,
-    CoordinatesBroker,
-    CoordinatesSubset,
+    CoordinateBroker,
+    CoordinateSubset,
 )
 from ostk.astrodynamics.event_condition import RealCondition
 
@@ -28,15 +28,15 @@ def get_state_vec(time: float) -> np.ndarray:
 
 
 @pytest.fixture
-def coordinates_subsets() -> list[CoordinatesSubset]:
-    return [CoordinatesSubset("Subset", 2)]
+def coordinate_subsets() -> list[CoordinateSubset]:
+    return [CoordinateSubset("Subset", 2)]
 
 
 @pytest.fixture
-def coordinates_broker(
-    coordinates_subsets: list[CoordinatesSubset],
-) -> CoordinatesBroker:
-    return CoordinatesBroker(coordinates_subsets)
+def coordinate_broker(
+    coordinate_subsets: list[CoordinateSubset],
+) -> CoordinateBroker:
+    return CoordinateBroker(coordinate_subsets)
 
 
 @pytest.fixture
@@ -53,9 +53,9 @@ def frame() -> Frame:
 def initial_state(
     start_instant: Instant,
     frame: Frame,
-    coordinates_broker: CoordinatesBroker,
+    coordinate_broker: CoordinateBroker,
 ) -> State:
-    return State(start_instant, get_state_vec(0.0), frame, coordinates_broker)
+    return State(start_instant, get_state_vec(0.0), frame, coordinate_broker)
 
 
 @pytest.fixture

@@ -36,11 +36,11 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.trajectory import Sequence
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state import NumericalSolver
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 
 
 @pytest.fixture
@@ -112,14 +112,14 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker(
+def coordinate_broker() -> CoordinateBroker:
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
-            CoordinatesSubset.surface_area(),
-            CoordinatesSubset.drag_coefficient(),
+            CoordinateSubset.mass(),
+            CoordinateSubset.surface_area(),
+            CoordinateSubset.drag_coefficient(),
         ]
     )
 
@@ -143,7 +143,7 @@ def state(
     wet_mass: Mass,
     cross_sectional_surface_area: float,
     drag_coefficient: float,
-    coordinates_broker: CoordinatesBroker,
+    coordinate_broker: CoordinateBroker,
 ) -> State:
     frame: Frame = Frame.GCRF()
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -168,7 +168,7 @@ def state(
             drag_coefficient,
         ],
         frame,
-        coordinates_broker,
+        coordinate_broker,
     )
 
 

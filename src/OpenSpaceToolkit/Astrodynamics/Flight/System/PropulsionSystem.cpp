@@ -9,7 +9,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -184,5 +184,5 @@ PropulsionSystem PropulsionSystem::Default()
 
 }  // namespace system
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

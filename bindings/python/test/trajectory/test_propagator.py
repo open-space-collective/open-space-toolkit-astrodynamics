@@ -25,10 +25,10 @@ from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 
 from ostk.astrodynamics.flight.system import PropulsionSystem
@@ -40,8 +40,8 @@ from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import AtmosphericDrag
 from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinateBroker
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
 )
@@ -99,32 +99,32 @@ def environment(earth) -> Environment:
 
 
 @pytest.fixture
-def coordinates_broker_7d():
-    return CoordinatesBroker(
+def coordinate_broker_7d():
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
+            CoordinateSubset.mass(),
         ]
     )
 
 
 @pytest.fixture
-def coordinates_broker_9d():
-    return CoordinatesBroker(
+def coordinate_broker_9d():
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
-            CoordinatesSubset.surface_area(),
-            CoordinatesSubset.drag_coefficient(),
+            CoordinateSubset.mass(),
+            CoordinateSubset.surface_area(),
+            CoordinateSubset.drag_coefficient(),
         ]
     )
 
 
 @pytest.fixture
 def state(
-    satellite_system: SatelliteSystem, coordinates_broker_7d: CoordinatesBroker
+    satellite_system: SatelliteSystem, coordinate_broker_7d: CoordinateBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
@@ -140,12 +140,12 @@ def state(
         satellite_system.get_mass().in_kilograms() + propellant_mass,
     ]
 
-    return State(instant, coordinates, Frame.GCRF(), coordinates_broker_7d)
+    return State(instant, coordinates, Frame.GCRF(), coordinate_broker_7d)
 
 
 @pytest.fixture
 def state_low_altitude(
-    satellite_system: SatelliteSystem, coordinates_broker_9d: CoordinatesBroker
+    satellite_system: SatelliteSystem, coordinate_broker_9d: CoordinateBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
@@ -165,7 +165,7 @@ def state_low_altitude(
         cd,
     ]
 
-    return State(instant, coordinates, Frame.GCRF(), coordinates_broker_9d)
+    return State(instant, coordinates, Frame.GCRF(), coordinate_broker_9d)
 
 
 @pytest.fixture

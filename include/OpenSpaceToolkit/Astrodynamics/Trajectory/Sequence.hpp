@@ -12,13 +12,13 @@
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -30,11 +30,11 @@ using ostk::core::container::Array;
 using ostk::physics::Environment;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::trajectory::Segment;
-using ostk::astro::trajectory::State;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::trajectory::orbit::models::Propagated;
-using ostk::astro::dynamics::Thruster;
+using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+using ostk::astrodynamics::dynamics::Thruster;
 
 /// @brief Represent a sequence of trajectory segments executed in order.
 class Sequence
@@ -221,7 +221,7 @@ class Sequence
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

@@ -17,7 +17,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -34,8 +34,8 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::unit::Mass;
 
-using ostk::astro::flight::System;
-using ostk::astro::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::System;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
 
 /// @brief Define the dynamics system who's motion is being studied, in particular this is a
 /// satellite system
@@ -180,7 +180,7 @@ class SatelliteSystem : public System
 
 }  // namespace system
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

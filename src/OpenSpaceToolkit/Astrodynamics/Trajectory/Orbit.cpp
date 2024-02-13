@@ -20,14 +20,14 @@
 #include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -45,10 +45,10 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Mass;
 using ostk::physics::unit::Length;
 using ostk::physics::environment::object::celestial::Sun;
-using orbit::models::Kepler;
-using orbit::models::kepler::COE;
+using orbit::model::Kepler;
+using orbit::model::kepler::COE;
 
-using ostk::astro::RootSolver;
+using ostk::astrodynamics::RootSolver;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::unit::Time::Unit::Second);
@@ -69,7 +69,7 @@ Orbit::Orbit(
     const Integer& anInitialRevolutionNumber,
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
-    : Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
+    : Trajectory(orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber)),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
@@ -187,7 +187,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
     {
         // If any, get pass with closest revolution number
 
-        Pass const* closestPassPtr = nullptr;
+        Pass const* closestPasSPtr = nullptr;
 
         const auto lowerBoundMapIt = this->passMap_.lower_bound(aRevolutionNumber);
 
@@ -197,7 +197,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
             if (lowerBoundMapIt == this->passMap_.begin())
             {
-                closestPassPtr = &(lowerBoundMapIt->second);
+                closestPasSPtr = &(lowerBoundMapIt->second);
             }
             else
             {
@@ -205,25 +205,25 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
                 if ((aRevolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - aRevolutionNumber))
                 {
-                    closestPassPtr = &(closestPassMapIt->second);
+                    closestPasSPtr = &(closestPassMapIt->second);
                 }
                 else
                 {
-                    closestPassPtr = &(lowerBoundMapIt->second);
+                    closestPasSPtr = &(lowerBoundMapIt->second);
                 }
             }
         }
         else if (this->passMap_.size() > 0)
         {
             // std::cout << "this->passMap_ IS NOT EMPTY" << std::endl ;
-            closestPassPtr = &(this->passMap_.begin()->second);
+            closestPasSPtr = &(this->passMap_.begin()->second);
         }
 
         Pass currentPass = Pass::Undefined();
 
-        if (closestPassPtr != nullptr)  // Pass with closest revolution number found
+        if (closestPasSPtr != nullptr)  // Pass with closest revolution number found
         {
-            currentPass = *closestPassPtr;
+            currentPass = *closestPasSPtr;
         }
 
         const Instant epoch = this->modelPtr_->getEpoch();
@@ -662,8 +662,8 @@ Orbit Orbit::Circular(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
+    using orbit::model::Kepler;
+    using orbit::model::kepler::COE;
 
     if (!anEpoch.isDefined())
     {
@@ -706,8 +706,8 @@ Orbit Orbit::Equatorial(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
+    using orbit::model::Kepler;
+    using orbit::model::kepler::COE;
 
     if (!anEpoch.isDefined())
     {
@@ -774,8 +774,8 @@ Orbit Orbit::GeoSynchronous(
     using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::coordinate::Position;
 
-    using orbit::models::Kepler;
-    using orbit::models::kepler::COE;
+    using orbit::model::Kepler;
+    using orbit::model::kepler::COE;
 
     if (!anEpoch.isDefined())
     {
@@ -1053,8 +1053,8 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         }
     }
 
-    const models::Tabulated tabulated =
-        models::Tabulated(aStateArray, models::Tabulated::InterpolationType::BarycentricRational);
+    const model::Tabulated tabulated =
+        model::Tabulated(aStateArray, model::Tabulated::InterpolationType::BarycentricRational);
 
     const Instant& epoch = aStateArray.accessFirst().accessInstant();
 
@@ -1190,5 +1190,5 @@ Instant Orbit::GetCrossingInstant(
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

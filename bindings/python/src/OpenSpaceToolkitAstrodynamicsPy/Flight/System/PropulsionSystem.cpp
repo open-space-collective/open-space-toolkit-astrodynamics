@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
     using ostk::physics::unit::Mass;
     using ostk::physics::data::Scalar;
 
-    using ostk::astro::flight::system::PropulsionSystem;
+    using ostk::astrodynamics::flight::system::PropulsionSystem;
 
     {
         class_<PropulsionSystem>(

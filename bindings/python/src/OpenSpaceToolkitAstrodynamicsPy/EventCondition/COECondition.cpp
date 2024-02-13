@@ -11,9 +11,9 @@ using ostk::core::type::Shared;
 using ostk::physics::unit::Derived;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::eventcondition::COECondition;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::COECondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {

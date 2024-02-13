@@ -2,11 +2,14 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model/Tabulated.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model/Transform.cpp>
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::module &aModule)
 {
     using namespace pybind11;
 
-    using ostk::astro::flight::profile::Model;
+    using ostk::astrodynamics::flight::profile::Model;
 
     class_<Model>(
         aModule,
@@ -105,4 +108,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
             )doc",
             arg("frame_name")
         );
+
+    // Create "model" python submodule
+    auto model = aModule.def_submodule("model");
+
+    // add objects to "model" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(model);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(model);
 }

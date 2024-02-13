@@ -18,8 +18,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -54,29 +54,29 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::trajectory::Segment;
-using ostk::astro::trajectory::Sequence;
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::guidancelaw::ConstantThrust;
-using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::COECondition;
-using ostk::astro::eventcondition::AngularCondition;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::eventcondition::InstantCondition;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::Sequence;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::COECondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::InstantCondition;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
 {
@@ -595,13 +595,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
     );
 
-    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            CoordinatesSubset::Mass(),
-            CoordinatesSubset::SurfaceArea(),
-            CoordinatesSubset::DragCoefficient(),
+            CoordinateSubset::Mass(),
+            CoordinateSubset::SurfaceArea(),
+            CoordinateSubset::DragCoefficient(),
         }));
 
     VectorXd coordinates(9);

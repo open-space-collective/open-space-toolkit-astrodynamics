@@ -4,7 +4,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace test
 {
@@ -15,5 +15,5 @@ extern std::string someGlobalString;
 
 }
 }  // namespace test
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

@@ -9,7 +9,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -21,13 +21,13 @@ using ostk::mathematics::object::VectorXd;
 Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,
     const MatrixXd& aContributionProfile,
-    const Array<Shared<const CoordinatesSubset>>& aWriteCoordinatesSubsets,
+    const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
     const Shared<const Frame>& aFrameSPtr
 )
     : Dynamics("Tabulated"),
       contributionProfile_(aContributionProfile),
       instants_(anInstantArray),
-      writeCoordinatesSubsets_(aWriteCoordinatesSubsets),
+      writeCoordinateSubsets_(aWriteCoordinateSubsets),
       frameSPtr_(aFrameSPtr)
 {
     if (anInstantArray.getSize() != (Index)aContributionProfile.rows())
@@ -37,7 +37,7 @@ Tabulated::Tabulated(
         );
     }
 
-    if (aWriteCoordinatesSubsets
+    if (aWriteCoordinateSubsets
             .map<Index>(
                 [](const auto& coordinatesSubset)
                 {
@@ -48,7 +48,7 @@ Tabulated::Tabulated(
     {
         throw ostk::core::error::RuntimeError(
             "Contribution profile must have the same number of columns as the sum of the sizes of the write "
-            "coordinates subsets."
+            "coordinate subsets."
         );
     }
 
@@ -110,14 +110,14 @@ bool Tabulated::isDefined() const
     return true;
 }
 
-Array<Shared<const CoordinatesSubset>> Tabulated::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> Tabulated::getReadCoordinateSubsets() const
 {
     return {};
 }
 
-Array<Shared<const CoordinatesSubset>> Tabulated::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinateSubset>> Tabulated::getWriteCoordinateSubsets() const
 {
-    return writeCoordinatesSubsets_;
+    return writeCoordinateSubsets_;
 }
 
 VectorXd Tabulated::computeContribution(
@@ -152,7 +152,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     Dynamics::print(anOutputStream, false);
 
-    for (const auto& subset : writeCoordinatesSubsets_)
+    for (const auto& subset : writeCoordinateSubsets_)
     {
         ostk::core::utils::Print::Line(anOutputStream) << subset->getName() << subset->getSize();
     }
@@ -172,5 +172,5 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

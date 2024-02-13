@@ -16,7 +16,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -27,8 +27,8 @@ using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::RootSolver;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::RootSolver;
 using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 
 /// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics
@@ -239,7 +239,7 @@ class NumericalSolver : public MathNumericalSolver
 
 }  // namespace state
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

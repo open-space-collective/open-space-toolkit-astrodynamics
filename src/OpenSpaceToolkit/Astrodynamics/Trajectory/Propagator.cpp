@@ -11,7 +11,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -24,11 +24,11 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::environment::object::Celestial;
 
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::ThirdBodyGravity;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
 
@@ -73,7 +73,7 @@ bool Propagator::isDefined() const
            !this->dynamicsContexts_.isEmpty();
 }
 
-const Shared<CoordinatesBroker>& Propagator::accessCoordinatesBroker() const
+const Shared<CoordinateBroker>& Propagator::accessCoordinateBroker() const
 {
     if (!this->isDefined())
     {
@@ -95,7 +95,7 @@ const NumericalSolver& Propagator::accessNumericalSolver() const
 
 Size Propagator::getNumberOfCoordinates() const
 {
-    return this->accessCoordinatesBroker()->getNumberOfCoordinates();
+    return this->accessCoordinateBroker()->getNumberOfCoordinates();
 }
 
 Array<Shared<Dynamics>> Propagator::getDynamics() const
@@ -133,7 +133,7 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamicsSPtr)
 void Propagator::clearDynamics()
 {
     this->dynamicsContexts_.clear();
-    this->coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    this->coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -319,8 +319,8 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr)
 {
     // Store read coordinate subsets information
     Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
-    readInfo.reserve(aDynamicsSPtr->getReadCoordinatesSubsets().getSize());
-    for (const Shared<const CoordinatesSubset>& subset : aDynamicsSPtr->getReadCoordinatesSubsets())
+    readInfo.reserve(aDynamicsSPtr->getReadCoordinateSubsets().getSize());
+    for (const Shared<const CoordinateSubset>& subset : aDynamicsSPtr->getReadCoordinateSubsets())
     {
         const Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         readInfo.add(indexAndSize);
@@ -328,8 +328,8 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr)
 
     // Store write coordinate subsets information
     Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
-    writeInfo.reserve(aDynamicsSPtr->getWriteCoordinatesSubsets().getSize());
-    for (const Shared<const CoordinatesSubset>& subset : aDynamicsSPtr->getWriteCoordinatesSubsets())
+    writeInfo.reserve(aDynamicsSPtr->getWriteCoordinateSubsets().getSize());
+    for (const Shared<const CoordinateSubset>& subset : aDynamicsSPtr->getWriteCoordinateSubsets())
     {
         const Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         writeInfo.add(indexAndSize);
@@ -339,5 +339,5 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr)
 }
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

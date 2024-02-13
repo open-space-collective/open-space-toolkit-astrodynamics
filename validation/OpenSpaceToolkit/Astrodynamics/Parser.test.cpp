@@ -4,11 +4,11 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Parser.hpp>
 
-using ostk::astro::validation::Quantity;
-using ostk::astro::validation::QuantityComparison;
-using ostk::astro::validation::Tool;
-using ostk::astro::validation::ToolComparison;
-using ostk::astro::validation::Parser;
+using ostk::astrodynamics::validation::Quantity;
+using ostk::astrodynamics::validation::QuantityComparison;
+using ostk::astrodynamics::validation::Tool;
+using ostk::astrodynamics::validation::ToolComparison;
+using ostk::astrodynamics::validation::Parser;
 
 using ostk::core::container::Array;
 using ostk::core::container::Table;
@@ -51,30 +51,30 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::Dynamics;
-using ostk::astro::dynamics::AtmosphericDrag;
-using ostk::astro::dynamics::CentralBodyGravity;
-using ostk::astro::dynamics::PositionDerivative;
-using ostk::astro::dynamics::ThirdBodyGravity;
-using ostk::astro::dynamics::Thruster;
-using ostk::astro::eventcondition::InstantCondition;
-using ostk::astro::eventcondition::RealCondition;
-using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::guidancelaw::ConstantThrust;
-using ostk::astro::trajectory::LocalOrbitalFrameDirection;
-using ostk::astro::trajectory::LocalOrbitalFrameFactory;
-using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
-using ostk::astro::trajectory::Propagator;
-using ostk::astro::trajectory::Segment;
-using ostk::astro::trajectory::Sequence;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesBroker;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
-using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::trajectory::StateBuilder;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
+using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::Sequence;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 class OpenSpaceToolkit_Astrodynamics_Validation_Parser : public ::testing::Test
 {
@@ -130,9 +130,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
             {
                 CartesianPosition::Default(),
                 CartesianVelocity::Default(),
-                CoordinatesSubset::Mass(),
-                CoordinatesSubset::SurfaceArea(),
-                CoordinatesSubset::DragCoefficient(),
+                CoordinateSubset::Mass(),
+                CoordinateSubset::SurfaceArea(),
+                CoordinateSubset::DragCoefficient(),
             }
         )
             .build(Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC), coordinates);

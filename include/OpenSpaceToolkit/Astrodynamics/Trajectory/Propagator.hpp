@@ -36,7 +36,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace trajectory
 {
@@ -53,12 +53,12 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::EventCondition;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::StateBuilder;
-using ostk::astro::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 
 /// @brief Define a propagator to be used for numerical propagation
 class Propagator
@@ -103,10 +103,10 @@ class Propagator
     /// @return True if propagator is defined
     bool isDefined() const;
 
-    /// @brief Access the coordinates broker
+    /// @brief Access the coordinate broker
     ///
-    /// @return The coordinates broker
-    const Shared<CoordinatesBroker>& accessCoordinatesBroker() const;
+    /// @return The coordinate broker
+    const Shared<CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Access the numerical solver
     ///
@@ -209,7 +209,7 @@ class Propagator
     static Propagator FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment);
 
    private:
-    Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    Shared<CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
@@ -217,7 +217,7 @@ class Propagator
 };
 
 }  // namespace trajectory
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

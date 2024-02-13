@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace flight
 {
@@ -98,14 +98,14 @@ Profile Profile::Undefined()
 
 Profile Profile::InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion)
 {
-    using ostk::astro::flight::profile::models::Transform;
+    using ostk::astrodynamics::flight::profile::model::Transform;
 
     return {Transform::InertialPointing(aTrajectory, aQuaternion)};
 }
 
 Profile Profile::NadirPointing(const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType)
 {
-    using ostk::astro::flight::profile::models::Transform;
+    using ostk::astrodynamics::flight::profile::model::Transform;
 
     return {Transform::NadirPointing(anOrbit, anOrbitalFrameType)};
 }
@@ -116,5 +116,5 @@ Profile::Profile()
 }
 
 }  // namespace flight
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk

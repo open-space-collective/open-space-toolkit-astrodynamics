@@ -14,7 +14,7 @@
 
 namespace ostk
 {
-namespace astro
+namespace astrodynamics
 {
 namespace dynamics
 {
@@ -26,8 +26,8 @@ using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Mass;
 
-using ostk::astro::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 
 /// @brief Define the acceleration experienced by a spacecraft due to atmospheric drag
 class AtmosphericDrag : public Dynamics
@@ -75,15 +75,15 @@ class AtmosphericDrag : public Dynamics
     /// @return A celestial object
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
-    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance reads from
+    virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
-    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+    /// @return The coordinate subsets that the instance writes to
+    virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.
     ///
@@ -109,7 +109,7 @@ class AtmosphericDrag : public Dynamics
 };
 
 }  // namespace dynamics
-}  // namespace astro
+}  // namespace astrodynamics
 }  // namespace ostk
 
 #endif

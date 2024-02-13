@@ -2,13 +2,12 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Messages.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Message.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& aModule)
@@ -22,15 +21,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::unit::Angle;
 
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::Propagated;
-    using ostk::astro::trajectory::orbit::models::Tabulated;
-    using ostk::astro::trajectory::orbit::models::SGP4;
+    using ostk::astrodynamics::trajectory::Orbit;
+    using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+    using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+    using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+    using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
     {
-        class_<Orbit, ostk::astro::Trajectory> orbit_class(
+        class_<Orbit, ostk::astrodynamics::Trajectory> orbit_class(
             aModule,
             "Orbit",
             R"doc(
@@ -61,7 +60,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
         orbit_class
 
             .def(
-                init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>(),
+                init<const ostk::astrodynamics::trajectory::orbit::Model&, const Shared<const Celestial>&>(),
                 arg("model"),
                 arg("celestial_object"),
                 R"doc(
@@ -206,7 +205,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         instant (Instant): The instant.
 
                     Returns:
-                        ostk::astro::trajectory::orbit::Pass: The pass.
+                        ostk::astrodynamics::trajectory::orbit::Pass: The pass.
 
                 )doc",
                 arg("instant")
@@ -382,7 +381,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     auto orbit = aModule.def_submodule("orbit");
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(orbit);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models(orbit);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(orbit);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages(orbit);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message(orbit);
 }
