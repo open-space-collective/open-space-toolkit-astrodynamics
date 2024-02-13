@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <Global.test.hpp>
