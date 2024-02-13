@@ -16,7 +16,6 @@ Python API Documentation
    ostk.astrodynamics.flight.profile.models
    ostk.astrodynamics.flight.system
    ostk.astrodynamics.guidance_law
-   ostk.astrodynamics.solvers
    ostk.astrodynamics.trajectory
    ostk.astrodynamics.trajectory.orbit
    ostk.astrodynamics.trajectory.orbit.messages
