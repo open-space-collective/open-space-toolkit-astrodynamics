@@ -17,7 +17,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.trajectory.orbit.messages.spacex import OPM
+from ostk.astrodynamics.trajectory.orbit.message.spacex import OPM
 
 
 @pytest.fixture

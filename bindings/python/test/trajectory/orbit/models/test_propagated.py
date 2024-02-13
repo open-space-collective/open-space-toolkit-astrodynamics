@@ -19,7 +19,7 @@ from ostk.astrodynamics.trajectory import Propagator
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
-from ostk.astrodynamics.trajectory.orbit.models import Propagated
+from ostk.astrodynamics.trajectory.orbit.model import Propagated
 
 
 @pytest.fixture

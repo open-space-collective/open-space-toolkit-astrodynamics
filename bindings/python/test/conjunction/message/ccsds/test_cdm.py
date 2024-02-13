@@ -17,7 +17,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.conjunction.messages.ccsds import CDM
+from ostk.astrodynamics.conjunction.message.ccsds import CDM
 
 
 @pytest.fixture

@@ -6,7 +6,7 @@ from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.environment.gravitational import Earth
 
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 
 
 @pytest.fixture

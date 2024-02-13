@@ -15,7 +15,7 @@ from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import Tabulated
+from ostk.astrodynamics.trajectory.orbit.model import Tabulated
 
 
 @pytest.fixture

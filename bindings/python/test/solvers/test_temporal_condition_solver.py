@@ -12,8 +12,8 @@ from ostk.physics.time import Scale
 from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import Kepler
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.model import Kepler
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics.access import Generator
 from ostk.astrodynamics.solvers import TemporalConditionSolver
 
