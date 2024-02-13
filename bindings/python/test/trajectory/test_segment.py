@@ -44,14 +44,14 @@ def state() -> State:
         300.0,
     ]
     frame: Frame = Frame.GCRF()
-    coordinates_broker: CoordinateBroker = CoordinateBroker(
+    coordinate_broker: CoordinateBroker = CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
             CoordinateSubset.mass(),
         ]
     )
-    return State(instant, coordinates, frame, coordinates_broker)
+    return State(instant, coordinates, frame, coordinate_broker)
 
 
 @pytest.fixture

@@ -33,7 +33,7 @@ def coordinate_subsets() -> list[CoordinateSubset]:
 
 
 @pytest.fixture
-def coordinates_broker(
+def coordinate_broker(
     coordinate_subsets: list[CoordinateSubset],
 ) -> CoordinateBroker:
     return CoordinateBroker(coordinate_subsets)
@@ -53,9 +53,9 @@ def frame() -> Frame:
 def initial_state(
     start_instant: Instant,
     frame: Frame,
-    coordinates_broker: CoordinateBroker,
+    coordinate_broker: CoordinateBroker,
 ) -> State:
-    return State(start_instant, get_state_vec(0.0), frame, coordinates_broker)
+    return State(start_instant, get_state_vec(0.0), frame, coordinate_broker)
 
 
 @pytest.fixture

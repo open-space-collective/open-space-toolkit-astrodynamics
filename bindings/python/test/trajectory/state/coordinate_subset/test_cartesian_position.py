@@ -37,7 +37,7 @@ def frame() -> Frame:
 
 
 @pytest.fixture
-def coordinates_broker(
+def coordinate_broker(
     coordinate_subsets: list[CoordinateSubset],
 ) -> CoordinateBroker:
     return CoordinateBroker(coordinate_subsets)
@@ -64,11 +64,11 @@ class TestCartesianPosition:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         assert all(
             cartesian_position.add(
-                instant, coordinates, another_coordinates, frame, coordinates_broker
+                instant, coordinates, another_coordinates, frame, coordinate_broker
             )
             == [7000000.0, 7000000.0, 0.0]
         )
@@ -80,11 +80,11 @@ class TestCartesianPosition:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         assert all(
             cartesian_position.subtract(
-                instant, coordinates, another_coordinates, frame, coordinates_broker
+                instant, coordinates, another_coordinates, frame, coordinate_broker
             )
             == [7000000.0, -7000000.0, 0.0]
         )
@@ -96,11 +96,11 @@ class TestCartesianPosition:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         for value, expected in zip(
             cartesian_position.in_frame(
-                instant, coordinates, frame, Frame.ITRF(), coordinates_broker
+                instant, coordinates, frame, Frame.ITRF(), coordinate_broker
             ),
             [1238864.12746338, 6889500.39136482, -176.262107699686],
         ):

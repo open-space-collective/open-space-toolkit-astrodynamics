@@ -44,7 +44,7 @@ def coordinates() -> list[float]:
 
 
 @pytest.fixture
-def coordinates_broker(
+def coordinate_broker(
     coordinate_subsets: list[CoordinateSubset],
 ) -> CoordinateBroker:
     return CoordinateBroker(coordinate_subsets)
@@ -55,23 +55,23 @@ def state(
     instant: Instant,
     coordinates: list[float],
     frame: Frame,
-    coordinates_broker: CoordinateBroker,
+    coordinate_broker: CoordinateBroker,
 ) -> State:
-    return State(instant, coordinates, frame, coordinates_broker)
+    return State(instant, coordinates, frame, coordinate_broker)
 
 
 @pytest.fixture
-def state_builder(frame: Frame, coordinates_broker: CoordinateBroker) -> State:
-    return StateBuilder(frame, coordinates_broker)
+def state_builder(frame: Frame, coordinate_broker: CoordinateBroker) -> State:
+    return StateBuilder(frame, coordinate_broker)
 
 
 class TestStateBuilder:
     def test_broker_constructor(
         self,
         frame: Frame,
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
-        builder = StateBuilder(frame, coordinates_broker)
+        builder = StateBuilder(frame, coordinate_broker)
         assert builder is not None
         assert isinstance(builder, StateBuilder)
         assert builder.is_defined()
@@ -165,7 +165,7 @@ class TestStateBuilder:
         self,
         state_builder: StateBuilder,
         frame: Frame,
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         assert state_builder.get_frame() == frame
-        assert state_builder.get_coordinate_subsets() == coordinates_broker.get_subsets()
+        assert state_builder.get_coordinate_subsets() == coordinate_broker.get_subsets()

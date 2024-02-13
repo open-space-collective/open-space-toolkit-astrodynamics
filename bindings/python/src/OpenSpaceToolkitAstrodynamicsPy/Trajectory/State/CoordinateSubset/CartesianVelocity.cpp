@@ -50,7 +50,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
                     coordinates (numpy.ndarray): The Cartesian velocity to convert.
                     from_frame (str): The reference frame of the input Cartesian velocity.
                     to_frame (str): The reference frame of the output Cartesian velocity.
-                    coordinates_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     numpy.ndarray: The Cartesian velocity in the output reference frame.
@@ -60,7 +60,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
             arg("coordinates"),
             arg("from_frame"),
             arg("to_frame"),
-            arg("coordinates_broker")
+            arg("coordinate_broker")
         )
 
         .def_static(

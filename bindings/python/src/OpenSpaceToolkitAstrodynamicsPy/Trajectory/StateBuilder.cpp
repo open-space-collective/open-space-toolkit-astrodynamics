@@ -44,13 +44,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         .def(
             init<const Shared<const Frame>&, const Shared<const CoordinateBroker>&>(),
             arg("frame"),
-            arg("coordinates_broker"),
+            arg("coordinate_broker"),
             R"doc(
                 Construct a new `StateBuilder` object.
 
                 Arguments:
                     frame (Frame): The reference frame.
-                    coordinates_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     StateBuilder: The new `StateBuilder` object.
@@ -206,7 +206,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
         .def(
-            "access_coordinates_broker",
+            "access_coordinate_broker",
             &StateBuilder::accessCoordinateBroker,
             R"doc(
                 Access the coordinates broker of the `StateBuilder`.

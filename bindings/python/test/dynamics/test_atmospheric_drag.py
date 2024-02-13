@@ -65,7 +65,7 @@ def dynamics(earth: Earth) -> AtmosphericDrag:
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinateBroker:
+def coordinate_broker() -> CoordinateBroker:
     return CoordinateBroker(
         [
             CartesianPosition.default(),
@@ -100,14 +100,14 @@ def state(
     dry_mass: float,
     surface_area: float,
     drag_coefficient: float,
-    coordinates_broker: CoordinateBroker,
+    coordinate_broker: CoordinateBroker,
 ) -> State:
     coordinates = (
         position_coordinates
         + velocity_coordinates
         + [dry_mass, surface_area, drag_coefficient]
     )
-    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+    return State(instant, coordinates, Frame.GCRF(), coordinate_broker)
 
 
 class TestAtmosphericDrag:
