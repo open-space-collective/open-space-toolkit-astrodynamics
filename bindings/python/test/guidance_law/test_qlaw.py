@@ -15,7 +15,7 @@ from ostk.physics.unit import Angle
 from ostk.physics.unit import Derived
 
 
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics import GuidanceLaw
 from ostk.astrodynamics.guidance_law import QLaw
 

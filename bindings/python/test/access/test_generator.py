@@ -16,8 +16,8 @@ from ostk.physics.environment.object import Celestial
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import Kepler
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.model import Kepler
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics import Access
 from ostk.astrodynamics.access import Generator
 

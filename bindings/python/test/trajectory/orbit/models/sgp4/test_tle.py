@@ -14,7 +14,7 @@ from ostk.physics.time import Instant
 from ostk.physics.time import Scale
 from ostk.physics.time import DateTime
 
-from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 
 @pytest.fixture

@@ -9,8 +9,8 @@ from ostk.physics.time import Scale, Instant, DateTime, Time, Duration, Interval
 from ostk.astrodynamics.trajectory import Orbit, State
 from ostk.astrodynamics.trajectory.orbit import Pass
 from ostk.astrodynamics.trajectory.orbit import Pass
-from ostk.astrodynamics.trajectory.orbit.models import SGP4
-from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 
 @pytest.fixture

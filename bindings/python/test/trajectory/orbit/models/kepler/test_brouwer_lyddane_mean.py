@@ -5,7 +5,7 @@ import pytest
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 
-from ostk.astrodynamics.trajectory.orbit.models import BrouwerLyddaneMean
+from ostk.astrodynamics.trajectory.orbit.model import BrouwerLyddaneMean
 
 
 @pytest.fixture

@@ -26,9 +26,9 @@ SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
 Orbit = astrodynamics.trajectory.Orbit
 State = astrodynamics.trajectory.State
 Pass = astrodynamics.trajectory.orbit.Pass
-Kepler = astrodynamics.trajectory.orbit.models.Kepler
-COE = astrodynamics.trajectory.orbit.models.kepler.COE
-SGP4 = astrodynamics.trajectory.orbit.models.sgp4
+Kepler = astrodynamics.trajectory.orbit.model.Kepler
+COE = astrodynamics.trajectory.orbit.model.kepler.COE
+SGP4 = astrodynamics.trajectory.orbit.model.sgp4
 Access = astrodynamics.Access
 
 
