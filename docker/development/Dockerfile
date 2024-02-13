@@ -13,7 +13,7 @@ LABEL maintainer="lucas@loftorbital.com"
 ## Additional deps
 
 RUN apt-get update \
- && apt-get install -y unzip jq git-lfs locales \
+ && apt-get install -y unzip jq git-lfs locales openssh-client \
  && rm -rf /var/lib/apt/lists/*
 
 ## {fmt}
