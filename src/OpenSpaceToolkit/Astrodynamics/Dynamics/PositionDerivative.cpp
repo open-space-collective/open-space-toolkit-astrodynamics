@@ -16,8 +16,8 @@ namespace astrodynamics
 namespace dynamics
 {
 
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 PositionDerivative::PositionDerivative()
     : Dynamics("Position Derivative")

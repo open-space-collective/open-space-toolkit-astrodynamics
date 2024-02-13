@@ -48,7 +48,7 @@ Tabulated::Tabulated(
     {
         throw ostk::core::error::RuntimeError(
             "Contribution profile must have the same number of columns as the sum of the sizes of the write "
-            "coordinates subsets."
+            "coordinate subsets."
         );
     }
 

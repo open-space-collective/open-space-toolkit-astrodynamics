@@ -12,7 +12,7 @@ namespace trajectory
 {
 namespace state
 {
-namespace coordinatessubset
+namespace coordinatesubset
 {
 
 using ostk::mathematics::object::Vector3d;
@@ -83,7 +83,7 @@ Shared<const CartesianVelocity> CartesianVelocity::Default()
     return cartesianVelocity;
 }
 
-}  // namespace coordinatessubset
+}  // namespace coordinatesubset
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

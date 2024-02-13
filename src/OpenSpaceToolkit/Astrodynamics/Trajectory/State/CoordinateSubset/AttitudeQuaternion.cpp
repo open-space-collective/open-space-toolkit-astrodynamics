@@ -12,7 +12,7 @@ namespace trajectory
 {
 namespace state
 {
-namespace coordinatessubset
+namespace coordinatesubset
 {
 
 using ostk::mathematics::object::Vector3d;
@@ -65,7 +65,7 @@ Shared<const AttitudeQuaternion> AttitudeQuaternion::Default()
     return attitudeQuaternion;
 }
 
-}  // namespace coordinatessubset
+}  // namespace coordinatesubset
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

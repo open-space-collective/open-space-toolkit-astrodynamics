@@ -97,14 +97,14 @@ class Dynamics
     /// @return True if dynamics is defined
     virtual bool isDefined() const = 0;
 
-    /// @brief Return the coordinates subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from
     ///
-    /// @return The coordinates subsets that the instance reads from
+    /// @return The coordinate subsets that the instance reads from
     virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const = 0;
 
-    /// @brief Return the coordinates subsets that the instance writes to
+    /// @brief Return the coordinate subsets that the instance writes to
     ///
-    /// @return The coordinates subsets that the instance writes to
+    /// @return The coordinate subsets that the instance writes to
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const = 0;
 
     /// @brief Compute the contribution to the state derivative.

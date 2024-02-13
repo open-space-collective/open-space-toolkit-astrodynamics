@@ -117,7 +117,7 @@ class Segment
         ///
         /// @param aDynamicsSPtr Dynamics
         /// @param aFrameSPtr Frame
-        /// @param aCoordinateSubsetSPtrArray Array of coordinates subsets
+        /// @param aCoordinateSubsetSPtrArray Array of coordinate subsets
         /// @return Dynamics contribution
         MatrixXd getDynamicsContribution(
             const Shared<Dynamics>& aDynamicsSPtr,

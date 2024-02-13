@@ -7,7 +7,7 @@ using namespace pybind11;
 using ostk::core::type::String;
 using ostk::core::type::Shared;
 
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianVelocity(
@@ -18,7 +18,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
         aModule,
         "CartesianVelocity",
         R"doc(
-            Cartesian velocity coordinates subset.
+            Cartesian velocity coordinate subset.
 
             Defined with respect to a reference frame and a Cartesian position.
 
@@ -50,7 +50,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
                     coordinates (numpy.ndarray): The Cartesian velocity to convert.
                     from_frame (str): The reference frame of the input Cartesian velocity.
                     to_frame (str): The reference frame of the output Cartesian velocity.
-                    coordinate_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     numpy.ndarray: The Cartesian velocity in the output reference frame.

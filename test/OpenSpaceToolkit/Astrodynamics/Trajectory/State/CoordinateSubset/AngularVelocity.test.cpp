@@ -15,8 +15,8 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVelocity : public ::testing::Test
 {

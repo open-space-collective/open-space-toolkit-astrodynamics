@@ -7,7 +7,7 @@ using namespace pybind11;
 using ostk::core::type::String;
 using ostk::core::type::Shared;
 
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianPosition(
@@ -18,7 +18,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
         aModule,
         "CartesianPosition",
         R"doc(
-            Cartesian position coordinates subset.
+            Cartesian position coordinate subset.
 
             Defined with respect to a reference frame.
 
@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
                     coordinates (numpy.ndarray): The Cartesian position to convert.
                     from_frame (str): The reference frame of the input Cartesian position.
                     to_frame (str): The reference frame of the output Cartesian position.
-                    coordinate_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     numpy.ndarray: The Cartesian position in the output reference frame.

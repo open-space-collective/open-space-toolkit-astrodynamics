@@ -14,7 +14,7 @@ namespace trajectory
 {
 namespace state
 {
-namespace coordinatessubset
+namespace coordinatesubset
 {
 
 using ostk::core::type::Shared;
@@ -25,7 +25,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 
 /// @brief Cartesian Velocity.
 class CartesianVelocity : public CoordinateSubset
@@ -44,15 +44,15 @@ class CartesianVelocity : public CoordinateSubset
     /// @brief Destructor
     ~CartesianVelocity();
 
-    /// @brief Add two coordinates subsets
+    /// @brief Add two coordinate subsets
     ///
     /// @param anInstant the instant associated to the coordinates
     /// @param aFullCoordinatesVector first set of all coordinates
     /// @param anotherFullCoordinatesVector second set of all coordinates
     /// @param aFrameSPtr the reference frame in which the coordinates are resolved
-    /// @param aCoordinateBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return The resulting coordinates subset value (subset_1 + subset_2)
+    /// @return The resulting coordinate subset value (subset_1 + subset_2)
     virtual VectorXd add(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -61,15 +61,15 @@ class CartesianVelocity : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief Subtract two coordinates subsets
+    /// @brief Subtract two coordinate subsets
     ///
     /// @param anInstant the instant associated to the coordinates
     /// @param aFullCoordinatesVector first set of all coordinates
     /// @param anotherFullCoordinatesVector second set of all coordinates
     /// @param aFrameSPtr the reference frame associated to the coordinates
-    /// @param aCoordinateBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return The resulting coordinates subset value (subset_1 - subset_2)
+    /// @return The resulting coordinate subset value (subset_1 - subset_2)
     virtual VectorXd subtract(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -84,9 +84,9 @@ class CartesianVelocity : public CoordinateSubset
     /// @param aFullCoordinatesVector all coordinates
     /// @param fromFrame the reference frame associated to the coordinates
     /// @param toFrame the reference frame in which the coordinates are to be transformed
-    /// @param aCoordinateBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return The resulting coordinates subset value expressed in the desired reference frame
+    /// @return The resulting coordinate subset value expressed in the desired reference frame
     VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -104,7 +104,7 @@ class CartesianVelocity : public CoordinateSubset
     Shared<const CartesianPosition> cartesianPositionSPtr_;
 };
 
-}  // namespace coordinatessubset
+}  // namespace coordinatesubset
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

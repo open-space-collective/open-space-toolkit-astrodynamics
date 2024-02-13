@@ -17,7 +17,7 @@ namespace trajectory
 {
 namespace state
 {
-namespace coordinatessubset
+namespace coordinatesubset
 {
 
 using ostk::core::type::Shared;
@@ -56,9 +56,9 @@ class AttitudeQuaternion : public CoordinateSubset
     /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinateBrokerSPtr a coordinates broker
+    /// @param              [in] aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return             The resulting coordinates subset value expressed in the desired reference frame
+    /// @return             The resulting coordinate subset value expressed in the desired reference frame
 
     VectorXd inFrame(
         const Instant& anInstant,
@@ -89,7 +89,7 @@ class AttitudeQuaternion : public CoordinateSubset
     static Shared<const AttitudeQuaternion> Default();
 };
 
-}  // namespace coordinatessubset
+}  // namespace coordinatesubset
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

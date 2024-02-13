@@ -217,10 +217,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 Args:
                     dynamics (Dynamics): The dynamics.
                     frame (Frame): The frame.
-                    coordinate_subsets (list[CoordinateSubset], optional): A subset of the dynamics writing coordinates subsets to consider.
+                    coordinate_subsets (list[CoordinateSubset], optional): A subset of the dynamics writing coordinate subsets to consider.
 
                 Returns:
-                    MatrixXd: The matrix of dynamics contributions for the selected coordinates subsets of the dynamics.
+                    MatrixXd: The matrix of dynamics contributions for the selected coordinate subsets of the dynamics.
 
             )doc"
         )

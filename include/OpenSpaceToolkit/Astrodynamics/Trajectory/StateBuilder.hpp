@@ -39,7 +39,7 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief Factory class to generate States with common reference frame and coordinates subsets
+/// @brief Factory class to generate States with common reference frame and coordinate subsets
 class StateBuilder
 {
    public:
@@ -47,7 +47,7 @@ class StateBuilder
     ///
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinateSubsetsArray The array of coordinates subsets defining the output
+    /// @param aCoordinateSubsetsArray The array of coordinate subsets defining the output
     /// States
     StateBuilder(
         const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
@@ -126,9 +126,9 @@ class StateBuilder
     /// @return The reference frame
     const Shared<const Frame> accessFrame() const;
 
-    /// @brief Access the coordinates broker associated with the  StateBuilder.
+    /// @brief Access the coordinate broker associated with the  StateBuilder.
     ///
-    /// @return The coordinates broker associated to the State
+    /// @return The coordinate broker associated to the State
     const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Get the reference frame associated with the  StateBuilder.
@@ -136,9 +136,9 @@ class StateBuilder
     /// @return The reference frame
     Shared<const Frame> getFrame() const;
 
-    /// @brief Get the coordinates subsets of the  StateBuilder.
+    /// @brief Get the coordinate subsets of the  StateBuilder.
     ///
-    /// @return The coordinates subsets
+    /// @return The coordinate subsets
     const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
 
     /// @brief Print the StateBuilder to an output stream.

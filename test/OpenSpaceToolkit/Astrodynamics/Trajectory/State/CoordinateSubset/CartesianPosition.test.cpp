@@ -17,7 +17,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_CartesianPosition : public ::testing::Test
 {

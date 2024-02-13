@@ -30,7 +30,7 @@ using ostk::core::type::String;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief State coordinates broker.
+/// @brief State coordinate broker.
 class CoordinateBroker
 {
    public:
@@ -52,14 +52,14 @@ class CoordinateBroker
 
     /// @brief Equal to operator
     ///
-    /// @param aCoordinateBroker A coordinates broker
+    /// @param aCoordinateBroker A coordinate broker
     ///
     /// @return True if CoordinateBrokers equal
     bool operator==(const CoordinateBroker& aCoordinateBroker) const;
 
     /// @brief Not equal to operator
     ///
-    /// @param aCoordinateBroker A coordinates broker
+    /// @param aCoordinateBroker A coordinate broker
     ///
     /// @return True if CoordinateBrokers are not equal
     bool operator!=(const CoordinateBroker& aCoordinateBroker) const;
@@ -84,25 +84,25 @@ class CoordinateBroker
     /// @return The considered coordinate subsets
     Array<Shared<const CoordinateSubset>> getSubsets() const;
 
-    /// @brief Add a coordinates subset to be considered, returning the starting index it will occupy
+    /// @brief Add a coordinate subset to be considered, returning the starting index it will occupy
     /// (or that it occupies if it was already added) in the state coordinates
     ///
-    /// @param aCoordinateSubsetSPtr a coordinates subset to be considered
+    /// @param aCoordinateSubsetSPtr a coordinate subset to be considered
     ///
     /// @return The starting index of the subset in the state coordinates
     Index addSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr);
 
-    /// @brief Check if a coordinates subset has already been considered
+    /// @brief Check if a coordinate subset has already been considered
     ///
-    /// @param aCoordinateSubsetSPtr the coordinates subset to be checked
+    /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
     ///
-    /// @return True if the coordinates subset is already considered
+    /// @return True if the coordinate subset is already considered
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
     /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
     /// @param aFullCoordinatesVector the full coordinates vecctor
-    /// @param aCoordinateSubset the coordinates subsets of interest
+    /// @param aCoordinateSubset the coordinate subsets of interest
     ///
     /// @return The coordinates of the subset
     VectorXd extractCoordinate(const VectorXd& aFullCoordinatesVector, const CoordinateSubset& aCoordinateSubset)
@@ -111,7 +111,7 @@ class CoordinateBroker
     /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
     /// @param aFullCoordinatesVector the full coordinates vecctor
-    /// @param aCoordinateSubsetSPtr the coordinates subsets of interest
+    /// @param aCoordinateSubsetSPtr the coordinate subsets of interest
     ///
     /// @return The coordinates of the subset
     VectorXd extractCoordinate(
@@ -121,7 +121,7 @@ class CoordinateBroker
     /// @brief Extract the coordinates of an array of subsets from the full coordinates vector
     ///
     /// @param aFullCoordinatesVector the full coordinates vecctor
-    /// @param aCoordinateSubsetsArray the array of coordinates subsets of interest
+    /// @param aCoordinateSubsetsArray the array of coordinate subsets of interest
     ///
     /// @return The coordinates of the array of subsets in the same order as the input subsets
     VectorXd extractCoordinates(

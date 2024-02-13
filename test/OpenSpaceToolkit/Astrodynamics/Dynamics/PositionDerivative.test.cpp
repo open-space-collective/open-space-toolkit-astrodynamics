@@ -26,8 +26,8 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative : public ::testing::Test
 {

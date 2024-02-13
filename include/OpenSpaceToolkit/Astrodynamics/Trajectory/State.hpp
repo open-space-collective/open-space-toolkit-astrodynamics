@@ -51,7 +51,7 @@ class State
     /// @param aCoordinates The coordinates at the instant in International System of Units
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinateBrokerSPtr The coordinates broker associated to the coordinates
+    /// @param aCoordinateBrokerSPtr The coordinate broker associated to the coordinates
     State(
         const Instant& anInstant,
         const VectorXd& aCoordinates,
@@ -67,7 +67,7 @@ class State
     /// @param aCoordinates The coordinates at the instant in International System of Units
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinateSubsetsArray The coordinates subsets associated to the coordinates
+    /// @param aCoordinateSubsetsArray The coordinate subsets associated to the coordinates
     State(
         const Instant& anInstant,
         const VectorXd& aCoordinates,
@@ -163,9 +163,9 @@ class State
     /// @return The coordinates
     const VectorXd& accessCoordinates() const;
 
-    /// @brief Access the coordinates broker associated with the State.
+    /// @brief Access the coordinate broker associated with the State.
     ///
-    /// @return The coordinates broker associated to the State
+    /// @return The coordinate broker associated to the State
     const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Get the size of the State.
@@ -209,16 +209,16 @@ class State
     /// @return The coordinates
     VectorXd getCoordinates() const;
 
-    /// @brief Get the coordinates subsets of the State.
+    /// @brief Get the coordinate subsets of the State.
     ///
-    /// @return The coordinates subsets
+    /// @return The coordinate subsets
     const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
 
-    /// @brief Check if the State has a given coordinates subset.
+    /// @brief Check if the State has a given coordinate subset.
     ///
-    /// @param aCoordinateSubsetSPtr the coordinates subset to be checked
+    /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
     ///
-    /// @return True if the coordinates subset is included in the State
+    /// @return True if the coordinate subset is included in the State
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
     /// @brief Extract the coordinates for a single subset.
