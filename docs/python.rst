@@ -8,20 +8,20 @@ Python API Documentation
 
    ostk.astrodynamics
    ostk.astrodynamics.access
-   ostk.astrodynamics.conjunction.messages.ccsds
+   ostk.astrodynamics.conjunction.message.ccsds
    ostk.astrodynamics.dynamics
    ostk.astrodynamics.event_condition
    ostk.astrodynamics.flight
    ostk.astrodynamics.flight.profile
-   ostk.astrodynamics.flight.profile.models
+   ostk.astrodynamics.flight.profile.model
    ostk.astrodynamics.flight.system
    ostk.astrodynamics.guidance_law
    ostk.astrodynamics.trajectory
    ostk.astrodynamics.trajectory.orbit
-   ostk.astrodynamics.trajectory.orbit.messages
-   ostk.astrodynamics.trajectory.orbit.messages.spacex
-   ostk.astrodynamics.trajectory.orbit.models
-   ostk.astrodynamics.trajectory.orbit.models.kepler
-   ostk.astrodynamics.trajectory.orbit.models.sgp4
+   ostk.astrodynamics.trajectory.orbit.message
+   ostk.astrodynamics.trajectory.orbit.message.spacex
+   ostk.astrodynamics.trajectory.orbit.model
+   ostk.astrodynamics.trajectory.orbit.model.kepler
+   ostk.astrodynamics.trajectory.orbit.model.sgp4
    ostk.astrodynamics.trajectory.state
    ostk.astrodynamics.trajectory.state.coordinate_subset
