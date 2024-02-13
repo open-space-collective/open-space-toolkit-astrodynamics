@@ -33,7 +33,7 @@ using ostk::physics::coordinate::Velocity;
 
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 
@@ -85,7 +85,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testin
         },
     };
 
-    const Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker({
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
         CoordinateSubset::Mass(),

@@ -59,7 +59,7 @@ using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
@@ -73,11 +73,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
     {
         VectorXd initialCoordinates(7);
         initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
-        initialStateWithMass_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinatesBrokerSPtr_};
+        initialStateWithMass_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
 
         VectorXd finalCoordinates(7);
         finalCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 180.0;
-        finalStateWithMass_ = {Instant::J2000(), finalCoordinates, Frame::GCRF(), thrustCoordinatesBrokerSPtr_};
+        finalStateWithMass_ = {Instant::J2000(), finalCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
     }
 
    protected:
@@ -115,8 +115,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
     const Segment defaultCoastSegment_ =
         Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_);
 
-    const Shared<CoordinatesBroker> thrustCoordinatesBrokerSPtr_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+    const Shared<CoordinateBroker> thrustCoordinateBrokerSPtr_ =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinateSubset::Mass(),

@@ -28,7 +28,7 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 
 from ostk.astrodynamics.flight.system import PropulsionSystem
@@ -40,7 +40,7 @@ from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import AtmosphericDrag
 from ostk.astrodynamics.guidance_law import ConstantThrust
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
@@ -100,7 +100,7 @@ def environment(earth) -> Environment:
 
 @pytest.fixture
 def coordinates_broker_7d():
-    return CoordinatesBroker(
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
@@ -111,7 +111,7 @@ def coordinates_broker_7d():
 
 @pytest.fixture
 def coordinates_broker_9d():
-    return CoordinatesBroker(
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
@@ -124,7 +124,7 @@ def coordinates_broker_9d():
 
 @pytest.fixture
 def state(
-    satellite_system: SatelliteSystem, coordinates_broker_7d: CoordinatesBroker
+    satellite_system: SatelliteSystem, coordinates_broker_7d: CoordinateBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
@@ -145,7 +145,7 @@ def state(
 
 @pytest.fixture
 def state_low_altitude(
-    satellite_system: SatelliteSystem, coordinates_broker_9d: CoordinatesBroker
+    satellite_system: SatelliteSystem, coordinates_broker_9d: CoordinateBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 

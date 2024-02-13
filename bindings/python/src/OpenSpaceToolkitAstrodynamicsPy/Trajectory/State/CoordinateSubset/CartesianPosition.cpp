@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
                     coordinates (numpy.ndarray): The Cartesian position to convert.
                     from_frame (str): The reference frame of the input Cartesian position.
                     to_frame (str): The reference frame of the output Cartesian position.
-                    coordinates_broker (CoordinatesBroker): The coordinates broker.
+                    coordinates_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     numpy.ndarray: The Cartesian position in the output reference frame.

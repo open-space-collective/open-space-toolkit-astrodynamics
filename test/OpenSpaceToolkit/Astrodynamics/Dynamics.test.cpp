@@ -23,7 +23,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 using ostk::astrodynamics::Dynamics;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class DynamicsMock : public Dynamics

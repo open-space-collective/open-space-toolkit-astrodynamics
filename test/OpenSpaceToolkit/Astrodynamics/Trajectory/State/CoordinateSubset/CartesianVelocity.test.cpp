@@ -16,7 +16,7 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
@@ -31,8 +31,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesian
     const Array<Shared<const CoordinateSubset>> defaultCoordinateSubsets_ = {
         std::make_shared<CartesianVelocity>(defaultCartesianVelocity_)
     };
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(defaultCoordinateSubsets_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_CartesianVelocity, Constructor)
@@ -59,7 +59,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
         expected << 5.0, 7.0, 9.0;
 
         const VectorXd actual = defaultCartesianVelocity_.add(
-            Instant::Undefined(), allCoordinates_1, allCoordinates_2, Frame::Undefined(), defaultCoordinatesBroker_
+            Instant::Undefined(), allCoordinates_1, allCoordinates_2, Frame::Undefined(), defaultCoordinateBroker_
         );
 
         EXPECT_EQ(expected, actual);
@@ -78,7 +78,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
         expected << 5.0, 7.0, 9.0;
 
         const VectorXd actual = defaultCartesianVelocity_.subtract(
-            Instant::Undefined(), allCoordinates_1, allCoordinates_2, Frame::Undefined(), defaultCoordinatesBroker_
+            Instant::Undefined(), allCoordinates_1, allCoordinates_2, Frame::Undefined(), defaultCoordinateBroker_
         );
 
         EXPECT_EQ(expected, actual);
@@ -96,7 +96,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             defaultCartesianPositionSPtr_, std::make_shared<CartesianVelocity>(defaultCartesianVelocity_)
         };
-        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(coordinateSubsets);
+        const Shared<const CoordinateBroker> brokerSPtr = std::make_shared<CoordinateBroker>(coordinateSubsets);
 
         Vector3d expected = Velocity::MetersPerSecond({4.0e3, -5.0e3, 6.0e3}, fromFrame)
                                 .inFrame(Position::Meters({1.0e6, 2.0e6, 3.0e5}, fromFrame), toFrame, instant)

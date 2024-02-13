@@ -73,7 +73,7 @@ bool Propagator::isDefined() const
            !this->dynamicsContexts_.isEmpty();
 }
 
-const Shared<CoordinatesBroker>& Propagator::accessCoordinatesBroker() const
+const Shared<CoordinateBroker>& Propagator::accessCoordinateBroker() const
 {
     if (!this->isDefined())
     {
@@ -95,7 +95,7 @@ const NumericalSolver& Propagator::accessNumericalSolver() const
 
 Size Propagator::getNumberOfCoordinates() const
 {
-    return this->accessCoordinatesBroker()->getNumberOfCoordinates();
+    return this->accessCoordinateBroker()->getNumberOfCoordinates();
 }
 
 Array<Shared<Dynamics>> Propagator::getDynamics() const
@@ -133,7 +133,7 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamicsSPtr)
 void Propagator::clearDynamics()
 {
     this->dynamicsContexts_.clear();
-    this->coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    this->coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const

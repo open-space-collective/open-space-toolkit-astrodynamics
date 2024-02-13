@@ -31,10 +31,10 @@ VectorXd AttitudeQuaternion::inFrame(
     const VectorXd& aFullCoordinatesVector,
     const Shared<const Frame>& fromFrame,
     const Shared<const Frame>& toFrame,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
-    const VectorXd coordinates = aCoordinatesBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
+    const VectorXd coordinates = aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     const Quaternion quaternion = coordinatesToQuaternion(coordinates);
 

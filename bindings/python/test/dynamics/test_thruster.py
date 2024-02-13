@@ -17,7 +17,7 @@ from ostk.physics.coordinate import Frame
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import PropulsionSystem
@@ -77,8 +77,8 @@ def dynamics(
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker(
+def coordinates_broker() -> CoordinateBroker:
+    return CoordinateBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
@@ -88,7 +88,7 @@ def coordinates_broker() -> CoordinatesBroker:
 
 
 @pytest.fixture
-def state(coordinates_broker: CoordinatesBroker) -> State:
+def state(coordinates_broker: CoordinateBroker) -> State:
     instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
     coordinates: list = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 105.0]
 
@@ -121,7 +121,7 @@ class TestThruster:
     def test_compute_contribution_failure_out_of_fuel(
         self,
         satellite_system: SatelliteSystem,
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
         dynamics: Thruster,
     ):
         instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)

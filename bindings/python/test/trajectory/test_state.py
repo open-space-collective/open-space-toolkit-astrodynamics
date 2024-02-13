@@ -14,7 +14,7 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     CartesianPosition,
     CartesianVelocity,
@@ -73,8 +73,8 @@ def profile_state(
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker([CartesianPosition.default(), CartesianVelocity.default()])
+def coordinates_broker() -> CoordinateBroker:
+    return CoordinateBroker([CartesianPosition.default(), CartesianVelocity.default()])
 
 
 class TestState:
@@ -109,7 +109,7 @@ class TestState:
         position: Position,
         velocity: Velocity,
         frame: Frame,
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
     ):
         state = State(instant, position, velocity)
         assert state is not None

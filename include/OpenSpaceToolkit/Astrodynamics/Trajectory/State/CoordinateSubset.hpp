@@ -30,7 +30,7 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-class CoordinatesBroker;
+class CoordinateBroker;
 
 /// @brief State coordinates subset. It contains information related to a particular group of coordinates. It does not
 /// contain the coordinate values.
@@ -84,7 +84,7 @@ class CoordinateSubset
     /// @param aFullCoordinatesVector first set of all coordinates
     /// @param anotherFullCoordinatesVector second set of all coordinates
     /// @param aFrameSPtr the reference frame in which the coordinates are resolved
-    /// @param aCoordinatesBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return The resulting coordinates subset value (subset_1 + subset_2)
     virtual VectorXd add(
@@ -92,7 +92,7 @@ class CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
     /// @brief Subtract two coordinates subsets
@@ -101,7 +101,7 @@ class CoordinateSubset
     /// @param aFullCoordinatesVector first set of all coordinates
     /// @param anotherFullCoordinatesVector second set of all coordinates
     /// @param aFrameSPtr the reference frame associated to the coordinates
-    /// @param aCoordinatesBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return The resulting coordinates subset value (subset_1 - subset_2)
     virtual VectorXd subtract(
@@ -109,7 +109,7 @@ class CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
     /// @brief Transform the coordinate subset from one frame to another
@@ -118,7 +118,7 @@ class CoordinateSubset
     /// @param aFullCoordinatesVector all coordinates
     /// @param fromFrameSPtr the reference frame associated to the coordinates
     /// @param toFrameSPtr the reference frame in which the coordinates are to be transformed
-    /// @param aCoordinatesBrokerSPtr a coordinates broker
+    /// @param aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return The resulting coordinates subset value expressed in the desired reference frame
     virtual VectorXd inFrame(
@@ -126,7 +126,7 @@ class CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrameSPtr,
         const Shared<const Frame>& toFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
     /// @brief Return a default Mass instance

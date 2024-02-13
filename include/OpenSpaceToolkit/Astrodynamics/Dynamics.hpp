@@ -17,7 +17,7 @@
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -41,7 +41,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Define a dynamical system subject to equations of motion

@@ -106,7 +106,7 @@ class Propagator
     /// @brief Access the coordinates broker
     ///
     /// @return The coordinates broker
-    const Shared<CoordinatesBroker>& accessCoordinatesBroker() const;
+    const Shared<CoordinateBroker>& accessCoordinateBroker() const;
 
     /// @brief Access the numerical solver
     ///
@@ -209,7 +209,7 @@ class Propagator
     static Propagator FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment);
 
    private:
-    Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    Shared<CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 

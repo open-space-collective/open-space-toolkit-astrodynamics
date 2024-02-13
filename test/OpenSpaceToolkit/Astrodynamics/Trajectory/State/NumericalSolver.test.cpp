@@ -10,7 +10,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -31,7 +31,7 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Scale;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -84,7 +84,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public :
             defaultStartInstant_,
             defaultStateVector_,
             gcrfSPtr_,
-            defaultCoordinatesBroker_,
+            defaultCoordinateBroker_,
         };
     }
 
@@ -106,8 +106,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public :
     };
 
     VectorXd defaultStateVector_;
-    const Shared<CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({std::make_shared<CoordinateSubset>("Test", 2)}));
+    const Shared<CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({std::make_shared<CoordinateSubset>("Test", 2)}));
     const Instant defaultStartInstant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
@@ -151,7 +151,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public :
             anInstant,
             stateVector,
             gcrfSPtr_,
-            defaultCoordinatesBroker_,
+            defaultCoordinateBroker_,
         };
     }
 };

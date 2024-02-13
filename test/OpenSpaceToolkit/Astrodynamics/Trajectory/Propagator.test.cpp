@@ -260,14 +260,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessCoordinatesBroker)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessCoordinateBroker)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.accessCoordinatesBroker() != nullptr);
+        EXPECT_TRUE(defaultPropagator_.accessCoordinateBroker() != nullptr);
     }
 
     {
-        EXPECT_ANY_THROW(Propagator::Undefined().accessCoordinatesBroker());
+        EXPECT_ANY_THROW(Propagator::Undefined().accessCoordinateBroker());
     }
 }
 
@@ -380,7 +380,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
         EXPECT_EQ(outputStateGCRF.getInstant(), outputStateGCRF2.getInstant());
         EXPECT_EQ(outputStateGCRF.getFrame(), outputStateGCRF2.getFrame());
-        EXPECT_EQ(outputStateGCRF.accessCoordinatesBroker(), outputStateGCRF2.accessCoordinatesBroker());
+        EXPECT_EQ(outputStateGCRF.accessCoordinateBroker(), outputStateGCRF2.accessCoordinateBroker());
 
         // Get the coordinates from the two states
         const VectorXd coordinates1 = outputStateGCRF.getCoordinates();
@@ -499,7 +499,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         const State outputStateGCRF2 = outputStateITRF.inFrame(Frame::GCRF());
 
         EXPECT_EQ(outputStateGCRF.getFrame(), outputStateGCRF2.getFrame());
-        EXPECT_EQ(outputStateGCRF.accessCoordinatesBroker(), outputStateGCRF2.accessCoordinatesBroker());
+        EXPECT_EQ(outputStateGCRF.accessCoordinateBroker(), outputStateGCRF2.accessCoordinateBroker());
 
         // Get the coordinates from the two states
         const VectorXd coordinates1 = outputStateGCRF.getCoordinates();
@@ -741,7 +741,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
             EXPECT_EQ(outputStatesGCRF[i].getInstant(), outputStateGCRF2.getInstant());
             EXPECT_EQ(outputStatesGCRF[i].getFrame(), outputStateGCRF2.getFrame());
-            EXPECT_EQ(outputStatesGCRF[i].accessCoordinatesBroker(), outputStateGCRF2.accessCoordinatesBroker());
+            EXPECT_EQ(outputStatesGCRF[i].accessCoordinateBroker(), outputStateGCRF2.accessCoordinateBroker());
 
             // Get the coordinates from the two states
             const VectorXd coordinates1 = outputStatesGCRF[i].getCoordinates();

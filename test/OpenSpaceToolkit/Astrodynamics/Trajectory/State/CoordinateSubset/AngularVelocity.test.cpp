@@ -13,7 +13,7 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::AngularVelocity;
@@ -28,8 +28,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVe
     const Array<Shared<const CoordinateSubset>> defaultCoordinateSubsets_ = {
         std::make_shared<AngularVelocity>(defaultAngularVelocity_)
     };
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(defaultCoordinateSubsets_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVelocity, Constructor)
@@ -56,7 +56,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularV
         allCoordinates_2 << 4.0, 5.0, 6.0;
 
         EXPECT_ANY_THROW(
-            defaultAngularVelocity_.add(instant, allCoordinates_1, allCoordinates_2, frame, defaultCoordinatesBroker_)
+            defaultAngularVelocity_.add(instant, allCoordinates_1, allCoordinates_2, frame, defaultCoordinateBroker_)
         );
     }
 }
@@ -72,7 +72,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularV
         allCoordinates_2 << -4.0, -5.0, -6.0;
 
         EXPECT_ANY_THROW(defaultAngularVelocity_.subtract(
-            instant, allCoordinates_1, allCoordinates_2, frame, defaultCoordinatesBroker_
+            instant, allCoordinates_1, allCoordinates_2, frame, defaultCoordinateBroker_
         ));
     }
 }
@@ -88,7 +88,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularV
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             defaultAttitudeQuaternionSPtr_, std::make_shared<AngularVelocity>(defaultAngularVelocity_)
         };
-        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(coordinateSubsets);
+        const Shared<const CoordinateBroker> brokerSPtr = std::make_shared<CoordinateBroker>(coordinateSubsets);
 
         // TBI: check actual values
         EXPECT_NO_THROW(defaultAngularVelocity_.inFrame(instant, fullCoordinatesVector, fromFrame, toFrame, brokerSPtr)

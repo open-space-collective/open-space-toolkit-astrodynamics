@@ -14,7 +14,7 @@ from ostk.astrodynamics.trajectory import (
     StateBuilder,
 )
 from ostk.astrodynamics.trajectory.state import (
-    CoordinatesBroker,
+    CoordinateBroker,
     CoordinateSubset,
 )
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -46,8 +46,8 @@ def coordinates() -> list[float]:
 @pytest.fixture
 def coordinates_broker(
     coordinate_subsets: list[CoordinateSubset],
-) -> CoordinatesBroker:
-    return CoordinatesBroker(coordinate_subsets)
+) -> CoordinateBroker:
+    return CoordinateBroker(coordinate_subsets)
 
 
 @pytest.fixture
@@ -55,13 +55,13 @@ def state(
     instant: Instant,
     coordinates: list[float],
     frame: Frame,
-    coordinates_broker: CoordinatesBroker,
+    coordinates_broker: CoordinateBroker,
 ) -> State:
     return State(instant, coordinates, frame, coordinates_broker)
 
 
 @pytest.fixture
-def state_builder(frame: Frame, coordinates_broker: CoordinatesBroker) -> State:
+def state_builder(frame: Frame, coordinates_broker: CoordinateBroker) -> State:
     return StateBuilder(frame, coordinates_broker)
 
 
@@ -69,7 +69,7 @@ class TestStateBuilder:
     def test_broker_constructor(
         self,
         frame: Frame,
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
     ):
         builder = StateBuilder(frame, coordinates_broker)
         assert builder is not None
@@ -153,7 +153,7 @@ class TestStateBuilder:
             state.get_instant(),
             [100],
             state.get_frame(),
-            CoordinatesBroker([CoordinateSubset.mass()]),
+            CoordinateBroker([CoordinateSubset.mass()]),
         )
         expanded_state: State = builder.expand(state, default_state)
 
@@ -165,7 +165,7 @@ class TestStateBuilder:
         self,
         state_builder: StateBuilder,
         frame: Frame,
-        coordinates_broker: CoordinatesBroker,
+        coordinates_broker: CoordinateBroker,
     ):
         assert state_builder.get_frame() == frame
         assert state_builder.get_coordinate_subsets() == coordinates_broker.get_subsets()

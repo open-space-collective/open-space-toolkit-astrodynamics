@@ -7,7 +7,7 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
 namespace ostk
 {
@@ -29,7 +29,7 @@ using ostk::physics::coordinate::Transform;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
 /// @brief  Attitude Quaternion (XYZS format).
 
@@ -56,7 +56,7 @@ class AttitudeQuaternion : public CoordinateSubset
     /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
+    /// @param              [in] aCoordinateBrokerSPtr a coordinates broker
     ///
     /// @return             The resulting coordinates subset value expressed in the desired reference frame
 
@@ -65,7 +65,7 @@ class AttitudeQuaternion : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
     /// @brief              Return a Quaternion from coordinates.

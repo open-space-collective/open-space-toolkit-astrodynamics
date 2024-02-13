@@ -57,7 +57,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
@@ -131,7 +131,7 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::Segment;
 using ostk::astrodynamics::trajectory::Sequence;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;

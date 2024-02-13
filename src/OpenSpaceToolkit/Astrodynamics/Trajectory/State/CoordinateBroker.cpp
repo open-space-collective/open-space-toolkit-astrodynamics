@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
 namespace ostk
 {
@@ -14,15 +14,15 @@ namespace trajectory
 namespace state
 {
 
-CoordinatesBroker::CoordinatesBroker()
+CoordinateBroker::CoordinateBroker()
     : nextCoordinateSubsetIndex_(0),
       coordinateSubsets_({}),
       coordinateSubsetsIndexMap_({})
 {
 }
 
-CoordinatesBroker::CoordinatesBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray)
-    : CoordinatesBroker()
+CoordinateBroker::CoordinateBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray)
+    : CoordinateBroker()
 {
     for (Shared<const CoordinateSubset> subset : aCoordinateSubsetsArray)
     {
@@ -30,14 +30,14 @@ CoordinatesBroker::CoordinatesBroker(const Array<Shared<const CoordinateSubset>>
     }
 }
 
-bool CoordinatesBroker::operator==(const CoordinatesBroker& aCoordinatesBroker) const
+bool CoordinateBroker::operator==(const CoordinateBroker& aCoordinateBroker) const
 {
-    if (this->getNumberOfCoordinates() != aCoordinatesBroker.getNumberOfCoordinates())
+    if (this->getNumberOfCoordinates() != aCoordinateBroker.getNumberOfCoordinates())
     {
         return false;
     }
 
-    if (this->getNumberOfSubsets() != aCoordinatesBroker.getNumberOfSubsets())
+    if (this->getNumberOfSubsets() != aCoordinateBroker.getNumberOfSubsets())
     {
         return false;
     }
@@ -45,12 +45,12 @@ bool CoordinatesBroker::operator==(const CoordinatesBroker& aCoordinatesBroker) 
     for (const auto& element : this->coordinateSubsetsIndexMap_)
     {
         const String id = element.first;
-        if (!aCoordinatesBroker.hasSubset(id))
+        if (!aCoordinateBroker.hasSubset(id))
         {
             return false;
         }
 
-        if (element.second != aCoordinatesBroker.getSubsetIndex(id))
+        if (element.second != aCoordinateBroker.getSubsetIndex(id))
         {
             return false;
         }
@@ -59,32 +59,32 @@ bool CoordinatesBroker::operator==(const CoordinatesBroker& aCoordinatesBroker) 
     return true;
 }
 
-bool CoordinatesBroker::operator!=(const CoordinatesBroker& aCoordinatesBroker) const
+bool CoordinateBroker::operator!=(const CoordinateBroker& aCoordinateBroker) const
 {
-    return !((*this) == aCoordinatesBroker);
+    return !((*this) == aCoordinateBroker);
 }
 
-const Array<Shared<const CoordinateSubset>>& CoordinatesBroker::accessSubsets() const
+const Array<Shared<const CoordinateSubset>>& CoordinateBroker::accessSubsets() const
 {
     return this->coordinateSubsets_;
 }
 
-Size CoordinatesBroker::getNumberOfCoordinates() const
+Size CoordinateBroker::getNumberOfCoordinates() const
 {
     return this->nextCoordinateSubsetIndex_;
 }
 
-Size CoordinatesBroker::getNumberOfSubsets() const
+Size CoordinateBroker::getNumberOfSubsets() const
 {
     return (size_t)this->coordinateSubsetsIndexMap_.size();
 }
 
-Array<Shared<const CoordinateSubset>> CoordinatesBroker::getSubsets() const
+Array<Shared<const CoordinateSubset>> CoordinateBroker::getSubsets() const
 {
     return this->accessSubsets();
 }
 
-Index CoordinatesBroker::addSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
+Index CoordinateBroker::addSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)
 {
     const auto search = this->coordinateSubsetsIndexMap_.find(aCoordinateSubsetSPtr->getId());
 
@@ -102,12 +102,12 @@ Index CoordinatesBroker::addSubset(const Shared<const CoordinateSubset>& aCoordi
     return coordinatesSubsetIndex;
 }
 
-bool CoordinatesBroker::hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
+bool CoordinateBroker::hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
 {
     return this->hasSubset(aCoordinateSubsetSPtr->getId());
 }
 
-VectorXd CoordinatesBroker::extractCoordinate(
+VectorXd CoordinateBroker::extractCoordinate(
     const VectorXd& aFullCoordinatesVector, const CoordinateSubset& aCoordinateSubset
 ) const
 {
@@ -116,7 +116,7 @@ VectorXd CoordinatesBroker::extractCoordinate(
     );
 }
 
-VectorXd CoordinatesBroker::extractCoordinates(
+VectorXd CoordinateBroker::extractCoordinates(
     const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
 ) const
 {
@@ -140,19 +140,19 @@ VectorXd CoordinatesBroker::extractCoordinates(
     return coordinateSubsetsVector;
 }
 
-VectorXd CoordinatesBroker::extractCoordinate(
+VectorXd CoordinateBroker::extractCoordinate(
     const VectorXd& aFullCoordinatesVector, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr
 ) const
 {
     return this->extractCoordinate(aFullCoordinatesVector, *aCoordinateSubsetSPtr);
 }
 
-bool CoordinatesBroker::hasSubset(const String& anId) const
+bool CoordinateBroker::hasSubset(const String& anId) const
 {
     return this->coordinateSubsetsIndexMap_.count(anId) > 0;
 }
 
-Index CoordinatesBroker::getSubsetIndex(const String& anId) const
+Index CoordinateBroker::getSubsetIndex(const String& anId) const
 {
     auto search = this->coordinateSubsetsIndexMap_.find(anId);
 

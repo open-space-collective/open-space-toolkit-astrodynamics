@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
@@ -31,38 +31,38 @@ using ostk::core::type::String;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief State coordinates broker.
-class CoordinatesBroker
+class CoordinateBroker
 {
    public:
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///                  CoordinatesBroker coordinatesBroker();
+    ///                  CoordinateBroker coordinatesBroker();
     /// @endcode
-    CoordinatesBroker();
+    CoordinateBroker();
 
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///                  CoordinatesBroker coordinatesBroker({asubsetSPtr, anotherSubsetSPtr});
+    ///                  CoordinateBroker coordinatesBroker({asubsetSPtr, anotherSubsetSPtr});
     /// @endcode
     ///
     /// @param aCoordinateSubsetsArray the coordinate subsets to consider
-    CoordinatesBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray);
+    CoordinateBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray);
 
     /// @brief Equal to operator
     ///
-    /// @param aCoordinatesBroker A coordinates broker
+    /// @param aCoordinateBroker A coordinates broker
     ///
     /// @return True if CoordinateBrokers equal
-    bool operator==(const CoordinatesBroker& aCoordinatesBroker) const;
+    bool operator==(const CoordinateBroker& aCoordinateBroker) const;
 
     /// @brief Not equal to operator
     ///
-    /// @param aCoordinatesBroker A coordinates broker
+    /// @param aCoordinateBroker A coordinates broker
     ///
     /// @return True if CoordinateBrokers are not equal
-    bool operator!=(const CoordinatesBroker& aCoordinatesBroker) const;
+    bool operator!=(const CoordinateBroker& aCoordinateBroker) const;
 
     /// @brief Return the considered coordinate subsets
     ///

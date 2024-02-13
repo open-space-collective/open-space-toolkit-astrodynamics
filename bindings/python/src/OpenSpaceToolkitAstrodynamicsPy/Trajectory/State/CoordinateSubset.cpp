@@ -29,7 +29,7 @@ class PyCoordinateSubset : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override
     {
         PYBIND11_OVERRIDE(
@@ -40,7 +40,7 @@ class PyCoordinateSubset : public CoordinateSubset
             aFullCoordinatesVector,
             anotherFullCoordinatesVector,
             aFrameSPtr,
-            aCoordinatesBrokerSPtr
+            aCoordinateBrokerSPtr
         );
     }
 
@@ -49,7 +49,7 @@ class PyCoordinateSubset : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override
     {
         PYBIND11_OVERRIDE(
@@ -60,7 +60,7 @@ class PyCoordinateSubset : public CoordinateSubset
             aFullCoordinatesVector,
             anotherFullCoordinatesVector,
             aFrameSPtr,
-            aCoordinatesBrokerSPtr
+            aCoordinateBrokerSPtr
         );
     }
 
@@ -69,7 +69,7 @@ class PyCoordinateSubset : public CoordinateSubset
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrameSPtr,
         const Shared<const Frame>& toFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override
     {
         PYBIND11_OVERRIDE(
@@ -80,7 +80,7 @@ class PyCoordinateSubset : public CoordinateSubset
             aFullCoordinatesVector,
             fromFrameSPtr,
             toFrameSPtr,
-            aCoordinatesBrokerSPtr
+            aCoordinateBrokerSPtr
         );
     }
 };
@@ -156,7 +156,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     coordinates (numpy.ndarray): The coordinates of this state.
                     another_coordinates (numpy.ndarray): The coordinates of the other state.
                     frame (Frame): The reference frame of the coordinates.
-                    coordinate_broker (CoordinatesBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     numpy.ndarray: The sum of the coordinates.
@@ -179,7 +179,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     coordinates (numpy.ndarray): The coordinates of this state.
                     another_coordinates (numpy.ndarray): The coordinates of the other state.
                     frame (Frame): The reference frame of the coordinates.
-                    coordinate_broker (CoordinatesBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     numpy.ndarray: The difference of the coordinates.
@@ -202,7 +202,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     coordinates (numpy.ndarray): The coordinates of this state.
                     from_frame (Frame): The reference frame of the input coordinates.
                     to_frame (Frame): The reference frame of the output coordinates.
-                    coordinate_broker (CoordinatesBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinates broker.
 
                 Returns:
                     numpy.ndarray: The coordinates in the output frame.

@@ -41,7 +41,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
@@ -93,7 +93,7 @@ using ostk::astrodynamics::flight::system::SatelliteSystemBuilder;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatessubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -154,7 +154,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation : public ::t
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
 
-    const Shared<CoordinatesBroker> dragCoordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+    const Shared<CoordinateBroker> dragCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker(
         {CartesianPosition::Default(),
          CartesianVelocity::Default(),
          CoordinateSubset::Mass(),
@@ -213,7 +213,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation_Data_Succes
         dragCoefficient;
 
     // Current state and instant setup
-    const State state = {startInstant, initialStateVector, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
+    const State state = {startInstant, initialStateVector, gcrfSPtr_, dragCoordinateBrokerSPtr_};
 
     const NumericalSolver RK4 = {
         NumericalSolver::LogType::NoLog,
@@ -295,7 +295,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation_Data_Failur
         dragCoefficient;
 
     // Current state and instant setup
-    const State state = {startInstant, initialStateVector, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
+    const State state = {startInstant, initialStateVector, gcrfSPtr_, dragCoordinateBrokerSPtr_};
 
     const NumericalSolver RK4 = {
         NumericalSolver::LogType::NoLog,

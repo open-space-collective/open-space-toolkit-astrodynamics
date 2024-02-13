@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 #include <Global.test.hpp>
@@ -17,7 +17,7 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinatesBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset : public ::testing::Test
@@ -31,8 +31,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset : public 
         std::make_shared<CoordinateSubset>(defaultCoordinateSubset_)
     };
 
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
-        std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
+    const Shared<const CoordinateBroker> defaultCoordinateBroker_ =
+        std::make_shared<CoordinateBroker>(defaultCoordinateSubsets_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Constructor)
@@ -94,7 +94,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Add)
     input2 << 2.0, 7.0, 3.0, 4.0;
 
     {
-        EXPECT_ANY_THROW(defaultCoordinateSubset_.add(instant, input1, input2, frame, defaultCoordinatesBroker_));
+        EXPECT_ANY_THROW(defaultCoordinateSubset_.add(instant, input1, input2, frame, defaultCoordinateBroker_));
     }
 }
 
@@ -109,7 +109,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Subtrac
     input2 << 2.0, 7.0, 3.0, 4.0;
 
     {
-        EXPECT_ANY_THROW(defaultCoordinateSubset_.subtract(instant, input1, input2, frame, defaultCoordinatesBroker_));
+        EXPECT_ANY_THROW(defaultCoordinateSubset_.subtract(instant, input1, input2, frame, defaultCoordinateBroker_));
     }
 }
 
@@ -127,7 +127,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, InFrame
 
         VectorXd actual(1);
         actual = defaultCoordinateSubset_.inFrame(
-            instant, fullCoordinatesVector, fromFrame, toFrame, defaultCoordinatesBroker_
+            instant, fullCoordinatesVector, fromFrame, toFrame, defaultCoordinateBroker_
         );
 
         EXPECT_EQ(expected, actual);
