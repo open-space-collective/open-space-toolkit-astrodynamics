@@ -1,10 +1,5 @@
 /// Apache License 2.0
 
-// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
-// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
-// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
-// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
-
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/BrouwerLyddaneMean.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Propagated.cpp>

@@ -156,7 +156,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     coordinates (numpy.ndarray): The coordinates of this state.
                     another_coordinates (numpy.ndarray): The coordinates of the other state.
                     frame (Frame): The reference frame of the coordinates.
-                    coordinate_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     numpy.ndarray: The sum of the coordinates.
@@ -179,7 +179,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     coordinates (numpy.ndarray): The coordinates of this state.
                     another_coordinates (numpy.ndarray): The coordinates of the other state.
                     frame (Frame): The reference frame of the coordinates.
-                    coordinate_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     numpy.ndarray: The difference of the coordinates.
@@ -202,7 +202,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     coordinates (numpy.ndarray): The coordinates of this state.
                     from_frame (Frame): The reference frame of the input coordinates.
                     to_frame (Frame): The reference frame of the output coordinates.
-                    coordinate_broker (CoordinateBroker): The coordinates broker.
+                    coordinate_broker (CoordinateBroker): The coordinate broker.
 
                 Returns:
                     numpy.ndarray: The coordinates in the output frame.
@@ -222,7 +222,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                 Get the mass coordinates subset.
 
                 Returns:
-                    CoordinateSubset: The mass coordinates subset.
+                    CoordinateSubset: The mass coordinate subset.
             )doc"
         )
         .def_static(
@@ -232,17 +232,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                 Get the surface area coordinates subset.
 
                 Returns:
-                    CoordinateSubset: The surface area coordinates subset.
+                    CoordinateSubset: The surface area coordinate subset.
             )doc"
         )
         .def_static(
             "drag_coefficient",
             &CoordinateSubset::DragCoefficient,
             R"doc(
-                Get the drag coefficient coordinates subset.
+                Get the drag coefficient coordinate subset.
 
                 Returns:
-                    CoordinateSubset: The drag coefficient coordinates subset.
+                    CoordinateSubset: The drag coefficient coordinate subset.
             )doc"
         )
 
