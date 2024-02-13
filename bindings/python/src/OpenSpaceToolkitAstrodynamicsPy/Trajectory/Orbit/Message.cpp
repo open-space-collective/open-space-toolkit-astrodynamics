@@ -4,9 +4,9 @@
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message(pybind11::module& aModule)
 {
-    // Create "messages" python submodule
+    // Create "message" python submodule
     auto message = aModule.def_submodule("message");
 
-    // add objects to "messages" submodule
+    // add objects to "message" submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX(message);
 }

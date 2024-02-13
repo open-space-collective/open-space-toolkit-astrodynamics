@@ -197,10 +197,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
 
         ;
 
-        // Create "models" python submodule
+    // Create "model" python submodule
     auto model = aModule.def_submodule("model");
 
-    // add objects to "models" submodule
+    // add objects to "model" submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(model);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(model);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(model);
