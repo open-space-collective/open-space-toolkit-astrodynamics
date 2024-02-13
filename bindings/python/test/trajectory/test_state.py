@@ -73,7 +73,7 @@ def profile_state(
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinateBroker:
+def coordinate_broker() -> CoordinateBroker:
     return CoordinateBroker([CartesianPosition.default(), CartesianVelocity.default()])
 
 
@@ -109,7 +109,7 @@ class TestState:
         position: Position,
         velocity: Velocity,
         frame: Frame,
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         state = State(instant, position, velocity)
         assert state is not None
@@ -120,7 +120,7 @@ class TestState:
             instant,
             np.append(position.get_coordinates(), velocity.get_coordinates()),
             frame,
-            coordinates_broker,
+            coordinate_broker,
         )
 
         assert state is not None

@@ -45,7 +45,7 @@ def frame() -> Frame:
 
 
 @pytest.fixture
-def coordinates_broker(
+def coordinate_broker(
     coordinate_subsets: list[CoordinateSubset],
 ) -> CoordinateBroker:
     return CoordinateBroker(coordinate_subsets)
@@ -72,11 +72,11 @@ class TestCartesianVelocity:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         assert all(
             cartesian_velocity.add(
-                instant, coordinates, another_coordinates, frame, coordinates_broker
+                instant, coordinates, another_coordinates, frame, coordinate_broker
             )
             == [5335.865450622126, 5335.865450622126, 5335.865450622126]
         )
@@ -88,11 +88,11 @@ class TestCartesianVelocity:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         assert all(
             cartesian_velocity.subtract(
-                instant, coordinates, another_coordinates, frame, coordinates_broker
+                instant, coordinates, another_coordinates, frame, coordinate_broker
             )
             == [-5335.865450622126, 5335.865450622126, 5335.865450622126]
         )
@@ -104,11 +104,11 @@ class TestCartesianVelocity:
         frame: Frame,
         coordinates: list[float],
         another_coordinates: list[float],
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
     ):
         for value, expected in zip(
             cartesian_velocity.in_frame(
-                instant, coordinates, frame, Frame.ITRF(), coordinates_broker
+                instant, coordinates, frame, Frame.ITRF(), coordinate_broker
             ),
             [-4749.36551256577, 854.163395375881, 5335.71857543495],
         ):

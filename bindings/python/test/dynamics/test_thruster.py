@@ -77,7 +77,7 @@ def dynamics(
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinateBroker:
+def coordinate_broker() -> CoordinateBroker:
     return CoordinateBroker(
         [
             CartesianPosition.default(),
@@ -88,11 +88,11 @@ def coordinates_broker() -> CoordinateBroker:
 
 
 @pytest.fixture
-def state(coordinates_broker: CoordinateBroker) -> State:
+def state(coordinate_broker: CoordinateBroker) -> State:
     instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
     coordinates: list = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 105.0]
 
-    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+    return State(instant, coordinates, Frame.GCRF(), coordinate_broker)
 
 
 class TestThruster:
@@ -121,7 +121,7 @@ class TestThruster:
     def test_compute_contribution_failure_out_of_fuel(
         self,
         satellite_system: SatelliteSystem,
-        coordinates_broker: CoordinateBroker,
+        coordinate_broker: CoordinateBroker,
         dynamics: Thruster,
     ):
         instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
@@ -134,7 +134,7 @@ class TestThruster:
             0.0,
             satellite_system.get_mass().in_kilograms(),
         ]
-        state = State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+        state = State(instant, coordinates, Frame.GCRF(), coordinate_broker)
 
         with pytest.raises(RuntimeError):
             contribution = dynamics.compute_contribution(

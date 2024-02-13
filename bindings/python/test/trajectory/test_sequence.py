@@ -112,7 +112,7 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinateBroker:
+def coordinate_broker() -> CoordinateBroker:
     return CoordinateBroker(
         [
             CartesianPosition.default(),
@@ -143,7 +143,7 @@ def state(
     wet_mass: Mass,
     cross_sectional_surface_area: float,
     drag_coefficient: float,
-    coordinates_broker: CoordinateBroker,
+    coordinate_broker: CoordinateBroker,
 ) -> State:
     frame: Frame = Frame.GCRF()
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -168,7 +168,7 @@ def state(
             drag_coefficient,
         ],
         frame,
-        coordinates_broker,
+        coordinate_broker,
     )
 
 

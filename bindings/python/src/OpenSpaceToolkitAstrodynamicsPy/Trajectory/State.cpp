@@ -81,12 +81,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                      instant (Instant): An instant
                      coordinates (numpy.ndarray): The coordinates at the instant in International System of Units
                      frame (Frame): The reference frame in which the coordinates are referenced to and resolved in
-                     coordinates_broker (CoordinateBroker): The coordinates broker associated to the coordinates
+                     coordinate_broker (CoordinateBroker): The coordinates broker associated to the coordinates
              )doc",
             arg("instant"),
             arg("coordinates"),
             arg("frame"),
-            arg("coordinates_broker")
+            arg("coordinate_broker")
         )
         .def(
             init<
