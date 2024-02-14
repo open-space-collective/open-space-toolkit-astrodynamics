@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1707850037769,
+  "lastUpdate": 1707938828526,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 2792601919.9000053,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2792409050.0000005 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7cb2eff668f56a89bffa252173b1b1148dbeed1c",
+          "message": "feat: add tests for profile::models::Tabulated (#339)\n\n* refactor!: remove profile state and use trajectory state\r\n\r\n* feat: fix tests\r\n\r\n* feat: add tests for Flight::Profile::Models::Tabulated\r\n\r\n* feat: fix tests\r\n\r\n* feat: fix tests\r\n\r\n* fix: tests\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\r\n\r\n* feat: address remaining feedback\r\n\r\n---------\r\n\r\nCo-authored-by: Vishwa Shah <vishwa@users-MacBook-Pro.local>\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2024-02-14T10:56:21-08:00",
+          "tree_id": "c5c76e459b5846e7bab33b1f1c01682012639dee",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/7cb2eff668f56a89bffa252173b1b1148dbeed1c"
+        },
+        "date": 1707938827139,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 557219880.0999956,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 557193520 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 797780589.6000006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 797741479.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2785283178.2000012,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2785124319.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2784439285.900004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2784273399.9999986 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2783174158.199995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783057909.999998 ns\nthreads: 1"
           }
         ]
       }
