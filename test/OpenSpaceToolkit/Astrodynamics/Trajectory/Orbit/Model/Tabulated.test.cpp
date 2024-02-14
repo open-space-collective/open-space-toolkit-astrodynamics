@@ -3,6 +3,9 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 
@@ -22,6 +25,7 @@ using ostk::core::container::Tuple;
 using ostk::core::filesystem::Path;
 using ostk::core::filesystem::File;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::Environment;
@@ -101,7 +105,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Constructor)
 {
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
+    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
 
     Environment environment = Environment::Default();
 
@@ -112,7 +116,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 {
     using ostk::physics::time::Interval;
 
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
+    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
 
     EXPECT_TRUE(tabulated.getInterval().isDefined());
     EXPECT_TRUE(
@@ -123,16 +127,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, EqualToOperator)
 {
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
-    const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
+    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+    const Tabulated anotherTabulated(states_, 0, Interpolator::Type::Linear);
 
     EXPECT_TRUE(tabulated == anotherTabulated);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, NotEqualToOperator)
 {
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::CubicSpline);
-    const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
+    const Tabulated tabulated(states_, 0, Interpolator::Type::CubicSpline);
+    const Tabulated anotherTabulated(states_, 0, Interpolator::Type::Linear);
 
     EXPECT_TRUE(tabulated != anotherTabulated);
 }
@@ -141,15 +145,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
 {
     loadData();
 
-    const Array<Tuple<Tabulated::InterpolationType, Real>> testCases = {
-        {Tabulated::InterpolationType::Linear, 420.0},
-        {Tabulated::InterpolationType::BarycentricRational, 5e-2},
-        {Tabulated::InterpolationType::CubicSpline, 5e-3},
+    const Array<Tuple<Interpolator::Type, Real>> testCases = {
+        {Interpolator::Type::Linear, 420.0},
+        {Interpolator::Type::BarycentricRational, 5e-2},
+        {Interpolator::Type::CubicSpline, 5e-3},
     };
 
     for (const auto& testCase : testCases)
     {
-        Tabulated::InterpolationType interpolationType = std::get<0>(testCase);
+        Interpolator::Type interpolationType = std::get<0>(testCase);
         Real tolerance = std::get<1>(testCase);
 
         const Tabulated tabulated(states_, 0, interpolationType);
@@ -176,15 +180,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
 {
     loadData();
 
-    const Array<Tuple<Tabulated::InterpolationType, Real>> testCases = {
-        {Tabulated::InterpolationType::Linear, 420.0},
-        {Tabulated::InterpolationType::BarycentricRational, 5e-2},
-        {Tabulated::InterpolationType::CubicSpline, 5e-3},
+    const Array<Tuple<Interpolator::Type, Real>> testCases = {
+        {Interpolator::Type::Linear, 420.0},
+        {Interpolator::Type::BarycentricRational, 5e-2},
+        {Interpolator::Type::CubicSpline, 5e-3},
     };
 
     for (const auto& testCase : testCases)
     {
-        Tabulated::InterpolationType interpolationType = std::get<0>(testCase);
+        Interpolator::Type interpolationType = std::get<0>(testCase);
         Real tolerance = std::get<1>(testCase);
 
         const Tabulated tabulated(states_, 0, interpolationType);

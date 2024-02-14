@@ -10,9 +10,7 @@
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/BarycentricRational.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/CubicSpline.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/Linear.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
@@ -37,7 +35,7 @@ using ostk::core::type::Index;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
-using ostk::mathematics::curvefitting::interpolator::Interpolator;
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::VectorXd;
 
@@ -48,7 +46,7 @@ using ostk::physics::time::Scale;
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 
-#define DEFAULT_TABULATED_INTERPOLATION_TYPE Tabulated::InterpolationType::Linear
+#define DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE Interpolator::Type::Linear
 
 /// @brief Tabulated trajectory model
 ///
@@ -58,18 +56,9 @@ using ostk::astrodynamics::trajectory::State;
 class Tabulated : public virtual Model
 {
    public:
-    enum class InterpolationType
-    {
-
-        Linear,
-        BarycentricRational,
-        CubicSpline
-
-    };
-
     Tabulated(
         const Array<State>& aStateArray,
-        const InterpolationType& anInterpolationType = DEFAULT_TABULATED_INTERPOLATION_TYPE
+        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
     );
 
     virtual Tabulated* clone() const override;
@@ -84,7 +73,7 @@ class Tabulated : public virtual Model
 
     Interval getInterval() const;
 
-    InterpolationType getInterpolationType() const;
+    Interpolator::Type getInterpolationType() const;
 
     State getFirstState() const;
 
@@ -106,10 +95,7 @@ class Tabulated : public virtual Model
    private:
     State firstState_ = State::Undefined();
     State lastState_ = State::Undefined();
-
-    InterpolationType interpolationType_;
-
-    Array<Shared<Interpolator>> interpolators_ = Array<Shared<Interpolator>>::Empty();
+    Array<Shared<const Interpolator>> interpolators_;
 };
 
 }  // namespace model

@@ -15,14 +15,9 @@ namespace trajectory
 namespace model
 {
 
-Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& anInterpolationType)
-    : Model(),
-      interpolationType_(anInterpolationType)
+Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
+    : Model()
 {
-    using ostk::mathematics::curvefitting::interpolator::BarycentricRational;
-    using ostk::mathematics::curvefitting::interpolator::CubicSpline;
-    using ostk::mathematics::curvefitting::interpolator::Linear;
-
     if (aStateArray.getSize() < 2)
     {
         return;
@@ -56,23 +51,7 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        if (interpolationType_ == Tabulated::InterpolationType::CubicSpline)
-        {
-            interpolators_.add(std::make_shared<CubicSpline>(CubicSpline(timestamps, coordinates.col(i))));
-        }
-        else if (interpolationType_ == Tabulated::InterpolationType::BarycentricRational)
-        {
-            interpolators_.add(std::make_shared<BarycentricRational>(BarycentricRational(timestamps, coordinates.col(i))
-            ));
-        }
-        else if (interpolationType_ == Tabulated::InterpolationType::Linear)
-        {
-            interpolators_.add(std::make_shared<Linear>(Linear(timestamps, coordinates.col(i))));
-        }
-        else
-        {
-            throw ostk::core::error::runtime::Wrong("InterpolationType");
-        }
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolationType, timestamps, coordinates.col(i)));
     }
 }
 
@@ -88,7 +67,7 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         return false;
     }
 
-    return interpolationType_ == aTabulatedModel.getInterpolationType() &&
+    return this->getInterpolationType() == aTabulatedModel.getInterpolationType() &&
            firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState();
 }
 
@@ -119,14 +98,15 @@ Interval Tabulated::getInterval() const
     return Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant());
 }
 
-Tabulated::InterpolationType Tabulated::getInterpolationType() const
+Interpolator::Type Tabulated::getInterpolationType() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return interpolationType_;
+    // Since all interpolators are of the same type, we can just return the type of the first one.
+    return interpolators_[0]->getInterpolationType();
 }
 
 State Tabulated::getFirstState() const
