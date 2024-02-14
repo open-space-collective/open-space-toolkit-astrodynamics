@@ -107,6 +107,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, StreamOpe
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Print)
+{
+    testing::internal::CaptureStdout();
+
+    EXPECT_NO_THROW(tabulated_.print(std::cout, true));
+    EXPECT_NO_THROW(tabulated_.print(std::cout, false));
+
+    EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, IsDefined)
 {
