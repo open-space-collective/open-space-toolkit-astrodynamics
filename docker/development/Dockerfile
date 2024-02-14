@@ -144,7 +144,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 ## Open Space Toolkit ▸ Physics
 
 ARG OSTK_PHYSICS_MAJOR="5"
-ARG OSTK_PHYSICS_MINOR="0"
+ARG OSTK_PHYSICS_MINOR="1"
 
 ## Force an image rebuild when new Physics patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
@@ -159,7 +159,7 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
 
 # Install seed data
 
-RUN git clone --branch main --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
+RUN git clone --branch v1 --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
 
 ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="/var/cache/open-space-toolkit-data/data"
 
