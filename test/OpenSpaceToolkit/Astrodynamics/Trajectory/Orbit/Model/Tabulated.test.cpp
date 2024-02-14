@@ -60,7 +60,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated/propagated_states.csv"
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated/Satellite Orbit.csv"
             )),
             Table::Format::CSV,
             true
@@ -81,7 +81,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
                 {row[4].accessReal(), row[5].accessReal(), row[6].accessReal()}, Frame::GCRF()
             );
 
-            State state = State(instant, position, velocity);
+            const State state = State(instant, position, velocity);
 
             referenceStates_.add(state);
 

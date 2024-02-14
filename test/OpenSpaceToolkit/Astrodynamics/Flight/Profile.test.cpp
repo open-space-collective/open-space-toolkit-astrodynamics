@@ -222,8 +222,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 {
-    using ostk::astrodynamics::flight::Profile;
-
     {
         EXPECT_NO_THROW(Profile::Undefined());
         EXPECT_FALSE(Profile::Undefined().isDefined());
