@@ -4,6 +4,8 @@ import pytest
 
 import numpy as np
 
+from ostk.mathematics.curve_fitting import Interpolator
+
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
@@ -230,13 +232,13 @@ class TestTabulated:
     @pytest.mark.parametrize(
         "interpolation_type",
         (
-            (Tabulated.InterpolationType.Linear),
-            (Tabulated.InterpolationType.CubicSpline),
-            (Tabulated.InterpolationType.BarycentricRational),
+            (Interpolator.Type.Linear),
+            (Interpolator.Type.CubicSpline),
+            (Interpolator.Type.BarycentricRational),
         ),
     )
     def test_constructor(
-        self, test_states: list[State], interpolation_type: Tabulated.InterpolationType
+        self, test_states: list[State], interpolation_type: Interpolator.Type
     ):
         assert (
             Tabulated(
@@ -255,7 +257,7 @@ class TestTabulated:
         tabulated = Tabulated(
             states=test_states,
             initial_revolution_number=1,
-            interpolation_type=Tabulated.InterpolationType.CubicSpline,
+            interpolation_type=Interpolator.Type.CubicSpline,
         )
 
         orbit: Orbit = Orbit(tabulated, earth)
@@ -267,26 +269,24 @@ class TestTabulated:
         tabulated = Tabulated(
             states=test_states,
             initial_revolution_number=1,
-            interpolation_type=Tabulated.InterpolationType.CubicSpline,
+            interpolation_type=Interpolator.Type.CubicSpline,
         )
 
-        assert (
-            tabulated.get_interpolation_type() == Tabulated.InterpolationType.CubicSpline
-        )
+        assert tabulated.get_interpolation_type() == Interpolator.Type.CubicSpline
 
     @pytest.mark.parametrize(
         "interpolation_type,error_tolerance",
         (
-            (Tabulated.InterpolationType.Linear, 420.0),
-            (Tabulated.InterpolationType.CubicSpline, 5e-3),
-            (Tabulated.InterpolationType.BarycentricRational, 5e-2),
+            (Interpolator.Type.Linear, 420.0),
+            (Interpolator.Type.CubicSpline, 5e-3),
+            (Interpolator.Type.BarycentricRational, 5e-2),
         ),
     )
     def test_calculate_state_at_success(
         self,
         test_states: list[State],
         reference_states: list[State],
-        interpolation_type: Tabulated.InterpolationType,
+        interpolation_type: Interpolator.Type,
         error_tolerance: float,
     ):
         tabulated = Tabulated(
@@ -314,16 +314,16 @@ class TestTabulated:
     @pytest.mark.parametrize(
         "interpolation_type,error_tolerance",
         (
-            (Tabulated.InterpolationType.Linear, 420.0),
-            (Tabulated.InterpolationType.CubicSpline, 5e-3),
-            (Tabulated.InterpolationType.BarycentricRational, 5e-2),
+            (Interpolator.Type.Linear, 420.0),
+            (Interpolator.Type.CubicSpline, 5e-3),
+            (Interpolator.Type.BarycentricRational, 5e-2),
         ),
     )
     def test_calculate_states_at_success(
         self,
         test_states: list[State],
         reference_states: list[State],
-        interpolation_type: Tabulated.InterpolationType,
+        interpolation_type: Interpolator.Type,
         error_tolerance: float,
     ):
         tabulated = Tabulated(
@@ -355,13 +355,13 @@ class TestTabulated:
     @pytest.mark.parametrize(
         "interpolation_type",
         (
-            (Tabulated.InterpolationType.Linear),
-            (Tabulated.InterpolationType.CubicSpline),
-            (Tabulated.InterpolationType.BarycentricRational),
+            (Interpolator.Type.Linear),
+            (Interpolator.Type.CubicSpline),
+            (Interpolator.Type.BarycentricRational),
         ),
     )
     def test_calculate_state_at_failure(
-        self, test_states: list[State], interpolation_type: Tabulated.InterpolationType
+        self, test_states: list[State], interpolation_type: Interpolator.Type
     ):
         tabulated = Tabulated(
             states=test_states,

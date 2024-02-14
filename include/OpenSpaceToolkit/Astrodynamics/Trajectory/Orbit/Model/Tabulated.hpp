@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
@@ -27,6 +29,8 @@ namespace model
 using ostk::core::container::Array;
 using ostk::core::type::Integer;
 
+using ostk::mathematics::curvefitting::Interpolator;
+
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
@@ -37,7 +41,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     Tabulated(
         const Array<State>& aStateArray,
         const Integer& anInitialRevolutionNumber,
-        const InterpolationType& aType = DEFAULT_TABULATED_INTERPOLATION_TYPE
+        const Interpolator::Type& aType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
     );
 
     virtual Tabulated* clone() const override;

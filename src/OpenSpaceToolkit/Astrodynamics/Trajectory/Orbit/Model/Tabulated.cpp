@@ -19,7 +19,7 @@ namespace model
 Tabulated::Tabulated(
     const Array<State>& aStateArray,
     const Integer& anInitialRevolutionNumber,
-    const InterpolationType& anInterpolationType
+    const Interpolator::Type& anInterpolationType
 )
     : trajectory::orbit::Model(),
       trajectory::model::Tabulated(aStateArray, anInterpolationType),

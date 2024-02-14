@@ -1,10 +1,9 @@
 /// Apache License 2.0
 
-#include <iostream>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 
@@ -36,6 +35,7 @@ using ostk::core::type::Uint8;
 using ostk::core::type::Real;
 using ostk::core::type::Index;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::time::Duration;
@@ -1053,8 +1053,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         }
     }
 
-    const model::Tabulated tabulated =
-        model::Tabulated(aStateArray, model::Tabulated::InterpolationType::BarycentricRational);
+    const model::Tabulated tabulated = model::Tabulated(aStateArray, Interpolator::Type::BarycentricRational);
 
     const Instant& epoch = aStateArray.accessFirst().accessInstant();
 

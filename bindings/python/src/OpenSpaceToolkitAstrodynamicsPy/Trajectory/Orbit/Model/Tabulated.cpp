@@ -7,49 +7,36 @@ using namespace pybind11;
 using ostk::core::container::Array;
 using ostk::core::type::Integer;
 
+using ostk::mathematics::curvefitting::Interpolator;
+
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pybind11::module& aModule)
 {
-    class_<Tabulated, ostk::astrodynamics::trajectory::orbit::Model> tabulated_class(
+    class_<Tabulated, ostk::astrodynamics::trajectory::orbit::Model>(
         aModule,
         "Tabulated",
         R"doc(
             Tabulated orbit model.
 
         )doc"
-    );
-
-    enum_<Tabulated::InterpolationType>(
-        tabulated_class,
-        "InterpolationType",
-        R"doc(
-            The Interpolation Type.
-        )doc"
     )
-        .value("Linear", Tabulated::InterpolationType::Linear, "Linear")
-        .value("CubicSpline", Tabulated::InterpolationType::CubicSpline, "Cubic Spline")
-        .value("BarycentricRational", Tabulated::InterpolationType::BarycentricRational, "Barycentric Rational")
-
-        ;
-
-    tabulated_class
 
         .def(
-            init<Array<State>, Integer, Tabulated::InterpolationType>(),
+            init<Array<State>, Integer, Interpolator::Type>(),
             R"doc(
                 Constructor.
 
                 Args:
                     states (list[State]): The states.
                     initial_revolution_number (int): The initial revolution number.
-                    interpolation_type (Tabulated.InterpolationType, optional): The interpolation type.
+                    interpolation_type (Interpolator.Type, optional): The interpolation type.
 
             )doc",
             arg("states"),
             arg("initial_revolution_number"),
-            arg("interpolation_type") = DEFAULT_TABULATED_INTERPOLATION_TYPE
+            arg("interpolation_type") = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
         )
 
         .def(self == self)
@@ -115,7 +102,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
                 Get the interpolation type of the `Tabulated` model.
 
                 Returns:
-                    Tabulated.InterpolationType: The interpolation type.
+                    Interpolator.Type: The interpolation type.
 
             )doc"
         )
