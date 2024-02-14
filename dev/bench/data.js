@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1707942241370,
+  "lastUpdate": 1707944212085,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -378,6 +378,60 @@ window.BENCHMARK_DATA = {
             "value": 2782747034.7000146,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2782684759.999998 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6f0159eda625df872988191467ebdfe62cfccf71",
+          "message": "refactor: tabulated trajectory to use Interpolator::Type (#349)\n\n* refactor: tabulated trajectory to use Interpolator::Type\r\n\r\n* fix: apply vishwa's suggestions\r\n\r\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\r\n\r\n---------\r\n\r\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>",
+          "timestamp": "2024-02-14T20:32:28Z",
+          "tree_id": "aa137d7540df9bee2e70aaa1e1c1b2fbf4916abd",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/6f0159eda625df872988191467ebdfe62cfccf71"
+        },
+        "date": 1707944210398,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 552118264.8999912,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 552088139.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 796971619.1000031,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 796815849.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2782480676.800003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2782338739.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2783013142.699997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2782806289.999997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2780497527.3000026,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2780441279.9999995 ns\nthreads: 1"
           }
         ]
       }
