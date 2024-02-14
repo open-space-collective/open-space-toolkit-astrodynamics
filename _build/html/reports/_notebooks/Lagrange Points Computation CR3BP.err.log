@@ -43,7 +43,7 @@ from ostk.astrodynamics.dynamics import CentralBodyGravity, PositionDerivative
 ------------------
 
 ----- stderr -----
-/tmp/ipykernel_2261/1273289235.py:2: DeprecationWarning: 
+/tmp/ipykernel_2014/1273289235.py:2: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
 but was not found to be installed on your system.

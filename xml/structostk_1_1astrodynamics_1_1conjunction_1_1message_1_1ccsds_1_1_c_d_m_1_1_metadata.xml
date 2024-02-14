@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</compoundname>
+    <includes refid="_c_d_m_8hpp" local="no">CDM.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac30f2e4f320c118e09c0b102650007a1" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="124" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ab77e534c4c990be1d132f7349ded0d31" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="125" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ad4abd08f52aa705f1d1b6acec22c9355" prot="public" static="no" mutable="no">
+        <type>Integer</type>
+        <definition>Integer ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::objectDesignator</definition>
+        <argsstring></argsstring>
+        <name>objectDesignator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="126" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a133a5044fc493e9dfe79b8ff872492e0" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::catalogName</definition>
+        <argsstring></argsstring>
+        <name>catalogName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="127" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a7d78b39e8555661fbb68cd8ec56815d7" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::objectName</definition>
+        <argsstring></argsstring>
+        <name>objectName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="128" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac207dbc8867cccf017f13178e21d5c69" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::internationalDesignator</definition>
+        <argsstring></argsstring>
+        <name>internationalDesignator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="129" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1aebcfe3100c17004d6d62a5c6fc26689c" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a9f9c5f70a1cd3dd3b1644a9c081514af" kindref="member">ObjectType</ref></type>
+        <definition>ObjectType ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::objectType</definition>
+        <argsstring></argsstring>
+        <name>objectType</name>
+        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a9f9c5f70a1cd3dd3b1644a9c081514afa88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ObjectType::Unknown</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="130" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ae8c7d41aa88a65c8e354567b4e8aa497" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::operatorContactPosition</definition>
+        <argsstring></argsstring>
+        <name>operatorContactPosition</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="132" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a315260ab373f6b4de592d6ac4421def5" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::operatorOrgnization</definition>
+        <argsstring></argsstring>
+        <name>operatorOrgnization</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="133" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a2f5f614f911642092e28302f339c74d5" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::operatorPhone</definition>
+        <argsstring></argsstring>
+        <name>operatorPhone</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="134" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a576d02b14e9ceb491f716b947dc81923" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::operatorEmail</definition>
+        <argsstring></argsstring>
+        <name>operatorEmail</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="135" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a245c559a4f5e04d630e6dccab8cb1b44" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::ephemerisName</definition>
+        <argsstring></argsstring>
+        <name>ephemerisName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="137" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a9e2518d56ae67aef23451f80bce05b02" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::covarianceMethod</definition>
+        <argsstring></argsstring>
+        <name>covarianceMethod</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="138" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1abf29cf5333f692b5ea5b98fd7b8c7be3" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::maneuverable</definition>
+        <argsstring></argsstring>
+        <name>maneuverable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="139" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ab050810ef0ab7b13fccf6a934b0fa0e2" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::orbitCenter</definition>
+        <argsstring></argsstring>
+        <name>orbitCenter</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="140" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ad6f117741549bf1e3adfec216f1f992a" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::refFrame</definition>
+        <argsstring></argsstring>
+        <name>refFrame</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="141" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6dfe2a3261b8e58dfb44aa0b7b49926d" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::gravityModel</definition>
+        <argsstring></argsstring>
+        <name>gravityModel</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="142" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a2c7103958e70c4e32161dc50abb2d1ee" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::atmosphericModel</definition>
+        <argsstring></argsstring>
+        <name>atmosphericModel</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="143" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a8168fdd241b13fd7ec875ada198837c1" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::nBodyPerturbations</definition>
+        <argsstring></argsstring>
+        <name>nBodyPerturbations</name>
+        <initializer>= String::Empty()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="144" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6bf21e4599d515c327d53d187fc7d7d9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::solarRadiationPressure</definition>
+        <argsstring></argsstring>
+        <name>solarRadiationPressure</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="145" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a3aafb1e905542e1a9f012f802cb10cf5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::earthTides</definition>
+        <argsstring></argsstring>
+        <name>earthTides</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="146" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6a5eebaab036df74b9ce188bde85dfa3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata::inTrackThrust</definition>
+        <argsstring></argsstring>
+        <name>inTrackThrust</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="147" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>String</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</label>
+        <link refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>refFrame</edgelabel>
+          <edgelabel>comment</edgelabel>
+          <edgelabel>ephemerisName</edgelabel>
+          <edgelabel>operatorOrgnization</edgelabel>
+          <edgelabel>orbitCenter</edgelabel>
+          <edgelabel>maneuverable</edgelabel>
+          <edgelabel>operatorEmail</edgelabel>
+          <edgelabel>operatorContactPosition</edgelabel>
+          <edgelabel>internationalDesignator</edgelabel>
+          <edgelabel>covarianceMethod</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>objectDesignator</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Integer</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="123" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="122" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a2c7103958e70c4e32161dc50abb2d1ee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>atmosphericModel</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a133a5044fc493e9dfe79b8ff872492e0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>catalogName</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac30f2e4f320c118e09c0b102650007a1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>comment</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a9e2518d56ae67aef23451f80bce05b02" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>covarianceMethod</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a3aafb1e905542e1a9f012f802cb10cf5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>earthTides</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a245c559a4f5e04d630e6dccab8cb1b44" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>ephemerisName</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6dfe2a3261b8e58dfb44aa0b7b49926d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>gravityModel</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac207dbc8867cccf017f13178e21d5c69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>internationalDesignator</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6a5eebaab036df74b9ce188bde85dfa3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>inTrackThrust</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1abf29cf5333f692b5ea5b98fd7b8c7be3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>maneuverable</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a8168fdd241b13fd7ec875ada198837c1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>nBodyPerturbations</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ab77e534c4c990be1d132f7349ded0d31" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>object</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ad4abd08f52aa705f1d1b6acec22c9355" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>objectDesignator</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a7d78b39e8555661fbb68cd8ec56815d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>objectName</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1aebcfe3100c17004d6d62a5c6fc26689c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>objectType</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ae8c7d41aa88a65c8e354567b4e8aa497" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>operatorContactPosition</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a576d02b14e9ceb491f716b947dc81923" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>operatorEmail</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a315260ab373f6b4de592d6ac4421def5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>operatorOrgnization</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a2f5f614f911642092e28302f339c74d5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>operatorPhone</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ab050810ef0ab7b13fccf6a934b0fa0e2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>orbitCenter</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ad6f117741549bf1e3adfec216f1f992a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>refFrame</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6bf21e4599d515c327d53d187fc7d7d9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</scope><name>solarRadiationPressure</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

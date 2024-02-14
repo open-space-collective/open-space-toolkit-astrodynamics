@@ -22,8 +22,8 @@ ostk.astrodynamics.dynamics.Tabulated
       ~Tabulated.get_frame
       ~Tabulated.get_instants
       ~Tabulated.get_name
-      ~Tabulated.get_read_coordinates_subsets
-      ~Tabulated.get_write_coordinates_subsets
+      ~Tabulated.get_read_coordinate_subsets
+      ~Tabulated.get_write_coordinate_subsets
       ~Tabulated.is_defined
    
    

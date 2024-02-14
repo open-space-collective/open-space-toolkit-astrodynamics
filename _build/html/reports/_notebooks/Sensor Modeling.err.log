@@ -1,0 +1,81 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import pandas as pd
+
+import plotly.graph_objs as go
+
+from ostk.mathematics.geometry import Angle as MathAngle
+from ostk.mathematics.geometry.d2.objects import Point as Point2d
+from ostk.mathematics.geometry.d2.objects import LineString as LineString2d
+from ostk.mathematics.geometry.d2.objects import Polygon as Polygon2d
+from ostk.mathematics.geometry.d3.objects import Point as Point3d
+from ostk.mathematics.geometry.d3.objects import Polygon as Polygon3d
+from ostk.mathematics.geometry.d3.objects import Pyramid
+from ostk.mathematics.geometry.d3.objects import Cone
+from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
+from ostk.mathematics.geometry.d3.transformation.rotation import RotationVector
+from ostk.mathematics.geometry.d3.transformation.rotation import RotationMatrix
+
+from ostk.physics.units import Length
+from ostk.physics.units import Angle
+from ostk.physics.time import Scale
+from ostk.physics.time import Instant
+from ostk.physics.time import Duration
+from ostk.physics.time import Interval
+from ostk.physics.time import DateTime
+from ostk.physics.coordinate.spherical import LLA
+from ostk.physics.coordinate.spherical import AER
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate import Transform
+from ostk.physics.coordinate.frame.providers import Dynamic as DynamicFrameProvider
+from ostk.physics import Environment
+from ostk.physics.environment.object import Geometry
+from ostk.physics.environment.objects import Celestial
+
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.orbit.models import Kepler
+from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+------------------
+
+----- stderr -----
+/tmp/ipykernel_2168/3931202875.py:2: DeprecationWarning: 
+Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
+(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
+but was not found to be installed on your system.
+If this would cause problems for you,
+please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
+        
+  import pandas as pd
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 7[0m
+[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objs[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
+[1;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m [38;5;28;01mimport[39;00m Angle [38;5;28;01mas[39;00m MathAngle
+[0;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md2[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Point [38;5;28;01mas[39;00m Point2d
+[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md2[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m LineString [38;5;28;01mas[39;00m LineString2d
+[1;32m      9[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md2[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Polygon [38;5;28;01mas[39;00m Polygon2d
+
+[0;31mModuleNotFoundError[0m: No module named 'ostk.mathematics.geometry.d2.objects'; 'ostk.mathematics.geometry.d2' is not a package
+

@@ -19,8 +19,8 @@ ostk.astrodynamics.dynamics.PositionDerivative
       ~PositionDerivative.compute_contribution
       ~PositionDerivative.from_environment
       ~PositionDerivative.get_name
-      ~PositionDerivative.get_read_coordinates_subsets
-      ~PositionDerivative.get_write_coordinates_subsets
+      ~PositionDerivative.get_read_coordinate_subsets
+      ~PositionDerivative.get_write_coordinate_subsets
       ~PositionDerivative.is_defined
    
    

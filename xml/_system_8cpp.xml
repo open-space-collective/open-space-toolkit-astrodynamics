@@ -3,11 +3,14 @@
   <compounddef id="_system_8cpp" kind="file" language="C++">
     <compoundname>System.cpp</compoundname>
     <includes local="no">OpenSpaceToolkit/Core/Error.hpp</includes>
-    <includes local="no">OpenSpaceToolkit/Core/Utilities.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Utility.hpp</includes>
     <includes refid="_system_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/System.hpp</includes>
     <incdepgraph>
-      <node id="5">
-        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp</label>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Utility.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Physics/Unit/Mass.hpp</label>
       </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp</label>
@@ -32,19 +35,16 @@
       <node id="2">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
       </node>
-      <node id="7">
-        <label>OpenSpaceToolkit/Physics/Units/Mass.hpp</label>
-      </node>
-      <node id="3">
-        <label>OpenSpaceToolkit/Core/Utilities.hpp</label>
+      <node id="5">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp</label>
       </node>
       <node id="6">
-        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+        <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1flight">ostk::astro::flight</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight">ostk::astrodynamics::flight</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -52,18 +52,18 @@
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Error.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utility.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_system_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Flight/System.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
 <codeline lineno="9"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
 <codeline lineno="11"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">flight</highlight></codeline>
 <codeline lineno="13"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1_system_1afac17c0d5e2b1fb9416babf240a1aa65" kindref="member">System::System</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Mass&amp;<sp/>aMass,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Composite&amp;<sp/>aGeometry)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System::System</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Mass&amp;<sp/>aMass,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Composite&amp;<sp/>aGeometry)</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>mass_(aMass),</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>geometry_(aGeometry)</highlight></codeline>
@@ -92,7 +92,7 @@
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aSystem);</highlight></codeline>
 <codeline lineno="42"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astro_1_1trajectory_1aef87cd49fe650a3ce037981bbc7ebf0c" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>System&amp;<sp/>aSystem)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>System&amp;<sp/>aSystem)</highlight></codeline>
 <codeline lineno="45"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>aSystem.print(anOutputStream);</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
@@ -142,7 +142,7 @@
 <codeline lineno="91"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
 <codeline lineno="93"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>flight</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="95"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp"/>

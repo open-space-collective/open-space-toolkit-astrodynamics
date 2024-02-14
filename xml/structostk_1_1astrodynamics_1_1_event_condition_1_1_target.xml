@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::EventCondition::Target</compoundname>
+    <includes refid="_event_condition_8hpp" local="no">EventCondition.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <enumvalue id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8ab51ca26c6c89cfc9bec338f7a0d3e0c8" prot="public">
+          <name>Absolute</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8a2ca9469819fb0fb61ff98e914a7ccca0" prot="public">
+          <name>Relative</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a09a4b44fb650ac5b34335c57251dcb2d" prot="public" static="no" mutable="no">
+        <type>const Real</type>
+        <definition>const Real ostk::astrodynamics::EventCondition::Target::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="51" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a98a9b8d5172017d1df31587e63ad443e" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" kindref="member">Type</ref></type>
+        <definition>const Type ostk::astrodynamics::EventCondition::Target::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="52" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af64a2360a5b7c94b1c8165404bad8380" prot="public" static="no" mutable="yes">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::EventCondition::Target::valueOffset</definition>
+        <argsstring></argsstring>
+        <name>valueOffset</name>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="53" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a65ae8f2e97bae1b012107d4ea994a6e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::EventCondition::Target::Target</definition>
+        <argsstring>(const Real &amp;aValue, const Type &amp;aType=Type::Absolute)</argsstring>
+        <name>Target</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aValue</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+          <defval><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8ab51ca26c6c89cfc9bec338f7a0d3e0c8" kindref="member">Type::Absolute</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="40" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="13" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a6a8ca4cb16baa7c1670dfff6ff296df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::EventCondition::Target::Target</definition>
+        <argsstring>(const Angle &amp;anAngle, const Type &amp;aType=Type::Absolute)</argsstring>
+        <name>Target</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAngle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+          <defval><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8ab51ca26c6c89cfc9bec338f7a0d3e0c8" kindref="member">Type::Absolute</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="41" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="19" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a6ad69f468eca1f1fe9f33ec7965310b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::EventCondition::Target::Target</definition>
+        <argsstring>(const Length &amp;aLength, const Type &amp;aType=Type::Absolute)</argsstring>
+        <name>Target</name>
+        <param>
+          <type>const Length &amp;</type>
+          <declname>aLength</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+          <defval><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8ab51ca26c6c89cfc9bec338f7a0d3e0c8" kindref="member">Type::Absolute</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="42" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a520bad195ecb8d281c5d833efa3008ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::EventCondition::Target::operator==</definition>
+        <argsstring>(const Target &amp;aTarget) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="44" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="31" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af2d858d4c3cb152211a75eee4d9fb802" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::EventCondition::Target::operator!=</definition>
+        <argsstring>(const Target &amp;aTarget) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="45" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a08f2cbfbf46be8d70fe38cdaa4170f35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::EventCondition::Target::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="47" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a2bfa755318eb442f4f4315467a970084" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::EventCondition::Target::StringFromType</definition>
+        <argsstring>(const Type &amp;aType)</argsstring>
+        <name>StringFromType</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="49" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::EventCondition::Target</label>
+        <link refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>valueOffset</edgelabel>
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Real</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="32" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a08f2cbfbf46be8d70fe38cdaa4170f35" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>isDefined</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af2d858d4c3cb152211a75eee4d9fb802" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>operator!=</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a520bad195ecb8d281c5d833efa3008ac" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>operator==</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a2bfa755318eb442f4f4315467a970084" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>StringFromType</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a65ae8f2e97bae1b012107d4ea994a6e7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>Target</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a6a8ca4cb16baa7c1670dfff6ff296df7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>Target</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a6ad69f468eca1f1fe9f33ec7965310b1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>Target</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>Type</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a98a9b8d5172017d1df31587e63ad443e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>type</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a09a4b44fb650ac5b34335c57251dcb2d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>value</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af64a2360a5b7c94b1c8165404bad8380" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>valueOffset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

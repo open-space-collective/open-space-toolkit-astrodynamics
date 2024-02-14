@@ -3,7 +3,7 @@
   <compounddef id="_satellite_system_builder_8cpp" kind="file" language="C++">
     <compoundname>SatelliteSystemBuilder.cpp</compoundname>
     <includes local="no">OpenSpaceToolkit/Core/Error.hpp</includes>
-    <includes local="no">OpenSpaceToolkit/Core/Utilities.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Utility.hpp</includes>
     <includes refid="_satellite_system_builder_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp</includes>
     <incdepgraph>
       <node id="4">
@@ -27,6 +27,9 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
       <node id="14">
         <label>OpenSpaceToolkit/Physics/Data/Scalar.hpp</label>
@@ -70,14 +73,17 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="16">
-        <label>OpenSpaceToolkit/Physics/Units/Derived.hpp</label>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Utility.hpp</label>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp</label>
       </node>
       <node id="15">
         <label>OpenSpaceToolkit/Physics/Unit.hpp</label>
       </node>
-      <node id="6">
-        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp</label>
+      <node id="10">
+        <label>OpenSpaceToolkit/Physics/Unit/Mass.hpp</label>
       </node>
       <node id="11">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/System.hpp</label>
@@ -89,14 +95,11 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp</label>
+      <node id="17">
+        <label>OpenSpaceToolkit/Physics/Unit/Time.hpp</label>
       </node>
       <node id="2">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
-      </node>
-      <node id="5">
-        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
       </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp</label>
@@ -108,26 +111,23 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp</label>
+      <node id="6">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp</label>
       </node>
-      <node id="10">
-        <label>OpenSpaceToolkit/Physics/Units/Mass.hpp</label>
-      </node>
-      <node id="17">
-        <label>OpenSpaceToolkit/Physics/Units/Time.hpp</label>
-      </node>
-      <node id="3">
-        <label>OpenSpaceToolkit/Core/Utilities.hpp</label>
+      <node id="7">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp</label>
       </node>
       <node id="9">
-        <label>OpenSpaceToolkit/Mathematics/Objects/Vector.hpp</label>
+        <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1flight">ostk::astro::flight</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1flight_1_1system">ostk::astro::flight::system</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight">ostk::astrodynamics::flight</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system">ostk::astrodynamics::flight::system</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -135,20 +135,20 @@
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Error.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utility.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_satellite_system_builder_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
 <codeline lineno="9"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
 <codeline lineno="11"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">flight</highlight></codeline>
 <codeline lineno="13"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">system</highlight></codeline>
 <codeline lineno="15"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_builder_1a1399b4dc78f0ef716417bc8e80a1db7d" kindref="member">SatelliteSystemBuilder::SatelliteSystemBuilder</ref>()</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aab6889a255c83bca361aa7385fc9ada5" kindref="member">SatelliteSystemBuilder::SatelliteSystemBuilder</ref>()</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>dryMass_(Mass::Undefined()),</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>geometry_(Composite::Undefined()),</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>inertiaTensor_(Matrix3d::Undefined()),</highlight></codeline>
@@ -165,7 +165,7 @@
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>SatelliteSystemBuilder(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astro_1_1trajectory_1aef87cd49fe650a3ce037981bbc7ebf0c" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SatelliteSystemBuilder&amp;<sp/>aSatelliteSystemBuilder)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SatelliteSystemBuilder&amp;<sp/>aSatelliteSystemBuilder)</highlight></codeline>
 <codeline lineno="35"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>aSatelliteSystemBuilder.print(anOutputStream);</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
@@ -243,7 +243,7 @@
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
 <codeline lineno="110"><highlight class="normal">SatelliteSystemBuilder<sp/>SatelliteSystemBuilder::Default()</highlight></codeline>
 <codeline lineno="111"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SatelliteSystem<sp/>defaultSatelliteSystem<sp/>=<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_1a586f05b15d55e12722c5a2eaef6d3cd6" kindref="member">SatelliteSystem::Default</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SatelliteSystem<sp/>defaultSatelliteSystem<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a04bd443816cd72c3341b552c22633a9e" kindref="member">SatelliteSystem::Default</ref>();</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"></highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>SatelliteSystemBuilder()</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.withDryMass(defaultSatelliteSystem.getMass())</highlight></codeline>
@@ -256,7 +256,7 @@
 <codeline lineno="122"><highlight class="normal"></highlight></codeline>
 <codeline lineno="123"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>system</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="124"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>flight</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="126"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp"/>

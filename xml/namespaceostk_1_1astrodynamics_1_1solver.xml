@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1solver" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::solver</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" prot="public">ostk::astrodynamics::solver::FiniteDifferenceSolver</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" prot="public">ostk::astrodynamics::solver::TemporalConditionSolver</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1solver_1a8d9138c94ec178388df7ec7e5e09cd93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::solver::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref> &amp;</type>
+          <declname>aFiniteDifferenceSolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFiniteDifference</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A finite difference solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An output stream. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" line="31" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

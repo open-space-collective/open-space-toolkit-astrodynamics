@@ -1,27 +1,41 @@
-﻿ostk.astrodynamics.trajectory.orbit
+ostk.astrodynamics.trajectory.Orbit
 ===================================
 
-.. automodule:: ostk.astrodynamics.trajectory.orbit
+.. currentmodule:: ostk.astrodynamics.trajectory
+
+.. autoclass:: Orbit
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
 
    
    
-   
-
-   
-   
-   
-
-   
-   
-   .. rubric:: Classes
+   .. rubric:: Methods
 
    .. autosummary::
-      :toctree:
-      :template: custom-class-template.rst
       :nosignatures:
    
-      OrbitModel
-      Pass
+      ~Orbit.access_kepler_model
+      ~Orbit.access_model
+      ~Orbit.access_propagated_model
+      ~Orbit.access_sgp4_model
+      ~Orbit.access_tabulated_model
+      ~Orbit.circular
+      ~Orbit.circular_equatorial
+      ~Orbit.compute_passes
+      ~Orbit.equatorial
+      ~Orbit.geo_synchronous
+      ~Orbit.get_orbital_frame
+      ~Orbit.get_pass_at
+      ~Orbit.get_pass_with_revolution_number
+      ~Orbit.get_revolution_number_at
+      ~Orbit.get_state_at
+      ~Orbit.get_states_at
+      ~Orbit.is_defined
+      ~Orbit.position
+      ~Orbit.sun_synchronous
+      ~Orbit.undefined
    
    
 

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::trajectory::orbit</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" prot="public">ostk::astrodynamics::trajectory::orbit::Model</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" prot="public">ostk::astrodynamics::trajectory::orbit::Pass</innerclass>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message">ostk::astrodynamics::trajectory::orbit::message</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model">ostk::astrodynamics::trajectory::orbit::model</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1aa1ddd6c9d38599ab76af6f84386469f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::trajectory::orbit::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Pass &amp;aPass)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &amp;</type>
+          <declname>aPass</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass to output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" line="132" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="132" bodyend="137"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

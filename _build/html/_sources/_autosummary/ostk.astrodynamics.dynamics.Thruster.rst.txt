@@ -20,9 +20,9 @@ ostk.astrodynamics.dynamics.Thruster
       ~Thruster.from_environment
       ~Thruster.get_guidance_law
       ~Thruster.get_name
-      ~Thruster.get_read_coordinates_subsets
+      ~Thruster.get_read_coordinate_subsets
       ~Thruster.get_satellite_system
-      ~Thruster.get_write_coordinates_subsets
+      ~Thruster.get_write_coordinate_subsets
       ~Thruster.is_defined
    
    

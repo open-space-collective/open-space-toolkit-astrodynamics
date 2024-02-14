@@ -2,25 +2,25 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="_temporal_condition_solver_8hpp" kind="file" language="C++">
     <compoundname>TemporalConditionSolver.hpp</compoundname>
-    <includes local="no">OpenSpaceToolkit/Core/Containers/Array.hpp</includes>
-    <includes local="no">OpenSpaceToolkit/Core/Types/Size.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Container/Array.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Type/Size.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Duration.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Interval.hpp</includes>
     <includedby refid="_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</includedby>
     <includedby refid="_temporal_condition_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
-      </node>
       <node id="5">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Type/Size.hpp</label>
       </node>
       <node id="6">
         <label>OpenSpaceToolkit/Physics/Time/Interval.hpp</label>
       </node>
       <node id="1">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp</label>
+        <label>include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</label>
         <link refid="_temporal_condition_solver_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -34,7 +34,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>OpenSpaceToolkit/Core/Containers/Array.hpp</label>
+        <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
       </node>
       <node id="4">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
@@ -50,7 +50,7 @@
         <link refid="_generator_8cpp"/>
       </node>
       <node id="1">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp</label>
+        <label>include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</label>
         <link refid="_temporal_condition_solver_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -58,10 +58,10 @@
         </childnode>
       </node>
     </invincdepgraph>
-    <innerclass refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver" prot="public">ostk::astro::solvers::TemporalConditionSolver</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" prot="public">ostk::astrodynamics::solver::TemporalConditionSolver</innerclass>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1solvers">ostk::astro::solvers</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1solver">ostk::astrodynamics::solver</innernamespace>
       <sectiondef kind="define">
       <memberdef kind="define" id="_temporal_condition_solver_8hpp_1a6b90a4cd3ed333cab756eedeeac79b73" prot="public" static="no">
         <name>DEFAULT_MAXIMUM_ITERATION_COUNT</name>
@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" line="27" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp" bodystart="27" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="27" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="27" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -84,8 +84,8 @@
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver__</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver__</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Containers/Array.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Types/Size.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Container/Array.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Type/Size.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Duration.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -93,13 +93,13 @@
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
 <codeline lineno="14"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
 <codeline lineno="16"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">solvers</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">solver</highlight></codeline>
 <codeline lineno="18"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::types::Size;</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::ctnr::Array;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Size;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::container::Array;</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Duration;</highlight></codeline>
@@ -107,26 +107,26 @@
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27" refid="_temporal_condition_solver_8hpp_1a6b90a4cd3ed333cab756eedeeac79b73" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DEFAULT_MAXIMUM_ITERATION_COUNT<sp/>500</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31" refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver" kindref="compound">TemporalConditionSolver</ref></highlight></codeline>
+<codeline lineno="31" refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" kindref="compound">TemporalConditionSolver</ref></highlight></codeline>
 <codeline lineno="32"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="34" refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;)&gt;<sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" kindref="member">Condition</ref>;</highlight></codeline>
+<codeline lineno="34" refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a4bad6785f908ff551d34918c90fb88d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;)&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a4bad6785f908ff551d34918c90fb88d8" kindref="member">Condition</ref>;</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6d335782200af6296ee5ff45cd418cc0" kindref="member">TemporalConditionSolver</ref>(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1ac80decd8d15bdab1a540faf113fab6ba" kindref="member">TemporalConditionSolver</ref>(</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTimeStep,</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTolerance,</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aMaximumIterationCount<sp/>=<sp/><ref refid="_temporal_condition_solver_8hpp_1a6b90a4cd3ed333cab756eedeeac79b73" kindref="member">DEFAULT_MAXIMUM_ITERATION_COUNT</ref></highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1af3183946cbe55d279b54cf5b0b3fce60" kindref="member">getTimeStep</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1acb9aff38bc1165cc8afcec43733c2a3a" kindref="member">getTimeStep</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1ae4b5bc52dcd9ec53262106a0de1d808f" kindref="member">getTolerance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1ae8ae6e4cc44f75204bbea1ec32d05dbe" kindref="member">getTolerance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1aa07c73ba5042b84d2bc0e06d269cf3ce" kindref="member">getMaximumIterationCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a05741a7a878d9513bc9fd1ea47c7a57e" kindref="member">getMaximumIterationCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a1f68bdd28f692bb69ac3363c025580e5" kindref="member">solve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a4884bae44d9100802dce0f32b343ec01" kindref="member">TemporalConditionSolver::Condition</ref>&amp;<sp/>aCondition,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a2375139500504e596af4cf369386cbfc" kindref="member">solve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a4bad6785f908ff551d34918c90fb88d8" kindref="member">TemporalConditionSolver::Condition</ref>&amp;<sp/>aCondition,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a1f68bdd28f692bb69ac3363c025580e5" kindref="member">solve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a2375139500504e596af4cf369386cbfc" kindref="member">solve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
@@ -145,12 +145,12 @@
 <codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="98"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>solvers</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>solver</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="102"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp"/>
   </compounddef>
 </doxygen>

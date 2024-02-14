@@ -20,8 +20,8 @@ ostk.astrodynamics.dynamics.AtmosphericDrag
       ~AtmosphericDrag.from_environment
       ~AtmosphericDrag.get_celestial
       ~AtmosphericDrag.get_name
-      ~AtmosphericDrag.get_read_coordinates_subsets
-      ~AtmosphericDrag.get_write_coordinates_subsets
+      ~AtmosphericDrag.get_read_coordinate_subsets
+      ~AtmosphericDrag.get_write_coordinate_subsets
       ~AtmosphericDrag.is_defined
    
    

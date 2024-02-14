@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_c29101113d84e39626584070456aca13" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model</compoundname>
+    <innerdir refid="dir_435b78f35c5ec039fbb4268ea3662967">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean</innerdir>
+    <innerdir refid="dir_7f2e965ce8e3cd03a72d3e55e02cbb1b">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler</innerdir>
+    <innerdir refid="dir_27fb1172ebd0a2868b100e5a1c43e690">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4</innerdir>
+    <innerfile refid="_kepler_8hpp">Kepler.hpp</innerfile>
+    <innerfile refid="_propagated_8hpp">Propagated.hpp</innerfile>
+    <innerfile refid="_s_g_p4_8hpp">SGP4.hpp</innerfile>
+    <innerfile refid="_trajectory_2_orbit_2_model_2_tabulated_8hpp">Tabulated.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"/>
+  </compounddef>
+</doxygen>

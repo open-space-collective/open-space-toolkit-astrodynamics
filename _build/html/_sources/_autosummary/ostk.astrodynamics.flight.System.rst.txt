@@ -1,28 +1,25 @@
-﻿ostk.astrodynamics.flight.system
+ostk.astrodynamics.flight.System
 ================================
 
-.. automodule:: ostk.astrodynamics.flight.system
+.. currentmodule:: ostk.astrodynamics.flight
+
+.. autoclass:: System
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
 
    
    
-   
-
-   
-   
-   
-
-   
-   
-   .. rubric:: Classes
+   .. rubric:: Methods
 
    .. autosummary::
-      :toctree:
-      :template: custom-class-template.rst
       :nosignatures:
    
-      PropulsionSystem
-      SatelliteSystem
-      SatelliteSystemBuilder
+      ~System.get_geometry
+      ~System.get_mass
+      ~System.is_defined
+      ~System.undefined
    
    
 

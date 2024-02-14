@@ -18,17 +18,50 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-orbit_data = [convert_state(instant, state) for [instant, state] in states]
+import numpy as np
+import pandas as pd
+
+import plotly.graph_objs as go
+
+from ostk.physics.units import Length
+from ostk.physics.units import Angle
+from ostk.physics.time import Scale
+from ostk.physics.time import Instant
+from ostk.physics.time import Duration
+from ostk.physics.time import Interval
+from ostk.physics.time import DateTime
+from ostk.physics import Environment
+
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.orbit.models import Kepler
+from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.models import SGP4
+from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+
+from ostk.astrodynamics.utilities import convert_state
+from ostk.astrodynamics.display import create_2d_map
+from ostk.astrodynamics.display import create_3d_globe
 ------------------
 
+----- stderr -----
+/tmp/ipykernel_2124/3094902376.py:2: DeprecationWarning: 
+Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
+(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
+but was not found to be installed on your system.
+If this would cause problems for you,
+please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
+        
+  import pandas as pd
+------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mTypeError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[13], line 1[0m
-[0;32m----> 1[0m orbit_data [38;5;241m=[39m [43m[[49m[43mconvert_state[49m[43m([49m[43minstant[49m[43m,[49m[43m [49m[43mstate[49m[43m)[49m[43m [49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43m[[49m[43minstant[49m[43m,[49m[43m [49m[43mstate[49m[43m][49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[43mstates[49m[43m][49m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 6[0m
+[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objs[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
+[0;32m----> 6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01munits[39;00m [38;5;28;01mimport[39;00m Length
+[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01munits[39;00m [38;5;28;01mimport[39;00m Angle
+[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtime[39;00m [38;5;28;01mimport[39;00m Scale
 
-Cell [0;32mIn[13], line 1[0m, in [0;36m<listcomp>[0;34m(.0)[0m
-[0;32m----> 1[0m orbit_data [38;5;241m=[39m [[43mconvert_state[49m[43m([49m[43minstant[49m[43m,[49m[43m [49m[43mstate[49m[43m)[49m [38;5;28;01mfor[39;00m [instant, state] [38;5;129;01min[39;00m states]
-
-[0;31mTypeError[0m: convert_state() takes 1 positional argument but 2 were given
+[0;31mModuleNotFoundError[0m: No module named 'ostk.physics.units'
 

@@ -2,8 +2,8 @@
 </pre></div> </div> <p>Once the shell is up and running, playing with it is easy:</p> <div class="highlight-py notranslate"><div class=highlight ><pre><span></span><span class=kn >from</span> <span class=nn >ostk.physics</span> <span class=kn >import</span> <span class=n >Environment</span>
 <span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >Instant</span>
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory</span> <span class=kn >import</span> <span class=n >Orbit</span>
-<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory.orbit.models</span> <span class=kn >import</span> <span class=n >SGP4</span>
-<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory.orbit.models.sgp4</span> <span class=kn >import</span> <span class=n >TLE</span>
+<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory.orbit.model</span> <span class=kn >import</span> <span class=n >SGP4</span>
+<span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory.orbit.model.sgp4</span> <span class=kn >import</span> <span class=n >TLE</span>
 
 <span class=n >tle</span> <span class=o >=</span> <span class=n >TLE</span><span class=p >(</span>
     <span class=s1 >'1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994'</span><span class=p >,</span>
@@ -22,7 +22,7 @@
 ├── Trajectory
 │   ├── State
 │   ├── Orbit
-│   │   ├── Models
+│   │   ├── Model
 │   │   │   ├── Kepler
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
@@ -30,16 +30,16 @@
 │   │   │   ├── Tabulated (input csv)
 │   │   │   └── Propagated (numerical integration)
 │   │   ├── Pass
-│   │   └── Messages
+│   │   └── Message
 │   │       └── SpaceX
 │   │           └── OPM
-│   ├── Models
+│   ├── Model
 │   │   ├── Static
 │   │   └── Tabulated
 │   └── Propagator
 ├── Flight
 │   ├── Profile
-│   │    ├── Models
+│   │    ├── Model
 │   │    │   ├── Transform
 │   │    │   └── Tabulated
 │   │    └── State
@@ -53,7 +53,7 @@
 ├── Access
 │   └── Generator
 └── Conjunction
-    └── Messages
+    └── Message
         └── CCSDS
             └── CDM
 </pre></div> </div> </p> </details> </section> <section id=tutorials > <h2 id=tutorials >Tutorials<a class=headerlink  href="#tutorials" title="Link to this heading">¶</a></h2> <p>Tutorials are available here:</p> <ul class=simple > <li><p>C++ (in progress)</p> <li><p><a class="reference external" href="https://github.com/open-space-collective/open-space-toolkit/tree/main/notebooks">Python</a></p> </ul> </section> <section id=setup > <h2 id=setup >Setup<a class=headerlink  href="#setup" title="Link to this heading">¶</a></h2> <section id=development-environment > <h3 id=development-environment >Development Environment<a class=headerlink  href="#development-environment" title="Link to this heading">¶</a></h3> <p>Using <a class="reference external" href="https://www.docker.com">Docker</a> for development is recommended, to simplify the installation of the necessary build tools and dependencies. Instructions on how to install Docker are available <a class="reference external" href="https://docs.docker.com/install/">here</a>.</p> <p>To start the development environment:</p> <div class="highlight-shell notranslate"><div class=highlight ><pre><span></span>make<span class=w > </span>start-development

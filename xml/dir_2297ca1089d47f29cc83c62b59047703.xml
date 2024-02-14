@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_2297ca1089d47f29cc83c62b59047703" kind="dir">
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/Trajectory</compoundname>
-    <innerdir refid="dir_6259e6454ead00e7004c2b94e6f7a26a">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Models</innerdir>
+    <innerdir refid="dir_8c001877639f808ee07384543d60d4fc">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model</innerdir>
     <innerdir refid="dir_cf39368e8cd582dabb9660b0f55c0074">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit</innerdir>
     <innerdir refid="dir_bfc1e2f48a5706e313c8de56a97c2c35">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State</innerdir>
     <innerfile refid="_local_orbital_frame_direction_8cpp">LocalOrbitalFrameDirection.cpp</innerfile>
@@ -13,7 +13,7 @@
     <innerfile refid="_propagator_8cpp">Propagator.cpp</innerfile>
     <innerfile refid="_segment_8cpp">Segment.cpp</innerfile>
     <innerfile refid="_sequence_8cpp">Sequence.cpp</innerfile>
-    <innerfile refid="_trajectory_2_state_8cpp">State.cpp</innerfile>
+    <innerfile refid="_state_8cpp">State.cpp</innerfile>
     <innerfile refid="_state_builder_8cpp">StateBuilder.cpp</innerfile>
     <briefdescription>
     </briefdescription>

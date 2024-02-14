@@ -37,9 +37,9 @@
 <para>Once the shell is up and running, playing with it is easy:</para>
 <para><programlisting filename=".py"><codeline><highlight class="normal">from<sp/>ostk.physics<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Environment</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.physics.time<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Instant</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.astrodynamics.trajectory<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Orbit</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.astrodynamics.trajectory.orbit.models<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SGP4</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ostk.astrodynamics.trajectory.orbit.models.sgp4<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TLE</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory" kindref="compound">ostk.astrodynamics.trajectory</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Orbit</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model" kindref="compound">ostk.astrodynamics.trajectory.orbit.model</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SGP4</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">ostk.astrodynamics.trajectory.orbit.model.sgp4</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TLE</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">tle<sp/>=<sp/>TLE(</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>18231.17878740<sp/><sp/>.00000187<sp/><sp/>00000-0<sp/><sp/>10196-4<sp/>0<sp/><sp/>9994&apos;</highlight><highlight class="normal">,</highlight></codeline>
@@ -100,7 +100,7 @@
 <codeline><highlight class="normal">├──<sp/>Trajectory</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>State</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Orbit</highlight></codeline>
-<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Model</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Kepler</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Classical<sp/>Orbital<sp/>Elements<sp/>(COE)</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>SGP4</highlight></codeline>
@@ -108,16 +108,16 @@
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Tabulated<sp/>(input<sp/>csv)</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Propagated<sp/>(numerical<sp/>integration)</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Pass</highlight></codeline>
-<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Messages</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Message</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>SpaceX</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>OPM</highlight></codeline>
-<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Model</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Static</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Tabulated</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>Propagator</highlight></codeline>
 <codeline><highlight class="normal">├──<sp/>Flight</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>├──<sp/>Profile</highlight></codeline>
-<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>├──<sp/>Models</highlight></codeline>
+<codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>├──<sp/>Model</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>├──<sp/>Transform</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>└──<sp/>Tabulated</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>│<sp/><sp/><sp/><sp/>└──<sp/>State</highlight></codeline>
@@ -131,7 +131,7 @@
 <codeline><highlight class="normal">├──<sp/>Access</highlight></codeline>
 <codeline><highlight class="normal">│<sp/><sp/><sp/>└──<sp/>Generator</highlight></codeline>
 <codeline><highlight class="normal">└──<sp/>Conjunction</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└──<sp/>Messages</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└──<sp/>Message</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CCSDS</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>CDM</highlight></codeline>
 </programlisting></para>

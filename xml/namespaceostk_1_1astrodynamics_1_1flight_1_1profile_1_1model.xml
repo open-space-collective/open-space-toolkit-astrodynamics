@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::flight::profile::model</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" prot="public">ostk::astrodynamics::flight::profile::model::Tabulated</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" prot="public">ostk::astrodynamics::flight::profile::model::Transform</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" prot="public" static="no">
+        <type>ostk::physics::coordinate::frame::provider::Dynamic</type>
+        <definition>using ostk::astrodynamics::flight::profile::model::DynamicProvider = typedef ostk::physics::coordinate::frame::provider::Dynamic</definition>
+        <argsstring></argsstring>
+        <name>DynamicProvider</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="40" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1ab86779e60364bc20eabff522e776190c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::flight::profile::model::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Tabulated &amp;aTabulatedModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> &amp;</type>
+          <declname>aTabulatedModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

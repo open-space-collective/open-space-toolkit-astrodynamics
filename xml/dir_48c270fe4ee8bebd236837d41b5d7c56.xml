@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_48c270fe4ee8bebd236837d41b5d7c56" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean</compoundname>
+    <innerfile refid="_brouwer_lyddane_mean_8cpp">BrouwerLyddaneMean.cpp</innerfile>
+    <innerfile refid="_brouwer_lyddane_mean_long_8cpp">BrouwerLyddaneMeanLong.cpp</innerfile>
+    <innerfile refid="_brouwer_lyddane_mean_short_8cpp">BrouwerLyddaneMeanShort.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/"/>
+  </compounddef>
+</doxygen>

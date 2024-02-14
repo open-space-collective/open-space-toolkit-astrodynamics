@@ -21,7 +21,7 @@
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.utilities</span> <span class=kn >import</span> <span class=n >convert_state</span>
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.display</span> <span class=kn >import</span> <span class=n >create_2d_map</span>
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.display</span> <span class=kn >import</span> <span class=n >create_3d_globe</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2371/3094902376.py:2: DeprecationWarning: 
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2124/3094902376.py:2: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
 but was not found to be installed on your system.
@@ -29,6 +29,16 @@ If this would cause problems for you,
 please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
         
   import pandas as pd
+</pre></div> </div> <div class="output traceback highlight-ipythontb notranslate"><div class=highlight ><pre><span></span><span class=gt >---------------------------------------------------------------------------</span>
+<span class=ne >ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class=n >Cell</span> <span class=n >In</span><span class=p >[</span><span class=mi >1</span><span class=p >],</span> <span class=n >line</span> <span class=mi >6</span>
+<span class="g g-Whitespace">      </span><span class=mi >2</span> <span class=kn >import</span> <span class=nn >pandas</span> <span class=k >as</span> <span class=nn >pd</span>
+<span class="g g-Whitespace">      </span><span class=mi >4</span> <span class=kn >import</span> <span class=nn >plotly.graph_objs</span> <span class=k >as</span> <span class=nn >go</span>
+<span class=ne >----&gt; </span><span class=mi >6</span> <span class=kn >from</span> <span class=nn >ostk.physics.units</span> <span class=kn >import</span> <span class=n >Length</span>
+<span class="g g-Whitespace">      </span><span class=mi >7</span> <span class=kn >from</span> <span class=nn >ostk.physics.units</span> <span class=kn >import</span> <span class=n >Angle</span>
+<span class="g g-Whitespace">      </span><span class=mi >8</span> <span class=kn >from</span> <span class=nn >ostk.physics.time</span> <span class=kn >import</span> <span class=n >Scale</span>
+
+<span class=ne >ModuleNotFoundError</span>: No module named 'ostk.physics.units'
 </pre></div> </div> </div> </div> </section> <hr class=docutils /> <section id=sgp4 > <h2 id=sgp4 >SGP4<a class=headerlink  href="#sgp4" title="Link to this heading">¶</a></h2> <section id=computation > <h3 id=computation >Computation<a class=headerlink  href="#computation" title="Link to this heading">¶</a></h3> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >environment</span> <span class=o >=</span> <span class=n >Environment</span><span class=o >.</span><span class=n >default</span><span class=p >()</span>
 </pre></div> </div> </div> </div> <p>Create a Classical Orbital Element (COE) set:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >a</span> <span class=o >=</span> <span class=n >Length</span><span class=o >.</span><span class=n >kilometers</span><span class=p >(</span><span class=mf >7000.0</span><span class=p >)</span>
 <span class=n >e</span> <span class=o >=</span> <span class=mf >0.0001</span>
@@ -56,15 +66,6 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 </pre></div> </div> </div> </div> <p>Generate a time grid:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >instants</span> <span class=o >=</span> <span class=n >interval</span><span class=o >.</span><span class=n >generate_grid</span><span class=p >(</span><span class=n >step</span><span class=p >)</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >states</span> <span class=o >=</span> <span class=p >[[</span><span class=n >instant</span><span class=p >,</span> <span class=n >orbit</span><span class=o >.</span><span class=n >get_state_at</span><span class=p >(</span><span class=n >instant</span><span class=p >)]</span> <span class=k >for</span> <span class=n >instant</span> <span class=ow >in</span> <span class=n >instants</span><span class=p >]</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >orbit_data</span> <span class=o >=</span> <span class=p >[</span><span class=n >convert_state</span><span class=p >(</span><span class=n >instant</span><span class=p >,</span> <span class=n >state</span><span class=p >)</span> <span class=k >for</span> <span class=p >[</span><span class=n >instant</span><span class=p >,</span> <span class=n >state</span><span class=p >]</span> <span class=ow >in</span> <span class=n >states</span><span class=p >]</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output traceback highlight-ipythontb notranslate"><div class=highlight ><pre><span></span><span class=gt >---------------------------------------------------------------------------</span>
-<span class=ne >TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class=n >Cell</span> <span class=n >In</span><span class=p >[</span><span class=mi >13</span><span class=p >],</span> <span class=n >line</span> <span class=mi >1</span>
-<span class=ne >----&gt; </span><span class=mi >1</span> <span class=n >orbit_data</span> <span class=o >=</span> <span class=p >[</span><span class=n >convert_state</span><span class=p >(</span><span class=n >instant</span><span class=p >,</span> <span class=n >state</span><span class=p >)</span> <span class=k >for</span> <span class=p >[</span><span class=n >instant</span><span class=p >,</span> <span class=n >state</span><span class=p >]</span> <span class=ow >in</span> <span class=n >states</span><span class=p >]</span>
-
-<span class=nn >Cell In[13], line 1,</span> in <span class=ni >&lt;listcomp&gt;</span><span class=nt >(.0)</span>
-<span class=ne >----&gt; </span><span class=mi >1</span> <span class=n >orbit_data</span> <span class=o >=</span> <span class=p >[</span><span class=n >convert_state</span><span class=p >(</span><span class=n >instant</span><span class=p >,</span> <span class=n >state</span><span class=p >)</span> <span class=k >for</span> <span class=p >[</span><span class=n >instant</span><span class=p >,</span> <span class=n >state</span><span class=p >]</span> <span class=ow >in</span> <span class=n >states</span><span class=p >]</span>
-
-<span class=ne >TypeError</span>: convert_state() takes 1 positional argument but 2 were given
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >orbit_df</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >DataFrame</span><span class=p >(</span>
     <span class=n >orbit_data</span><span class=p >,</span>
     <span class=n >columns</span><span class=o >=</span><span class=p >[</span>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::SharedFrameEnabler</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Frame</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler_1aad6106ff0103965e8bbdd47dcdbad134" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::SharedFrameEnabler::SharedFrameEnabler</definition>
+        <argsstring>(const String &amp;aName, bool isQuasiInertial, const Shared&lt; const Frame &gt; &amp;aParentFrame, const Shared&lt; const Provider &gt; &amp;aProvider)</argsstring>
+        <name>SharedFrameEnabler</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isQuasiInertial</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aParentFrame</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Provider &gt; &amp;</type>
+          <declname>aProvider</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp" line="42" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp" bodystart="42" bodyend="50"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::SharedFrameEnabler</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Frame</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::SharedFrameEnabler</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Frame</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp" line="41" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp" bodystart="40" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler_1aad6106ff0103965e8bbdd47dcdbad134" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::SharedFrameEnabler</scope><name>SharedFrameEnabler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

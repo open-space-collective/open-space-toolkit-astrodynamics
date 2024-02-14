@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::RootSolver::Solution</compoundname>
+    <includes refid="_root_solver_8hpp" local="no">RootSolver.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a952b45165f8dbb31fab78ffe7792070e" prot="public" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::RootSolver::Solution::root</definition>
+        <argsstring></argsstring>
+        <name>root</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="23" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::RootSolver::Solution::iterationCount</definition>
+        <argsstring></argsstring>
+        <name>iterationCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="24" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::RootSolver::Solution::hasConverged</definition>
+        <argsstring></argsstring>
+        <name>hasConverged</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="25" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::RootSolver::Solution</label>
+        <link refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>iterationCount</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>root</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Size</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="22" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="21" bodyend="26"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>hasConverged</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>iterationCount</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a952b45165f8dbb31fab78ffe7792070e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>root</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

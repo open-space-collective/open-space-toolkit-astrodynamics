@@ -1,0 +1,472 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::state::CoordinateBroker</compoundname>
+    <includes refid="_coordinate_broker_8hpp" local="no">CoordinateBroker.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a1f7961bf6009bd26a1d0820ff5faa5a9" prot="private" static="no" mutable="no">
+        <type>Index</type>
+        <definition>Index ostk::astrodynamics::trajectory::state::CoordinateBroker::nextCoordinateSubsetIndex_</definition>
+        <argsstring></argsstring>
+        <name>nextCoordinateSubsetIndex_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="132" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a7cb17983207ed1dadef3657413513a62" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const CoordinateSubset&gt; &gt; ostk::astrodynamics::trajectory::state::CoordinateBroker::coordinateSubsets_</definition>
+        <argsstring></argsstring>
+        <name>coordinateSubsets_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="133" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aa894d8cbd55e772ea494ffe683075c8f" prot="private" static="no" mutable="no">
+        <type>Map&lt; String, Index &gt;</type>
+        <definition>Map&lt;String, Index&gt; ostk::astrodynamics::trajectory::state::CoordinateBroker::coordinateSubsetsIndexMap_</definition>
+        <argsstring></argsstring>
+        <name>coordinateSubsetsIndexMap_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="134" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a6deb2319620326a0a2677d8c5d432843" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::state::CoordinateBroker::CoordinateBroker</definition>
+        <argsstring>()</argsstring>
+        <name>CoordinateBroker</name>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a6deb2319620326a0a2677d8c5d432843" kindref="member">CoordinateBroker</ref><sp/>coordinatesBroker();</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="42" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8a95897b7e0047254ec836d0b69aa8fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::state::CoordinateBroker::CoordinateBroker</definition>
+        <argsstring>(const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetsArray)</argsstring>
+        <name>CoordinateBroker</name>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetsArray</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a6deb2319620326a0a2677d8c5d432843" kindref="member">CoordinateBroker</ref><sp/>coordinatesBroker({asubsetSPtr,<sp/>anotherSubsetSPtr});</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetsArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coordinate subsets to consider </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="51" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a346816f4270bdd965910befce9ebdefe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::state::CoordinateBroker::operator==</definition>
+        <argsstring>(const CoordinateBroker &amp;aCoordinateBroker) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &amp;</type>
+          <declname>aCoordinateBroker</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateBroker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A coordinate broker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if CoordinateBrokers equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="58" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="33" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a443f04f421fd01208bac50c427800d75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::state::CoordinateBroker::operator!=</definition>
+        <argsstring>(const CoordinateBroker &amp;aCoordinateBroker) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &amp;</type>
+          <declname>aCoordinateBroker</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateBroker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A coordinate broker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if CoordinateBrokers are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="65" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a74c7fcb43c41efbfc96fa00f52ee34fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt; &amp;</type>
+        <definition>const Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; &amp; ostk::astrodynamics::trajectory::state::CoordinateBroker::accessSubsets</definition>
+        <argsstring>() const</argsstring>
+        <name>accessSubsets</name>
+        <briefdescription>
+<para>Return the considered coordinate subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The considered coordinate subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="70" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ab05c8eb34c4abf345f909c06c8887e18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::trajectory::state::CoordinateBroker::getNumberOfCoordinates</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumberOfCoordinates</name>
+        <briefdescription>
+<para>Return the total number of coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The total number of coordinates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="75" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a35168a5c78d800ba70d07226b3425a7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::trajectory::state::CoordinateBroker::getNumberOfSubsets</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumberOfSubsets</name>
+        <briefdescription>
+<para>Return the total number of coordinate subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The total number of coordinate subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="80" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8c5aef9496bcddf26f8172d17902152b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; ostk::astrodynamics::trajectory::state::CoordinateBroker::getSubsets</definition>
+        <argsstring>() const</argsstring>
+        <name>getSubsets</name>
+        <briefdescription>
+<para>Return the considered coordinate subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The considered coordinate subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="85" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aca6c35a42e80068d35b228b7e7ca76ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Index</type>
+        <definition>Index ostk::astrodynamics::trajectory::state::CoordinateBroker::addSubset</definition>
+        <argsstring>(const Shared&lt; const CoordinateSubset &gt; &amp;aCoordinateSubsetSPtr)</argsstring>
+        <name>addSubset</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &amp;</type>
+          <declname>aCoordinateSubsetSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Add a coordinate subset to be considered, returning the starting index it will occupy (or that it occupies if it was already added) in the state coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a coordinate subset to be considered</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The starting index of the subset in the state coordinates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="93" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="87" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a73e0a0d0fe5602968cafb364b056c685" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::state::CoordinateBroker::hasSubset</definition>
+        <argsstring>(const Shared&lt; const CoordinateSubset &gt; &amp;aCoordinateSubsetSPtr) const</argsstring>
+        <name>hasSubset</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &amp;</type>
+          <declname>aCoordinateSubsetSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Check if a coordinate subset has already been considered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coordinate subset to be checked</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the coordinate subset is already considered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="100" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astrodynamics::trajectory::state::CoordinateBroker::extractCoordinate</definition>
+        <argsstring>(const VectorXd &amp;aFullCoordinatesVector, const CoordinateSubset &amp;aCoordinateSubset) const</argsstring>
+        <name>extractCoordinate</name>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &amp;</type>
+          <declname>aCoordinateSubset</declname>
+        </param>
+        <briefdescription>
+<para>Extract the coordinates of a given subset from the full coordinates vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the full coordinates vecctor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coordinate subsets of interest</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The coordinates of the subset </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1afc3719620cac65e6bf2f60e70a03e543" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astrodynamics::trajectory::state::CoordinateBroker::extractCoordinate</definition>
+        <argsstring>(const VectorXd &amp;aFullCoordinatesVector, const Shared&lt; const CoordinateSubset &gt; &amp;aCoordinateSubsetSPtr) const</argsstring>
+        <name>extractCoordinate</name>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &amp;</type>
+          <declname>aCoordinateSubsetSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Extract the coordinates of a given subset from the full coordinates vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the full coordinates vecctor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coordinate subsets of interest</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The coordinates of the subset </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="117" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="143" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8f150ae5d47df5277fccf195db201ea8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astrodynamics::trajectory::state::CoordinateBroker::extractCoordinates</definition>
+        <argsstring>(const VectorXd &amp;aFullCoordinatesVector, const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetsArray) const</argsstring>
+        <name>extractCoordinates</name>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aFullCoordinatesVector</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetsArray</declname>
+        </param>
+        <briefdescription>
+<para>Extract the coordinates of an array of subsets from the full coordinates vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFullCoordinatesVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the full coordinates vecctor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetsArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the array of coordinate subsets of interest</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The coordinates of the array of subsets in the same order as the input subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="127" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="119" bodyend="141"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a678344e945541beb87d70224f81f09f0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::state::CoordinateBroker::hasSubset</definition>
+        <argsstring>(const String &amp;anId) const</argsstring>
+        <name>hasSubset</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>anId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="136" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aacfae4e13c847be5d4cbec37baec1806" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Index</type>
+        <definition>Index ostk::astrodynamics::trajectory::state::CoordinateBroker::getSubsetIndex</definition>
+        <argsstring>(const String &amp;anId) const</argsstring>
+        <name>getSubsetIndex</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>anId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="137" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="155" bodyend="165"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> coordinate broker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" bodystart="34" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a74c7fcb43c41efbfc96fa00f52ee34fd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>accessSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aca6c35a42e80068d35b228b7e7ca76ee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>addSubset</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a6deb2319620326a0a2677d8c5d432843" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>CoordinateBroker</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8a95897b7e0047254ec836d0b69aa8fd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>CoordinateBroker</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a7cb17983207ed1dadef3657413513a62" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>coordinateSubsets_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aa894d8cbd55e772ea494ffe683075c8f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>coordinateSubsetsIndexMap_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>extractCoordinate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1afc3719620cac65e6bf2f60e70a03e543" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>extractCoordinate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8f150ae5d47df5277fccf195db201ea8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>extractCoordinates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ab05c8eb34c4abf345f909c06c8887e18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>getNumberOfCoordinates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a35168a5c78d800ba70d07226b3425a7a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>getNumberOfSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aacfae4e13c847be5d4cbec37baec1806" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>getSubsetIndex</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8c5aef9496bcddf26f8172d17902152b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>getSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a73e0a0d0fe5602968cafb364b056c685" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>hasSubset</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a678344e945541beb87d70224f81f09f0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>hasSubset</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a1f7961bf6009bd26a1d0820ff5faa5a9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>nextCoordinateSubsetIndex_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a443f04f421fd01208bac50c427800d75" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a346816f4270bdd965910befce9ebdefe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateBroker</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

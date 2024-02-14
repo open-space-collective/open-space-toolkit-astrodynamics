@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_27bf2a9effe12d13a0dd0b2a43415894" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Conjunction</compoundname>
-    <innerdir refid="dir_52dd604e4170f11d435fd61e68bfdcda">include/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages</innerdir>
+    <innerdir refid="dir_5fac6e120990567f74645e21e5a6b2aa">include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -3,10 +3,13 @@
   <compounddef id="_propulsion_system_8cpp" kind="file" language="C++">
     <compoundname>PropulsionSystem.cpp</compoundname>
     <includes local="no">OpenSpaceToolkit/Core/Error.hpp</includes>
-    <includes local="no">OpenSpaceToolkit/Core/Utilities.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Utility.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp</includes>
     <includes refid="_propulsion_system_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</includes>
     <incdepgraph>
+      <node id="6">
+        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
+      </node>
       <node id="8">
         <label>OpenSpaceToolkit/Physics/Data/Scalar.hpp</label>
       </node>
@@ -29,8 +32,8 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="10">
-        <label>OpenSpaceToolkit/Physics/Units/Derived.hpp</label>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Utility.hpp</label>
       </node>
       <node id="9">
         <label>OpenSpaceToolkit/Physics/Unit.hpp</label>
@@ -47,26 +50,23 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Physics/Unit/Time.hpp</label>
+      </node>
       <node id="2">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
-      </node>
-      <node id="6">
-        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
-      </node>
-      <node id="11">
-        <label>OpenSpaceToolkit/Physics/Units/Time.hpp</label>
       </node>
       <node id="4">
         <label>OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp</label>
       </node>
-      <node id="3">
-        <label>OpenSpaceToolkit/Core/Utilities.hpp</label>
+      <node id="10">
+        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1flight">ostk::astro::flight</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1flight_1_1system">ostk::astro::flight::system</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight">ostk::astrodynamics::flight</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system">ostk::astrodynamics::flight::system</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -74,7 +74,7 @@
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Error.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utility.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
@@ -82,7 +82,7 @@
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
 <codeline lineno="11"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
 <codeline lineno="13"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">flight</highlight></codeline>
 <codeline lineno="15"><highlight class="normal">{</highlight></codeline>
@@ -91,7 +91,7 @@
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::environment::gravitational::Earth;</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal">ostk::physics::Unit<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" kindref="member">PropulsionSystem::thrustSIUnit</ref><sp/>=<sp/>Unit::Derived(Derived::Unit(</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">ostk::physics::Unit<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac7c9c4700d87d8ee9c29b83697658b24" kindref="member">PropulsionSystem::thrustSIUnit</ref><sp/>=<sp/>Unit::Derived(Derived::Unit(</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>Length::Unit::Meter,</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>{1},</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>Mass::Unit::Kilogram,</highlight></codeline>
@@ -104,7 +104,7 @@
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>{0}</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">));</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal">ostk::physics::Unit<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" kindref="member">PropulsionSystem::specificImpulseSIUnit</ref><sp/>=<sp/>Unit::Derived(Derived::Unit(</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">ostk::physics::Unit<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac618ef1ac9bcf6e3940c204aa951a238" kindref="member">PropulsionSystem::specificImpulseSIUnit</ref><sp/>=<sp/>Unit::Derived(Derived::Unit(</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>Length::Unit::Undefined,</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>{0},</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>Mass::Unit::Undefined,</highlight></codeline>
@@ -117,7 +117,7 @@
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>{0}</highlight></codeline>
 <codeline lineno="45"><highlight class="normal">));</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal">ostk::physics::Unit<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad1be3acb99584c2eea0ef2eb8441e51f" kindref="member">PropulsionSystem::massFlowRateSIUnit</ref><sp/>=<sp/>Unit::Derived(Derived::Unit(</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">ostk::physics::Unit<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1abf2f5f152f2c8738f9be6fe2ba9c3b29" kindref="member">PropulsionSystem::massFlowRateSIUnit</ref><sp/>=<sp/>Unit::Derived(Derived::Unit(</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>Length::Unit::Undefined,</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>{0},</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>Mass::Unit::Kilogram,</highlight></codeline>
@@ -130,33 +130,33 @@
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>{0}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal">));</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" kindref="member">PropulsionSystem::PropulsionSystem</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Scalar&amp;<sp/>aThrust,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Scalar&amp;<sp/>aSpecificImpulse)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afe7c71248bb22d5fd3f986a8027d382b" kindref="member">PropulsionSystem::PropulsionSystem</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Scalar&amp;<sp/>aThrust,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Scalar&amp;<sp/>aSpecificImpulse)</highlight></codeline>
 <codeline lineno="61"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aThrust.isDefined()<sp/>&amp;&amp;<sp/>aSpecificImpulse.isDefined())</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrust_<sp/>=<sp/>aThrust.inUnit(<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" kindref="member">thrustSIUnit</ref>);</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>specificImpulse_<sp/>=<sp/>aSpecificImpulse.inUnit(<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" kindref="member">specificImpulseSIUnit</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrust_<sp/>=<sp/>aThrust.inUnit(<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac7c9c4700d87d8ee9c29b83697658b24" kindref="member">thrustSIUnit</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>specificImpulse_<sp/>=<sp/>aSpecificImpulse.inUnit(<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac618ef1ac9bcf6e3940c204aa951a238" kindref="member">specificImpulseSIUnit</ref>);</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>massFlowRate_<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aThrust.getValue()<sp/>/<sp/>(aSpecificImpulse.getValue()<sp/>*<sp/>Earth::gravityConstant),<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad1be3acb99584c2eea0ef2eb8441e51f" kindref="member">massFlowRateSIUnit</ref></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aThrust.getValue()<sp/>/<sp/>(aSpecificImpulse.getValue()<sp/>*<sp/>Earth::gravityConstant),<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1abf2f5f152f2c8738f9be6fe2ba9c3b29" kindref="member">massFlowRateSIUnit</ref></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="71"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a671f6f571429914305eec11f90bab452" kindref="member">PropulsionSystem::PropulsionSystem</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustInSIUnit,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aSpecificImpulseInSIUnit)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afe7c71248bb22d5fd3f986a8027d382b" kindref="member">PropulsionSystem::PropulsionSystem</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustInSIUnit,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aSpecificImpulseInSIUnit)</highlight></codeline>
 <codeline lineno="74"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>thrust_<sp/>=<sp/>Scalar(aThrustInSIUnit,<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" kindref="member">thrustSIUnit</ref>);</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>specificImpulse_<sp/>=<sp/>Scalar(aSpecificImpulseInSIUnit,<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" kindref="member">specificImpulseSIUnit</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>thrust_<sp/>=<sp/>Scalar(aThrustInSIUnit,<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac7c9c4700d87d8ee9c29b83697658b24" kindref="member">thrustSIUnit</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>specificImpulse_<sp/>=<sp/>Scalar(aSpecificImpulseInSIUnit,<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac618ef1ac9bcf6e3940c204aa951a238" kindref="member">specificImpulseSIUnit</ref>);</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
 <codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aThrustInSIUnit.isDefined()<sp/>&amp;&amp;<sp/>aSpecificImpulseInSIUnit.isDefined())</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>massFlowRate_<sp/>=<sp/>{aThrustInSIUnit<sp/>/<sp/>(aSpecificImpulseInSIUnit<sp/>*<sp/>Earth::gravityConstant),<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad1be3acb99584c2eea0ef2eb8441e51f" kindref="member">massFlowRateSIUnit</ref>};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>massFlowRate_<sp/>=<sp/>{aThrustInSIUnit<sp/>/<sp/>(aSpecificImpulseInSIUnit<sp/>*<sp/>Earth::gravityConstant),<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1abf2f5f152f2c8738f9be6fe2ba9c3b29" kindref="member">massFlowRateSIUnit</ref>};</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="82"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad774fbc3870c13fe05308dcd7adf2a04" kindref="member">PropulsionSystem::operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PropulsionSystem&amp;<sp/>aPropulsionSystem)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a05a8898c38b3d0e1af33330bf88ae784" kindref="member">PropulsionSystem::operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PropulsionSystem&amp;<sp/>aPropulsionSystem)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="85"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!this-&gt;<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" kindref="member">isDefined</ref>())<sp/>||<sp/>(!aPropulsionSystem.isDefined()))</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kindref="member">isDefined</ref>())<sp/>||<sp/>(!aPropulsionSystem.isDefined()))</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -165,24 +165,24 @@
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(massFlowRate_<sp/>==<sp/>aPropulsionSystem.massFlowRate_);</highlight></codeline>
 <codeline lineno="93"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1abc97cb2152b617d21d7e7174fdb15fbe" kindref="member">PropulsionSystem::operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PropulsionSystem&amp;<sp/>aPropulsionSystem)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a75004acbdb6a9b433d0e022892613918" kindref="member">PropulsionSystem::operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PropulsionSystem&amp;<sp/>aPropulsionSystem)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="96"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aPropulsionSystem);</highlight></codeline>
 <codeline lineno="98"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astro_1_1flight_1_1system_1af3fe1649daf2806bc7100764bdef1f3b" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PropulsionSystem&amp;<sp/>aPropulsionSystem)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a4de3af68f210700e27c711dfe13331d7" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PropulsionSystem&amp;<sp/>aPropulsionSystem)</highlight></codeline>
 <codeline lineno="101"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>aPropulsionSystem.print(anOutputStream);</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
 <codeline lineno="105"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" kindref="member">PropulsionSystem::isDefined</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kindref="member">PropulsionSystem::isDefined</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="108"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thrust_.isDefined()<sp/>&amp;&amp;<sp/>specificImpulse_.isDefined()<sp/>&amp;&amp;<sp/>massFlowRate_.isDefined();</highlight></codeline>
 <codeline lineno="110"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1ad0d3d57d2cb264ccfb6fa99d6647c245" kindref="member">PropulsionSystem::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ad118a44d666911b4978147b5d4286136" kindref="member">PropulsionSystem::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="113"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Propulsion&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
@@ -191,14 +191,14 @@
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Specific<sp/>Impulse:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(specificImpulse_.isDefined()<sp/>?<sp/>specificImpulse_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mass<sp/>Flow<sp/>Rate:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1a4d93ddac6c64334a619178a6f78669" kindref="member">getMassFlowRate</ref>().isDefined()<sp/>?<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1a4d93ddac6c64334a619178a6f78669" kindref="member">getMassFlowRate</ref>().toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mass<sp/>Flow<sp/>Rate:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a19e56af9f1ebcb5b9934fc09ee362ecb" kindref="member">getMassFlowRate</ref>().isDefined()<sp/>?<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a19e56af9f1ebcb5b9934fc09ee362ecb" kindref="member">getMassFlowRate</ref>().toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"></highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
 <codeline lineno="124"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1aa017bf07b19fcd65f9719e62ba72d718" kindref="member">PropulsionSystem::getThrust</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ad3892189e5cf7d8c6c1cc4447631ca00" kindref="member">PropulsionSystem::getThrust</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="127"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kindref="member">isDefined</ref>())</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;PropulsionSystem&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -206,9 +206,9 @@
 <codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thrust_;</highlight></codeline>
 <codeline lineno="134"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="135"><highlight class="normal"></highlight></codeline>
-<codeline lineno="136"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a41f180c90124e255df448d712314a465" kindref="member">PropulsionSystem::getSpecificImpulse</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a7876cd7b5408fabcf4b54c629787ac44" kindref="member">PropulsionSystem::getSpecificImpulse</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="137"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kindref="member">isDefined</ref>())</highlight></codeline>
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;PropulsionSystem&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -216,9 +216,9 @@
 <codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>specificImpulse_;</highlight></codeline>
 <codeline lineno="144"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1a4d93ddac6c64334a619178a6f78669" kindref="member">PropulsionSystem::getMassFlowRate</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a19e56af9f1ebcb5b9934fc09ee362ecb" kindref="member">PropulsionSystem::getMassFlowRate</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="147"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kindref="member">isDefined</ref>())</highlight></codeline>
 <codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;PropulsionSystem&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -226,9 +226,9 @@
 <codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>massFlowRate_;</highlight></codeline>
 <codeline lineno="154"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="156"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a4843f2e4d62a6f457dc3edbd61ed6e3e" kindref="member">PropulsionSystem::getAcceleration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Mass&amp;<sp/>aMass)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">Scalar<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a58afd1c17f4ba785527b9343537f17fe" kindref="member">PropulsionSystem::getAcceleration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Mass&amp;<sp/>aMass)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="157"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a98e1b63a5d28bcf49e725df61cdae23b" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kindref="member">isDefined</ref>())</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;PropulsionSystem&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -239,25 +239,25 @@
 <codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="167"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="168"><highlight class="normal"></highlight></codeline>
-<codeline lineno="169"><highlight class="normal">PropulsionSystem<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a1bccf402afccdcfdaf7445fc25e64bf4" kindref="member">PropulsionSystem::Undefined</ref>()</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">PropulsionSystem<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a74d82f3296132db5d997661924a56bcf" kindref="member">PropulsionSystem::Undefined</ref>()</highlight></codeline>
 <codeline lineno="170"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(Real::Undefined(),<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" kindref="member">thrustSIUnit</ref>),</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(Real::Undefined(),<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" kindref="member">specificImpulseSIUnit</ref>),</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(Real::Undefined(),<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac7c9c4700d87d8ee9c29b83697658b24" kindref="member">thrustSIUnit</ref>),</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(Real::Undefined(),<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac618ef1ac9bcf6e3940c204aa951a238" kindref="member">specificImpulseSIUnit</ref>),</highlight></codeline>
 <codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="175"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="176"><highlight class="normal"></highlight></codeline>
-<codeline lineno="177"><highlight class="normal">PropulsionSystem<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8b124c884a5b67047c132f9f84ac5ba2" kindref="member">PropulsionSystem::Default</ref>()</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">PropulsionSystem<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a25449fafb54644b5780966f5caf0078e" kindref="member">PropulsionSystem::Default</ref>()</highlight></codeline>
 <codeline lineno="178"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(1.0,<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a39f76e83f8b8108117124af6623da03d" kindref="member">thrustSIUnit</ref>),</highlight></codeline>
-<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(1000.0,<sp/><ref refid="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_1a8dbf6a90b6ccf8ee328378b28d6b5e17" kindref="member">specificImpulseSIUnit</ref>),</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(1.0,<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac7c9c4700d87d8ee9c29b83697658b24" kindref="member">thrustSIUnit</ref>),</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Scalar(1000.0,<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac618ef1ac9bcf6e3940c204aa951a238" kindref="member">specificImpulseSIUnit</ref>),</highlight></codeline>
 <codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="183"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="184"><highlight class="normal"></highlight></codeline>
 <codeline lineno="185"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>system</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="186"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>flight</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="187"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="188"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp"/>

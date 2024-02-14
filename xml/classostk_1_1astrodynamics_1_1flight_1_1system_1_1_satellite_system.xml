@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::system::SatelliteSystem</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_system" prot="public" virt="non-virtual">ostk::astrodynamics::flight::System</basecompoundref>
+    <includes refid="_satellite_system_8hpp" local="no">SatelliteSystem.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0230ca599c7877ae10ef51e8e799f50f" prot="private" static="no" mutable="no">
+        <type>Matrix3d</type>
+        <definition>Matrix3d ostk::astrodynamics::flight::system::SatelliteSystem::inertiaTensor_</definition>
+        <argsstring></argsstring>
+        <name>inertiaTensor_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="175" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ab2688bb5613f718518c2d3e0a3013455" prot="private" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::system::SatelliteSystem::crossSectionalSurfaceArea_</definition>
+        <argsstring></argsstring>
+        <name>crossSectionalSurfaceArea_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="176" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1adbb8a8c07a22ce4ce9a3fcc668a20d40" prot="private" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::system::SatelliteSystem::dragCoefficient_</definition>
+        <argsstring></argsstring>
+        <name>dragCoefficient_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="177" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a2b3b9fea84e15aa1ca5b171604c8b067" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref></type>
+        <definition>PropulsionSystem ostk::astrodynamics::flight::system::SatelliteSystem::propulsionSystem_</definition>
+        <argsstring></argsstring>
+        <name>propulsionSystem_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="178" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ac13b63841a241d57f9e247fe304d694e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::system::SatelliteSystem::SatelliteSystem</definition>
+        <argsstring>(const Mass &amp;aDryMass, const Composite &amp;aSatelliteGeometry, const Matrix3d &amp;anInertiaTensor, const Real &amp;aCrossSectionalSurfaceArea, const Real &amp;aDragCoefficient, const PropulsionSystem &amp;aPropulsionSystem=PropulsionSystem::Undefined())</argsstring>
+        <name>SatelliteSystem</name>
+        <param>
+          <type>const Mass &amp;</type>
+          <declname>aDryMass</declname>
+        </param>
+        <param>
+          <type>const Composite &amp;</type>
+          <declname>aSatelliteGeometry</declname>
+        </param>
+        <param>
+          <type>const Matrix3d &amp;</type>
+          <declname>anInertiaTensor</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aCrossSectionalSurfaceArea</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aDragCoefficient</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &amp;</type>
+          <declname>aPropulsionSystem</declname>
+          <defval><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a74d82f3296132db5d997661924a56bcf" kindref="member">PropulsionSystem::Undefined</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Composite<sp/>composite<sp/>(<sp/>...<sp/>)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Matrix3d<sp/>intertiaTensor<sp/>(<sp/>...<sp/>)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Real<sp/>crossSectionalSurfaceArea<sp/>=<sp/>0.8<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Real<sp/>dragCoefficient<sp/>=<sp/>2.2<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System</ref><sp/>system<sp/>=<sp/>{<sp/>mass,<sp/>composite,<sp/>intertiaTensor,<sp/>crossSectionalSurfaceArea,</highlight></codeline>
+<codeline><highlight class="normal">dragCoefficient,<sp/>propulsionSystem<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aDryMass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A dry mass (without propellant) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCompositeGeometry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A composite geometry </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInertiaTensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inertia tensor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCrossSectionalSurfaceArea</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A cross sectional surface area </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDragCoefficient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A drag coefficient </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPropulsionSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propulsion system (optional) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="64" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="17" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1add8e1e527333415ec416d1b7298527b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::system::SatelliteSystem::~SatelliteSystem</definition>
+        <argsstring>() override</argsstring>
+        <name>~SatelliteSystem</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="74" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0850269c3928c38790406589e5df866e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref> *</type>
+        <definition>SatelliteSystem * ostk::astrodynamics::flight::system::SatelliteSystem::clone</definition>
+        <argsstring>() const</argsstring>
+        <name>clone</name>
+        <briefdescription>
+<para>Clone satellite system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to cloned satellite system </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="79" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a8f280b846d5e017861e0c6d2c76c691f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::system::SatelliteSystem::operator==</definition>
+        <argsstring>(const SatelliteSystem &amp;aSatelliteSystem) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref> &amp;</type>
+          <declname>aSatelliteSystem</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSatelliteSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A satellite system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if satellite systems are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="40" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a5bf87f20d8a3a53046a4f505c6e5aa95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::system::SatelliteSystem::operator!=</definition>
+        <argsstring>(const SatelliteSystem &amp;aSatelliteSystem) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref> &amp;</type>
+          <declname>aSatelliteSystem</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSatelliteSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A satellite system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if satellite systems are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="91" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::system::SatelliteSystem::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a901fcd667e14c02dccaf3fd1ae563158">isDefined</reimplements>
+        <briefdescription>
+<para>Check if satellite system is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if satellite system is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="103" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a2939bdb7b035dc62f36e971d5647a2df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &amp;</type>
+        <definition>const PropulsionSystem &amp; ostk::astrodynamics::flight::system::SatelliteSystem::accessPropulsionSystem</definition>
+        <argsstring>() const</argsstring>
+        <name>accessPropulsionSystem</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> satellite system&apos;s propulsion system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>satelliteSystem.accessPropulsionSystem()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="112" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ae02712016a404b4c5114069f7d197b4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Matrix3d</type>
+        <definition>Matrix3d ostk::astrodynamics::flight::system::SatelliteSystem::getInertiaTensor</definition>
+        <argsstring>() const</argsstring>
+        <name>getInertiaTensor</name>
+        <briefdescription>
+<para>Get satellite system&apos;s inertia tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Matrix3d<sp/>inertiaTensor<sp/>=<sp/>satelliteSystem.getInertiaTensor()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Matrix3d </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="121" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="101" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ad3457cea8ab7169703d1892204ca84ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::system::SatelliteSystem::getCrossSectionalSurfaceArea</definition>
+        <argsstring>() const</argsstring>
+        <name>getCrossSectionalSurfaceArea</name>
+        <briefdescription>
+<para>Get satellite system&apos;s surface area. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>surfaceArea<sp/>=<sp/>satelliteSystem.getCrossSectionalSurfaceArea()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Real </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="130" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1aceb3be748fe95f045b4928f3de0ff14c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::system::SatelliteSystem::getDragCoefficient</definition>
+        <argsstring>() const</argsstring>
+        <name>getDragCoefficient</name>
+        <briefdescription>
+<para>Get satellite system&apos;s drag coefficient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>dragCoefficient<sp/>=<sp/>satelliteSystem.getDragCoefficient()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Real </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="139" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a717bee62f3aef609a264c82e808abeec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref></type>
+        <definition>PropulsionSystem ostk::astrodynamics::flight::system::SatelliteSystem::getPropulsionSystem</definition>
+        <argsstring>() const</argsstring>
+        <name>getPropulsionSystem</name>
+        <briefdescription>
+<para>Get satellite system&apos;s propulsion system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>satelliteSystem.getPropulsionSystem()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="148" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ae3000a5f53c2859fde51da4258b9bac2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::flight::system::SatelliteSystem::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1ab8e8d8de88b49f397d0f63a7e54228d5">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print satellite system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="154" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="71" bodyend="89"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1aab00cabfb6e244285ddc39aae94d2190" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const SatelliteSystem &amp;aSatelliteSystem)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref> &amp;</type>
+          <declname>aSatelliteSystem</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSatelliteSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A satellite system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="98" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0f57606dd0c5b03ddaa111f75da12baf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref></type>
+        <definition>SatelliteSystem ostk::astrodynamics::flight::system::SatelliteSystem::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Undefined satellite system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ac13b63841a241d57f9e247fe304d694e" kindref="member">SatelliteSystem</ref><sp/>satelliteSystem<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0f57606dd0c5b03ddaa111f75da12baf" kindref="member">SatelliteSystem::Undefined</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined satellite system </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="163" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="136" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a04bd443816cd72c3341b552c22633a9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref></type>
+        <definition>SatelliteSystem ostk::astrodynamics::flight::system::SatelliteSystem::Default</definition>
+        <argsstring>()</argsstring>
+        <name>Default</name>
+        <briefdescription>
+<para>Default satellite system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ac13b63841a241d57f9e247fe304d694e" kindref="member">SatelliteSystem</ref><sp/>satelliteSystem<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a04bd443816cd72c3341b552c22633a9e" kindref="member">SatelliteSystem::Default</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Default satellite system </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="172" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="148" bodyend="162"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Define the dynamics system who&apos;s motion is being studied, in particular this is a satellite system. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::System</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_system"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::system::SatelliteSystem</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::System</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_system"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::system::SatelliteSystem</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" line="43" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp" bodystart="42" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a2939bdb7b035dc62f36e971d5647a2df" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>accessPropulsionSystem</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0850269c3928c38790406589e5df866e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ab2688bb5613f718518c2d3e0a3013455" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>crossSectionalSurfaceArea_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a04bd443816cd72c3341b552c22633a9e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>Default</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1adbb8a8c07a22ce4ce9a3fcc668a20d40" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>dragCoefficient_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ad3457cea8ab7169703d1892204ca84ea" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>getCrossSectionalSurfaceArea</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1aceb3be748fe95f045b4928f3de0ff14c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>getDragCoefficient</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1af7951e1c52d71b70f95fac79cbb1531d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>getGeometry</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ae02712016a404b4c5114069f7d197b4f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>getInertiaTensor</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a24ad57a8e513e3b3c58400a94094e612" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>getMass</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a717bee62f3aef609a264c82e808abeec" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>getPropulsionSystem</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0230ca599c7877ae10ef51e8e799f50f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>inertiaTensor_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a5bf87f20d8a3a53046a4f505c6e5aa95" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a46e786f3e77767fbe36b794ca1774eee" prot="public" virt="non-virtual" ambiguityscope="ostk::astrodynamics::flight::System::"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1aab00cabfb6e244285ddc39aae94d2190" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a8f280b846d5e017861e0c6d2c76c691f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a650be5fc8f7bb02c2758ff5adb3f4376" prot="public" virt="non-virtual" ambiguityscope="ostk::astrodynamics::flight::System::"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ae3000a5f53c2859fde51da4258b9bac2" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a2b3b9fea84e15aa1ca5b171604c8b067" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>propulsionSystem_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ac13b63841a241d57f9e247fe304d694e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>SatelliteSystem</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>System</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a0f57606dd0c5b03ddaa111f75da12baf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>Undefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1add8e1e527333415ec416d1b7298527b7" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>~SatelliteSystem</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a4aec1ee8b9fb36840360dce2332b7659" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystem</scope><name>~System</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

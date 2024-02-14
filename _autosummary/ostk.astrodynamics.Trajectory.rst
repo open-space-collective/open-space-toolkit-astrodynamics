@@ -1,35 +1,26 @@
-﻿ostk.astrodynamics.trajectory
+ostk.astrodynamics.Trajectory
 =============================
 
-.. automodule:: ostk.astrodynamics.trajectory
+.. currentmodule:: ostk.astrodynamics
+
+.. autoclass:: Trajectory
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
 
    
    
-   
-
-   
-   
-   
-
-   
-   
-   .. rubric:: Classes
+   .. rubric:: Methods
 
    .. autosummary::
-      :toctree:
-      :template: custom-class-template.rst
       :nosignatures:
    
-      LocalOrbitalFrameDirection
-      LocalOrbitalFrameFactory
-      LocalOrbitalFrameTransformProvider
-      Model
-      Orbit
-      Propagator
-      Segment
-      Sequence
-      State
-      StateBuilder
+      ~Trajectory.get_state_at
+      ~Trajectory.get_states_at
+      ~Trajectory.is_defined
+      ~Trajectory.position
+      ~Trajectory.undefined
    
    
 

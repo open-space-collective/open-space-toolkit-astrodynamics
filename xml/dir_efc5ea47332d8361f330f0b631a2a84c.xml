@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_efc5ea47332d8361f330f0b631a2a84c" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message</compoundname>
+    <innerdir refid="dir_a129e13f17e9fea0910ab4ddb9a47de2">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/"/>
+  </compounddef>
+</doxygen>

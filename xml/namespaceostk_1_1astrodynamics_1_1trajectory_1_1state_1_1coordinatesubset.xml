@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::trajectory::state::coordinatesubset</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_angular_velocity" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

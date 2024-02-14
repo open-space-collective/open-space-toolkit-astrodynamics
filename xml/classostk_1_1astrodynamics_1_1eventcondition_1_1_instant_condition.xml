@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::eventcondition::InstantCondition</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" prot="public" virt="non-virtual">ostk::astrodynamics::eventcondition::RealCondition</basecompoundref>
+    <includes refid="_instant_condition_8hpp" local="no">InstantCondition.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ac5c268d99db7473ea38391c0ef8f3fb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::eventcondition::InstantCondition::InstantCondition</definition>
+        <argsstring>(const Criterion &amp;aCriterion, const Instant &amp;anInstant)</argsstring>
+        <name>InstantCondition</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ac5c268d99db7473ea38391c0ef8f3fb1" kindref="member">InstantCondition</ref><sp/>instantCondition<sp/>=<sp/>{aCriterion,<sp/>anInstant};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An enum indicating the criterion used to determine the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDuration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="33" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="14" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ae85b6b1f9165b37c83440f5e3da2ef80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::eventcondition::InstantCondition::~InstantCondition</definition>
+        <argsstring>()</argsstring>
+        <name>~InstantCondition</name>
+        <briefdescription>
+<para>Virtual destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="36" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1aebad3e4e871bdd3e3189fec984168cfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::eventcondition::InstantCondition::getInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getInstant</name>
+        <briefdescription>
+<para>Get instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Instant </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="41" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A duration based event condition. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::eventcondition::RealCondition</label>
+        <link refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::EventCondition</label>
+        <link refid="classostk_1_1astrodynamics_1_1_event_condition"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::eventcondition::InstantCondition</label>
+        <link refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>ostk::astrodynamics::EventCondition::Target</label>
+        <link refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>valueOffset</edgelabel>
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>String</label>
+      </node>
+      <node id="6">
+        <label>Real</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::eventcondition::RealCondition</label>
+        <link refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::EventCondition</label>
+        <link refid="classostk_1_1astrodynamics_1_1_event_condition"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>target_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::eventcondition::InstantCondition</label>
+        <link refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="22" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>Criterion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a38e31f897edca3284d517677c3f773ff" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>DurationCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a24ee6af9652bf6ada36705cb390e3607" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>evaluate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a22fb110e41e196c20dee2d3100ea9e2d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>evaluator_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a055740b32c8dded3fed30df4007b5464" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a581866780d7022e5e160264d4ff8d54f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getCriterion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a1b745a1fb8324f122f298dfd92568f6b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getEvaluator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1aebad3e4e871bdd3e3189fec984168cfd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a87dde43e3ace08e700b68a7c7b1cab81" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ac5c268d99db7473ea38391c0ef8f3fb1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>InstantCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a64c1b504ab76b56255be7a82ea164a67" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>isSatisfied</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1af55b4fe880915e5fa993476d205ad3ad" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a5ea2273c656d21f005c616417f50e720" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aafa13fc81423a9fc20451d31ce5e9441" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>RealCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1af295d102986ca8c004eda3944340ba11" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>RealCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aa8150c10e958de38abfa88830c59d054" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>StringFromCriterion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a4a084bbc8324927fc3ebd14984c4c4a0" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>target_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa35b925dc33acbf74a614203c87d8264" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>updateTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa60a1788d6c2a3acfd9dcd9fdd949076" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>~EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ae85b6b1f9165b37c83440f5e3da2ef80" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>~InstantCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1ad8705e78f017b44236f404a6c8f5f12d" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>~RealCondition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

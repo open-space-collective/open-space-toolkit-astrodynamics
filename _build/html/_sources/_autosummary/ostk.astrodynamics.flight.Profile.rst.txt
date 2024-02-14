@@ -1,27 +1,29 @@
-﻿ostk.astrodynamics.flight.profile
+ostk.astrodynamics.flight.Profile
 =================================
 
-.. automodule:: ostk.astrodynamics.flight.profile
+.. currentmodule:: ostk.astrodynamics.flight
+
+.. autoclass:: Profile
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
 
    
    
-   
-
-   
-   
-   
-
-   
-   
-   .. rubric:: Classes
+   .. rubric:: Methods
 
    .. autosummary::
-      :toctree:
-      :template: custom-class-template.rst
       :nosignatures:
    
-      Model
-      State
+      ~Profile.get_axes_at
+      ~Profile.get_body_frame
+      ~Profile.get_state_at
+      ~Profile.get_states_at
+      ~Profile.inertial_pointing
+      ~Profile.is_defined
+      ~Profile.nadir_pointing
+      ~Profile.undefined
    
    
 

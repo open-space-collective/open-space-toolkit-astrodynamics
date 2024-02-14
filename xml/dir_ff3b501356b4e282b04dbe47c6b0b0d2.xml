@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_ff3b501356b4e282b04dbe47c6b0b0d2" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset</compoundname>
+    <innerfile refid="_angular_velocity_8hpp">AngularVelocity.hpp</innerfile>
+    <innerfile refid="_attitude_quaternion_8hpp">AttitudeQuaternion.hpp</innerfile>
+    <innerfile refid="_cartesian_position_8hpp">CartesianPosition.hpp</innerfile>
+    <innerfile refid="_cartesian_velocity_8hpp">CartesianVelocity.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/"/>
+  </compounddef>
+</doxygen>

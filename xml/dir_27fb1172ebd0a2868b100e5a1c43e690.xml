@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_27fb1172ebd0a2868b100e5a1c43e690" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4</compoundname>
+    <innerfile refid="_t_l_e_8hpp">TLE.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/"/>
+  </compounddef>
+</doxygen>

@@ -2,8 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_cf39368e8cd582dabb9660b0f55c0074" kind="dir">
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit</compoundname>
-    <innerdir refid="dir_c7ff4b44f0a2042b242b43be593de121">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages</innerdir>
-    <innerdir refid="dir_7520c3ac75c8f5fdda4f2a54e1baf892">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models</innerdir>
+    <innerdir refid="dir_efc5ea47332d8361f330f0b631a2a84c">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message</innerdir>
+    <innerdir refid="dir_b4bcbe1cd8f0e7d528ef3b91e5bbcd88">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model</innerdir>
     <innerfile refid="_trajectory_2_orbit_2_model_8cpp">Model.cpp</innerfile>
     <innerfile refid="_pass_8cpp">Pass.cpp</innerfile>
     <briefdescription>

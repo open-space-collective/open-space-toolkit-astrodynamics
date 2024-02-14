@@ -20,8 +20,8 @@ ostk.astrodynamics.dynamics.ThirdBodyGravity
       ~ThirdBodyGravity.from_environment
       ~ThirdBodyGravity.get_celestial
       ~ThirdBodyGravity.get_name
-      ~ThirdBodyGravity.get_read_coordinates_subsets
-      ~ThirdBodyGravity.get_write_coordinates_subsets
+      ~ThirdBodyGravity.get_read_coordinate_subsets
+      ~ThirdBodyGravity.get_write_coordinate_subsets
       ~ThirdBodyGravity.is_defined
    
    

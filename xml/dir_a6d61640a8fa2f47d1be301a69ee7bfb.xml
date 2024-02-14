@@ -2,9 +2,9 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_a6d61640a8fa2f47d1be301a69ee7bfb" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State</compoundname>
-    <innerdir refid="dir_1a3b1eddedca539a8a5faa329f0d8120">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets</innerdir>
-    <innerfile refid="_coordinates_broker_8hpp">CoordinatesBroker.hpp</innerfile>
-    <innerfile refid="_coordinates_subset_8hpp">CoordinatesSubset.hpp</innerfile>
+    <innerdir refid="dir_ff3b501356b4e282b04dbe47c6b0b0d2">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset</innerdir>
+    <innerfile refid="_coordinate_broker_8hpp">CoordinateBroker.hpp</innerfile>
+    <innerfile refid="_coordinate_subset_8hpp">CoordinateSubset.hpp</innerfile>
     <innerfile refid="_numerical_solver_8hpp">NumericalSolver.hpp</innerfile>
     <briefdescription>
     </briefdescription>

@@ -16,10 +16,10 @@ ostk.astrodynamics.trajectory.StateBuilder
    .. autosummary::
       :nosignatures:
    
-      ~StateBuilder.access_coordinates_broker
+      ~StateBuilder.access_coordinate_broker
       ~StateBuilder.build
       ~StateBuilder.expand
-      ~StateBuilder.get_coordinates_subsets
+      ~StateBuilder.get_coordinate_subsets
       ~StateBuilder.get_frame
       ~StateBuilder.is_defined
       ~StateBuilder.reduce

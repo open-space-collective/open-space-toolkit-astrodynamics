@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1flight_1_1system" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::flight::system</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" prot="public">ostk::astrodynamics::flight::system::PropulsionSystem</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" prot="public">ostk::astrodynamics::flight::system::SatelliteSystem</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" prot="public">ostk::astrodynamics::flight::system::SatelliteSystemBuilder</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a4de3af68f210700e27c711dfe13331d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::flight::system::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const PropulsionSystem &amp;aPropulsionSystem)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &amp;</type>
+          <declname>aPropulsionSystem</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPropulsionSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A propulsion system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" line="100" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a5a558b3f9c4e27a2fb27db18ee455381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::flight::system::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const SatelliteSystem &amp;aSatelliteSystem)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref> &amp;</type>
+          <declname>aSatelliteSystem</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSatelliteSystem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A satellite system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" line="58" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a8c3afe65e18d41ab146565b969d35fbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::flight::system::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const SatelliteSystemBuilder &amp;aSatelliteSystemBuilder)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
+          <declname>aSatelliteSystemBuilder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSatelliteSystemBuilder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A satellite system builder </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="21" column="1"/>
+  </compounddef>
+</doxygen>

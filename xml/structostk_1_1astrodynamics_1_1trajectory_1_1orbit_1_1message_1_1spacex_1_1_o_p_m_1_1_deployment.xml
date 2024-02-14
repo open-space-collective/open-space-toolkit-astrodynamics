@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</compoundname>
+    <includes refid="_o_p_m_8hpp" local="no">OPM.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a30029fb8e267c55f703239bf0f3f7d85" prot="public" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="94" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1aff0b544c7ff29eebbedc443839460a0f" prot="public" static="no" mutable="no">
+        <type>Integer</type>
+        <definition>Integer ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::sequenceNumber</definition>
+        <argsstring></argsstring>
+        <name>sequenceNumber</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="95" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1ab5b95c0582554fb10bde6a7d98b7e884" prot="public" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::missionTime</definition>
+        <argsstring></argsstring>
+        <name>missionTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="96" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a79d9f864dfc72eec71898c1db8c85ecd" prot="public" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::date</definition>
+        <argsstring></argsstring>
+        <name>date</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="97" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a4ecbb086686f714711e94ba7ee204baf" prot="public" static="no" mutable="no">
+        <type>Position</type>
+        <definition>Position ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="98" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a849e7dffd58367bc799a074fb194ccdc" prot="public" static="no" mutable="no">
+        <type>Velocity</type>
+        <definition>Velocity ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::velocity</definition>
+        <argsstring></argsstring>
+        <name>velocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="99" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a85fffb6b9ca596e137a89ef103911207" prot="public" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::meanPerigeeAltitude</definition>
+        <argsstring></argsstring>
+        <name>meanPerigeeAltitude</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="100" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a7778182bd950667056e41a2a705113dc" prot="public" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::meanApogeeAltitude</definition>
+        <argsstring></argsstring>
+        <name>meanApogeeAltitude</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="101" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a0b7a553d1fe0b96395d9ed31af970f0b" prot="public" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::meanInclination</definition>
+        <argsstring></argsstring>
+        <name>meanInclination</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="102" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1af58eb71aa60d324061bcd4733181756e" prot="public" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::meanArgumentOfPerigee</definition>
+        <argsstring></argsstring>
+        <name>meanArgumentOfPerigee</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="103" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a1080b1e04befb1191b5bfbbfb340f4b3" prot="public" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::meanLongitudeAscendingNode</definition>
+        <argsstring></argsstring>
+        <name>meanLongitudeAscendingNode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="104" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a11945e94d163653c692418e3fe4a949d" prot="public" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::meanMeanAnomaly</definition>
+        <argsstring></argsstring>
+        <name>meanMeanAnomaly</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="105" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a5d9661b19b0a3ba77af40392d07d6cd7" prot="public" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::ballisticCoefficient</definition>
+        <argsstring></argsstring>
+        <name>ballisticCoefficient</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="106" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1ad883574b936348890d1ed5a7658edc63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment::toState</definition>
+        <argsstring>() const</argsstring>
+        <name>toState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="108" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="9">
+        <label>Position</label>
+      </node>
+      <node id="8">
+        <label>Duration</label>
+      </node>
+      <node id="4">
+        <label>String</label>
+      </node>
+      <node id="3">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</label>
+        <link refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>date</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>ballisticCoefficient</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>meanMeanAnomaly</edgelabel>
+          <edgelabel>meanLongitudeAscendingNode</edgelabel>
+          <edgelabel>meanInclination</edgelabel>
+          <edgelabel>meanArgumentOfPerigee</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>meanApogeeAltitude</edgelabel>
+          <edgelabel>meanPerigeeAltitude</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>velocity</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>missionTime</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>position</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>sequenceNumber</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Velocity</label>
+      </node>
+      <node id="2">
+        <label>Instant</label>
+      </node>
+      <node id="5">
+        <label>Angle</label>
+      </node>
+      <node id="6">
+        <label>Length</label>
+      </node>
+      <node id="10">
+        <label>Integer</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="93" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="92" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a5d9661b19b0a3ba77af40392d07d6cd7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>ballisticCoefficient</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a79d9f864dfc72eec71898c1db8c85ecd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>date</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a7778182bd950667056e41a2a705113dc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>meanApogeeAltitude</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1af58eb71aa60d324061bcd4733181756e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>meanArgumentOfPerigee</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a0b7a553d1fe0b96395d9ed31af970f0b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>meanInclination</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a1080b1e04befb1191b5bfbbfb340f4b3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>meanLongitudeAscendingNode</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a11945e94d163653c692418e3fe4a949d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>meanMeanAnomaly</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a85fffb6b9ca596e137a89ef103911207" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>meanPerigeeAltitude</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1ab5b95c0582554fb10bde6a7d98b7e884" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>missionTime</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a30029fb8e267c55f703239bf0f3f7d85" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>name</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a4ecbb086686f714711e94ba7ee204baf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>position</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1aff0b544c7ff29eebbedc443839460a0f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>sequenceNumber</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1ad883574b936348890d1ed5a7658edc63" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>toState</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a849e7dffd58367bc799a074fb194ccdc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>velocity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::dynamics::PositionDerivative</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1_dynamics" prot="public" virt="non-virtual">ostk::astrodynamics::Dynamics</basecompoundref>
+    <includes refid="_position_derivative_8hpp" local="no">PositionDerivative.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a5b256da64ae8e8a871ba9e18974e22b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::dynamics::PositionDerivative::PositionDerivative</definition>
+        <argsstring>()</argsstring>
+        <name>PositionDerivative</name>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a5b256da64ae8e8a871ba9e18974e22b3" kindref="member">PositionDerivative</ref><sp/>positionDerivative<sp/>=<sp/>{};</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="35" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1ad8251a38b4bdc066cf042a1a59a128c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::dynamics::PositionDerivative::~PositionDerivative</definition>
+        <argsstring>() override</argsstring>
+        <name>~PositionDerivative</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="38" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a27a5586ee6428885f411fae61701dc77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::dynamics::PositionDerivative::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1a934808fb5b77afd3b25a918b0fe32892">isDefined</reimplements>
+        <briefdescription>
+<para>Check if position derivative dynamics is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if position derivative dynamics is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="50" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1af0ae4202c5dc655e1044ddf59ee29fc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; ostk::astrodynamics::dynamics::PositionDerivative::getReadCoordinateSubsets</definition>
+        <argsstring>() const override</argsstring>
+        <name>getReadCoordinateSubsets</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1add0e583f438d0ffb62f402932e3b8865">getReadCoordinateSubsets</reimplements>
+        <briefdescription>
+<para>Return the coordinate subsets that the instance reads from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinate subsets that the instance reads from </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="55" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aeeeef977a90f37040e27c8f75dd78d2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; ostk::astrodynamics::dynamics::PositionDerivative::getWriteCoordinateSubsets</definition>
+        <argsstring>() const override</argsstring>
+        <name>getWriteCoordinateSubsets</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1ac7009e87414ea145452914104d9453e0">getWriteCoordinateSubsets</reimplements>
+        <briefdescription>
+<para>Return the coordinate subsets that the instance writes to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinate subsets that the instance writes to </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="60" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a329d8ed0ec6c893c5cdd83439070b333" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astrodynamics::dynamics::PositionDerivative::computeContribution</definition>
+        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</argsstring>
+        <name>computeContribution</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1a562cffe3752091fe9edc6416e7b9f0f0">computeContribution</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the contribution to the state derivative. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reduced state vector (this vector will follow the structure determined by the &apos;read&apos; coordinate subsets) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The frame in which the state vector is expressed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reduced derivative state vector (this vector must follow the structure determined by the &apos;write&apos; coordinate subsets) expressed in the given frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="71" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aed11feb65cbe370592fbc0dc2293ed87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::dynamics::PositionDerivative::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1a0cd547f2ada6a7285940c24b900292de">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="79" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a0a08e4a5d4c4c456465367b59e0fecb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const PositionDerivative &amp;aPositionDerivative)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative" kindref="compound">PositionDerivative</ref> &amp;</type>
+          <declname>aPositionDerivative</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPositionDerivative</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A position derivative dynamics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="45" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Define the contribution to the position due to velocity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::Dynamics</label>
+        <link refid="classostk_1_1astrodynamics_1_1_dynamics"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::dynamics::PositionDerivative</label>
+        <link refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ostk::astrodynamics::Dynamics</label>
+        <link refid="classostk_1_1astrodynamics_1_1_dynamics"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::dynamics::PositionDerivative</label>
+        <link refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="27" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" bodystart="26" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a329d8ed0ec6c893c5cdd83439070b333" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>computeContribution</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a999586ae8bcb846dce521bde617939ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>Dynamics</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a32cd83261284ade7ce4aa80681587175" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>FromEnvironment</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a6055a6b91a571604860e46a2563c0b9e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1af0ae4202c5dc655e1044ddf59ee29fc1" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>getReadCoordinateSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1abb6276a394f319cc716a564c19353cc1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>GetSystemOfEquations</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aeeeef977a90f37040e27c8f75dd78d2a" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>getWriteCoordinateSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a27a5586ee6428885f411fae61701dc77" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a0a08e4a5d4c4c456465367b59e0fecb1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a5b256da64ae8e8a871ba9e18974e22b3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>PositionDerivative</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aed11feb65cbe370592fbc0dc2293ed87" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a7c02e4cf4e523ef0db4d8a5ebe80bb0e" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>~Dynamics</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1ad8251a38b4bdc066cf042a1a59a128c2" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::PositionDerivative</scope><name>~PositionDerivative</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

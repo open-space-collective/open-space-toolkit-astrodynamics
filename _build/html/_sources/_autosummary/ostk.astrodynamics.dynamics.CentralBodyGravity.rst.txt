@@ -20,8 +20,8 @@ ostk.astrodynamics.dynamics.CentralBodyGravity
       ~CentralBodyGravity.from_environment
       ~CentralBodyGravity.get_celestial
       ~CentralBodyGravity.get_name
-      ~CentralBodyGravity.get_read_coordinates_subsets
-      ~CentralBodyGravity.get_write_coordinates_subsets
+      ~CentralBodyGravity.get_read_coordinate_subsets
+      ~CentralBodyGravity.get_write_coordinate_subsets
       ~CentralBodyGravity.is_defined
    
    

@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::profile::model::Transform</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model" prot="public" virt="virtual">ostk::astrodynamics::flight::profile::Model</basecompoundref>
+    <includes refid="_transform_8hpp" local="no">Transform.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a615e43fe5fdef896b6c7c423662de794" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" kindref="member">DynamicProvider</ref></type>
+        <definition>DynamicProvider ostk::astrodynamics::flight::profile::model::Transform::transformProvider_</definition>
+        <argsstring></argsstring>
+        <name>transformProvider_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="87" column="21" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ad5cae48e9dcc47d98093c91be1bab7e4" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::flight::profile::model::Transform::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="88" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1159cc64dc40321cecdf4ff02bed9e4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::profile::model::Transform::Transform</definition>
+        <argsstring>(const DynamicProvider &amp;aDynamicTransformProvider, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
+        <name>Transform</name>
+        <param>
+          <type>const <ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" kindref="member">DynamicProvider</ref> &amp;</type>
+          <declname>aDynamicTransformProvider</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="49" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="19" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a95e5dd1e797403c6b99f89e2368d2541" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref> *</type>
+        <definition>Transform * ostk::astrodynamics::flight::profile::model::Transform::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1aac46947479dc4ea97a4928123f3de026">clone</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="51" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::profile::model::Transform::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92">isDefined</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="55" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a7037a5e5c4eaf2ba9074262d561fa146" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::flight::profile::model::Transform::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>calculateStateAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1adda39b4823bc386e2cf443430b01fcab">calculateStateAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="57" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="35" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a187d2ce899b57759c3a5ad5861c9ff6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Axes</type>
+        <definition>Axes ostk::astrodynamics::flight::profile::model::Transform::getAxesAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>getAxesAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a435f33740c9c6171593772a1a1feb8a0">getAxesAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="59" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="71" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1abec7e74a9418f05dcf50ac060602af54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::flight::profile::model::Transform::getBodyFrame</definition>
+        <argsstring>(const String &amp;aFrameName) const override</argsstring>
+        <name>getBodyFrame</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1acd5f51cf0f3f45ef7267239d2c83778a">getBodyFrame</reimplements>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aFrameName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="61" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="96" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a9b54d6c537b2342b0cf48fc07c7cfccb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::flight::profile::model::Transform::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a3495da149b51ac52a9244145d263e7e9">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="63" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a31ed56d1b0b19d8f7363743664717403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Transform &amp;aTransformModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref> &amp;</type>
+          <declname>aTransformModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="53" column="12"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a86c7367c903b90d1c43b37f24671bd2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
+        <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="65" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="124" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
+        <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::InertialPointing</definition>
+        <argsstring>(const Trajectory &amp;aTrajectory, const Quaternion &amp;aQuaternion)</argsstring>
+        <name>InertialPointing</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Quaternion &amp;</type>
+          <declname>aQuaternion</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a flight profile with inertial pointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A trajectory </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aQuaternion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointing in GCRF </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="72" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="129" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ae02ded346c0d5f5d8b3a0214a665c89e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
+        <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::NadirPointing</definition>
+        <argsstring>(const trajectory::Orbit &amp;anOrbit, const trajectory::Orbit::FrameType &amp;anOrbitalFrameType)</argsstring>
+        <name>NadirPointing</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">trajectory::Orbit</ref> &amp;</type>
+          <declname>anOrbit</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" kindref="member">trajectory::Orbit::FrameType</ref> &amp;</type>
+          <declname>anOrbitalFrameType</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a flight profile with nadir pointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOrbitalFrameType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbital frame type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="79" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="160" bodyend="188"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::profile::model::Transform::operator==</definition>
+        <argsstring>(const Model &amp;aModel) const override</argsstring>
+        <name>operator==</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ae4bdb2472f45039f690306cf96273a27">operator==</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="84" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp" bodystart="190" bodyend="202"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref> provided profile model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::profile::model::Transform</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::profile::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::profile::model::Transform</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::profile::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="47" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="46" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>as</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a7037a5e5c4eaf2ba9074262d561fa146" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a49434a67dfcbbe324264b25b19da3d5c" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>calculateStatesAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a95e5dd1e797403c6b99f89e2368d2541" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ad5cae48e9dcc47d98093c91be1bab7e4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a187d2ce899b57759c3a5ad5861c9ff6f" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>getAxesAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1abec7e74a9418f05dcf50ac060602af54" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>getBodyFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>InertialPointing</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>is</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a9f897d6f5779826088fc7aa750c1540e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Model</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ae02ded346c0d5f5d8b3a0214a665c89e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>NadirPointing</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a84c0583f35c7d396cc3bcd7f193e8b8b" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a31ed56d1b0b19d8f7363743664717403" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e" prot="protected" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a9b54d6c537b2342b0cf48fc07c7cfccb" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1159cc64dc40321cecdf4ff02bed9e4d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Transform</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a615e43fe5fdef896b6c7c423662de794" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>transformProvider_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a86c7367c903b90d1c43b37f24671bd2b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Undefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1abbc19a00caf6c2c526921bcf0f20599a" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>~Model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

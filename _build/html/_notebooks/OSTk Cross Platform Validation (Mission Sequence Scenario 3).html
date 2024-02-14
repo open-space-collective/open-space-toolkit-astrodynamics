@@ -37,7 +37,7 @@
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory</span> <span class=kn >import</span> <span class=n >StateBuilder</span>
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory</span> <span class=kn >import</span> <span class=n >Propagator</span>
 <span class=kn >from</span> <span class=nn >ostk.astrodynamics.trajectory</span> <span class=kn >import</span> <span class=n >State</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2327/3199294824.py:6: DeprecationWarning: 
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2080/3199294824.py:6: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
 but was not found to be installed on your system.
@@ -45,6 +45,16 @@ If this would cause problems for you,
 please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
         
   import pandas as pd
+</pre></div> </div> <div class="output traceback highlight-ipythontb notranslate"><div class=highlight ><pre><span></span><span class=gt >---------------------------------------------------------------------------</span>
+<span class=ne >ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class=n >Cell</span> <span class=n >In</span><span class=p >[</span><span class=mi >1</span><span class=p >],</span> <span class=n >line</span> <span class=mi >12</span>
+<span class="g g-Whitespace">      </span><span class=mi >8</span> <span class=kn >import</span> <span class=nn >plotly.graph_objs</span> <span class=k >as</span> <span class=nn >go</span>
+<span class="g g-Whitespace">     </span><span class=mi >10</span> <span class=kn >from</span> <span class=nn >ostk.core.filesystem</span> <span class=kn >import</span> <span class=n >Directory</span>
+<span class=ne >---&gt; </span><span class=mi >12</span> <span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Cuboid</span>
+<span class="g g-Whitespace">     </span><span class=mi >13</span> <span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Composite</span>
+<span class="g g-Whitespace">     </span><span class=mi >14</span> <span class=kn >from</span> <span class=nn >ostk.mathematics.geometry.d3.objects</span> <span class=kn >import</span> <span class=n >Point</span>
+
+<span class=ne >ModuleNotFoundError</span>: No module named 'ostk.mathematics.geometry.d3.objects'; 'ostk.mathematics.geometry.d3' is not a package
 </pre></div> </div> </div> </div> <section id=set-up-comparison-files > <h2 id=set-up-comparison-files >Set up Comparison Files<a class=headerlink  href="#set-up-comparison-files" title="Link to this heading">¶</a></h2> <p>Define array inputs that can be changed to include/exclude gmat/orekit result comparisons</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >title_prefix</span> <span class=o >=</span> <span class=s2 >"Exponential Atmosphere"</span>
 <span class=n >filenames</span> <span class=o >=</span> <span class=p >[</span>
     <span class=s2 >"gmat_astrodynamics/scenario003-mission-sequence.csv"</span><span class=p >,</span>
@@ -169,25 +179,6 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
                 <span class=p >)</span>
             <span class=p >)</span>
     <span class=n >all_comparison_states</span><span class=o >.</span><span class=n >append</span><span class=p >(</span><span class=n >comparison_states</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output traceback highlight-ipythontb notranslate"><div class=highlight ><pre><span></span><span class=gt >---------------------------------------------------------------------------</span>
-<span class=ne >FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class=n >Cell</span> <span class=n >In</span><span class=p >[</span><span class=mi >12</span><span class=p >],</span> <span class=n >line</span> <span class=mi >4</span>
-<span class="g g-Whitespace">      </span><span class=mi >1</span> <span class=n >all_comparison_states</span> <span class=o >=</span> <span class=p >[]</span>
-<span class="g g-Whitespace">      </span><span class=mi >3</span> <span class=k >for</span> <span class=n >ind</span><span class=p >,</span> <span class=n >filename</span> <span class=ow >in</span> <span class=nb >enumerate</span><span class=p >(</span><span class=n >filenames</span><span class=p >):</span>
-<span class=ne >----&gt; </span><span class=mi >4</span>     <span class=k >with</span> <span class=nb >open</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"</span><span class=si >{</span><span class=n >os</span><span class=o >.</span><span class=n >getcwd</span><span class=p >()</span><span class=si >}</span><span class=s2 >/data/</span><span class=si >{</span><span class=n >filename</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span> <span class=k >as</span> <span class=n >csvfile</span><span class=p >:</span>
-<span class="g g-Whitespace">      </span><span class=mi >5</span>         <span class=n >reader</span> <span class=o >=</span> <span class=n >csv</span><span class=o >.</span><span class=n >DictReader</span><span class=p >(</span><span class=n >csvfile</span><span class=p >)</span>
-<span class="g g-Whitespace">      </span><span class=mi >6</span>         <span class=n >comparison_states</span> <span class=o >=</span> <span class=p >[]</span>
-
-<span class=nn >File /usr/local/lib/python3.11/site-packages/IPython/core/interactiveshell.py:310,</span> in <span class=ni >_modified_open</span><span class=nt >(file, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class=mi >303</span> <span class=k >if</span> <span class=n >file</span> <span class=ow >in</span> <span class=p >{</span><span class=mi >0</span><span class=p >,</span> <span class=mi >1</span><span class=p >,</span> <span class=mi >2</span><span class=p >}:</span>
-<span class="g g-Whitespace">    </span><span class=mi >304</span>     <span class=k >raise</span> <span class=ne >ValueError</span><span class=p >(</span>
-<span class="g g-Whitespace">    </span><span class=mi >305</span>         <span class=sa >f</span><span class=s2 >"IPython won't let you open fd=</span><span class=si >{</span><span class=n >file</span><span class=si >}</span><span class=s2 > by default "</span>
-<span class="g g-Whitespace">    </span><span class=mi >306</span>         <span class=s2 >"as it is likely to crash IPython. If you know what you are doing, "</span>
-<span class="g g-Whitespace">    </span><span class=mi >307</span>         <span class=s2 >"you can use builtins' open."</span>
-<span class="g g-Whitespace">    </span><span class=mi >308</span>     <span class=p >)</span>
-<span class=ne >--&gt; </span><span class=mi >310</span> <span class=k >return</span> <span class=n >io_open</span><span class=p >(</span><span class=n >file</span><span class=p >,</span> <span class=o >*</span><span class=n >args</span><span class=p >,</span> <span class=o >**</span><span class=n >kwargs</span><span class=p >)</span>
-
-<span class=ne >FileNotFoundError</span>: [Errno 2] No such file or directory: '/app/docs/_notebooks/data/gmat_astrodynamics/scenario003-mission-sequence.csv'
 </pre></div> </div> </div> </div> <section id=trajectory-rms-error-vs-gmat-run-in-the-gcrf-frame > <h3 id=trajectory-rms-error-vs-gmat-run-in-the-gcrf-frame >Trajectory RMS error vs GMAT run in the GCRF frame<a class=headerlink  href="#trajectory-rms-error-vs-gmat-run-in-the-gcrf-frame" title="Link to this heading">¶</a></h3> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span> <span class=nf >to_dataframe_RMS</span><span class=p >(</span><span class=n >state_ind</span><span class=p >,</span> <span class=n >list_ind</span><span class=p >):</span>
     <span class=k >return</span> <span class=p >[</span>
         <span class=nb >repr</span><span class=p >(</span><span class=n >all_comparison_states</span><span class=p >[</span><span class=n >list_ind</span><span class=p >][</span><span class=n >state_ind</span><span class=p >]</span><span class=o >.</span><span class=n >get_instant</span><span class=p >()),</span>

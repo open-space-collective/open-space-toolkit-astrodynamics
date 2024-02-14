@@ -4,10 +4,13 @@
     <compoundname>TemporalConditionSolver.cpp</compoundname>
     <includes local="no">boost/math/tools/roots.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Core/Error.hpp</includes>
-    <includes local="no">OpenSpaceToolkit/Core/Utilities.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Utility.hpp</includes>
     <includes refid="_root_solver_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</includes>
-    <includes refid="_temporal_condition_solver_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp</includes>
+    <includes refid="_temporal_condition_solver_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</includes>
     <incdepgraph>
+      <node id="6">
+        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
+      </node>
       <node id="2">
         <label>boost/math/tools/roots.hpp</label>
       </node>
@@ -33,11 +36,14 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>OpenSpaceToolkit/Core/Types/Size.hpp</label>
-      </node>
       <node id="11">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Core/Utility.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Core/Type/Size.hpp</label>
       </node>
       <node id="12">
         <label>OpenSpaceToolkit/Physics/Time/Interval.hpp</label>
@@ -46,7 +52,7 @@
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
       </node>
       <node id="8">
-        <label>OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp</label>
+        <label>OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</label>
         <link refid="_temporal_condition_solver_8hpp"/>
         <childnode refid="9" relation="include">
         </childnode>
@@ -59,22 +65,16 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>OpenSpaceToolkit/Core/Types/Real.hpp</label>
-      </node>
       <node id="9">
-        <label>OpenSpaceToolkit/Core/Containers/Array.hpp</label>
+        <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
       </node>
       <node id="10">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
       </node>
-      <node id="4">
-        <label>OpenSpaceToolkit/Core/Utilities.hpp</label>
-      </node>
     </incdepgraph>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro">ostk::astro</innernamespace>
-    <innernamespace refid="namespaceostk_1_1astro_1_1solvers">ostk::astro::solvers</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1solver">ostk::astrodynamics::solver</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -84,19 +84,19 @@
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/math/tools/roots.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Error.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Utility.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_root_solver_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_temporal_condition_solver_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_temporal_condition_solver_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
 <codeline lineno="12"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astro</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
 <codeline lineno="14"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">solvers</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">solver</highlight></codeline>
 <codeline lineno="16"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><ref refid="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_1a6d335782200af6296ee5ff45cd418cc0" kindref="member">TemporalConditionSolver::TemporalConditionSolver</ref>(</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1ac80decd8d15bdab1a540faf113fab6ba" kindref="member">TemporalConditionSolver::TemporalConditionSolver</ref>(</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTimeStep,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTolerance,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size&amp;<sp/>aMaximumIterationCount</highlight></codeline>
 <codeline lineno="20"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>timeStep_(aTimeStep),</highlight></codeline>
@@ -232,8 +232,8 @@
 <codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="152"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="153"><highlight class="normal"></highlight></codeline>
-<codeline lineno="154"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>solvers</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="155"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>solver</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp"/>
