@@ -67,8 +67,7 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         return false;
     }
 
-    // Since all interpolators are of the same type, we can just return the type of the first one.
-    return interpolators_[0]->getInterpolationType() == aTabulatedModel.getInterpolationType() &&
+    return this->getInterpolationType() == aTabulatedModel.getInterpolationType() &&
            firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState();
 }
 
