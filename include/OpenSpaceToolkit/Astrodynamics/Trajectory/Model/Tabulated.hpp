@@ -48,13 +48,11 @@ using ostk::physics::time::Scale;
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 
-#define DEFAULT_TABULATED_INTERPOLATION_TYPE Tabulated::InterpolationType::Linear
-
-/// @brief Tabulated trajectory model
+/// @brief Tabulated profile model
 ///
-///                      Interpolation is performed between states using the specified interpolation scheme.
-///                      For now, linear, barycentric rational and cubic spline interpolation schemes are
-///                      supported.
+/// Interpolation is performed between states using the specified interpolation scheme.
+/// For now, linear, barycentric rational and cubic spline interpolation schemes are
+/// supported.
 class Tabulated : public virtual Model
 {
    public:
@@ -69,7 +67,7 @@ class Tabulated : public virtual Model
 
     Tabulated(
         const Array<State>& aStateArray,
-        const InterpolationType& anInterpolationType = DEFAULT_TABULATED_INTERPOLATION_TYPE
+        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
     );
 
     virtual Tabulated* clone() const override;

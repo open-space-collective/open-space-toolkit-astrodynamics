@@ -47,20 +47,15 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
     lastState_ = stateArray.accessLast();
 
     VectorXd timestamps(stateArray.getSize());
-    MatrixXd coordinates(stateArray.getSize(), 9);  // 3 Position, 3 Velocity, 3 Angular Velocity
+    MatrixXd coordinates(
+        stateArray.getSize(), firstState_.accessCoordinates().size()
+    );  // 3 Position, 3 Velocity, 4 Quaternions, 3 Angular Velocity
     // TBI: Should we just interpolate Quaternions directly or should we use SLERP?
 
     for (Index i = 0; i < stateArray.getSize(); ++i)
     {
         timestamps(i) = (stateArray[i].accessInstant() - stateArray.accessFirst().accessInstant()).inSeconds();
-
-        VectorXd coordinatesRow(9);
-        coordinatesRow << stateArray[i].accessCoordinates()[0], stateArray[i].accessCoordinates()[1],
-            stateArray[i].accessCoordinates()[2], stateArray[i].accessCoordinates()[3],
-            stateArray[i].accessCoordinates()[4], stateArray[i].accessCoordinates()[5],
-            stateArray[i].accessCoordinates()[10], stateArray[i].accessCoordinates()[11],
-            stateArray[i].accessCoordinates()[12];
-        coordinates.row(i) = coordinatesRow
+        coordinates.row(i) = stateArray.accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -125,70 +120,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
-    {
-        throw ostk::core::error::RuntimeError(String::Format(
-            "Provided instant [{}] is outside of interpolation range [{}, {}].",
-            anInstant.toString(),
-            firstState_.accessInstant().toString(),
-            lastState_.accessInstant().toString()
-        ));
-    }
-
-    VectorXd interpolatedCoordinates(interpolators_.getSize());
+    VectorXd interpolatedCoordinates(interpolators_.getSize() + 4);
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
         interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
     }
 
-    const Shared<const Frame>& frame = firstState_.accessFrame();
-    const Shared<const CoordinatesBroker>& coordinatesBroker = firstState_.accessCoordinatesBroker();
-
-    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker);
-
-    if ((stateRange.first != nullptr) && (stateRange.second != nullptr))
-    {
-        const State& previousState = *(stateRange.first);
-        const State& nextState = *(stateRange.second);
-
-        const Real ratio = Duration::Between(previousState.accessInstant(), anInstant).inSeconds() /
-                           Duration::Between(previousState.accessInstant(), nextState.accessInstant()).inSeconds();
-
-        return {
-            anInstant,
-            Position {
-                previousState.getPosition().accessCoordinates() +
-                    ratio *
-                        (nextState.getPosition().accessCoordinates() - previousState.getPosition().accessCoordinates()),
-                previousState.getPosition().getUnit(),
-                previousState.getPosition().accessFrame()
-            },
-            Velocity {
-                previousState.getVelocity().accessCoordinates() +
-                    ratio *
-                        (nextState.getVelocity().accessCoordinates() - previousState.getVelocity().accessCoordinates()),
-                previousState.getVelocity().getUnit(),
-                previousState.getVelocity().accessFrame()
-            },
-            Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
-            previousState.getAngularVelocity() +
-                ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity()),
-            previousState.getFrame()
-        };
-    }
-    else if (stateRange.first != nullptr)
-    {
-        return *(stateRange.first);
-    }
-    else if (stateRange.second != nullptr)
-    {
-        return *(stateRange.second);
-    }
-
-    throw ostk::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString());
-
-    return State::Undefined();
+    return stateBuilder_.build(anInstant, interpolatedCoordinates);
 }
 
 Axes Tabulated::getAxesAt(const Instant& anInstant) const
@@ -276,102 +215,6 @@ bool Tabulated::operator==(const Model& aModel) const
 bool Tabulated::operator!=(const Model& aModel) const
 {
     return !((*this) == aModel);
-}
-
-Pair<const State*, const State*> Tabulated::accessStateRangeAt(const Instant& anInstant) const
-{
-    using ostk::core::container::Unpack;
-
-    State const* previousStatePtr = nullptr;
-    State const* nextStatePtr = nullptr;
-
-    while (true)  // To be improved
-    {
-        Unpack(previousStatePtr, nextStatePtr) = this->accessStateRangeAtIndex(stateIndex_);  // Check index cache
-
-        if ((previousStatePtr != nullptr) && (nextStatePtr != nullptr))
-        {
-            if ((previousStatePtr->accessInstant() <= anInstant) && (anInstant <= nextStatePtr->accessInstant()))
-            {
-                if (previousStatePtr->accessInstant() == anInstant)
-                {
-                    return {nullptr, previousStatePtr};
-                }
-                else if (nextStatePtr->accessInstant() == anInstant)
-                {
-                    return {nextStatePtr, nullptr};
-                }
-
-                return {previousStatePtr, nextStatePtr};
-            }
-            else
-            {
-                if (anInstant < previousStatePtr->accessInstant())
-                {
-                    if (stateIndex_ > 0)
-                    {
-                        stateIndex_--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if ((states_.getSize() > 0) && (stateIndex_ < (states_.getSize() - 1)))
-                    {
-                        stateIndex_++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-        else if (previousStatePtr != nullptr)
-        {
-            if (previousStatePtr->accessInstant() == anInstant)
-            {
-                return {nullptr, previousStatePtr};
-            }
-            else
-            {
-                if (anInstant < previousStatePtr->accessInstant())
-                {
-                    if (stateIndex_ > 0)
-                    {
-                        stateIndex_--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    return {nullptr, nullptr};
-                }
-            }
-        }
-        else
-        {
-            stateIndex_ = 0;
-
-            break;
-        }
-    }
-
-    return {nullptr, nullptr};
-}
-
-Pair<const State*, const State*> Tabulated::accessStateRangeAtIndex(const Index& anIndex) const
-{
-    const State* previousStatePtr = (anIndex < states_.getSize()) ? &(states_.at(anIndex)) : nullptr;
-    const State* nextStatePtr = ((anIndex + 1) < states_.getSize()) ? &(states_.at(anIndex + 1)) : nullptr;
-
-    return {previousStatePtr, nextStatePtr};
 }
 
 }  // namespace model
