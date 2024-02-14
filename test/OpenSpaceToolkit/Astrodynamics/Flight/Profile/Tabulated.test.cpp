@@ -20,8 +20,8 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::coordinate::Frame;
 
-using ostk::astro::trajectory::State;
-using ostk::astro::flight::profile::models::Tabulated;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::flight::profile::model::Tabulated;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::testing::Test
 {
@@ -53,9 +53,12 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::
             const Vector3d angularVelocity = {0.0, 0.0, 0.0};
             states_.add({instant, position, velocity, attitude, angularVelocity, Frame::GCRF()});
         }
+
+        tabulated_ = {states_};
     }
 
     Array<State> states_ = Array<State>::Empty();
+    Tabulated tabulated_ = {states_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Constructor)
@@ -67,46 +70,41 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, EqualToOperator)
 {
-    const Tabulated tabulated = {states_};
-
     {
-        EXPECT_TRUE(tabulated == tabulated);
+        EXPECT_TRUE(tabulated_ == tabulated_);
     }
 
     {
         const Array<State> statesSubset = {states_[0]};
         const Tabulated tabulatedSubset = {statesSubset};
-        EXPECT_FALSE(tabulated == tabulatedSubset);
+        EXPECT_FALSE(tabulated_ == tabulatedSubset);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, NotEqualToOperator)
 {
-    const Tabulated tabulated = {states_};
-
     {
-        EXPECT_FALSE(tabulated != tabulated);
+        EXPECT_FALSE(tabulated_ != tabulated_);
     }
 
     {
         const Array<State> statesSubset = {states_[0]};
         const Tabulated tabulatedSubset = {statesSubset};
-        EXPECT_TRUE(tabulated != tabulatedSubset);
+        EXPECT_TRUE(tabulated_ != tabulatedSubset);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, StreamOperator)
 {
     {
-        const Tabulated tabulated = {states_};
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << tabulated << std::endl);
+        EXPECT_NO_THROW(std::cout << tabulated_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Print)
 {
     testing::internal::CaptureStdout();
@@ -120,8 +118,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, IsDefined)
 {
     {
-        const Tabulated tabulated = {states_};
-        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_TRUE(tabulated_.isDefined());
     }
 
     {
@@ -133,8 +130,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, IsDefined
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
 {
     {
-        const Tabulated tabulated = {states_};
-        const Interval interval = tabulated.getInterval();
+        const Interval interval = tabulated_.getInterval();
         EXPECT_EQ(interval.getStart(), states_.accessFirst().accessInstant());
         EXPECT_EQ(interval.getEnd(), states_.accessLast().accessInstant());
     }
@@ -143,10 +139,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, CalculateStateAt)
 {
     {
-        const Tabulated tabulated = {states_};
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
 
-        const State state = tabulated.calculateStateAt(instant);
+        const State state = tabulated_.calculateStateAt(instant);
 
         EXPECT_EQ(state.getInstant(), instant);
 
@@ -167,8 +162,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, getAxesAt)
 {
-    const Tabulated tabulated = {states_};
-
     // undefined
     {
         const Tabulated undefinedTabulated = {{}};
@@ -180,28 +173,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, getAxesAt
     // instant undefined
     {
         const Instant instant = Instant::Undefined();
-        EXPECT_THROW(tabulated.getAxesAt(instant), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(tabulated_.getAxesAt(instant), ostk::core::error::runtime::Undefined);
     }
 
     // not yet implemented
     {
         EXPECT_THROW(
-            tabulated.getAxesAt(states_.accessFirst().accessInstant()), ostk::core::error::runtime::ToBeImplemented
+            tabulated_.getAxesAt(states_.accessFirst().accessInstant()), ostk::core::error::runtime::ToBeImplemented
         );
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, getBodyFrame)
 {
-    const Tabulated tabulated = {states_};
-
     // instant undefined
     {
         const String frameName = String::Empty();
-        EXPECT_THROW(tabulated.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(tabulated_.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_THROW(tabulated.getBodyFrame("Body Frame Name"), ostk::core::error::runtime::ToBeImplemented);
+        EXPECT_THROW(tabulated_.getBodyFrame("Body Frame Name"), ostk::core::error::runtime::ToBeImplemented);
     }
 }
