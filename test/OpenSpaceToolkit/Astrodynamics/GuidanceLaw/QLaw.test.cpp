@@ -38,7 +38,6 @@ using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
 using ostk::mathematics::geometry::d3::object::Point;
 
-using ostk::physics::data::Scalar;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;

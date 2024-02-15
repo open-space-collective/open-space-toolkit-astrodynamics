@@ -12,7 +12,6 @@ from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
-from ostk.physics.unit import Derived
 
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE

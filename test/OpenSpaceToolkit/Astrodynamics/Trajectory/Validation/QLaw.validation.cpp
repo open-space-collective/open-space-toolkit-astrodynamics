@@ -15,7 +15,6 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
@@ -69,7 +68,6 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using ostk::physics::environment::Object;
@@ -117,10 +115,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation
             {1.0, 2.0, 3.0}
         ));
 
-        const PropulsionSystem propulsionSystem = {
-            Scalar(0.1, PropulsionSystem::thrustSIUnit),
-            Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
-        };
+        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
 
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;
@@ -218,10 +213,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
-    const PropulsionSystem propulsionSystem = {
-        Scalar(1.0, PropulsionSystem::thrustSIUnit),
-        Scalar(3100.0, PropulsionSystem::specificImpulseSIUnit),
-    };
+    const PropulsionSystem propulsionSystem = {1.0, 3100.0};
 
     const SatelliteSystem satelliteSystem = {
         mass,
@@ -318,10 +310,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
-    const PropulsionSystem propulsionSystem = {
-        Scalar(2.0, PropulsionSystem::thrustSIUnit),
-        Scalar(2000.0, PropulsionSystem::specificImpulseSIUnit),
-    };
+    const PropulsionSystem propulsionSystem = {2.0, 2000.0};
 
     const SatelliteSystem satelliteSystem = {
         mass,
@@ -408,10 +397,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
-    const PropulsionSystem propulsionSystem = {
-        Scalar(1.0, PropulsionSystem::thrustSIUnit),
-        Scalar(1000.0, PropulsionSystem::specificImpulseSIUnit),
-    };
+    const PropulsionSystem propulsionSystem = {1.0, 1000.0};
 
     const SatelliteSystem satelliteSystem = {
         mass,

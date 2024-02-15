@@ -18,7 +18,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
@@ -74,7 +73,6 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -120,10 +118,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testin
             {1.0, 2.0, 3.0}
         ));
 
-        const PropulsionSystem propulsionSystem = {
-            Scalar(0.1, PropulsionSystem::thrustSIUnit),
-            Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
-        };
+        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
 
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;
@@ -194,10 +189,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    const PropulsionSystem propulsionSystem = {
-        Scalar(1e-1, PropulsionSystem::thrustSIUnit),
-        Scalar(3000.0, PropulsionSystem::specificImpulseSIUnit),
-    };
+    const PropulsionSystem propulsionSystem = {1e-1, 3000.0};
 
     const SatelliteSystem satelliteSystem = SatelliteSystemBuilder::Default()
                                                 .withPropulsionSystem(propulsionSystem)

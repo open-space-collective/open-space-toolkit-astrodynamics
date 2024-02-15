@@ -26,14 +26,7 @@ using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::data::Scalar;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
-using ostk::physics::unit::ElectricCurrent;
-using ostk::physics::unit::Angle;
-using ostk::physics::unit::Derived;
-using ostk::physics::Unit;
 
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystemBuilder;

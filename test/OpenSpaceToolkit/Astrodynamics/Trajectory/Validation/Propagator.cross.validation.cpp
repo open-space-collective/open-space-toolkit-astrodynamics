@@ -19,7 +19,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
@@ -81,7 +80,6 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -129,10 +127,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation : public ::testi
             {1.0, 2.0, 3.0}
         ));
 
-        const PropulsionSystem propulsionSystem = {
-            Scalar(0.1, PropulsionSystem::thrustSIUnit),
-            Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
-        };
+        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
 
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;
@@ -662,12 +657,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
 
     // Coordinates Broker (scenario-independent)
-    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinateBroker>(CoordinateBroker({
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-            CoordinateSubset::Mass(),
-        }));
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
 
     // Setup initial state
     VectorXd initialCoordinates(7);
@@ -683,10 +677,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     };
 
     // Setup satellite system
-    PropulsionSystem propulsionSystem = {
-        Scalar(thrustReal, PropulsionSystem::thrustSIUnit),
-        Scalar(specificImpulseReal, PropulsionSystem::specificImpulseSIUnit),
-    };
+    PropulsionSystem propulsionSystem = {thrustReal, specificImpulseReal};
 
     const Composite satelliteGeometry(Cuboid(
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
@@ -1209,14 +1200,13 @@ TEST_P(
         LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
 
     // Coordinates Broker (scenario-independent)
-    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinateBroker>(CoordinateBroker({
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-            CoordinateSubset::Mass(),
-            CoordinateSubset::SurfaceArea(),
-            CoordinateSubset::DragCoefficient(),
-        }));
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
 
     // Setup initial conditions
     VectorXd initialCoordinates(9);
@@ -1232,10 +1222,7 @@ TEST_P(
     };
 
     // Setup satellite system
-    PropulsionSystem propulsionSystem = {
-        Scalar(thrustReal, PropulsionSystem::thrustSIUnit),
-        Scalar(specificImpulseReal, PropulsionSystem::specificImpulseSIUnit),
-    };
+    PropulsionSystem propulsionSystem = {thrustReal, specificImpulseReal};
 
     const Composite satelliteGeometry(Cuboid(
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}

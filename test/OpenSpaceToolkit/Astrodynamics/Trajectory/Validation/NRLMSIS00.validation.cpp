@@ -16,7 +16,6 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/CSSISpaceWeather.hpp>
@@ -66,7 +65,6 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
-using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -109,10 +107,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation : public ::t
             {1.0, 2.0, 3.0}
         ));
 
-        const PropulsionSystem propulsionSystem = {
-            Scalar(0.1, PropulsionSystem::thrustSIUnit),
-            Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
-        };
+        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
 
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;

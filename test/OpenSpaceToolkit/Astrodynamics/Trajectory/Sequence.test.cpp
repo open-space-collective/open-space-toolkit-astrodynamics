@@ -49,7 +49,6 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::data::Scalar;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
@@ -595,14 +594,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
     );
 
-    const Shared<const CoordinateBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinateBroker>(CoordinateBroker({
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-            CoordinateSubset::Mass(),
-            CoordinateSubset::SurfaceArea(),
-            CoordinateSubset::DragCoefficient(),
-        }));
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
 
     VectorXd coordinates(9);
     coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass + 100.0, surfaceArea, dragCoefficient;
