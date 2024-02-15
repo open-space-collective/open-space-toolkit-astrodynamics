@@ -4,7 +4,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Solvers_TemporalConditionSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(pybind11::module& aModule)
 {
     using namespace pybind11;
 
