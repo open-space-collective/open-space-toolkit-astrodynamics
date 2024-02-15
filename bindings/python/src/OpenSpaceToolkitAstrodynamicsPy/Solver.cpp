@@ -9,6 +9,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver(pybind11::module& aModule)
     auto solver = aModule.def_submodule("solver");
 
     // Add objects to "solver" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(solver);
-    OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(solver);
+    OpenSpaceToolkitAstrodynamicsPy_Solvers_TemporalConditionSolver(solver);
+    OpenSpaceToolkitAstrodynamicsPy_Solvers_FiniteDifferenceSolver(solver);
 }
