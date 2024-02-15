@@ -20,7 +20,8 @@
       :template: custom-class-template.rst
       :nosignatures:
    
-      NumericalSolver
+      FiniteDifferenceSolver
+      TemporalConditionSolver
    
    
 

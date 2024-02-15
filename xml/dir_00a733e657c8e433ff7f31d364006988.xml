@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_00a733e657c8e433ff7f31d364006988" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model</compoundname>
+    <innerfile refid="_flight_2_profile_2_model_2_tabulated_8cpp">Tabulated.cpp</innerfile>
+    <innerfile refid="_transform_8cpp">Transform.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/"/>
+  </compounddef>
+</doxygen>

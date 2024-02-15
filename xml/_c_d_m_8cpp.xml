@@ -46,14 +46,6 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp</label>
-        <link refid="_c_d_m_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
       <node id="6">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
@@ -168,6 +160,14 @@
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp</label>
+        <link refid="_c_d_m_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -853,6 +853,6 @@
 <codeline lineno="671"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="672"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp"/>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp"/>
   </compounddef>
 </doxygen>

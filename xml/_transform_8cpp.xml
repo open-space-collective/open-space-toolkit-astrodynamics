@@ -111,6 +111,16 @@
       <node id="8">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp</label>
       </node>
+      <node id="1">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp</label>
+        <link refid="_transform_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="4">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp</label>
         <link refid="_transform_8hpp"/>
@@ -267,16 +277,6 @@
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp</label>
-        <link refid="_transform_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="37">
@@ -501,6 +501,6 @@
 <codeline lineno="207"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="208"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp"/>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp"/>
   </compounddef>
 </doxygen>

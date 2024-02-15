@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="195" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="18" bodyend="29"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="195" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="18" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1aae8b6ea350fd6d318eff6fc5dcee7e8f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -150,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="202" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="38" bodyend="44"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="202" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="38" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a1c9b71cb27947579acc581b38405952e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header" kindref="compound">CDM::Header</ref></type>
@@ -163,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="204" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="46" bodyend="54"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="204" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="46" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a53bf08d0935e51b986bba804b16ba40c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata" kindref="compound">CDM::RelativeMetadata</ref></type>
@@ -176,7 +176,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="206" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="56" bodyend="64"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="206" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="56" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a90276531651f1129a0ff98591d8cb656" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata" kindref="compound">CDM::Metadata</ref> &gt;</type>
@@ -189,7 +189,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="208" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="66" bodyend="74"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="208" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="66" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1abcc4b489f8a0f8ad7b8dda40bbf1f6cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_data" kindref="compound">CDM::Data</ref> &gt;</type>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="210" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="76" bodyend="84"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="210" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="76" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1ae939ce6ccfeda04cd0b107b0182b7035" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata" kindref="compound">CDM::Metadata</ref></type>
@@ -219,7 +219,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="212" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="86" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="212" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="86" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a747a825bac9f245f2f72d248b58d7e06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_data" kindref="compound">CDM::Data</ref></type>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="214" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="96" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="214" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="96" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a934683f21b1b974d5fd14f02f28b87ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -249,7 +249,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="218" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="106" bodyend="114"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="218" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="106" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a194cfac48323d0049bd6c679878a951e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -262,7 +262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="220" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="116" bodyend="124"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="220" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="116" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a8c2675b2760415e6d4b8f2f3046eec76" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -275,7 +275,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="222" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="126" bodyend="134"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="222" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="126" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1abfb05fa4b1e2514a0ceca0add99678d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -288,7 +288,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="224" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="136" bodyend="144"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="224" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="136" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1ab4e43646326fd689c5cbc2fca0c858b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -301,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="226" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="146" bodyend="154"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="226" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="146" bodyend="154"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a85dee52ba28a6b8569eef04561cd344e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -314,7 +314,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="230" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="156" bodyend="164"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="230" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="156" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1ab9aa4e723bda933fd91736bfb3e3c9a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Length</type>
@@ -327,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="232" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="166" bodyend="174"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="232" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="166" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a089dade3b23bcd4724815a69ce919148" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Position</type>
@@ -340,7 +340,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="234" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="176" bodyend="184"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="234" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="176" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a39081be6fc684dc7529d3ae784444000" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Velocity</type>
@@ -353,7 +353,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="236" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="186" bodyend="194"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="236" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="186" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1aff474fa44e1ae6a77fd2a93e5b1034c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -366,7 +366,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="238" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="196" bodyend="204"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="238" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="196" bodyend="204"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a90d346d230d84e17686b1dd78c80e703" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -379,7 +379,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="240" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="206" bodyend="214"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="240" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="206" bodyend="214"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a3bf68b338361344c4eff402b94cb4ec5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -396,7 +396,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="244" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="216" bodyend="226"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="244" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="216" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a4e05011fbcbf5da1dafb3714812124b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -413,7 +413,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="246" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="228" bodyend="238"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="246" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="228" bodyend="238"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a73cb1f1cec1a7e96e3afa3259622fb93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -430,7 +430,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="248" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="240" bodyend="250"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="248" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="240" bodyend="250"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a3d61e9fd8156359e3eb591bab759859b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a9f9c5f70a1cd3dd3b1644a9c081514af" kindref="member">CDM::ObjectType</ref></type>
@@ -447,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="250" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="252" bodyend="262"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="250" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="252" bodyend="262"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a116fe6d7a470f63940fc44b0fc5f3fc2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -464,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="252" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="264" bodyend="274"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="252" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="264" bodyend="274"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a3ec2065a689b553ac33a1b60c8b2bf4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -481,7 +481,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="254" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="276" bodyend="286"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="254" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="276" bodyend="286"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a76aca466b8a225cee4280e786950b1b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -498,7 +498,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="256" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="288" bodyend="298"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="256" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="288" bodyend="298"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a3a58cae81cd32c89fee6c29c750825d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -515,7 +515,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="258" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="300" bodyend="310"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="258" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="300" bodyend="310"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a30dbc83fdc401e7fda509f5026813a7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -571,7 +571,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="266" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="312" bodyend="324"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="266" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="312" bodyend="324"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -594,7 +594,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="200" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="31" bodyend="36"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="200" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="31" bodyend="36"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -609,7 +609,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="268" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="326" bodyend="349"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="268" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="326" bodyend="349"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1ac73e431632c30fe6ade73fc7a6e4a491" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref></type>
@@ -626,7 +626,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="270" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="351" bodyend="632"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="270" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="351" bodyend="632"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1ac39ad6bfffff582943510554aa2bcdd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref></type>
@@ -643,7 +643,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="272" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="634" bodyend="639"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="272" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="634" bodyend="639"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a7aea10b326214a50641f65e685788b67" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref></type>
@@ -660,7 +660,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="274" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="641" bodyend="646"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="274" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="641" bodyend="646"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1af8967afd6db2b48cd1b0c91023c946c3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a9f9c5f70a1cd3dd3b1644a9c081514af" kindref="member">CDM::ObjectType</ref></type>
@@ -677,7 +677,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="276" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.cpp" bodystart="648" bodyend="666"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="276" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.cpp" bodystart="648" bodyend="666"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

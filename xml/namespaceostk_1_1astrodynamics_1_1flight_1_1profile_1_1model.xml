@@ -39,7 +39,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.cpp" bodystart="50" bodyend="55"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="50" bodyend="55"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

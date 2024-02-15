@@ -11,7 +11,7 @@
     <includes refid="_flight_2_profile_2_model_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp</includes>
     <includes refid="_orbit_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</includes>
     <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
-    <includedby refid="_transform_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp</includedby>
+    <includedby refid="_transform_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp</includedby>
     <includedby refid="_profile_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp</includedby>
     <incdepgraph>
       <node id="21">
@@ -276,6 +276,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp</label>
+        <link refid="_transform_8cpp"/>
+      </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp</label>
         <link refid="_transform_8hpp"/>
@@ -283,10 +287,6 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp</label>
-        <link refid="_transform_8cpp"/>
       </node>
       <node id="3">
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp</label>

@@ -178,6 +178,10 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp</label>
         <link refid="_trajectory_8cpp"/>
       </node>
+      <node id="9">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp</label>
+        <link refid="_transform_8cpp"/>
+      </node>
       <node id="8">
         <label>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp</label>
         <link refid="_transform_8hpp"/>
@@ -211,10 +215,6 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-      </node>
-      <node id="9">
-        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.cpp</label>
-        <link refid="_transform_8cpp"/>
       </node>
       <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp</label>
