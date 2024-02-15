@@ -15,7 +15,7 @@ from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics.access import Generator
-from ostk.astrodynamics.solvers import TemporalConditionSolver
+from ostk.astrodynamics.solver import TemporalConditionSolver
 
 
 @pytest.fixture

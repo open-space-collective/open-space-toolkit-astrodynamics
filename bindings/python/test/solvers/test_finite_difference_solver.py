@@ -9,7 +9,7 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.time import Instant
 from ostk.physics.time import Duration
 
-from ostk.astrodynamics.solvers import FiniteDifferenceSolver
+from ostk.astrodynamics.solver import FiniteDifferenceSolver
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 
