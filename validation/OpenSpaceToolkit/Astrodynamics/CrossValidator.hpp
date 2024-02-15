@@ -33,6 +33,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
+using ostk::math::object::Vector3d;
 using ostk::math::object::VectorXd;
 
 using ostk::physics::coord::Frame;
@@ -95,6 +96,7 @@ class CrossValidator
     /// results of the tool at the current tool, for all output quantities.
     static VectorXd CompareOutputQuantities(
         const State& anOSTkState,
+        const Vector3d& anAccelerationVector,
         const Array<VectorXd>& aReferenceCoordinates,
         const Array<QuantityComparison>& aQuantityComparisons
     );

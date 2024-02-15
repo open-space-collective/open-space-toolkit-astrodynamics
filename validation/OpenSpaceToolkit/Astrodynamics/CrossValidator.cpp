@@ -32,13 +32,13 @@ Array<Array<VectorXd>> CrossValidator::IngestOutputQuantities(
 
             for (Size quantityDimensionIndex = 0; quantityDimensionIndex < quantityDimension; quantityDimensionIndex++)
             {
-                if ((aToolComparison.tool == Tool::GMAT) && (quantity != Quantity::MASS))
+                if ((aToolComparison.tool == Tool::GMAT) && (quantity != Quantity::MASS))  // Brittle here
                 {
                     coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].accessReal() * 1.0e3;
                 }
                 else
                 {
-                    coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].accessReal();
+                    coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].accessReal();  // Gmat and Orekit using different scales?
                 }
                 rowReadIndex++;
             }
@@ -54,6 +54,7 @@ Array<Array<VectorXd>> CrossValidator::IngestOutputQuantities(
 
 VectorXd CrossValidator::CompareOutputQuantities(
     const State& anOSTkState,
+    const Vector3d& anAccelerationVector,
     const Array<VectorXd>& aReferenceCoordinates,
     const Array<QuantityComparison>& aQuantityComparisons
 )
@@ -62,7 +63,9 @@ VectorXd CrossValidator::CompareOutputQuantities(
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
-    for (Size coordinateSubsetIndex = 0; coordinateSubsetIndex < aQuantityComparisons.getSize();
+    std::cout << "Quantity comparisons size" << aQuantityComparisons.getSize() << std::endl;
+
+    for (Size coordinateSubsetIndex = 0; coordinateSubsetIndex < aQuantityComparisons.getSize();  // TBI: Should rename as we store also deltas on accelerations (not related to a coordinateSubset)
          coordinateSubsetIndex++)
     {
         // Get the desired output and the solved state
@@ -85,7 +88,18 @@ VectorXd CrossValidator::CompareOutputQuantities(
                 break;
             }
             case Quantity::MASS:
+            // {
+            //     const VectorXd ostkCoordinateSubset = anOSTkState.inFrame(gcrfSPtr_).extractCoordinates(CoordinatesSubset::Mass());
+
+            //     deltaWithTool[coordinateSubsetIndex] = (referenceCoordinateSubset - ostkCoordinateSubset).norm();
+            //     break;
+            // }
             case Quantity::CARTESIAN_ACCELERATION_GCRF:
+            {
+                std::cout << "HERE" << std::endl;
+                deltaWithTool[coordinateSubsetIndex] = (referenceCoordinateSubset - anAccelerationVector).norm();
+                break;
+            }
             case Quantity::MANEUVER_ACCELERATION_J2000:
             default:
                 throw ostk::core::error::runtime::Wrong("Quantity");

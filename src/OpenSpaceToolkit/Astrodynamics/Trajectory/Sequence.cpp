@@ -33,6 +33,11 @@ const Instant& Sequence::Solution::accessEndInstant() const
     return this->segmentSolutions.accessLast().accessEndInstant();
 }
 
+Array<Segment::Solution> Sequence::Solution::getSegmentSolutions() const
+{
+    return this->segmentSolutions;
+}
+
 Array<State> Sequence::Solution::getStates() const
 {
     if (this->segmentSolutions.isEmpty())

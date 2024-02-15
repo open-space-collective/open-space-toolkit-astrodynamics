@@ -169,8 +169,12 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
     // Instatiate mission sequence app to set up the scenario
     MissionSequence missionSequence = {Parser::ParseYaml(String::Format("{0}/scenarios", pathToData), scenarioName)};
 
+    std::cout << "GUTEN TAG" << std::endl;
+
     // Solve the scenario
     missionSequence.run();
+
+    std::cout << "GUTEN TAG 2" << std::endl;
 
     // Compare with each reference tool
     for (const ToolComparison& toolComparison : toolComparisons)
@@ -178,9 +182,13 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
         const Tool tool = toolComparison.tool;
         const Array<QuantityComparison> quantityComparisons = toolComparison.quantityComparisons;
 
+        std::cout << "E" << std::endl;
+
         // Compare output quantities with reference tool
         const Array<VectorXd> allDeltasWithTool =
             missionSequence.compareResults(Parser::ParseCSV(pathToData, scenarioName, tool), toolComparison);
+
+        std::cout << "F" << std::endl;
 
         for (Size coordinateSubsetIndex = 0; coordinateSubsetIndex < quantityComparisons.getSize();
              coordinateSubsetIndex++)
@@ -188,8 +196,16 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
             const Quantity quantity = quantityComparisons[coordinateSubsetIndex].quantity;
             const Real tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
 
+            std::cout << quantity << std::endl;
+            std::cout << tolerance << std::endl;
+
             const Size maxIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, coordinateSubsetIndex);
+
+            std::cout << "GUTEN TAG" << std::endl;
+
             const Real maxDelta = allDeltasWithTool[maxIndex][coordinateSubsetIndex];
+
+            std::cout << "HOLA" << std::endl;
 
             // Assert tolerance
             EXPECT_LT(maxDelta, tolerance) << String::Format(
@@ -482,6 +498,7 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Th
                 {
                     {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
                     {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                    {Quantity::CARTESIAN_ACCELERATION_GCRF, 1.0},
                 },
             },
             {
@@ -489,6 +506,7 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Th
                 {
                     {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
                     {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
+                    {Quantity::CARTESIAN_ACCELERATION_GCRF, 1.0},
                 },
             },
         },

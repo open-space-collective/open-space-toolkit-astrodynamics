@@ -60,6 +60,10 @@ class Sequence
         /// @return End Instant
         const Instant& accessEndInstant() const;
 
+        /// @brief Get all segment solutions
+        /// @return Array of segment solutions
+        Array<Segment::Solution> getSegmentSolutions() const;
+
         /// @brief Get all states (at variable intervals) that were computed when solving the sequence.
         /// @return Array of states.
         Array<State> getStates() const;

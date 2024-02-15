@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence__
 #define __OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence__
 
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
@@ -21,6 +22,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Parser.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
@@ -34,6 +36,7 @@ using ostk::astro::validation::Parser;
 using ostk::astro::validation::ToolComparison;
 using ostk::astro::validation::QuantityComparison;
 
+using ostk::core::ctnr::Map;
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Dictionary;
 using ostk::core::ctnr::Table;
@@ -44,15 +47,17 @@ using ostk::core::types::Size;
 using ostk::core::types::String;
 
 using ostk::math::object::VectorXd;
+using ostk::math::object::MatrixXd;
 
 using ostk::physics::Environment;
 
 using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::Sequence;
+using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;
 
-/// @brief Holds the OSTk objects and data required to define and run a "Mission Sequence".
+/// @brief Hold the OSTk objects and data required to define and run a "Mission Sequence".
 class MissionSequence
 {
    public:
@@ -85,6 +90,18 @@ class MissionSequence
     /// @brief Access the solved states.
     const Array<State>& accessSolvedStates() const;
 
+    /// @brief Access the dynamics contributions.
+    /// @param aStateArray
+    /// @param aDynamicsSPtr
+    /// @param aFrameSPtr
+    /// @param aCoordinatesSubsetSPtrArray
+    /// @return
+    MatrixXd getDynamicsContribution(const Array<State>& aStateArray, const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetSPtrArray) const;
+
+    MatrixXd getDynamicsAccelerationContribution(
+        const Array<State>& aStateArray, const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
+    ) const;
+
     /// @brief Compare the results of the "Mission Sequence" with the results of a tool.
     ///
     /// @param aReferenceData A table containing the reference data from the tool.
@@ -101,6 +118,7 @@ class MissionSequence
     Array<Shared<Dynamics>> dynamics_;
     Sequence sequence_;
     Array<State> solvedStates_;
+    Array<VectorXd> solvedAccelerations_;
 };
 
 }  // namespace validation
