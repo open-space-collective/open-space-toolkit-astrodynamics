@@ -15,7 +15,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/RootSolver.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Solvers.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Solver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
 
 PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
@@ -34,7 +34,7 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 #endif
 
     // [TBI] These modules will likely be moved to ostk-mathematics in a future version
-    OpenSpaceToolkitAstrodynamicsPy_Solvers(m);
+    OpenSpaceToolkitAstrodynamicsPy_Solver(m);
     OpenSpaceToolkitAstrodynamicsPy_RootSolver(m);
 
     // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
