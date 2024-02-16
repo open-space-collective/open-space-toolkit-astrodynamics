@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         "Maneuver",
         R"doc(
             Spacecraft Maneuver class.
-            Stores information and metadata about a finite maneuver that will be or has been performed.
+            Store an acceleration and mass flow rate profile of a spacecraft maneuver.
         )doc"
     )
 
@@ -30,9 +30,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
 
                 Args:
                     instants (list[Instant]): An array of instants, must be sorted.
-                    acceleration_profile (list[numpy.ndarray]): An acceleration profile of the maneuver, one numpy.ndarray per instant.
+                    acceleration_profile (list[numpy.ndarray]): An acceleration profile of the maneuver, one numpy.ndarray per instant in m/s^2.
                     frame (Frame): A frame in which the acceleration profile is defined.
-                    mass_flow_rate_profile (list[float]):  A mass flow rate profile of the maneuver, one float per instant.
+                    mass_flow_rate_profile (list[float]):  A mass flow rate profile of the maneuver, one float per instant in kg/s.
             )doc"
         )
 
@@ -70,7 +70,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     frame (Frame, optional): The frame in which the acceleration profile is defined. Defaults to the default acceleration frame.
 
                 Returns:
-                    list[numpy.ndarray]: The acceleration profile.
+                    list[numpy.ndarray]: The acceleration profile (m/s^2).
             )doc"
         )
         .def(
@@ -80,7 +80,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                 Get the mass flow rate profile.
 
                 Returns:
-                    list[float]: The mass flow rate profile.
+                    list[float]: The mass flow rate profile (kg/s).
             )doc"
         )
         .def(
@@ -100,7 +100,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                 Calculate the delta-v of the maneuver.
 
                 Returns:
-                    Scalar: The delta-v value.
+                    float: The delta-v value (m/s).
             )doc"
         )
         .def(
@@ -110,7 +110,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                 Calculate the delta mass of the maneuver.
 
                 Returns:
-                    Mass: The delta mass (always positive).
+                    Mass: The delta mass (always positive) (kg).
             )doc"
         )
         .def(
@@ -124,7 +124,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     initial_spacecraft_mass (Mass): The initial mass of the spacecraft.
 
                 Returns:
-                    Scalar: The average thrust.
+                    float: The average thrust (N).
             )doc"
         )
         .def(
@@ -138,7 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     initial_spacecraft_mass (Mass): The initial mass of the spacecraft.
 
                 Returns:
-                    Scalar: The average specific impulse.
+                    float: The average specific impulse (s).
             )doc"
         )
         .def(
@@ -156,7 +156,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     interpolation_type (Interpolator.Type, optional): The interpolation type to use. Defaults to the default interpolation type.
 
                 Returns:
-                    numpy.ndarray: The acceleration vector.
+                    numpy.ndarray: The acceleration vector (m/s^2).
             )doc"
         )
         .def(
@@ -174,7 +174,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     interpolation_type (Interpolator.Type, optional): The interpolation type to use. Defaults to the default interpolation type.
 
                 Returns:
-                    list[numpy.ndarray]: The acceleration vectors.
+                    list[numpy.ndarray]: The acceleration vectors (m/s^2).
             )doc"
         )
         .def(
@@ -190,7 +190,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     interpolation_type (Interpolator.Type, optional): The interpolation type to use. Defaults to the default interpolation type.
 
                 Returns:
-                    float: The mass flow rate.
+                    float: The mass flow rate (kg/s).
             )doc"
         )
         .def(
@@ -206,7 +206,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     interpolation_type (Interpolator.Type, optional): The interpolation type to use. Defaults to the default interpolation type.
 
                 Returns:
-                    list[float]: The mass flow rates.
+                    list[float]: The mass flow rates (kg/s).
             )doc"
         )
         .def(

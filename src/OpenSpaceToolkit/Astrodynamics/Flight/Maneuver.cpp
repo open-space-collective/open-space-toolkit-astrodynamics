@@ -88,7 +88,7 @@ Interval Maneuver::getInterval() const
     return Interval::Closed(instants_.accessFirst(), instants_.accessLast());
 }
 
-Scalar Maneuver::calculateDeltaV() const
+Real Maneuver::calculateDeltaV() const
 {
     Real weightedAccelerationMagnitudeSum = 0.0;
     Real totalTime = 0.0;
@@ -100,10 +100,7 @@ Scalar Maneuver::calculateDeltaV() const
         totalTime += timeStep;
     }
 
-    return {
-        weightedAccelerationMagnitudeSum / totalTime,
-        Unit::Derived(Derived::Unit::Velocity(Length::Unit::Meter, Time::Unit::Second))
-    };
+    return weightedAccelerationMagnitudeSum / totalTime;
 }
 
 Mass Maneuver::calculateDeltaMass() const
@@ -120,7 +117,7 @@ Mass Maneuver::calculateDeltaMass() const
     return {weightedMassSum, Mass::Unit::Kilogram};
 }
 
-Scalar Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
+Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 {
     Real weightedThrustSum = 0.0;
     Real weightedMassSum = anInitialSpacecraftMass.inKilograms();
@@ -134,17 +131,16 @@ Scalar Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) con
         totalTime += timeStep;
     }
 
-    return {weightedThrustSum / totalTime, PropulsionSystem::thrustSIUnit};
+    return weightedThrustSum / totalTime;
 }
 
-Scalar Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
+Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
 {
     const Real averageSpecificImpulse =
-        (this->calculateAverageThrust(anInitialSpacecraftMass).getValue() *
-         this->getInterval().getDuration().inSeconds()) /
+        (this->calculateAverageThrust(anInitialSpacecraftMass) * this->getInterval().getDuration().inSeconds()) /
         (this->calculateDeltaMass().inKilograms() * EarthGravitationalModel::gravityConstant);
 
-    return {averageSpecificImpulse, PropulsionSystem::specificImpulseSIUnit};
+    return averageSpecificImpulse;
 }
 
 Vector3d Maneuver::calculateAccelerationAt(

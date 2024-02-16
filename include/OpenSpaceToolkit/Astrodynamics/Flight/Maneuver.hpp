@@ -14,15 +14,9 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Unit.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -49,15 +43,9 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::physics::coordinate::Frame;
-using ostk::physics::data::Scalar;
-using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
-using ostk::physics::Unit;
-using ostk::physics::unit::Derived;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
 
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -66,7 +54,7 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 
 #define DEFAULT_MANEUVER_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
-/// @brief Stores information and metadata about a maneuver as performed by a spacecraft.
+/// @brief Store an acceleration and mass flow rate profile of a spacecraft maneuver.
 class Maneuver
 {
    public:
@@ -75,9 +63,9 @@ class Maneuver
     /// @brief Constructor
     ///
     /// @param anInstantArray An array of instants, must be sorted
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant
+    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
-    /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver, one Real per instant
+    /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver, one Real per instant in kg/s
     Maneuver(
         const Array<Instant>& anInstantArray,
         const Array<Vector3d>& anAccelerationProfile,
@@ -110,38 +98,38 @@ class Maneuver
     ///
     /// @param aFrameSPtr A frame in which the acceleration profile is to be defined
     ///
-    /// @return The acceleration profile
+    /// @return The acceleration profile (m/s^2)
     Array<Vector3d> getAccelerationProfile(const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr) const;
 
     /// @brief Get the mass flow rate profile of the maneuver
-    /// @return The mass flow rate profile
+    /// @return The mass flow rate profile (kg/s)
     Array<Real> getMassFlowRateProfile() const;
 
     /// @brief Get the interval of the maneuver
     /// @return The interval
     Interval getInterval() const;
 
-    /// @brief Calculate the deltaV (scalar metric) imparted during the maneuver
-    /// @return The deltaV
-    Scalar calculateDeltaV() const;
+    /// @brief Calculate the deltaV magnitude imparted during the maneuver
+    /// @return The deltaV (m/s)
+    Real calculateDeltaV() const;
 
     /// @brief Calculate the delta Mass lost during the maneuver
-    /// @return The delta Mass
+    /// @return The delta Mass (kg)
     Mass calculateDeltaMass() const;
 
     /// @brief Calculate the average thrust imparted during the maneuver
     ///
     /// @param anInitialSpacecraftMass The initial mass of the spacecraft
     ///
-    /// @return The average thrust
-    Scalar calculateAverageThrust(const Mass& anInitialSpacecraftMass) const;
+    /// @return The average thrust (N)
+    Real calculateAverageThrust(const Mass& anInitialSpacecraftMass) const;
 
     /// @brief Calculate the average specific impulse produced during the maneuver
     ///
     /// @param anInitialSpacecraftMass The initial mass of the spacecraft
     ///
-    /// @return The average specific impulse
-    Scalar calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const;
+    /// @return The average specific impulse (s)
+    Real calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const;
 
     /// @brief Calculate the (interpolated) acceleration at a given instant during the maneuver
     ///
@@ -149,7 +137,7 @@ class Maneuver
     /// @param aFrameSPtr The frame in which the acceleration is to be defined
     /// @param anInterpolationType The interpolation type to use
     ///
-    /// @return The acceleration
+    /// @return The acceleration (m/s^2)
     Vector3d calculateAccelerationAt(
         const Instant& anInstant,
         const Shared<const Frame>& aFrameSPtr,
@@ -162,7 +150,7 @@ class Maneuver
     /// @param aFrameSPtr The frame in which the accelerations are to be defined
     /// @param anInterpolationType The interpolation type to use
     ///
-    /// @return The accelerations
+    /// @return The accelerations (m/s^2)
     Array<Vector3d> calculateAccelerationsAt(
         const Array<Instant>& anInstantArray,
         const Shared<const Frame>& aFrameSPtr,
@@ -174,7 +162,7 @@ class Maneuver
     /// @param anInstant The instant at which to calculate the mass flow rate
     /// @param anInterpolationType The interpolation type to use
     ///
-    /// @return The mass flow rate
+    /// @return The mass flow rate (kg/s)
     Real calculateMassFlowRateAt(
         const Instant& anInstant, const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
     ) const;
@@ -184,7 +172,7 @@ class Maneuver
     /// @param anInstantArray The instants at which to calculate the mass flow rates
     /// @param anInterpolationType The interpolation type to use
     ///
-    /// @return The mass flow rates
+    /// @return The mass flow rates (kg/s)
     Array<Real> calculateMassFlowRatesAt(
         const Array<Instant>& anInstantArray,
         const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
@@ -210,9 +198,9 @@ class Maneuver
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///
     /// @param anInstantArray An array of instants, must be sorted
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant
+    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
-    /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver
+    /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     static Maneuver FromConstantMassFlowRateProfile(
         const Array<Instant>& anInstantArray,
         const Array<Vector3d>& anAccelerationProfile,

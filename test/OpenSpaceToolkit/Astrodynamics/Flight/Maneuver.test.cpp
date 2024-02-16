@@ -11,15 +11,10 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Unit.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
@@ -42,15 +37,10 @@ using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
-using ostk::physics::data::Scalar;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
-using ostk::physics::Unit;
-using ostk::physics::unit::Derived;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
 
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::flight::Maneuver;
@@ -233,7 +223,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities)
 {
     {
-        EXPECT_NEAR(0.001394181, defaultManeuver_.calculateDeltaV().getValue(), 1.0e-4);
+        EXPECT_NEAR(0.001394181, defaultManeuver_.calculateDeltaV(), 1.0e-4);
     }
 
     {
@@ -241,16 +231,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
     }
 
     {
-        EXPECT_NEAR(
-            0.1393676608, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram)).getValue(), 1.0e-4
-        );
+        EXPECT_NEAR(0.1393676608, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram)), 1.0e-4);
     }
 
     {
         EXPECT_NEAR(
-            789.816,
-            defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram)).getValue(),
-            1.0e-4
+            789.816, defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram)), 1.0e-4
         );
     }
 }
