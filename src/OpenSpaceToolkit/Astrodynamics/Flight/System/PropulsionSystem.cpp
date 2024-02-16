@@ -66,7 +66,7 @@ void PropulsionSystem::print(std::ostream& anOutputStream, bool displayDecorator
     ostk::core::utils::Print::Line(anOutputStream)
         << "Specific Impulse:" << (specificImpulse_.isDefined() ? specificImpulse_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Mass Flow Rate:" << (getMassFlowRate().isDefined() ? getMassFlowRate().toString() : "Undefined");
+        << "Mass Flow Rate:" << (massFlowRate_.isDefined() ? massFlowRate_.toString() : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

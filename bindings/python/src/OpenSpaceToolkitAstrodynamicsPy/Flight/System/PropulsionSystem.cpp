@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Physics/Unit.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybind11::module& aModule)
@@ -9,8 +7,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
     using namespace pybind11;
 
     using ostk::core::type::Real;
-
-    using ostk::physics::unit::Mass;
 
     using ostk::astrodynamics::flight::system::PropulsionSystem;
 
