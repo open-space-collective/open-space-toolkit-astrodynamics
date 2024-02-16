@@ -71,6 +71,18 @@ class Maneuver
         const Array<Real>& aMassFlowRateProfile
     );
 
+    /// @brief Equal to operator
+    ///
+    /// @param aManeuver A maneuver
+    /// @return True if maneuvers are equal
+    bool operator==(const Maneuver& aManeuver) const;
+
+    /// @brief Not equal to operator
+    ///
+    /// @param aManeuver A maneuver
+    /// @return True if maneuvers are not equal
+    bool operator!=(const Maneuver& aManeuver) const;
+
     /// @brief Output stream operator
     ///
     /// @code{.cpp}

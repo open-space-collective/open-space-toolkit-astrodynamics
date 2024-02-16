@@ -56,6 +56,18 @@ Maneuver::Maneuver(
     accelerationProfileDefaultFrame_ = this->convertAccelerationProfileFrame(aFrameSPtr);
 }
 
+bool Maneuver::operator==(const Maneuver& aManeuver) const
+{
+    return instants_ == aManeuver.instants_ &&
+           accelerationProfileDefaultFrame_ == aManeuver.accelerationProfileDefaultFrame_ &&
+           massFlowRateProfile_ == aManeuver.massFlowRateProfile_;
+}
+
+bool Maneuver::operator!=(const Maneuver& aManeuver) const
+{
+    return !(*this == aManeuver);
+}
+
 std::ostream& operator<<(std::ostream& anOutputStream, const Maneuver& aManeuver)
 {
     aManeuver.print(anOutputStream);
@@ -200,6 +212,7 @@ Array<Vector3d> Maneuver::convertAccelerationProfileFrame(const Shared<const Fra
     Array<Vector3d> accelerationProfileInCustomFrame = Array<Vector3d>(instants_.getSize(), Vector3d::Zero());
     for (Size i = 0; i < instants_.getSize(); i++)
     {
+        // TBI: fine a way to check and vet whether or not the frame is local, or quasi-inertial
         accelerationProfileInCustomFrame[i] = aFrameSPtr->getTransformTo(Maneuver::DefaultAccelFrameSPtr, instants_[i])
                                                   .applyToVector(accelerationProfileDefaultFrame_[i]);
     }

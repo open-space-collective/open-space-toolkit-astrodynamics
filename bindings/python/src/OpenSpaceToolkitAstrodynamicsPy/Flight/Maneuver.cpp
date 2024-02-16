@@ -36,6 +36,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             )doc"
         )
 
+        .def(self == self)
+        .def(self != self)
+
         .def("__str__", &(shiftToString<Maneuver>))
         .def("__repr__", &(shiftToString<Maneuver>))
 

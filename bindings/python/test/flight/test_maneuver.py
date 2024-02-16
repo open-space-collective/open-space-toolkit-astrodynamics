@@ -4,13 +4,10 @@ import pytest
 
 import numpy as np
 
-from ostk.mathematics.curve_fitting import Interpolator
 
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
-from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
-from ostk.physics.time import Scale
 from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Mass
 
@@ -66,6 +63,13 @@ class TestManeuver:
         assert maneuver is not None
         assert isinstance(maneuver, Maneuver)
         assert maneuver.is_defined()
+
+    def test_comparators(
+        self,
+        maneuver: Maneuver,
+    ):
+        assert (maneuver == maneuver) is True
+        assert (maneuver != maneuver) is False
 
     def test_getters(
         self,

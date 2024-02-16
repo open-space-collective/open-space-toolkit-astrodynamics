@@ -166,6 +166,52 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, EqualToOperator)
+{
+    {
+        EXPECT_TRUE(defaultManeuver_ == defaultManeuver_);
+    }
+
+    {
+        const Maneuver otherManeuver = {
+            defaultInstants_, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultMassFlowRateProfile_
+        };
+
+        EXPECT_TRUE(defaultManeuver_ == otherManeuver);
+    }
+
+    {
+        const Maneuver otherManeuver = {
+            defaultInstants_, defaultAccelerationProfileDefaultFrame_, secondFrameSPtr_, defaultMassFlowRateProfile_
+        };
+
+        EXPECT_FALSE(defaultManeuver_ == otherManeuver);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, NotEqualToOperator)
+{
+    {
+        EXPECT_FALSE(defaultManeuver_ != defaultManeuver_);
+    }
+
+    {
+        const Maneuver otherManeuver = {
+            defaultInstants_, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultMassFlowRateProfile_
+        };
+
+        EXPECT_FALSE(defaultManeuver_ != otherManeuver);
+    }
+
+    {
+        const Maneuver otherManeuver = {
+            defaultInstants_, defaultAccelerationProfileDefaultFrame_, secondFrameSPtr_, defaultMassFlowRateProfile_
+        };
+
+        EXPECT_TRUE(defaultManeuver_ != otherManeuver);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, StreamOperator)
 {
     testing::internal::CaptureStdout();
