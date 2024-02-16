@@ -5,11 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
-#include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
-#include <OpenSpaceToolkit/Physics/Unit.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 namespace ostk
 {
@@ -22,34 +18,12 @@ namespace system
 
 using ostk::core::type::Real;
 
-using ostk::physics::data::Direction;
-using ostk::physics::data::Scalar;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
-using ostk::physics::unit::ElectricCurrent;
-using ostk::physics::unit::Angle;
-using ostk::physics::unit::Derived;
-using ostk::physics::Unit;
 
 /// @brief Define a propulsion system (constant thrust, constant Isp for now)
 class PropulsionSystem
 {
    public:
-    static Unit thrustSIUnit;
-    static Unit specificImpulseSIUnit;
-    static Unit massFlowRateSIUnit;  // TBI: Define in ostk physics as proper units
-
-    /// @brief Constructor
-    ///
-    /// @code{.cpp}
-    ///              PropulsionSystem propulsion = { ... };
-    /// @endcode
-    ///
-    /// @param aThrust Thrust (scalar)
-    /// @param aSpecificImpulse Specific impulse (scalar)
-    PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecificImpulse);
-
     /// @brief Constructor
     ///
     /// @code{.cpp}
@@ -93,39 +67,39 @@ class PropulsionSystem
     /// @brief Get propulsion system's thrust
     ///
     /// @code{.cpp}
-    ///              Scalar thrust = propulsionSystem.getThrust();
+    ///              Real thrust = propulsionSystem.getThrust();
     /// @endcode
     ///
-    /// @return Scalar
-    Scalar getThrust() const;
+    /// @return Real
+    Real getThrust() const;
 
     /// @brief Get propulsion system's specific impulse
     ///              https://en.wikipedia.org/wiki/Specific_impulse
     ///
     /// @code{.cpp}
-    ///              Scalar specificImpulse = propulsionSystem.getSpecificImpulse();
+    ///              Real specificImpulse = propulsionSystem.getSpecificImpulse();
     /// @endcode
     ///
-    /// @return Scalar
-    Scalar getSpecificImpulse() const;
+    /// @return Real
+    Real getSpecificImpulse() const;
 
     /// @brief Get propulsion system's mass flow rate
     ///
     /// @code{.cpp}
-    ///              Scalar massFlowRate = propulsionSystem.getMassFlowRate();
+    ///              Real massFlowRate = propulsionSystem.getMassFlowRate();
     /// @endcode
     ///
-    /// @return Scalar
-    Scalar getMassFlowRate() const;
+    /// @return Real
+    Real getMassFlowRate() const;
 
     /// @brief Get propulsion system's acceleration
     ///
     /// @code{.cpp}
-    ///              Scalar acceleration = propulsionSystem.getAcceleration();
+    ///              Real acceleration = propulsionSystem.getAcceleration();
     /// @endcode
     ///
-    /// @return Scalar
-    Scalar getAcceleration(const Mass& aMass) const;
+    /// @return Real
+    Real getAcceleration(const Mass& aMass) const;
 
     /// @brief Undefined propulsion system
     ///
@@ -146,9 +120,9 @@ class PropulsionSystem
     static PropulsionSystem Default();
 
    private:
-    Scalar thrust_ = Scalar::Undefined();           /// Thrust [N]
-    Scalar specificImpulse_ = Scalar::Undefined();  /// Specific impulse [s]
-    Scalar massFlowRate_ = Scalar::Undefined();     /// Mass flow rate [kg/s]
+    Real thrust_;           /// Thrust [N]
+    Real specificImpulse_;  /// Specific impulse [s]
+    Real massFlowRate_;     /// Mass flow rate [kg/s]
 };
 
 }  // namespace system

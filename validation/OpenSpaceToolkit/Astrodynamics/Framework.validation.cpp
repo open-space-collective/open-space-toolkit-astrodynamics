@@ -19,7 +19,6 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/CSSISpaceWeather.hpp>
@@ -38,7 +37,6 @@
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
@@ -88,7 +86,6 @@ using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -106,7 +103,6 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Time;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
-using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 using ostk::physics::environment::object::celestial::Earth;

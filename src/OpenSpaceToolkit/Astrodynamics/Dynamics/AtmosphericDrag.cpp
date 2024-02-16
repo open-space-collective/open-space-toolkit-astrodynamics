@@ -29,9 +29,6 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
-
 AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr)
     : AtmosphericDrag(aCelestialSPtr, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName()))
 {

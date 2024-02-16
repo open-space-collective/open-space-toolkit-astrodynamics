@@ -15,7 +15,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemeris/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
@@ -48,8 +47,6 @@ using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::data::Scalar;
-
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
@@ -66,7 +63,6 @@ using ostk::physics::unit::Mass;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Time;
-using ostk::physics::data::Direction;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
@@ -81,9 +77,6 @@ using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 
 using namespace boost::numeric::odeint;
-
-static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testing::Test
 {
@@ -130,15 +123,9 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testi
         LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
     };
 
-    const Scalar thrust_ = Scalar(0.1, PropulsionSystem::thrustSIUnit);
-    const Scalar specificImpulse_ = Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit);
-
     const Mass satelliteDryMass_ = Mass::Kilograms(100.0);
 
-    const PropulsionSystem propulsionSystem_ = PropulsionSystem(
-        thrust_,          // Thrust
-        specificImpulse_  // Isp
-    );
+    const PropulsionSystem propulsionSystem_ = {0.1, 1500.0};
 
     const ConstantThrust defaultConstantThrust_ = {localOrbitalFrameDirection_};
 

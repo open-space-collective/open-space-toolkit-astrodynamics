@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Physics/Unit.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybind11::module& aModule)
@@ -9,10 +7,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
     using namespace pybind11;
 
     using ostk::core::type::Real;
-
-    using ostk::physics::Unit;
-    using ostk::physics::unit::Mass;
-    using ostk::physics::data::Scalar;
 
     using ostk::astrodynamics::flight::system::PropulsionSystem;
 
@@ -25,20 +19,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
 
             )doc"
         )
-
-            // .def(
-            //     init([](const Real& thrust, const Unit& thrustUnit, const Real& specificImpulse, const Unit&
-            //     specificImpulseUnit)
-            //     {
-            //         return PropulsionSystem(Scalar(thrust, thrustUnit), Scalar(specificImpulse,
-            //         specificImpulseUnit));
-            //     }
-            //     ),
-            //     arg("thrust"),
-            //     arg("thrust_unit"),
-            //     arg("specific_impulse"),
-            //     arg("specific_unit")
-            // )
 
             .def(
                 init<const Real&, const Real&>(),
@@ -56,8 +36,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
             .def(self == self)
             .def(self != self)
 
-            // .def("__str__", &(shiftToString<PropulsionSystem>))
-            // .def("__repr__", &(shiftToString<PropulsionSystem>))
+            .def("__str__", &(shiftToString<PropulsionSystem>))
+            .def("__repr__", &(shiftToString<PropulsionSystem>))
 
             .def(
                 "is_defined",
@@ -70,10 +50,50 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
                 )doc"
             )
 
-            // .def("get_thrust", &PropulsionSystem::getThrust)
-            // .def("get_specific_impulse", &PropulsionSystem::getSpecificImpulse)
-            // .def("get_mass_flow_rate", &PropulsionSystem::getMassFlowRate) Scalar output
-            // .def("get_acceleration", &PropulsionSystem::getAcceleration, arg("mass"))
+            .def(
+                "get_thrust",
+                &PropulsionSystem::getThrust,
+                R"doc(
+                    Return the thrust.
+
+                    Returns:
+                        float: The thrust in Newton.
+                )doc"
+            )
+            .def(
+                "get_specific_impulse",
+                &PropulsionSystem::getSpecificImpulse,
+                R"doc(
+                    Return the specific impulse.
+
+                    Returns:
+                        float: The specific impulse in Seconds.
+                )doc"
+            )
+            .def(
+                "get_mass_flow_rate",
+                &PropulsionSystem::getMassFlowRate,
+                R"doc(
+                    Return the mass flow rate.
+
+                    Returns:
+                        float: The mass flow rate in Kilograms per Second.
+                )doc"
+            )
+            .def(
+                "get_acceleration",
+                &PropulsionSystem::getAcceleration,
+                arg("mass"),
+                R"doc(
+                    Return the acceleration.
+
+                    Args:
+                        mass (float): Mass in Kilograms.
+
+                    Returns:
+                        float: The acceleration in Meters per Second squared.
+                )doc"
+            )
 
             .def_static(
                 "undefined",

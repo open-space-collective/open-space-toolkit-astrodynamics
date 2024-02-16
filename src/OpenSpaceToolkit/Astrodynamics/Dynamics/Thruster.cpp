@@ -35,8 +35,7 @@ Thruster::Thruster(
       satelliteSystem_(aSatelliteSystem),
       guidanceLaw_(aGuidanceLaw),
       massFlowRateCache_(
-          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate().getValue()
-                                       : Real::Undefined()
+          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate() : Real::Undefined()
       )
 {
 }
@@ -93,7 +92,7 @@ VectorXd Thruster::computeContribution(
     }
 
     const Real maximumThrustAccelerationMagnitude =
-        satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6])).getValue();
+        satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6]));
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
         anInstant, positionCoordinates, velocityCoordinates, maximumThrustAccelerationMagnitude, aFrameSPtr

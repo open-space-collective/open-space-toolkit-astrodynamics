@@ -7,7 +7,6 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>

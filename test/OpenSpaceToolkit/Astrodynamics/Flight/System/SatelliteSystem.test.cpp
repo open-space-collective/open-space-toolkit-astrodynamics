@@ -25,14 +25,7 @@ using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::data::Scalar;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
-using ostk::physics::unit::ElectricCurrent;
-using ostk::physics::unit::Angle;
-using ostk::physics::unit::Derived;
-using ostk::physics::Unit;
 
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -65,12 +58,9 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         dragCoefficient_ = 1.2;
 
         // Define propulsion system
-        const Scalar thrust_ = Scalar(0.01, PropulsionSystem::thrustSIUnit);
-        const Scalar specificImpulse_ = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit);
-
         propulsionSystem_ = {
-            thrust_,
-            specificImpulse_,
+            0.01,
+            100.0,
         };
 
         satelliteSystem_ = {
@@ -202,9 +192,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOper
     }
 
     {
-        PropulsionSystem anotherPropulsionSystem = {
-            Scalar(0.099, PropulsionSystem::thrustSIUnit), Scalar(99.0, PropulsionSystem::specificImpulseSIUnit)
-        };
+        PropulsionSystem anotherPropulsionSystem = {0.099, 99.0};
         EXPECT_FALSE(
             satelliteSystem_ == SatelliteSystem(
                                     mass_,
@@ -307,9 +295,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToO
     }
 
     {
-        PropulsionSystem anotherPropulsionSystem = {
-            Scalar(0.099, PropulsionSystem::thrustSIUnit), Scalar(99.0, PropulsionSystem::specificImpulseSIUnit)
-        };
+        PropulsionSystem anotherPropulsionSystem = {0.099, 99.0};
         EXPECT_TRUE(
             satelliteSystem_ != SatelliteSystem(
                                     mass_,

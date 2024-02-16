@@ -33,7 +33,6 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::Celestial;
@@ -106,12 +105,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSatelliteSystem)
         EXPECT_EQ(satelliteSystem.getMass(), Mass::Kilograms(0.0));
         EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), 1.0);
         EXPECT_EQ(satelliteSystem.getDragCoefficient(), 2.2);
-        EXPECT_EQ(
-            satelliteSystem.getPropulsionSystem(),
-            PropulsionSystem(
-                Scalar(0.01, PropulsionSystem::thrustSIUnit), Scalar(3000.0, PropulsionSystem::specificImpulseSIUnit)
-            )
-        );
+        EXPECT_EQ(satelliteSystem.getPropulsionSystem(), PropulsionSystem(0.01, 3000.0));
     }
 }
 

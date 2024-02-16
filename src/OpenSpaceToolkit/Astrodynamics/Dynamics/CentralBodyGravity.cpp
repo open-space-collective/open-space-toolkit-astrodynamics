@@ -17,16 +17,9 @@ namespace dynamics
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Position;
-using ostk::physics::data::Vector;
-using ostk::physics::unit::Derived;
-using ostk::physics::unit::Length;
-using ostk::physics::unit::Time;
 
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
-
-static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
     : CentralBodyGravity(
