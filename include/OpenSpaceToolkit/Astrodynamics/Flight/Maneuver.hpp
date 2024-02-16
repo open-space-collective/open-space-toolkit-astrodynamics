@@ -19,7 +19,6 @@
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
@@ -37,10 +36,10 @@ using ostk::core::type::Size;
 using ostk::core::type::String;
 using ostk::core::type::Real;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
-using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
@@ -48,7 +47,6 @@ using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
-using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
@@ -131,53 +129,6 @@ class Maneuver
     /// @return The average specific impulse (s)
     Real calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const;
 
-    /// @brief Calculate the (interpolated) acceleration at a given instant during the maneuver
-    ///
-    /// @param anInstant The instant at which to calculate the acceleration
-    /// @param aFrameSPtr The frame in which the acceleration is to be defined
-    /// @param anInterpolationType The interpolation type to use
-    ///
-    /// @return The acceleration (m/s^2)
-    Vector3d calculateAccelerationAt(
-        const Instant& anInstant,
-        const Shared<const Frame>& aFrameSPtr,
-        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
-    ) const;
-
-    /// @brief Calculate the (interpolated) accelerations at given instants during the maneuver
-    ///
-    /// @param anInstantArray The instants at which to calculate the accelerations
-    /// @param aFrameSPtr The frame in which the accelerations are to be defined
-    /// @param anInterpolationType The interpolation type to use
-    ///
-    /// @return The accelerations (m/s^2)
-    Array<Vector3d> calculateAccelerationsAt(
-        const Array<Instant>& anInstantArray,
-        const Shared<const Frame>& aFrameSPtr,
-        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
-    ) const;
-
-    /// @brief Calculate the (interpolated) mass flow rate at a given instant during the maneuver
-    ///
-    /// @param anInstant The instant at which to calculate the mass flow rate
-    /// @param anInterpolationType The interpolation type to use
-    ///
-    /// @return The mass flow rate (kg/s)
-    Real calculateMassFlowRateAt(
-        const Instant& anInstant, const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
-    ) const;
-
-    /// @brief Calculate the (interpolated) mass flow rates at given instants during the maneuver
-    ///
-    /// @param anInstantArray The instants at which to calculate the mass flow rates
-    /// @param anInterpolationType The interpolation type to use
-    ///
-    /// @return The mass flow rates (kg/s)
-    Array<Real> calculateMassFlowRatesAt(
-        const Array<Instant>& anInstantArray,
-        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
-    ) const;
-
     /// @brief Convert the maneuver to a Tabulated Dynamics object
     ///
     /// @param aFrameSPtr The frame in which the acceleration profile is to be defined
@@ -214,16 +165,6 @@ class Maneuver
     Array<Real> massFlowRateProfile_;
 
     Array<Vector3d> convertAccelerationProfileFrame(const Shared<const Frame>& aFrameSPtr) const;
-
-    Array<Vector3d> interpolateAccelerations(
-        const Array<Instant>& anInstantArray,
-        const Shared<const Frame>& aFrameSPtr,
-        const Interpolator::Type& anInterpolationType
-    ) const;
-
-    Array<Real> interpolateMassFlowRates(
-        const Array<Instant>& anInstantArray, const Interpolator::Type& anInterpolationType
-    ) const;
 };
 
 }  // namespace flight

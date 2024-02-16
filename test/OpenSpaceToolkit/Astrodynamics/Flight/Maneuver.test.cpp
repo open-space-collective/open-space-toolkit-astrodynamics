@@ -50,8 +50,6 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
 {
-    // void SetUp() override {}
-
    protected:
     const Array<Instant> defaultInstants_ = {
         Instant::J2000(),
@@ -223,228 +221,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities)
 {
     {
-        EXPECT_NEAR(0.001394181, defaultManeuver_.calculateDeltaV(), 1.0e-4);
+        EXPECT_NEAR(0.0013941812040755494, defaultManeuver_.calculateDeltaV(), 1.0e-15);
     }
 
     {
-        EXPECT_NEAR(1.26e-4, defaultManeuver_.calculateDeltaMass().inKilograms(), 1.0e-4);
-    }
-
-    {
-        EXPECT_NEAR(0.1393676608, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram)), 1.0e-4);
+        EXPECT_NEAR(1.26e-4, defaultManeuver_.calculateDeltaMass().inKilograms(), 1.0e-15);
     }
 
     {
         EXPECT_NEAR(
-            789.816, defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram)), 1.0e-4
+            0.13941806994799905, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram)), 1.0e-15
         );
     }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateAccelerationAt)
-{
-    // Check at default instants
-    {
-        for (Size i = 0; i < defaultInstants_.getSize(); i++)
-        {
-            EXPECT_TRUE(defaultAccelerationProfileDefaultFrame_[i].isApprox(
-                defaultManeuver_.calculateAccelerationAt(
-                    defaultInstants_[i], defaultFrameSPtr_, Interpolator::Type::Linear
-                ),
-                1.0e-15
-            ));
-        }
-    }
-
-    // Check at instant in between default instants
-    {
-        const Instant instantToCheck = defaultInstants_[0] + (defaultInstants_[1] - defaultInstants_[0]) / 2;
-
-        const Vector3d interpolatedAcceleration =
-            defaultManeuver_.calculateAccelerationAt(instantToCheck, defaultFrameSPtr_, Interpolator::Type::Linear);
-
-        const Vector3d expectedAcceleration =
-            defaultAccelerationProfileDefaultFrame_[0] * 0.5 + defaultAccelerationProfileDefaultFrame_[1] * 0.5;
-
-        EXPECT_TRUE(interpolatedAcceleration.isApprox(expectedAcceleration, 1.0e-15));
-    }
 
     {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    defaultManeuver_.calculateAccelerationAt(
-                        defaultInstants_[0] - Duration::Seconds(1.0), defaultFrameSPtr_, Interpolator::Type::Linear
-                    );
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Instant must be within the range of the maneuver.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateAccelerationsAt)
-{
-    // Check at default instants
-    {
-        const Array<Vector3d> interpolatedAccelerations =
-            defaultManeuver_.calculateAccelerationsAt(defaultInstants_, defaultFrameSPtr_, Interpolator::Type::Linear);
-
-        EXPECT_EQ(defaultInstants_.getSize(), interpolatedAccelerations.getSize());
-
-        for (Size i = 0; i < interpolatedAccelerations.getSize(); i++)
-        {
-            EXPECT_TRUE(interpolatedAccelerations[i].isApprox(defaultAccelerationProfileDefaultFrame_[i], 1.0e-15));
-        }
-    }
-
-    // Check at instant in between default instants
-    {
-        const Array<Instant> instantsToCheck = {
-            defaultInstants_[0] + (defaultInstants_[1] - defaultInstants_[0]) / 2,
-            defaultInstants_[1] + (defaultInstants_[2] - defaultInstants_[1]) / 2,
-            defaultInstants_[2] + (defaultInstants_[3] - defaultInstants_[2]) / 2,
-        };
-
-        const Array<Vector3d> interpolatedAccelerations =
-            defaultManeuver_.calculateAccelerationsAt(instantsToCheck, defaultFrameSPtr_, Interpolator::Type::Linear);
-
-        EXPECT_EQ(instantsToCheck.getSize(), interpolatedAccelerations.getSize());
-
-        for (Size i = 0; i < interpolatedAccelerations.getSize(); i++)
-        {
-            const Vector3d expectedAcceleration =
-                defaultAccelerationProfileDefaultFrame_[i] * 0.5 + defaultAccelerationProfileDefaultFrame_[i + 1] * 0.5;
-
-            EXPECT_TRUE(interpolatedAccelerations[i].isApprox(expectedAcceleration, 1.0e-15));
-        }
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    defaultManeuver_.calculateAccelerationsAt(
-                        {defaultInstants_[0] - Duration::Seconds(1.0)}, defaultFrameSPtr_, Interpolator::Type::Linear
-                    );
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Instants must be within the range of the maneuver.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateMassFlowRateAt)
-{
-    // Check at default instants
-    {
-        for (Size i = 0; i < defaultInstants_.getSize(); i++)
-        {
-            EXPECT_NEAR(
-                defaultMassFlowRateProfile_[i],
-                defaultManeuver_.calculateMassFlowRateAt(defaultInstants_[i], Interpolator::Type::Linear),
-                1.0e-15
-            );
-        }
-    }
-
-    // Check at instant in between default instants
-    {
-        const Instant instantToCheck = defaultInstants_[0] + (defaultInstants_[1] - defaultInstants_[0]) / 2;
-
-        const Real interpolatedMassFlowRate =
-            defaultManeuver_.calculateMassFlowRateAt(instantToCheck, Interpolator::Type::Linear);
-
-        const Real expectedMassFlowRate = defaultMassFlowRateProfile_[0] * 0.5 + defaultMassFlowRateProfile_[1] * 0.5;
-
-        EXPECT_NEAR(interpolatedMassFlowRate, expectedMassFlowRate, 1.0e-15);
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    defaultManeuver_.calculateMassFlowRateAt(
-                        defaultInstants_[0] - Duration::Seconds(1.0), Interpolator::Type::Linear
-                    );
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Instant must be within the range of the maneuver.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateMassFlowRatesAt)
-{
-    // Check at default instants
-    {
-        const Array<Real> interpolatedMassFlowRates =
-            defaultManeuver_.calculateMassFlowRatesAt(defaultInstants_, Interpolator::Type::Linear);
-
-        EXPECT_EQ(defaultInstants_.getSize(), interpolatedMassFlowRates.getSize());
-
-        for (Size i = 0; i < interpolatedMassFlowRates.getSize(); i++)
-        {
-            EXPECT_NEAR(interpolatedMassFlowRates[i], defaultMassFlowRateProfile_[i], 1.0e-15);
-        }
-    }
-
-    // Check at instant in between default instants
-    {
-        const Array<Instant> instantsToCheck = {
-            defaultInstants_[0] + (defaultInstants_[1] - defaultInstants_[0]) / 2,
-            defaultInstants_[1] + (defaultInstants_[2] - defaultInstants_[1]) / 2,
-            defaultInstants_[2] + (defaultInstants_[3] - defaultInstants_[2]) / 2,
-        };
-
-        const Array<Real> interpolatedMassFlowRates =
-            defaultManeuver_.calculateMassFlowRatesAt(instantsToCheck, Interpolator::Type::Linear);
-
-        EXPECT_EQ(instantsToCheck.getSize(), interpolatedMassFlowRates.getSize());
-
-        for (Size i = 0; i < interpolatedMassFlowRates.getSize(); i++)
-        {
-            const Real expectedMassFlowRate =
-                defaultMassFlowRateProfile_[i] * 0.5 + defaultMassFlowRateProfile_[i + 1] * 0.5;
-
-            EXPECT_NEAR(interpolatedMassFlowRates[i], expectedMassFlowRate, 1.0e-15);
-        }
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    defaultManeuver_.calculateMassFlowRatesAt(
-                        {defaultInstants_[0] - Duration::Seconds(1.0)}, Interpolator::Type::Linear
-                    );
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Instants must be within the range of the maneuver.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
+        EXPECT_NEAR(
+            789.81592393369704,
+            defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram)),
+            1.0e-15
         );
     }
 }

@@ -105,82 +105,23 @@ class TestManeuver:
         self,
         maneuver: Maneuver,
     ):
-        pass
-        # assert maneuver.calculate_delta_v().get_value() == pytest.approx(
-        #     0.001394181, rel=1e-4
-        # )
+        assert float(maneuver.calculate_delta_v()) == pytest.approx(0.001394181, rel=1e-4)
 
-        # assert maneuver.calculate_delta_mass().in_kilograms() == pytest.approx(
-        #     1.26e-4, rel=1e-4
-        # )
-
-        # assert maneuver.calculate_average_thrust(
-        #     initial_spacecraft_mass=Mass(100.0, Mass.Unit.Kilogram)
-        # ).get_value() == pytest.approx(0.1393676608, rel=1e-4)
-
-        # assert maneuver.calculate_average_specific_impulse(
-        #     initial_spacecraft_mass=Mass(100.0, Mass.Unit.Kilogram)
-        # ).get_value() == pytest.approx(789.816, rel=1e-4)
-
-    def test_calculate_acceleration_at(
-        self,
-        maneuver: Maneuver,
-        instants: list[Instant],
-        acceleration_profile: list[np.ndarray],
-    ):
-        for i in range(len(instants)):
-            interpolated_acceleration = maneuver.calculate_acceleration_at(
-                instant=instants[i],
-                frame=Frame.GCRF(),
-                interpolation_type=Interpolator.Type.Linear,
-            )
-            assert interpolated_acceleration == pytest.approx(
-                acceleration_profile[i], rel=1e-15
-            )
-
-    def test_calculate_accelerations_at(
-        self,
-        maneuver: Maneuver,
-        instants: list[Instant],
-        acceleration_profile: list[np.ndarray],
-    ):
-        interpolated_accelerations = maneuver.calculate_accelerations_at(
-            instants=instants,
-            frame=Frame.GCRF(),
-            interpolation_type=Interpolator.Type.Linear,
+        assert float(maneuver.calculate_delta_mass().in_kilograms()) == pytest.approx(
+            1.26e-4, rel=1e-4
         )
-        for i in range(len(instants)):
-            assert interpolated_accelerations[i] == pytest.approx(
-                acceleration_profile[i], rel=1e-15
-            )
 
-    def test_calculate_mass_flow_rate_at(
-        self,
-        maneuver: Maneuver,
-        instants: list[Instant],
-        mass_flow_rate_profile: list[float],
-    ):
-        for i in range(len(instants)):
-            interpolated_mass_flow_rate = maneuver.calculate_mass_flow_rate_at(
-                instant=instants[i], interpolation_type=Interpolator.Type.Linear
+        assert float(
+            maneuver.calculate_average_thrust(
+                initial_spacecraft_mass=Mass(100.0, Mass.Unit.Kilogram)
             )
-            assert interpolated_mass_flow_rate == pytest.approx(
-                mass_flow_rate_profile[i], rel=1e-15
-            )
+        ) == pytest.approx(0.13941806994799905, rel=1e-4)
 
-    def test_calculate_mass_flow_rates_at(
-        self,
-        maneuver: Maneuver,
-        instants: list[Instant],
-        mass_flow_rate_profile: list[float],
-    ):
-        interpolated_mass_flow_rates = maneuver.calculate_mass_flow_rates_at(
-            instants=instants, interpolation_type=Interpolator.Type.Linear
-        )
-        for i in range(len(instants)):
-            assert interpolated_mass_flow_rates[i] == pytest.approx(
-                mass_flow_rate_profile[i], rel=1e-15
+        assert float(
+            maneuver.calculate_average_specific_impulse(
+                initial_spacecraft_mass=Mass(100.0, Mass.Unit.Kilogram)
             )
+        ) == pytest.approx(789.816, rel=1e-4)
 
     def test_to_tabulated_dynamics(
         self,
