@@ -132,7 +132,7 @@ VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBM: Convert this using the Maneuver class' conversion mehtod.
+    // TBM: Convert this using the Maneuver class' conversion method. Also, find a way to check and vet whether or not the frame is local, or quasi-inertial
     if (aFrameSPtr != frameSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Frame");
