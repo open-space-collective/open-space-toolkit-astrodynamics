@@ -8,53 +8,6 @@
     <innerclass refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" prot="public">ostk::astrodynamics::dynamics::Tabulated</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity" prot="public">ostk::astrodynamics::dynamics::ThirdBodyGravity</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster" prot="public">ostk::astrodynamics::dynamics::Thruster</innerclass>
-      <sectiondef kind="var">
-      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1dynamics_1a2537a4dc05282bcde537dd2478173225" prot="public" static="yes" mutable="no">
-        <type>const Derived::Unit</type>
-        <definition>const Derived::Unit ostk::astrodynamics::dynamics::GravitationalParameterSIUnit</definition>
-        <argsstring></argsstring>
-        <name>GravitationalParameterSIUnit</name>
-        <initializer>=
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" line="32" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="32" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1dynamics_1a2537a4dc05282bcde537dd2478173225" prot="public" static="yes" mutable="no">
-        <type>const Derived::Unit</type>
-        <definition>const Derived::Unit ostk::astrodynamics::dynamics::GravitationalParameterSIUnit</definition>
-        <argsstring></argsstring>
-        <name>GravitationalParameterSIUnit</name>
-        <initializer>=
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" line="28" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="28" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1dynamics_1a2537a4dc05282bcde537dd2478173225" prot="public" static="yes" mutable="no">
-        <type>const Derived::Unit</type>
-        <definition>const Derived::Unit ostk::astrodynamics::dynamics::GravitationalParameterSIUnit</definition>
-        <argsstring></argsstring>
-        <name>GravitationalParameterSIUnit</name>
-        <initializer>=
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" line="30" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="30" bodyend="-1"/>
-      </memberdef>
-      </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1dynamics_1abe58f399d9fa29b08a1fecdf678f4b0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -95,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" line="52" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="52" bodyend="57"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" line="49" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp" bodystart="49" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1dynamics_1a10c314157d3d72c565498f3a9f58a459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -136,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="50" bodyend="55"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" line="43" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="43" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1dynamics_1a29c3bff65975bf0d52a28ee853bdbc39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -177,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="34" bodyend="39"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" line="32" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="32" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1dynamics_1a150fde4c3bc0eb6104e58e42a5793ca2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -261,7 +214,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" line="56" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="56" bodyend="61"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" line="49" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="49" bodyend="54"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

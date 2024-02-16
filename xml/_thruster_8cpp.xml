@@ -14,7 +14,7 @@
       <node id="8">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
-      <node id="43">
+      <node id="38">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</label>
         <link refid="_cartesian_position_8hpp"/>
         <childnode refid="17" relation="include">
@@ -33,9 +33,6 @@
       </node>
       <node id="27">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp</label>
-      </node>
-      <node id="38">
-        <label>OpenSpaceToolkit/Physics/Data/Scalar.hpp</label>
       </node>
       <node id="26">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
@@ -63,7 +60,7 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="42">
+      <node id="37">
         <label>OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</label>
         <link refid="_guidance_law_8hpp"/>
         <childnode refid="8" relation="include">
@@ -102,23 +99,12 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="37">
-        <label>OpenSpaceToolkit/Physics/Data/Direction.hpp</label>
-      </node>
       <node id="36">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</label>
         <link refid="_propulsion_system_8hpp"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -147,12 +133,12 @@
       <node id="9">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
       </node>
-      <node id="44">
+      <node id="39">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp</label>
         <link refid="_cartesian_velocity_8hpp"/>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -163,9 +149,6 @@
       </node>
       <node id="34">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp</label>
-      </node>
-      <node id="39">
-        <label>OpenSpaceToolkit/Physics/Unit.hpp</label>
       </node>
       <node id="5">
         <label>OpenSpaceToolkit/Physics/Unit/Mass.hpp</label>
@@ -183,7 +166,7 @@
         </childnode>
         <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -219,9 +202,6 @@
       </node>
       <node id="25">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
-      </node>
-      <node id="41">
-        <label>OpenSpaceToolkit/Physics/Unit/Time.hpp</label>
       </node>
       <node id="10">
         <label>OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</label>
@@ -315,13 +295,10 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
-      </node>
-      <node id="40">
-        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
       <node id="21">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</label>
@@ -389,93 +366,92 @@
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>satelliteSystem_(aSatelliteSystem),</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLaw_(aGuidanceLaw),</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>massFlowRateCache_(</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aSatelliteSystem.isDefined()<sp/>?<sp/>aSatelliteSystem.accessPropulsionSystem().getMassFlowRate().getValue()</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Real::Undefined()</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
-<codeline lineno="41"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a5212079d362f8e7dc457606597358765" kindref="member">Thruster::~Thruster</ref>()<sp/>{}</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal">SatelliteSystem<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a9ddf35de7643036015d0c8855247d1ae" kindref="member">Thruster::getSatelliteSystem</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="47"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a" kindref="member">isDefined</ref>())</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Satellite<sp/>System&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>satelliteSystem_;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal">Shared&lt;const<sp/>GuidanceLaw&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4d735cb6366e8e6c0833a0f05a97e51e" kindref="member">Thruster::getGuidanceLaw</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="57"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>guidanceLaw_;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal">Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4e1688f9d421bd14c68cb3ea2aeb5f66" kindref="member">Thruster::getReadCoordinateSubsets</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="62"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>(),</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>(),</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" kindref="member">CoordinateSubset::Mass</ref>(),</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal">Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1af31bbf71a94c01701b2227e89dfa2a32" kindref="member">Thruster::getWriteCoordinateSubsets</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="71"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>(),</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" kindref="member">CoordinateSubset::Mass</ref>(),</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a23ad1dc48b6d7caefc2923a523b7011e" kindref="member">Thruster::isDefined</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="79"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a" kindref="member">isDefined</ref>();</highlight></codeline>
-<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a1ede105bab66c794f308d0a1f503a14f" kindref="member">Thruster::computeContribution</ref>(</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr</highlight></codeline>
-<codeline lineno="85"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="86"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>positionCoordinates<sp/>=<sp/>{x[0],<sp/>x[1],<sp/>x[2]};</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>velocityCoordinates<sp/>=<sp/>{x[3],<sp/>x[4],<sp/>x[5]};</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(x[6]<sp/>&lt;=<sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a24ad57a8e513e3b3c58400a94094e612" kindref="member">getMass</ref>().inKilograms())<sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>compare<sp/>against<sp/>the<sp/>dry<sp/>mass<sp/>of<sp/>the<sp/>Satellite</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Out<sp/>of<sp/>fuel.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maximumThrustAccelerationMagnitude<sp/>=</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a2939bdb7b035dc62f36e971d5647a2df" kindref="member">accessPropulsionSystem</ref>().<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a58afd1c17f4ba785527b9343537f17fe" kindref="member">getAcceleration</ref>(Mass::Kilograms(x[6])).getValue();</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>acceleration<sp/>=<sp/>guidanceLaw_-&gt;calculateThrustAccelerationAt(</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInstant,<sp/>positionCoordinates,<sp/>velocityCoordinates,<sp/>maximumThrustAccelerationMagnitude,<sp/>aFrameSPtr</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>effectiveThrustFraction<sp/>=<sp/>acceleration.norm()<sp/>/<sp/>maximumThrustAccelerationMagnitude;</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>contribution</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>contribution(4);</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>contribution<sp/>&lt;&lt;<sp/>acceleration[0],<sp/>acceleration[1],<sp/>acceleration[2],<sp/>-effectiveThrustFraction<sp/>*<sp/>massFlowRateCache_;</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>contribution;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a221ec89e0000c0027019ef94d6002b73" kindref="member">Thruster::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="112"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Thruster&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Name:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name_;</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ae3000a5f53c2859fde51da4258b9bac2" kindref="member">print</ref>(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>guidanceLaw_-&gt;print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>dynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aSatelliteSystem.isDefined()<sp/>?<sp/>aSatelliteSystem.accessPropulsionSystem().getMassFlowRate()<sp/>:<sp/>Real::Undefined()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a5212079d362f8e7dc457606597358765" kindref="member">Thruster::~Thruster</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">SatelliteSystem<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a9ddf35de7643036015d0c8855247d1ae" kindref="member">Thruster::getSatelliteSystem</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="46"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Satellite<sp/>System&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>satelliteSystem_;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">Shared&lt;const<sp/>GuidanceLaw&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4d735cb6366e8e6c0833a0f05a97e51e" kindref="member">Thruster::getGuidanceLaw</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="56"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>guidanceLaw_;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4e1688f9d421bd14c68cb3ea2aeb5f66" kindref="member">Thruster::getReadCoordinateSubsets</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="61"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>(),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>(),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" kindref="member">CoordinateSubset::Mass</ref>(),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1af31bbf71a94c01701b2227e89dfa2a32" kindref="member">Thruster::getWriteCoordinateSubsets</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="70"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>(),</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" kindref="member">CoordinateSubset::Mass</ref>(),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a23ad1dc48b6d7caefc2923a523b7011e" kindref="member">Thruster::isDefined</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="78"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a" kindref="member">isDefined</ref>();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a1ede105bab66c794f308d0a1f503a14f" kindref="member">Thruster::computeContribution</ref>(</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="85"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>positionCoordinates<sp/>=<sp/>{x[0],<sp/>x[1],<sp/>x[2]};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>velocityCoordinates<sp/>=<sp/>{x[3],<sp/>x[4],<sp/>x[5]};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(x[6]<sp/>&lt;=<sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a24ad57a8e513e3b3c58400a94094e612" kindref="member">getMass</ref>().inKilograms())<sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>compare<sp/>against<sp/>the<sp/>dry<sp/>mass<sp/>of<sp/>the<sp/>Satellite</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Out<sp/>of<sp/>fuel.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maximumThrustAccelerationMagnitude<sp/>=</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a2939bdb7b035dc62f36e971d5647a2df" kindref="member">accessPropulsionSystem</ref>().<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ad637891864bb47501e77d362ffefe34a" kindref="member">getAcceleration</ref>(Mass::Kilograms(x[6]));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>acceleration<sp/>=<sp/>guidanceLaw_-&gt;calculateThrustAccelerationAt(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInstant,<sp/>positionCoordinates,<sp/>velocityCoordinates,<sp/>maximumThrustAccelerationMagnitude,<sp/>aFrameSPtr</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>effectiveThrustFraction<sp/>=<sp/>acceleration.norm()<sp/>/<sp/>maximumThrustAccelerationMagnitude;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>contribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>contribution(4);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>contribution<sp/>&lt;&lt;<sp/>acceleration[0],<sp/>acceleration[1],<sp/>acceleration[2],<sp/>-effectiveThrustFraction<sp/>*<sp/>massFlowRateCache_;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>contribution;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a221ec89e0000c0027019ef94d6002b73" kindref="member">Thruster::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="111"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Thruster&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Name:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>satelliteSystem_.<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1ae3000a5f53c2859fde51da4258b9bac2" kindref="member">print</ref>(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>guidanceLaw_-&gt;print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>dynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp"/>
   </compounddef>

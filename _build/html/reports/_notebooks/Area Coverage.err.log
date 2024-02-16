@@ -67,7 +67,7 @@ from ostk.astrodynamics import Access
 ------------------
 
 ----- stderr -----
-/tmp/ipykernel_1882/3451522362.py:2: DeprecationWarning: 
+/tmp/ipykernel_1883/3451522362.py:2: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
 but was not found to be installed on your system.

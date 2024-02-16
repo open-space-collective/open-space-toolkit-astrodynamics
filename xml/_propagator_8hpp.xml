@@ -93,13 +93,13 @@
         </childnode>
         <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
       </node>
       <node id="28">
@@ -110,9 +110,6 @@
       </node>
       <node id="15">
         <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp</label>
-      </node>
-      <node id="44">
-        <label>OpenSpaceToolkit/Physics/Data/Scalar.hpp</label>
       </node>
       <node id="37">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
@@ -140,14 +137,14 @@
         <childnode refid="31" relation="include">
         </childnode>
       </node>
-      <node id="48">
+      <node id="43">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp</label>
         <link refid="_trajectory_2_orbit_2_model_8hpp"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="44" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
@@ -178,23 +175,12 @@
         <childnode refid="37" relation="include">
         </childnode>
       </node>
-      <node id="43">
-        <label>OpenSpaceToolkit/Physics/Data/Direction.hpp</label>
-      </node>
       <node id="42">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</label>
         <link refid="_propulsion_system_8hpp"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="19">
@@ -235,9 +221,6 @@
       <node id="9">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp</label>
       </node>
-      <node id="45">
-        <label>OpenSpaceToolkit/Physics/Unit.hpp</label>
-      </node>
       <node id="21">
         <label>OpenSpaceToolkit/Physics/Unit/Mass.hpp</label>
       </node>
@@ -275,9 +258,6 @@
       </node>
       <node id="36">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
-      </node>
-      <node id="47">
-        <label>OpenSpaceToolkit/Physics/Unit/Time.hpp</label>
       </node>
       <node id="22">
         <label>OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</label>
@@ -317,7 +297,7 @@
       <node id="6">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
-      <node id="50">
+      <node id="45">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
         <link refid="_state_builder_8hpp"/>
         <childnode refid="2" relation="include">
@@ -344,7 +324,7 @@
       <node id="3">
         <label>OpenSpaceToolkit/Core/Type/Integer.hpp</label>
       </node>
-      <node id="49">
+      <node id="44">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp</label>
         <link refid="_trajectory_2_model_8hpp"/>
         <childnode refid="2" relation="include">
@@ -395,9 +375,6 @@
         </childnode>
         <childnode refid="31" relation="include">
         </childnode>
-      </node>
-      <node id="46">
-        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
       <node id="32">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</label>

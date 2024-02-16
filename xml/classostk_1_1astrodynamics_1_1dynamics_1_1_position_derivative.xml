@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="35" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="22" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="35" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="20" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1ad8251a38b4bdc066cf042a1a59a128c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="38" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="27" bodyend="27"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="38" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="25" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a27a5586ee6428885f411fae61701dc77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="50" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="29" bodyend="32"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="50" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="27" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1af0ae4202c5dc655e1044ddf59ee29fc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="55" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="41" bodyend="46"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="55" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="39" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aeeeef977a90f37040e27c8f75dd78d2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="60" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="48" bodyend="53"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="60" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="46" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a329d8ed0ec6c893c5cdd83439070b333" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
@@ -142,7 +142,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="71" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="55" bodyend="63"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="71" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="53" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aed11feb65cbe370592fbc0dc2293ed87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -184,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="79" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="65" bodyend="70"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="79" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="63" bodyend="68"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -228,7 +228,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="45" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="34" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp" line="45" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp" bodystart="32" bodyend="37"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

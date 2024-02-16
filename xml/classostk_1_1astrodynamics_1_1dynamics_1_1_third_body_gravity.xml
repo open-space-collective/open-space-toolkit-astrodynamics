@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="33" bodyend="36"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="26" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a7b142e48cde5ec74bae9297f302e98b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="38" bodyend="52"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="31" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1afce6268d64ec70a9587404f33cba9e14" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="55" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="54" bodyend="54"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="55" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="47" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a8b47408a6ea60c726395e0846cf1de80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -125,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="67" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="63" bodyend="66"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="67" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="56" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a2066b820858045b46c3438836b409def" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const Celestial &gt;</type>
@@ -142,7 +142,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="72" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="68" bodyend="76"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="72" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="61" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a75f99ffbcb874668d3e7434d62e8e3f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="77" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="78" bodyend="83"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="77" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="71" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1ac212356b9ee72e46d366c5f7b3ea35c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="82" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="85" bodyend="90"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="82" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="78" bodyend="83"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a54abb6a56e9b1e450d79ea24d46886d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
@@ -233,7 +233,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="93" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="92" bodyend="115"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="93" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="85" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a0976034a4c6ee577d556e038a186faed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -275,7 +275,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="101" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="117" bodyend="126"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="101" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="110" bodyend="119"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -319,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="62" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="56" bodyend="61"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp" line="62" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp" bodystart="49" bodyend="54"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

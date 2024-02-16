@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" line="100" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="100" bodyend="105"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" line="48" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="48" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a5a558b3f9c4e27a2fb27db18ee455381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -134,6 +134,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="21" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="17" column="1"/>
   </compounddef>
 </doxygen>

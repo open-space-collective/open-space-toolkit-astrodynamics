@@ -878,22 +878,18 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a7df2785b720ebdb76f9cea8338fb9a53" kind="function"><name>registerDynamicsContext</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kind="class"><name>ostk::astrodynamics::flight::system::PropulsionSystem</name>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac7c9c4700d87d8ee9c29b83697658b24" kind="variable"><name>thrustSIUnit</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ac618ef1ac9bcf6e3940c204aa951a238" kind="variable"><name>specificImpulseSIUnit</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1abf2f5f152f2c8738f9be6fe2ba9c3b29" kind="variable"><name>massFlowRateSIUnit</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1adfbaa70b419f2a2965a731e9f6b48656" kind="variable"><name>thrust_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afdf0177c4efbc355b37cc26296e30a54" kind="variable"><name>specificImpulse_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a16c6a6e93bdedc0986183bb38c38919c" kind="variable"><name>massFlowRate_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afe7c71248bb22d5fd3f986a8027d382b" kind="function"><name>PropulsionSystem</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a6c3359a6d200083126efa7de4b954d91" kind="variable"><name>thrust_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a9b9ef0753423992b72ba3ed7dca6216b" kind="variable"><name>specificImpulse_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a7aceabb5da8e9fe8eccf4d1b3fe635bd" kind="variable"><name>massFlowRate_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a2ae31a663131d16bf236825fbf148e10" kind="function"><name>PropulsionSystem</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a05a8898c38b3d0e1af33330bf88ae784" kind="function"><name>operator==</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a75004acbdb6a9b433d0e022892613918" kind="function"><name>operator!=</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1afd248683258cb089e7cdb557a7baa163" kind="function"><name>isDefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ad118a44d666911b4978147b5d4286136" kind="function"><name>print</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ad3892189e5cf7d8c6c1cc4447631ca00" kind="function"><name>getThrust</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a7876cd7b5408fabcf4b54c629787ac44" kind="function"><name>getSpecificImpulse</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a19e56af9f1ebcb5b9934fc09ee362ecb" kind="function"><name>getMassFlowRate</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a58afd1c17f4ba785527b9343537f17fe" kind="function"><name>getAcceleration</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1acbdf90ac32519421abd50836bae31c36" kind="function"><name>getThrust</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a14dd7b33359e07c66feedf4c7bf82dc3" kind="function"><name>getSpecificImpulse</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1af3f6f21b66a304c6fded8e26b55681ea" kind="function"><name>getMassFlowRate</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1ad637891864bb47501e77d362ffefe34a" kind="function"><name>getAcceleration</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1aecc9048ab6de59f78a491c3548fd0e86" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a74d82f3296132db5d997661924a56bcf" kind="function"><name>Undefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a25449fafb54644b5780966f5caf0078e" kind="function"><name>Default</name></member>
@@ -1453,9 +1449,6 @@
     <member refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1a039e40eca139572c13c9c0f7bea5d8ec" kind="function"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1dynamics" kind="namespace"><name>ostk::astrodynamics::dynamics</name>
-    <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1a2537a4dc05282bcde537dd2478173225" kind="variable"><name>GravitationalParameterSIUnit</name></member>
-    <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1a2537a4dc05282bcde537dd2478173225" kind="variable"><name>GravitationalParameterSIUnit</name></member>
-    <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1a2537a4dc05282bcde537dd2478173225" kind="variable"><name>GravitationalParameterSIUnit</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1abe58f399d9fa29b08a1fecdf678f4b0d" kind="function"><name>operator&lt;&lt;</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1a10c314157d3d72c565498f3a9f58a459" kind="function"><name>operator&lt;&lt;</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1a29c3bff65975bf0d52a28ee853bdbc39" kind="function"><name>operator&lt;&lt;</name></member>

@@ -25,35 +25,21 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="5">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
-      </node>
-      <node id="14">
-        <label>OpenSpaceToolkit/Physics/Data/Scalar.hpp</label>
-      </node>
-      <node id="13">
-        <label>OpenSpaceToolkit/Physics/Data/Direction.hpp</label>
       </node>
       <node id="12">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp</label>
         <link refid="_propulsion_system_8hpp"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="13">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp</label>
         <link refid="_satellite_system_8hpp"/>
         <childnode refid="5" relation="include">
@@ -79,9 +65,6 @@
       <node id="8">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp</label>
       </node>
-      <node id="15">
-        <label>OpenSpaceToolkit/Physics/Unit.hpp</label>
-      </node>
       <node id="10">
         <label>OpenSpaceToolkit/Physics/Unit/Mass.hpp</label>
       </node>
@@ -94,9 +77,6 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-      </node>
-      <node id="17">
-        <label>OpenSpaceToolkit/Physics/Unit/Time.hpp</label>
       </node>
       <node id="2">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
@@ -119,9 +99,6 @@
       </node>
       <node id="9">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
-      </node>
-      <node id="16">
-        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
