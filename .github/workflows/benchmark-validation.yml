@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - chore/move-integration-tests-to-new-ci # Remove from this file before merge
 
 concurrency:
   group: main-${{ github.ref }}
