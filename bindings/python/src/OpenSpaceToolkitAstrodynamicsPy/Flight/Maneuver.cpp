@@ -161,8 +161,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             )doc"
         )
         .def_static(
-            "from_constant_mass_flow_rate_profile",
-            &Maneuver::FromConstantMassFlowRateProfile,
+            "constant_mass_flow_rate_profile",
+            &Maneuver::ConstantMassFlowRateProfile,
             arg("instants"),
             arg("acceleration_profile"),
             arg("frame"),

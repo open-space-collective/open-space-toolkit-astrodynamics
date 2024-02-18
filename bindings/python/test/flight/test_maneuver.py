@@ -161,7 +161,7 @@ class TestManeuver:
         frame: Frame,
     ):
         mass_flow_rate: float = 1.0e-5
-        maneuver = Maneuver.from_constant_mass_flow_rate_profile(
+        maneuver = Maneuver.constant_mass_flow_rate_profile(
             instants=instants,
             acceleration_profile=acceleration_profile,
             frame=frame,

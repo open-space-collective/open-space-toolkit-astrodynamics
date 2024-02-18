@@ -318,10 +318,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromConstantMassFlowRateProfile)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfile)
 {
     {
-        const Maneuver maneuver = Maneuver::FromConstantMassFlowRateProfile(
+        const Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(
             defaultInstants_, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultConstantMassFlowRate_
         );
 

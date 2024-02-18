@@ -60,6 +60,10 @@ class Maneuver
 
     /// @brief Constructor
     ///
+    /// @code{.cpp}
+    ///                  Maneuver maneuver = Maneuver(...);
+    /// @endcode
+    ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
@@ -101,33 +105,66 @@ class Maneuver
     bool isDefined() const;
 
     /// @brief Get the instants of the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Array<Instant> instants = maneuver.getInstants();
+    /// @endcode
+    ///
     /// @return The instants
     Array<Instant> getInstants() const;
 
     /// @brief Get the acceleration profile of the maneuver
     ///
-    /// @param aFrameSPtr A frame in which the acceleration profile is to be defined
+    /// @code{.cpp}
+    ///                  Array<Vector3d> accelerationProfile = maneuver.getAccelerationProfile(Frame::GCRF());
+    /// @endcode
+    ///
+    /// @param (optional) aFrameSPtr A frame in which the acceleration profile is to be defined
     ///
     /// @return The acceleration profile (m/s^2)
     Array<Vector3d> getAccelerationProfile(const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr) const;
 
     /// @brief Get the mass flow rate profile of the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Array<Real> massFlowRateProfile = maneuver.getMassFlowRateProfile();
+    /// @endcode
+    ///
     /// @return The mass flow rate profile (kg/s)
     Array<Real> getMassFlowRateProfile() const;
 
     /// @brief Get the interval of the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Interval interval = maneuver.getInterval();
+    /// @endcode
+    ///
     /// @return The interval
     Interval getInterval() const;
 
     /// @brief Calculate the deltaV magnitude imparted during the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Real deltaV = maneuver.calculateDeltaV();
+    /// @endcode
+    ///
     /// @return The deltaV (m/s)
     Real calculateDeltaV() const;
 
     /// @brief Calculate the delta Mass lost during the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Mass deltaMass = maneuver.calculateDeltaMass();
+    /// @endcode
+    ///
     /// @return The delta Mass (kg)
     Mass calculateDeltaMass() const;
 
     /// @brief Calculate the average thrust imparted during the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Real averageThrust = maneuver.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram));
+    /// @endcode
     ///
     /// @param anInitialSpacecraftMass The initial mass of the spacecraft
     ///
@@ -136,6 +173,11 @@ class Maneuver
 
     /// @brief Calculate the average specific impulse produced during the maneuver
     ///
+    /// @code{.cpp}
+    ///                  Real averageSpecificImpulse = maneuver.calculateAverageSpecificImpulse(Mass(100.0,
+    ///                  Mass::Unit::Kilogram));
+    /// @endcode
+    ///
     /// @param anInitialSpacecraftMass The initial mass of the spacecraft
     ///
     /// @return The average specific impulse (s)
@@ -143,8 +185,13 @@ class Maneuver
 
     /// @brief Convert the maneuver to a Tabulated Dynamics object
     ///
-    /// @param aFrameSPtr The frame in which the acceleration profile is to be defined
-    /// @param anInterpolationType The interpolation type to use in the Tabulated Dynamics object
+    /// @code{.cpp}
+    ///                  Shared<TabulatedDynamics> tabulatedDynamicsSPtr = maneuver.toTabulatedDynamics(Frame::GCRF(),
+    ///                  Interpolator::Type::BarycentricRational);
+    /// @endcode
+    ///
+    /// @param (optional) aFrameSPtr The frame in which the acceleration profile is to be defined
+    /// @param (optional) anInterpolationType The interpolation type to use in the Tabulated Dynamics object
     ///
     /// @return A shared pointer to the Tabulated Dynamics object
     Shared<TabulatedDynamics> toTabulatedDynamics(
@@ -160,11 +207,15 @@ class Maneuver
 
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///
+    /// @code{.cpp}
+    ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
+    /// @endcode
+    ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
-    static Maneuver FromConstantMassFlowRateProfile(
+    static Maneuver ConstantMassFlowRateProfile(
         const Array<Instant>& anInstantArray,
         const Array<Vector3d>& anAccelerationProfile,
         const Shared<const Frame>& aFrameSPtr,

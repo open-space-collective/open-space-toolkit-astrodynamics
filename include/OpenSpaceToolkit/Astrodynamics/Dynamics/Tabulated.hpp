@@ -48,13 +48,13 @@ class Tabulated : public Dynamics
     ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param aContributionProfile A contribution profile, one row for each instant
-    /// @param aWriteCoordinateSubset An array of coordinate subsets to write to
+    /// @param aWriteCoordinateSubsets An array of coordinate subsets to write to
     /// @param aFrameSPtr A frame
     /// @param anInterpolationType An interpolation type
     Tabulated(
         const Array<Instant>& anInstantArray,
         const MatrixXd& aContributionProfile,
-        const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubset,
+        const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
         const Shared<const Frame>& aFrameSPtr,
         const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE
     );
@@ -142,7 +142,7 @@ class Tabulated : public Dynamics
    private:
     const Array<Instant> instants_;
     const MatrixXd contributionProfile_;
-    const Array<Shared<const CoordinateSubset>> writeCoordinateSubset_;
+    const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets_;
     const Shared<const Frame> frameSPtr_;
     Array<Shared<const Interpolator>> interpolators_;
 };

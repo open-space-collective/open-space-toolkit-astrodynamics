@@ -21,14 +21,14 @@ using ostk::mathematics::object::VectorXd;
 Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,
     const MatrixXd& aContributionProfile,
-    const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubset,
+    const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
     const Shared<const Frame>& aFrameSPtr,
     const Interpolator::Type& anInterpolationType
 )
     : Dynamics("Tabulated"),
       instants_(anInstantArray),
       contributionProfile_(aContributionProfile),
-      writeCoordinateSubset_(aWriteCoordinateSubset),
+      writeCoordinateSubsets_(aWriteCoordinateSubsets),
       frameSPtr_(aFrameSPtr)
 {
     if (anInstantArray.getSize() != (Index)aContributionProfile.rows())
@@ -38,7 +38,7 @@ Tabulated::Tabulated(
         );
     }
 
-    if (aWriteCoordinateSubset
+    if (aWriteCoordinateSubsets
             .map<Index>(
                 [](const auto& coordinatesSubset)
                 {
@@ -125,7 +125,7 @@ Array<Shared<const CoordinateSubset>> Tabulated::getReadCoordinateSubsets() cons
 
 Array<Shared<const CoordinateSubset>> Tabulated::getWriteCoordinateSubsets() const
 {
-    return writeCoordinateSubset_;
+    return writeCoordinateSubsets_;
 }
 
 VectorXd Tabulated::computeContribution(
@@ -160,7 +160,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     Dynamics::print(anOutputStream, false);
 
-    for (const auto& subset : writeCoordinateSubset_)
+    for (const auto& subset : writeCoordinateSubsets_)
     {
         ostk::core::utils::Print::Line(anOutputStream) << subset->getName() << subset->getSize();
     }

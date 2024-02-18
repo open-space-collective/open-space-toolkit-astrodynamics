@@ -191,7 +191,7 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Maneuver Maneuver::FromConstantMassFlowRateProfile(
+Maneuver Maneuver::ConstantMassFlowRateProfile(
     const Array<Instant>& anInstantArray,
     const Array<Vector3d>& anAccelerationProfile,
     const Shared<const Frame>& aFrameSPtr,
