@@ -168,13 +168,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             "calculate_states_at",
             &Propagator::calculateStatesAt,
             arg("state"),
-            arg("instant_array"),
+            arg("instants"),
             R"doc(
                 Calculate the states at given instants. It is more performant than looping `calculate_state_at` for multiple instants.
 
                 Args:
                     state (State) The state.
-                    instant_array (list[Instant]) The instants.
+                    instants (list[Instant]) The instants.
 
                 Returns:
                     list[State]: The states at the given instants.

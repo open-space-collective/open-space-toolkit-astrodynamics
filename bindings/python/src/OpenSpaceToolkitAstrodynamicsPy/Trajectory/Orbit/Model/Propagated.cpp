@@ -125,12 +125,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
             .def(
                 "calculate_states_at",
                 &Propagated::calculateStatesAt,
-                arg("instant_array"),
+                arg("instants"),
                 R"doc(
                     Calculate the states of the `Propagated` model at given instants.
 
                     Args:
-                        instant_array (list[Instant]): The instants.
+                        instants (list[Instant]): The instants.
 
                     Returns:
                         list[State]: The states.

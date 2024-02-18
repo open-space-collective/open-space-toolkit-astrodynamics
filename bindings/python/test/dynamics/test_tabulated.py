@@ -4,6 +4,8 @@ import pytest
 
 import numpy as np
 
+from ostk.mathematics.curve_fitting import Interpolator
+
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
@@ -69,7 +71,13 @@ def dynamics(
     coordinate_subsets: list[CoordinateSubset],
     frame: Frame,
 ) -> Tabulated:
-    return Tabulated(instants, contribution_profile, coordinate_subsets, frame)
+    return Tabulated(
+        instants,
+        contribution_profile,
+        coordinate_subsets,
+        frame,
+        Interpolator.Type.Linear,
+    )
 
 
 class TestTabulated:
@@ -94,6 +102,8 @@ class TestTabulated:
         assert dynamics.get_instants() == instants
 
         assert dynamics.get_frame() == frame
+
+        assert dynamics.get_interpolation_type() == Interpolator.Type.Linear
 
     def test_compute_contribution(
         self,

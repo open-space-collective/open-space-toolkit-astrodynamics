@@ -22,11 +22,12 @@ Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,
     const MatrixXd& aContributionProfile,
     const Array<Shared<const CoordinateSubset>>& aWriteCoordinateSubsets,
-    const Shared<const Frame>& aFrameSPtr
+    const Shared<const Frame>& aFrameSPtr,
+    const Interpolator::Type& anInterpolationType
 )
     : Dynamics("Tabulated"),
-      contributionProfile_(aContributionProfile),
       instants_(anInstantArray),
+      contributionProfile_(aContributionProfile),
       writeCoordinateSubsets_(aWriteCoordinateSubsets),
       frameSPtr_(aFrameSPtr)
 {
@@ -63,8 +64,9 @@ Tabulated::Tabulated(
     interpolators_.reserve(aContributionProfile.cols());
     for (i = 0; i < (Index)aContributionProfile.cols(); ++i)
     {
-        // TBI: In the future we can allow the user to specify the interpolator type.
-        interpolators_.add(BarycentricRational(timestamps, aContributionProfile.col(i)));
+        interpolators_.add(
+            Interpolator::GenerateInterpolator(anInterpolationType, timestamps, aContributionProfile.col(i))
+        );
     }
 }
 
@@ -105,6 +107,12 @@ Shared<const Frame> Tabulated::getFrame() const
     return accessFrame();
 }
 
+Interpolator::Type Tabulated::getInterpolationType() const
+{
+    // Since all interpolators are of the same type, we can just return the type of the first one.
+    return interpolators_[0]->getInterpolationType();
+}
+
 bool Tabulated::isDefined() const
 {
     return true;
@@ -124,7 +132,7 @@ VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBI: Eventually we can check if the values can be converted using the subset inFrame methods.
+    // TBM: Convert this using the Maneuver class' conversion method. Also, find a way to check and vet whether or not the frame is local, or quasi-inertial
     if (aFrameSPtr != frameSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Frame");
@@ -140,7 +148,7 @@ VectorXd Tabulated::computeContribution(
     VectorXd contribution(interpolators_.getSize());
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
-        contribution(i) = interpolators_[i].evaluate(epoch);
+        contribution(i) = interpolators_[i]->evaluate(epoch);
     }
 
     return contribution;

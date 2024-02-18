@@ -9,6 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
     using ostk::core::type::Shared;
     using ostk::core::container::Array;
 
+    using ostk::mathematics::curvefitting::Interpolator;
     using ostk::mathematics::object::MatrixXd;
 
     using ostk::physics::time::Instant;
@@ -32,11 +33,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                     const Array<Instant>&,
                     const MatrixXd&,
                     const Array<Shared<const CoordinateSubset>>&,
-                    const Shared<const Frame>>(),
+                    const Shared<const Frame>&,
+                    const Interpolator::Type&>(),
                 arg("instants"),
                 arg("contribution_profile"),
                 arg("coordinate_subsets"),
                 arg("frame"),
+                arg("interpolation_type") = DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE,
                 R"doc(
                     Constructor.
 
@@ -45,6 +48,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                         contribution_profile (numpy.ndarray): A contribution profile.
                         coordinate_subsets (list[CoordinateSubset]): An array of coordinate subsets related to the contribution profile.
                         frame (Frame): A frame.
+                        interpolation_type (Interpolator.Type, optional): The interpolation type. Defaults to Barycentric Rational.
 
                 )doc"
             )
@@ -96,7 +100,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
 
                     Returns:
                         Frame: The reference frame.
-                
+
+                )doc"
+            )
+
+            .def(
+                "get_interpolation_type",
+                &Tabulated::getInterpolationType,
+                R"doc(
+                    Get the interpolation type used for each row of the contribution profile (they are all the same).
+
+                    Returns:
+                        Interpolator.Type: The interpolation type.
+
                 )doc"
             )
 
