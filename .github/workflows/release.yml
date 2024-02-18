@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 name: Release
 
@@ -34,6 +34,7 @@ jobs:
           echo "Project version: ${project_version}"
           echo "value=${project_version}" >> $GITHUB_OUTPUT
 
+  # TBM: Refactor jobs here
   build-and-test:
     name: Build & Test
     needs:
@@ -100,7 +101,7 @@ jobs:
         run: docker pull openspacecollective/${{ needs.prepare-environment.outputs.project_name }}-development:${{ needs.prepare-environment.outputs.project_version }}
       - name: Run C++ Validation Tests
         run: make validation-cpp-standalone
-        
+
   release:
     name: Release
     needs:
