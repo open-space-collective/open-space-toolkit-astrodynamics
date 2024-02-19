@@ -44,7 +44,7 @@ jobs:
     name: Build Development Image
     needs:
       - prepare-environment
-    uses: open-space-collective/open-space-toolkit/.github/workflows/build-image.yml@refactor/build-workflow-for-modularity
+    uses: open-space-collective/open-space-toolkit/.github/workflows/build-image.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
@@ -55,7 +55,7 @@ jobs:
     needs:
       - prepare-environment
       - build-development-image
-    uses: open-space-collective/open-space-toolkit/.github/workflows/test.yml@refactor/build-workflow-for-modularity
+    uses: open-space-collective/open-space-toolkit/.github/workflows/test.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
@@ -67,7 +67,7 @@ jobs:
       - prepare-environment
       - build-development-image
       - test
-    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@refactor/build-workflow-for-modularity
+    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
