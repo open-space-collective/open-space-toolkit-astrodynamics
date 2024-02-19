@@ -55,26 +55,26 @@ jobs:
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
     secrets: inherit
 
-  package:
-    name: Package
-    needs:
-      - prepare-environment
-      - build-development-image
-      - test
-    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@main
-    with:
-      project_name: ${{ needs.prepare-environment.outputs.project_name }}
-      project_version: ${{ needs.prepare-environment.outputs.project_version }}
-    secrets: inherit
-
   benchmark-and-validate:
     name: Benchmark and Validate
     needs:
       - prepare-environment
       - build-development-image
       - test
-      - package
     uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@main
+    with:
+      project_name: ${{ needs.prepare-environment.outputs.project_name }}
+      project_version: ${{ needs.prepare-environment.outputs.project_version }}
+    secrets: inherit
+
+  package:
+    name: Package
+    needs:
+      - prepare-environment
+      - build-development-image
+      - test
+      - benchmark-and-validate
+    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
@@ -86,8 +86,8 @@ jobs:
       - prepare-environment
       - build-development-image
       - test
-      - package
       - benchmark-and-validate
+      - package
     uses: open-space-collective/open-space-toolkit/.github/workflows/release.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
