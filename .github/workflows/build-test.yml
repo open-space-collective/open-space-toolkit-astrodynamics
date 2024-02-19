@@ -8,6 +8,10 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   PROJECT_NAME: open-space-toolkit-astrodynamics
 
