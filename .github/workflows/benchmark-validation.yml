@@ -1,10 +1,15 @@
 # Apache License 2.0
 
-name: Release
+name: Benchmark and Validate
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   PROJECT_NAME: open-space-toolkit-astrodynamics
@@ -44,37 +49,12 @@ jobs:
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
     secrets: inherit
 
-  test:
-    name: Test
-    needs:
-      - prepare-environment
-      - build-development-image
-    uses: open-space-collective/open-space-toolkit/.github/workflows/test.yml@main
-    with:
-      project_name: ${{ needs.prepare-environment.outputs.project_name }}
-      project_version: ${{ needs.prepare-environment.outputs.project_version }}
-    secrets: inherit
-
-  package:
-    name: Package
-    needs:
-      - prepare-environment
-      - build-development-image
-      - test
-    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@main
-    with:
-      project_name: ${{ needs.prepare-environment.outputs.project_name }}
-      project_version: ${{ needs.prepare-environment.outputs.project_version }}
-    secrets: inherit
-
   benchmark-cpp:
     name: Benchmark C++
     runs-on: ubuntu-latest
     needs:
       - prepare-environment
       - build-development-image
-      - test
-      - package
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -110,8 +90,6 @@ jobs:
     needs:
       - prepare-environment
       - build-development-image
-      - test
-      - package
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -127,18 +105,3 @@ jobs:
         run: docker pull openspacecollective/${{ needs.prepare-environment.outputs.project_name }}-development:${{ needs.prepare-environment.outputs.project_version }}
       - name: Run C++ Validation Tests
         run: make validation-cpp-standalone
-
-  release:
-    name: Release
-    needs:
-      - prepare-environment
-      - build-development-image
-      - test
-      - package
-      - benchmark-cpp
-      - validation-cpp
-    uses: open-space-collective/open-space-toolkit/.github/workflows/release.yml@main
-    with:
-      project_name: ${{ needs.prepare-environment.outputs.project_name }}
-      project_version: ${{ needs.prepare-environment.outputs.project_version }}
-    secrets: inherit
