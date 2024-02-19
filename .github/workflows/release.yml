@@ -79,7 +79,7 @@ jobs:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
     secrets: inherit
-    
+
   release:
     name: Release
     needs:
