@@ -68,7 +68,7 @@ jobs:
       - build-development-image
       - test
     uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@main
-    if: github.event_name == 'push' && github.ref == 'refs/heads/ci/combine-build-test-workflow'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
@@ -80,6 +80,7 @@ jobs:
       - prepare-environment
       - build-development-image
       - test
+      - benchmark-and-validate
     uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
