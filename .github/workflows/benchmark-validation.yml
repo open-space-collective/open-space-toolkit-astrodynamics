@@ -3,17 +3,10 @@
 name: Benchmark and Validate
 
 on:
-  workflow_run:
-    workflows: ["Build and Test"]
-    types:
-      - completed
+  push:
     branches:
       - main
       - chore/refactor-ci-again # TBR
-
-concurrency:
-  group: main-${{ github.ref }}
-  cancel-in-progress: true
 
 env:
   PROJECT_NAME: open-space-toolkit-astrodynamics
