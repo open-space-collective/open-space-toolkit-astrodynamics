@@ -9,6 +9,7 @@ on:
       - completed
     branches:
       - main
+      - chore/refactor-ci-again # TBR
 
 concurrency:
   group: main-${{ github.ref }}
@@ -57,7 +58,7 @@ jobs:
     needs:
       - prepare-environment
       - build-development-image
-    uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@chore/refactor-ci-again
+    uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@chore/refactor-ci-again # TBM
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
