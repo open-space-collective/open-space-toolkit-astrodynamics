@@ -62,13 +62,13 @@ jobs:
     secrets: inherit
 
   benchmark-and-validate:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Benchmark and Validate
     needs:
       - prepare-environment
       - build-development-image
       - test
     uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@main
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
