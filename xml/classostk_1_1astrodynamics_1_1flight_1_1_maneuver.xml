@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::Maneuver</compoundname>
+    <includes refid="_maneuver_8hpp" local="no">Maneuver.hpp</includes>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a704dea1ae3c42a73bb9c3d80db565da7" prot="public" static="yes" mutable="no">
+        <type>const Shared&lt; const Frame &gt;</type>
+        <definition>const Shared&lt; const Frame &gt; ostk::astrodynamics::flight::Maneuver::DefaultAccelFrameSPtr</definition>
+        <argsstring></argsstring>
+        <name>DefaultAccelFrameSPtr</name>
+        <initializer>= Frame::GCRF()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="59" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a92465f079e3f602e54d3d053d11e4555" prot="private" static="no" mutable="no">
+        <type>Array&lt; Instant &gt;</type>
+        <definition>Array&lt;Instant&gt; ostk::astrodynamics::flight::Maneuver::instants_</definition>
+        <argsstring></argsstring>
+        <name>instants_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="226" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a9b8c12c2111a23f2c6da31939d53f8f8" prot="private" static="no" mutable="no">
+        <type>Array&lt; Vector3d &gt;</type>
+        <definition>Array&lt;Vector3d&gt; ostk::astrodynamics::flight::Maneuver::accelerationProfileDefaultFrame_</definition>
+        <argsstring></argsstring>
+        <name>accelerationProfileDefaultFrame_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="227" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1afc61bf17108d200551227a8f0bee3285" prot="private" static="no" mutable="no">
+        <type>Array&lt; Real &gt;</type>
+        <definition>Array&lt;Real&gt; ostk::astrodynamics::flight::Maneuver::massFlowRateProfile_</definition>
+        <argsstring></argsstring>
+        <name>massFlowRateProfile_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="228" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Maneuver::Maneuver</definition>
+        <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray, const Array&lt; Vector3d &gt; &amp;anAccelerationProfile, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Array&lt; Real &gt; &amp;aMassFlowRateProfile)</argsstring>
+        <name>Maneuver</name>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Vector3d &gt; &amp;</type>
+          <declname>anAccelerationProfile</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Real &gt; &amp;</type>
+          <declname>aMassFlowRateProfile</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref><sp/>maneuver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref>(...);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants, must be sorted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAccelerationProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An acceleration profile of the maneuver, one Vector3d per instant in m/s^2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the acceleration profile is defined </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMassFlowRateProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A mass flow rate profile of the maneuver, one Real per instant in kg/s </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="71" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="23" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae21f118c45b3b84cfc7744da80ea4598" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::Maneuver::operator==</definition>
+        <argsstring>(const Maneuver &amp;aManeuver) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &amp;</type>
+          <declname>aManeuver</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aManeuver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A maneuver </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if maneuvers are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="82" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a2b283b78fef0c52fd9991f01ba2ced97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::Maneuver::operator!=</definition>
+        <argsstring>(const Maneuver &amp;aManeuver) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &amp;</type>
+          <declname>aManeuver</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aManeuver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A maneuver </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if maneuvers are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="88" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7a50d850d84b4ab55c11995280b6d97f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::flight::Maneuver::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if the maneuver is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if maneuver is defined (always returns true) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="105" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aa47e38ad94c14d958bb581a15e8a3401" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Instant &gt;</type>
+        <definition>Array&lt; Instant &gt; ostk::astrodynamics::flight::Maneuver::getInstants</definition>
+        <argsstring>() const</argsstring>
+        <name>getInstants</name>
+        <briefdescription>
+<para>Get the instants of the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>maneuver.getInstants();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The instants </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="114" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1add5d5e077fb72247c6b9ef37ddcaab28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Vector3d &gt;</type>
+        <definition>Array&lt; Vector3d &gt; ostk::astrodynamics::flight::Maneuver::getAccelerationProfile</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr=DefaultAccelFrameSPtr) const</argsstring>
+        <name>getAccelerationProfile</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a704dea1ae3c42a73bb9c3d80db565da7" kindref="member">DefaultAccelFrameSPtr</ref></defval>
+        </param>
+        <briefdescription>
+<para>Get the acceleration profile of the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;Vector3d&gt;<sp/>accelerationProfile<sp/>=<sp/>maneuver.getAccelerationProfile(Frame::GCRF());</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>aFrameSPtr A frame in which the acceleration profile is to be defined</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The acceleration profile (m/s^2) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="125" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a303a5f225d64a08edaa4d33fc8133610" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Real &gt;</type>
+        <definition>Array&lt; Real &gt; ostk::astrodynamics::flight::Maneuver::getMassFlowRateProfile</definition>
+        <argsstring>() const</argsstring>
+        <name>getMassFlowRateProfile</name>
+        <briefdescription>
+<para>Get the mass flow rate profile of the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;Real&gt;<sp/>massFlowRateProfile<sp/>=<sp/>maneuver.getMassFlowRateProfile();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The mass flow rate profile (kg/s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="134" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="93" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a73bebd99cd96958b5c622ce7ab214e03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Interval</type>
+        <definition>Interval ostk::astrodynamics::flight::Maneuver::getInterval</definition>
+        <argsstring>() const</argsstring>
+        <name>getInterval</name>
+        <briefdescription>
+<para>Get the interval of the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Interval<sp/>interval<sp/>=<sp/>maneuver.getInterval();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The interval </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="143" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a309afcadbe4bd497278ac0132b5f3154" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::Maneuver::calculateDeltaV</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateDeltaV</name>
+        <briefdescription>
+<para>Calculate the deltaV magnitude imparted during the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>deltaV<sp/>=<sp/>maneuver.calculateDeltaV();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The deltaV (m/s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="152" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="103" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Mass</type>
+        <definition>Mass ostk::astrodynamics::flight::Maneuver::calculateDeltaMass</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateDeltaMass</name>
+        <briefdescription>
+<para>Calculate the delta Mass lost during the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>deltaMass<sp/>=<sp/>maneuver.calculateDeltaMass();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The delta Mass (kg) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="118" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a806b20bcdc02ad2267151aa6039b179a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::Maneuver::calculateAverageThrust</definition>
+        <argsstring>(const Mass &amp;anInitialSpacecraftMass) const</argsstring>
+        <name>calculateAverageThrust</name>
+        <param>
+          <type>const Mass &amp;</type>
+          <declname>anInitialSpacecraftMass</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the average thrust imparted during the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>averageThrust<sp/>=<sp/>maneuver.calculateAverageThrust(Mass(100.0,<sp/>Mass::Unit::Kilogram));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInitialSpacecraftMass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The initial mass of the spacecraft</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The average thrust (N) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="172" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="132" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac418c97491c18a1c9ee0e7085cd25071" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::flight::Maneuver::calculateAverageSpecificImpulse</definition>
+        <argsstring>(const Mass &amp;anInitialSpacecraftMass) const</argsstring>
+        <name>calculateAverageSpecificImpulse</name>
+        <param>
+          <type>const Mass &amp;</type>
+          <declname>anInitialSpacecraftMass</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the average specific impulse produced during the maneuver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>averageSpecificImpulse<sp/>=<sp/>maneuver.calculateAverageSpecificImpulse(Mass(100.0,</highlight></codeline>
+<codeline><highlight class="normal">Mass::Unit::Kilogram));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInitialSpacecraftMass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The initial mass of the spacecraft</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The average specific impulse (s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="184" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="149" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae1505ecd3efe8bd93c995653bc7ea93f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; <ref refid="namespaceostk_1_1astrodynamics_1_1flight_1a65d2b73d1728c8b77fa5633018c46c56" kindref="member">TabulatedDynamics</ref> &gt;</type>
+        <definition>Shared&lt; TabulatedDynamics &gt; ostk::astrodynamics::flight::Maneuver::toTabulatedDynamics</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr=DefaultAccelFrameSPtr, const Interpolator::Type &amp;anInterpolationType=DEFAULT_MANEUVER_INTERPOLATION_TYPE) const</argsstring>
+        <name>toTabulatedDynamics</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a704dea1ae3c42a73bb9c3d80db565da7" kindref="member">DefaultAccelFrameSPtr</ref></defval>
+        </param>
+        <param>
+          <type>const Interpolator::Type &amp;</type>
+          <declname>anInterpolationType</declname>
+          <defval><ref refid="_maneuver_8hpp_1a111a0f621f85d15749008aeee01fe548" kindref="member">DEFAULT_MANEUVER_INTERPOLATION_TYPE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Convert the maneuver to a Tabulated <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;TabulatedDynamics&gt;<sp/>tabulatedDynamicsSPtr<sp/>=<sp/>maneuver.toTabulatedDynamics(Frame::GCRF(),</highlight></codeline>
+<codeline><highlight class="normal">Interpolator::Type::BarycentricRational);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>aFrameSPtr The frame in which the acceleration profile is to be defined </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>anInterpolationType The interpolation type to use in the Tabulated <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> object</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A shared pointer to the Tabulated <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="197" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="158" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::flight::Maneuver::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>(optional)</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>displayDecorators If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="206" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="182" bodyend="192"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6d0f41e5308ce7da2d596ce7d7cf3f25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Maneuver &amp;aManeuver)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &amp;</type>
+          <declname>aManeuver</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref>(...)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aManeuver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="100" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref></type>
+        <definition>Maneuver ostk::astrodynamics::flight::Maneuver::ConstantMassFlowRateProfile</definition>
+        <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray, const Array&lt; Vector3d &gt; &amp;anAccelerationProfile, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Real &amp;aMassFlowRate)</argsstring>
+        <name>ConstantMassFlowRateProfile</name>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Vector3d &gt; &amp;</type>
+          <declname>anAccelerationProfile</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aMassFlowRate</declname>
+        </param>
+        <briefdescription>
+<para>Create a maneuver from a constant mass flow rate profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref><sp/>maneuver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" kindref="member">Maneuver::ConstantMassFlowRateProfile</ref>(...);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants, must be sorted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAccelerationProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An acceleration profile of the maneuver, one Vector3d per instant in m/s^2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the acceleration profile is defined </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMassFlowRate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant mass flow rate that will be used for all the instants in the maneuver in kg/s </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="218" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="194" bodyend="202"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a17ec96d884c28d3026cee8583ad31da0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Vector3d &gt;</type>
+        <definition>Array&lt; Vector3d &gt; ostk::astrodynamics::flight::Maneuver::convertAccelerationProfileFrame</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const</argsstring>
+        <name>convertAccelerationProfileFrame</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="230" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="204" bodyend="220"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Store an acceleration and mass flow rate profile of a spacecraft maneuver. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Maneuver</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>DefaultAccelFrameSPtr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Shared&lt; const Frame &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="56" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a9b8c12c2111a23f2c6da31939d53f8f8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>accelerationProfileDefaultFrame_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac418c97491c18a1c9ee0e7085cd25071" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateAverageSpecificImpulse</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a806b20bcdc02ad2267151aa6039b179a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateAverageThrust</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateDeltaMass</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a309afcadbe4bd497278ac0132b5f3154" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateDeltaV</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>ConstantMassFlowRateProfile</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a17ec96d884c28d3026cee8583ad31da0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>convertAccelerationProfileFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a704dea1ae3c42a73bb9c3d80db565da7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>DefaultAccelFrameSPtr</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1add5d5e077fb72247c6b9ef37ddcaab28" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getAccelerationProfile</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aa47e38ad94c14d958bb581a15e8a3401" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getInstants</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a73bebd99cd96958b5c622ce7ab214e03" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getInterval</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a303a5f225d64a08edaa4d33fc8133610" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getMassFlowRateProfile</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a92465f079e3f602e54d3d053d11e4555" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>instants_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7a50d850d84b4ab55c11995280b6d97f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>Maneuver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1afc61bf17108d200551227a8f0bee3285" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>massFlowRateProfile_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a2b283b78fef0c52fd9991f01ba2ced97" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6d0f41e5308ce7da2d596ce7d7cf3f25" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae21f118c45b3b84cfc7744da80ea4598" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae1505ecd3efe8bd93c995653bc7ea93f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>toTabulatedDynamics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

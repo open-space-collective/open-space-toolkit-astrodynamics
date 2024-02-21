@@ -21,6 +21,7 @@ ostk.astrodynamics.dynamics.Tabulated
       ~Tabulated.get_contribution_profile
       ~Tabulated.get_frame
       ~Tabulated.get_instants
+      ~Tabulated.get_interpolation_type
       ~Tabulated.get_name
       ~Tabulated.get_read_coordinate_subsets
       ~Tabulated.get_write_coordinate_subsets

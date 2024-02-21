@@ -4,6 +4,7 @@
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/Flight</compoundname>
     <innerdir refid="dir_7d590b7d63bda445bfb81b3161a88efa">src/OpenSpaceToolkit/Astrodynamics/Flight/Profile</innerdir>
     <innerdir refid="dir_e46a3b889b9a7e624e2ddd331dd8ecce">src/OpenSpaceToolkit/Astrodynamics/Flight/System</innerdir>
+    <innerfile refid="_maneuver_8cpp">Maneuver.cpp</innerfile>
     <innerfile refid="_profile_8cpp">Profile.cpp</innerfile>
     <innerfile refid="_system_8cpp">System.cpp</innerfile>
     <briefdescription>

@@ -2,11 +2,83 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceostk_1_1astrodynamics_1_1flight" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::flight</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" prot="public">ostk::astrodynamics::flight::Maneuver</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" prot="public">ostk::astrodynamics::flight::Profile</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_system" prot="public">ostk::astrodynamics::flight::System</innerclass>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile">ostk::astrodynamics::flight::profile</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system">ostk::astrodynamics::flight::system</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1a65d2b73d1728c8b77fa5633018c46c56" prot="public" static="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" kindref="compound">ostk::astrodynamics::dynamics::Tabulated</ref></type>
+        <definition>using ostk::astrodynamics::flight::TabulatedDynamics = typedef ostk::astrodynamics::dynamics::Tabulated</definition>
+        <argsstring></argsstring>
+        <name>TabulatedDynamics</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1aefa47e9cd4721e75e5d9d687d00cc8e1" prot="public" static="no">
+        <type>ostk::physics::environment::gravitational::Earth</type>
+        <definition>using ostk::astrodynamics::flight::EarthGravitationalModel = typedef ostk::physics::environment::gravitational::Earth</definition>
+        <argsstring></argsstring>
+        <name>EarthGravitationalModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" line="19" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1aa54f8e7262be1edca4187c5a0f876b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::flight::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Maneuver &amp;aManeuver)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &amp;</type>
+          <declname>aManeuver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Maneuver(...)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aManeuver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" line="71" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1aa8609b2376998a7e1f4ffb724cf2316d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
         <definition>std::ostream&amp; ostk::astrodynamics::flight::operator&lt;&lt;</definition>
@@ -96,6 +168,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="22" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="30" column="1"/>
   </compounddef>
 </doxygen>
