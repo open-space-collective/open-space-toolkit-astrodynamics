@@ -341,7 +341,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("altitude"),
                 arg("local_time_at_descending_node"),
                 arg("celestial_object"),
-                arg("argument_of_latitude") = Angle::Zero(),
+                arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()"),
                 R"doc(
                     Create a sun-synchronous `Orbit` object.
 

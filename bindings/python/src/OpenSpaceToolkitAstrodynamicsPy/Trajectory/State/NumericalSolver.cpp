@@ -112,7 +112,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg("root_solver") = RootSolver::Default()
+                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()")
             )
 
             .def(self == self)

@@ -52,10 +52,7 @@ class PyDynamics : public Dynamics
     Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinateSubset>>,
-            Dynamics,
-            "get_write_coordinate_subsets",
-            getWriteCoordinateSubsets
+            Array<Shared<const CoordinateSubset>>, Dynamics, "get_write_coordinate_subsets", getWriteCoordinateSubsets
         );
     }
 
@@ -81,7 +78,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
                 - get_read_coordinate_subsets
                 - get_write_coordinate_subsets
                 - compute_contribution
-            to create a custom dynamics class
+            to create a custom dynamics class.
 
         )doc"
     )
@@ -171,13 +168,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
             &Dynamics::FromEnvironment,
             arg("environment"),
             R"doc(
-                Create a `Dynamics` object from an environment.
+                Create a list of `Dynamics` objects from an environment.
 
                 Args:
                     environment (Environment): The environment to create the dynamics from.
 
                 Returns:
-                    dynamics (Dynamics): The `Dynamics` object created from the environment.
+                    dynamics (list[Dynamics]): The list of `Dynamics` objects created from the environment.
             )doc"
         )
 

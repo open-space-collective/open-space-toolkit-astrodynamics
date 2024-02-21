@@ -65,7 +65,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         .def(
             "get_acceleration_profile",
             &Maneuver::getAccelerationProfile,
-            arg("frame") = Maneuver::DefaultAccelFrameSPtr,
+            arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
             R"doc(
                 Get the acceleration profile.
 
@@ -147,7 +147,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         .def(
             "to_tabulated_dynamics",
             &Maneuver::toTabulatedDynamics,
-            arg("frame") = Maneuver::DefaultAccelFrameSPtr,
+            arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
             arg("interpolation_type") = DEFAULT_MANEUVER_INTERPOLATION_TYPE,
             R"doc(
                 Convert the maneuver to tabulated dynamics.

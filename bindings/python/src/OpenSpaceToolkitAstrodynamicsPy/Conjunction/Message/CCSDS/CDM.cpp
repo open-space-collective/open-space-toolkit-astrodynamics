@@ -481,8 +481,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             arg("comment") = String::Empty(),
             arg("time_of_closest_approach"),
             arg("miss_distance"),
-            arg("relative_position") = Position::Undefined(),
-            arg("relative_velocity") = Velocity::Undefined(),
+            arg_v("relative_position", Position::Undefined(), "undefined"),
+            arg_v("relative_velocity", Velocity::Undefined(), "undefined"),
             arg("start_screen_period"),
             arg("end_screen_period"),
             arg("screen_volume_frame") = String::Empty(),
@@ -932,7 +932,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             arg("cr_area_over_mass"),
             arg("thrust_acceleration"),
             arg("sedr"),
-            arg("state") = State::Undefined(),
+            arg_v("state", State::Undefined(), "undefined"),
             arg("covariance_matrix") = MatrixXd::Zero(9, 9)
         )
 
