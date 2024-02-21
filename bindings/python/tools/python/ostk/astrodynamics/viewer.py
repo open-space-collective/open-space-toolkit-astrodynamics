@@ -206,6 +206,42 @@ class Viewer:
             )
         )
 
+    def add_line(
+        self,
+        positions: list[Position],
+        size: int | None = None,
+        color: str | None = None,
+    ) -> None:
+        """
+        Add line to Viewer.
+
+        Args:
+            positions (list[Position]): Line positions.
+            size (int, optional): Line size. Defaults to None.
+            color (str, optional): Line color. Defaults to None.
+        """
+
+        self._viewer.entities.add(
+            cesiumpy.Polyline(
+                positions=cesiumpy.entities.cartesian.Cartesian3Array(
+                    functools.reduce(
+                        operator.iconcat,
+                        [
+                            [
+                                float(lla.get_longitude().in_degrees()),
+                                float(lla.get_latitude().in_degrees()),
+                                10.0,
+                            ]
+                            for lla in map(lla_from_position, positions)
+                        ],
+                        [],
+                    )
+                ),
+                width=size or 1,
+                material=color or cesiumpy.color.YELLOW,
+            )
+        )
+
     def render(self) -> str:
         """
         Render Viewer as HTML string.

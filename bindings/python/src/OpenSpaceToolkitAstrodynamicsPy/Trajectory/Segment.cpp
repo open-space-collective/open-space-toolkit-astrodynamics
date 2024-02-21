@@ -210,7 +210,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             &Segment::Solution::getDynamicsContribution,
             arg("dynamics"),
             arg("frame"),
-            arg("coordinate_subsets") = Array<Shared<const CoordinateSubset>>::Empty(),
+            arg_v("coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
             R"doc(
                 Compute the contribution of the provided dynamics in the provided frame for all states associated with the segment.
 
@@ -337,7 +337,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             "solve",
             &Segment::solve,
             arg("state"),
-            arg("maximum_propagation_duration") = Duration::Days(30.0),
+            arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
             R"doc(
                 Solve the segment.
 

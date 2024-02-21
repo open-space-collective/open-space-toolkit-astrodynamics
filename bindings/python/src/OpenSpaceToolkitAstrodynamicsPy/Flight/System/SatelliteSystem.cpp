@@ -47,7 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                 arg("inertia_tensor"),
                 arg("cross_sectional_surface_area"),
                 arg("drag_coefficient"),
-                arg("propulsion_system") = PropulsionSystem::Undefined()
+                arg_v("propulsion_system", PropulsionSystem::Undefined(), "undefined")
             )
 
             .def(self == self)

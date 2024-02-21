@@ -53,8 +53,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             arg("aer_filter") = none(),
             arg("access_filter") = none(),
             arg("state_filter") = none(),
-            arg("step") = DEFAULT_STEP,
-            arg("tolerance") = DEFAULT_TOLERANCE
+            arg_v("step", DEFAULT_STEP, "Duration.minutes(1.0)"),
+            arg_v("tolerance", DEFAULT_TOLERANCE, "Duration.microseconds(1.0)")
         )
 
         .def(

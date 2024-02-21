@@ -165,8 +165,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("b") = 0.01,
             arg("k") = 100,
             arg("periapsis_weight") = 0.0,
-            arg("minimum_periapsis_radius") = Length::Kilometers(6578.0),
-            arg("absolute_effectivity_threshold") = Real::Undefined(),
+            arg_v("minimum_periapsis_radius", Length::Kilometers(6578.0), "Length.kilometers(6578.0)"),
+                arg("absolute_effectivity_threshold") = Real::Undefined(),
             arg("relative_effectivity_threshold") = Real::Undefined()
         )
 

@@ -31,7 +31,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def(
             init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
             arg("numerical_solver"),
-            arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
+            arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
             R"doc(
                 Construct a new `Propagator` object.
 

@@ -213,10 +213,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                         Sequence: The new `Sequence` object.
 
                 )doc",
-                arg("segments") = Array<Segment>::Empty(),
-                arg("numerical_solver") = NumericalSolver::DefaultConditional(),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("maximum_propagation_duration") = Duration::Days(30.0),
+                arg_v("segments", Array<Segment>::Empty(), "[]"),
+                arg_v(
+                    "numerical_solver", NumericalSolver::DefaultConditional(), "NumericalSolver.default_conditional()"
+                ),
+                arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
+                arg_v("maximum_propagation_duration", Duration::Days(30.0), "duration.days(30.0)"),
                 arg("verbosity") = 1
             )
 
@@ -357,7 +359,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 )doc",
                 arg("state"),
                 arg("event_condition"),
-                arg("maximum_propagation_duration_limit") = Duration::Days(30.0)
+                arg_v("maximum_propagation_duration_limit", Duration::Days(30.0), "Duration.days(30.0)")
             )
 
             ;
