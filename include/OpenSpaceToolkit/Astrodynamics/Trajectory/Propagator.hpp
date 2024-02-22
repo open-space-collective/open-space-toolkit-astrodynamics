@@ -72,13 +72,6 @@ class Propagator
    public:
     /// @brief Default integrator frame
     static const Shared<const Frame> IntegrationFrameSPtr;
-    /// @brief Map of valid dynamics set for propagation
-    ///
-    /// @code{.cpp}
-    ///              Map<String, Pair<Size, Size>> validDynamicsSet ={"TypeOfDynamics", {Min number allowed, Max number
-    ///              allowed}};
-    /// @endcode
-    static const Map<String, Pair<Size, Size>> ValidDynamicsSet;  // Map<String, Pair<Size, Size>>
 
     /// @brief Constructor
     ///

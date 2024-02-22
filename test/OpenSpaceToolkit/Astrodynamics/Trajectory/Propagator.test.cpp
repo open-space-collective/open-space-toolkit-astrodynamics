@@ -971,6 +971,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Validat
         {
             Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
             propagator.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
+
             EXPECT_THROW(
                 {
                     try
@@ -979,10 +980,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Validat
                     }
                     catch (const ostk::core::error::RuntimeError& e)
                     {
-                        EXPECT_EQ(
-                            "Propagator needs at minimum a Central Body Gravity and Position Derivative Dynamics.",
-                            e.getMessage()
-                        );
+                        EXPECT_EQ("Propagator needs exactly one Position Derivative Dynamics.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+
+            propagator.setDynamics({std::make_shared<PositionDerivative>()});
+
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Propagator needs exactly one Central Body Gravity Dynamics.", e.getMessage());
                         throw;
                     }
                 },

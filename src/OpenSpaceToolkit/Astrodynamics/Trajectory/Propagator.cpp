@@ -365,47 +365,29 @@ void Propagator::validateDynamicsSet() const
     }
 
     // Check for mandatory dynamics
-    try
+    const auto centralBodyGravityIt = dynamicsMap.find(std::type_index(typeid(CentralBodyGravity)));
+    if (centralBodyGravityIt == dynamicsMap.end() || centralBodyGravityIt->second.getSize() != 1)
     {
-        if (dynamicsMap.at(std::type_index(typeid(CentralBodyGravity))).getSize() != 1)
-        {
-            throw ostk::core::error::RuntimeError("Propagator needs exactly one Central Body Gravity Dynamics.");
-        }
-        if (dynamicsMap.at(std::type_index(typeid(PositionDerivative))).getSize() != 1)
-        {
-            throw ostk::core::error::RuntimeError("Propagator needs exactly one Position Derivative Dynamics.");
-        }
+        throw ostk::core::error::RuntimeError("Propagator needs exactly one Central Body Gravity Dynamics.");
     }
-    catch (const std::out_of_range& e)
+
+    const auto positionDerivativeIt = dynamicsMap.find(std::type_index(typeid(PositionDerivative)));
+    if (positionDerivativeIt == dynamicsMap.end() || positionDerivativeIt->second.getSize() != 1)
     {
-        throw ostk::core::error::RuntimeError(
-            "Propagator needs at minimum a Central Body Gravity and Position Derivative Dynamics."
-        );
+        throw ostk::core::error::RuntimeError("Propagator needs exactly one Position Derivative Dynamics.");
     }
 
     // Check for optional dynamics number limits
-    try
+    const auto atmosphericDragIt = dynamicsMap.find(std::type_index(typeid(AtmosphericDrag)));
+    if (atmosphericDragIt != dynamicsMap.end() && atmosphericDragIt->second.getSize() > 1)
     {
-        if (dynamicsMap.at(std::type_index(typeid(AtmosphericDrag))).getSize() > 1)
-        {
-            throw ostk::core::error::RuntimeError("Propagator can have at most one Atmospheric Drag Dynamics.");
-        }
-    }
-    catch (const std::out_of_range& e)
-    {
-        // Do nothing
+        throw ostk::core::error::RuntimeError("Propagator can have at most one Atmospheric Drag Dynamics.");
     }
 
-    try
+    const auto thrusterIt = dynamicsMap.find(std::type_index(typeid(Thruster)));
+    if (thrusterIt != dynamicsMap.end() && thrusterIt->second.getSize() > 1)
     {
-        if (dynamicsMap.at(std::type_index(typeid(Thruster))).getSize() > 1)
-        {
-            throw ostk::core::error::RuntimeError("Propagator can have at most one Thruster Dynamics.");
-        }
-    }
-    catch (const std::out_of_range& e)
-    {
-        // Do nothing
+        throw ostk::core::error::RuntimeError("Propagator can have at most one Thruster Dynamics.");
     }
 }
 
