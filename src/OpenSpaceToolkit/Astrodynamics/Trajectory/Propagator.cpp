@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <typeindex>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -31,14 +33,6 @@ using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
-const Map<String, Pair<Size, Size>> Propagator::ValidDynamicsSet = {
-    {"CentralBodyGravity", {1, 1}},                        // Minimum of 1 and maximum of 1
-    {"PositionDerivative", {1, 1}},                        // Minimum of 1 and maximum of 1
-    {"ThirdBodyGravity", {0, 2}},                          // Minimum of 0 and maximum of 2
-    {"AtmosphericDrag", {0, 1}},                           // Minimum of 0 and maximum of 1
-    {"Thruster", {0, 1}},                                  // Minimum of 0 and maximum of 1
-    {"Tabulated", {0, std::numeric_limits<Size>::max()}},  // Minimum of 0 and maximum of the maximum size of Size
-};
 
 Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
     : dynamicsContexts_(),
@@ -363,54 +357,55 @@ Propagator Propagator::FromEnvironment(const NumericalSolver& aNumericalSolver, 
 
 void Propagator::validateDynamicsSet() const
 {
-    Map<String, Size> currentDynamicsSets = {
-        {"CentralBodyGravity", 0},
-        {"PositionDerivative", 0},
-        {"ThirdBodyGravity", 0},
-        {"AtmosphericDrag", 0},
-        {"Thruster", 0},
-        {"Tabulated", 0},
-    };
+    Map<std::type_index, Array<Shared<Dynamics>>> dynamicsMap;
 
     for (const Dynamics::Context& dynamicsContext : dynamicsContexts_)
     {
-        if (std::dynamic_pointer_cast<CentralBodyGravity>(dynamicsContext.dynamics))
-        {
-            currentDynamicsSets["CentralBodyGravity"]++;
-        }
-        else if (std::dynamic_pointer_cast<PositionDerivative>(dynamicsContext.dynamics))
-        {
-            currentDynamicsSets["PositionDerivative"]++;
-        }
-        else if (std::dynamic_pointer_cast<ThirdBodyGravity>(dynamicsContext.dynamics))
-        {
-            currentDynamicsSets["ThirdBodyGravity"]++;
-        }
-        else if (std::dynamic_pointer_cast<AtmosphericDrag>(dynamicsContext.dynamics))
-        {
-            currentDynamicsSets["AtmosphericDrag"]++;
-        }
-        else if (std::dynamic_pointer_cast<Thruster>(dynamicsContext.dynamics))
-        {
-            currentDynamicsSets["Thruster"]++;
-        }
-        else if (std::dynamic_pointer_cast<TabulatedDynamics>(dynamicsContext.dynamics))
-        {
-            currentDynamicsSets["Tabulated"]++;
-        }
-        else
-        {
-            throw ostk::core::error::RuntimeError("Unrecognied Dynamics was inputted into this propagator.");
-        }
+        (dynamicsMap[typeid(*dynamicsContext.dynamics)]).add(dynamicsContext.dynamics);
     }
 
-    for (const auto& currentDynamics : currentDynamicsSets)
+    // Check for mandatory dynamics
+    try
     {
-        if (currentDynamics.second < Propagator::ValidDynamicsSet.at(currentDynamics.first).first ||
-            currentDynamics.second > Propagator::ValidDynamicsSet.at(currentDynamics.first).second)
+        if (dynamicsMap.at(std::type_index(typeid(CentralBodyGravity))).getSize() != 1)
         {
-            throw ostk::core::error::RuntimeError("Invalid Dynamics Set.");
+            throw ostk::core::error::RuntimeError("Propagator needs exactly one Central Body Gravity Dynamics.");
         }
+        if (dynamicsMap.at(std::type_index(typeid(PositionDerivative))).getSize() != 1)
+        {
+            throw ostk::core::error::RuntimeError("Propagator needs exactly one Position Derivative Dynamics.");
+        }
+    }
+    catch (const std::out_of_range& e)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Propagator needs at minimum a Central Body Gravity and Position Derivative Dynamics."
+        );
+    }
+
+    // Check for optional dynamics number limits
+    try
+    {
+        if (dynamicsMap.at(std::type_index(typeid(AtmosphericDrag))).getSize() > 1)
+        {
+            throw ostk::core::error::RuntimeError("Propagator can have at most one Atmospheric Drag Dynamics.");
+        }
+    }
+    catch (const std::out_of_range& e)
+    {
+        // Do nothing
+    }
+
+    try
+    {
+        if (dynamicsMap.at(std::type_index(typeid(Thruster))).getSize() > 1)
+        {
+            throw ostk::core::error::RuntimeError("Propagator can have at most one Thruster Dynamics.");
+        }
+    }
+    catch (const std::out_of_range& e)
+    {
+        // Do nothing
     }
 }
 

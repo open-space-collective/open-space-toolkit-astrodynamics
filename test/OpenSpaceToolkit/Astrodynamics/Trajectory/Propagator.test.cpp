@@ -37,9 +37,13 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -94,16 +98,20 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::Dynamics;
-using ostk::astrodynamics::dynamics::PositionDerivative;
-using ostk::astrodynamics::dynamics::CentralBodyGravity;
-using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
+using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::eventcondition::InstantCondition;
-using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -468,7 +476,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         EXPECT_EQ(outputState.getCoordinates().size(), 8);
     }
 
-    // Check failure of adding wrong dynamics
+    // Check failure of adding wrong dynamics before actually propagating
     {
         // Too many central body gravities
         {
@@ -476,40 +484,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             propagator.setDynamics(
                 defaultDynamics_ + Array<Shared<Dynamics>>(1, std::make_shared<CentralBodyGravity>(earthSpherical_))
             );
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        propagator.calculateStateAt(state, state.getInstant());
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
-            );
-        }
 
-        // Not enough PositionDerivatives
-        {
-            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
-            propagator.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        propagator.calculateStateAt(state, state.getInstant());
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
-            );
+            EXPECT_THROW(propagator.calculateStateAt(state, state.getInstant()), ostk::core::error::RuntimeError);
         }
     }
 }
@@ -615,44 +591,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         EXPECT_EQ(outputState.getCoordinates().size(), 8);
     }
 
-    // Check failure of adding wrong dynamics
+    // Check failure of adding wrong dynamics before actually propagating
     {
         // Too many central body gravities
         {
             defaultPropagator_.setDynamics(
                 defaultDynamics_ + Array<Shared<Dynamics>>(1, std::make_shared<CentralBodyGravity>(earthSpherical_))
             );
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        defaultPropagator_.calculateStateToCondition(state, endInstant, condition);
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
-            );
-        }
 
-        // Not enough PositionDerivatives
-        {
-            defaultPropagator_.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
             EXPECT_THROW(
-                {
-                    try
-                    {
-                        defaultPropagator_.calculateStateToCondition(state, endInstant, condition);
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
-                        throw;
-                    }
-                },
+                defaultPropagator_.calculateStateToCondition(state, endInstant, condition),
                 ostk::core::error::RuntimeError
             );
         }
@@ -908,40 +856,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             propagator.setDynamics(
                 defaultDynamics_ + Array<Shared<Dynamics>>(1, std::make_shared<CentralBodyGravity>(earthSpherical_))
             );
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        propagator.calculateStatesAt(state, {state.getInstant()});
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
-            );
-        }
 
-        // Not enough PositionDerivatives
-        {
-            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
-            propagator.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        propagator.calculateStatesAt(state, {state.getInstant()});
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
-            );
+            EXPECT_THROW(propagator.calculateStatesAt(state, {state.getInstant()}), ostk::core::error::RuntimeError);
         }
     }
 }
@@ -997,5 +913,136 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, FromEnv
         EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
         EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[3]).isDefined());
         EXPECT_TRUE(static_cast<const PositionDerivative&>(*propagator.getDynamics()[4]).isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ValidateDynamicsSet)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    {
+        // Too many central body gravities
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.addDynamics(std::make_shared<CentralBodyGravity>(earthSpherical_));
+
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Propagator needs exactly one Central Body Gravity Dynamics.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Too many PositionDerivatives
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.addDynamics(std::make_shared<PositionDerivative>());
+
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Propagator needs exactly one Position Derivative Dynamics.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Missing PositionDerivatives or CentralBodyGravity
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ(
+                            "Propagator needs at minimum a Central Body Gravity and Position Derivative Dynamics.",
+                            e.getMessage()
+                        );
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Wrong number of AtmosphericDrags
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.addDynamics(std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
+                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+            ))));
+            propagator.addDynamics(std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
+                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+            ))));
+
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Propagator can have at most one Atmospheric Drag Dynamics.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Wrong number of Thruster Dynamics
+        {
+            const Shared<const ConstantThrust> constantThrustSPtr_ = std::make_shared<ConstantThrust>(
+                LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()))
+            );
+
+            const Shared<Thruster> defaultConstantThrust_ =
+                std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr_);
+
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.addDynamics(defaultConstantThrust_);
+            propagator.addDynamics(defaultConstantThrust_);
+
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Propagator can have at most one Thruster Dynamics.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
     }
 }
