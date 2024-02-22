@@ -9,21 +9,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::core::type::Shared;
     using ostk::core::container::Array;
 
+    using ostk::mathematics::curvefitting::Interpolator;
+
     using ostk::physics::Environment;
     using ostk::physics::time::Instant;
 
-    using ostk::astrodynamics::trajectory::state::NumericalSolver;
-    using ostk::astrodynamics::EventCondition;
     using ostk::astrodynamics::Dynamics;
+    using ostk::astrodynamics::EventCondition;
+    using ostk::astrodynamics::flight::Maneuver;
     using ostk::astrodynamics::flight::system::SatelliteSystem;
     using ostk::astrodynamics::trajectory::Propagator;
     using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
     class_<Propagator>(
         aModule,
         "Propagator",
         R"doc(
-            A `Propagator` that proapgates the provided `State` using it's `NumericalSolver` under the set `Dynamics`.
+            A `Propagator` that propagates the provided `State` using it's `NumericalSolver` under the set `Dynamics`.
 
         )doc"
     )
@@ -44,6 +47,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
             )doc"
         )
+
+        .def(
+            init<
+                const NumericalSolver&,
+                const Array<Shared<Dynamics>>&,
+                const Array<Maneuver>&,
+                const Interpolator::Type&>(),
+            arg("numerical_solver"),
+            arg("dynamics"),
+            arg("maneuvers"),
+            arg("interpolation_type") = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
+            R"doc(
+                Construct a new `Propagator` object with maneuvers.
+
+                Args:
+                    numerical_solver (NumericalSolver) The numerical solver.
+                    dynamics (list[Dynamics]) The dynamics.
+                    maneuvers (list[Maneuver]) The maneuvers.
+                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
+
+                Returns:
+                    Propagator: The new `Propagator` object.
+            )doc"
+        )
+
+        .def(self == self)
+        .def(self != self)
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))
@@ -123,6 +153,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             &Propagator::clearDynamics,
             R"doc(
                 Clear the dynamics.
+
+            )doc"
+        )
+
+        .def(
+            "add_maneuver",
+            &Propagator::addManeuver,
+            arg("maneuver"),
+            arg("interpolation_type") = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
+            R"doc(
+                Add a maneuver.
+
+                Args:
+                    maneuver (Maneuver) The maneuver.
+                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
 
             )doc"
         )
