@@ -33,7 +33,6 @@ Propagated::Propagated(const Propagator& aPropagator, const State& aState, const
       propagator_(aPropagator),
       cachedStateArray_(1, aState),
       initialRevolutionNumber_(aRevolutionNumber)
-
 {
 }
 
@@ -44,7 +43,6 @@ Propagated::Propagated(
       propagator_(aPropagator),
       cachedStateArray_(aCachedStateArray),
       initialRevolutionNumber_(aRevolutionNumber)
-
 {
     sanitizeCachedArray();
 }

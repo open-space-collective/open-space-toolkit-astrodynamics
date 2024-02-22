@@ -69,7 +69,6 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
-/* UNIT TESTS */
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public ::testing::Test
 {
    protected:

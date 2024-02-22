@@ -4,6 +4,9 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -42,6 +45,9 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::container::Pair;
+using ostk::core::type::Index;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -53,17 +59,18 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
-using ostk::astrodynamics::Dynamics;
-using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /// @brief Define a propagator to be used for numerical propagation
 class Propagator
 {
    public:
+    /// @brief Default integrator frame
     static const Shared<const Frame> IntegrationFrameSPtr;
 
     /// @brief Constructor
@@ -78,6 +85,17 @@ class Propagator
         const NumericalSolver& aNumericalSolver,
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
     );
+
+    /// @brief Copy constructor
+    ///
+    /// @param aPropagator A propagator (deep copy)
+    Propagator(const Propagator& aPropagator);
+
+    /// @brief Copy assignment operator
+    ///
+    /// @param aPropagator A propagator (deep copy)
+    /// @return A reference to this propagator
+    Propagator& operator=(const Propagator& aPropagator);
 
     /// @brief Equal to operator
     ///
@@ -213,7 +231,7 @@ class Propagator
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
-    void registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr);
+    void validateDynamicsSet() const;
 };
 
 }  // namespace trajectory
