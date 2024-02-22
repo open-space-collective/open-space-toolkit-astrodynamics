@@ -412,12 +412,6 @@ void Propagator::validateDynamicsSet() const
             throw ostk::core::error::RuntimeError("Invalid Dynamics Set.");
         }
     }
-
-    // Special case to disallow both TabulatedDynamics and ThrusterDynamics
-    if (currentDynamicsSets["Tabulated"] > 0 && currentDynamicsSets["Thruster"] > 0)
-    {
-        throw ostk::core::error::RuntimeError("Invalid Dynamics Set.");
-    }
 }
 
 }  // namespace trajectory
