@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -37,13 +38,17 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 #include <Global.test.hpp>
 
@@ -59,6 +64,7 @@ using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Size;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
 using ostk::mathematics::geometry::d3::object::Point;
@@ -99,12 +105,13 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
-/* UNIT TESTS */
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public ::testing::Test
 {
    protected:
@@ -176,12 +183,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constru
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CopyConstructor)
+{
+    {
+        Propagator propagator(defaultPropagator_);
+
+        EXPECT_EQ(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+
+        propagator.setDynamics({std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(
+            Earth::AtmosphericOnly(std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential))
+        ))});
+
+        // Ensure that a deep copy has occured and the original propagator and its memvar shared pointers are untouched
+        EXPECT_NE(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CopyAssignmentOperator)
+{
+    {
+        Propagator propagator = defaultPropagator_;
+
+        EXPECT_EQ(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+
+        propagator.setDynamics({std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(
+            Earth::AtmosphericOnly(std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential))
+        ))});
+
+        // Ensure that a deep copy has occured and the original propagator and its memvar shared pointers are untouched
+        EXPECT_NE(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, EqualToOperator)
 {
     {
         const Propagator propagator_x = {defaultPropagator_};
         EXPECT_TRUE(defaultPropagator_ == propagator_x);
+    }
 
+    {
         const NumericalSolver numericalSolver_1 = {
             NumericalSolver::LogType::LogConstant,
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
@@ -197,18 +238,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, EqualTo
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, NotEqualToOperator)
 {
     {
-        const Propagator propagatorX = {defaultPropagator_};
-        EXPECT_FALSE(defaultPropagator_ != propagatorX);
+        const Propagator propagator_x = {defaultPropagator_};
+        EXPECT_FALSE(defaultPropagator_ != propagator_x);
+    }
 
-        const NumericalSolver numericalSolver1 = {
+    {
+        const NumericalSolver numericalSolver_1 = {
             NumericalSolver::LogType::LogConstant,
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
             5.0,
             1.0e-15,
             1.0e-15,
         };
-        const Propagator propagator1 = {numericalSolver1, defaultDynamics_};
-        EXPECT_TRUE(defaultPropagator_ != propagator1);
+        const Propagator propagator_1 = {numericalSolver_1, defaultDynamics_};
+        EXPECT_TRUE(defaultPropagator_ != propagator_1);
     }
 }
 
@@ -258,7 +301,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessCoordinateBroker)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.accessCoordinateBroker() != nullptr);
+        Shared<CoordinateBroker> brokerSPtr = defaultPropagator_.accessCoordinateBroker();
+        EXPECT_TRUE(brokerSPtr != nullptr);
+        EXPECT_EQ(brokerSPtr->getNumberOfCoordinates(), 6);
+        EXPECT_EQ(brokerSPtr->getNumberOfSubsets(), 2);
     }
 
     {
@@ -269,7 +315,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessC
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessNumericalSolver)
 {
     {
-        EXPECT_NO_THROW(defaultPropagator_.accessNumericalSolver());
+        EXPECT_EQ(defaultPropagator_.accessNumericalSolver(), defaultNumericalSolver_);
     }
 
     {
@@ -280,30 +326,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessN
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Getters)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
     }
 
     {
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, SetDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
 
         const Shared<Dynamics> centralBodyGravity = std::make_shared<CentralBodyGravity>(earthSpherical_);
 
         defaultPropagator_.setDynamics({centralBodyGravity});
 
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 1);
 
         defaultPropagator_.setDynamics({});
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 0);
         EXPECT_FALSE(defaultPropagator_.isDefined());
     }
 }
@@ -311,32 +357,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, SetDyna
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
 
         const Shared<Dynamics> centralBodyGravity = std::make_shared<CentralBodyGravity>(earthSpherical_);
 
         defaultPropagator_.addDynamics(centralBodyGravity);
 
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 3);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 3);
 
         defaultPropagator_.addDynamics(centralBodyGravity);
 
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 4);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 4);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ClearDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() >= 1);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_GE(defaultPropagator_.getDynamics().getSize(), 1);
 
         defaultPropagator_.clearDynamics();
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 0);
     }
 }
 
@@ -421,28 +467,70 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         EXPECT_EQ(bigState.getCoordinateSubsets(), outputState.getCoordinateSubsets());
         EXPECT_EQ(outputState.getCoordinates().size(), 8);
     }
+
+    // Check failure of adding wrong dynamics
+    {
+        // Too many central body gravities
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.setDynamics(
+                defaultDynamics_ + Array<Shared<Dynamics>>(1, std::make_shared<CentralBodyGravity>(earthSpherical_))
+            );
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Not enough PositionDerivatives
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStateAt(state, state.getInstant());
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CalculateStateAt_Condition)
 {
+    // State and instant and condition setup
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+    const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
+    const InstantCondition condition = {
+        InstantCondition::Criterion::StrictlyPositive,
+        state.accessInstant() + Duration::Seconds(60.0),
+    };
+
+    const Propagator propagator = {defaultRKD5_, defaultDynamics_};
+
     {
-        // Current state and instant setup
-        const State state = {
-            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
-        };
-
-        // Setup instants
-        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
-
-        const InstantCondition condition = {
-            InstantCondition::Criterion::StrictlyPositive,
-            state.accessInstant() + Duration::Seconds(60.0),
-        };
-
-        const Propagator propagator = {defaultRKD5_, defaultDynamics_};
-
         const NumericalSolver::ConditionSolution conditionSolution =
             propagator.calculateStateToCondition(state, endInstant, condition);
 
@@ -461,23 +549,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
     }
 
     {
-        // Current state and instant setup
-        const State state = {
-            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
-        };
-
-        // Setup instants
-        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
-
-        const InstantCondition condition = {
-            InstantCondition::Criterion::StrictlyPositive,
-            state.accessInstant() + Duration::Seconds(60.0),
-        };
-
-        const Propagator propagator = {defaultRKD5_, defaultDynamics_};
-
         const NumericalSolver::ConditionSolution conditionSolutionGCRF =
             propagator.calculateStateToCondition(state, endInstant, condition);
 
@@ -524,21 +595,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         };
 
         const State bigState = {
-            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            state.getInstant(),
             coords,
             gcrfSPtr_,
             coordinateSubsets,
         };
-
-        // Setup instants
-        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
-
-        const InstantCondition condition = {
-            InstantCondition::Criterion::StrictlyPositive,
-            bigState.accessInstant() + Duration::Seconds(60.0),
-        };
-
-        const Propagator propagator = {defaultRKD5_, defaultDynamics_};
 
         // Confirm the propagator only needs 6 dimensions
         EXPECT_EQ(propagator.getNumberOfCoordinates(), 6);
@@ -552,6 +613,49 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         EXPECT_NE(bigState, outputState);
         EXPECT_EQ(bigState.getCoordinateSubsets(), outputState.getCoordinateSubsets());
         EXPECT_EQ(outputState.getCoordinates().size(), 8);
+    }
+
+    // Check failure of adding wrong dynamics
+    {
+        // Too many central body gravities
+        {
+            defaultPropagator_.setDynamics(
+                defaultDynamics_ + Array<Shared<Dynamics>>(1, std::make_shared<CentralBodyGravity>(earthSpherical_))
+            );
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        defaultPropagator_.calculateStateToCondition(state, endInstant, condition);
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Not enough PositionDerivatives
+        {
+            defaultPropagator_.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        defaultPropagator_.calculateStateToCondition(state, endInstant, condition);
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
     }
 }
 
@@ -784,6 +888,60 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             EXPECT_NE(bigState, outputStates[i]);
             EXPECT_EQ(bigState.getCoordinateSubsets(), outputStates[i].getCoordinateSubsets());
             EXPECT_EQ(outputStates[i].getCoordinates().size(), 8);
+        }
+    }
+
+    // Check failure of adding wrong dynamics
+    {
+        // Choose state to put into cachedStateArray
+        size_t cachedStateReferenceIndex = 0;
+        const Instant startInstant = instantArray[cachedStateReferenceIndex];
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+        };
+
+        // Too many central body gravities
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.setDynamics(
+                defaultDynamics_ + Array<Shared<Dynamics>>(1, std::make_shared<CentralBodyGravity>(earthSpherical_))
+            );
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStatesAt(state, {state.getInstant()});
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Not enough PositionDerivatives
+        {
+            Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+            propagator.setDynamics({std::make_shared<CentralBodyGravity>(earthSpherical_)});
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        propagator.calculateStatesAt(state, {state.getInstant()});
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Invalid Dynamics Set.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
         }
     }
 }
