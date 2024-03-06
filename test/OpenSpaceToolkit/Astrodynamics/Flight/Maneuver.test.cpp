@@ -393,6 +393,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
 {
+    // Verify creation from tabulated dynamics
     {
         const Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
             defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
@@ -404,6 +405,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
         EXPECT_EQ(maneuver.getMassFlowRateProfile(), defaultMassFlowRateProfile_);
     }
 
+    // Verify creation from dynamics
     {
         const Shared<Dynamics> tabulatedDynamicsSPtr =
             defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
@@ -442,6 +444,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
         const Shared<TabulatedDynamics> wrongTabulatedDynamicsSPtr = std::make_shared<TabulatedDynamics>(
             defaultInstants_,
             MatrixXd::Zero(defaultInstants_.getSize(), 3),
+            writeCoordinateSubsets,
+            defaultFrameSPtr_,
+            Interpolator::Type::BarycentricRational
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Wrong dynamics coordinate subsets fail
+    {
+        const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets = {CoordinateSubset::Mass()};
+
+        const Shared<TabulatedDynamics> wrongTabulatedDynamicsSPtr = std::make_shared<TabulatedDynamics>(
+            defaultInstants_,
+            MatrixXd::Zero(defaultInstants_.getSize(), 1),
             writeCoordinateSubsets,
             defaultFrameSPtr_,
             Interpolator::Type::BarycentricRational
