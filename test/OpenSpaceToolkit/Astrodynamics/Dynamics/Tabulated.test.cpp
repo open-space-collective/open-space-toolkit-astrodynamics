@@ -212,9 +212,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Getters)
     MatrixXd positionContributionsProfile_(defaultInstants_.getSize(), 3);
     MatrixXd velocityContributionsProfile_(defaultInstants_.getSize(), 3);
     MatrixXd massContributionsProfile_(defaultInstants_.getSize(), 1);
-    positionContributionsProfile_ << 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0, 3.0;
-    velocityContributionsProfile_ << 4.0, 4.0, 4.0, 4.0, 5.0, 5.0, 5.0, 5.0, 6.0, 6.0, 6.0, 6.0;
-    massContributionsProfile_ << 7.0, 7.0, 7.0, 7.0;
+    positionContributionsProfile_ << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0;
+    velocityContributionsProfile_ << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -10.0, -11.0, -12.0;
+    massContributionsProfile_ << 0.001, 0.002, 0.003, 0.004;
 
     MatrixXd extendedContributionProfile(defaultInstants_.getSize(), 7);
     extendedContributionProfile << positionContributionsProfile_, velocityContributionsProfile_,
@@ -248,6 +248,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Getters)
             try
             {
                 tabulated.getContributionProfileFromCoordinateSubsets({CoordinateSubset::DragCoefficient()});
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                tabulated.getContributionProfileFromCoordinateSubsets(
+                    {CartesianPosition::Default(), CoordinateSubset::DragCoefficient()}
+                );
             }
             catch (const ostk::core::error::RuntimeError& e)
             {

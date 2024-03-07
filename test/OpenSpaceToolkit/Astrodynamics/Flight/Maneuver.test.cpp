@@ -455,13 +455,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
                 {
                     Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
@@ -483,13 +483,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
                 {
                     Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 }

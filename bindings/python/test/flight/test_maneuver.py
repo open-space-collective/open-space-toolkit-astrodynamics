@@ -163,9 +163,11 @@ class TestManeuver:
         )
 
         assert tabulated_dynamics.is_defined()
-        assert tabulated_dynamics.get_instants() == maneuver.get_instants()
+        assert tabulated_dynamics.access_instants() == maneuver.get_instants()
 
-        contribution_profile: np.ndarray = tabulated_dynamics.get_contribution_profile()
+        contribution_profile: np.ndarray = (
+            tabulated_dynamics.access_contribution_profile()
+        )
 
         for i in range(len(instants)):
             assert contribution_profile[i][0:3] == pytest.approx(
@@ -175,7 +177,7 @@ class TestManeuver:
                 mass_flow_rate_profile[i], rel=1e-15
             )
 
-        assert tabulated_dynamics.get_frame() == frame
+        assert tabulated_dynamics.access_frame() == frame
 
     def test_from_tabulated_dynamics(
         self,
@@ -184,14 +186,14 @@ class TestManeuver:
         maneuver = Maneuver.from_tabulated_dynamics(tabulated_dynamics)
 
         assert maneuver.is_defined()
-        assert maneuver.get_instants() == tabulated_dynamics.get_instants()
+        assert maneuver.get_instants() == tabulated_dynamics.access_instants()
         assert (
             len(maneuver.get_acceleration_profile())
-            == tabulated_dynamics.get_contribution_profile().shape[0]
+            == tabulated_dynamics.access_contribution_profile().shape[0]
         )
         assert (
             len(maneuver.get_mass_flow_rate_profile())
-            == tabulated_dynamics.get_contribution_profile().shape[0]
+            == tabulated_dynamics.access_contribution_profile().shape[0]
         )
 
     def test_from_constant_mass_flow_rate(
