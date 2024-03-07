@@ -75,30 +75,23 @@ class Tabulated : public Dynamics
     /// @return The instants
     const Array<Instant>& accessInstants() const;
 
-    /// @brief Get instants
-    ///
-    /// @return The instants
-    Array<Instant> getInstants() const;
-
     /// @brief Access contribution profile
     ///
     /// @return The contribution profile
     const MatrixXd& accessContributionProfile() const;
 
-    /// @brief Get contribution profile
+    /// @brief Get contribution profile corresponding to a subset of coordinates
     ///
+    /// @param aCoordinateSubsetArray A coordinate subset
     /// @return The contribution profile
-    MatrixXd getContributionProfile() const;
+    MatrixXd getContributionProfileFromCoordinateSubsets(
+        const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetArray
+    ) const;
 
     /// @brief Access the frame
     ///
     /// @return The frame
     const Shared<const Frame>& accessFrame() const;
-
-    /// @brief Get the frame
-    ///
-    /// @return The frame
-    Shared<const Frame> getFrame() const;
 
     /// @brief Get the interpolation type
     ///
@@ -110,7 +103,7 @@ class Tabulated : public Dynamics
     /// @return True if dynamics is defined
     virtual bool isDefined() const override;
 
-    /// @brief Return the coordinate subsets that the instance reads from
+    /// @brief Return the coordinate subsets that the instance reads from (there are none for Tabulated dynamics)
     ///
     /// @return The coordinate subsets that the instance reads from
     virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;

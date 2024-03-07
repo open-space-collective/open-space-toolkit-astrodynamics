@@ -368,9 +368,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
         const Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
             defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
 
-        EXPECT_EQ(tabulatedDynamicsSPtr->getInstants(), defaultInstants_);
+        EXPECT_EQ(tabulatedDynamicsSPtr->accessInstants(), defaultInstants_);
 
-        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfile();
+        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->accessContributionProfile();
 
         EXPECT_EQ(contributionProfile.rows(), 4);
         EXPECT_EQ(contributionProfile.cols(), defaultInstants_.getSize());
@@ -387,7 +387,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             CartesianVelocity::Default(), CoordinateSubset::Mass()
         };
         EXPECT_EQ(tabulatedDynamicsSPtr->getWriteCoordinateSubsets(), writeCoordinateSubsets);
-        EXPECT_EQ(tabulatedDynamicsSPtr->getFrame(), defaultFrameSPtr_);
+        EXPECT_EQ(tabulatedDynamicsSPtr->accessFrame(), defaultFrameSPtr_);
     }
 }
 
