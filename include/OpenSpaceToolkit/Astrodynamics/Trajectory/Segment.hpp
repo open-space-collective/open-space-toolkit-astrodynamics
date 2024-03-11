@@ -76,14 +76,6 @@ class Segment
             const Segment::Type& aSegmentType
         );
 
-        /// @brief Access Start Instant
-        /// @return Start Instant
-        const Instant& accessStartInstant() const;
-
-        /// @brief Access end instant
-        /// @return End Instant
-        const Instant& accessEndInstant() const;
-
         /// @brief Get initial mass
         /// @return Initial mass
         Mass getInitialMass() const;
@@ -194,18 +186,6 @@ class Segment
     /// @brief Get type
     /// @return Type of segment
     Type getType() const;
-
-    /// @brief Access event condition
-    /// @return Event condition
-    const Shared<EventCondition>& accessEventCondition() const;
-
-    /// @brief Access dynamics
-    /// @return Dynamics
-    const Array<Shared<Dynamics>>& accessDynamics() const;
-
-    /// @brief Access numerical solver
-    /// @return Numerical solver
-    const NumericalSolver& accessNumericalSolver() const;
 
     /// @brief Solve the segment
     ///

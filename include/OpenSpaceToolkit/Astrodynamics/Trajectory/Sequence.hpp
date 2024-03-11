@@ -52,14 +52,6 @@ class Sequence
         /// @return An instance of Solution
         Solution(const Array<Segment::Solution>& aSegmentSolutionArray, const bool& executionIsComplete);
 
-        /// @brief Access Start Instant
-        /// @return Start Instant
-        const Instant& accessStartInstant() const;
-
-        /// @brief Access end instant
-        /// @return End Instant
-        const Instant& accessEndInstant() const;
-
         /// @brief Get all states (at variable intervals) that were computed when solving the sequence.
         /// @return Array of states.
         Array<State> getStates() const;

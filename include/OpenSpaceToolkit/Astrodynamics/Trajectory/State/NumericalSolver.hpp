@@ -70,15 +70,6 @@ class NumericalSolver : public MathNumericalSolver
         const RootSolver& aRootSolver = RootSolver::Default()
     );
 
-    /// @brief Access observed states
-    ///
-    /// @code{.cpp}
-    ///                  numericalSolver.accessObservedStates();
-    /// @endcode
-    ///
-    /// @return Observed states
-    const Array<State>& accessObservedStates() const;
-
     /// @brief Get root solver
     ///
     /// @code{.cpp}
@@ -199,8 +190,6 @@ class NumericalSolver : public MathNumericalSolver
     ) = delete;
 
     Array<MathNumericalSolver::Solution> getObservedStateVectors() const = delete;
-
-    const Array<MathNumericalSolver::Solution>& accessObservedStateVectors() const = delete;
 
    private:
     RootSolver rootSolver_;

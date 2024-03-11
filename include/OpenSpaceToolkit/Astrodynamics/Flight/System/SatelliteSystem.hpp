@@ -102,15 +102,6 @@ class SatelliteSystem : public System
     /// @return True if satellite system is defined
     virtual bool isDefined() const override;
 
-    /// @brief Access satellite system's propulsion system
-    ///
-    /// @code{.cpp}
-    ///                  PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem() ;
-    /// @endcode
-    ///
-    /// @return PropulsionSystem
-    const PropulsionSystem& accessPropulsionSystem() const;
-
     /// @brief Get satellite system's inertia tensor
     ///
     /// @code{.cpp}

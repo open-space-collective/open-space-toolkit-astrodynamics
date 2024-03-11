@@ -148,26 +148,6 @@ class State
     /// @return True if the State is defined, false otherwise
     bool isDefined() const;
 
-    /// @brief Accessor for the instant.
-    ///
-    /// @return The instant
-    const Instant& accessInstant() const;
-
-    /// @brief Accessor for the reference frame.
-    ///
-    /// @return The reference frame
-    const Shared<const Frame> accessFrame() const;
-
-    /// @brief Accessor for the coordinates.
-    ///
-    /// @return The coordinates
-    const VectorXd& accessCoordinates() const;
-
-    /// @brief Access the coordinate broker associated with the State.
-    ///
-    /// @return The coordinate broker associated to the State
-    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
-
     /// @brief Get the size of the State.
     ///
     /// @return The size of the State

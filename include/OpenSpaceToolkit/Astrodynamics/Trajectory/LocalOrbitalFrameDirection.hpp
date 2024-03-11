@@ -74,11 +74,6 @@ class LocalOrbitalFrameDirection
     /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Access local orbital frame factory
-    ///
-    /// @return The local orbital frame factory
-    const Shared<const LocalOrbitalFrameFactory>& accessLocalOrbitalFrameFactory() const;
-
     /// @brief Get vector value
     ///
     /// @return The vector value

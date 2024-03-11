@@ -88,16 +88,6 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-const PropulsionSystem& SatelliteSystem::accessPropulsionSystem() const
-{
-    if (!propulsionSystem_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propulsion System");
-    }
-
-    return this->propulsionSystem_;
-}
-
 Matrix3d SatelliteSystem::getInertiaTensor() const
 {
     if (!inertiaTensor_.isDefined())
@@ -130,7 +120,12 @@ Real SatelliteSystem::getDragCoefficient() const
 
 PropulsionSystem SatelliteSystem::getPropulsionSystem() const
 {
-    return this->accessPropulsionSystem();
+    if (!propulsionSystem_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propulsion System");
+    }
+
+    return propulsionSystem_;
 }
 
 SatelliteSystem SatelliteSystem::Undefined()

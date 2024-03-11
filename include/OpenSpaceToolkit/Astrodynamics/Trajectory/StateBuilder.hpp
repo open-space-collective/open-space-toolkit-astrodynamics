@@ -121,16 +121,6 @@ class StateBuilder
     /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State expand(const State& aState, const State& defaultState) const;
 
-    /// @brief Accessor for the reference frame.
-    ///
-    /// @return The reference frame
-    const Shared<const Frame> accessFrame() const;
-
-    /// @brief Access the coordinate broker associated with the  StateBuilder.
-    ///
-    /// @return The coordinate broker associated to the State
-    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
-
     /// @brief Get the reference frame associated with the  StateBuilder.
     ///
     /// @return The reference frame
