@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1710154073028,
+  "lastUpdate": 1710167142772,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 2784247926.499984,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2784174097.899999 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e426f514652a91db01718c66d8bea0309870a099",
+          "message": "refactor!: tabulated dynamics getters into accessors only and add a specific getter for returning a matrixxd from coordinate subsets (#365)\n\n* refactor: getter methods for tabulated dynamics\r\n\r\n* feat: add bindings\r\n\r\n* fix: add pau's suggestion",
+          "timestamp": "2024-03-11T14:08:49Z",
+          "tree_id": "77310320ff83cae7ca91da9abed748c6d7338f74",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/e426f514652a91db01718c66d8bea0309870a099"
+        },
+        "date": 1710167140356,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 547565701.4000036,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 547556066.1999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 796185109.9,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 796170428.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2782740441.3999887,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2782666432.6000004 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2784131671.100022,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2784033908.6000023 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2789783676.499985,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2789745880.299998 ns\nthreads: 1"
           }
         ]
       }
