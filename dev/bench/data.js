@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1708637529211,
+  "lastUpdate": 1710154073028,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 2785052541.500005,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2784873150 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "85bb6e143ae6e437417a432dc0b4d986a931cea0",
+          "message": "feat: connect maneuver class with segments and propagator (#340)\n\n* feat: connect maneuver class with segments and propagator\r\n\r\n* feat: add bindings and python tests\r\n\r\n* fix: add pau's suggestion",
+          "timestamp": "2024-03-11T11:25:47+01:00",
+          "tree_id": "bdb5d201c0994e8890ce5672493815736fb57935",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/85bb6e143ae6e437417a432dc0b4d986a931cea0"
+        },
+        "date": 1710154070958,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 557298327.9000084,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 557259264.9 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 801478976.8000014,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 801420015.8000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2788954383.100003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2788842471.4000006 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2788529841.000002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2788487822.6000004 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2784247926.499984,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2784174097.899999 ns\nthreads: 1"
           }
         ]
       }
