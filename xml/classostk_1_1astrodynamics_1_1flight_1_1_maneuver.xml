@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="226" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="226" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="243" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="243" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a9b8c12c2111a23f2c6da31939d53f8f8" prot="private" static="no" mutable="no">
         <type>Array&lt; Vector3d &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="227" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="227" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="244" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="244" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1afc61bf17108d200551227a8f0bee3285" prot="private" static="no" mutable="no">
         <type>Array&lt; Real &gt;</type>
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="228" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="228" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="245" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="245" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -117,7 +117,7 @@
 <parametername>aMassFlowRateProfile</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A mass flow rate profile of the maneuver, one Real per instant in kg/s </para>
+<para>A mass flow rate profile of the maneuver (negative numbers expected), one Real per instant in kg/s </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -125,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="71" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="23" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="72" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="23" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae21f118c45b3b84cfc7744da80ea4598" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -155,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="82" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="59" bodyend="64"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="83" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="84" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a2b283b78fef0c52fd9991f01ba2ced97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -185,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="88" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="66" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="89" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="91" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7a50d850d84b4ab55c11995280b6d97f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="105" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="78" bodyend="81"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="106" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="103" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aa47e38ad94c14d958bb581a15e8a3401" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Instant &gt;</type>
@@ -221,7 +221,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="114" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="83" bodyend="86"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="115" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="108" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1add5d5e077fb72247c6b9ef37ddcaab28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Vector3d &gt;</type>
@@ -254,7 +254,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="125" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="88" bodyend="91"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="126" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="113" bodyend="116"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a303a5f225d64a08edaa4d33fc8133610" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Real &gt;</type>
@@ -273,7 +273,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="134" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="93" bodyend="96"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="135" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="118" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a73bebd99cd96958b5c622ce7ab214e03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interval</type>
@@ -292,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="143" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="98" bodyend="101"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="144" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="123" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a309afcadbe4bd497278ac0132b5f3154" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -311,7 +311,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="152" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="103" bodyend="116"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="153" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="128" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Mass</type>
@@ -330,7 +330,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="118" bodyend="130"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="162" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="144" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a806b20bcdc02ad2267151aa6039b179a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -362,7 +362,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="172" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="132" bodyend="147"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="173" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="159" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac418c97491c18a1c9ee0e7085cd25071" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -395,7 +395,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="184" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="149" bodyend="156"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="185" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="177" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae1505ecd3efe8bd93c995653bc7ea93f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; <ref refid="namespaceostk_1_1astrodynamics_1_1flight_1a65d2b73d1728c8b77fa5633018c46c56" kindref="member">TabulatedDynamics</ref> &gt;</type>
@@ -442,7 +442,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="197" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="158" bodyend="180"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="198" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="186" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -483,7 +483,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="206" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="182" bodyend="192"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="207" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="210" bodyend="220"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -529,15 +529,48 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="100" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="71" bodyend="76"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="101" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="96" bodyend="101"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aaae204030160f293e8fd862027571c96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref></type>
-        <definition>Maneuver ostk::astrodynamics::flight::Maneuver::ConstantMassFlowRateProfile</definition>
+        <definition>Maneuver ostk::astrodynamics::flight::Maneuver::FromTabulatedDynamics</definition>
+        <argsstring>(const Shared&lt; Dynamics &gt; &amp;aTabulatedDynamicsSPtr)</argsstring>
+        <name>FromTabulatedDynamics</name>
+        <param>
+          <type>const Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> &gt; &amp;</type>
+          <declname>aTabulatedDynamicsSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Create a maneuver from a tabulated dynamics with cols 1-3 being acceleration and col 4 being mass flow rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;Dynamics&gt;<sp/>tabulatedDynamicsSPtr<sp/>=<sp/>std::make_shared&lt;TabulatedDynamics&gt;(tabulated);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref><sp/>maneuver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aaae204030160f293e8fd862027571c96" kindref="member">Maneuver::FromTabulatedDynamics</ref>(tabulatedDynamicsSPtr);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTabulatedDynamicsSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A shared pointer to a <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> object (that is downcastable to a TabulatedDynamics object)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A maneuver </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="221" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="222" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a1539ea49d18f92273ca32129c05a812b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref></type>
+        <definition>Maneuver ostk::astrodynamics::flight::Maneuver::FromConstantMassFlowRateProfile</definition>
         <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray, const Array&lt; Vector3d &gt; &amp;anAccelerationProfile, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Real &amp;aMassFlowRate)</argsstring>
-        <name>ConstantMassFlowRateProfile</name>
+        <name>FromConstantMassFlowRateProfile</name>
         <param>
           <type>const Array&lt; Instant &gt; &amp;</type>
           <declname>anInstantArray</declname>
@@ -558,7 +591,7 @@
 <para>Create a maneuver from a constant mass flow rate profile. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref><sp/>maneuver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" kindref="member">Maneuver::ConstantMassFlowRateProfile</ref>(...);</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref><sp/>maneuver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a1539ea49d18f92273ca32129c05a812b" kindref="member">Maneuver::FromConstantMassFlowRateProfile</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -589,15 +622,17 @@
 <parametername>aMassFlowRate</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A constant mass flow rate that will be used for all the instants in the maneuver in kg/s </para>
+<para>A constant mass flow rate that will be used for all the instants in the maneuver in kg/s</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>A maneuver </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="218" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="194" bodyend="202"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="235" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="269" bodyend="277"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -616,7 +651,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="230" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="204" bodyend="220"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="247" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="279" bodyend="295"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -636,16 +671,17 @@
         <label>Shared&lt; const Frame &gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="56" bodyend="231"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="56" bodyend="248"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a9b8c12c2111a23f2c6da31939d53f8f8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>accelerationProfileDefaultFrame_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac418c97491c18a1c9ee0e7085cd25071" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateAverageSpecificImpulse</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a806b20bcdc02ad2267151aa6039b179a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateAverageThrust</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateDeltaMass</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a309afcadbe4bd497278ac0132b5f3154" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>calculateDeltaV</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>ConstantMassFlowRateProfile</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a17ec96d884c28d3026cee8583ad31da0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>convertAccelerationProfileFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a704dea1ae3c42a73bb9c3d80db565da7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>DefaultAccelFrameSPtr</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a1539ea49d18f92273ca32129c05a812b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>FromConstantMassFlowRateProfile</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aaae204030160f293e8fd862027571c96" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>FromTabulatedDynamics</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1add5d5e077fb72247c6b9ef37ddcaab28" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getAccelerationProfile</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aa47e38ad94c14d958bb581a15e8a3401" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getInstants</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a73bebd99cd96958b5c622ce7ab214e03" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Maneuver</scope><name>getInterval</name></member>

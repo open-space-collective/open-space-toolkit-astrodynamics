@@ -20,7 +20,8 @@ ostk.astrodynamics.flight.Maneuver
       ~Maneuver.calculate_average_thrust
       ~Maneuver.calculate_delta_mass
       ~Maneuver.calculate_delta_v
-      ~Maneuver.constant_mass_flow_rate_profile
+      ~Maneuver.from_constant_mass_flow_rate_profile
+      ~Maneuver.from_tabulated_dynamics
       ~Maneuver.get_acceleration_profile
       ~Maneuver.get_instants
       ~Maneuver.get_interval

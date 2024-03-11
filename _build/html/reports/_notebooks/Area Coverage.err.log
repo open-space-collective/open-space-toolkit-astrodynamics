@@ -66,16 +66,6 @@ from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
 from ostk.astrodynamics import Access
 ------------------
 
------ stderr -----
-/tmp/ipykernel_1888/3451522362.py:2: DeprecationWarning: 
-Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
-(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
-but was not found to be installed on your system.
-If this would cause problems for you,
-please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
-        
-  import pandas as pd
-------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)

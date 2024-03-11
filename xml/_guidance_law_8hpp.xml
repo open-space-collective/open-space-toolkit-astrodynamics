@@ -48,7 +48,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="12">
+      <node id="13">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp</label>
         <link refid="_guidance_law_8cpp"/>
       </node>
@@ -57,14 +57,18 @@
         <link refid="_guidance_law_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="4">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
         <link refid="_constant_thrust_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
+        <link refid="_propagator_8cpp"/>
       </node>
       <node id="2">
         <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</label>
@@ -74,6 +78,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -88,14 +94,14 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="12">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
         <link refid="_q_law_8cpp"/>
       </node>
-      <node id="10">
+      <node id="11">
         <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</label>
         <link refid="_q_law_8hpp"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="5">

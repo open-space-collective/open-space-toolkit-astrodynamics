@@ -18,6 +18,7 @@ ostk.astrodynamics.trajectory.Propagator
    
       ~Propagator.access_numerical_solver
       ~Propagator.add_dynamics
+      ~Propagator.add_maneuver
       ~Propagator.calculate_state_at
       ~Propagator.calculate_state_to_condition
       ~Propagator.calculate_states_at

@@ -615,7 +615,8 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae1505ecd3efe8bd93c995653bc7ea93f" kind="function"><name>toTabulatedDynamics</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6d0f41e5308ce7da2d596ce7d7cf3f25" kind="friend"><name>operator&lt;&lt;</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" kind="function"><name>ConstantMassFlowRateProfile</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aaae204030160f293e8fd862027571c96" kind="function"><name>FromTabulatedDynamics</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a1539ea49d18f92273ca32129c05a812b" kind="function"><name>FromConstantMassFlowRateProfile</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a17ec96d884c28d3026cee8583ad31da0" kind="function"><name>convertAccelerationProfileFrame</name></member>
   </compound>
   <compound refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata" kind="struct"><name>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</name>
@@ -879,6 +880,9 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a57b8ee234185fbcc88af829fc2f0becb" kind="variable"><name>dynamicsContexts_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a3eefc8506d771e42a667dc0985d86c14" kind="variable"><name>numericalSolver_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8641cdc43835c124f91ccafd62b32155" kind="function"><name>Propagator</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8b94bdb88d93a465600c0bf08be8135f" kind="function"><name>Propagator</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a6791eff19e947c2d07c6888b27407174" kind="function"><name>Propagator</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1ab4ccb0e7eccd12ef94f6c83e7e72daee" kind="function"><name>operator=</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a241777690c500b2340980e5ed8bb71eb" kind="function"><name>operator==</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a1c5f6315b39c90c582789da15f0543db" kind="function"><name>operator!=</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a351bc96d5e170d0da81b26cb5912322a" kind="function"><name>isDefined</name></member>
@@ -889,6 +893,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a562d3e9c316692eec7f981b8d2cfff53" kind="function"><name>setDynamics</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a891b961e39411c336d3221de82083f2f" kind="function"><name>addDynamics</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a5ab511f6854a41dd989e4fa44b211e11" kind="function"><name>clearDynamics</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a7cc053bad5140b3cc1ba7a11df8c9ff5" kind="function"><name>addManeuver</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a91d1aad272a5dc09610a12c69c121e2e" kind="function"><name>calculateStateAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1ace7a480336e42fd522448639b42de59c" kind="function"><name>calculateStateToCondition</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a2e578afa8275b07919e85da9161e35d5" kind="function"><name>calculateStatesAt</name></member>
@@ -898,7 +903,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1aadca8f4fe634f72ddbb43cfc94f5ad5e" kind="function"><name>Default</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1ad821068f7a16c098b0fc27a8fc573484" kind="function"><name>Default</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a89f18f82109de238ec8cf5085105f92c" kind="function"><name>FromEnvironment</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a7df2785b720ebdb76f9cea8338fb9a53" kind="function"><name>registerDynamicsContext</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a65baf44b1468d1b4b2bb6762e6374446" kind="function"><name>validateDynamicsSet</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kind="class"><name>ostk::astrodynamics::flight::system::PropulsionSystem</name>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system_1a6c3359a6d200083126efa7de4b954d91" kind="variable"><name>thrust_</name></member>
@@ -1140,6 +1145,7 @@
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a0f47b22e310e3420d7ec5c1d04146a2c" kind="function"><name>getPropagationDuration</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a11bb1bad57c987383f92bcd1f305042f" kind="function"><name>computeDeltaV</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1aea52a380b5f58174db6b274bd403d0a1" kind="function"><name>computeDeltaMass</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1aa6123a63e1f069b385f29a268a953e1c" kind="function"><name>extractManeuvers</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a4c27c3159a6caa99f1dc63811e2687bb" kind="function"><name>calculateStatesAt</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a058c7fc6b31baa9ac4ed2d364e4555f6" kind="function"><name>getDynamicsContribution</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a651ff8f9ea5b21fee69a3276a6c7986a" kind="function"><name>getDynamicsAccelerationContribution</name></member>
@@ -1512,6 +1518,7 @@
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1trajectory" kind="namespace"><name>ostk::astrodynamics::trajectory</name>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1ac6191bcd63929b91a913eb54ddf4b996" kind="typedef"><name>FrameManager</name></member>
+    <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a2369caa6d8d51dfd5dfd25fbad70155b" kind="typedef"><name>TabulatedDynamics</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a59be657b34b16f321ba439b7e009bb00" kind="typedef"><name>EarthGravitationalModel</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a243e2cc89a706c1e8bd93a0f44f6c3a1" kind="variable"><name>GravitationalParameterSIUnit</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a54c8b09255e7c157165eb92997aa53c9" kind="variable"><name>epsilon</name></member>
@@ -1687,6 +1694,7 @@
   <compound refid="_pass_8hpp" kind="file"><name>Pass.hpp</name>
   </compound>
   <compound refid="_propagator_8hpp" kind="file"><name>Propagator.hpp</name>
+    <member refid="_propagator_8hpp_1a4d731c73b9e1234be75ad4348f8fa485" kind="define"><name>DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE</name></member>
   </compound>
   <compound refid="_segment_8hpp" kind="file"><name>Segment.hpp</name>
   </compound>

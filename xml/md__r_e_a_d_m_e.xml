@@ -9,6 +9,7 @@
     <detaileddescription>
 <para>Structure</para>
 <para><ulink url="https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/build-test.yml"><image type="html" name="badge.svg?branch=main" inline="yes"></image>
+</ulink> <ulink url="https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/release.yml"><image type="html" name="badge.svg" inline="yes"></image>
 </ulink> <ulink url="https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics"><image type="html" name="badge.svg" inline="yes"></image>
 </ulink> <ulink url="https://open-space-collective.github.io/open-space-toolkit-astrodynamics"><image type="html" name="stable.svg" inline="yes"></image>
 </ulink> <ulink url="https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics"><image type="html" name="open-space-collective%2Fopen-space-toolkit-astrodynamics.svg" inline="yes"></image>
