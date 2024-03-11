@@ -67,7 +67,8 @@ class Maneuver
     /// @param anInstantArray An array of instants, must be sorted
     /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
-    /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver, one Real per instant in kg/s
+    /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver (negative numbers expected), one Real per
+    /// instant in kg/s
     Maneuver(
         const Array<Instant>& anInstantArray,
         const Array<Vector3d>& anAccelerationProfile,
@@ -205,17 +206,33 @@ class Maneuver
     /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Create a maneuver from a tabulated dynamics with cols 1-3 being acceleration and col 4 being mass flow
+    /// rate
+    ///
+    /// @code{.cpp}
+    ///                  Shared<Dynamics> tabulatedDynamicsSPtr = std::make_shared<TabulatedDynamics>(tabulated);
+    ///                  Maneuver maneuver = Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
+    /// @endcode
+    ///
+    /// @param aTabulatedDynamicsSPtr A shared pointer to a Dynamics object (that is downcastable to a TabulatedDynamics
+    /// object)
+    ///
+    /// @return A maneuver
+    static Maneuver FromTabulatedDynamics(const Shared<Dynamics>& aTabulatedDynamicsSPtr);
+
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///
     /// @code{.cpp}
-    ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
+    ///                  Maneuver maneuver = Maneuver::FromConstantMassFlowRateProfile(...);
     /// @endcode
     ///
     /// @param anInstantArray An array of instants, must be sorted
     /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
-    static Maneuver ConstantMassFlowRateProfile(
+    ///
+    /// @return A maneuver
+    static Maneuver FromConstantMassFlowRateProfile(
         const Array<Instant>& anInstantArray,
         const Array<Vector3d>& anAccelerationProfile,
         const Shared<const Frame>& aFrameSPtr,

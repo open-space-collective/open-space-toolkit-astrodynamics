@@ -13,6 +13,14 @@ from ostk.physics.unit import Mass
 
 from ostk.astrodynamics.flight import Maneuver
 from ostk.astrodynamics.dynamics import Tabulated as TabulatedDynamics
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+
+
+from ..dynamics.test_tabulated import (
+    instants as tabulated_instants,
+    contribution_profile as tabulated_contribution_profile,
+    coordinate_subsets as tabulated_coordinate_subsets,
+)
 
 
 @pytest.fixture
@@ -42,7 +50,7 @@ def frame() -> Frame:
 
 @pytest.fixture
 def mass_flow_rate_profile() -> list[float]:
-    return [1.0e-5, 1.1e-5, 0.9e-5, 1.0e-5]
+    return [-1.0e-5, -1.1e-5, -0.9e-5, -1.0e-5]
 
 
 @pytest.fixture
@@ -53,6 +61,21 @@ def maneuver(
     mass_flow_rate_profile: list[float],
 ) -> Maneuver:
     return Maneuver(instants, acceleration_profile, frame, mass_flow_rate_profile)
+
+
+@pytest.fixture
+def tabulated_dynamics(
+    tabulated_instants: list[Instant],
+    tabulated_contribution_profile: np.ndarray,
+    tabulated_coordinate_subsets: list[CoordinateSubset],
+    frame: Frame,
+) -> TabulatedDynamics:
+    return TabulatedDynamics(
+        tabulated_instants,
+        tabulated_contribution_profile,
+        tabulated_coordinate_subsets,
+        frame,
+    )
 
 
 class TestManeuver:
@@ -154,14 +177,31 @@ class TestManeuver:
 
         assert tabulated_dynamics.get_frame() == frame
 
+    def test_from_tabulated_dynamics(
+        self,
+        tabulated_dynamics: TabulatedDynamics,
+    ):
+        maneuver = Maneuver.from_tabulated_dynamics(tabulated_dynamics)
+
+        assert maneuver.is_defined()
+        assert maneuver.get_instants() == tabulated_dynamics.get_instants()
+        assert (
+            len(maneuver.get_acceleration_profile())
+            == tabulated_dynamics.get_contribution_profile().shape[0]
+        )
+        assert (
+            len(maneuver.get_mass_flow_rate_profile())
+            == tabulated_dynamics.get_contribution_profile().shape[0]
+        )
+
     def test_from_constant_mass_flow_rate(
         self,
         instants: list[Instant],
         acceleration_profile: list[np.ndarray],
         frame: Frame,
     ):
-        mass_flow_rate: float = 1.0e-5
-        maneuver = Maneuver.constant_mass_flow_rate_profile(
+        mass_flow_rate: float = -1.0e-5
+        maneuver = Maneuver.from_constant_mass_flow_rate_profile(
             instants=instants,
             acceleration_profile=acceleration_profile,
             frame=frame,

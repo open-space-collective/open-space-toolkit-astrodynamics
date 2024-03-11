@@ -12,10 +12,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
     using ostk::physics::time::Duration;
 
+    using ostk::astrodynamics::Dynamics;
+    using ostk::astrodynamics::flight::Maneuver;
+    using ostk::astrodynamics::trajectory::Segment;
     using ostk::astrodynamics::trajectory::state::NumericalSolver;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-    using ostk::astrodynamics::trajectory::Segment;
-    using ostk::astrodynamics::Dynamics;
 
     class_<Segment> segment(
         aModule,
@@ -185,6 +186,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                 Returns:
                     Mass: The delta mass.
+
+            )doc"
+        )
+
+        .def(
+            "extract_maneuvers",
+            &Segment::Solution::extractManeuvers,
+            arg("frame"),
+            R"doc(
+            Extract maneuvers from the (maneuvering) segment.
+
+            Returns:
+                list[Maneuver]: The list of maneuvers.
 
             )doc"
         )

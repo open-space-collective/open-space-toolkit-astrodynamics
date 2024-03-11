@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -31,6 +32,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -53,6 +55,8 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
+using ostk::mathematics::curvefitting::Interpolator;
+
 using ostk::physics::Environment;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
@@ -61,10 +65,13 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+
+#define DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
 /// @brief Define a propagator to be used for numerical propagation
 class Propagator
@@ -84,6 +91,23 @@ class Propagator
     Propagator(
         const NumericalSolver& aNumericalSolver,
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
+    );
+
+    /// @brief Constructor with Maneuvers
+    ///
+    /// @code{.cpp}
+    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray, aManeuverArray } ;
+    /// @endcode
+    ///
+    /// @param aNumericalSolver A numerical solver
+    /// @param aDynamicsArray A dynamics array (only non-maneuvering dynamics should be added here)
+    /// @param aManeuverArray A maneuver array (don't add tabulated dynamics to the dynamics array, add them here in the
+    /// form of maneuvers instead)
+    Propagator(
+        const NumericalSolver& aNumericalSolver,
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const Array<Maneuver>& aManeuverArray,
+        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
     );
 
     /// @brief Copy constructor
@@ -162,6 +186,17 @@ class Propagator
     ///              propagator.clearDynamics();
     /// @endcode
     void clearDynamics();
+
+    /// @brief Add a maneuver to be taken into account during propagation in the form of tabulated dynamics
+    /// @code{.cpp}
+    ///              propagator.addManeuver(aManeuver);
+    /// @endcode
+    /// @param aManeuver A maneuver array
+    /// @param (optional) anInterpolationType An interpolation type
+    void addManeuver(
+        const Maneuver& aManeuver,
+        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
+    );
 
     /// @brief Calculate the state at an instant, given initial state
     /// @code{.cpp}

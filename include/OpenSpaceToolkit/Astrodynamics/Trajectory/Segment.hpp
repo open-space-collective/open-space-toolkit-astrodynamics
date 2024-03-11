@@ -12,11 +12,12 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -38,12 +39,12 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::unit::Mass;
 
-using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
-using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::flight::Maneuver;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /// @brief Represent a propagation segment for astrodynamics purposes
 class Segment
@@ -104,6 +105,12 @@ class Segment
         /// @brief Compute delta mass
         /// @return Delta mass
         Mass computeDeltaMass() const;
+
+        /// @brief Extract maneuvers from the (maneuvering) segment
+        ///
+        /// @param aFrameSPtr Frame
+        /// @return Array of maneuvers
+        Array<Maneuver> extractManeuvers(const Shared<const Frame>& aFrameSPtr) const;
 
         /// @brief Calculate intermediate states at specified Instants using the provided Numerical Solver
         ///

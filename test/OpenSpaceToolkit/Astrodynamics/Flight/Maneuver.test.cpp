@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -42,6 +43,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
+using ostk::astrodynamics::Dynamics;
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -68,8 +70,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
     const Shared<const Frame> secondFrameSPtr_ = Frame::ITRF();
 
-    const Array<Real> defaultMassFlowRateProfile_ = {1.0e-5, 1.1e-5, 0.9e-5, 1.0e-5};
-    const Real defaultConstantMassFlowRate_ = 0.5e-5;
+    const Array<Real> defaultMassFlowRateProfile_ = {-1.0e-5, -1.1e-5, -0.9e-5, -1.0e-5};
+    const Real defaultConstantMassFlowRate_ = -0.5e-5;
 
     const Maneuver defaultManeuver_ = {
         defaultInstants_, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultMassFlowRateProfile_
@@ -120,6 +122,54 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
     }
 
     {
+        const Array<Real> shorterMassFlowRateProfile = {-1.0e-5, -1.1e-5, -0.9e-5};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver(
+                        defaultInstants_,
+                        defaultAccelerationProfileDefaultFrame_,
+                        defaultFrameSPtr_,
+                        shorterMassFlowRateProfile
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Mass flow rate profile must have the same number of elements as the number of instants.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
+        const Array<Instant> emptyInstants = {defaultInstants_[0]};
+        const Array<Vector3d> emptyAccelerationProfile = {defaultAccelerationProfileDefaultFrame_[0]};
+        const Array<Real> emptyMassFlowRateProfile = {defaultMassFlowRateProfile_[0]};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver(emptyInstants, emptyAccelerationProfile, defaultFrameSPtr_, emptyMassFlowRateProfile);
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("At least two instants are required to define a maneuver.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
         EXPECT_THROW(
             {
                 try
@@ -162,6 +212,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
             },
             ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        const Array<Real> positiveMassFlowRateProfile = {1.0e-5, 1.1e-5, 0.9e-5, 1.0e-5};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver(
+                        defaultInstants_,
+                        defaultAccelerationProfileDefaultFrame_,
+                        defaultFrameSPtr_,
+                        positiveMassFlowRateProfile
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Mass flow rate profile must be expressed in negative numbers.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
         );
     }
 }
@@ -267,24 +341,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities)
 {
     {
-        EXPECT_NEAR(0.0013941812040755494, defaultManeuver_.calculateDeltaV(), 1.0e-15);
+        EXPECT_DOUBLE_EQ(0.0013941812040755494, defaultManeuver_.calculateDeltaV());
     }
 
     {
-        EXPECT_NEAR(1.26e-4, defaultManeuver_.calculateDeltaMass().inKilograms(), 1.0e-15);
+        EXPECT_DOUBLE_EQ(1.26e-4, defaultManeuver_.calculateDeltaMass().inKilograms());
     }
 
     {
-        EXPECT_NEAR(
-            0.13941806994799905, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram)), 1.0e-15
+        EXPECT_DOUBLE_EQ(
+            0.13941817086711084, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
     }
 
     {
-        EXPECT_NEAR(
-            789.81592393369704,
-            defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram)),
-            1.0e-15
+        EXPECT_DOUBLE_EQ(
+            789.81649564955535, defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram))
+
         );
     }
 }
@@ -318,10 +391,113 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfile)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
+{
+    // Verify creation from tabulated dynamics
+    {
+        const Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
+            defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
+
+        const Maneuver maneuver = Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
+
+        EXPECT_EQ(maneuver.getInstants(), defaultInstants_);
+        EXPECT_EQ(maneuver.getAccelerationProfile(defaultFrameSPtr_), defaultAccelerationProfileDefaultFrame_);
+        EXPECT_EQ(maneuver.getMassFlowRateProfile(), defaultMassFlowRateProfile_);
+    }
+
+    // Verify creation from dynamics
+    {
+        const Shared<Dynamics> tabulatedDynamicsSPtr =
+            defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
+
+        const Maneuver maneuver = Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
+
+        EXPECT_EQ(maneuver.getInstants(), defaultInstants_);
+        EXPECT_EQ(maneuver.getAccelerationProfile(defaultFrameSPtr_), defaultAccelerationProfileDefaultFrame_);
+        EXPECT_EQ(maneuver.getMassFlowRateProfile(), defaultMassFlowRateProfile_);
+    }
+
+    // Nullptr fail
+    {
+        const Shared<Dynamics> tabulatedDynamicsSPtr = nullptr;
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ("{Tabulated Dynamics} is undefined.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    // Wrong dynamics coordinate subsets fail
+    {
+        const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets = {CartesianVelocity::Default()};
+
+        const Shared<TabulatedDynamics> wrongTabulatedDynamicsSPtr = std::make_shared<TabulatedDynamics>(
+            defaultInstants_,
+            MatrixXd::Zero(defaultInstants_.getSize(), 3),
+            writeCoordinateSubsets,
+            defaultFrameSPtr_,
+            Interpolator::Type::BarycentricRational
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Wrong dynamics coordinate subsets fail
+    {
+        const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets = {CoordinateSubset::Mass()};
+
+        const Shared<TabulatedDynamics> wrongTabulatedDynamicsSPtr = std::make_shared<TabulatedDynamics>(
+            defaultInstants_,
+            MatrixXd::Zero(defaultInstants_.getSize(), 1),
+            writeCoordinateSubsets,
+            defaultFrameSPtr_,
+            Interpolator::Type::BarycentricRational
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromConstantMassFlowRateProfile)
 {
     {
-        const Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(
+        const Maneuver maneuver = Maneuver::FromConstantMassFlowRateProfile(
             defaultInstants_, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultConstantMassFlowRate_
         );
 

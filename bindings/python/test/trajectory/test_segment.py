@@ -11,7 +11,7 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth
 
-from ostk.astrodynamics.trajectory.state import NumericalSolver
+from ostk.astrodynamics.flight import Maneuver
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
@@ -24,6 +24,7 @@ from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import NumericalSolver
 
 
 @pytest.fixture
@@ -243,10 +244,11 @@ class TestSegment:
         assert solution.get_final_mass() is not None
         assert solution.get_propagation_duration() is not None
 
-        assert solution.compute_delta_mass() is not None
         assert solution.compute_delta_v(1500.0) is not None
+        assert solution.compute_delta_mass() is not None
 
-        state_frame: Frame = state.get_frame()
+        assert solution.extract_maneuvers(state.get_frame()) is not None
+        assert len(solution.extract_maneuvers(state.get_frame())) == 1
 
         propagated_states = solution.calculate_states_at(
             instants,
@@ -257,15 +259,15 @@ class TestSegment:
         assert len(propagated_states) == len(instants)
 
         first_dynamics_contribution = solution.get_dynamics_contribution(
-            solution.dynamics[0], state_frame
+            solution.dynamics[0], state.get_frame()
         )
 
         second_dynamics_contribution = solution.get_dynamics_contribution(
-            solution.dynamics[1], state_frame
+            solution.dynamics[1], state.get_frame()
         )
 
         third_dynamics_contribution = solution.get_dynamics_contribution(
-            solution.dynamics[2], state_frame
+            solution.dynamics[2], state.get_frame()
         )
 
         assert first_dynamics_contribution is not None
@@ -275,7 +277,7 @@ class TestSegment:
         assert second_dynamics_contribution.shape == (len(solution.states), 3)
         assert third_dynamics_contribution.shape == (len(solution.states), 4)
 
-        all_contributions = solution.get_all_dynamics_contributions(state_frame)
+        all_contributions = solution.get_all_dynamics_contributions(state.get_frame())
         assert len(all_contributions) == len(solution.dynamics)
 
         assert all_contributions is not None
@@ -291,7 +293,7 @@ class TestSegment:
         )
 
         acceleration_contribution = solution.get_dynamics_acceleration_contribution(
-            solution.dynamics[1], state_frame
+            solution.dynamics[1], state.get_frame()
         )
         assert acceleration_contribution is not None
         assert acceleration_contribution.shape == (len(solution.states), 3)
@@ -299,5 +301,5 @@ class TestSegment:
 
         with pytest.raises(Exception):
             solution.get_dynamics_acceleration_contribution(
-                solution.dynamics[0], state_frame
+                solution.dynamics[0], state.get_frame()
             )

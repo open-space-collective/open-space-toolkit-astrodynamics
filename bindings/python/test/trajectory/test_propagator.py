@@ -4,6 +4,7 @@ import pytest
 
 import numpy as np
 
+from ostk.mathematics.curve_fitting import Interpolator
 from ostk.mathematics.geometry.d3.object import Cuboid
 from ostk.mathematics.geometry.d3.object import Composite
 from ostk.mathematics.geometry.d3.object import Point
@@ -31,14 +32,16 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVeloc
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 
-from ostk.astrodynamics.flight.system import PropulsionSystem
-from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import AtmosphericDrag
+from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.guidance_law import ConstantThrust
+from ostk.astrodynamics.flight import Maneuver
+from ostk.astrodynamics.flight.system import PropulsionSystem
+from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -47,7 +50,13 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import (
 )
 from ostk.astrodynamics.trajectory import Propagator
 
-from ostk.astrodynamics.event_condition import InstantCondition
+
+from ..flight.test_maneuver import (
+    instants as maneuver_instants,
+    acceleration_profile as maneuver_acceleration_profile,
+    frame as maneuver_frame,
+    mass_flow_rate_profile as maneuver_mass_flow_rate_profile,
+)
 
 
 @pytest.fixture
@@ -241,15 +250,51 @@ def event_condition(state: State) -> InstantCondition:
 
 
 @pytest.fixture
+def maneuver(
+    maneuver_instants: list[Instant],
+    maneuver_acceleration_profile: list[np.ndarray],
+    maneuver_frame: Frame,
+    maneuver_mass_flow_rate_profile: list[float],
+) -> Maneuver:
+    return Maneuver(
+        maneuver_instants,
+        maneuver_acceleration_profile,
+        maneuver_frame,
+        maneuver_mass_flow_rate_profile,
+    )
+
+
+@pytest.fixture
 def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> Propagator:
     return Propagator(numerical_solver, dynamics)
 
 
+@pytest.fixture
+def propagator_with_maneuvers(
+    numerical_solver: NumericalSolver,
+    dynamics: list[Dynamics],
+    maneuver: Maneuver,
+) -> Propagator:
+    return Propagator(numerical_solver, dynamics, [maneuver], Interpolator.Type.Linear)
+
+
 class TestPropagator:
-    def test_constructors(self, propagator: Propagator):
+    def test_constructors(
+        self, propagator: Propagator, propagator_with_maneuvers: Propagator
+    ):
         assert propagator is not None
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
+
+        assert propagator_with_maneuvers is not None
+        assert isinstance(propagator_with_maneuvers, Propagator)
+        assert propagator_with_maneuvers.is_defined()
+
+    def test_comparators(
+        self, propagator: Propagator, propagator_with_maneuvers: Propagator
+    ):
+        assert propagator == propagator
+        assert propagator != propagator_with_maneuvers
 
     def test_access_numerical_solver(
         self, propagator: Propagator, numerical_solver: NumericalSolver
@@ -282,6 +327,17 @@ class TestPropagator:
         propagator.clear_dynamics()
 
         assert len(propagator.get_dynamics()) == 0
+
+    def test_add_maneuver(
+        self,
+        propagator: Propagator,
+        maneuver: Maneuver,
+    ):
+        assert len(propagator.get_dynamics()) == 2
+
+        propagator.add_maneuver(maneuver)
+
+        assert len(propagator.get_dynamics()) == 3
 
     def test_calculate_state_at(self, propagator: Propagator, state: State):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
