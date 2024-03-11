@@ -40,12 +40,12 @@ Tabulated::Tabulated(
 
     if (aWriteCoordinateSubsets
             .map<Index>(
-                [](const auto& coordinatesSubset)
+                [](const auto& coordinateSubset)
                 {
-                    return coordinatesSubset->getSize();
+                    return coordinateSubset->getSize();
                 }
             )
-            .reduce(std::plus<Index>()) != (Index)aContributionProfile.cols())
+            .reduce(std::plus<Index>()) != static_cast<Index>(aContributionProfile.cols()))
     {
         throw ostk::core::error::RuntimeError(
             "Contribution profile must have the same number of columns as the sum of the sizes of the write "
@@ -82,29 +82,67 @@ const Array<Instant>& Tabulated::accessInstants() const
     return instants_;
 }
 
-Array<Instant> Tabulated::getInstants() const
-{
-    return accessInstants();
-}
-
 const MatrixXd& Tabulated::accessContributionProfile() const
 {
     return contributionProfile_;
 }
 
-MatrixXd Tabulated::getContributionProfile() const
+MatrixXd Tabulated::getContributionProfileFromCoordinateSubsets(
+    const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetArray
+) const
 {
-    return accessContributionProfile();
+    if (aCoordinateSubsetArray.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Specified Coordinate Subset array is empty.");
+    }
+
+    MatrixXd customContributionProfile(
+        instants_.getSize(),
+        aCoordinateSubsetArray
+            .map<Index>(
+                [](const auto& coordinateSubset)
+                {
+                    return coordinateSubset->getSize();
+                }
+            )
+            .reduce(std::plus<Index>())
+    );
+
+    Index customMatrixColIndex = 0;
+    for (const auto desiredCoordinateSubsetSPtr : aCoordinateSubsetArray)
+    {
+        bool coordinateSubsetFound = false;
+        Index existingMatrixColIndex = 0;
+
+        for (const auto existingCoordinateSubsetSPtr : writeCoordinateSubsets_)
+        {
+            if (*desiredCoordinateSubsetSPtr == *existingCoordinateSubsetSPtr)
+            {
+                customContributionProfile.block(
+                    0, customMatrixColIndex, instants_.getSize(), existingCoordinateSubsetSPtr->getSize()
+                ) =
+                    contributionProfile_.block(
+                        0, existingMatrixColIndex, instants_.getSize(), existingCoordinateSubsetSPtr->getSize()
+                    );
+                coordinateSubsetFound = true;
+                break;
+            }
+            existingMatrixColIndex += existingCoordinateSubsetSPtr->getSize();
+        }
+
+        if (!coordinateSubsetFound)
+        {
+            throw ostk::core::error::RuntimeError("Coordinate subset not found in write coordinate subsets.");
+        }
+        customMatrixColIndex += desiredCoordinateSubsetSPtr->getSize();
+    }
+
+    return customContributionProfile;
 }
 
 const Shared<const Frame>& Tabulated::accessFrame() const
 {
     return frameSPtr_;
-}
-
-Shared<const Frame> Tabulated::getFrame() const
-{
-    return accessFrame();
 }
 
 Interpolator::Type Tabulated::getInterpolationType() const
@@ -132,7 +170,8 @@ VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBM: Convert this using the Maneuver class' conversion method. Also, find a way to check and vet whether or not the frame is local, or quasi-inertial
+    // TBM: Convert this using the Maneuver class' conversion method. Also, find a way to check and vet whether or not
+    // the frame is local, or quasi-inertial
     if (aFrameSPtr != frameSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Frame");

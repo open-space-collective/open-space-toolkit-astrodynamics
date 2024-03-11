@@ -91,18 +91,32 @@ class TestTabulated:
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
-    def test_getters(
+    def test_accessor(
         self,
         dynamics: Tabulated,
         instants: list[Instant],
         contribution_profile: np.ndarray,
         frame: Frame,
     ):
-        assert np.array_equal(dynamics.get_contribution_profile(), contribution_profile)
+        assert np.array_equal(
+            dynamics.access_contribution_profile(), contribution_profile
+        )
 
-        assert dynamics.get_instants() == instants
+        assert dynamics.access_instants() == instants
 
-        assert dynamics.get_frame() == frame
+        assert dynamics.access_frame() == frame
+
+    def test_getters(
+        self,
+        dynamics: Tabulated,
+        contribution_profile: np.ndarray,
+    ):
+        assert np.array_equal(
+            dynamics.get_contribution_profile_from_coordinate_subsets(
+                [CartesianVelocity.default()]
+            ),
+            contribution_profile[:, 0:3],
+        )
 
         assert dynamics.get_interpolation_type() == Interpolator.Type.Linear
 

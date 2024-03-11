@@ -9,6 +9,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
@@ -35,6 +36,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated : public ::testing::Test
@@ -207,24 +209,133 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Accessors)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Getters)
 {
+    MatrixXd positionContributionsProfile_(defaultInstants_.getSize(), 3);
+    MatrixXd velocityContributionsProfile_(defaultInstants_.getSize(), 3);
+    MatrixXd massContributionsProfile_(defaultInstants_.getSize(), 1);
+    positionContributionsProfile_ << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0;
+    velocityContributionsProfile_ << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -10.0, -11.0, -12.0;
+    massContributionsProfile_ << 0.001, 0.002, 0.003, 0.004;
+
+    MatrixXd extendedContributionProfile(defaultInstants_.getSize(), 7);
+    extendedContributionProfile << positionContributionsProfile_, velocityContributionsProfile_,
+        massContributionsProfile_;
+
     Tabulated tabulated = {
         defaultInstants_,
-        contributionProfile_,
-        defaultWriteCoordinateSubsets_,
+        extendedContributionProfile,
+        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()},
         defaultFrameSPtr_,
         defaultInterpolationType_,
     };
 
+    EXPECT_THROW(
+        {
+            try
+            {
+                tabulated.getContributionProfileFromCoordinateSubsets({});
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_EQ("Specified Coordinate Subset array is empty.", e.getMessage());
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                tabulated.getContributionProfileFromCoordinateSubsets({CoordinateSubset::DragCoefficient()});
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                tabulated.getContributionProfileFromCoordinateSubsets(
+                    {CartesianPosition::Default(), CoordinateSubset::DragCoefficient()}
+                );
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+
+    // Test singular or correctly ordered subsets
     {
-        EXPECT_EQ(tabulated.getInstants(), defaultInstants_);
+        EXPECT_EQ(
+            tabulated.getContributionProfileFromCoordinateSubsets({CartesianPosition::Default()}),
+            positionContributionsProfile_
+        );
+
+        EXPECT_EQ(
+            tabulated.getContributionProfileFromCoordinateSubsets({CartesianVelocity::Default()}),
+            velocityContributionsProfile_
+        );
+
+        EXPECT_EQ(
+            tabulated.getContributionProfileFromCoordinateSubsets({CoordinateSubset::Mass()}), massContributionsProfile_
+        );
+
+        EXPECT_EQ(
+            tabulated.getContributionProfileFromCoordinateSubsets(
+                {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
+            ),
+            extendedContributionProfile
+        );
     }
 
+    // Test differently ordered subsets
     {
-        EXPECT_EQ(tabulated.getContributionProfile(), contributionProfile_);
-    }
+        {
+            MatrixXd differentOrderContributionProfile(defaultInstants_.getSize(), 6);
+            differentOrderContributionProfile << velocityContributionsProfile_, positionContributionsProfile_;
 
-    {
-        EXPECT_EQ(tabulated.getFrame(), defaultFrameSPtr_);
+            EXPECT_EQ(
+                tabulated.getContributionProfileFromCoordinateSubsets(
+                    {CartesianVelocity::Default(), CartesianPosition::Default()}
+                ),
+                differentOrderContributionProfile
+            );
+        }
+
+        {
+            MatrixXd differentOrderContributionProfile(defaultInstants_.getSize(), 4);
+            differentOrderContributionProfile << massContributionsProfile_, positionContributionsProfile_;
+
+            EXPECT_EQ(
+                tabulated.getContributionProfileFromCoordinateSubsets(
+                    {CoordinateSubset::Mass(), CartesianPosition::Default()}
+                ),
+                differentOrderContributionProfile
+            );
+        }
+
+        {
+            MatrixXd differentOrderContributionProfile(defaultInstants_.getSize(), 4);
+            differentOrderContributionProfile << massContributionsProfile_, velocityContributionsProfile_;
+
+            EXPECT_EQ(
+                tabulated.getContributionProfileFromCoordinateSubsets(
+                    {CoordinateSubset::Mass(), CartesianVelocity::Default()}
+                ),
+                differentOrderContributionProfile
+            );
+        }
     }
 
     {

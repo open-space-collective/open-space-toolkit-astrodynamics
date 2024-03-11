@@ -69,10 +69,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
-                "get_instants",
-                &Tabulated::getInstants,
+                "access_instants",
+                &Tabulated::accessInstants,
                 R"doc(
-                    Get the contribution instants.
+                    Access the contribution instants.
 
                     Returns:
                         list[Instant]: The contribution instants.
@@ -81,10 +81,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
-                "get_contribution_profile",
-                &Tabulated::getContributionProfile,
+                "access_contribution_profile",
+                &Tabulated::accessContributionProfile,
                 R"doc(
-                    Get the contribution profile.
+                    Access the contribution profile.
 
                     Returns:
                         np.ndarray: The contribution profile.
@@ -93,10 +93,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
-                "get_frame",
-                &Tabulated::getFrame,
+                "get_contribution_profile_from_coordinate_subsets",
+                &Tabulated::getContributionProfileFromCoordinateSubsets,
+                arg("coordinate_subsets"),
                 R"doc(
-                    Get the reference frame.
+                    Get the contribution profile corresponding to a subset of coordinates.
+
+                    Args:
+                        coordinate_subsets (list[CoordinateSubset]): The coordinate subsets.
+
+                    Returns:
+                        numpy.ndarray: The contribution profile.
+
+                )doc"
+            )
+
+            .def(
+                "access_frame",
+                &Tabulated::accessFrame,
+                R"doc(
+                    Access the reference frame.
 
                     Returns:
                         Frame: The reference frame.

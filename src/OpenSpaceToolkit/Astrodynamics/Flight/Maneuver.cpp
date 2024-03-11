@@ -232,20 +232,13 @@ Maneuver Maneuver::FromTabulatedDynamics(const Shared<Dynamics>& aTabulatedDynam
 
     if (tabulatedDynamicsSPtr)
     {
-        const Array<Shared<const CoordinateSubset>> expectedWriteCoordinateSubsets = {
-            CartesianVelocity::Default(), CoordinateSubset::Mass()
-        };
-
-        if (tabulatedDynamicsSPtr->getWriteCoordinateSubsets() != expectedWriteCoordinateSubsets)
-        {
-            throw ostk::core::error::runtime::Wrong("Tabulated Dynamics Write Coordinate Subsets");
-        }
-
-        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfile();
+        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfileFromCoordinateSubsets(
+            {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        );
         Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
         Array<Real> massFlowRateProfile = Array<Real>::Empty();
 
-        for (Size i = 0; i < tabulatedDynamicsSPtr->getInstants().getSize(); i++)
+        for (Size i = 0; i < tabulatedDynamicsSPtr->accessInstants().getSize(); i++)
         {
             accelerationProfile.add(
                 Vector3d(contributionProfile(i, 0), contributionProfile(i, 1), contributionProfile(i, 2))
@@ -254,9 +247,9 @@ Maneuver Maneuver::FromTabulatedDynamics(const Shared<Dynamics>& aTabulatedDynam
         }
 
         return {
-            tabulatedDynamicsSPtr->getInstants(),
+            tabulatedDynamicsSPtr->accessInstants(),
             accelerationProfile,
-            tabulatedDynamicsSPtr->getFrame(),
+            tabulatedDynamicsSPtr->accessFrame(),
             massFlowRateProfile
         };
     }

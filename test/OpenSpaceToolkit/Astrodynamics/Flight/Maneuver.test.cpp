@@ -368,9 +368,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
         const Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
             defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
 
-        EXPECT_EQ(tabulatedDynamicsSPtr->getInstants(), defaultInstants_);
+        EXPECT_EQ(tabulatedDynamicsSPtr->accessInstants(), defaultInstants_);
 
-        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfile();
+        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->accessContributionProfile();
 
         EXPECT_EQ(contributionProfile.rows(), 4);
         EXPECT_EQ(contributionProfile.cols(), defaultInstants_.getSize());
@@ -387,7 +387,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             CartesianVelocity::Default(), CoordinateSubset::Mass()
         };
         EXPECT_EQ(tabulatedDynamicsSPtr->getWriteCoordinateSubsets(), writeCoordinateSubsets);
-        EXPECT_EQ(tabulatedDynamicsSPtr->getFrame(), defaultFrameSPtr_);
+        EXPECT_EQ(tabulatedDynamicsSPtr->accessFrame(), defaultFrameSPtr_);
     }
 }
 
@@ -455,13 +455,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
                 {
                     Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
@@ -483,13 +483,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
                 {
                     Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Tabulated Dynamics Write Coordinate Subsets} is wrong.", e.getMessage());
+                    EXPECT_EQ("Coordinate subset not found in write coordinate subsets.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 }
