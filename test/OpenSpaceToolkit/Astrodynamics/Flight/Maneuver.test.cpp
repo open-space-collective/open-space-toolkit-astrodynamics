@@ -186,6 +186,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
+    // Unsorted instant array
     {
         const Array<Instant> unorderedInstants = {
             Instant::J2000() + Duration::Seconds(1.0),
@@ -207,7 +208,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
-                    EXPECT_EQ("{Unsorted Instant Array} is wrong.", e.getMessage());
+                    EXPECT_EQ("{Unsorted or Duplicate Instant Array} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Instant array with duplicates
+    {
+        const Array<Instant> duplicateInstants = {
+            Instant::J2000(),
+            Instant::J2000() + Duration::Seconds(1.0),
+            Instant::J2000() + Duration::Seconds(1.0),
+            Instant::J2000() + Duration::Seconds(5.0),
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver(
+                        duplicateInstants,
+                        defaultAccelerationProfileDefaultFrame_,
+                        defaultFrameSPtr_,
+                        defaultMassFlowRateProfile_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Unsorted or Duplicate Instant Array} is wrong.", e.getMessage());
                     throw;
                 }
             },

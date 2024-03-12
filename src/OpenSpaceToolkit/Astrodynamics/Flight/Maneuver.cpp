@@ -58,9 +58,9 @@ Maneuver::Maneuver(
 
     for (Size k = 0; k < instants_.getSize() - 1; ++k)
     {
-        if (instants_[k] > instants_[k + 1])
+        if (instants_[k] >= instants_[k + 1])
         {
-            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array");
+            throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate Instant Array");
         }
     }
 
