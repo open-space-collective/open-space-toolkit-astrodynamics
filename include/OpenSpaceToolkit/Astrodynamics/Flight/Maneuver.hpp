@@ -46,7 +46,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
-using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
@@ -187,7 +187,7 @@ class Maneuver
     /// @brief Convert the maneuver to a Tabulated Dynamics object
     ///
     /// @code{.cpp}
-    ///                  Shared<TabulatedDynamics> tabulatedDynamicsSPtr = maneuver.toTabulatedDynamics(Frame::GCRF(),
+    ///                  Shared<Tabulated> tabulatedDynamicsSPtr = maneuver.toTabulatedDynamics(Frame::GCRF(),
     ///                  Interpolator::Type::BarycentricRational);
     /// @endcode
     ///
@@ -195,7 +195,7 @@ class Maneuver
     /// @param (optional) anInterpolationType The interpolation type to use in the Tabulated Dynamics object
     ///
     /// @return A shared pointer to the Tabulated Dynamics object
-    Shared<TabulatedDynamics> toTabulatedDynamics(
+    Shared<Tabulated> toTabulatedDynamics(
         const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr,
         const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
     ) const;
@@ -210,20 +210,18 @@ class Maneuver
     /// rate
     ///
     /// @code{.cpp}
-    ///                  Shared<Dynamics> tabulatedDynamicsSPtr = std::make_shared<TabulatedDynamics>(tabulated);
-    ///                  Maneuver maneuver = Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
+    ///                  Maneuver maneuver = Maneuver::TabulatedDynamics(tabulated);
     /// @endcode
     ///
-    /// @param aTabulatedDynamicsSPtr A shared pointer to a Dynamics object (that is downcastable to a TabulatedDynamics
-    /// object)
+    /// @param aTabulatedDynamics A TabulatedDynamics object
     ///
     /// @return A maneuver
-    static Maneuver FromTabulatedDynamics(const Shared<Dynamics>& aTabulatedDynamicsSPtr);
+    static Maneuver TabulatedDynamics(const Tabulated& aTabulatedDynamics);
 
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///
     /// @code{.cpp}
-    ///                  Maneuver maneuver = Maneuver::FromConstantMassFlowRateProfile(...);
+    ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
     /// @endcode
     ///
     /// @param anInstantArray An array of instants, must be sorted
@@ -232,7 +230,7 @@ class Maneuver
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     ///
     /// @return A maneuver
-    static Maneuver FromConstantMassFlowRateProfile(
+    static Maneuver ConstantMassFlowRateProfile(
         const Array<Instant>& anInstantArray,
         const Array<Vector3d>& anAccelerationProfile,
         const Shared<const Frame>& aFrameSPtr,

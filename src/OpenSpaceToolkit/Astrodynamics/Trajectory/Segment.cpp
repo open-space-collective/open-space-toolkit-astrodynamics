@@ -112,7 +112,7 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
 {
     if (this->states.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("No states exist within segment.");
+        throw ostk::core::error::RuntimeError("No states exist within Segment Solution.");
     }
 
     if (this->segmentType != Segment::Type::Maneuver)
@@ -155,7 +155,7 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
         Interpolator::Type::Linear,
     };
 
-    return {Maneuver::FromTabulatedDynamics(std::make_shared<TabulatedDynamics>(tabulatedDynamics))};
+    return {Maneuver::TabulatedDynamics(tabulatedDynamics)};
 }
 
 Array<State> Segment::Solution::calculateStatesAt(

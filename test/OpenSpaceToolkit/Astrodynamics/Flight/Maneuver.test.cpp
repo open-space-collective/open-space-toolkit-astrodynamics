@@ -186,6 +186,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
+    // Unsorted instant array
     {
         const Array<Instant> unorderedInstants = {
             Instant::J2000() + Duration::Seconds(1.0),
@@ -207,7 +208,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
-                    EXPECT_EQ("{Unsorted Instant Array} is wrong.", e.getMessage());
+                    EXPECT_EQ("{Unsorted or Duplicate Instant Array} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Instant array with duplicates
+    {
+        const Array<Instant> duplicateInstants = {
+            Instant::J2000(),
+            Instant::J2000() + Duration::Seconds(1.0),
+            Instant::J2000() + Duration::Seconds(1.0),
+            Instant::J2000() + Duration::Seconds(5.0),
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver(
+                        duplicateInstants,
+                        defaultAccelerationProfileDefaultFrame_,
+                        defaultFrameSPtr_,
+                        defaultMassFlowRateProfile_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Unsorted or Duplicate Instant Array} is wrong.", e.getMessage());
                     throw;
                 }
             },
@@ -398,43 +429,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
         const Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
             defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
 
-        const Maneuver maneuver = Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
+        const Maneuver maneuver = Maneuver::TabulatedDynamics(*tabulatedDynamicsSPtr);
 
         EXPECT_EQ(maneuver.getInstants(), defaultInstants_);
         EXPECT_EQ(maneuver.getAccelerationProfile(defaultFrameSPtr_), defaultAccelerationProfileDefaultFrame_);
         EXPECT_EQ(maneuver.getMassFlowRateProfile(), defaultMassFlowRateProfile_);
-    }
-
-    // Verify creation from dynamics
-    {
-        const Shared<Dynamics> tabulatedDynamicsSPtr =
-            defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
-
-        const Maneuver maneuver = Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
-
-        EXPECT_EQ(maneuver.getInstants(), defaultInstants_);
-        EXPECT_EQ(maneuver.getAccelerationProfile(defaultFrameSPtr_), defaultAccelerationProfileDefaultFrame_);
-        EXPECT_EQ(maneuver.getMassFlowRateProfile(), defaultMassFlowRateProfile_);
-    }
-
-    // Nullptr fail
-    {
-        const Shared<Dynamics> tabulatedDynamicsSPtr = nullptr;
-
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Maneuver::FromTabulatedDynamics(tabulatedDynamicsSPtr);
-                }
-                catch (const ostk::core::error::runtime::Undefined& e)
-                {
-                    EXPECT_EQ("{Tabulated Dynamics} is undefined.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 
     // Wrong dynamics coordinate subsets fail
@@ -453,7 +452,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
             {
                 try
                 {
-                    Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
+                    Maneuver::TabulatedDynamics(*wrongTabulatedDynamicsSPtr);
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -481,7 +480,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
             {
                 try
                 {
-                    Maneuver::FromTabulatedDynamics(wrongTabulatedDynamicsSPtr);
+                    Maneuver::TabulatedDynamics(*wrongTabulatedDynamicsSPtr);
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -494,10 +493,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromTabulatedDynamics)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, FromConstantMassFlowRateProfile)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfile)
 {
     {
-        const Maneuver maneuver = Maneuver::FromConstantMassFlowRateProfile(
+        const Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(
             defaultInstants_, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultConstantMassFlowRate_
         );
 

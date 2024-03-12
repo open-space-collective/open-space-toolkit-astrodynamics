@@ -161,8 +161,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             )doc"
         )
         .def_static(
-            "from_tabulated_dynamics",
-            &Maneuver::FromTabulatedDynamics,
+            "tabulated_dynamics",
+            &Maneuver::TabulatedDynamics,
             arg("tabulated_dynamics"),
             R"doc(
             Create a maneuver from tabulated dynamics with cols 1-3 being acceleration and col 4 being mass flow rate.
@@ -175,8 +175,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         )doc"
         )
         .def_static(
-            "from_constant_mass_flow_rate_profile",
-            &Maneuver::FromConstantMassFlowRateProfile,
+            "constant_mass_flow_rate_profile",
+            &Maneuver::ConstantMassFlowRateProfile,
             arg("instants"),
             arg("acceleration_profile"),
             arg("frame"),
