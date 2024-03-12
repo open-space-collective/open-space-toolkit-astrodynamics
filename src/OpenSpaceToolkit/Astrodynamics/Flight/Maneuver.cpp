@@ -150,7 +150,7 @@ Mass Maneuver::calculateDeltaMass() const
     {
         const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
 
-        weightedMassSum += timeStep * std::abs(massFlowRateProfile_[i]);
+        weightedMassSum += timeStep * -massFlowRateProfile_[i];
     }
 
     return {weightedMassSum, Mass::Unit::Kilogram};
@@ -166,7 +166,7 @@ Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
     for (Size i = 0; i < instants_.getSize(); i++)
     {
         const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
-        weightedMassSum += std::abs(massFlowRateProfile_[i]);
+        weightedMassSum += -massFlowRateProfile_[i];
         weightedThrustSum += timeStep * accelerationProfileDefaultFrame_[i].norm() * weightedMassSum;
         totalTime += timeStep;
     }
@@ -183,7 +183,7 @@ Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMa
     return averageSpecificImpulse;
 }
 
-Shared<TabulatedDynamics> Maneuver::toTabulatedDynamics(
+Shared<Tabulated> Maneuver::toTabulatedDynamics(
     const Shared<const Frame>& aFrameSPtr, const Interpolator::Type& anInterpolationType
 ) const
 {
@@ -202,8 +202,8 @@ Shared<TabulatedDynamics> Maneuver::toTabulatedDynamics(
         CartesianVelocity::Default(), CoordinateSubset::Mass()
     };
 
-    return std::make_shared<TabulatedDynamics>(
-        TabulatedDynamics(instants_, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
+    return std::make_shared<Tabulated>(
+        Tabulated(instants_, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
     );
 }
 
@@ -219,47 +219,36 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Maneuver Maneuver::FromTabulatedDynamics(const Shared<Dynamics>& aTabulatedDynamicsSPtr)
+Maneuver Maneuver::TabulatedDynamics(const Tabulated& aTabulatedDynamics)
 {
-    if (aTabulatedDynamicsSPtr == nullptr || !aTabulatedDynamicsSPtr->isDefined())
+    if (!aTabulatedDynamics.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Tabulated Dynamics");
     }
 
-    // Downcast to TabulatedDynamics
-    Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
-        std::dynamic_pointer_cast<TabulatedDynamics>(aTabulatedDynamicsSPtr);
+    const MatrixXd contributionProfile = aTabulatedDynamics.getContributionProfileFromCoordinateSubsets(
+        {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+    );
+    Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
+    Array<Real> massFlowRateProfile = Array<Real>::Empty();
 
-    if (tabulatedDynamicsSPtr)
+    for (Size i = 0; i < aTabulatedDynamics.accessInstants().getSize(); i++)
     {
-        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfileFromCoordinateSubsets(
-            {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        accelerationProfile.add(
+            Vector3d(contributionProfile(i, 0), contributionProfile(i, 1), contributionProfile(i, 2))
         );
-        Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
-        Array<Real> massFlowRateProfile = Array<Real>::Empty();
-
-        for (Size i = 0; i < tabulatedDynamicsSPtr->accessInstants().getSize(); i++)
-        {
-            accelerationProfile.add(
-                Vector3d(contributionProfile(i, 0), contributionProfile(i, 1), contributionProfile(i, 2))
-            );
-            massFlowRateProfile.add(contributionProfile(i, 3));
-        }
-
-        return {
-            tabulatedDynamicsSPtr->accessInstants(),
-            accelerationProfile,
-            tabulatedDynamicsSPtr->accessFrame(),
-            massFlowRateProfile
-        };
+        massFlowRateProfile.add(contributionProfile(i, 3));
     }
-    else
-    {
-        throw ostk::core::error::RuntimeError("Dynamics object is not a TabulatedDynamics object.");
-    }
+
+    return {
+        aTabulatedDynamics.accessInstants(),
+        accelerationProfile,
+        aTabulatedDynamics.accessFrame(),
+        massFlowRateProfile,
+    };
 }
 
-Maneuver Maneuver::FromConstantMassFlowRateProfile(
+Maneuver Maneuver::ConstantMassFlowRateProfile(
     const Array<Instant>& anInstantArray,
     const Array<Vector3d>& anAccelerationProfile,
     const Shared<const Frame>& aFrameSPtr,

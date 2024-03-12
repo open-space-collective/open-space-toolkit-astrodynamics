@@ -183,7 +183,7 @@ class TestManeuver:
         self,
         tabulated_dynamics: TabulatedDynamics,
     ):
-        maneuver = Maneuver.from_tabulated_dynamics(tabulated_dynamics)
+        maneuver = Maneuver.tabulated_dynamics(tabulated_dynamics)
 
         assert maneuver.is_defined()
         assert maneuver.get_instants() == tabulated_dynamics.access_instants()
@@ -203,7 +203,7 @@ class TestManeuver:
         frame: Frame,
     ):
         mass_flow_rate: float = -1.0e-5
-        maneuver = Maneuver.from_constant_mass_flow_rate_profile(
+        maneuver = Maneuver.constant_mass_flow_rate_profile(
             instants=instants,
             acceleration_profile=acceleration_profile,
             frame=frame,

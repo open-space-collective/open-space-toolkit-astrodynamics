@@ -109,12 +109,12 @@ MatrixXd Tabulated::getContributionProfileFromCoordinateSubsets(
     );
 
     Index customMatrixColIndex = 0;
-    for (const auto desiredCoordinateSubsetSPtr : aCoordinateSubsetArray)
+    for (const auto& desiredCoordinateSubsetSPtr : aCoordinateSubsetArray)
     {
         bool coordinateSubsetFound = false;
         Index existingMatrixColIndex = 0;
 
-        for (const auto existingCoordinateSubsetSPtr : writeCoordinateSubsets_)
+        for (const auto& existingCoordinateSubsetSPtr : writeCoordinateSubsets_)
         {
             if (*desiredCoordinateSubsetSPtr == *existingCoordinateSubsetSPtr)
             {
