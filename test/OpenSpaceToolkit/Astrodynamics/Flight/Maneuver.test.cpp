@@ -262,7 +262,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("Mass flow rate profile can't contain any zeros or positive numbers.", e.getMessage());
+                    EXPECT_EQ("Mass flow rate profile must be expressed in strictly negative numbers.", e.getMessage());
                     throw;
                 }
             },

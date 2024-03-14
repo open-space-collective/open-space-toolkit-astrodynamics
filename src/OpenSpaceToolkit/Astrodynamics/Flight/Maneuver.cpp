@@ -74,7 +74,7 @@ Maneuver::Maneuver(
             }
         ))
     {
-        throw ostk::core::error::RuntimeError("Mass flow rate profile can't contain any zeros or positive numbers.");
+        throw ostk::core::error::RuntimeError("Mass flow rate profile must be expressed in strictly negative numbers.");
     }
 
     // Convert to the default frame if necessary
