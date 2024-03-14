@@ -64,7 +64,20 @@ Maneuver::Maneuver(
         }
     }
 
-    // Ensure that mass flow rate profile is expressed in negative numbers
+    // Ensure that the accelerations provided  have strictly positive magnitudes
+    if (std::any_of(
+            accelerationProfileDefaultFrame_.begin(),
+            accelerationProfileDefaultFrame_.end(),
+            [](const Vector3d& anAcceleration)
+            {
+                return anAcceleration.norm() <= 0.0;
+            }
+        ))
+    {
+        throw ostk::core::error::RuntimeError("Acceleration profile must have strictly positive magnitudes.");
+    }
+
+    // Ensure that mass flow rate profile is expressed in strictly negative numbers
     if (std::any_of(
             massFlowRateProfile_.begin(),
             massFlowRateProfile_.end(),
@@ -74,7 +87,7 @@ Maneuver::Maneuver(
             }
         ))
     {
-        throw ostk::core::error::RuntimeError("Mass flow rate profile must be expressed in strictly negative numbers.");
+        throw ostk::core::error::RuntimeError("Mass flow rate profile must have strictly negative values.");
     }
 
     // Convert to the default frame if necessary

@@ -246,8 +246,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
+    // Acceleration profile with accelerations of zero magnitude
     {
-        const Array<Real> positiveMassFlowRateProfile = {1.0e-5, 1.1e-5, 0.9e-5, 1.0e-5};
+        const Array<Vector3d> incorrectAccelerationProfile = {
+            {0.0e-3, 0.0e-3, 0.0e-3},
+            {0.0e-3, 1.0e-3, 0.0e-3},
+            {0.0e-3, 0.0e-3, 1.0e-3},
+            {1.0e-3, 1.0e-3, 1.0e-3},
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver(
+                        defaultInstants_, incorrectAccelerationProfile, defaultFrameSPtr_, defaultMassFlowRateProfile_
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Acceleration profile must have strictly positive magnitudes.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Mass flow rate profile with zero or positive mass flow rates
+    {
+        const Array<Real> incorrectMassFlowRateProfile = {0.0e-5, -1.1e-5, -0.9e-5, 1.0e-5};
 
         EXPECT_THROW(
             {
@@ -257,12 +285,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                         defaultInstants_,
                         defaultAccelerationProfileDefaultFrame_,
                         defaultFrameSPtr_,
-                        positiveMassFlowRateProfile
+                        incorrectMassFlowRateProfile
                     );
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("Mass flow rate profile must be expressed in strictly negative numbers.", e.getMessage());
+                    EXPECT_EQ("Mass flow rate profile must have strictly negative values.", e.getMessage());
                     throw;
                 }
             },
