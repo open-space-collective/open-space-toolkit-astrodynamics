@@ -859,9 +859,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
     }
 
     {
-        const File activeTlesFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt")
-        );
+        const File activeTlesFile =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt"
+            ));
 
         const String allTles = activeTlesFile.getContents();
 
@@ -1019,9 +1019,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
     }
 
     {
-        const File activeTlesFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt")
-        );
+        const File activeTlesFile =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt"
+            ));
 
         const String allTles = activeTlesFile.getContents();
 

@@ -82,11 +82,10 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    static const Shared<CoordinateBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinateBroker>(CoordinateBroker({
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-        }));
+    static const Shared<CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+    }));
 
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();
@@ -139,13 +138,12 @@ State::State(
     coordinates.segment(6, 4) = AttitudeQuaternion::quaterionToCoordinates(anAttitude);
     coordinates.segment(10, 3) = anAngularVelocity;
 
-    static const Shared<CoordinateBroker> coordinatesBrokerSPtr =
-        std::make_shared<CoordinateBroker>(CoordinateBroker(
-            {CartesianPosition::Default(),
-             CartesianVelocity::Default(),
-             AttitudeQuaternion::Default(),
-             AngularVelocity::Default()}
-        ));
+    static const Shared<CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker(
+        {CartesianPosition::Default(),
+         CartesianVelocity::Default(),
+         AttitudeQuaternion::Default(),
+         AngularVelocity::Default()}
+    ));
 
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();

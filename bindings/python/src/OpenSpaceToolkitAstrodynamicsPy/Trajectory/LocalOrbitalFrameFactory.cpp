@@ -35,6 +35,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         )
 
         .def(
+            "get_parent_frame",
+            &LocalOrbitalFrameFactory::getParentFrame,
+            R"doc(
+                Get the parent frame.
+
+                Returns:
+                    Frame: The parent frame.
+            )doc"
+        )
+
+        .def(
             "generate_frame",
             &LocalOrbitalFrameFactory::generateFrame,
             arg("instant"),
