@@ -218,9 +218,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, CopyAssignmentOperator)
     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
     VectorXd coordinates(6);
     coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-    const Shared<const CoordinateBroker> brokerSPtr = std::make_shared<CoordinateBroker>(
-        CoordinateBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-    );
+    const Shared<const CoordinateBroker> brokerSPtr =
+        std::make_shared<CoordinateBroker>(CoordinateBroker({CartesianPosition::Default(), CartesianVelocity::Default()}
+        ));
     State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
 
     // Copy the state
