@@ -1,4 +1,4 @@
-// /// Apache License 2.0
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
