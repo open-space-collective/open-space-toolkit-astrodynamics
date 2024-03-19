@@ -279,14 +279,14 @@ Array<Vector3d> Maneuver::convertAccelerationProfileFrame(const Shared<const Fra
     }
 
     // Convert to the desired frame if necessary
-    Array<Vector3d> accelerationProfileInCustomFrame = Array<Vector3d>(instants_.getSize(), Vector3d::Zero());
+    Array<Vector3d> accelerationProfileInDefaultFrame = Array<Vector3d>(instants_.getSize(), Vector3d::Zero());
     for (Size i = 0; i < instants_.getSize(); i++)
     {
         // TBI: fine a way to check and vet whether or not the frame is local, or quasi-inertial
-        accelerationProfileInCustomFrame[i] = aFrameSPtr->getTransformTo(Maneuver::DefaultAccelFrameSPtr, instants_[i])
-                                                  .applyToVector(accelerationProfileDefaultFrame_[i]);
+        accelerationProfileInDefaultFrame[i] = aFrameSPtr->getTransformTo(Maneuver::DefaultAccelFrameSPtr, instants_[i])
+                                                   .applyToVector(accelerationProfileDefaultFrame_[i]);
     }
-    return accelerationProfileInCustomFrame;
+    return accelerationProfileInDefaultFrame;
 }
 
 }  // namespace flight

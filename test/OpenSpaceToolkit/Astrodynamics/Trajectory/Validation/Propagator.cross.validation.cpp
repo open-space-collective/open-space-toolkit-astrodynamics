@@ -868,20 +868,19 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         // Get LOF Acceleration
         const VectorXd maneuverContributionLOF_Thruster =
             thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, lofSPtr);
-        // const VectorXd maneuverContributionLOF_Tabulated =
-        //     tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, lofSPtr);
-        // const VectorXd maneuverContributionLOF_Maneuver =
-        // maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
-        //     instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, lofSPtr
-        // );
+        const VectorXd maneuverContributionLOF_Tabulated =
+            tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, lofSPtr);
+        const VectorXd maneuverContributionLOF_Maneuver = maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
+            instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, lofSPtr
+        );
 
         // Get LOF Acceleration Error
         const double maneuverAccelerationErrorLOF_Thruster =
             (maneuverContributionLOF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
-        // const double maneuverAccelerationErrorLOF_Tabulated =
-        //     (maneuverContributionLOF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
-        // const double maneuverAccelerationErrorLOF_Maneuver =
-        //     (maneuverContributionLOF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
+        const double maneuverAccelerationErrorLOF_Tabulated =
+            (maneuverContributionLOF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
+        const double maneuverAccelerationErrorLOF_Maneuver =
+            (maneuverContributionLOF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
 
         // Frames verification with Thruster Dynamics
         ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Thruster.accessFrame());
@@ -932,7 +931,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Tabulated);
         if (!param_withAtmosphere)
         {
-            // ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Tabulated);
+            ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Tabulated);
         }
 
         // LOF Errors with Maneuver
@@ -940,56 +939,60 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Maneuver);
         if (!param_withAtmosphere)
         {
-            // ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Maneuver);
+            ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Maneuver);
         }
 
         // Results console output
-        if (i >= instantArray.getSize() - 2)
-        {
-            std::cout << "**************************************" << std::endl;
-            std::cout.setf(std::ios::scientific, std::ios::floatfield);
-            std::cout << "Instant: " << instantArray[i] << std::endl;
-            std::cout << "Position Error GCRF for Thruster: " << positionErrorGCRF_Thruster << "m" << std::endl;
-            std::cout << "Position Error GCRF for Tabulated: " << positionErrorGCRF_Tabulated << "m" << std::endl;
-            std::cout << "Position Error GCRF for Maneuver: " << positionErrorGCRF_Maneuver << "m" << std::endl;
+        // if (i >= instantArray.getSize() - 2)
+        // {
+        //     std::cout << "**************************************" << std::endl;
+        //     std::cout.setf(std::ios::scientific, std::ios::floatfield);
+        //     std::cout << "Instant: " << instantArray[i] << std::endl;
+        //     std::cout << "Position Error GCRF for Thruster: " << positionErrorGCRF_Thruster << "m" << std::endl;
+        //     std::cout << "Position Error GCRF for Tabulated: " << positionErrorGCRF_Tabulated << "m" << std::endl;
+        //     std::cout << "Position Error GCRF for Maneuver: " << positionErrorGCRF_Maneuver << "m" << std::endl;
 
-            std::cout << "Velocity Error GRCRF for Thruster: " << velocityErrorGCRF_Thruster << "m/s" << std::endl;
-            std::cout << "Velocity Error GCRF for Tabulated: " << velocityErrorGCRF_Tabulated << "m/s" << std::endl;
-            std::cout << "Velocity Error GCRF for Maneuver: " << velocityErrorGCRF_Maneuver << "m/s" << std::endl;
+        //     std::cout << "Velocity Error GRCRF for Thruster: " << velocityErrorGCRF_Thruster << "m/s" << std::endl;
+        //     std::cout << "Velocity Error GCRF for Tabulated: " << velocityErrorGCRF_Tabulated << "m/s" << std::endl;
+        //     std::cout << "Velocity Error GCRF for Maneuver: " << velocityErrorGCRF_Maneuver << "m/s" << std::endl;
 
-            std::cout << "Acceleration Error GCRF for Thruster: " << maneuverAccelerationErrorGCRF_Thruster << "m/s^2"
-                      << std::endl;
-            std::cout << "Acceleration Error GCRF for Tabulated: " << maneuverAccelerationErrorGCRF_Tabulated << "m/s^2"
-                      << std::endl;
-            std::cout << "Acceleration Error GCRF for Maneuver: " << maneuverAccelerationErrorGCRF_Maneuver << "m/s^2"
-                      << std::endl;
+        //     std::cout << "Acceleration Error GCRF for Thruster: " << maneuverAccelerationErrorGCRF_Thruster <<
+        //     "m/s^2"
+        //               << std::endl;
+        //     std::cout << "Acceleration Error GCRF for Tabulated: " << maneuverAccelerationErrorGCRF_Tabulated <<
+        //     "m/s^2"
+        //               << std::endl;
+        //     std::cout << "Acceleration Error GCRF for Maneuver: " << maneuverAccelerationErrorGCRF_Maneuver <<
+        //     "m/s^2"
+        //               << std::endl;
 
-            std::cout << "Mass Error for Thruster: " << massError_Thruster << "kg" << std::endl;
-            std::cout << "Mass Error for Tabulated: " << massError_Tabulated << "kg" << std::endl;
-            std::cout << "Mass Error for Maneuver: " << massError_Maneuver << "kg" << std::endl;
+        //     std::cout << "Mass Error for Thruster: " << massError_Thruster << "kg" << std::endl;
+        //     std::cout << "Mass Error for Tabulated: " << massError_Tabulated << "kg" << std::endl;
+        //     std::cout << "Mass Error for Maneuver: " << massError_Maneuver << "kg" << std::endl;
 
-            std::cout << "Position Error LOF for Thruster: " << positionErrorLOF_Thruster << "m" << std::endl;
-            std::cout << "Position Error LOF for Tabulated: " << positionErrorLOF_Tabulated << "m" << std::endl;
-            std::cout << "Position Error LOF for Maneuver: " << positionErrorLOF_Maneuver << "m" << std::endl;
+        //     std::cout << "Position Error LOF for Thruster: " << positionErrorLOF_Thruster << "m" << std::endl;
+        //     std::cout << "Position Error LOF for Tabulated: " << positionErrorLOF_Tabulated << "m" << std::endl;
+        //     std::cout << "Position Error LOF for Maneuver: " << positionErrorLOF_Maneuver << "m" << std::endl;
 
-            std::cout << "Velocity Error LOF for Thruster: " << velocityErrorLOF_Thruster << "m/s" << std::endl;
-            std::cout << "Velocity Error LOF for Tabulated: " << velocityErrorLOF_Tabulated << "m/s" << std::endl;
-            std::cout << "Velocity Error LOF for Maneuver: " << velocityErrorLOF_Maneuver << "m/s" << std::endl;
+        //     std::cout << "Velocity Error LOF for Thruster: " << velocityErrorLOF_Thruster << "m/s" << std::endl;
+        //     std::cout << "Velocity Error LOF for Tabulated: " << velocityErrorLOF_Tabulated << "m/s" << std::endl;
+        //     std::cout << "Velocity Error LOF for Maneuver: " << velocityErrorLOF_Maneuver << "m/s" << std::endl;
 
-            if (!param_withAtmosphere)
-            {
-                std::cout << "Acceleration Error LOF for Thruster: " << maneuverAccelerationErrorLOF_Thruster << "m/s^2"
-                          << std::endl;
-                // std::cout << "Acceleration Error LOF for Tabulated: " << maneuverAccelerationErrorLOF_Tabulated <<
-                // "m/s^2"
-                //           << std::endl;
-                // std::cout << "Acceleration Error LOF for Maneuver: " << maneuverAccelerationErrorLOF_Maneuver <<
-                // "m/s^2"
-                //           << std::endl;
-            }
-            std::cout.setf(std::ios::fixed, std::ios::floatfield);
-            std::cout << "**************************************" << std::endl;
-        }
+        //     if (!param_withAtmosphere)
+        //     {
+        //         std::cout << "Acceleration Error LOF for Thruster: " << maneuverAccelerationErrorLOF_Thruster <<
+        //         "m/s^2"
+        //                   << std::endl;
+        //         // std::cout << "Acceleration Error LOF for Tabulated: " << maneuverAccelerationErrorLOF_Tabulated <<
+        //         // "m/s^2"
+        //         //           << std::endl;
+        //         // std::cout << "Acceleration Error LOF for Maneuver: " << maneuverAccelerationErrorLOF_Maneuver <<
+        //         // "m/s^2"
+        //         //           << std::endl;
+        //     }
+        //     std::cout.setf(std::ios::fixed, std::ios::floatfield);
+        //     std::cout << "**************************************" << std::endl;
+        // }
     }
 }
 
