@@ -191,7 +191,7 @@ VectorXd Tabulated::computeContribution(
         if (!frameSPtr_->isQuasiInertial() && aFrameSPtr->isQuasiInertial())
         {
             // TBM: Replace with an actual proper logging mechanism
-            std::cout << "This TabulatedDynamics has its contributions stored in a non quasi-inertial frame, "
+            std::cout << "WARNING: This TabulatedDynamics has its contributions stored in a non quasi-inertial frame, "
                          "but they are being requested in a quasi-inertial frame. Ensure that the trajectory "
                          "used to generate the contributions with this TabulatedDynamics in the first place "
                          "is still valid, otherwise this may lead to inaccurate results."

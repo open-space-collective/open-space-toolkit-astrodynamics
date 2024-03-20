@@ -19,6 +19,8 @@ namespace flight
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
+const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
+const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Seconds(30.0);
 
 Maneuver::Maneuver(
     const Array<Instant>& anInstantArray,
@@ -56,12 +58,35 @@ Maneuver::Maneuver(
         );
     }
 
+    const Duration maneuverDuration = instants_.accessLast() - instants_.accessFirst();
+    Duration largestInterval = maneuverDuration;
     for (Size k = 0; k < instants_.getSize() - 1; ++k)
     {
         if (instants_[k] >= instants_[k + 1])
         {
             throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate Instant Array");
         }
+
+        if (instants_[k + 1] - instants_[k] > largestInterval)
+        {
+            largestInterval = instants_[k + 1] - instants_[k];
+        }
+    }
+
+    if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
+    {
+        std::cout << "WARNING: Some intervals between the instants defined for this Maneuver are larger than the "
+                     "maximum recommended interpolation interval of "
+                  << Maneuver::MaximumRecommendedInterpolationInterval.inSeconds() << " seconds." << std::endl;
+    }
+
+    if (maneuverDuration < Maneuver::MinimumRecommendedDuration)
+    {
+        std::cout
+            << "WARNING: maneuver duration is less than " << Maneuver::MinimumRecommendedDuration.inSeconds()
+            << " seconds, it may be 'skipped over' and not taken into "
+               "account during numerical propagation if the integrator's timestep is longer than the maneuver duration."
+            << std::endl;
     }
 
     // Ensure that the accelerations provided  have strictly positive magnitudes

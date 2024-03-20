@@ -246,6 +246,38 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
+    // Maneuver with some intervals larger than the maximum recommended interpolation interval
+    {
+        const Array<Instant> spacedOutInstants = {
+            Instant::J2000(),
+            Instant::J2000() + Maneuver::MaximumRecommendedInterpolationInterval * 2,
+            Instant::J2000() + Maneuver::MaximumRecommendedInterpolationInterval * 2.5,
+            Instant::J2000() + Maneuver::MaximumRecommendedInterpolationInterval * 3,
+        };
+
+        testing::internal::CaptureStdout();
+        Maneuver(
+            spacedOutInstants, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultMassFlowRateProfile_
+        );
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
+    // Maneuver with duration of less than minimum recommended duration
+    {
+        const Array<Instant> shortInstants = {
+            Instant::J2000(),
+            Instant::J2000() + Maneuver::MinimumRecommendedDuration / 4,
+            Instant::J2000() + Maneuver::MinimumRecommendedDuration / 3,
+            Instant::J2000() + Maneuver::MinimumRecommendedDuration / 2,
+        };
+
+        testing::internal::CaptureStdout();
+        Maneuver(
+            shortInstants, defaultAccelerationProfileDefaultFrame_, defaultFrameSPtr_, defaultMassFlowRateProfile_
+        );
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
     // Acceleration profile with accelerations of zero magnitude
     {
         const Array<Vector3d> incorrectAccelerationProfile = {
