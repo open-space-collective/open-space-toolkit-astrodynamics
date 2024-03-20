@@ -212,19 +212,21 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
 
     const Vector3d thrustDirection = dQ_dOE.transpose() * derivativeMatrix;
 
-    double etaRelative = 0.0;
-    double etaAbsolute = 0.0;
-
     if (parameters_.relativeEffectivityThreshold.isDefined() || parameters_.absoluteEffectivityThreshold.isDefined())
     {
+        double etaRelative = 0.0;
+        double etaAbsolute = 0.0;
+
         std::tie(etaRelative, etaAbsolute) = computeEffectivity(aCOEVector, thrustDirection, dQ_dOE);
 
+        // If the effectivity is below the threshold, do not thrust.
         if ((parameters_.relativeEffectivityThreshold.isDefined()) &&
             (etaRelative < parameters_.relativeEffectivityThreshold))
         {
             return {0.0, 0.0, 0.0};
         }
 
+        // If the effectivity is below the threshold, do not thrust.
         if ((parameters_.absoluteEffectivityThreshold.isDefined()) &&
             (etaAbsolute < parameters_.absoluteEffectivityThreshold))
         {

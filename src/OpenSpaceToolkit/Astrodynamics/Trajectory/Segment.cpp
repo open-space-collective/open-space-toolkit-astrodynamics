@@ -132,6 +132,11 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
         }
     }
 
+    if (thrusterDynamics == nullptr)
+    {
+        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
+    }
+
     const Array<Instant> instantArray = this->states.map<Instant>(
         [](const State& aState) -> Instant
         {
@@ -139,23 +144,72 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
         }
     );
 
-    // TBI: Implement logic to check if "multiple" maneuvers (stop and start) actually occured during this segment
-    const MatrixXd thrusterContributionProfile = this->getDynamicsContribution(
+    const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
         thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
 
-    // Don't actually need to interpolate, because we convert straight to a maneuver, but specifying linear
-    // interpolation allows us to get away with segments that only have two states, as opposed to needing more than two
-    // states present to use the other higher order interpolators
-    const TabulatedDynamics tabulatedDynamics = {
-        instantArray,
-        thrusterContributionProfile,
-        {CartesianVelocity::Default(), CoordinateSubset::Mass()},
-        aFrameSPtr,
-        Interpolator::Type::Linear,
-    };
+    // Check if there are any breaks in the thrusting (stop and start) and split the dynamics into separate maneuvers
+    Array<Pair<Size, Size>> maneuveringBlockStartStopIndices = Array<Pair<Size, Size>>::Empty();
+    Size maneuverStart = -1;
+    for (Size i = 0; i < fullSegmentContributions.rows(); i++)
+    {
+        if (fullSegmentContributions.row(i).norm() != 0.0)  // If thrusting
+        {
+            // If a new block hasn't started yet, mark its start
+            if (maneuverStart == -1)
+            {
+                maneuverStart = i;
+            }
 
-    return {Maneuver::TabulatedDynamics(tabulatedDynamics)};
+            // If end of segment is thrusting, close last block
+            if (i == fullSegmentContributions.rows() - 1)
+            {
+                // Store stop index as i + 1 because you don't get a chance to "close this
+                // block" by seeing the thrust go to zero on the next iteration, since the loop ends on this iteration
+                maneuveringBlockStartStopIndices.add(Pair<Size, Size>(maneuverStart, i + 1));
+            }
+        }
+        else  // If not thrusting
+        {
+            // If we have reached the end of a block, save the start and end indices
+            if (maneuverStart != -1)
+            {
+                maneuveringBlockStartStopIndices.add(Pair<Size, Size>(maneuverStart, i));
+
+                maneuverStart = -1;  // Close the block by marking the start as -1
+            }
+        }
+    }
+
+    // If no thrusting has occured during this maneuvering segment (which is possible), return an empty array
+    if (maneuveringBlockStartStopIndices.isEmpty())
+    {
+        return {};
+    }
+
+    Array<ostk::astrodynamics::flight::Maneuver> extractedManeuvers =
+        Array<ostk::astrodynamics::flight::Maneuver>::Empty();
+    for (Pair<Size, Size> startStopPair : maneuveringBlockStartStopIndices)
+    {
+        const Size blockLength = startStopPair.second - startStopPair.first;
+        const Array<Instant> maneuverInstantsBlock =
+            Array<Instant>(instantArray.begin() + startStopPair.first, instantArray.begin() + startStopPair.second);
+        const MatrixXd maneuverContributionBlock =
+            fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
+
+        extractedManeuvers.add(ostk::astrodynamics::flight::Maneuver::TabulatedDynamics(TabulatedDynamics(
+            maneuverInstantsBlock,
+            maneuverContributionBlock,
+            {CartesianVelocity::Default(), CoordinateSubset::Mass()},
+            aFrameSPtr,
+            Interpolator::Type::Linear  // Don't actually need to interpolate, because we convert straight to a
+                                        // maneuver, but specifying linear
+            // interpolation allows us to get away with segments that only have two states, as opposed to needing more
+            // than two states present to use the other higher order interpolators
+        )));
+    }
+
+    return extractedManeuvers;
 }
 
 Array<State> Segment::Solution::calculateStatesAt(

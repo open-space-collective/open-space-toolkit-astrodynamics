@@ -20,7 +20,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
 const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
-const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Seconds(30.0);
+const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Minutes(2.0);
 
 Maneuver::Maneuver(
     const Array<Instant>& anInstantArray,
@@ -251,7 +251,8 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream) << "Interval:" << this->getInterval().toString();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Total delta-v:" << this->calculateDeltaV().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Total delta-v:" << this->calculateDeltaV().toString() << " [m/s]";
     ostk::core::utils::Print::Line(anOutputStream) << "Total mass consumed:" << this->calculateDeltaMass().toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
@@ -307,7 +308,6 @@ Array<Vector3d> Maneuver::convertAccelerationProfileFrame(const Shared<const Fra
     Array<Vector3d> accelerationProfileInDefaultFrame = Array<Vector3d>(instants_.getSize(), Vector3d::Zero());
     for (Size i = 0; i < instants_.getSize(); i++)
     {
-        // TBI: fine a way to check and vet whether or not the frame is local, or quasi-inertial
         accelerationProfileInDefaultFrame[i] = aFrameSPtr->getTransformTo(Maneuver::DefaultAccelFrameSPtr, instants_[i])
                                                    .applyToVector(accelerationProfileDefaultFrame_[i]);
     }
