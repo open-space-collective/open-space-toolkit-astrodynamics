@@ -24,6 +24,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
@@ -35,6 +36,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
@@ -76,6 +78,7 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
@@ -306,49 +309,81 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
         );
     }
 
+    // Check that a maneuver can be extracted when a thruster dynamics is found in a maneuvering segment
     {
-        const Array<Shared<Dynamics>> dynamicsWithThruster = {
-            defaultDynamics_ +
-            Array<Shared<Dynamics>>(1, std::dynamic_pointer_cast<Dynamics>(defaultThrusterDynamicsSPtr_))
-        };
-        const Segment::Solution segmentSolution = Segment::Solution(
-            defaultName_,
-            dynamicsWithThruster,
-            {initialStateWithMass_, intermediateStateWithMass_, finalStateWithMass_},
-            true,
-            Segment::Type::Maneuver
+        const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(15.0))
         );
 
-        const Array<Maneuver> maneuvers = segmentSolution.extractManeuvers(defaultFrameSPtr_);
-        // std::cout << maneuvers[0] << std::endl;
+        // Create maneuvering segment
+        Segment maneuverSegment = Segment::Maneuver(
+            "Maneuvring Segment",
+            durationCondition,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            {
+                NumericalSolver::LogType::NoLog,
+                NumericalSolver::StepperType::RungeKuttaDopri5,
+                5.0,
+                1.0e-12,
+                1.0e-12,
+            }
+        );
+
+        const Mass initialWetMass = Mass::Kilograms(200.0);
+        VectorXd initialCoordinatesWithWetMass(7);
+        initialCoordinatesWithWetMass << +7000000.000000, +0000000.000000, -0000000.000000, +00000.00000000,
+            -05719.55029824, -04922.36372519, initialWetMass.inKilograms();
+
+        const State initialStateWithWetMass = {
+            Instant::J2000(), initialCoordinatesWithWetMass, Frame::GCRF(), thrustCoordinateBrokerSPtr_
+        };
+
+        const Segment::Solution maneuveringSegmentSolution = maneuverSegment.solve(initialStateWithWetMass);
+
+        const MatrixXd accelerationProfile = maneuveringSegmentSolution.getDynamicsAccelerationContribution(
+            defaultThrusterDynamicsSPtr_, defaultFrameSPtr_
+        );
+
+        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         EXPECT_EQ(1, maneuvers.getSize());
-        EXPECT_EQ(3, maneuvers[0].getInstants().getSize());
-        EXPECT_EQ(3, maneuvers[0].getAccelerationProfile().getSize());
-        EXPECT_EQ(3, maneuvers[0].getMassFlowRateProfile().getSize());
+        EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getInstants().getSize());
+        EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getAccelerationProfile().getSize());
+        EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getMassFlowRateProfile().getSize());
 
         for (Size i = 0; i < maneuvers[0].getInstants().getSize(); i++)
         {
-            EXPECT_EQ(segmentSolution.states[i].getInstant(), maneuvers[0].getInstants()[i]);
+            EXPECT_EQ(maneuveringSegmentSolution.states[i].getInstant(), maneuvers[0].getInstants()[i]);
         }
 
-        // TBI: uncomment these functions below and compare them onces the functions in the maneuver class are replaced
-        // with more accurate calculations logic using a numerical integrator and better quadrature rule
+        // Check that metrics from the maneuvering segment solution are the same as the ones from the extracted maneuver
+        EXPECT_NEAR(
+            maneuveringSegmentSolution.computeDeltaV(defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()
+            ),
+            maneuvers[0].calculateDeltaV(),
+            1e-10 * maneuveringSegmentSolution.computeDeltaV(
+                        defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()  // Scale to relative error
+                    )
+        );
+        EXPECT_NEAR(
+            maneuveringSegmentSolution.computeDeltaMass().inKilograms(),
+            maneuvers[0].calculateDeltaMass().inKilograms(),
+            1e-10 * maneuveringSegmentSolution.computeDeltaMass().inKilograms()  // Scale to relative error
+        );
 
-        // EXPECT_DOUBLE_EQ(
-        //     segmentSolution.computeDeltaMass().inKilograms(), maneuvers[0].calculateDeltaMass().inKilograms()
-        // );
-        // EXPECT_DOUBLE_EQ(
-        //     segmentSolution.computeDeltaV(defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()),
-        //     maneuvers[0].calculateDeltaV()
-        // );
-        // EXPECT_DOUBLE_EQ(
-        //     defaultSatelliteSystem_.getPropulsionSystem().getThrust(),
-        //     maneuvers[0].calculateAverageThrust(defaultSatelliteSystem_.getMass())
-        // );
-        // EXPECT_DOUBLE_EQ(
-        //     defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse(),
-        //     maneuvers[0].calculateAverageSpecificImpulse(defaultSatelliteSystem_.getMass())
-        // );
+        // These are not as close as the dV and dM above likely due to the midpoint trapezoidal rule used to calculate
+        // thrusts at each profile interval midpoint
+        EXPECT_NEAR(
+            defaultSatelliteSystem_.getPropulsionSystem().getThrust(),
+            maneuvers[0].calculateAverageThrust(initialWetMass),
+            5e-6 * defaultSatelliteSystem_.getPropulsionSystem().getThrust()  // Scale to relative error
+        );
+
+        EXPECT_NEAR(
+            defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse(),
+            maneuvers[0].calculateAverageSpecificImpulse(initialWetMass),
+            5e-6 * defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()  // Scale to relative error
+        );
     }
 
     // Check that multiple (or no) maneuvers can be extracted when more than one maneuvers are carried out per

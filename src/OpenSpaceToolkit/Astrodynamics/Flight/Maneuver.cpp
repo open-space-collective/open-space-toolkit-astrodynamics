@@ -59,7 +59,7 @@ Maneuver::Maneuver(
     }
 
     const Duration maneuverDuration = instants_.accessLast() - instants_.accessFirst();
-    Duration largestInterval = maneuverDuration;
+    Duration largestInterval = Duration::Zero();
     for (Size k = 0; k < instants_.getSize() - 1; ++k)
     {
         if (instants_[k] >= instants_[k + 1])
@@ -165,51 +165,63 @@ Interval Maneuver::getInterval() const
 
 Real Maneuver::calculateDeltaV() const
 {
-    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
-    Real weightedAccelerationMagnitudeSum = 0.0;
-    Real totalTime = 0.0;
-
-    for (Size i = 0; i < instants_.getSize(); i++)
+    // Use simple forward trapezoidal rule to calculate the total delta-v
+    Real totalDeltaV = 0.0;
+    for (Size i = 0; i < instants_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
-        weightedAccelerationMagnitudeSum += timeStep * accelerationProfileDefaultFrame_[i].norm();
-        totalTime += timeStep;
+        const Real durationI = (instants_[i] - instants_.accessFirst()).inSeconds();
+        const Real durationIPlusOne = (instants_[i + 1] - instants_.accessFirst()).inSeconds();
+
+        const Real accelMagnitudeI = accelerationProfileDefaultFrame_[i].norm();
+        const Real accelMagnitudeIPlusOne = accelerationProfileDefaultFrame_[i + 1].norm();
+
+        totalDeltaV += ((accelMagnitudeI + accelMagnitudeIPlusOne) / 2.0) * (durationIPlusOne - durationI);
     }
 
-    return weightedAccelerationMagnitudeSum / totalTime;
+    return totalDeltaV;
 }
 
 Mass Maneuver::calculateDeltaMass() const
 {
-    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
-    Real weightedMassSum = 0.0;
-
-    for (Size i = 0; i < instants_.getSize(); i++)
+    // Use simple forward trapezoidal rule to calculate the total delta-mass
+    Real totalDeltaMass = 0.0;
+    for (Size i = 0; i < instants_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
+        const Real durationI = (instants_[i] - instants_.accessFirst()).inSeconds();
+        const Real durationIPlusOne = (instants_[i + 1] - instants_.accessFirst()).inSeconds();
 
-        weightedMassSum += timeStep * -massFlowRateProfile_[i];
+        totalDeltaMass +=
+            ((-massFlowRateProfile_[i] + -massFlowRateProfile_[i + 1]) / 2.0) * (durationIPlusOne - durationI);
     }
 
-    return {weightedMassSum, Mass::Unit::Kilogram};
+    return {totalDeltaMass, Mass::Unit::Kilogram};
 }
 
 Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 {
-    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
-    Real weightedThrustSum = 0.0;
-    Real weightedMassSum = anInitialSpacecraftMass.inKilograms();
-    Real totalTime = 0.0;
-
-    for (Size i = 0; i < instants_.getSize(); i++)
+    Array<Real> thrustPerIntervals = Array<Real>::Empty();
+    Array<Real> intervalDurations = Array<Real>::Empty();
+    Real currentMass = anInitialSpacecraftMass.inKilograms();
+    for (Size i = 0; i < instants_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
-        weightedMassSum += -massFlowRateProfile_[i];
-        weightedThrustSum += timeStep * accelerationProfileDefaultFrame_[i].norm() * weightedMassSum;
-        totalTime += timeStep;
+        const Real currentIntervalDuration = (instants_[i + 1] - instants_[i]).inSeconds();
+
+        currentMass += ((massFlowRateProfile_[i] + massFlowRateProfile_[i + 1]) / 2.0) * currentIntervalDuration;
+        const Real currentThrust =
+            (accelerationProfileDefaultFrame_[i].norm() + accelerationProfileDefaultFrame_[i + 1].norm()) / 2 *
+            currentMass;
+
+        thrustPerIntervals.add(currentThrust);
+        intervalDurations.add(currentIntervalDuration);
     }
 
-    return weightedThrustSum / totalTime;
+    Real weightedThrustSum = 0.0;
+    for (Size j = 0; j < thrustPerIntervals.getSize(); j++)
+    {
+        weightedThrustSum += thrustPerIntervals[j] * intervalDurations[j];
+    }
+
+    return weightedThrustSum / std::accumulate(intervalDurations.begin(), intervalDurations.end(), 0.0);
 }
 
 Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const

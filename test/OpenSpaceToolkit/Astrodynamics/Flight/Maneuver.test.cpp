@@ -431,24 +431,127 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities)
 {
+    const Array<Instant> evenlySpacedInstants = {
+        Instant::J2000(),
+        Instant::J2000() + Duration::Minutes(1.0),
+        Instant::J2000() + Duration::Minutes(2.0),
+        Instant::J2000() + Duration::Minutes(3.0),
+    };
+
+    const Array<Instant> unevenlySpacedInstants = {
+        Instant::J2000(),
+        Instant::J2000() + Duration::Minutes(0.5),  // Larger gap in the middle
+        Instant::J2000() + Duration::Minutes(2.5),
+        Instant::J2000() + Duration::Minutes(3.0),
+    };
+
+    // Profile chosen to produce the same dV as equally spaced 1 m/s profiles
+    const Array<Vector3d> accelerationProfileDefaultFrame = {
+        {0.5, 0.0, 0.0},
+        {1.25, 0.0, 0.0},
+        {1.25, 0.0, 0.0},
+        {0.5, 0.0, 0.0},
+    };
+    // Constant and non-constant mass flow rates chosen to produce the same dM as equally spaced 0.1 kg/s profiles
+    const Real constantMassFlowRate = -1.0e-1;
+    const Array<Real> nonConstantMassFlowRateProfile = {-0.5e-1, -1.25e-1, -1.25e-1, -0.5e-1};
+
+    const Maneuver evenlySpacedManeuverWithConstantMassFlowRate = Maneuver::ConstantMassFlowRateProfile(
+        evenlySpacedInstants, accelerationProfileDefaultFrame, defaultFrameSPtr_, constantMassFlowRate
+    );
+
+    const Maneuver unevenlySpacedManeuverWithConstantMassFlowRate = Maneuver::ConstantMassFlowRateProfile(
+        unevenlySpacedInstants, accelerationProfileDefaultFrame, defaultFrameSPtr_, constantMassFlowRate
+    );
+
+    const Maneuver evenlySpacedManeuverWithNonConstantMassFlowRate = {
+        evenlySpacedInstants, accelerationProfileDefaultFrame, defaultFrameSPtr_, nonConstantMassFlowRateProfile
+    };
+
+    const Maneuver unevenlySpacedManeuverWithNonConstantMassFlowRate = {
+        unevenlySpacedInstants, accelerationProfileDefaultFrame, defaultFrameSPtr_, nonConstantMassFlowRateProfile
+    };
+
     {
-        EXPECT_DOUBLE_EQ(0.0013941812040755494, defaultManeuver_.calculateDeltaV());
+        // dV equivalent to 1.0 m/s * 180 s = 180 m/s
+        EXPECT_DOUBLE_EQ(180.0, evenlySpacedManeuverWithConstantMassFlowRate.calculateDeltaV());
+        // acceleration is higher for a greater portion of the burn, so total dV is higher
+        EXPECT_DOUBLE_EQ(202.5, unevenlySpacedManeuverWithConstantMassFlowRate.calculateDeltaV());
+        // dV equivalent to 1.0 m/s * 180 s = 180 m/s
+        EXPECT_DOUBLE_EQ(180.0, evenlySpacedManeuverWithNonConstantMassFlowRate.calculateDeltaV());
+        // acceleration is higher for a greater portion of the burn, so total dV is higher
+        EXPECT_DOUBLE_EQ(202.5, unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateDeltaV());
     }
 
     {
-        EXPECT_DOUBLE_EQ(1.26e-4, defaultManeuver_.calculateDeltaMass().inKilograms());
+        // dM equivalent to 0.1 kg/s * 180 s = 18 kg
+        EXPECT_DOUBLE_EQ(18.0, evenlySpacedManeuverWithConstantMassFlowRate.calculateDeltaMass().inKilograms());
+        // dM equivalent to 0.1 kg/s * 180 s = 18 kg
+        EXPECT_DOUBLE_EQ(18.0, unevenlySpacedManeuverWithConstantMassFlowRate.calculateDeltaMass().inKilograms());
+        // dM equivalent to 0.1 kg/s * 180 s = 18 kg
+        EXPECT_DOUBLE_EQ(18.0, evenlySpacedManeuverWithNonConstantMassFlowRate.calculateDeltaMass().inKilograms());
+        // mass flow rate is higher for a greater portion of the burn, so total dM is higher
+        EXPECT_DOUBLE_EQ(20.25, unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateDeltaMass().inKilograms());
     }
 
     {
         EXPECT_DOUBLE_EQ(
-            0.13941817086711084, defaultManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
+            88.0,  // The average thrust is less than 100N because the spacecraft mass is decreasing during the burn
+            evenlySpacedManeuverWithConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
+        );
+
+        EXPECT_DOUBLE_EQ(
+            96.9375,  // Higher than evenlySpacedManeuverWithConstantMassFlowRate because acceleration is higher for a
+                      // greater portion of the burn
+            unevenlySpacedManeuverWithConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+        );
+
+        EXPECT_DOUBLE_EQ(
+            87.90625,  // Very slightly lower than evenlySpacedManeuverWithConstantMassFlowRate's because non-constantly
+                       // decreasing spacecraft mass
+            evenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+        );
+
+        EXPECT_DOUBLE_EQ(
+            94.4765625,  // Very slightly lower than unevenlySpacedManeuverWithConstantMassFlowRate's because
+                         // non-constantly decreasing spacecraft mass
+            unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
         );
     }
 
     {
         EXPECT_DOUBLE_EQ(
-            789.81649564955535, defaultManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram))
+            89.735026742057684,  // The specific impulse is less than 100s because the spacecraft mass is decreasing
+                                 // during the burn
+            evenlySpacedManeuverWithConstantMassFlowRate.calculateAverageSpecificImpulse(
+                Mass(100.0, Mass::Unit::Kilogram)
+            )
+        );
 
+        EXPECT_DOUBLE_EQ(
+            98.848740395547921,  // Higher than evenlySpacedManeuverWithConstantMassFlowRate because acceleration is
+                                 // higher for a greater portion of the burn
+            unevenlySpacedManeuverWithConstantMassFlowRate.calculateAverageSpecificImpulse(
+                Mass(100.0, Mass::Unit::Kilogram)
+            )
+        );
+
+        EXPECT_DOUBLE_EQ(
+            89.639428347090998,  // Very slightly lower than evenlySpacedManeuverWithConstantMassFlowRate's because
+                                 // non-constantly decreasing
+                                 // spacecraft mass
+            evenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageSpecificImpulse(
+                Mass(100.0, Mass::Unit::Kilogram)
+            )
+        );
+
+        EXPECT_DOUBLE_EQ(
+            85.634917802375611,  // Very slightly lower than unevenlySpacedManeuverWithConstantMassFlowRate's because
+                                 // non-constantly decreasing
+                                 // spacecraft mass
+            unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageSpecificImpulse(
+                Mass(100.0, Mass::Unit::Kilogram)
+            )
         );
     }
 }

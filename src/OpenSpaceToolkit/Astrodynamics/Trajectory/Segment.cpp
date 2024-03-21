@@ -148,10 +148,12 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
         thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
 
+    const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
+
     // Check if there are any breaks in the thrusting (stop and start) and split the dynamics into separate maneuvers
     Array<Pair<Size, Size>> maneuveringBlockStartStopIndices = Array<Pair<Size, Size>>::Empty();
-    Size maneuverStart = -1;
-    for (Size i = 0; i < fullSegmentContributions.rows(); i++)
+    Integer maneuverStart = -1;
+    for (Size i = 0; i < numberOfStates; i++)
     {
         if (fullSegmentContributions.row(i).norm() != 0.0)  // If thrusting
         {
@@ -162,7 +164,7 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
             }
 
             // If end of segment is thrusting, close last block
-            if (i == fullSegmentContributions.rows() - 1)
+            if (i == numberOfStates - 1)
             {
                 // Store stop index as i + 1 because you don't get a chance to "close this
                 // block" by seeing the thrust go to zero on the next iteration, since the loop ends on this iteration
