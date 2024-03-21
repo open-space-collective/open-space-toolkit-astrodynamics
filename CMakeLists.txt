@@ -220,7 +220,22 @@ SET (Boost_USE_MULTITHREADED ON)
 
 FIND_PACKAGE ("Boost" "1.82" REQUIRED COMPONENTS log log_setup thread)
 
-ADD_DEFINITIONS(-DBOOST_THREAD_DYN_LINK -DBOOST_STACKTRACE_USE_BACKTRACE -DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=</usr/lib/gcc/x86_64-linux-gnu/9/include/backtrace.h>)
+## Stacktrace definitions
+# Detect system architecture
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+    # Architecture-specific include for x86_64
+    set(BACKTRACE_INCLUDE "/usr/lib/gcc/x86_64-linux-gnu/9/include/backtrace.h")
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+    # Example path adjustment for aarch64, adjust the path as needed
+    set(BACKTRACE_INCLUDE "/usr/lib/gcc/aarch64-linux-gnu/9/include/backtrace.h")
+else()
+    message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+endif()
+
+# Add definitions with architecture-specific path
+ADD_DEFINITIONS(-DBOOST_THREAD_DYN_LINK)
+ADD_DEFINITIONS(-DBOOST_STACKTRACE_USE_BACKTRACE)
+ADD_DEFINITIONS(-DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=<${BACKTRACE_INCLUDE}>)
 
 IF (NOT Boost_FOUND)
     MESSAGE (SEND_ERROR "[Boost] not found.")
@@ -260,7 +275,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Core
 
-FIND_PACKAGE ("OpenSpaceToolkitCore" "2.0" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "2.2" REQUIRED)
 
 IF (NOT OpenSpaceToolkitCore_FOUND)
 
@@ -270,7 +285,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ I/O
 
-FIND_PACKAGE ("OpenSpaceToolkitIO" "2.0" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitIO" "2.1" REQUIRED)
 
 IF (NOT OpenSpaceToolkitIO_FOUND)
 
@@ -280,7 +295,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Mathematics
 
-FIND_PACKAGE ("OpenSpaceToolkitMathematics" "2.0" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" "2.1" REQUIRED)
 
 IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
@@ -290,7 +305,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Physics
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "5.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "5.2" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 
