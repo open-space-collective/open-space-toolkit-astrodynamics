@@ -21,6 +21,7 @@ extract_python_package_version := $(shell echo $(project_version) | sed 's/-/./'
 
 dev_username := developer
 
+
 ifeq ($(PLATFORM),amd64)
 platform := x86_64
 endif
@@ -31,6 +32,7 @@ endif
 
 platform ?= x86_64
 $(info Platform value is $(platform))
+
 
 pull: ## Pull all images
 
@@ -250,9 +252,9 @@ build-packages-cpp-standalone: ## Build C++ packages (standalone)
 
 .PHONY: build-packages-cpp-standalone
 
-build-packages-python: ##build-development-image ## Build Python packages
-	@ echo "Building platform $(platform) Python packages..."
-# @ $(MAKE) build-packages-python-standalone
+build-packages-python: build-development-image ## Build Python packages
+
+	@ $(MAKE) build-packages-python-standalone
 
 .PHONY: build-packages-python
 
