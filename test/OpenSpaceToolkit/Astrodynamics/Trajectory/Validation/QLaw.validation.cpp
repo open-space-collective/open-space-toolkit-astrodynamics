@@ -701,5 +701,3 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         EXPECT_LT(std::abs(endCOE.getRaan().inRadians() - targetCOE.getRaan().inRadians()), 1e-4);
     }
 }
-
-TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, StartAndStopThrusting) {}
