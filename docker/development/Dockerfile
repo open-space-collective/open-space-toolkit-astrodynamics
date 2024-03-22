@@ -143,7 +143,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 ## Open Space Toolkit ▸ Physics
 
 ARG OSTK_PHYSICS_MAJOR="5"
-ARG OSTK_PHYSICS_MINOR="2"
+ARG OSTK_PHYSICS_MINOR="3"
 
 ## Force an image rebuild when new Physics patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
