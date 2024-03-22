@@ -24,9 +24,9 @@ namespace astrodynamics
 namespace dynamics
 {
 
+using ostk::core::container::Array;
 using ostk::core::type::Shared;
 using ostk::core::type::Real;
-using ostk::core::container::Array;
 
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::Vector3d;
@@ -44,6 +44,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class Tabulated : public Dynamics
 {
    public:
+    static const Shared<const Frame> DefaultContributionFrameSPtr;
     /// @brief Constructor
     ///
     /// @param anInstantArray An array of instants, must be sorted
