@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -30,6 +31,7 @@ namespace trajectory
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
