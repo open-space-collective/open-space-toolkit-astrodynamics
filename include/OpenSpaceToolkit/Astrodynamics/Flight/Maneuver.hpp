@@ -14,6 +14,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
@@ -42,6 +43,7 @@ using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
@@ -57,6 +59,8 @@ class Maneuver
 {
    public:
     static const Shared<const Frame> DefaultAccelFrameSPtr;
+    static const Duration MinimumRecommendedDuration;
+    static const Duration MaximumRecommendedInterpolationInterval;
 
     /// @brief Constructor
     ///
