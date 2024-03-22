@@ -4,40 +4,21 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Container/Map.hpp>
-#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Type/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Time.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -47,28 +28,19 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
-using ostk::core::container::Map;
-using ostk::core::container::Pair;
-using ostk::core::type::Index;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::physics::Environment;
-using ostk::physics::coordinate::Position;
-using ostk::physics::coordinate::Velocity;
-using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::flight::Maneuver;
-using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 #define DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational

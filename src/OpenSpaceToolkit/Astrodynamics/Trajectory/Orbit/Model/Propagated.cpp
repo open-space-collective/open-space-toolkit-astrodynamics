@@ -3,7 +3,16 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
+
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -21,9 +30,12 @@ using ostk::core::type::Size;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::time::Duration;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
+
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);

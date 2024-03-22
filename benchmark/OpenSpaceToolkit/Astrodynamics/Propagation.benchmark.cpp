@@ -5,7 +5,7 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
