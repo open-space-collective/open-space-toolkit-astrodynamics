@@ -80,7 +80,7 @@ jobs:
       - prepare-environment
       - build-development-image
       - test
-    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@build/arm64-with-debug-symbols-off
+    uses: open-space-collective/open-space-toolkit/.github/workflows/build-packages.yml@wip/build-packages-on-pr
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
