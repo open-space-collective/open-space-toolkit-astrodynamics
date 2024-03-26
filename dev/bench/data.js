@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1711225230505,
+  "lastUpdate": 1711458409823,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 2774018763.499987,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2773903487.9 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65620577+guillaumeloftorbital@users.noreply.github.com",
+            "name": "guillaumeloftorbital",
+            "username": "guillaumeloftorbital"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "521a1671821eda7a37e6c15d04b6dd3483ee63d7",
+          "message": "feat: Refactored CMakeLists, updated versions for OpenSpaceToolkitCor… (#371)\n\n* feat: Refactored CMakeLists, updated versions for OpenSpaceToolkitCore, OpenSpaceToolkitIO, OpenSpaceToolkitMathematics, and OpenSpaceToolkitPhysics, added platform specific definitions, and updated Dockerfile for development with new versions and base image.\r\n\r\n* chore: Update OpenSpaceToolkitPhysics version to 5.3\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\r\n\r\n* Apply suggestions from code review\r\n\r\n* fix: align with ostk-io\r\n\r\n* style: add extra space in dockerfile\r\n\r\n---------\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\r\nCo-authored-by: Antoine Paletta <antoine.paletta@loftorbital.com>",
+          "timestamp": "2024-03-26T12:13:46Z",
+          "tree_id": "a9749498d2469d729b2ca59090ff2084ade24394",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/521a1671821eda7a37e6c15d04b6dd3483ee63d7"
+        },
+        "date": 1711458408569,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 543459829.4999888,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 543440107.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 788617847.1999813,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 788579599.9999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2782411988.900003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2782313307.4999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2786756887.7000055,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2786653725.599998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2783412588.199985,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2783267783.900001 ns\nthreads: 1"
           }
         ]
       }
