@@ -162,5 +162,3 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, ComputeContribution)
         EXPECT_TRUE(acceleration.isNear(expectedAcceleration, 1e-12));
     }
 }
-
-// Add more tests based on public methods of Thruster class
