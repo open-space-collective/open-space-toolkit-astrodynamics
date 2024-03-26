@@ -49,9 +49,30 @@ Propagator::Propagator(
 )
     : Propagator(aNumericalSolver, aDynamicsArray)
 {
-    // TBM: in the future maybe sanitize the instants of each maneuver to make sure none of them are overalapping
     for (const Maneuver& maneuver : aManeuverArray)
     {
+        // Check if the maneuver's first and last instants overlap with any other maneuver
+        Size duplicateManeuverCounter = 0;
+        for (const Maneuver& otherManeuver : aManeuverArray)
+        {
+            if (maneuver != otherManeuver)  // Skip self-comparison
+            {
+                if (maneuver.getInstants()[0] <=
+                        otherManeuver.getInstants()[otherManeuver.getInstants().getSize() - 1] &&
+                    maneuver.getInstants()[maneuver.getInstants().getSize() - 1] >= otherManeuver.getInstants()[0])
+                {
+                    throw ostk::core::error::RuntimeError("Maneuvers cannot overlap in time.");
+                }
+            }
+            else
+            {
+                duplicateManeuverCounter++;
+            }
+        }
+        if (duplicateManeuverCounter != 1)
+        {
+            throw ostk::core::error::RuntimeError("Maneuvers cannot be duplicated.");
+        }
         this->addManeuver(maneuver, anInterpolationType);
     }
 }

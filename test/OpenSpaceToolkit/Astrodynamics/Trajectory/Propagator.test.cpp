@@ -218,6 +218,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constru
             Propagator(defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}, Interpolator::Type::Linear)
         );
     }
+
+    // Check if there are any overlapping maneuvers
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Propagator(
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        {defaultManeuver_,
+                         Maneuver(
+                             {
+                                 Instant::J2000() + Duration::Seconds(30.0),
+                                 Instant::J2000() + Duration::Seconds(60.0) + Duration::Seconds(30.0),
+                             },
+                             defaultManeuverAccelerationProfile_,
+                             gcrfSPtr_,
+                             defaultManeuverMassFlowRateProfile_
+                         )},
+                        Interpolator::Type::Linear
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Maneuvers cannot overlap in time.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Check if there are any of the same maneuvers
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Propagator(
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        {defaultManeuver_, defaultManeuver_},
+                        Interpolator::Type::Linear
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Maneuvers cannot be duplicated.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CopyConstructor)

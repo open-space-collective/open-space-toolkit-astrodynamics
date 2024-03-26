@@ -40,6 +40,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
@@ -93,8 +94,9 @@ using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
-using ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::dynamics::Thruster;
+using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystemBuilder;
@@ -169,25 +171,28 @@ class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testin
     ));
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_TabulatedConstantThrust)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_TabulatedvsConstantThrustvsManeuver)
 {
-    VectorXd coordinates(9);
+    VectorXd coordinates(7);
     coordinates << 1204374.4983743676, -6776950.422456586, 0.0, -967.6410027260863, -171.96557073856417,
-        7546.1119092033205, 110.0, 500.0, 2.2;
+        7546.1119092033205, 110.0;
+
+    const Array<Shared<const CoordinateSubset>> stateCoordinateSubsets = {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    };
 
     const State initialState = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0, 0), Scale::UTC),
         coordinates,
-        Frame::GCRF(),
-        dragCoordinateBrokerSPtr_,
+        gcrfSPtr_,
+        stateCoordinateSubsets,
     };
 
-    const Earth earth = Earth::FromModels(
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 20, 20),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
-    );
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+    const Array<Instant> instants =
+        Interval::Closed(initialState.accessInstant(), initialState.accessInstant() + Duration::Hours(1.5))
+            .generateGrid(Duration::Minutes(1.0));
 
     const PropulsionSystem propulsionSystem = {1e-1, 3000.0};
 
@@ -198,74 +203,68 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
 
     const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
 
-    const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<PositionDerivative>(),
-        std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr),
-        std::make_shared<Thruster>(satelliteSystem, constantThrustSPtr),
-    };
+    // Create dynamics with thruster
+    Array<Shared<Dynamics>> dynamicsWithThruster = defaultDynamics_;
+    dynamicsWithThruster.add(std::make_shared<Thruster>(satelliteSystem, constantThrustSPtr));
+    Propagator propagatorWithThruster = {defaultNumericalSolver_, dynamicsWithThruster};
 
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        1.0,
-        1e-12,
-        1e-12,
-    };
-
-    // Create contribution profile
-    Propagator propagator = {numericalSolver, dynamics};
-    const State endStatePropagated =
-        propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.5));
-
-    // TBI: For some reason it's pushing the initial state twice
-    const Array<State> tmpStates = propagator.accessNumericalSolver().getObservedStates();
-    const Array<State> states(tmpStates.begin() + 1, tmpStates.end());
-
-    MatrixXd contributions(states.getSize(), 4);
-    for (Size i = 0; i < states.getSize(); ++i)
+    // Propagate all states with thruster to be able to extract contributions for tabulated dynamics
+    const Array<State> statesWithThruster = propagatorWithThruster.calculateStatesAt(initialState, instants);
+    MatrixXd contributions(statesWithThruster.getSize(), 4);
+    for (Size i = 0; i < statesWithThruster.getSize(); i++)
     {
-        const VectorXd contribution =
-            dynamics[3]->computeContribution(states[i].accessInstant(), states[i].accessCoordinates(), Frame::GCRF());
+        const VectorXd contribution = dynamicsWithThruster[dynamicsWithThruster.getSize() - 1]->computeContribution(
+            statesWithThruster[i].accessInstant(), statesWithThruster[i].accessCoordinates(), gcrfSPtr_
+        );
         contributions.row(i) = contribution;
     }
-    const Array<Instant> instants = states.map<Instant>(
-        [](const auto& state)
-        {
-            return state.accessInstant();
-        }
-    );
 
-    const Tabulated tabulated = {
+    // Create tabulated dynamics
+    const TabulatedDynamics tabulated = {
         instants,
         contributions,
         {CartesianVelocity::Default(), CoordinateSubset::Mass()},
         gcrfSPtr_,
     };
 
-    // Re-propagate with tabulated dynamics
-    const Array<Shared<Dynamics>> tabulatedDynamics = {
-        std::make_shared<PositionDerivative>(),
-        std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr),
-        std::make_shared<Tabulated>(tabulated),
-    };
+    // Create dynamics with tabulated and propagator with tabulated
+    Array<Shared<Dynamics>> dynamicsWithTabulated = defaultDynamics_;
+    dynamicsWithTabulated.add(std::make_shared<TabulatedDynamics>(tabulated));
+    Propagator propagatorWithTabulated = {defaultNumericalSolver_, dynamicsWithTabulated};
+    const Array<State> statesWithTabulated = propagatorWithTabulated.calculateStatesAt(initialState, instants);
 
-    const NumericalSolver tabulatedNumericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKutta4,
-        3.0,
-        1e-12,
-        1e-12,
-    };
+    // Create maneuver from tabulated and propagator with maneuver
+    const Maneuver maneuver = Maneuver::TabulatedDynamics(tabulated);
+    Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
+    const Array<State> statesWithManeuver = maneuverPropagator.calculateStatesAt(initialState, instants);
 
-    Propagator tabulatedPropagator = {tabulatedNumericalSolver, tabulatedDynamics};
-    const State endStateTabulated =
-        propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.5));
-
-    for (Size i = 0; i < endStateTabulated.getSize(); ++i)
+    // Validate that all return very similar results
+    for (Size i = 0; i < instants.getSize(); i++)
     {
-        EXPECT_NEAR(endStatePropagated.accessCoordinates()[i], endStateTabulated.accessCoordinates()[i], 1e-14);
+        const VectorXd positionWithThruster = statesWithThruster[i].extractCoordinate(CartesianPosition::Default());
+        const VectorXd velocityWithThruster = statesWithThruster[i].extractCoordinate(CartesianVelocity::Default());
+        const Real massWithThruster = statesWithThruster[i].extractCoordinate(CoordinateSubset::Mass())(0);
+
+        const VectorXd positionWithTabulated = statesWithTabulated[i].extractCoordinate(CartesianPosition::Default());
+        const VectorXd velocityWithTabulated = statesWithTabulated[i].extractCoordinate(CartesianVelocity::Default());
+        const Real massWithTabulated = statesWithTabulated[i].extractCoordinate(CoordinateSubset::Mass())(0);
+
+        const VectorXd positionWithManeuver = statesWithManeuver[i].extractCoordinate(CartesianPosition::Default());
+        const VectorXd velocityWithManeuver = statesWithManeuver[i].extractCoordinate(CartesianVelocity::Default());
+        const Real massWithManeuver = statesWithManeuver[i].extractCoordinate(CoordinateSubset::Mass())(0);
+
+        // Assert state errors
+        ASSERT_GT(5.e-4, (positionWithThruster - positionWithTabulated).norm());
+        ASSERT_GT(5.e-7, (velocityWithThruster - velocityWithTabulated).norm());
+        ASSERT_GT(1.e-12, (massWithThruster - massWithTabulated));
+
+        ASSERT_GT(5.e-4, (positionWithThruster - positionWithManeuver).norm());
+        ASSERT_GT(5.e-7, (velocityWithThruster - velocityWithManeuver).norm());
+        ASSERT_GT(1.e-12, (massWithThruster - massWithManeuver));
+
+        ASSERT_GT(1.e-14, (positionWithTabulated - positionWithManeuver).norm());
+        ASSERT_GT(1.e-14, (velocityWithTabulated - velocityWithManeuver).norm());
+        ASSERT_GT(1.e-14, (massWithTabulated - massWithManeuver));
     }
 }
 
