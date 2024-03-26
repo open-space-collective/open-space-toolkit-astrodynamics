@@ -3,6 +3,7 @@
 [bdist_wheel]
 python-tag=py${EXTENSION}
 bdist-dir=./dist${EXTENSION}
+plat-name=${PLATFORM}
 
 [metadata]
 name = open-space-toolkit-astrodynamics
