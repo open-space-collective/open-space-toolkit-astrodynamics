@@ -26,8 +26,9 @@ dev_username := developer
 TARGETPLATFORM ?= linux/amd64
 $(info Target platform is $(TARGETPLATFORM))
 
-# Debug symbols toggle (on by default, CI can change this env var)
-DEBUG_SYMBOLS_TOGGLE ?= ON
+# Debug symbols toggle (on for amd64, off for arm64 builds)
+DEBUG_SYMBOLS_TOGGLE := $(shell if [ "$(TARGETPLATFORM)" = "linux/amd64" ]; then echo "ON"; else echo "OFF"; fi)
+$(info Debug symbols $(DEBUG_SYMBOLS_TOGGLE))
 
 
 pull: ## Pull all images
