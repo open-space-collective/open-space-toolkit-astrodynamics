@@ -19,6 +19,8 @@ namespace flight
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
+const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
+const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Minutes(2.0);
 
 Maneuver::Maneuver(
     const Array<Instant>& anInstantArray,
@@ -56,15 +58,51 @@ Maneuver::Maneuver(
         );
     }
 
+    const Duration maneuverDuration = instants_.accessLast() - instants_.accessFirst();
+    Duration largestInterval = Duration::Zero();
     for (Size k = 0; k < instants_.getSize() - 1; ++k)
     {
         if (instants_[k] >= instants_[k + 1])
         {
             throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate Instant Array");
         }
+
+        if (instants_[k + 1] - instants_[k] > largestInterval)
+        {
+            largestInterval = instants_[k + 1] - instants_[k];
+        }
     }
 
-    // Ensure that mass flow rate profile is expressed in negative numbers
+    if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
+    {
+        std::cout << "WARNING: Some intervals between the instants defined for this Maneuver are larger than the "
+                     "maximum recommended interpolation interval of "
+                  << Maneuver::MaximumRecommendedInterpolationInterval.inSeconds() << " seconds." << std::endl;
+    }
+
+    if (maneuverDuration < Maneuver::MinimumRecommendedDuration)
+    {
+        std::cout
+            << "WARNING: maneuver duration is less than " << Maneuver::MinimumRecommendedDuration.inSeconds()
+            << " seconds, it may be 'skipped over' and not taken into "
+               "account during numerical propagation if the integrator's timestep is longer than the maneuver duration."
+            << std::endl;
+    }
+
+    // Ensure that the accelerations provided  have strictly positive magnitudes
+    if (std::any_of(
+            accelerationProfileDefaultFrame_.begin(),
+            accelerationProfileDefaultFrame_.end(),
+            [](const Vector3d& anAcceleration)
+            {
+                return anAcceleration.norm() <= 0.0;
+            }
+        ))
+    {
+        throw ostk::core::error::RuntimeError("Acceleration profile must have strictly positive magnitudes.");
+    }
+
+    // Ensure that mass flow rate profile is expressed in strictly negative numbers
     if (std::any_of(
             massFlowRateProfile_.begin(),
             massFlowRateProfile_.end(),
@@ -74,7 +112,7 @@ Maneuver::Maneuver(
             }
         ))
     {
-        throw ostk::core::error::RuntimeError("Mass flow rate profile must be expressed in strictly negative numbers.");
+        throw ostk::core::error::RuntimeError("Mass flow rate profile must have strictly negative values.");
     }
 
     // Convert to the default frame if necessary
