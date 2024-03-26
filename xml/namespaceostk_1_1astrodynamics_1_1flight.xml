@@ -8,19 +8,6 @@
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile">ostk::astrodynamics::flight::profile</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system">ostk::astrodynamics::flight::system</innernamespace>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1a65d2b73d1728c8b77fa5633018c46c56" prot="public" static="no">
-        <type><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" kindref="compound">ostk::astrodynamics::dynamics::Tabulated</ref></type>
-        <definition>using ostk::astrodynamics::flight::TabulatedDynamics = typedef ostk::astrodynamics::dynamics::Tabulated</definition>
-        <argsstring></argsstring>
-        <name>TabulatedDynamics</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" bodystart="49" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1aefa47e9cd4721e75e5d9d687d00cc8e1" prot="public" static="no">
         <type>ostk::physics::environment::gravitational::Earth</type>
         <definition>using ostk::astrodynamics::flight::EarthGravitationalModel = typedef ostk::physics::environment::gravitational::Earth</definition>

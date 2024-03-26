@@ -16,11 +16,12 @@ ostk.astrodynamics.dynamics.Tabulated
    .. autosummary::
       :nosignatures:
    
+      ~Tabulated.access_contribution_profile
+      ~Tabulated.access_frame
+      ~Tabulated.access_instants
       ~Tabulated.compute_contribution
       ~Tabulated.from_environment
-      ~Tabulated.get_contribution_profile
-      ~Tabulated.get_frame
-      ~Tabulated.get_instants
+      ~Tabulated.get_contribution_profile_from_coordinate_subsets
       ~Tabulated.get_interpolation_type
       ~Tabulated.get_name
       ~Tabulated.get_read_coordinate_subsets

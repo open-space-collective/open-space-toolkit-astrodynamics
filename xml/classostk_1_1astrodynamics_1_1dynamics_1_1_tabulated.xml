@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="143" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="143" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="136" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="136" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a9603e52c2a235ac468367f1bde57f336" prot="private" static="no" mutable="no">
         <type>const MatrixXd</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="144" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="144" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="137" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="137" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1aef34dbf5b5835bb21a83f595d28a8ccf" prot="private" static="no" mutable="no">
         <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="145" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="145" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="138" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="138" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1ac365172dc7fb2201c9735a33eaa59338" prot="private" static="no" mutable="no">
         <type>const Shared&lt; const Frame &gt;</type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="146" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="146" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="139" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="139" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a38a7989e3a51f24efdb28d345161b813" prot="private" static="no" mutable="no">
         <type>Array&lt; Shared&lt; const Interpolator &gt; &gt;</type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="147" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="147" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="140" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="140" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -166,23 +166,6 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="76" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="80" bodyend="83"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a477d7137eb6b0335c4abdd8c9e4bbb1d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Array&lt; Instant &gt;</type>
-        <definition>Array&lt; Instant &gt; ostk::astrodynamics::dynamics::Tabulated::getInstants</definition>
-        <argsstring>() const</argsstring>
-        <name>getInstants</name>
-        <briefdescription>
-<para>Get instants. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>The instants </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="81" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="85" bodyend="88"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a500c06269e86cc6620c94d7321972284" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const MatrixXd &amp;</type>
         <definition>const MatrixXd &amp; ostk::astrodynamics::dynamics::Tabulated::accessContributionProfile</definition>
@@ -198,24 +181,37 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="86" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="90" bodyend="93"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="81" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="85" bodyend="88"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a987dc5bd1bb2587afe8a3e7c33226696" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a8ecde475f6da326073e4b9ff97ff22fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>MatrixXd</type>
-        <definition>MatrixXd ostk::astrodynamics::dynamics::Tabulated::getContributionProfile</definition>
-        <argsstring>() const</argsstring>
-        <name>getContributionProfile</name>
+        <definition>MatrixXd ostk::astrodynamics::dynamics::Tabulated::getContributionProfileFromCoordinateSubsets</definition>
+        <argsstring>(const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetArray) const</argsstring>
+        <name>getContributionProfileFromCoordinateSubsets</name>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetArray</declname>
+        </param>
         <briefdescription>
-<para>Get contribution profile. </para>
+<para>Get contribution profile corresponding to a subset of coordinates. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The contribution profile </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A coordinate subset </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The contribution profile </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="91" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="95" bodyend="98"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="87" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="90" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a20766527304f34a50ab164f837835e24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Shared&lt; const Frame &gt; &amp;</type>
@@ -232,24 +228,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="96" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="100" bodyend="103"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a438f564fc345f65e6bbc1123246d196d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Shared&lt; const Frame &gt;</type>
-        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::dynamics::Tabulated::getFrame</definition>
-        <argsstring>() const</argsstring>
-        <name>getFrame</name>
-        <briefdescription>
-<para>Get the frame. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>The frame </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="101" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="105" bodyend="108"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="94" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="143" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1adc5c1218f107997fad7a216c1d179843" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interpolator::Type</type>
@@ -266,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="106" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="110" bodyend="114"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="99" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="148" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a2754aff6f3ae5a0daf2b961edcefb670" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -284,7 +263,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="111" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="116" bodyend="119"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="104" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="154" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1aa6fe363d5f8db738830912e0e32cf374" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -293,7 +272,7 @@
         <name>getReadCoordinateSubsets</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1add0e583f438d0ffb62f402932e3b8865">getReadCoordinateSubsets</reimplements>
         <briefdescription>
-<para>Return the coordinate subsets that the instance reads from. </para>
+<para>Return the coordinate subsets that the instance reads from (there are none for <ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" kindref="compound">Tabulated</ref> dynamics) </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>The coordinate subsets that the instance reads from </para>
@@ -302,7 +281,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="116" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="121" bodyend="124"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="109" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="159" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a66634a5393477fe720743ae7ce5b607f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -320,7 +299,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="121" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="126" bodyend="129"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="114" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="164" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1ac75459b272eaec3f96beb1840845c081" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
@@ -375,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="132" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="131" bodyend="155"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="125" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="169" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a88c5e944dff441c281b0ee633ee05d56" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -417,7 +396,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="140" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="157" bodyend="180"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="133" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp" bodystart="196" bodyend="219"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -495,7 +474,7 @@
         <link refid="classostk_1_1astrodynamics_1_1_dynamics"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="45" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="44" bodyend="148"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" line="45" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp" bodystart="44" bodyend="141"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a500c06269e86cc6620c94d7321972284" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>accessContributionProfile</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a20766527304f34a50ab164f837835e24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>accessFrame</name></member>
@@ -505,9 +484,7 @@
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a999586ae8bcb846dce521bde617939ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>Dynamics</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1ac365172dc7fb2201c9735a33eaa59338" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>frameSPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a32cd83261284ade7ce4aa80681587175" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>FromEnvironment</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a987dc5bd1bb2587afe8a3e7c33226696" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getContributionProfile</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a438f564fc345f65e6bbc1123246d196d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getFrame</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a477d7137eb6b0335c4abdd8c9e4bbb1d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getInstants</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a8ecde475f6da326073e4b9ff97ff22fa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getContributionProfileFromCoordinateSubsets</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1adc5c1218f107997fad7a216c1d179843" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getInterpolationType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a6055a6b91a571604860e46a2563c0b9e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1aa6fe363d5f8db738830912e0e32cf374" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::Tabulated</scope><name>getReadCoordinateSubsets</name></member>

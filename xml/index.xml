@@ -612,11 +612,11 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" kind="function"><name>calculateDeltaMass</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a806b20bcdc02ad2267151aa6039b179a" kind="function"><name>calculateAverageThrust</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac418c97491c18a1c9ee0e7085cd25071" kind="function"><name>calculateAverageSpecificImpulse</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae1505ecd3efe8bd93c995653bc7ea93f" kind="function"><name>toTabulatedDynamics</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6ce72b13c3d2b21f8914d7c2e4f718d5" kind="function"><name>toTabulatedDynamics</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6d0f41e5308ce7da2d596ce7d7cf3f25" kind="friend"><name>operator&lt;&lt;</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aaae204030160f293e8fd862027571c96" kind="function"><name>FromTabulatedDynamics</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a1539ea49d18f92273ca32129c05a812b" kind="function"><name>FromConstantMassFlowRateProfile</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae45130721d5b55b653cda51fe916f586" kind="function"><name>TabulatedDynamics</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" kind="function"><name>ConstantMassFlowRateProfile</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a17ec96d884c28d3026cee8583ad31da0" kind="function"><name>convertAccelerationProfileFrame</name></member>
   </compound>
   <compound refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata" kind="struct"><name>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</name>
@@ -1309,11 +1309,9 @@
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a38a7989e3a51f24efdb28d345161b813" kind="variable"><name>interpolators_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a2cba02adafe33b517be9ce307e524538" kind="function"><name>Tabulated</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a065d45c890a36702a611a5e2c89e6976" kind="function"><name>accessInstants</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a477d7137eb6b0335c4abdd8c9e4bbb1d" kind="function"><name>getInstants</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a500c06269e86cc6620c94d7321972284" kind="function"><name>accessContributionProfile</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a987dc5bd1bb2587afe8a3e7c33226696" kind="function"><name>getContributionProfile</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a8ecde475f6da326073e4b9ff97ff22fa" kind="function"><name>getContributionProfileFromCoordinateSubsets</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a20766527304f34a50ab164f837835e24" kind="function"><name>accessFrame</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a438f564fc345f65e6bbc1123246d196d" kind="function"><name>getFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1adc5c1218f107997fad7a216c1d179843" kind="function"><name>getInterpolationType</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a2754aff6f3ae5a0daf2b961edcefb670" kind="function"><name>isDefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1aa6fe363d5f8db738830912e0e32cf374" kind="function"><name>getReadCoordinateSubsets</name></member>
@@ -1488,7 +1486,6 @@
   <compound refid="namespaceostk_1_1astrodynamics_1_1eventcondition" kind="namespace"><name>ostk::astrodynamics::eventcondition</name>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1flight" kind="namespace"><name>ostk::astrodynamics::flight</name>
-    <member refid="namespaceostk_1_1astrodynamics_1_1flight_1a65d2b73d1728c8b77fa5633018c46c56" kind="typedef"><name>TabulatedDynamics</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1aefa47e9cd4721e75e5d9d687d00cc8e1" kind="typedef"><name>EarthGravitationalModel</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1aa54f8e7262be1edca4187c5a0f876b75" kind="function"><name>operator&lt;&lt;</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1aa8609b2376998a7e1f4ffb724cf2316d" kind="function"><name>operator&lt;&lt;</name></member>
