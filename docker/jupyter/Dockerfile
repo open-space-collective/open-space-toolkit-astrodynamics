@@ -20,6 +20,8 @@ RUN apt-get update \
 
 RUN pip install --quiet "numpy" "pandas" "plotly" "ipywidgets>=7.6" "ipympl>=0.9.0"
 
+# Install JupyterLab extensions
+
 RUN jupyter labextension install --no-build \
         @jupyterlab/shortcuts-extension
 
@@ -27,13 +29,15 @@ COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/s
 
 RUN chown -R ${NB_UID}:${NB_GID} /home/jovyan
 
-# Install seed data
+# Install OSTk data
 
-RUN git clone --branch v1 --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /var/cache/open-space-toolkit-data
+ARG OSTK_DATA_LOCAL_CACHE="/var/cache/open-space-toolkit-data"
+ENV OSTK_DATA_LOCAL_CACHE="${OSTK_DATA_LOCAL_CACHE}"
+ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="${OSTK_DATA_LOCAL_CACHE}/data"
 
-ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="/var/cache/open-space-toolkit-data/data"
+RUN git clone --branch v1 --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git ${OSTK_DATA_LOCAL_CACHE} && chmod -R g+w ${OSTK_DATA_LOCAL_CACHE}
 
-RUN chown -R ${NB_UID}:${NB_GID} /var/cache/open-space-toolkit-data
+RUN chown -R ${NB_UID}:${NB_GID} ${OSTK_DATA_LOCAL_CACHE}
 
 # Install Open Space Toolkit
 
