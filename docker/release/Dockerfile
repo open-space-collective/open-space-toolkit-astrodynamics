@@ -50,7 +50,6 @@ FROM python:${PYTHON_TEST_VERSION}-slim as python-builder
 
 COPY --from=cpp-builder /app/build/bindings/python/dist /dist
 
-ARG PYTHON_TEST_VERSION_WITHOUT_DOT
 RUN pip install /dist/*${PYTHON_TEST_VERSION_WITHOUT_DOT}*.whl
 
 FROM python:${PYTHON_TEST_VERSION}-slim as python-release
@@ -70,7 +69,6 @@ ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="${OSTK_PHYSICS_DATA_LOCAL_REPOSITORY}"
 
 RUN git clone --branch v1 --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git ${OSTK_PHYSICS_DATA_LOCAL_REPOSITORY} && chmod -R g+w ${OSTK_PHYSICS_DATA_LOCAL_REPOSITORY}
 
-ARG PYTHON_TEST_VERSION
 COPY --from=python-builder /usr/local/lib/python${PYTHON_TEST_VERSION}/site-packages/ostk /usr/local/lib/python${PYTHON_TEST_VERSION}/site-packages/ostk
 
 ENTRYPOINT ["ipython"]
