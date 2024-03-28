@@ -617,8 +617,151 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
         }
 
         case Orbit::FrameType::LVLHGD:
-            throw ostk::core::error::runtime::ToBeImplemented(Orbit::StringFromFrameType(aFrameType));
+        {
+            // X axis along geodetic position vector
+            // Z axis along orbital momentum
+            // Y axis toward velocity vector
+
+            const auto calculateAttitude = [this](const State& aState) -> Quaternion
+            {
+                const State state =
+                    this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->accessFrame());
+
+                // Express the state position in geodetic coordinates
+
+                const LLA lla = LLA::Cartesian(
+                    state.getPosition().accessCoordinates(),
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    this->celestialObjectSPtr_->getFlattening()
+                );
+
+                // Compute the NED frame to central body centered, central body fixed frame transform at position
+
+                const Transform transform = ostk::physics::coordinate::frame::utilities::NorthEastDownTransformAt(
+                    lla,
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    celestialObjectSPtr_->getFlattening()
+                );  // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+
+                const Quaternion q_NED_GCRF = transform.getOrientation().toNormalized();
+
+                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+
+                const Vector3d orbitNormalVector_GCRF = x_GCRF.cross(v_GCRF).normalized();
+                const Vector3d orbitNormalVector_NED = q_NED_GCRF * orbitNormalVector_GCRF;
+
+                const Vector3d z_LVLHGD_NED = Vector3d::Z();
+                const Vector3d y_LVLHGD_NED =
+                    Vector3d(-orbitNormalVector_NED(0), -orbitNormalVector_NED(1), 0.0).normalized();
+                const Vector3d x_LVLHGD_NED = y_LVLHGD_NED.cross(z_LVLHGD_NED).normalized();
+
+                const Quaternion q_LVLHGD_NED =
+                    DCM::Columns(x_LVLHGD_NED, y_LVLHGD_NED, z_LVLHGD_NED).getQuaternion().conjugate();
+
+                const Quaternion q_LVLHGD_GCRF = (q_LVLHGD_NED * q_NED_GCRF).normalized();
+
+                return q_LVLHGD_GCRF;
+            };
+
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
+
             break;
+        }
+
+        case Orbit::FrameType::LVLHGDGT:
+        {
+            // X axis along geodetic position vector
+            // Z axis along orbital momentum
+            // Y axis toward velocity vector
+
+            const auto calculateAttitude = [this](const State& aState) -> Quaternion
+            {
+                const State state =
+                    this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->accessFrame());
+
+                // Express the state position in geodetic coordinates
+
+                const LLA lla = LLA::Cartesian(
+                    state.getPosition().accessCoordinates(),
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    this->celestialObjectSPtr_->getFlattening()
+                );
+
+                // Compute the NED frame to central body centered, central body fixed frame transform at position
+
+                const Transform transform = ostk::physics::coordinate::frame::utilities::NorthEastDownTransformAt(
+                    lla,
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    celestialObjectSPtr_->getFlattening()
+                );  // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+
+                const Quaternion q_NED_GCRF = transform.getOrientation().toNormalized();
+
+                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+
+                const Vector3d orbitNormalVector_GCRF = x_GCRF.cross(v_GCRF).normalized();
+                const Vector3d orbitNormalVector_NED = q_NED_GCRF * orbitNormalVector_GCRF;
+
+                const Vector3d z_LVLHGD_NED = Vector3d::Z();
+                const Vector3d y_LVLHGD_NED =
+                    Vector3d(-orbitNormalVector_NED(0), -orbitNormalVector_NED(1), 0.0).normalized();
+                const Vector3d x_LVLHGD_NED = y_LVLHGD_NED.cross(z_LVLHGD_NED).normalized();
+
+                const Quaternion q_LVLHGD_NED =
+                    DCM::Columns(x_LVLHGD_NED, y_LVLHGD_NED, z_LVLHGD_NED).getQuaternion().conjugate();
+
+                const Quaternion q_LVLHGD_GCRF = (q_LVLHGD_NED * q_NED_GCRF).normalized();
+
+                // x_ECI and v_ECI from state or frame? O_o
+
+                const LLA lla = LLA::Cartesian(
+                    aState.getPosition().accessCoordinates(),
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    this->celestialObjectSPtr_->getFlattening()
+                );
+                const Angle latitude = lla.getLatitude();
+
+                const COE coe = COE::Cartesian(
+                    {aState.getPosition().accessCoordinates(), aState.getVelocity().accessCoordinates()},
+                    this->celestialObjectSPtr_->getGravitationalParameter()
+                );
+                const Angle inclination = coe.getInclination();
+                const Derived meanMotion = coe.getMeanMotion();
+                const Derived nodalPrecessionRate = coe.getNodalPrecessionRate(
+                    this->celestialObjectSPtr_->getGravitationalParameter(),
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    this->celestialObjectSPtr_->getJ2()
+                );
+
+                const bool isPassDescending = x_GCRF.z() < 0.0;
+
+                const Real w_ITRF_GCRF_in_ITRF_z = Frame.ITRF().getAngularVelocity().z();
+
+                const Derived::Unit angularVelocitySI =
+                    Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second);
+
+                const Real k = meanMotion.in(angularVelocitySI) /
+                               (w_ITRF_GCRF_in_ITRF_z - nodalPrecessionRate.in(angularVelocitySI));
+                Real temp1 = std::pow(std::cos(aLatitude.getRadians()), 2.0) - std::pow(std::cos(inclination), 2.0);
+                temp1 = temp1 > 0.0 ? std::sqrt(temp1) : 0.0;
+                Real temp2 = k - std::cos(anInclination.getRadians());
+                Real delta = isPassDescending ? -std::atan(temp1 / temp2) : std::atan(temp1 / temp2);
+                const Quaternion q_LVLHGDGT_LVLHGD =
+                    Quaternion::RotationVector(RotationVector::Z(Angle::Radians(delta)));
+
+                return (q_LVLHGDGT_LVLHGD * q_LVLHGD_GCRF).normalized();
+            };
+
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
+
+            break;
+        }
 
         default:
             throw ostk::core::error::runtime::Wrong("Frame type");
