@@ -17,7 +17,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::astrodynamics::flight::profile::Model;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<Profile>(
+    class_<Profile, Shared<Profile>>(
         aModule,
         "Profile",
         R"doc(
