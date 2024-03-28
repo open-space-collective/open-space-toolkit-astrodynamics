@@ -182,6 +182,7 @@ class COE
 
     /// @brief Get Angular Momentum
     ///
+    /// @param aGravitationalParameter A gravitational parameter
     /// @return Angular Momentum
     Derived getAngularMomentum(const Derived& aGravitationalParameter) const;
 
@@ -190,6 +191,16 @@ class COE
     /// @param aGravitationalParameter A gravitational parameter
     /// @return Mean motion
     Derived getMeanMotion(const Derived& aGravitationalParameter) const;
+
+    /// @brief Get Nodal precession rate
+    ///
+    /// @param aGravitationalParameter A gravitational parameter
+    /// @param anEquatorialRadius An equatorial radius
+    /// @param aJ2Parameter
+    /// @return Nodal precession rate
+    Derived getNodalPrecessionRate(
+        const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+    ) const;
 
     /// @brief Get Orbital period
     ///

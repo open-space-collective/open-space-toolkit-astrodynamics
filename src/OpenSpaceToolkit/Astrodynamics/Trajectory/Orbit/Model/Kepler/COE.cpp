@@ -259,6 +259,21 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
     );
 }
 
+Derived COE::getNodalPrecessionRate(
+    const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+) const
+{
+    const Real omega = this->getMeanMotion(aGravitationalParameter)
+                           .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+
+    const Real omega_p =
+        -(3.0 / 2.0) * std::pow(anEquatorialRadius.inMeters(), 2.0) * aJ2Parameter * omega *
+        std::cos(this->inclination_.inRadians()) /
+        std::pow(this->semiMajorAxis_.inMeters() * (1.0 - (this->eccentricity_ * this->eccentricity_)), 2.0);
+
+    return Derived(omega_p, Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+}
+
 Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
 {
     using ostk::physics::unit::Time;
