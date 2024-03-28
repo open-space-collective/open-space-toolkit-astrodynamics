@@ -764,21 +764,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 {
+    // Environment setup
+
+    const Environment environment = Environment::Default();
+
     // NED
 
     {
-        // Environment setup
-
-        const Environment environment = Environment::Default();
-
-        // Reference data setup
-
-        const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")
-        );
-
-        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
-
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -804,6 +796,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth"));
 
         const Orbit orbit = {keplerianModel, earthSPtr};
+
+        // Reference data setup
+
+        const File referenceDataFile = File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")
+        );
+
+        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
         const Shared<const Frame> nedOrbitalFrameSPtr = orbit.getOrbitalFrame(Orbit::FrameType::NED);
 
@@ -968,6 +968,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
     // }
 
     // VVLH
+
+    {
+        // [TBI]
+    }
+
+    // LVLHGD
+
+    {
+        // [TBI]
+    }
+
+    // LVLHGDGT
 
     {
         // [TBI]

@@ -37,6 +37,9 @@ using ostk::core::type::Index;
 
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
@@ -52,6 +55,9 @@ using ostk::astrodynamics::RootSolver;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::unit::Time::Unit::Second);
+
+static const Derived::Unit AngularVelocitySIUnit =
+    Derived::Unit::AngularVelocity(ostk::physics::unit::Angle::Unit::Radian, ostk::physics::unit::Time::Unit::Second);
 
 static const Real epsilon = 1e-6;
 
@@ -91,6 +97,7 @@ Orbit::~Orbit()
         Orbit::FrameType::LVLH,
         Orbit::FrameType::VVLH,
         Orbit::FrameType::LVLHGD,
+        Orbit::FrameType::LVLHGDGT,
         Orbit::FrameType::QSW,
         Orbit::FrameType::TNW,
         Orbit::FrameType::VNC
@@ -624,13 +631,11 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
             const auto calculateAttitude = [this](const State& aState) -> Quaternion
             {
-                const State state =
-                    this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->accessFrame());
-
+                // TBM: We can calculate the geodetic vector in a simpler fashion, refer to FDTk profile.py
                 // Express the state position in geodetic coordinates
 
                 const LLA lla = LLA::Cartesian(
-                    state.getPosition().accessCoordinates(),
+                    aState.inFrame(this->celestialObjectSPtr_->accessFrame()).getPosition().accessCoordinates(),
                     this->celestialObjectSPtr_->getEquatorialRadius(),
                     this->celestialObjectSPtr_->getFlattening()
                 );
@@ -657,9 +662,10 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const Vector3d x_LVLHGD_NED = y_LVLHGD_NED.cross(z_LVLHGD_NED).normalized();
 
                 const Quaternion q_LVLHGD_NED =
-                    DCM::Columns(x_LVLHGD_NED, y_LVLHGD_NED, z_LVLHGD_NED).getQuaternion().conjugate();
+                    Quaternion::RotationMatrix(RotationMatrix::Columns(x_LVLHGD_NED, y_LVLHGD_NED, z_LVLHGD_NED))
+                        .conjugate();
 
-                const Quaternion q_LVLHGD_GCRF = (q_LVLHGD_NED * q_NED_GCRF).normalized();
+                const Quaternion q_LVLHGD_GCRF = (q_LVLHGD_NED * q_NED_GCRF).toNormalized();
 
                 return q_LVLHGD_GCRF;
             };
@@ -679,13 +685,11 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
             const auto calculateAttitude = [this](const State& aState) -> Quaternion
             {
-                const State state =
-                    this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->accessFrame());
+                // TBM: We can calculate the geodetic vector in a simpler fashion, refer to FDTk profile.py
 
                 // Express the state position in geodetic coordinates
-
                 const LLA lla = LLA::Cartesian(
-                    state.getPosition().accessCoordinates(),
+                    aState.inFrame(this->celestialObjectSPtr_->accessFrame()).getPosition().accessCoordinates(),
                     this->celestialObjectSPtr_->getEquatorialRadius(),
                     this->celestialObjectSPtr_->getFlattening()
                 );
@@ -712,25 +716,19 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const Vector3d x_LVLHGD_NED = y_LVLHGD_NED.cross(z_LVLHGD_NED).normalized();
 
                 const Quaternion q_LVLHGD_NED =
-                    DCM::Columns(x_LVLHGD_NED, y_LVLHGD_NED, z_LVLHGD_NED).getQuaternion().conjugate();
+                    Quaternion::RotationMatrix(RotationMatrix::Columns(x_LVLHGD_NED, y_LVLHGD_NED, z_LVLHGD_NED))
+                        .conjugate();
 
-                const Quaternion q_LVLHGD_GCRF = (q_LVLHGD_NED * q_NED_GCRF).normalized();
+                const Quaternion q_LVLHGD_GCRF = (q_LVLHGD_NED * q_NED_GCRF).toNormalized();
 
                 // x_ECI and v_ECI from state or frame? O_o
 
-                const LLA lla = LLA::Cartesian(
-                    aState.getPosition().accessCoordinates(),
-                    this->celestialObjectSPtr_->getEquatorialRadius(),
-                    this->celestialObjectSPtr_->getFlattening()
-                );
-                const Angle latitude = lla.getLatitude();
-
                 const COE coe = COE::Cartesian(
-                    {aState.getPosition().accessCoordinates(), aState.getVelocity().accessCoordinates()},
+                    {aState.getPosition(), aState.getVelocity()},
                     this->celestialObjectSPtr_->getGravitationalParameter()
                 );
                 const Angle inclination = coe.getInclination();
-                const Derived meanMotion = coe.getMeanMotion();
+                const Derived meanMotion = coe.getMeanMotion(this->celestialObjectSPtr_->getGravitationalParameter());
                 const Derived nodalPrecessionRate = coe.getNodalPrecessionRate(
                     this->celestialObjectSPtr_->getGravitationalParameter(),
                     this->celestialObjectSPtr_->getEquatorialRadius(),
@@ -739,21 +737,22 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
                 const bool isPassDescending = x_GCRF.z() < 0.0;
 
-                const Real w_ITRF_GCRF_in_ITRF_z = Frame.ITRF().getAngularVelocity().z();
+                const Real w_ITRF_GCRF_in_ITRF_z =
+                    (Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant())).getAngularVelocity().z();
 
-                const Derived::Unit angularVelocitySI =
-                    Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second);
+                const Real k = meanMotion.in(AngularVelocitySIUnit) /
+                               (w_ITRF_GCRF_in_ITRF_z - nodalPrecessionRate.in(AngularVelocitySIUnit));
 
-                const Real k = meanMotion.in(angularVelocitySI) /
-                               (w_ITRF_GCRF_in_ITRF_z - nodalPrecessionRate.in(angularVelocitySI));
-                Real temp1 = std::pow(std::cos(aLatitude.getRadians()), 2.0) - std::pow(std::cos(inclination), 2.0);
+                Real temp1 = std::pow(std::cos(lla.getLatitude().inRadians()), 2.0) -
+                             std::pow(std::cos(inclination.inRadians()), 2.0);
                 temp1 = temp1 > 0.0 ? std::sqrt(temp1) : 0.0;
-                Real temp2 = k - std::cos(anInclination.getRadians());
-                Real delta = isPassDescending ? -std::atan(temp1 / temp2) : std::atan(temp1 / temp2);
+                const Real temp2 = k - std::cos(inclination.inRadians());
+                const Real delta = (isPassDescending ? -1.0 : 1.0) * std::atan(temp1 / temp2);
+
                 const Quaternion q_LVLHGDGT_LVLHGD =
                     Quaternion::RotationVector(RotationVector::Z(Angle::Radians(delta)));
 
-                return (q_LVLHGDGT_LVLHGD * q_LVLHGD_GCRF).normalized();
+                return (q_LVLHGDGT_LVLHGD * q_LVLHGD_GCRF).toNormalized();
             };
 
             orbitalFrameSPtr = Frame::Construct(
@@ -1147,6 +1146,9 @@ String Orbit::StringFromFrameType(const Orbit::FrameType& aFrameType)
 
         case Orbit::FrameType::LVLHGD:
             return "LVLHGD";
+
+        case Orbit::FrameType::LVLHGDGT:
+            return "LVLHGDGT";
 
         case Orbit::FrameType::QSW:
             return "QSW";
