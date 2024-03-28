@@ -48,10 +48,7 @@ class PyThruster : public Thruster
     Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinateSubset>>,
-            Thruster,
-            "get_write_coordinate_subsets",
-            getWriteCoordinateSubsets
+            Array<Shared<const CoordinateSubset>>, Thruster, "get_write_coordinate_subsets", getWriteCoordinateSubsets
         );
     }
 

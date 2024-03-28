@@ -2,23 +2,23 @@
 
 #include <gtest/gtest.h>
 
-#define EXPECT_VECTORS_ALMOST_EQUAL(v1, v2, tolerance)                                                          \
-    do                                                                                                          \
-    {                                                                                                           \
-        if ((v1).size() != (v2).size())                                                                         \
-        {                                                                                                       \
+#define EXPECT_VECTORS_ALMOST_EQUAL(v1, v2, tolerance)                                                                 \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((v1).size() != (v2).size())                                                                                \
+        {                                                                                                              \
             ADD_FAILURE() << "Vectors have different sizes.";                                                          \
-        }                                                                                                       \
-        else                                                                                                    \
-        {                                                                                                       \
-            for (int i = 0; i < (v1).size(); ++i)                                                               \
-            {                                                                                                   \
-                if (std::abs((v1)(i) - (v2)(i)) > (tolerance))                                                  \
-                {                                                                                               \
+        }                                                                                                              \
+        else                                                                                                           \
+        {                                                                                                              \
+            for (int i = 0; i < (v1).size(); ++i)                                                                      \
+            {                                                                                                          \
+                if (std::abs((v1)(i) - (v2)(i)) > (tolerance))                                                         \
+                {                                                                                                      \
                     ADD_FAILURE() << "Vectors differ at index " << i << ". Values: " << (v1)(i) << " vs. " << (v2)(i); \
-                }                                                                                               \
-            }                                                                                                   \
-        }                                                                                                       \
+                }                                                                                                      \
+            }                                                                                                          \
+        }                                                                                                              \
     } while (0)
 
 #define ASSERT_VECTORS_ALMOST_EQUAL(v1, v2, tolerance)                                                          \
