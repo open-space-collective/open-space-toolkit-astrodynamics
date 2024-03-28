@@ -29,7 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
     {
-        class_<Orbit, ostk::astrodynamics::Trajectory> orbit_class(
+        class_<Orbit, ostk::astrodynamics::Trajectory, Shared<Orbit>> orbit_class(
             aModule,
             "Orbit",
             R"doc(
