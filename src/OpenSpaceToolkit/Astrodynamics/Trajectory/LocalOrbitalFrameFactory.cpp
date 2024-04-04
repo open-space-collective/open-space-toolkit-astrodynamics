@@ -78,6 +78,21 @@ bool LocalOrbitalFrameFactory::isDefined() const
            (type_ != LocalOrbitalFrameTransformProvider::Type::Undefined);
 }
 
+const Shared<const Frame> LocalOrbitalFrameFactory::accessParentFrame() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
+    }
+
+    return this->parentFrameSPtr_;
+}
+
+Shared<const Frame> LocalOrbitalFrameFactory::getParentFrame() const
+{
+    return this->accessParentFrame();
+}
+
 LocalOrbitalFrameTransformProvider::Type LocalOrbitalFrameFactory::getProviderType() const
 {
     return type_;

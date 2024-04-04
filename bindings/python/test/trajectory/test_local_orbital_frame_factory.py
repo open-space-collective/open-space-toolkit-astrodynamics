@@ -13,8 +13,13 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 
 
 @pytest.fixture
-def local_orbital_frame_factory() -> LocalOrbitalFrameFactory:
-    return LocalOrbitalFrameFactory.VNC(Frame.GCRF())
+def parent_frame() -> Frame:
+    return Frame.GCRF()
+
+
+@pytest.fixture
+def local_orbital_frame_factory(parent_frame: Frame) -> LocalOrbitalFrameFactory:
+    return LocalOrbitalFrameFactory.VNC(parent_frame)
 
 
 @pytest.fixture
@@ -40,6 +45,13 @@ class TestLocalOrbitalFrameFactory:
         assert LocalOrbitalFrameFactory.QSW(Frame.GCRF()) is not None
         assert LocalOrbitalFrameFactory.TNW(Frame.GCRF()) is not None
         assert LocalOrbitalFrameFactory.VVLH(Frame.GCRF()) is not None
+
+    def test_getters(
+        self,
+        parent_frame: Frame,
+        local_orbital_frame_factory: LocalOrbitalFrameFactory,
+    ):
+        assert parent_frame == local_orbital_frame_factory.get_parent_frame()
 
     def test_generate_frame(
         self,

@@ -746,10 +746,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
 
         const Environment environment = Environment::Default();
 
-        const ostk::mathematics::object::Interval<Real> azimuthRange = ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<Real> azimuthRange =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
         const ostk::mathematics::object::Interval<Real> elevationRange =
             ostk::mathematics::object::Interval<Real>::Closed(60.0, 90.0);
-        const ostk::mathematics::object::Interval<Real> rangeRange = ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<Real> rangeRange =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
         const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment);
 
@@ -854,7 +856,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
         const ostk::core::container::Map<Real, Real> azimuthElevationMask = {
             {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0}
         };
-        const ostk::mathematics::object::Interval<Real> rangeRange = ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<Real> rangeRange =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
         const Generator generator = Generator::AerMask(azimuthElevationMask, rangeRange, environment);
 

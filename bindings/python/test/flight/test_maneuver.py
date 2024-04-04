@@ -101,7 +101,6 @@ class TestManeuver:
         acceleration_profile: list[np.ndarray],
         mass_flow_rate_profile: list[float],
     ):
-
         assert maneuver.is_defined()
 
         assert maneuver.get_instants() == instants

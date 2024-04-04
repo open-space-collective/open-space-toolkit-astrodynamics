@@ -11,9 +11,7 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_AngularVelocity(
-    pybind11::module& aModule
-)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_AngularVelocity(pybind11::module& aModule)
 {
     class_<AngularVelocity, Shared<AngularVelocity>, CoordinateSubset>(
         aModule,
