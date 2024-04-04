@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1711950070324,
+  "lastUpdate": 1712238055912,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,60 @@ window.BENCHMARK_DATA = {
             "value": 2777788757.100001,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2777642238.099999 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c7a29212c5363aca563c561a88e5ff31903e1fa5",
+          "message": "feat: expose Local Orbital Frame Factory parent Frame (#370)\n\n* feat: expose Local Orbital Frame Factory parent Frame\r\n\r\n* chore: apply MR suggestions\r\n\r\n* tests: fixt LocalOrbitalFrameFactory tests\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2024-04-04T15:24:24+02:00",
+          "tree_id": "41aa54ce2373575a5d98d3ebc00b9a5876d50bc5",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/c7a29212c5363aca563c561a88e5ff31903e1fa5"
+        },
+        "date": 1712238054433,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 547107684.6000017,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 547095080.2999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 792100823.5000045,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 792065394.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2791576080.3999944,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2791449304.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2796775712.2999954,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2796694625.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2790872688.499991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2790790754.6999993 ns\nthreads: 1"
           }
         ]
       }
