@@ -12,9 +12,9 @@
     <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Interval.hpp</includes>
     <includes refid="_flight_2_profile_2_model_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp</includes>
-    <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
     <includes refid="_trajectory_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</includes>
     <includes refid="_orbit_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</includes>
+    <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
     <includedby refid="_flight_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Flight.hpp</includedby>
     <includedby refid="_profile_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp</includedby>
     <incdepgraph>
@@ -93,11 +93,11 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="12">
@@ -331,9 +331,9 @@
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Interval.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_flight_2_profile_2_model_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_state_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_trajectory_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_orbit_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_trajectory_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_orbit_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_state_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
 <codeline lineno="24"><highlight class="normal">{</highlight></codeline>

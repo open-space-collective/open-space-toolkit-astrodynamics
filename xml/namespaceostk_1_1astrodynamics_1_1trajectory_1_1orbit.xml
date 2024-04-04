@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" line="132" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="132" bodyend="137"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" line="133" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="133" bodyend="138"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

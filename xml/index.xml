@@ -546,6 +546,8 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a05088e298cd9b6378054d924ecc704e3" kind="variable"><name>parentFrameSPtr_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a7bf9b0cae50f5eb71de626f76165e4f9" kind="function"><name>generateFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a99d68a33a6dcc2545fcf802ff17163eb" kind="function"><name>isDefined</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1aad1232a74a9922243f85e8d09a91fcbc" kind="function"><name>accessParentFrame</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a1ac92222a56edcc2a0b4fede6980330e" kind="function"><name>getParentFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a88f477b5bf24e18155f0b7b8baf9faee" kind="function"><name>getProviderType</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1aa5269b000e758b0528a69cc9e4649f95" kind="function"><name>NED</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ab580441dc7bc8887cf7c7dbf8b95cc50" kind="function"><name>LVLH</name></member>

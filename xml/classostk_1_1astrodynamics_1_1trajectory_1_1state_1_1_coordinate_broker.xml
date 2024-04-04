@@ -319,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="110" bodyend="117"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="110" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1afc3719620cac65e6bf2f60e70a03e543" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>VectorXd</type>
@@ -361,7 +361,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="116" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="143" bodyend="148"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="116" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="141" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8f150ae5d47df5277fccf195db201ea8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>VectorXd</type>
@@ -403,7 +403,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="126" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="119" bodyend="141"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="126" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="117" bodyend="139"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -422,7 +422,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="135" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="150" bodyend="153"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="135" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="148" bodyend="151"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1aacfae4e13c847be5d4cbec37baec1806" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Index</type>
@@ -439,7 +439,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="136" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="155" bodyend="165"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp" line="136" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp" bodystart="153" bodyend="163"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
