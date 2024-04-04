@@ -124,7 +124,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Acces
     }
 
     {
-        EXPECT_ANY_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined)->accessParentFrame());
+        EXPECT_ANY_THROW(
+            LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
+                ->accessParentFrame()
+        );
     }
 }
 
@@ -136,7 +139,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Gette
     }
 
     {
-        EXPECT_ANY_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined)->getParentFrame());
+        EXPECT_ANY_THROW(
+            LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
+                ->getParentFrame()
+        );
     }
 }
 
