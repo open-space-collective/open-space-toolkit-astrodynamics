@@ -46,12 +46,12 @@ class TestLocalOrbitalFrameFactory:
         assert LocalOrbitalFrameFactory.TNW(Frame.GCRF()) is not None
         assert LocalOrbitalFrameFactory.VVLH(Frame.GCRF()) is not None
 
-    def test_getters(
+    def test_accessors(
         self,
         parent_frame: Frame,
         local_orbital_frame_factory: LocalOrbitalFrameFactory,
     ):
-        assert parent_frame == local_orbital_frame_factory.get_parent_frame()
+        assert parent_frame == local_orbital_frame_factory.access_parent_frame()
 
     def test_generate_frame(
         self,

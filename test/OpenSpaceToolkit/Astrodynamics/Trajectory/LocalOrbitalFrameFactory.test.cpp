@@ -131,21 +131,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Acces
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Getters)
-{
-    {
-        EXPECT_EQ(gcrfSPtr_, LOFFactorySPtr_->getParentFrame());
-        EXPECT_EQ(type_, LOFFactorySPtr_->getProviderType());
-    }
-
-    {
-        EXPECT_ANY_THROW(
-            LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
-                ->getParentFrame()
-        );
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, GenerateFrame)
 {
     {

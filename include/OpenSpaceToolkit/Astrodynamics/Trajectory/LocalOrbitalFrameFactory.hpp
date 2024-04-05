@@ -56,11 +56,6 @@ class LocalOrbitalFrameFactory
     /// @return The parent frame
     const Shared<const Frame>& accessParentFrame() const;
 
-    /// @brief Get the parent frame.
-    ///
-    /// @return The parent frame
-    Shared<const Frame> getParentFrame() const;
-
     /// @brief Get type
     ///
     /// @return Type

@@ -78,7 +78,7 @@ bool LocalOrbitalFrameFactory::isDefined() const
            (type_ != LocalOrbitalFrameTransformProvider::Type::Undefined);
 }
 
-const Shared<const Frame> LocalOrbitalFrameFactory::accessParentFrame() const
+const Shared<const Frame>& LocalOrbitalFrameFactory::accessParentFrame() const
 {
     if (!this->isDefined())
     {
@@ -86,11 +86,6 @@ const Shared<const Frame> LocalOrbitalFrameFactory::accessParentFrame() const
     }
 
     return this->parentFrameSPtr_;
-}
-
-Shared<const Frame> LocalOrbitalFrameFactory::getParentFrame() const
-{
-    return this->accessParentFrame();
 }
 
 LocalOrbitalFrameTransformProvider::Type LocalOrbitalFrameFactory::getProviderType() const
