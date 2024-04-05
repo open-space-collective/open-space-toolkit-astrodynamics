@@ -63,7 +63,7 @@ def coerce_to_instant(value: Instant | datetime | str) -> Instant:
 
 def coerce_to_iso(
     value: Instant | datetime | str, timespec: str = "microseconds"
-) -> Instant:
+) -> str:
     """
     Return an ISO string from value.
 
