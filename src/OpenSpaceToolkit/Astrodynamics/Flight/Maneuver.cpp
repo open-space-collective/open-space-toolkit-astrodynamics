@@ -68,7 +68,7 @@ Maneuver::Maneuver(
             throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate Instant Array");
         }
 
-        largestInterval = std::max(largetInterval, instants_[k+1] - instants_[k]);
+        largestInterval = std::max(largestInterval, instants_[k+1] - instants_[k]);
     }
 
     if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
