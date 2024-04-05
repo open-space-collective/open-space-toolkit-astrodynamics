@@ -60,6 +60,7 @@ Maneuver::Maneuver(
 
     const Duration maneuverDuration = instants_.accessLast() - instants_.accessFirst();
     Duration largestInterval = Duration::Zero();
+
     for (Size k = 0; k < instants_.getSize() - 1; ++k)
     {
         if (instants_[k] >= instants_[k + 1])
@@ -67,10 +68,7 @@ Maneuver::Maneuver(
             throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate Instant Array");
         }
 
-        if (instants_[k + 1] - instants_[k] > largestInterval)
-        {
-            largestInterval = instants_[k + 1] - instants_[k];
-        }
+        largestInterval = std::max(largetInterval, instants_[k+1] - instants_[k]);
     }
 
     if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
@@ -89,7 +87,7 @@ Maneuver::Maneuver(
             << std::endl;
     }
 
-    // Ensure that the accelerations provided  have strictly positive magnitudes
+    // Ensure that the accelerations provided have strictly positive magnitudes
     if (std::any_of(
             accelerationProfileDefaultFrame_.begin(),
             accelerationProfileDefaultFrame_.end(),
