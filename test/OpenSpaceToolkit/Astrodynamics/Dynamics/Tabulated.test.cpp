@@ -355,17 +355,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
             defaultInterpolationType_,
         };
 
-        // Wrong frame
+        // Same frame as contribution profile
         {
-            EXPECT_THROW(
-                tabulated.computeContribution(defaultInstants_[0], x, Frame::ITRF()), ostk::core::error::runtime::Wrong
+            EXPECT_EQ(
+                tabulated.computeContribution(defaultInstants_[0], x, defaultFrameSPtr_), contributionProfile_.row(0)
             );
+        }
+
+        // Different frame as contribution profile (contributions stored in quasi-inertial frame, but requested in
+        // non-quasi inertial)
+        {
+            EXPECT_NE(
+                tabulated.computeContribution(defaultInstants_[0], x, Frame::ITRF()), contributionProfile_.row(0)
+            );
+        }
+
+        // Different frame as contribution profile (contributions stored in non-quasi-inertial frame, but requested in
+        // quasi inertial, so expect a warning logged)
+        {
+            Tabulated tabulatedNonQuasiInertialFrame = {
+                defaultInstants_,
+                contributionProfile_,
+                defaultWriteCoordinateSubsets_,
+                Frame::ITRF(),
+                defaultInterpolationType_,
+            };
+
+            testing::internal::CaptureStdout();
+
+            const VectorXd computedContribution =
+                tabulatedNonQuasiInertialFrame.computeContribution(defaultInstants_[0], x, defaultFrameSPtr_);
+
+            EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+
+            EXPECT_NE(computedContribution, contributionProfile_.row(0));
         }
 
         // Outside bounds
         {
             EXPECT_EQ(
-                tabulated.computeContribution(defaultInstants_[0] - Duration::Seconds(1.0), x, Frame::GCRF()),
+                tabulated.computeContribution(defaultInstants_[0] - Duration::Seconds(1.0), x, defaultFrameSPtr_),
                 VectorXd::Zero(3)
             );
         }
@@ -373,7 +402,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
         {
             EXPECT_EQ(
                 tabulated.computeContribution(
-                    defaultInstants_[defaultInstants_.getSize() - 1] + Duration::Seconds(1.0), x, Frame::GCRF()
+                    defaultInstants_[defaultInstants_.getSize() - 1] + Duration::Seconds(1.0), x, defaultFrameSPtr_
                 ),
                 VectorXd::Zero(3)
             );
@@ -401,7 +430,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
 
         for (Index i = 0; i < expectedInstants.getSize(); ++i)
         {
-            const VectorXd computedContribution = tabulated.computeContribution(expectedInstants[i], x, Frame::GCRF());
+            const VectorXd computedContribution =
+                tabulated.computeContribution(expectedInstants[i], x, defaultFrameSPtr_);
             const VectorXd expectedContribution = expectedProfile.row(i);
 
             for (Index j = 0; j < (Index)computedContribution.size(); ++j)
