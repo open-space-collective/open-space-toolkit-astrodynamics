@@ -132,6 +132,39 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, InFrame
 
         EXPECT_EQ(expected, actual);
     }
+
+    // Attempt to transform a non-scalar subset without implementing the inFrame method
+    {
+        const Shared<const CoordinateSubset> nonScalarCoordinateSubset = std::make_shared<CoordinateSubset>("NAME", 3);
+        const Shared<const CoordinateBroker> nonScalarCoordinateBroker =
+            std::make_shared<CoordinateBroker>(Array<Shared<const CoordinateSubset>>({nonScalarCoordinateSubset}));
+
+        const Instant instant = Instant::J2000();
+        const Shared<const Frame> fromFrame = Frame::GCRF();
+        const Shared<const Frame> toFrame = Frame::TEME();
+        VectorXd fullCoordinatesVector(3);
+        fullCoordinatesVector << 1.0e7, -1e7, 5e6;
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    nonScalarCoordinateSubset->inFrame(
+                        instant, fullCoordinatesVector, fromFrame, toFrame, nonScalarCoordinateBroker
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Cannot transform a non-scalar coordinate subset. Child classes must implement this method.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Mass)

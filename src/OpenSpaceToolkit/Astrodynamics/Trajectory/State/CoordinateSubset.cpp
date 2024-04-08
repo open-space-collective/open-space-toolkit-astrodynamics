@@ -85,6 +85,13 @@ VectorXd CoordinateSubset::inFrame(
     const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
+    if (size_ != 1)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Cannot transform a non-scalar coordinate subset. Child classes must implement this method."
+        );
+    }
+
     VectorXd coordinates = aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
     return coordinates;
