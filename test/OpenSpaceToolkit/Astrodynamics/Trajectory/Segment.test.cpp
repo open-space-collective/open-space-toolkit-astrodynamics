@@ -339,10 +339,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
         const Segment::Solution maneuveringSegmentSolution = maneuverSegment.solve(initialStateWithWetMass);
 
-        const MatrixXd accelerationProfile = maneuveringSegmentSolution.getDynamicsAccelerationContribution(
-            defaultThrusterDynamicsSPtr_, defaultFrameSPtr_
-        );
-
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         EXPECT_EQ(1, maneuvers.getSize());
         EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getInstants().getSize());
