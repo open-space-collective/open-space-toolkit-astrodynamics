@@ -170,13 +170,6 @@ VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBM: Convert this using the Maneuver class' conversion method. Also, find a way to check and vet whether or not
-    // the frame is local, or quasi-inertial
-    if (aFrameSPtr != frameSPtr_)
-    {
-        throw ostk::core::error::runtime::Wrong("Frame");
-    }
-
     if (anInstant < instants_.accessFirst() || anInstant > instants_.accessLast())
     {
         return VectorXd::Zero(interpolators_.getSize());
@@ -188,6 +181,35 @@ VectorXd Tabulated::computeContribution(
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
         contribution(i) = interpolators_[i]->evaluate(epoch);
+    }
+
+    // Transform the contribution to the desired frame if necessary
+    if (frameSPtr_ != aFrameSPtr)
+    {
+        if (!frameSPtr_->isQuasiInertial() && aFrameSPtr->isQuasiInertial())
+        {
+            // TBM: Replace with an actual proper logging mechanism
+            std::cout << "WARNING: This TabulatedDynamics has its contributions stored in a non quasi-inertial frame, "
+                         "but they are being requested in a quasi-inertial frame. Ensure that the trajectory "
+                         "used to generate the contributions with this TabulatedDynamics in the first place "
+                         "is still valid, otherwise this may lead to inaccurate results."
+                         "inaccurate results."
+                      << std::endl;
+        }
+
+        const Shared<CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>();
+
+        Index coordinateSubsetIndex = 0;
+        for (const auto& coordinateSubset : writeCoordinateSubsets_)
+        {
+            coordinateSubsetIndex = coordinatesBrokerSPtr->addSubset(coordinateSubset);
+
+            if (coordinateSubset->getSize() == 3)
+            {
+                contribution.segment(coordinateSubsetIndex, coordinateSubsetIndex + 3) =
+                    coordinateSubset->inFrame(anInstant, contribution, frameSPtr_, aFrameSPtr, coordinatesBrokerSPtr);
+            }
+        }
     }
 
     return contribution;
