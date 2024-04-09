@@ -91,18 +91,19 @@ VectorXd Thruster::computeContribution(
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
-    const Real maximumThrustAccelerationMagnitude =
+    const Real maximumAccelerationMagnitude =
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6]));
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
-        anInstant, positionCoordinates, velocityCoordinates, maximumThrustAccelerationMagnitude, aFrameSPtr
+        anInstant, positionCoordinates, velocityCoordinates, maximumAccelerationMagnitude, aFrameSPtr
     );
 
-    const Real effectiveThrustFraction = acceleration.norm() / maximumThrustAccelerationMagnitude;
+    const Real effectiveAccelerationFraction = acceleration.norm() / maximumAccelerationMagnitude;
 
     // Compute contribution
     VectorXd contribution(4);
-    contribution << acceleration[0], acceleration[1], acceleration[2], -effectiveThrustFraction * massFlowRateCache_;
+    contribution << acceleration[0], acceleration[1], acceleration[2],
+        -effectiveAccelerationFraction * massFlowRateCache_;
 
     return contribution;
 }
