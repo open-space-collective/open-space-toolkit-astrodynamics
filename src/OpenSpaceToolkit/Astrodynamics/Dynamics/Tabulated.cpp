@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
 namespace ostk
 {
@@ -17,6 +18,10 @@ namespace dynamics
 using ostk::core::type::Index;
 
 using ostk::mathematics::object::VectorXd;
+
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+
+const Shared<const Frame> Tabulated::DefaultContributionFrameSPtr = Frame::GCRF();
 
 Tabulated::Tabulated(
     const Array<Instant>& anInstantArray,
@@ -51,6 +56,11 @@ Tabulated::Tabulated(
             "Contribution profile must have the same number of columns as the sum of the sizes of the write "
             "coordinate subsets."
         );
+    }
+
+    if (aFrameSPtr != DefaultContributionFrameSPtr)
+    {
+        throw ostk::core::error::RuntimeError("Contributions must be expressed in an inertial frame.");
     }
 
     VectorXd timestamps(anInstantArray.getSize());
@@ -170,11 +180,11 @@ VectorXd Tabulated::computeContribution(
     const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBM: Convert this using the Maneuver class' conversion method. Also, find a way to check and vet whether or not
-    // the frame is local, or quasi-inertial
+    // TBM: Allow frame conversion through `CoordinateSubset.inFrame` method, once we have a `CartesianAcceleration`
+    // class
     if (aFrameSPtr != frameSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("Frame");
+        throw ostk::core::error::RuntimeError("Contribution Frame conversion to non-inertial not yet supported.");
     }
 
     if (anInstant < instants_.accessFirst() || anInstant > instants_.accessLast())

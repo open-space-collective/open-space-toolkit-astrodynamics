@@ -31,11 +31,10 @@ using ostk::core::type::Real;
 
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::orbit::Model;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::orbit::Model;
-using ostk::astrodynamics::Dynamics;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /// @brief Define an orbit model that is propagated using numerical propagation
 class Propagated : public ostk::astrodynamics::trajectory::orbit::Model

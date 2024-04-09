@@ -2,16 +2,24 @@
 
 #include <typeindex>
 
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/Index.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
+
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -20,17 +28,21 @@ namespace astrodynamics
 namespace trajectory
 {
 
+using ostk::core::container::Map;
+using ostk::core::container::Pair;
+using ostk::core::type::Index;
+
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Position;
 using ostk::physics::environment::object::Celestial;
 
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
-using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
-using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
 
@@ -49,9 +61,30 @@ Propagator::Propagator(
 )
     : Propagator(aNumericalSolver, aDynamicsArray)
 {
-    // TBM: in the future maybe sanitize the instants of each maneuver to make sure none of them are overalapping
     for (const Maneuver& maneuver : aManeuverArray)
     {
+        // Check if the maneuver's first and last instants overlap with any other maneuver
+        Size duplicateManeuverCounter = 0;
+        for (const Maneuver& otherManeuver : aManeuverArray)
+        {
+            if (maneuver != otherManeuver)
+            {
+                if (maneuver.getInstants().accessFirst() <= otherManeuver.getInstants().accessLast() &&
+                    maneuver.getInstants().accessLast() >= otherManeuver.getInstants().accessFirst())
+                {
+                    throw ostk::core::error::RuntimeError("Maneuvers cannot overlap in time.");
+                }
+            }
+            else
+            {
+                duplicateManeuverCounter++;
+            }
+        }
+
+        if (duplicateManeuverCounter != 1)
+        {
+            throw ostk::core::error::RuntimeError("Maneuvers cannot be duplicated.");
+        }
         this->addManeuver(maneuver, anInterpolationType);
     }
 }
