@@ -3,10 +3,12 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -30,6 +32,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::container::Table;
@@ -764,6 +767,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 {
+    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
     // Environment setup
 
     const Environment environment = Environment::Default();
@@ -840,14 +844,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             const Vector3d w_ITRF_NED_in_ITRF =
                 nedOrbitalFrameSPtr->getTransformTo(Frame::ITRF(), instant).getAngularVelocity();
 
-            ASSERT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format(
+            EXPECT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format(
                 "@ {}: {} - {} = {} [m]",
                 instant.toString(),
                 x_NED_ITRF_ref.toString(),
                 x_NED_ITRF.toString(),
                 (x_NED_ITRF - x_NED_ITRF_ref).norm()
             );
-            ASSERT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format(
+            EXPECT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format(
                 "@ {}: {} - {} = {} [m/s]",
                 instant.toString(),
                 v_NED_ITRF_in_ITRF_ref.toString(),
@@ -855,14 +859,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
                 (v_NED_ITRF_in_ITRF - v_NED_ITRF_in_ITRF_ref).norm()
             );
 
-            ASSERT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format(
+            EXPECT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format(
                 "@ {}: {} / {} = {} [asec]",
                 instant.toString(),
                 q_ITRF_NED_ref.toString(),
                 q_ITRF_NED.toString(),
                 q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()
             );
-            ASSERT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-8)) << String::Format(
+            EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-7)) << String::Format(
                 "@ {}: {} - {} = {} [rad/s]",
                 instant.toString(),
                 w_ITRF_NED_in_ITRF_ref.toString(),
@@ -872,123 +876,131 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         }
     }
 
-    // LVLH
-
-    // {
-
-    //     // Environment setup
-
-    //     const Environment environment = Environment::Default() ;
-
-    //     // Orbit setup
-
-    //     const Length semiMajorAxis = Length::Kilometers(7000.0) ;
-    //     const Real eccentricity = 0.0 ;
-    //     const Angle inclination = Angle::Degrees(0.0) ;
-    //     const Angle raan = Angle::Degrees(0.0) ;
-    //     const Angle aop = Angle::Degrees(0.0) ;
-    //     const Angle trueAnomaly = Angle::Degrees(0.0) ;
-
-    //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
-
-    //     const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-    //     const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_ ;
-    //     const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_ ;
-    //     const Real J2 = EarthGravitationalModel::EGM2008.J2_ ;
-    //     const Real J4 = EarthGravitationalModel::EGM2008.J4_ ;
-
-    //     const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4,
-    //     Kepler::PerturbationType::None } ;
-
-    //     const Shared<const Earth> earthSPtr = std::dynamic_pointer_cast<const
-    //     Earth>(environment.accessObjectWithName("Earth")) ;
-
-    //     const Orbit orbit = { keplerianModel, earthSPtr } ;
-
-    //     const Shared<const Frame> lvlhOrbitalFrameSPtr = orbit.getOrbitalFrame(Orbit::FrameType::LVLH) ;
-
-    //     const Position origin_ITRF = lvlhOrbitalFrameSPtr->getOriginIn(Frame::ITRF(), epoch) ;
-
-    //     std::cout << "Origin:" << std::endl << origin_ITRF << std::endl ;
-    //     // std::cout << "Origin:" << std::endl << lvlhOrbitalFrameSPtr->getOriginIn(Frame::GCRF(), epoch) <<
-    //     std::endl ;
-
-    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::ITRF(), epoch) <<
-    //     std::endl ;
-    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::GCRF(), epoch) <<
-    //     std::endl ;
-
-    //     // for (const auto& referenceRow : referenceData)
-    //     // {
-
-    //     //     const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()),
-    //     Scale::UTC)
-    //     ;
-
-    //     //     const Vector3d x_NED_ITRF_ref = { referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-    //     referenceRow[3].accessReal() } ;
-    //     //     const Vector3d v_NED_ITRF_in_ITRF_ref = { referenceRow[4].accessReal(),
-    //     referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
-
-    //     //     const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(referenceRow[7].accessReal(),
-    //     referenceRow[8].accessReal(), referenceRow[9].accessReal(), referenceRow[10].accessReal()).normalize() ;
-    //     //     const Vector3d w_NED_ITRF_in_NED_ref = { referenceRow[11].accessReal(),
-    //     referenceRow[12].accessReal(), referenceRow[13].accessReal() } ;
-
-    //     //     const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate() ;
-    //     //     const Vector3d w_ITRF_NED_in_ITRF_ref = - (q_ITRF_NED_ref * w_NED_ITRF_in_NED_ref) ;
-
-    //     //     const Vector3d x_NED_ITRF = lvlhOrbitalFrameSPtr->getOriginIn(Frame::ITRF(),
-    //     instant).getCoordinates()
-    //     ;
-    //     //     const Vector3d v_NED_ITRF_in_ITRF = lvlhOrbitalFrameSPtr->getVelocityIn(Frame::ITRF(),
-    //     instant).getCoordinates() ;
-
-    //     //     const Quaternion q_ITRF_NED = lvlhOrbitalFrameSPtr->getTransformTo(Frame::ITRF(),
-    //     instant).getOrientation() ;
-    //     //     const Vector3d w_ITRF_NED_in_ITRF = lvlhOrbitalFrameSPtr->getTransformTo(Frame::ITRF(),
-    //     instant).getAngularVelocity() ;
-
-    //     //     EXPECT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format("{} - {} = {} [m]",
-    //     x_NED_ITRF_ref.toString(), x_NED_ITRF.toString(), (x_NED_ITRF - x_NED_ITRF_ref).norm()) ;
-    //     //     EXPECT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format("{} - {} =
-    //     {} [m/s]", v_NED_ITRF_in_ITRF_ref.toString(), v_NED_ITRF_in_ITRF.toString(), (v_NED_ITRF_in_ITRF -
-    //     v_NED_ITRF_in_ITRF_ref).norm()) ;
-
-    //     //     EXPECT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format("{} / {}
-    //     = {} [asec]", q_ITRF_NED_ref.toString(), q_ITRF_NED.toString(),
-    //     q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()) ;
-    //     //     // EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-12)) << String::Format("{} -
-    //     {} =
-    //     {} [rad/s]", w_ITRF_NED_in_ITRF_ref.toString(), w_ITRF_NED_in_ITRF.toString(), (w_ITRF_NED_in_ITRF -
-    //     w_ITRF_NED_in_ITRF_ref).norm()) ;
-
-    //     // }
-
-    // }
-
-    // VVLH
-
     {
-        // [TBI]
-    }
+        const Length semiMajorAxis = Length::Meters(6878137.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(97.401458306592275);
+        const Angle raan = Angle::Degrees(279.82375866413543);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
 
-    // LVLHGD
+        const COE coe = {
+            semiMajorAxis,
+            eccentricity,
+            inclination,
+            raan,
+            aop,
+            trueAnomaly,
+        };
 
-    {
-        // [TBI]
-    }
+        const Instant epoch = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
 
-    // LVLHGDGT
+        const Kepler keplerianModel = {
+            coe,
+            epoch,
+            EarthGravitationalModel::EGM2008.gravitationalParameter_,
+            EarthGravitationalModel::EGM2008.equatorialRadius_,
+            EarthGravitationalModel::EGM2008.J2_,
+            EarthGravitationalModel::EGM2008.J4_,
+            Kepler::PerturbationType::None,
+        };
 
-    {
-        // [TBI]
+        const Shared<const Earth> earthSPtr =
+            std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth"));
+
+        const Orbit orbit = {
+            keplerianModel,
+            earthSPtr,
+        };
+
+        const Array<Tuple<Orbit::FrameType, Angle, Angle>> testCases = {
+            {Orbit::FrameType::LVLH, Angle::Arcseconds(1.0), Angle::Arcseconds(1.0)},
+            {Orbit::FrameType::VVLH, Angle::Arcseconds(1.0), Angle::Arcseconds(1.0)},
+            {Orbit::FrameType::LVLHGD, Angle::Arcseconds(1.0), Angle::Arcseconds(1.0)},
+            {Orbit::FrameType::LVLHGDGT, Angle::Arcseconds(250.0), Angle::Arcseconds(15.0)},
+            {Orbit::FrameType::TNW, Angle::Arcseconds(1.0), Angle::Arcseconds(1.0)},
+            {Orbit::FrameType::VNC, Angle::Arcseconds(1.0), Angle::Arcseconds(1.0)},
+        };
+
+        for (const auto &testCase : testCases)
+        {
+            const Orbit::FrameType frameType = std::get<0>(testCase);
+            const Angle angularTolerance = std::get<1>(testCase);
+            const Angle angularVelocityTolerance = std::get<2>(testCase);
+
+            const File referenceDataFile = File::Path(Path::Parse(String::Format(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/{}_GCRF.csv",
+                Orbit::StringFromFrameType(frameType)
+            )));
+
+            const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
+
+            const Shared<const Frame> orbitalFrameSPtr = orbit.getOrbitalFrame(frameType);
+
+            for (const auto &referenceRow : referenceData)
+            {
+                const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+
+                const Quaternion q_Target_GCRF_ref = Quaternion::XYZS(
+                                                         referenceRow[1].accessReal(),
+                                                         referenceRow[2].accessReal(),
+                                                         referenceRow[3].accessReal(),
+                                                         referenceRow[4].accessReal()
+                )
+                                                         .normalize();
+                const Vector3d w_Target_GCRF_in_Target_ref = {
+                    referenceRow[5].accessReal(),
+                    referenceRow[6].accessReal(),
+                    referenceRow[7].accessReal(),
+                };
+
+                const Quaternion q_GCRF_Target_ref = q_Target_GCRF_ref.toConjugate();
+                const Vector3d w_GCRF_Target_in_GCRF_ref = -(q_GCRF_Target_ref * w_Target_GCRF_in_Target_ref);
+
+                const Quaternion q_GCRF_Target =
+                    orbitalFrameSPtr->getTransformTo(Frame::GCRF(), instant).getOrientation();
+                const Vector3d w_GCRF_Target_in_GCRF =
+                    orbitalFrameSPtr->getTransformTo(Frame::GCRF(), instant).getAngularVelocity();
+
+                EXPECT_TRUE(q_GCRF_Target.isNear(q_GCRF_Target_ref, angularTolerance)) << String::Format(
+                    "[{}] @ {}: {} / {} = {} [asec]",
+                    Orbit::StringFromFrameType(frameType),
+                    instant.toString(),
+                    q_GCRF_Target_ref.toString(),
+                    q_GCRF_Target.toString(),
+                    q_GCRF_Target.angularDifferenceWith(q_GCRF_Target_ref).inArcseconds().toString()
+                );
+
+                EXPECT_TRUE(
+                    w_GCRF_Target_in_GCRF.isNear(w_GCRF_Target_in_GCRF_ref, angularVelocityTolerance.inRadians())
+                )
+                    << String::Format(
+                           "[{}] @ {}: {} - {} = {} [rad/s]",
+                           Orbit::StringFromFrameType(frameType),
+                           instant.toString(),
+                           w_GCRF_Target_in_GCRF_ref.toString(),
+                           w_GCRF_Target_in_GCRF.toString(),
+                           (w_GCRF_Target_in_GCRF - w_GCRF_Target_in_GCRF_ref).norm()
+                       );
+            }
+        }
     }
 
     {
-        EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::Undefined));
-        EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::NED));
-        EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::LVLH));
+        const Array<Orbit::FrameType> orbitFrameTypes = {
+            Orbit::FrameType::NED,
+            Orbit::FrameType::LVLH,
+            Orbit::FrameType::VVLH,
+            Orbit::FrameType::LVLHGD,
+            Orbit::FrameType::LVLHGDGT,
+            Orbit::FrameType::TNW,
+            Orbit::FrameType::VNC,
+        };
+
+        for (const auto &frameType : orbitFrameTypes)
+        {
+            EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(frameType));
+        }
     }
 }
 

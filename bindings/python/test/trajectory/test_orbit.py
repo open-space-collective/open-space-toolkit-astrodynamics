@@ -58,6 +58,22 @@ class TestOrbit:
         assert state is not None
         assert isinstance(state, State)
 
+    @pytest.mark.parametrize(
+        "frame_type",
+        [
+            (Orbit.FrameType.NED),
+            (Orbit.FrameType.LVLH),
+            (Orbit.FrameType.VVLH),
+            (Orbit.FrameType.LVLHGD),
+            (Orbit.FrameType.LVLHGDGT),
+            (Orbit.FrameType.QSW),
+            (Orbit.FrameType.TNW),
+            (Orbit.FrameType.VNC),
+        ],
+    )
+    def test_get_orbital_frame(self, orbit: Orbit, frame_type: Orbit.FrameType):
+        assert orbit.get_orbital_frame(frame_type) is not None
+
     def test_get_revolution_number_at(self, orbit: Orbit):
         assert (
             orbit.get_revolution_number_at(
