@@ -86,9 +86,9 @@ class TestUtility:
         position: Position,
         environment: Environment,
     ):
-        time_lla_aer: float[
-            Instant, float, float, float, float, float, float
-        ] = utilities.compute_time_lla_aer_state(state, position, environment)
+        time_lla_aer: float[Instant, float, float, float, float, float, float] = (
+            utilities.compute_time_lla_aer_state(state, position, environment)
+        )
 
         assert time_lla_aer is not None
         assert len(time_lla_aer) == 7

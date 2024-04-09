@@ -163,51 +163,52 @@ Interval Maneuver::getInterval() const
 
 Real Maneuver::calculateDeltaV() const
 {
-    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
-    Real weightedAccelerationMagnitudeSum = 0.0;
-    Real totalTime = 0.0;
-
-    for (Size i = 0; i < instants_.getSize(); i++)
+    // Use simple forward trapezoidal rule to calculate the total delta-v
+    Real totalDeltaV = 0.0;
+    for (Size i = 0; i < instants_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
-        weightedAccelerationMagnitudeSum += timeStep * accelerationProfileDefaultFrame_[i].norm();
-        totalTime += timeStep;
+        const Real timeStep = (instants_[i + 1] - instants_[i]).inSeconds();
+
+        const Real currentAccelerationMagnitude = accelerationProfileDefaultFrame_[i].norm();
+        const Real nextAccelerationMagnitude = accelerationProfileDefaultFrame_[i + 1].norm();
+
+        totalDeltaV += ((currentAccelerationMagnitude + nextAccelerationMagnitude) / 2.0) * timeStep;
     }
 
-    return weightedAccelerationMagnitudeSum / totalTime;
+    return totalDeltaV;
 }
 
 Mass Maneuver::calculateDeltaMass() const
 {
-    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
-    Real weightedMassSum = 0.0;
-
-    for (Size i = 0; i < instants_.getSize(); i++)
+    // Use simple forward trapezoidal rule to calculate the total delta-mass
+    Real totalDeltaMass = 0.0;
+    for (Size i = 0; i < instants_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
+        const Real timeStep = (instants_[i + 1] - instants_[i]).inSeconds();
 
-        weightedMassSum += timeStep * -massFlowRateProfile_[i];
+        totalDeltaMass += ((-massFlowRateProfile_[i] + -massFlowRateProfile_[i + 1]) / 2.0) * timeStep;
     }
 
-    return {weightedMassSum, Mass::Unit::Kilogram};
+    return Mass::Kilograms(totalDeltaMass);
 }
 
 Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 {
-    // TBI: replace this logic with a more accurate calculation using a numerical integrator and better quadrature rule
+    Real currentMass = anInitialSpacecraftMass.inKilograms();
     Real weightedThrustSum = 0.0;
-    Real weightedMassSum = anInitialSpacecraftMass.inKilograms();
-    Real totalTime = 0.0;
 
-    for (Size i = 0; i < instants_.getSize(); i++)
+    for (Size i = 0; i < instants_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i] - instants_.accessFirst()).inSeconds();
-        weightedMassSum += -massFlowRateProfile_[i];
-        weightedThrustSum += timeStep * accelerationProfileDefaultFrame_[i].norm() * weightedMassSum;
-        totalTime += timeStep;
+        const Real currentIntervalDuration = (instants_[i + 1] - instants_[i]).inSeconds();
+
+        currentMass += ((massFlowRateProfile_[i] + massFlowRateProfile_[i + 1]) / 2.0) * currentIntervalDuration;
+        const Real currentThrust =
+            (accelerationProfileDefaultFrame_[i].norm() + accelerationProfileDefaultFrame_[i + 1].norm()) / 2 *
+            currentMass;
+        weightedThrustSum += currentThrust * currentIntervalDuration;
     }
 
-    return weightedThrustSum / totalTime;
+    return weightedThrustSum / (instants_.accessLast() - instants_.accessFirst()).inSeconds();
 }
 
 Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
@@ -249,7 +250,8 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream) << "Interval:" << this->getInterval().toString();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Total delta-v:" << this->calculateDeltaV().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Total delta-v:" << this->calculateDeltaV().toString() << " [m/s]";
     ostk::core::utils::Print::Line(anOutputStream) << "Total mass consumed:" << this->calculateDeltaMass().toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();

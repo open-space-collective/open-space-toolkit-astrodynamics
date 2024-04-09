@@ -61,9 +61,7 @@ def coerce_to_instant(value: Instant | datetime | str) -> Instant:
     raise TypeError("Argument must be a datetime, an Instant, or a str.")
 
 
-def coerce_to_iso(
-    value: Instant | datetime | str, timespec: str = "microseconds"
-) -> str:
+def coerce_to_iso(value: Instant | datetime | str, timespec: str = "microseconds") -> str:
     """
     Return an ISO string from value.
 
