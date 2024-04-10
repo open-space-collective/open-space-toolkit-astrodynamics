@@ -38,145 +38,110 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Constructor)
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE : public ::testing::Test
+{
+   protected:
+    void SetUp() override
+    {
+        coe_ = {
+            defaultSemiMajorAxis_,
+            defaultEccentricity_,
+            defaultInclination_,
+            defaultRaan_,
+            defaultAop_,
+            defaultTrueAnomaly_,
+        };
+    }
+
+    const Length defaultSemiMajorAxis_ = Length::Kilometers(7000.0);
+    const Real defaultEccentricity_ = 0.1;
+    const Angle defaultInclination_ = Angle::Degrees(10.0);
+    const Angle defaultRaan_ = Angle::Degrees(20.0);
+    const Angle defaultAop_ = Angle::Degrees(30.0);
+    const Angle defaultTrueAnomaly_ = Angle::Degrees(40.0);
+
+    COE coe_ = COE::Undefined();
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Constructor)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        EXPECT_NO_THROW(COE(semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly););
+        EXPECT_NO_THROW(COE(defaultSemiMajorAxis_,
+                            defaultEccentricity_,
+                            defaultInclination_,
+                            defaultRaan_,
+                            defaultAop_,
+                            defaultTrueAnomaly_););
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EqualToOperator)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_TRUE(coe == coe);
+        EXPECT_TRUE(coe_ == coe_);
     }
 
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
+        const COE secondCoe = {
+            defaultSemiMajorAxis_,
+            defaultEccentricity_,
+            defaultInclination_,
+            Angle::Degrees(21.0),
+            defaultAop_,
+            defaultTrueAnomaly_,
+        };
 
-        const COE firstCoe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        const COE secondCoe = {semiMajorAxis, eccentricity, inclination, Angle::Degrees(21.0), aop, trueAnomaly};
-
-        EXPECT_FALSE(firstCoe == secondCoe);
+        EXPECT_FALSE(coe_ == secondCoe);
     }
 
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
         EXPECT_FALSE(COE::Undefined() == COE::Undefined());
-        EXPECT_FALSE(coe == COE::Undefined());
-        EXPECT_FALSE(COE::Undefined() == coe);
+        EXPECT_FALSE(coe_ == COE::Undefined());
+        EXPECT_FALSE(COE::Undefined() == coe_);
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, NotEqualToOperator)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_FALSE(coe != coe);
+        EXPECT_FALSE(coe_ != coe_);
     }
 
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
+        const COE secondCoe = {
+            defaultSemiMajorAxis_,
+            defaultEccentricity_,
+            defaultInclination_,
+            Angle::Degrees(21.0),
+            defaultAop_,
+            defaultTrueAnomaly_
+        };
 
-        const COE firstCoe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        const COE secondCoe = {semiMajorAxis, eccentricity, inclination, Angle::Degrees(21.0), aop, trueAnomaly};
-
-        EXPECT_TRUE(firstCoe != secondCoe);
+        EXPECT_TRUE(coe_ != secondCoe);
     }
 
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
         EXPECT_TRUE(COE::Undefined() != COE::Undefined());
-        EXPECT_TRUE(coe != COE::Undefined());
-        EXPECT_TRUE(COE::Undefined() != coe);
+        EXPECT_TRUE(coe_ != COE::Undefined());
+        EXPECT_TRUE(COE::Undefined() != coe_);
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, StreamOperator)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << coe << std::endl);
+        EXPECT_NO_THROW(std::cout << coe_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, IsDefined)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_TRUE(coe.isDefined());
+        EXPECT_TRUE(coe_.isDefined());
     }
 
     {
@@ -184,19 +149,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, IsDefined
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetSemiMajorAxis)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetSemiMajorAxis)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_EQ(semiMajorAxis, coe.getSemiMajorAxis());
+        EXPECT_EQ(defaultSemiMajorAxis_, coe_.getSemiMajorAxis());
     }
 
     {
@@ -204,19 +160,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetSemiMa
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetEccentricity)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetEccentricity)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_EQ(eccentricity, coe.getEccentricity());
+        EXPECT_EQ(defaultEccentricity_, coe_.getEccentricity());
     }
 
     {
@@ -224,19 +171,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetEccent
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetInclination)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetInclination)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_EQ(inclination, coe.getInclination());
+        EXPECT_EQ(defaultInclination_, coe_.getInclination());
     }
 
     {
@@ -244,19 +182,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetInclin
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetRaan)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetRaan)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_EQ(raan, coe.getRaan());
+        EXPECT_EQ(defaultRaan_, coe_.getRaan());
     }
 
     {
@@ -264,19 +193,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetRaan)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAop)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAop)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_EQ(aop, coe.getAop());
+        EXPECT_EQ(defaultAop_, coe_.getAop());
     }
 
     {
@@ -284,19 +204,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAop)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetTrueAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetTrueAnomaly)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_EQ(trueAnomaly, coe.getTrueAnomaly());
+        EXPECT_EQ(defaultTrueAnomaly_, coe_.getTrueAnomaly());
     }
 
     {
@@ -304,19 +215,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetTrueAn
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetPeriapsisRadius)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetPeriapsisRadius)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_DOUBLE_EQ(semiMajorAxis.inMeters() * (1.0 - eccentricity), coe.getPeriapsisRadius().inMeters());
+        EXPECT_DOUBLE_EQ(
+            defaultSemiMajorAxis_.inMeters() * (1.0 - defaultEccentricity_), coe_.getPeriapsisRadius().inMeters()
+        );
     }
 
     {
@@ -324,19 +228,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetPeriap
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetApoapsisRadius)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetApoapsisRadius)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
-        const Angle inclination = Angle::Degrees(10.0);
-        const Angle raan = Angle::Degrees(20.0);
-        const Angle aop = Angle::Degrees(30.0);
-        const Angle trueAnomaly = Angle::Degrees(40.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_DOUBLE_EQ(semiMajorAxis.inMeters() * (1.0 + eccentricity), coe.getApoapsisRadius().inMeters());
+        EXPECT_DOUBLE_EQ(
+            defaultSemiMajorAxis_.inMeters() * (1.0 + defaultEccentricity_), coe_.getApoapsisRadius().inMeters()
+        );
     }
 
     {
@@ -344,20 +241,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetApoaps
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetSemiLatusRectum)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetSemiLatusRectum)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
-        const Angle inclination = Angle::Degrees(0.0);
-        const Angle raan = Angle::Degrees(0.0);
-        const Angle aop = Angle::Degrees(0.0);
-        const Angle trueAnomaly = Angle::Degrees(0.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
         EXPECT_DOUBLE_EQ(
-            semiMajorAxis.inMeters() * (1.0 - std::pow(eccentricity, 2)), coe.getSemiLatusRectum().inMeters()
+            defaultSemiMajorAxis_.inMeters() * (1.0 - std::pow(defaultEccentricity_, 2)),
+            coe_.getSemiLatusRectum().inMeters()
         );
     }
 
@@ -366,22 +255,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetSemiLa
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetRadialDistance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetRadialDistance)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
-        const Angle inclination = Angle::Degrees(0.0);
-        const Angle raan = Angle::Degrees(0.0);
-        const Angle aop = Angle::Degrees(0.0);
-        const Angle trueAnomaly = Angle::Degrees(0.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
         EXPECT_DOUBLE_EQ(
-            semiMajorAxis.inMeters() * (1.0 - std::pow(eccentricity, 2)) /
-                (1.0 + eccentricity * std::cos(trueAnomaly.inRadians())),
-            coe.getRadialDistance().inMeters()
+            defaultSemiMajorAxis_.inMeters() * (1.0 - std::pow(defaultEccentricity_, 2)) /
+                (1.0 + defaultEccentricity_ * std::cos(defaultTrueAnomaly_.inRadians())),
+            coe_.getRadialDistance().inMeters()
         );
     }
 
@@ -390,24 +270,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetRadial
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngularMomentum)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngularMomentum)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
-        const Angle inclination = Angle::Degrees(0.0);
-        const Angle raan = Angle::Degrees(0.0);
-        const Angle aop = Angle::Degrees(0.0);
-        const Angle trueAnomaly = Angle::Degrees(0.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        const Derived angularMomentum = coe.getAngularMomentum(Earth::EGM2008.gravitationalParameter_);
+        const Derived angularMomentum = coe_.getAngularMomentum(Earth::EGM2008.gravitationalParameter_);
 
         EXPECT_DOUBLE_EQ(
             std::sqrt(
                 Earth::EGM2008.gravitationalParameter_.in(Earth::EGM2008.gravitationalParameter_.getUnit()) *
-                coe.getSemiLatusRectum().inMeters()
+                coe_.getSemiLatusRectum().inMeters()
             ),
             angularMomentum.in(angularMomentum.getUnit())
         );
@@ -493,6 +364,25 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngula
 
 // }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetNodalPrecessionRate)
+{
+    {
+        const COE coe = {
+            Earth::EGM2008.equatorialRadius_ + Length::Kilometers(800.0),
+            0.0,
+            Angle::Degrees(56.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+        const Derived nodalPrecessionRate = coe.getNodalPrecessionRate(
+            Earth::EGM2008.gravitationalParameter_, Length::Meters(6.378137e6), 1.08262668e-3
+        );
+
+        EXPECT_NEAR(nodalPrecessionRate.in(nodalPrecessionRate.getUnit()), -7.44e-7, 1e-6);
+    }
+}
+
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetOrbitalPeriod)
 // {
 
@@ -518,7 +408,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngula
 
 // }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCartesianState)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCartesianState)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -597,39 +487,30 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCartes
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetVector)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetVector)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
-        const Angle inclination = Angle::Degrees(180.0);
-        const Angle raan = Angle::Degrees(0.0);
-        const Angle aop = Angle::Degrees(0.0);
-        const Angle trueAnomaly = Angle::Degrees(45.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
         const Vector6d coeVector = {
-            semiMajorAxis.inMeters(),
-            eccentricity,
-            inclination.inRadians(),
-            raan.inRadians(),
-            aop.inRadians(),
-            trueAnomaly.inRadians(),
+            defaultSemiMajorAxis_.inMeters(),
+            defaultEccentricity_,
+            defaultInclination_.inRadians(),
+            defaultRaan_.inRadians(),
+            defaultAop_.inRadians(),
+            defaultTrueAnomaly_.inRadians(),
         };
 
-        EXPECT_TRUE(((coeVector - coe.getSIVector(COE::AnomalyType::True)).sum() < 1e-15));
+        EXPECT_TRUE(((coeVector - coe_.getSIVector(COE::AnomalyType::True)).sum() < 1e-15));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Undefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Undefined)
 {
     {
         EXPECT_NO_THROW(COE::Undefined());
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesian)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesian)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -726,28 +607,20 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesian
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FromSIVector)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FromSIVector)
 {
     {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
-        const Angle inclination = Angle::Degrees(180.0);
-        const Angle raan = Angle::Degrees(0.0);
-        const Angle aop = Angle::Degrees(0.0);
-        const Angle trueAnomaly = Angle::Degrees(45.0);
-
         const Vector6d coeVector = {
-            semiMajorAxis.inMeters(),
-            eccentricity,
-            inclination.inRadians(),
-            raan.inRadians(),
-            aop.inRadians(),
-            trueAnomaly.inRadians(),
+            defaultSemiMajorAxis_.inMeters(),
+            defaultEccentricity_,
+            defaultInclination_.inRadians(),
+            defaultRaan_.inRadians(),
+            defaultAop_.inRadians(),
+            defaultTrueAnomaly_.inRadians(),
         };
 
         const COE coeFromVector = COE::FromSIVector(coeVector, COE::AnomalyType::True);
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-        EXPECT_TRUE(coeFromVector == coe);
+        EXPECT_TRUE(coeFromVector == coe_);
     }
 }
 
@@ -826,7 +699,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FromSIVec
 
 // }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
 {
     {
         const Angle meanAnomaly = Angle::Degrees(0.0);
@@ -859,7 +732,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Eccentric
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, TrueAnomalyFromMeanAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, TrueAnomalyFromMeanAnomaly)
 {
     {
         const Angle meanAnomaly = Angle::Radians(5.08731632317414);
@@ -872,7 +745,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, TrueAnoma
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, StringFromElement)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, StringFromElement)
 {
     const Array<Tuple<COE::Element, String>> testCases = {
         {COE::Element::SemiMajorAxis, "SemiMajorAxis"},
@@ -894,7 +767,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, StringFro
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ConvertAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ConvertAnomaly)
 {
     {
         EXPECT_DOUBLE_EQ(

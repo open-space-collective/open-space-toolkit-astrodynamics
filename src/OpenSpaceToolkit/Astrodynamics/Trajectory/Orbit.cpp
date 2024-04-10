@@ -418,8 +418,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const Quaternion q_LOF_GCRF_next =
                     anAttitudeGenerator(this->getStateAt(anInstant + delta).inFrame(Frame::GCRF()));
 
-                const Quaternion q_LOF_next_LOFT = (q_LOF_GCRF_next * q_LOF_GCRF.toConjugate()).toNormalized();
-                const RotationVector rv_LOF_next_LOF = RotationVector::Quaternion(q_LOF_next_LOFT);
+                const Quaternion q_LOF_next_LOF = (q_LOF_GCRF_next * q_LOF_GCRF.toConjugate()).toNormalized();
+                const RotationVector rv_LOF_next_LOF = RotationVector::Quaternion(q_LOF_next_LOF);
 
                 const Vector3d w_LOF_GCRF_in_LOF = rv_LOF_next_LOF.getAxis() * (rv_LOF_next_LOF.getAngle().inRadians() /
                                                                                 delta.inSeconds());  // [rad/s]
