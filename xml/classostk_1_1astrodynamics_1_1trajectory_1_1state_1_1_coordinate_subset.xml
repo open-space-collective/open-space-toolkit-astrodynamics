@@ -444,7 +444,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="124" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="80" bodyend="91"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="124" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="80" bodyend="98"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -463,7 +463,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="135" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="93" bodyend="97"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="135" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="100" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a3b3b8c569ea6fa4ce3d40360265626f3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -480,7 +480,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="140" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="99" bodyend="103"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="140" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="106" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a2d67fb5500d8c2e299e9a0be68a2de8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -497,7 +497,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="145" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="105" bodyend="110"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="145" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="112" bodyend="117"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

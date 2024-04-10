@@ -13,8 +13,10 @@
     <includes refid="_coordinate_broker_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</includes>
     <includes refid="_coordinate_subset_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</includes>
     <includedby refid="_q_law_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</includedby>
-    <includedby refid="_propagator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</includedby>
     <includedby refid="_finite_difference_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp</includedby>
+    <includedby refid="_propagated_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</includedby>
+    <includedby refid="_propagator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</includedby>
+    <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
     <includedby refid="_numerical_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp</includedby>
     <includedby refid="_state_builder_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp</includedby>
     <incdepgraph>
@@ -143,47 +145,21 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="11">
+      <node id="4">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp</label>
         <link refid="_finite_difference_solver_8cpp"/>
       </node>
-      <node id="4">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
-        <link refid="_propagator_8hpp"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
+      <node id="8">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp</label>
         <link refid="_numerical_solver_8cpp"/>
       </node>
-      <node id="10">
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
         <link refid="_propagator_8cpp"/>
       </node>
-      <node id="13">
+      <node id="9">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp</label>
         <link refid="_state_builder_8cpp"/>
-      </node>
-      <node id="6">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
-        <link refid="_sequence_8hpp"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp</label>
-        <link refid="_propagated_8hpp"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
       </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
@@ -192,11 +168,15 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -210,14 +190,10 @@
         </childnode>
       </node>
       <node id="7">
-        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
-        <link refid="_sequence_8cpp"/>
-      </node>
-      <node id="9">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
         <link refid="_segment_8cpp"/>
       </node>
-      <node id="8">
+      <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</label>
         <link refid="_propagated_8cpp"/>
       </node>

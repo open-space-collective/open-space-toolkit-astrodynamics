@@ -44,8 +44,8 @@
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd">clone</reimplements>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1aec60303c53b1cfd49b18f6bf04f62bf8">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5c602e82d4eb0e20497943e45b437893">clone</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae6c6823d8d795c53422c643d4288713d">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

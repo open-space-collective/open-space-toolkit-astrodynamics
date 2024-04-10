@@ -20,6 +20,7 @@
     <includedby refid="_atmospheric_drag_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</includedby>
     <includedby refid="_thruster_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp</includedby>
     <includedby refid="_q_law_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</includedby>
+    <includedby refid="_propagator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</includedby>
     <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
     <includedby refid="_coordinate_subset_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp</includedby>
     <includedby refid="_state_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp</includedby>
@@ -507,6 +508,8 @@
         </childnode>
         <childnode refid="68" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="96" relation="include">
@@ -597,9 +600,13 @@
         <link refid="_state_builder_8hpp"/>
         <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
@@ -669,8 +676,6 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
       </node>
@@ -680,8 +685,6 @@
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="70">
@@ -747,6 +750,8 @@
         <link refid="_coordinate_broker_8hpp"/>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
         <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="34" relation="include">
@@ -754,6 +759,8 @@
         <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>

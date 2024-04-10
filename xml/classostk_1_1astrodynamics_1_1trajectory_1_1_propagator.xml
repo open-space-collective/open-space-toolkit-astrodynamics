@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="81" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="81" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="53" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="53" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="265" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="265" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="237" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="237" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a57b8ee234185fbcc88af829fc2f0becb" prot="private" static="no" mutable="no">
         <type>Array&lt; <ref refid="structostk_1_1astrodynamics_1_1_dynamics_1_1_context" kindref="compound">Dynamics::Context</ref> &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="266" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="266" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="238" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="238" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a3eefc8506d771e42a667dc0985d86c14" prot="private" static="no" mutable="yes">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="267" column="29" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="267" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="239" column="29" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="239" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="91" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="37" bodyend="42"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="63" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="49" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8b94bdb88d93a465600c0bf08be8135f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -164,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="106" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="44" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="78" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="56" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a6791eff19e947c2d07c6888b27407174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -192,7 +192,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="116" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="59" bodyend="64"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="88" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="92" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1ab4ccb0e7eccd12ef94f6c83e7e72daee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
@@ -222,7 +222,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="122" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="66" bodyend="75"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="94" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="99" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a241777690c500b2340980e5ed8bb71eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -252,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="128" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="77" bodyend="88"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="100" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="110" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a1c5f6315b39c90c582789da15f0543db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -282,7 +282,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="134" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="90" bodyend="93"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="106" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="123" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a351bc96d5e170d0da81b26cb5912322a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -299,7 +299,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="146" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="102" bodyend="105"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="118" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="135" bodyend="138"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a1a2a88257b3c7bf777b9f8516f26f27a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt; &amp;</type>
@@ -316,7 +316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="151" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="107" bodyend="115"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="123" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="140" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a6d56ff03ecbf357a77686a041463d837" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref> &amp;</type>
@@ -333,7 +333,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="156" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="117" bodyend="125"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="128" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="150" bodyend="158"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a15c93b8d258d3613c7fe2d38d4459804" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Size</type>
@@ -350,7 +350,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="127" bodyend="130"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="133" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="160" bodyend="163"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1abd1aad9b2cd9d66dff00853b34588f23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> &gt; &gt;</type>
@@ -368,7 +368,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="168" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="132" bodyend="142"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="140" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="165" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a562d3e9c316692eec7f981b8d2cfff53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -397,7 +397,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="175" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="144" bodyend="152"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="147" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="177" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a891b961e39411c336d3221de82083f2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -426,7 +426,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="182" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="159" bodyend="185"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="154" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="192" bodyend="218"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a5ab511f6854a41dd989e4fa44b211e11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -442,7 +442,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="188" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="187" bodyend="191"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="160" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="220" bodyend="224"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a7cc053bad5140b3cc1ba7a11df8c9ff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -484,7 +484,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="196" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="154" bodyend="157"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="168" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="187" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a91d1aad272a5dc09610a12c69c121e2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -527,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="208" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="193" bodyend="217"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="180" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="226" bodyend="250"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1ace7a480336e42fd522448639b42de59c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution" kindref="compound">NumericalSolver::ConditionSolution</ref></type>
@@ -583,7 +583,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="219" column="40" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="219" bodyend="248"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="191" column="40" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="252" bodyend="281"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a2e578afa8275b07919e85da9161e35d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -619,7 +619,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="231" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="250" bodyend="337"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="203" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="283" bodyend="370"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a57ec2ae5ab63250c1c68464d87ce907e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -660,7 +660,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="237" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="339" bodyend="347"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="209" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="372" bodyend="380"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -704,7 +704,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="141" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="95" bodyend="100"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="113" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="128" bodyend="133"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -723,7 +723,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="242" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="349" bodyend="355"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="214" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="382" bodyend="388"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1aadca8f4fe634f72ddbb43cfc94f5ad5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref></type>
@@ -740,7 +740,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="247" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="357" bodyend="363"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="219" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="390" bodyend="396"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1ad821068f7a16c098b0fc27a8fc573484" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref></type>
@@ -770,7 +770,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="254" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="365" bodyend="368"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="226" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="398" bodyend="401"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a89f18f82109de238ec8cf5085105f92c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref></type>
@@ -812,7 +812,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="262" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="370" bodyend="376"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="234" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="403" bodyend="409"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -827,7 +827,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="269" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="378" bodyend="412"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="241" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp" bodystart="411" bodyend="445"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -847,7 +847,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="78" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="77" bodyend="270"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="50" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="49" bodyend="242"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a1a2a88257b3c7bf777b9f8516f26f27a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Propagator</scope><name>accessCoordinateBroker</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a6d56ff03ecbf357a77686a041463d837" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Propagator</scope><name>accessNumericalSolver</name></member>

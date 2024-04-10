@@ -266,7 +266,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="82" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="82" bodyend="108"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="82" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="82" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a221ec89e0000c0027019ef94d6002b73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -308,7 +308,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="90" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="110" bodyend="119"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="90" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="111" bodyend="120"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

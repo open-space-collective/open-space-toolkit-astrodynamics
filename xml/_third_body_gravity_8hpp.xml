@@ -8,7 +8,6 @@
     <includes refid="_dynamics_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</includes>
     <includedby refid="_third_body_gravity_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp</includedby>
     <includedby refid="_dynamics_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp</includedby>
-    <includedby refid="_propagator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</includedby>
     <incdepgraph>
       <node id="21">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
@@ -230,18 +229,12 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp</label>
         <link refid="_dynamics_8cpp"/>
       </node>
-      <node id="4">
-        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
-        <link refid="_propagator_8cpp"/>
-      </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp</label>
         <link refid="_third_body_gravity_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
