@@ -283,12 +283,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                Get the mean motion of the COE.
 
                Args:
-                  gravitational_parameter (double): The gravitational parameter of the central body.
+                  gravitational_parameter (Derived): The gravitational parameter of the central body.
 
                Returns:
-                  float: The mean motion of the COE.
+                  Derived: The mean motion of the COE.
             )doc",
             arg("gravitational_parameter")
+        )
+
+        .def(
+            "get_nodal_precession_rate",
+            &COE::getNodalPrecessionRate,
+            R"doc(
+               Get the nodal precession of the COE.
+
+               Args:
+                  gravitational_parameter (Derived): The gravitational parameter of the central body.
+                  equatorial_radius (Length): The equatorial radius of the central body.
+                  j2 (float): The second zonal harmonic coefficient of the central body.
+
+               Returns:
+                  Derived: The nodal precession of the COE.
+            )doc",
+            arg("gravitational_parameter"),
+            arg("equatorial_radius"),
+            arg("j2")
         )
 
         .def(
