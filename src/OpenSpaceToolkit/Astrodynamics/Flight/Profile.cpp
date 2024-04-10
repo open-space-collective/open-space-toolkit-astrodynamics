@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
 
@@ -9,6 +11,8 @@ namespace astrodynamics
 {
 namespace flight
 {
+
+using ostk::physics::coordinate::frame::Manager;
 
 Profile::Profile(const Model& aModel)
     : modelUPtr_(aModel.clone())
@@ -77,6 +81,11 @@ Shared<const Frame> Profile::getBodyFrame(const String& aFrameName) const
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Profile");
+    }
+
+    if (Manager::Get().hasFrameWithName(aFrameName))
+    {
+        throw ostk::core::error::RuntimeError("A frame with the same name already exists.");
     }
 
     return modelUPtr_->getBodyFrame(aFrameName);
