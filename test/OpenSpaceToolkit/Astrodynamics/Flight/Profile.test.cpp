@@ -220,6 +220,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetBodyFrame)
+{
+    {
+        EXPECT_NO_THROW(profile_.getBodyFrame("name"));
+        EXPECT_THROW(
+            profile_.getBodyFrame("name"), ostk::core::error::RuntimeError
+        );  // Frame with same name already exists
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 {
     {
