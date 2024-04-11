@@ -228,6 +228,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaf0183b14a5f8cf9e46db1f55079755c" kind="function"><name>getRadialDistance</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a086be845a0b8359252431b52b755931d" kind="function"><name>getAngularMomentum</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aada6c64f035662e9a32201f95de0eeb9" kind="function"><name>getMeanMotion</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ab32fb12776070d71e4381bac2aca54d2" kind="function"><name>getNodalPrecessionRate</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac9b6ef6b81de82080889e713fde2796f" kind="function"><name>getOrbitalPeriod</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3ea436614339f9a04752679b3e852492" kind="function"><name>getCartesianState</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a86cd3cb76cc484be9a2008e19458173b" kind="function"><name>getSIVector</name></member>
@@ -735,6 +736,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23acdfe4a5ed313c123b78c17d455cfa94f" kind="enumvalue"><name>LVLH</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23ae01a717c5a8a11cf57f7fdcb96aedc9c" kind="enumvalue"><name>VVLH</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a9f24a174bf2de776f4f87caef847746f" kind="enumvalue"><name>LVLHGD</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a4dd0e4042dbace42a872f422b740e185" kind="enumvalue"><name>LVLHGDGT</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a4f190ed692b3a94eb49da59c497c7f55" kind="enumvalue"><name>QSW</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a6d951949ba8af28fa54a8629ec0f8f17" kind="enumvalue"><name>TNW</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23ac6a33911cc53df9bdb84aac8d86a0565" kind="enumvalue"><name>VNC</name></member>
@@ -1522,6 +1524,7 @@
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a59be657b34b16f321ba439b7e009bb00" kind="typedef"><name>EarthGravitationalModel</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a66cd142976c1eca75ef16a631f7f361f" kind="typedef"><name>TabulatedDynamics</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a243e2cc89a706c1e8bd93a0f44f6c3a1" kind="variable"><name>GravitationalParameterSIUnit</name></member>
+    <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a502dca459cd4102149ea6df12377615e" kind="variable"><name>AngularVelocitySIUnit</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a54c8b09255e7c157165eb92997aa53c9" kind="variable"><name>epsilon</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1ad1317817c2767d37dc87c263c66026ac" kind="variable"><name>rootSolver</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kind="function"><name>operator&lt;&lt;</name></member>

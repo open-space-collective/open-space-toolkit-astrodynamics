@@ -24,41 +24,42 @@ import numpy as np
 
 from ostk.core.filesystem import Directory
 
-from ostk.mathematics.geometry.d3.objects import Cuboid
-from ostk.mathematics.geometry.d3.objects import Composite
-from ostk.mathematics.geometry.d3.objects import Point
+from ostk.mathematics.geometry.d3.object import Cuboid
+from ostk.mathematics.geometry.d3.object import Composite
+from ostk.mathematics.geometry.d3.object import Point
 
 from ostk.physics import Environment
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
-from ostk.physics.environment.objects.celestial_bodies import Earth
-from ostk.physics.environment.objects.celestial_bodies import Moon
-from ostk.physics.environment.objects.celestial_bodies import Sun
+from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.environment.object.celestial import Moon
+from ostk.physics.environment.object.celestial import Sun
 from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
 from ostk.physics.time import Instant
 from ostk.physics.time import Scale
 from ostk.physics.time import Time
-from ostk.physics.units import Length
-from ostk.physics.units import Mass
+from ostk.physics.unit import Length
+from ostk.physics.unit import Mass
 
-from ostk.astrodynamics.trajectory.state import NumericalSolver
+from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.event_condition import RealCondition
 from ostk.astrodynamics.event_condition import LogicalCondition
 from ostk.astrodynamics.event_condition import BooleanCondition
-from ostk.astrodynamics.trajectory.orbit.models.brouwerLyddaneMean import (
+from ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean import (
     BrouwerLyddaneMeanShort,
 )
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import Sequence
 from ostk.astrodynamics.trajectory import StateBuilder
+from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker, CoordinatesSubset
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
-from ostk.astrodynamics.trajectory import Orbit, Sequence
-from ostk.astrodynamics import Dynamics
-from ostk.astrodynamics.dynamics import Thruster
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.guidance_law import QLaw
@@ -66,13 +67,13 @@ from ostk.astrodynamics.guidance_law import QLaw
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[1], line 7[0m
-[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
-[1;32m      5[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcore[39;00m[38;5;21;01m.[39;00m[38;5;21;01mfilesystem[39;00m [38;5;28;01mimport[39;00m Directory
-[0;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md3[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Cuboid
-[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md3[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Composite
-[1;32m      9[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md3[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Point
+[0;31mImportError[0m                               Traceback (most recent call last)
+Cell [0;32mIn[1], line 39[0m
+[1;32m     37[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m [38;5;28;01mimport[39;00m StateBuilder
+[1;32m     38[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m [38;5;28;01mimport[39;00m NumericalSolver
+[0;32m---> 39[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m [38;5;28;01mimport[39;00m CoordinatesBroker, CoordinatesSubset
+[1;32m     40[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate_subset[39;00m [38;5;28;01mimport[39;00m CartesianPosition
+[1;32m     41[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate_subset[39;00m [38;5;28;01mimport[39;00m CartesianVelocity
 
-[0;31mModuleNotFoundError[0m: No module named 'ostk.mathematics.geometry.d3.objects'; 'ostk.mathematics.geometry.d3' is not a package
+[0;31mImportError[0m: cannot import name 'CoordinatesBroker' from 'ostk.astrodynamics.trajectory.state' (unknown location)
 

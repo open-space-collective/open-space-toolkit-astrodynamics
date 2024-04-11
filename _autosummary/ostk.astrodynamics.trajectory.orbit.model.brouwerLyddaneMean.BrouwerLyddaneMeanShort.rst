@@ -34,6 +34,7 @@ ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean.BrouwerLyddaneMeanS
       ~BrouwerLyddaneMeanShort.get_inclination
       ~BrouwerLyddaneMeanShort.get_mean_anomaly
       ~BrouwerLyddaneMeanShort.get_mean_motion
+      ~BrouwerLyddaneMeanShort.get_nodal_precession_rate
       ~BrouwerLyddaneMeanShort.get_orbital_period
       ~BrouwerLyddaneMeanShort.get_periapsis_radius
       ~BrouwerLyddaneMeanShort.get_raan

@@ -24,19 +24,19 @@ import pandas as pd
 import plotly.graph_objs as go
 
 from ostk.mathematics.geometry import Angle as MathAngle
-from ostk.mathematics.geometry.d2.objects import Point as Point2d
-from ostk.mathematics.geometry.d2.objects import LineString as LineString2d
-from ostk.mathematics.geometry.d2.objects import Polygon as Polygon2d
-from ostk.mathematics.geometry.d3.objects import Point as Point3d
-from ostk.mathematics.geometry.d3.objects import Polygon as Polygon3d
-from ostk.mathematics.geometry.d3.objects import Pyramid
-from ostk.mathematics.geometry.d3.objects import Cone
+from ostk.mathematics.geometry.d2.object import Point as Point2d
+from ostk.mathematics.geometry.d2.object import LineString as LineString2d
+from ostk.mathematics.geometry.d2.object import Polygon as Polygon2d
+from ostk.mathematics.geometry.d3.object import Point as Point3d
+from ostk.mathematics.geometry.d3.object import Polygon as Polygon3d
+from ostk.mathematics.geometry.d3.object import Pyramid
+from ostk.mathematics.geometry.d3.object import Cone
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 from ostk.mathematics.geometry.d3.transformation.rotation import RotationVector
 from ostk.mathematics.geometry.d3.transformation.rotation import RotationMatrix
 
-from ostk.physics.units import Length
-from ostk.physics.units import Angle
+from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.time import Duration
@@ -50,22 +50,22 @@ from ostk.physics.coordinate import Transform
 from ostk.physics.coordinate.frame.providers import Dynamic as DynamicFrameProvider
 from ostk.physics import Environment
 from ostk.physics.environment.object import Geometry
-from ostk.physics.environment.objects import Celestial
+from ostk.physics.environment.object import Celestial
 
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import Kepler
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.model import Kepler
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[1], line 7[0m
-[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objs[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
-[1;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m [38;5;28;01mimport[39;00m Angle [38;5;28;01mas[39;00m MathAngle
-[0;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md2[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Point [38;5;28;01mas[39;00m Point2d
-[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md2[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m LineString [38;5;28;01mas[39;00m LineString2d
-[1;32m      9[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m[38;5;21;01m.[39;00m[38;5;21;01md2[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m Polygon [38;5;28;01mas[39;00m Polygon2d
+Cell [0;32mIn[1], line 30[0m
+[1;32m     28[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate[39;00m [38;5;28;01mimport[39;00m Frame
+[1;32m     29[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate[39;00m [38;5;28;01mimport[39;00m Transform
+[0;32m---> 30[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate[39;00m[38;5;21;01m.[39;00m[38;5;21;01mframe[39;00m[38;5;21;01m.[39;00m[38;5;21;01mproviders[39;00m [38;5;28;01mimport[39;00m Dynamic [38;5;28;01mas[39;00m DynamicFrameProvider
+[1;32m     31[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m [38;5;28;01mimport[39;00m Environment
+[1;32m     32[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01menvironment[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobject[39;00m [38;5;28;01mimport[39;00m Geometry
 
-[0;31mModuleNotFoundError[0m: No module named 'ostk.mathematics.geometry.d2.objects'; 'ostk.mathematics.geometry.d2' is not a package
+[0;31mModuleNotFoundError[0m: No module named 'ostk.physics.coordinate.frame.providers'; 'ostk.physics.coordinate.frame' is not a package
 

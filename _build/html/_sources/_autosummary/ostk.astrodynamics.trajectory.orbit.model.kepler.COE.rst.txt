@@ -33,6 +33,7 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.get_inclination
       ~COE.get_mean_anomaly
       ~COE.get_mean_motion
+      ~COE.get_nodal_precession_rate
       ~COE.get_orbital_period
       ~COE.get_periapsis_radius
       ~COE.get_raan

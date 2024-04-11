@@ -24,8 +24,9 @@ import plotly.graph_objs as go
 
 from ostk.mathematics.objects import RealInterval
 
-from ostk.physics.units import Length
-from ostk.physics.units import Angle
+from ostk.physics import Environment
+from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.time import Duration
@@ -36,15 +37,14 @@ from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
-from ostk.physics import Environment
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.object.celestial import Earth
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.models import Kepler
-from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
-from ostk.astrodynamics.trajectory.orbit.models import SGP4
-from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+from ostk.astrodynamics.trajectory.orbit.model import Kepler
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 from ostk.astrodynamics.access import Generator as AccessGenerator
 ------------------
 
@@ -55,8 +55,8 @@ Cell [0;32mIn[1], line 5[0m
 [1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
 [1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objs[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
 [0;32m----> 5[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobjects[39;00m [38;5;28;01mimport[39;00m RealInterval
-[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01munits[39;00m [38;5;28;01mimport[39;00m Length
-[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01munits[39;00m [38;5;28;01mimport[39;00m Angle
+[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m [38;5;28;01mimport[39;00m Environment
+[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m[38;5;21;01m.[39;00m[38;5;21;01munit[39;00m [38;5;28;01mimport[39;00m Length
 
 [0;31mModuleNotFoundError[0m: No module named 'ostk.mathematics.objects'
 
