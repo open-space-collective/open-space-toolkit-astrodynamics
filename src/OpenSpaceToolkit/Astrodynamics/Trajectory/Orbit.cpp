@@ -704,10 +704,10 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                              std::pow(std::cos(inclination.inRadians()), 2.0);
                 temp1 = temp1 > 0.0 ? std::sqrt(temp1) : 0.0;
                 const Real temp2 = k - std::cos(inclination.inRadians());
-                const Real delta = (isPassDescending ? -1.0 : 1.0) * std::atan2(temp1, temp2) + Real::Pi();
+                const Real delta = (isPassDescending ? 1.0 : -1.0) * std::atan2(temp1, temp2);
 
                 const Quaternion q_LVLHGDGT_LVLHGD =
-                    Quaternion::RotationVector(RotationVector::X(Angle::Radians(delta))).toConjugate();
+                    Quaternion::RotationVector(RotationVector::X(Angle::Radians(delta)));
 
                 return (q_LVLHGDGT_LVLHGD * q_LVLHGD_GCRF).toNormalized();
             };
