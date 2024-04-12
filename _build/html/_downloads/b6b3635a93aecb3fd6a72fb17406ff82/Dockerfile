@@ -97,10 +97,9 @@ RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark
 
 ARG TARGETPLATFORM
 ARG OSTK_CORE_MAJOR="3"
-ARG OSTK_CORE_MINOR="0"
 
-## Force an image rebuild when new Core patch versions are detected
-ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR}.${OSTK_CORE_MINOR} /tmp/open-space-toolkit-core/versions.json
+## Force an image rebuild when new minor or Core patch versions are detected
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR} /tmp/open-space-toolkit-core/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
@@ -115,10 +114,9 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ARG TARGETPLATFORM
 ARG OSTK_IO_MAJOR="3"
-ARG OSTK_IO_MINOR="0"
 
-## Force an image rebuild when new IO patch versions are detected
-ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-io/git/matching-refs/tags/${OSTK_IO_MAJOR}.${OSTK_IO_MINOR} /tmp/open-space-toolkit-io/versions.json
+## Force an image rebuild when new IO minor or patch versions are detected
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-io/git/matching-refs/tags/${OSTK_IO_MAJOR} /tmp/open-space-toolkit-io/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
@@ -133,10 +131,9 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
 
 ARG TARGETPLATFORM
 ARG OSTK_MATHEMATICS_MAJOR="3"
-ARG OSTK_MATHEMATICS_MINOR="0"
 
-## Force an image rebuild when new Math patch versions are detected
-ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathematics/git/matching-refs/tags/${OSTK_MATHEMATICS_MAJOR}.${OSTK_MATHEMATICS_MINOR} /tmp/open-space-toolkit-mathematics/versions.json
+## Force an image rebuild when new Math minor or patch versions are detected
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathematics/git/matching-refs/tags/${OSTK_MATHEMATICS_MAJOR} /tmp/open-space-toolkit-mathematics/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
@@ -151,10 +148,9 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ARG TARGETPLATFORM
 ARG OSTK_PHYSICS_MAJOR="6"
-ARG OSTK_PHYSICS_MINOR="0"
 
-## Force an image rebuild when new Physics patch versions are detected
-ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
+## Force an image rebuild when new Physics minor or patch versions are detected
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR} /tmp/open-space-toolkit-physics/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
