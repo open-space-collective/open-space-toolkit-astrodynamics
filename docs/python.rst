@@ -8,7 +8,9 @@ Python API Documentation
 
    ostk.astrodynamics
    ostk.astrodynamics.access
+   ostk.astrodynamics.converters
    ostk.astrodynamics.conjunction.message.ccsds
+   ostk.astrodynamics.display
    ostk.astrodynamics.dynamics
    ostk.astrodynamics.event_condition
    ostk.astrodynamics.flight
@@ -26,3 +28,5 @@ Python API Documentation
    ostk.astrodynamics.trajectory.orbit.model.sgp4
    ostk.astrodynamics.trajectory.state
    ostk.astrodynamics.trajectory.state.coordinate_subset
+   ostk.astrodynamics.utilities
+   ostk.astrodynamics.viewer
