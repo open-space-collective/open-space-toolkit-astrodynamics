@@ -56,7 +56,7 @@ from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Sequence
 from ostk.astrodynamics.trajectory import StateBuilder
 from ostk.astrodynamics.trajectory.state import NumericalSolver
-from ostk.astrodynamics.trajectory.state import CoordinatesBroker, CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker, CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
@@ -71,7 +71,7 @@ from ostk.astrodynamics.guidance_law import QLaw
 Cell [0;32mIn[1], line 39[0m
 [1;32m     37[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m [38;5;28;01mimport[39;00m StateBuilder
 [1;32m     38[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m [38;5;28;01mimport[39;00m NumericalSolver
-[0;32m---> 39[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m [38;5;28;01mimport[39;00m CoordinatesBroker, CoordinatesSubset
+[0;32m---> 39[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m [38;5;28;01mimport[39;00m CoordinatesBroker, CoordinateSubset
 [1;32m     40[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate_subset[39;00m [38;5;28;01mimport[39;00m CartesianPosition
 [1;32m     41[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtrajectory[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstate[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcoordinate_subset[39;00m [38;5;28;01mimport[39;00m CartesianVelocity
 
