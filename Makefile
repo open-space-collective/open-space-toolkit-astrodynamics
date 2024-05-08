@@ -199,7 +199,7 @@ build-documentation-standalone: ## Build documentation (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_SHARED_LIBRARY=ON -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .. \
+		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_SHARED_LIBRARY=ON -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .." \
 		&& ostk-build \
 		&& ostk-install-python \
 		&& ostk-build-docs --notebooks Astrodynamics
