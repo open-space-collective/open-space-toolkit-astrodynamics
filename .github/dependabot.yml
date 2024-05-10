@@ -5,4 +5,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/bindings/python/" # Location of package manifests
     schedule:
-      interval: "monthly"
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
