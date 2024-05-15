@@ -334,6 +334,92 @@ The validation tests can be run with `ostk-validate` from within the dev contain
 | Mathematics | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
 | Physics     | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
 
+## Using OSTk in your applications
+
+To help jump-start using OSTk, here is a simple docker image that you can use to create your applications.
+### Docker
+```Docker
+ARG PYTHON_BASE_VERSION="3.11"
+
+# Open Space Toolkit install image
+
+FROM mcr.microsoft.com/vscode/devcontainers/python:${PYTHON_BASE_VERSION}
+
+ARG OSTK_DATA_LOCAL_CACHE="/var/cache/open-space-toolkit-data"
+
+## Install OSTk data install dependencies
+
+RUN apt-get update \
+    && apt-get install -y git-lfs \
+    && rm -rf /var/lib/apt/lists/*
+
+## Seed OSTk Data
+
+ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="${OSTK_DATA_LOCAL_CACHE}/data"
+
+RUN git clone \
+    --branch=v1 \
+    --single-branch \
+    --depth=1 \
+    https://github.com/open-space-collective/open-space-toolkit-data.git ${OSTK_DATA_LOCAL_CACHE} && \
+    chmod -R g+w ${OSTK_DATA_LOCAL_CACHE}
+
+## Update user id and group id with local ones
+
+ARG USERNAME="vscode"
+ARG USER_UID="1000"
+ARG USER_GID=${USER_UID}
+RUN sudo groupmod --gid ${USER_GID} ${USERNAME} && \
+    sudo usermod --uid ${USER_UID} --gid ${USER_GID} ${USERNAME}
+
+## Install dependencies
+
+COPY --chown=${USER_UID}:${USER_GID} pyproject.toml /home/${USERNAME}/tmp/
+
+RUN cd /home/${USERNAME}/tmp/ && \
+    pip --no-cache-dir install --user .[dev] && \
+    rm -rf /home/${USERNAME}/tmp/
+
+## Change default entrypoint to bin/zsh
+
+ENTRYPOINT ["/bin/zsh"]
+
+## Change default entrypoint folder to /app
+
+WORKDIR /app
+```
+
+### pyproject.toml
+And an accompanying `pyproject.toml` file that should be in the same folder.
+
+```toml
+[project]
+name = "my-app"
+requires-python = ">=3.11"
+
+dynamic = ["version"]
+
+dependencies = [
+    # Public libraries
+    "open-space-toolkit-astrodynamics==9.1.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Development libraries
+    "ipython~=8.24",
+]
+```
+
+### Build and Run
+You can then build the docker image via:
+```
+docker build . -t my_OSTk_app
+docker run -it --rm my_OSTk_app
+```
+
+Enjoy!
+
 ## Contribution
 
 Contributions are more than welcome!
