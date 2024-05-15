@@ -172,6 +172,10 @@ man_pages = [
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
+    "ostk.physics": (
+        "https://open-space-collective.github.io/open-space-toolkit-physics/_build/html/",
+        None,
+    ),
 }
 
 # -- Breathe configuration -------------------------------------------------
