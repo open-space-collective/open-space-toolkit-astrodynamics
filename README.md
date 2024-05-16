@@ -337,8 +337,10 @@ The validation tests can be run with `ostk-validate` from within the dev contain
 ## Using OSTk in your applications
 
 To help jump-start using OSTk, here is a simple docker image that you can use to create your applications.
+
 ### Docker
-```Docker
+
+```docker
 ARG PYTHON_BASE_VERSION="3.11"
 
 # Open Space Toolkit install image
@@ -390,6 +392,7 @@ WORKDIR /app
 ```
 
 ### pyproject.toml
+
 And an accompanying `pyproject.toml` file that should be in the same folder.
 
 ```toml
@@ -412,7 +415,8 @@ dev = [
 ```
 
 ### Build and Run
-You can then build the docker image via:
+
+You can then build the Docker image via:
 ```
 docker build . -t my_OSTk_app
 docker run -it --rm my_OSTk_app
