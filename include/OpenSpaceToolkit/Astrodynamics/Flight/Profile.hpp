@@ -3,17 +3,25 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 
+#include <set>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Axes.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
@@ -28,18 +36,25 @@ namespace flight
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
+using ostk::core::container::Tuple;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
+using ostk::core::type::Integer;
 using ostk::core::type::Unique;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Matrix3d;
 
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
+using ostk::physics::unit::Angle;
 
 using ostk::astrodynamics::flight::profile::Model;
 using ostk::astrodynamics::Trajectory;
@@ -57,6 +72,35 @@ class Profile
         Nadir,      ///< Nadir pointing mode (the spacecraft points points "directly down")
         Target,     ///< Target pointing mode (the spacecraft points to a given target position)
         Custom      ///< Custom pointing mode
+    };
+
+    enum class Axis
+    {
+        X,
+        Y,
+        Z
+    };
+
+    enum class TargetType
+    {
+        GeocentricNadir,
+        GeodeticNadir,
+        Trajectory,
+        Sun,
+        Moon,
+        Velocity
+    };
+
+    struct Target
+    {
+        TargetType type;
+        Axis axis;
+        bool antiDirection = false;
+
+        Integer getSign() const
+        {
+            return antiDirection ? -1 : 1;
+        }
     };
 
     /// @brief Constructor
@@ -173,10 +217,52 @@ class Profile
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );
 
+    /// @brief Construct a flight profile with custom target pointing
+    ///
+    /// @param anOrbit An orbit
+    /// @param anOrientationGenerator
+    /// @return Flight profile
+    static Profile GenerateTrackingProfile(
+        const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
+    );
+
+    /// @brief Generate a custom orientation
+    ///
+    /// @param anAlignmentAxis An alignment axis
+    /// @param aClockingAxis A clocking axis
+    /// @param anAngularOffset An angular offset
+    /// @param aTrajectory A trajectory
+
+    static std::function<Quaternion(const State&)> GenerateCustomOrientation(
+        const Target& anAlignmentTarget,
+        const Target& aClockingTarget,
+        const Angle& anAngularOffset = Angle::Zero(),
+        const Trajectory& aTrajectory = Trajectory::Undefined()
+    );
+
    private:
     Unique<Model> modelUPtr_;
 
     Profile();
+
+    static Vector3d GetGeocentricNadirDirectionVector(const State& state);
+
+    static Vector3d GetGeodeticNadirDirectionVector(const State& state);
+
+    static Vector3d GetCelestialDirectionVector(const State& state, const Celestial& aCelestial);
+
+    static Vector3d GetVelocityDirectionVector(const State& state);
+
+    static Vector3d GetTargetDirectionVector(const State& state, const Trajectory& targetTrajectory);
+
+    static Vector3d GetClockingAxisVector(const Vector3d& alignmentAxisVector, const Vector3d& clockingVector);
+
+    static RotationMatrix GetRotationMatrix(
+        const Axis& alignmentAxis,
+        const Axis& clockingAxis,
+        const Vector3d& alignmentAxisVector,
+        const Vector3d& clockingAxisVector
+    );
 };
 
 }  // namespace flight
