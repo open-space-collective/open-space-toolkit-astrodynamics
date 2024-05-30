@@ -29,6 +29,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
@@ -44,12 +45,14 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
-using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::object::celestial::Earth;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
+using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
@@ -79,10 +82,10 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -253,10 +256,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -366,10 +369,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -476,10 +479,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -586,10 +589,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -788,3 +791,103 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
         }
     }
 }
+
+class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
+    : public ::testing::TestWithParam<
+          std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>
+{
+};
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, TestName)
+{
+    const auto param = GetParam();
+    Profile::TargetType alignmentTargetType;
+    Profile::TargetType clockingTargetType;
+    Profile::Axis alignmentAxis;
+    Profile::Axis clockingAxis;
+    std::tie(alignmentAxis, clockingAxis, alignmentTargetType, clockingTargetType) = param;
+
+    if (alignmentAxis == clockingAxis)
+    {
+        EXPECT_THROW(
+            Profile::GenerateCustomOrientation(
+                {alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}
+            ),
+            ostk::core::error::RuntimeError
+        );
+        return;
+    }
+
+    if (alignmentTargetType == clockingTargetType)
+    {
+        EXPECT_THROW(
+            Profile::GenerateCustomOrientation(
+                {alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}
+            ),
+            ostk::core::error::RuntimeError
+        );
+        return;
+    }
+
+    if (((alignmentTargetType == Profile::TargetType::GeocentricNadir) &&
+         (clockingTargetType == Profile::TargetType::GeodeticNadir)) ||
+        ((clockingTargetType == Profile::TargetType::GeocentricNadir) &&
+         (alignmentTargetType == Profile::TargetType::GeodeticNadir)))
+    {
+        EXPECT_THROW(
+            Profile::GenerateCustomOrientation(
+                {alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}
+            ),
+            ostk::core::error::RuntimeError
+        );
+        return;
+    }
+
+    const Instant epoch = Instant::J2000();
+
+    const Orbit orbit = Orbit::SunSynchronous(
+        epoch, Length::Kilometers(500.0), Time(14, 0, 0), std::make_shared<Earth>(Earth::Default())
+    );
+
+    const State state = orbit.getStateAt(epoch);
+
+    const Map<Profile::Axis, Vector3d> axisMap = {
+        {Profile::Axis::X, {1.0, 0.0, 0.0}},
+        {Profile::Axis::Y, {0.0, 1.0, 0.0}},
+        {Profile::Axis::Z, {0.0, 0.0, 1.0}},
+    };
+
+    const std::function<Quaternion(const State&)> orientation =
+        Profile::GenerateCustomOrientation({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis});
+
+    const Quaternion q_B_GCRF = orientation(state);
+
+    const Vector3d alignmentAxisVector = axisMap.at(alignmentAxis);
+
+    const Vector3d estimatedAlignmentDirection = (q_B_GCRF.toConjugate() * alignmentAxisVector);
+
+    // TBI: Add more tests
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_Values,
+    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized,
+    ::testing::Combine(
+        ::testing::Values(Profile::Axis::X, Profile::Axis::Y, Profile::Axis::Z),
+        ::testing::Values(Profile::Axis::X, Profile::Axis::Y, Profile::Axis::Z),
+        ::testing::Values(
+            Profile::TargetType::GeocentricNadir,
+            Profile::TargetType::GeodeticNadir,
+            Profile::TargetType::Velocity,
+            Profile::TargetType::Sun,
+            Profile::TargetType::Moon
+        ),
+        ::testing::Values(
+            Profile::TargetType::GeocentricNadir,
+            Profile::TargetType::GeodeticNadir,
+            Profile::TargetType::Velocity,
+            Profile::TargetType::Sun,
+            Profile::TargetType::Moon
+        )
+    )
+);
