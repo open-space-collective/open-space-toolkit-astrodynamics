@@ -40,6 +40,11 @@ bool CoordinateSubset::operator!=(const CoordinateSubset& aCoordinateSubset) con
     return !((*this) == aCoordinateSubset);
 }
 
+Size CoordinateSubset::hash() const
+{
+    return std::hash<String>()(id_);
+}
+
 String CoordinateSubset::getId() const
 {
     return id_;

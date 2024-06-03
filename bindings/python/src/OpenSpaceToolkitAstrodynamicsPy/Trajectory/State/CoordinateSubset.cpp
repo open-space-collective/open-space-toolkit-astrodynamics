@@ -113,6 +113,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
 
         .def("__eq__", &CoordinateSubset::operator==)
         .def("__ne__", &CoordinateSubset::operator!=)
+        .def("__hash__", &CoordinateSubset::hash)
 
         .def(
             "get_id",

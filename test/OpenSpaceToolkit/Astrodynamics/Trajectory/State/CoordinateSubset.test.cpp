@@ -75,6 +75,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, NotEqua
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Hash)
+{
+    {
+        EXPECT_NO_THROW(defaultCoordinateSubset_.hash());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Getters)
 {
     {
