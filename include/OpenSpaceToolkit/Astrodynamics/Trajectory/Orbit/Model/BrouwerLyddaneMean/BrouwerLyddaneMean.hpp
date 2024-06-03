@@ -98,6 +98,9 @@ class BrouwerLyddaneMean : public COE
     COE::CartesianState getCartesianState(const Derived &aGravitationalParameter, const Shared<const Frame> &aFrameSPtr)
         const;
 
+    /// @brief Convert to COE
+    ///
+    /// @return COE
     virtual COE toCOE() const = 0;
 
    protected:
