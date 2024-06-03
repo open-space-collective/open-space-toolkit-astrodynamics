@@ -46,9 +46,6 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-class BrouwerLyddaneMeanLong;   // Forward declaration
-class BrouwerLyddaneMeanShort;  // Forward declaration
-
 /// @brief Classical Orbital Elements (COE)
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Orbital_elements
