@@ -63,6 +63,11 @@ class CoordinateSubset
     /// @return True if CoordinateSubsets are not equal
     bool operator!=(const CoordinateSubset& aCoordinateSubset) const;
 
+    /// @brief Return the hash value of the instance
+    ///
+    /// @return The hash value of the instance
+    Size hash() const;
+
     /// @brief Return the unique identifier of the instance
     ///
     /// @return The unique identifier of the instance

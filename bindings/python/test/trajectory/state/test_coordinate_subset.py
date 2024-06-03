@@ -30,6 +30,9 @@ class TestCoordinateSubset:
     def test_ne(self, coordinate_subset: CoordinateSubset):
         assert (coordinate_subset != coordinate_subset) == False
 
+    def test_hash(self, coordinate_subset: CoordinateSubset):
+        assert hash(coordinate_subset) is not None
+
     def test_get_id(self, coordinate_subset: CoordinateSubset):
         assert coordinate_subset.get_id() is not None
 
