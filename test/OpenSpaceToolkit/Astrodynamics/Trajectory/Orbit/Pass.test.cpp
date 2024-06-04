@@ -682,6 +682,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetEndInstant)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
+{
+    {
+        EXPECT_THROW(Pass::Undefined().getInterval(), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        EXPECT_TRUE(defaultPass_.getInterval().isDefined());
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            Instant::Undefined(),
+            defaultInstantAtPassBreak_,
+        };
+        EXPECT_FALSE(pass.getInterval().isDefined());
+    }
+
+    {
+        EXPECT_EQ(
+            defaultPass_.getInterval(), Interval::Closed(defaultInstantAtAscendingNode_, defaultInstantAtPassBreak_)
+        );
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtAscendingNode)
 {
     {

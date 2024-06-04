@@ -158,6 +158,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             )doc"
         )
         .def(
+            "get_interval",
+            &Pass::getInterval,
+            R"doc(
+                Get the interval of the pass. Undefined if the pass is not complete.
+
+                Returns:
+                    Interval: The interval of the pass.
+            )doc"
+        )
+        .def(
             "get_instant_at_ascending_node",
             &Pass::accessInstantAtAscendingNode,
             R"doc(

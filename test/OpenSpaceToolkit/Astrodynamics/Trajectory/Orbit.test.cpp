@@ -1155,29 +1155,29 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
             Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
         )));
 
-        // for (const auto &referenceRow : referenceData)
-        // {
-        //     const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
-        //     const Instant referencePassStartInstant =
-        //         Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
-        //     const Instant referencePassEndInstant =
-        //         Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+        for (const auto &referenceRow : referenceData)
+        {
+            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const Instant referencePassStartInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            const Instant referencePassEndInstant =
+                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
 
-        //     const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
+            const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
 
-        //     EXPECT_TRUE(pass.isDefined());
+            EXPECT_TRUE(pass.isDefined());
 
-        //     EXPECT_EQ(Pass::Type::Complete, pass.getType());
+            EXPECT_EQ(Pass::Type::Complete, pass.getType());
 
-        //     EXPECT_GT(
-        //         Duration::Microseconds(1.0),
-        //         Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
-        //     );
-        //     EXPECT_GT(
-        //         Duration::Microseconds(1.0),
-        //         Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
-        //     );
-        // }
+            EXPECT_GT(
+                Duration::Microseconds(1.0),
+                Duration::Between(referencePassStartInstant, pass.accessInstantAtAscendingNode()).getAbsolute()
+            );
+            EXPECT_GT(
+                Duration::Microseconds(1.0),
+                Duration::Between(referencePassEndInstant, pass.accessInstantAtPassBreak()).getAbsolute()
+            );
+        }
     }
 }
 

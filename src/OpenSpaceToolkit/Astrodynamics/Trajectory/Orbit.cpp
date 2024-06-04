@@ -431,12 +431,12 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
 
     Integer revolutionNumber = Integer::Undefined();
 
-    // Check if the pass is already within pass Map
+    // Check if the Pass is already within Pass map
     for (const auto& passIt : this->passMap_)
     {
         const Pass& pass = passIt.second;
 
-        if (pass.accessInstantAtPassBreak() <= currentInstant)
+        if (pass.getInterval().contains(currentInstant))
         {
             revolutionNumber = passIt.first;
             break;
@@ -1321,7 +1321,7 @@ Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Inte
         }
     );
 
-    const Instant& epoch = instants.accessFirst();
+    const Instant& epoch = aModel.getEpoch();
 
     const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> double
     {

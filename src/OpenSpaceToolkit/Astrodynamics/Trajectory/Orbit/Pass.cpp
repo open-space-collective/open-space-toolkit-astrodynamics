@@ -247,6 +247,16 @@ Instant Pass::getEndInstant() const
     return instantAtAscendingNode_;
 }
 
+const Interval Pass::getInterval() const
+{
+    if (type_ == Pass::Type::Complete)
+    {
+        return Interval::Closed(instantAtAscendingNode_, instantAtPassBreak_);
+    }
+
+    return Interval::Undefined();
+}
+
 const Instant& Pass::accessInstantAtAscendingNode() const
 {
     if (!this->isDefined())
