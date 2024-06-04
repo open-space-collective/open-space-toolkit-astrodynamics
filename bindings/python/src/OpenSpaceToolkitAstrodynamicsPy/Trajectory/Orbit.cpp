@@ -227,7 +227,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                 )doc",
                 arg("revolution_number"),
-                arg_v("duration", Duration::Minutes(5.0), "Duration.minutes(5.0)")
+                arg_v("duration", Duration::Minutes(10.0), "Duration.minutes(10.0)")
             )
             .def(
                 "get_orbital_frame",
