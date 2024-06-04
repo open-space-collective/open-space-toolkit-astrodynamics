@@ -98,6 +98,10 @@ class TestOrbit:
         assert isinstance(pass_, Pass)
         assert pass_.is_defined()
 
+        assert (
+            orbit.get_pass_with_revolution_number(0, Duration.minutes(10.0)) is not None
+        )
+
     def test_undefined(self):
         assert Orbit.undefined().is_defined() is False
 

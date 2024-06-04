@@ -763,6 +763,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             );
         }
     }
+
+    {
+        // Environment setup
+
+        const Environment environment = Environment::Default();
+
+        // Orbit setup
+
+        const TLE tle = {
+            "1  7276U 74026A   19177.06815612 -.00000040  00000-0 -59146-3 0  9999",
+            "2  7276  63.5942  41.6062 6850823 289.3685  12.0680  2.45095050222705",
+        };
+
+        const SGP4 sgp4 = SGP4(tle);
+
+        const Orbit orbit = {sgp4, environment.accessCelestialObjectWithName("Earth")};
+
+        const Pass pass = orbit.getPassWithRevolutionNumber(22700, Duration::Minutes(30.0));
+
+        EXPECT_TRUE(pass.isDefined());
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)

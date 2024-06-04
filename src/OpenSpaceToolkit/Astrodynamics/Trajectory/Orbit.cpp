@@ -170,7 +170,7 @@ Pass Orbit::getPassAt(const Instant& anInstant) const
     return this->getPassWithRevolutionNumber(this->getRevolutionNumberAt(anInstant));
 }
 
-Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
+Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const Duration& aStepSize) const
 {
     // [TBI] Dead with equatorial case
 
@@ -239,14 +239,16 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
         {
             return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
                 .getPosition()
-                .accessCoordinates()[2];
+                .accessCoordinates()
+                .z();
         };
 
         const auto getZDot = [this, &epoch](const double& aDurationInSeconds) -> Real
         {
             return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
                 .getVelocity()
-                .accessCoordinates()[2];
+                .accessCoordinates()
+                .z();
         };
 
         while ((!currentPass.isDefined()) || (currentPass.getRevolutionNumber() != aRevolutionNumber))
@@ -256,10 +258,6 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
             Instant previousInstant = currentPass.isDefined()
                                         ? (currentPass.accessInstantAtPassBreak() + Duration::Microseconds(1.0))
                                         : this->modelPtr_->getEpoch();
-
-            Duration stepDuration = (currentPass.isDefined() && currentPass.isComplete())
-                                      ? currentPass.getDuration() / 5.0
-                                      : Duration::Minutes(10.0);  // [TBM] param
 
             if (currentRevolutionNumber <= aRevolutionNumber)  // Forward propagation
             {
@@ -273,7 +271,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
                 while (true)
                 {
-                    const Instant currentInstant = previousInstant + stepDuration;
+                    const Instant currentInstant = previousInstant + aStepSize;
 
                     const State currentState = this->modelPtr_->calculateStateAt(currentInstant);
                     const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
