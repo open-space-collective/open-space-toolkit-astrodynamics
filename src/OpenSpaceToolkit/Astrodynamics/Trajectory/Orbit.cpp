@@ -248,7 +248,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber()
                                                                       : this->modelPtr_->getRevolutionNumberAtEpoch();
             Instant previousInstant = currentPass.isDefined()
-                                        ? (currentPass.accessInstantAtPassBreak() + Duration::Seconds(10.0))
+                                        ? (currentPass.accessInstantAtPassBreak() + Duration::Microseconds(1.0))
                                         : this->modelPtr_->getEpoch();
 
             Duration stepDuration = aStepDuration;
