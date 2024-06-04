@@ -28,12 +28,12 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
-using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::Dynamics;
-using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 static const int DEFAULT_ITERATIONS = 10;
 

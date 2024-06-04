@@ -12,9 +12,9 @@
 
 using ostk::core::type::Integer;
 
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
-using ostk::physics::time::Duration;
 
 using ostk::astrodynamics::trajectory::orbit::Pass;
 

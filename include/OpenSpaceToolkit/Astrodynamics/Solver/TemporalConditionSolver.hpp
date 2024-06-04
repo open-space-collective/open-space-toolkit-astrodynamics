@@ -17,11 +17,11 @@ namespace astrodynamics
 namespace solver
 {
 
-using ostk::core::type::Size;
 using ostk::core::container::Array;
+using ostk::core::type::Size;
 
-using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 #define DEFAULT_MAXIMUM_ITERATION_COUNT 500

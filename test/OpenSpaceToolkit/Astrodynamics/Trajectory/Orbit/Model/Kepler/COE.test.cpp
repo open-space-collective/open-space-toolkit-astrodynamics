@@ -17,26 +17,26 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Real;
-using ostk::core::type::String;
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
+using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::Duration;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE : public ::testing::Test
 {

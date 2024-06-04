@@ -24,9 +24,9 @@
 
 int main()
 {
-    using ostk::core::type::Shared;
-    using ostk::core::type::Real;
     using ostk::core::container::Array;
+    using ostk::core::type::Real;
+    using ostk::core::type::Shared;
 
     using ostk::mathematics::object::Vector3d;
     using Point2d = ostk::mathematics::geometry::d2::object::Point;
@@ -38,30 +38,30 @@ int main()
     using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
     using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 
-    using ostk::physics::unit::Length;
-    using ostk::physics::unit::Angle;
-    using ostk::physics::unit::Derived;
-    using ostk::physics::time::Scale;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::DateTime;
     using ostk::physics::coordinate::Frame;
     using ostk::physics::coordinate::frame::Provider;
+    using ostk::physics::time::DateTime;
+    using ostk::physics::time::Duration;
+    using ostk::physics::time::Instant;
+    using ostk::physics::time::Interval;
+    using ostk::physics::time::Scale;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Length;
     using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
-    using ostk::physics::coordinate::Transform;
     using ostk::physics::coordinate::Position;
-    using ostk::physics::coordinate::Velocity;
     using ostk::physics::coordinate::spherical::LLA;
+    using ostk::physics::coordinate::Transform;
+    using ostk::physics::coordinate::Velocity;
     using ostk::physics::Environment;
-    using ostk::physics::environment::object::Geometry;
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::environment::object::celestial::Earth;
+    using ostk::physics::environment::object::Geometry;
 
     using ostk::astrodynamics::trajectory::Orbit;
-    using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::orbit::model::Kepler;
     using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+    using ostk::astrodynamics::trajectory::State;
 
     // Environment
 

@@ -38,8 +38,8 @@ using ostk::core::filesystem::Path;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
-using ostk::core::type::String;
 using ostk::core::type::Size;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 
@@ -59,14 +59,14 @@ using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::Dynamics;
-using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
+using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public ::testing::Test

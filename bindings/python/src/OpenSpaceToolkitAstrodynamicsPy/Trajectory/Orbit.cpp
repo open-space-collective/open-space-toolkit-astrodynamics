@@ -22,11 +22,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::physics::unit::Angle;
 
     using ostk::astrodynamics::trajectory::Orbit;
-    using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::orbit::model::Kepler;
     using ostk::astrodynamics::trajectory::orbit::model::Propagated;
-    using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+    using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+    using ostk::astrodynamics::trajectory::State;
 
     {
         class_<Orbit, ostk::astrodynamics::Trajectory, Shared<Orbit>> orbit_class(

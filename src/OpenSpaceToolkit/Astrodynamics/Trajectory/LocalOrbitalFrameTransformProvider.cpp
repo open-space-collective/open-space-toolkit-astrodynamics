@@ -20,14 +20,14 @@ namespace astrodynamics
 namespace trajectory
 {
 
-using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 
-using ostk::physics::coordinate::Vector3d;
 using ostk::physics::coordinate::frame::Transform;
 using ostk::physics::coordinate::Position;
-using ostk::physics::coordinate::Velocity;
 using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::coordinate::Vector3d;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
 
 Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(

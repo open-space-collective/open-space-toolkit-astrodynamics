@@ -19,8 +19,8 @@ namespace astrodynamics
 namespace dynamics
 {
 
-using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::unit::Mass;
 

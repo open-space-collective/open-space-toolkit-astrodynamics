@@ -32,10 +32,10 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::container::Tuple;
 using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::container::Table;
+using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
@@ -47,10 +47,10 @@ using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::Environment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
@@ -65,12 +65,12 @@ using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::orbit::Pass;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::orbit::Pass;
+using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {

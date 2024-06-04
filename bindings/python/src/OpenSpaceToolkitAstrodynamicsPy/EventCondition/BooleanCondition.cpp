@@ -6,14 +6,14 @@
 
 using namespace pybind11;
 
-using ostk::core::type::String;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::eventcondition::BooleanCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)

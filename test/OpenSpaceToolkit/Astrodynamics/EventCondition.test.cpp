@@ -21,8 +21,8 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::trajectory::State;

@@ -23,12 +23,12 @@ namespace model
 namespace kepler
 {
 
-using ostk::physics::unit::Derived;
-using ostk::physics::unit::Length;
-using ostk::physics::unit::Time;
 using ostk::physics::unit::Angle;
-using ostk::physics::unit::Mass;
+using ostk::physics::unit::Derived;
 using ostk::physics::unit::ElectricCurrent;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
+using ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;

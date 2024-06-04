@@ -27,8 +27,8 @@ using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::RootSolver;
+using ostk::astrodynamics::trajectory::State;
 using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 
 /// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics

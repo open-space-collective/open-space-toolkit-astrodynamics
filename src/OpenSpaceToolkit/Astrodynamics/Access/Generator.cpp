@@ -14,11 +14,11 @@
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
 
+using ostk::astrodynamics::solver::TemporalConditionSolver;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::celestial::Earth;
-using ostk::astrodynamics::solver::TemporalConditionSolver;
 
 namespace ostk
 {

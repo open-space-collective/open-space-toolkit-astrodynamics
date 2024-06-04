@@ -6,12 +6,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
 {
     using namespace pybind11;
 
-    using ostk::core::type::String;
     using ostk::core::type::Shared;
+    using ostk::core::type::String;
 
-    using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
     using ostk::astrodynamics::GuidanceLaw;
     using ostk::astrodynamics::guidancelaw::ConstantThrust;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 
     {
         class_<ConstantThrust, GuidanceLaw, Shared<ConstantThrust>>(

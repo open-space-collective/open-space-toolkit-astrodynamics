@@ -31,25 +31,25 @@ namespace astrodynamics
 namespace trajectory
 {
 
-using ostk::core::type::Uint8;
-using ostk::core::type::Real;
 using ostk::core::type::Index;
+using ostk::core::type::Real;
+using ostk::core::type::Uint8;
 
 using ostk::mathematics::curvefitting::Interpolator;
-using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
+using ostk::mathematics::object::Vector3d;
 
+using orbit::model::Kepler;
+using orbit::model::kepler::COE;
+using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Derived;
-using ostk::physics::unit::Mass;
 using ostk::physics::unit::Length;
-using ostk::physics::environment::object::celestial::Sun;
-using orbit::model::Kepler;
-using orbit::model::kepler::COE;
+using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::RootSolver;
 
@@ -870,8 +870,8 @@ Orbit Orbit::GeoSynchronous(
 {
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::spherical::LLA;
 
     using orbit::model::Kepler;
     using orbit::model::kepler::COE;

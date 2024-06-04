@@ -18,9 +18,9 @@ namespace astrodynamics
 namespace eventcondition
 {
 
+using ostk::core::container::Pair;
 using ostk::core::type::Real;
 using ostk::core::type::String;
-using ostk::core::container::Pair;
 
 using ostk::physics::unit::Angle;
 

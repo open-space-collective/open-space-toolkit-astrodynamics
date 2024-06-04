@@ -28,12 +28,12 @@ using ostk::core::filesystem::Path;
 using ostk::core::type::Real;
 using ostk::core::type::String;
 
-using ostk::physics::Environment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
-using ostk::physics::coordinate::Velocity;
-using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::spherical::AER;
+using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -45,14 +45,14 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Access;
-using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::access::Generator;
+using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
-using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
 {

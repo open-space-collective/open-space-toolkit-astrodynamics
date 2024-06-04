@@ -38,8 +38,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::State;
 
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {

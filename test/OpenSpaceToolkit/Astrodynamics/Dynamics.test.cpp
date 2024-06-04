@@ -17,14 +17,14 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
-using ostk::physics::coordinate::Frame;
 
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class DynamicsMock : public Dynamics
 {

@@ -6,9 +6,9 @@
 
 using namespace pybind11;
 
-using ostk::core::type::String;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 

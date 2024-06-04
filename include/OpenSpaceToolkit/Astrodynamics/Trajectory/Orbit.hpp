@@ -33,8 +33,8 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
-using ostk::core::container::Pair;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::type::Index;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
@@ -49,8 +49,8 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Trajectory;
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::orbit::Pass;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Gravitationally curved trajectory of an object
 ///

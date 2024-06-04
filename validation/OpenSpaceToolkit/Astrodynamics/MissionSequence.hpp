@@ -31,8 +31,8 @@ namespace validation
 {
 
 using ostk::astrodynamics::validation::Parser;
-using ostk::astrodynamics::validation::ToolComparison;
 using ostk::astrodynamics::validation::QuantityComparison;
+using ostk::astrodynamics::validation::ToolComparison;
 
 using ostk::core::container::Array;
 using ostk::core::container::Dictionary;

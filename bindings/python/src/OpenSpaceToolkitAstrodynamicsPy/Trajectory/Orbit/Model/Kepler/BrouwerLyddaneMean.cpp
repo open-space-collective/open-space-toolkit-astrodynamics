@@ -10,11 +10,11 @@
 using namespace pybind11;
 
 using ostk::core::type::Real;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Angle;
+using ostk::physics::unit::Length;
 
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 // Trampoline class for virtual member functions
 class PyBrouwerLyddaneMean : public BrouwerLyddaneMean

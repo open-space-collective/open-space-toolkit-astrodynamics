@@ -37,8 +37,8 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::MatrixXd;
 
-using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::Dynamics;

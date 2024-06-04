@@ -41,8 +41,8 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
-using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::flight::profile::Model;
+using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief Spacecraft flight profile

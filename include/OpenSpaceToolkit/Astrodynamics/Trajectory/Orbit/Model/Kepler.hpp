@@ -36,8 +36,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 
 #define DEFAULT_IN_FIXED_FRAME false
 

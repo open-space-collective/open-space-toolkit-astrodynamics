@@ -17,8 +17,8 @@ namespace guidancelaw
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
 ConstantThrust::ConstantThrust(const LocalOrbitalFrameDirection& aThrustDirection)
     : GuidanceLaw("Constant Thrust"),

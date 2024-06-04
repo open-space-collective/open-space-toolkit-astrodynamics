@@ -14,8 +14,8 @@ using ostk::astrodynamics::validation::ToolComparison;
 
 using ostk::core::container::Array;
 using ostk::core::container::Table;
-using ostk::core::filesystem::Path;
 using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -25,15 +25,15 @@ using ostk::core::type::String;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
-using ostk::physics::time::Instant;
-using ostk::physics::time::Scale;
-using ostk::physics::time::DateTime;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 

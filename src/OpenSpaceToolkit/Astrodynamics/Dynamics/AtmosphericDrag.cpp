@@ -19,11 +19,11 @@ namespace dynamics
 using ostk::core::type::Real;
 using ostk::core::type::String;
 
+using ostk::physics::coordinate::Position;
 using ostk::physics::Unit;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
-using ostk::physics::coordinate::Position;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;

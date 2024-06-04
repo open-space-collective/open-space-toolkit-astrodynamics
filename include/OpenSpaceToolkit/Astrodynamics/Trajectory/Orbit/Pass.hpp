@@ -21,8 +21,8 @@ namespace orbit
 using ostk::core::type::Integer;
 using ostk::core::type::String;
 
-using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
 /// @class Pass
 /// @brief A revolution of an orbiting object.

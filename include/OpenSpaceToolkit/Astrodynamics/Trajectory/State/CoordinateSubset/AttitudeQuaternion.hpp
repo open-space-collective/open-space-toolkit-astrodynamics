@@ -28,8 +28,8 @@ using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::physics::coordinate::Transform;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief  Attitude Quaternion (XYZS format).
 

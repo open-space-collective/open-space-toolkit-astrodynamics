@@ -21,8 +21,8 @@ namespace model
 namespace blm
 {
 
-using ostk::core::type::Size;
 using ostk::core::type::Integer;
+using ostk::core::type::Size;
 
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 

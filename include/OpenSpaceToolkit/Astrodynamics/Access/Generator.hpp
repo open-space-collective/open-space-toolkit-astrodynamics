@@ -35,14 +35,14 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Interval;
 
-using ostk::physics::Environment;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::AER;
+using ostk::physics::Environment;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
-using ostk::physics::environment::object::Celestial;
 
 using ostk::astrodynamics::Access;
 using ostk::astrodynamics::Trajectory;

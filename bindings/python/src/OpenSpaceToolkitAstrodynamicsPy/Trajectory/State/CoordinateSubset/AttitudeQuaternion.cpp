@@ -4,11 +4,11 @@
 
 using namespace pybind11;
 
-using ostk::core::type::String;
 using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_AttitudeQuaternion(
     pybind11::module& aModule

@@ -9,8 +9,8 @@ using ostk::core::type::Integer;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+using ostk::astrodynamics::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pybind11::module& aModule)
 {

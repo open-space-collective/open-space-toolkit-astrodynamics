@@ -36,35 +36,35 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::container::Tuple;
 using ostk::core::container::Table;
-using ostk::core::type::Shared;
-using ostk::core::type::String;
+using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
 using ostk::mathematics::geometry::d3::object::Point;
-using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::environment::ephemeris::Analytical;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
 using ostk::physics::environment::object::celestial::Sun;
-using ostk::physics::environment::ephemeris::Analytical;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
-using ostk::physics::unit::Mass;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Mass;
 using ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
@@ -72,8 +72,8 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
-using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;

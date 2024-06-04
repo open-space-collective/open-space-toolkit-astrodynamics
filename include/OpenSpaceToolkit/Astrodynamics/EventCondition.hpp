@@ -16,8 +16,8 @@ namespace ostk
 namespace astrodynamics
 {
 
-using ostk::core::type::String;
 using ostk::core::type::Real;
+using ostk::core::type::String;
 
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;

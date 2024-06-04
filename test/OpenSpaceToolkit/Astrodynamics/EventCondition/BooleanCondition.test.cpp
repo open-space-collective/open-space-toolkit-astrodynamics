@@ -25,14 +25,14 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::eventcondition::BooleanCondition;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::StateBuilder;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::testing::Test
 {

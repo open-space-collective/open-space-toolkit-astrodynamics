@@ -7,10 +7,10 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Shared;
-using ostk::core::type::String;
-using ostk::core::type::Size;
 using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 

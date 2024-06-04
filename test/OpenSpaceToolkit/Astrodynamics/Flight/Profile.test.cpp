@@ -40,8 +40,10 @@ using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::Environment;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -51,16 +53,14 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
-using ostk::physics::coordinate::Position;
-using ostk::physics::coordinate::Velocity;
 
 using ostk::astrodynamics::flight::Profile;
-using ostk::astrodynamics::flight::profile::model::Transform;
 using ostk::astrodynamics::flight::profile::model::Tabulated;
-using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::flight::profile::model::Transform;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 {

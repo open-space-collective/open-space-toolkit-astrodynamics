@@ -8,20 +8,20 @@
 using ostk::core::container::Array;
 using ostk::core::container::String;
 
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
-using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-using ostk::physics::time::Interval;
-using ostk::physics::time::Instant;
-using ostk::physics::time::DateTime;
-using ostk::physics::time::Scale;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::coordinate::Frame;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
 
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::flight::profile::model::Tabulated;
+using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::testing::Test
 {

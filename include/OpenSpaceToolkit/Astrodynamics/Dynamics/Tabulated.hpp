@@ -25,12 +25,12 @@ namespace dynamics
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Shared;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
-using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;

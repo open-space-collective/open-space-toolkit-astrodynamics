@@ -27,8 +27,8 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::unit::Mass;
 
-using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::testing::Test
 {

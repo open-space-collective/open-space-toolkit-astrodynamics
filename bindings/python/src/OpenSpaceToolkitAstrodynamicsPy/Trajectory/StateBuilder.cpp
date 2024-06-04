@@ -6,15 +6,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 {
     using namespace pybind11;
 
-    using ostk::core::type::Shared;
     using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
 
     using ostk::astrodynamics::trajectory::State;
-    using ostk::astrodynamics::trajectory::StateBuilder;
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+    using ostk::astrodynamics::trajectory::StateBuilder;
 
     class_<StateBuilder>(
         aModule,
