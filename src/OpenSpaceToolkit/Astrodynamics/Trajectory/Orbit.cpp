@@ -255,12 +255,12 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             if (currentPass.isDefined() && currentPass.isComplete())
             {
                 Array<Duration> durations = {
-                    (currentPass.accessInstantAtNorthPoint() - currentPass.accessInstantAtAscendingNode()) / 10.0,
-                    (currentPass.accessInstantAtDescendingNode() - currentPass.accessInstantAtNorthPoint()) / 10.0,
-                    (currentPass.accessInstantAtSouthPoint() - currentPass.accessInstantAtDescendingNode()) / 10.0,
-                    (currentPass.accessInstantAtPassBreak() - currentPass.accessInstantAtSouthPoint()) / 10.0,
+                    (currentPass.accessInstantAtNorthPoint() - currentPass.accessInstantAtAscendingNode()),
+                    (currentPass.accessInstantAtDescendingNode() - currentPass.accessInstantAtNorthPoint()),
+                    (currentPass.accessInstantAtSouthPoint() - currentPass.accessInstantAtDescendingNode()),
+                    (currentPass.accessInstantAtPassBreak() - currentPass.accessInstantAtSouthPoint()),
                 };
-                stepDuration = *std::min_element(durations.begin(), durations.end());
+                stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
             }
 
             if (currentRevolutionNumber <= aRevolutionNumber)  // Forward propagation
