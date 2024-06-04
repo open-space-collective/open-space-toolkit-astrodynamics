@@ -220,14 +220,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         revolution_number (int): The revolution number.
-                        step_size (Duration): The step size of the pass computation algorithm.
+                        step_duration (Duration): The initial step duration used for the pass computation algorithm.
 
                     Returns:
                         Pass: The pass.
 
                 )doc",
                 arg("revolution_number"),
-                arg_v("duration", Duration::Minutes(10.0), "Duration.minutes(10.0)")
+                arg_v("step_duration", Duration::Minutes(10.0), "Duration.minutes(10.0)")
             )
             .def(
                 "get_orbital_frame",

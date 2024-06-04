@@ -103,7 +103,7 @@ class Orbit : public Trajectory
     Pass getPassAt(const Instant& anInstant) const;
 
     Pass getPassWithRevolutionNumber(
-        const Integer& aRevolutionNumber, const Duration& aStepSize = Duration::Minutes(10.0)
+        const Integer& aRevolutionNumber, const Duration& aStepDuration = Duration::Minutes(10.0)
     ) const;
 
     Shared<const Frame> getOrbitalFrame(const Orbit::FrameType& aFrameType) const;
