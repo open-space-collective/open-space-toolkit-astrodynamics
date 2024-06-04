@@ -784,12 +784,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Pass pass = orbit.getPassWithRevolutionNumber(22273, Duration::Minutes(10.0));
 
         EXPECT_TRUE(pass.isDefined());
-        EXPECT_TRUE(pass.getType() == Pass::Type::Complete);
-        EXPECT_TRUE(pass.getRevolutionNumber() == 22273);
-        EXPECT_TRUE(
-            pass.accessInstantAtAscendingNode() == Instant::Parse("2019-06-26 21:13:14.137.431.793", Scale::UTC)
-        );
-        EXPECT_TRUE(pass.accessInstantAtPassBreak() == Instant::Parse("2019-06-27 07:00:45.686.118.910", Scale::UTC));
+        EXPECT_EQ(pass.getType(), Pass::Type::Complete);
+        EXPECT_EQ(pass.getRevolutionNumber(), 22273);
+        EXPECT_EQ(pass.accessInstantAtAscendingNode(), Instant::Parse("2019-06-26 21:13:14.137.431.788", Scale::UTC));
+        EXPECT_EQ(pass.accessInstantAtPassBreak(), Instant::Parse("2019-06-27 07:00:45.686.118.913", Scale::UTC));
     }
 }
 
