@@ -20,11 +20,11 @@ namespace coordinatesubset
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
-using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 
 /// @brief Cartesian Velocity.

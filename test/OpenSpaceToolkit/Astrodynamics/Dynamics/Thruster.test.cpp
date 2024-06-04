@@ -15,22 +15,22 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
+using ostk::core::container::Array;
+using ostk::core::type::Index;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
-using ostk::core::type::Real;
-using ostk::core::type::Index;
-using ostk::core::container::Array;
 
-using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::flight::system::SatelliteSystem;
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::GuidanceLaw;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 

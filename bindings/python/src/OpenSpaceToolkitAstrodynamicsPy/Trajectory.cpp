@@ -17,8 +17,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
 {
     using namespace pybind11;
 
-    using ostk::core::type::Shared;
     using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
     using ostk::astrodynamics::Trajectory;
     using ostk::astrodynamics::trajectory::State;

@@ -6,8 +6,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 {
     using namespace pybind11;
 
-    using ostk::core::type::Shared;
     using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
     using ostk::mathematics::curvefitting::Interpolator;
 

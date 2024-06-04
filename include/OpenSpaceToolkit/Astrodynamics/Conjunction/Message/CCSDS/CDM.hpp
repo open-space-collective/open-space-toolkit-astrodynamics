@@ -50,9 +50,9 @@ using ostk::core::type::String;
 using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::frame::provider::iau::Theory;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::coordinate::frame::provider::iau::Theory;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Length;

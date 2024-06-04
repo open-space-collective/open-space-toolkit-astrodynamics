@@ -17,17 +17,17 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Real;
-using ostk::core::type::Index;
 using ostk::core::container::Tuple;
+using ostk::core::type::Index;
+using ostk::core::type::Real;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
 
-using ostk::physics::unit::Angle;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 

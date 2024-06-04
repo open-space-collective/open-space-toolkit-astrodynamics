@@ -19,9 +19,9 @@ using ostk::core::type::Index;
 using ostk::mathematics::object::Vector6d;
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;

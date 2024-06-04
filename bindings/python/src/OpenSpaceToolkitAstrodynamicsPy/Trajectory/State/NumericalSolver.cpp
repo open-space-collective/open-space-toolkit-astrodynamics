@@ -12,9 +12,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
     using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
     using ostk::astrodynamics::EventCondition;
+    using ostk::astrodynamics::RootSolver;
     using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::state::NumericalSolver;
-    using ostk::astrodynamics::RootSolver;
 
     typedef std::function<MathNumericalSolver::StateVector(
         const MathNumericalSolver::StateVector& x, MathNumericalSolver::StateVector& dxdt, const double t

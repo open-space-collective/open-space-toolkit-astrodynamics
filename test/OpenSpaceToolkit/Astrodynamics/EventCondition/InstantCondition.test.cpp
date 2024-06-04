@@ -13,14 +13,14 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Shared;
 using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
-using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::trajectory::State;

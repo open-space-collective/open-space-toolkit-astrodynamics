@@ -33,16 +33,16 @@ using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
-using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
-using ostk::physics::coordinate::Frame;
 
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /// @brief Define a dynamical system subject to equations of motion
 class Dynamics

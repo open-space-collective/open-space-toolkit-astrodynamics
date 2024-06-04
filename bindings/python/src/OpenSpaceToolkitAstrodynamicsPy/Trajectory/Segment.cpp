@@ -7,16 +7,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::String;
     using ostk::core::type::Shared;
+    using ostk::core::type::String;
 
     using ostk::physics::time::Duration;
 
     using ostk::astrodynamics::Dynamics;
     using ostk::astrodynamics::flight::Maneuver;
     using ostk::astrodynamics::trajectory::Segment;
-    using ostk::astrodynamics::trajectory::state::NumericalSolver;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+    using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
     class_<Segment> segment(
         aModule,

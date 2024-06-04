@@ -6,14 +6,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
 {
     using namespace pybind11;
 
-    using ostk::core::type::Shared;
     using ostk::core::container::Array;
+    using ostk::core::type::Shared;
 
     using ostk::mathematics::curvefitting::Interpolator;
     using ostk::mathematics::object::MatrixXd;
 
-    using ostk::physics::time::Instant;
     using ostk::physics::coordinate::Frame;
+    using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::Dynamics;
     using ostk::astrodynamics::dynamics::Tabulated;

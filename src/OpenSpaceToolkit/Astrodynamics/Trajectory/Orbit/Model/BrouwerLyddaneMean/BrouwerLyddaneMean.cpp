@@ -19,8 +19,8 @@ namespace model
 namespace blm
 {
 
-using ostk::core::type::Size;
 using ostk::core::type::Integer;
+using ostk::core::type::Size;
 
 BrouwerLyddaneMean::BrouwerLyddaneMean(
     const Length &aSemiMajorAxis,

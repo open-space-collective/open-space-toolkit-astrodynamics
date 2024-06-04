@@ -13,11 +13,11 @@
 
 using ostk::core::type::Real;
 
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 using ostk::physics::unit::Time;
-using ostk::physics::unit::Angle;
-using ostk::physics::unit::Derived;
 
 using ostk::physics::environment::gravitational::Earth;
 

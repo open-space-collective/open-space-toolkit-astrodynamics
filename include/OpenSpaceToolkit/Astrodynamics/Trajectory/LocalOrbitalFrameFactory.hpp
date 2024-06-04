@@ -20,11 +20,11 @@ namespace astrodynamics
 namespace trajectory
 {
 
-using ostk::core::type::String;
 using ostk::core::type::Shared;
+using ostk::core::type::String;
 
-using ostk::physics::coordinate::frame::Provider;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::frame::Provider;
 using ostk::physics::coordinate::Vector3d;
 using ostk::physics::time::Instant;
 

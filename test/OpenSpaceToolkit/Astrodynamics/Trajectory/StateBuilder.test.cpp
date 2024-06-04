@@ -6,8 +6,8 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Shared;
 using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::object::VectorXd;
 
@@ -17,11 +17,11 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::StateBuilder;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder : public ::testing::Test
 {

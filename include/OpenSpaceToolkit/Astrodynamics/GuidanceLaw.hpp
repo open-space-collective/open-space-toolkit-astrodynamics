@@ -17,9 +17,9 @@ namespace ostk
 namespace astrodynamics
 {
 
-using ostk::core::type::String;
-using ostk::core::type::Shared;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 

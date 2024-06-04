@@ -28,14 +28,14 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
-using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::EventCondition;
-using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 

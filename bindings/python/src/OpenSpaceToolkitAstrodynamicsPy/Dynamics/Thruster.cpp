@@ -4,21 +4,21 @@
 
 using namespace pybind11;
 
-using ostk::core::type::String;
-using ostk::core::type::Shared;
 using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::GuidanceLaw;
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 // Trampoline class for virtual member functions
 class PyThruster : public Thruster

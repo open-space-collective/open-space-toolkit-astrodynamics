@@ -36,26 +36,26 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Frame;
+using ostk::physics::environment::ephemeris::Analytical;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
 using ostk::physics::environment::object::celestial::Sun;
-using ostk::physics::environment::ephemeris::Analytical;
-using ostk::physics::coordinate::Frame;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astrodynamics::Dynamics;
-using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;

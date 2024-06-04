@@ -21,16 +21,16 @@ namespace astrodynamics
 namespace solver
 {
 
+using ostk::core::container::Array;
 using ostk::core::type::Real;
 using ostk::core::type::Size;
 using ostk::core::type::String;
-using ostk::core::container::Array;
 
-using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
 

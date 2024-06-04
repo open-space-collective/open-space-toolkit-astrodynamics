@@ -19,14 +19,14 @@ namespace astrodynamics
 namespace dynamics
 {
 
-using ostk::core::type::String;
-using ostk::core::type::Shared;
 using ostk::core::container::Array;
+using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::GuidanceLaw;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Define the acceleration experienced by a point mass due to thrust
 class Thruster : public Dynamics

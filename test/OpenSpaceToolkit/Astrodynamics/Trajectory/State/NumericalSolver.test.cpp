@@ -20,22 +20,22 @@ using ostk::core::container::Array;
 using ostk::core::container::Tuple;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
-using ostk::core::type::String;
 using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
-using ostk::physics::time::Duration;
-using ostk::physics::time::DateTime;
-using ostk::physics::time::Scale;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
 
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
-using ostk::astrodynamics::trajectory::State;
 
 // Simple duration based condition
 

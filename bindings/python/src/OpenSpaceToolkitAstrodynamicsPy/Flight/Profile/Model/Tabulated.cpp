@@ -9,8 +9,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
     using ostk::core::container::Array;
 
     using ostk::astrodynamics::flight::profile::Model;
-    using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::flight::profile::model::Tabulated;
+    using ostk::astrodynamics::trajectory::State;
 
     class_<Tabulated, Model>(
         aModule,

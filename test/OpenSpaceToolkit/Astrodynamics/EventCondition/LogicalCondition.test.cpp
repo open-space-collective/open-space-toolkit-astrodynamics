@@ -22,18 +22,18 @@
 
 using ostk::core::container::Array;
 using ostk::core::type::Real;
-using ostk::core::type::String;
 using ostk::core::type::Shared;
+using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
-using ostk::physics::time::Duration;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::EventCondition;
-using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::BooleanCondition;
+using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;

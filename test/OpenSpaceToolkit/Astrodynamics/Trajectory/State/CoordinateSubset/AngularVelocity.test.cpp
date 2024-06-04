@@ -4,9 +4,9 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::container::Array;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
-using ostk::core::container::Array;
 
 using ostk::mathematics::object::VectorXd;
 
@@ -15,8 +15,8 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVelocity : public ::testing::Test
 {

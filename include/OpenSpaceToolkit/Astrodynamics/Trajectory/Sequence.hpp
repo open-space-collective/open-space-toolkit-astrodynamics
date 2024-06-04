@@ -23,18 +23,18 @@ namespace astrodynamics
 namespace trajectory
 {
 
+using ostk::core::container::Array;
 using ostk::core::type::Real;
 using ostk::core::type::Size;
-using ostk::core::container::Array;
 
 using ostk::physics::Environment;
 using ostk::physics::unit::Mass;
 
-using ostk::astrodynamics::trajectory::Segment;
-using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
-using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Represent a sequence of trajectory segments executed in order.
 class Sequence

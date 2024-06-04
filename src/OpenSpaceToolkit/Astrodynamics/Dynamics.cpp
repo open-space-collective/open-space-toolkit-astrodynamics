@@ -18,13 +18,13 @@ using ostk::core::container::Pair;
 using ostk::core::type::Index;
 using ostk::core::type::Size;
 
-using ostk::physics::time::Duration;
 using ostk::physics::environment::object::Celestial;
+using ostk::physics::time::Duration;
 
-using ostk::astrodynamics::dynamics::CentralBodyGravity;
-using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 
 Dynamics::Context::Context(
     const Shared<Dynamics>& aDynamicsSPtr,

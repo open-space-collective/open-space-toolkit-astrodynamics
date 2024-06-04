@@ -25,10 +25,10 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Shared;
-using ostk::core::type::Size;
 using ostk::core::type::Index;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
 
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
@@ -37,15 +37,15 @@ using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::environment::object::Celestial;
-using ostk::physics::time::Instant;
-using ostk::physics::time::Duration;
-using ostk::physics::time::DateTime;
-using ostk::physics::time::Scale;
-using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::environment::object::Celestial;
+using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
@@ -53,29 +53,29 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astrodynamics::trajectory::state::NumericalSolver;
-using ostk::astrodynamics::flight::system::SatelliteSystem;
-using ostk::astrodynamics::flight::system::PropulsionSystem;
-using ostk::astrodynamics::trajectory::Segment;
-using ostk::astrodynamics::trajectory::Sequence;
-using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
-using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::CoordinateBroker;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::Thruster;
-using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::EventCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
-using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::Sequence;
+using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
 {

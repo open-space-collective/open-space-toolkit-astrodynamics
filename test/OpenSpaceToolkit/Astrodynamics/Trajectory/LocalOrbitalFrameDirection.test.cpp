@@ -26,9 +26,9 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
-using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -44,8 +44,8 @@ using ostk::physics::unit::Derived;
 using ostk::physics::coordinate::Transform;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
-using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection : public ::testing::Test
 {

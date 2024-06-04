@@ -11,8 +11,8 @@ namespace ostk
 namespace astrodynamics
 {
 
-using ostk::core::type::Size;
 using ostk::core::type::Real;
+using ostk::core::type::Size;
 
 /// @brief A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.
 class RootSolver

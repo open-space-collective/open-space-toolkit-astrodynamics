@@ -21,8 +21,8 @@ using ostk::core::type::String;
 
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Cartesian Position.
 class CartesianPosition : public CoordinateSubset

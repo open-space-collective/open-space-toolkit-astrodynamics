@@ -22,31 +22,31 @@ namespace astrodynamics
 namespace guidancelaw
 {
 
-using ostk::core::type::Real;
-using ostk::core::type::Size;
-using ostk::core::type::Shared;
-using ostk::core::container::Tuple;
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Tuple;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
 
-using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
 using Vector5d = Eigen::Matrix<double, 5, 1>;
 using Matrix5d = Eigen::Matrix<double, 5, 5>;
 using Matrix53d = Eigen::Matrix<double, 5, 3>;
-using ostk::mathematics::object::Vector6d;
 using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::Vector6d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::time::Instant;
-using ostk::physics::time::Duration;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::GuidanceLaw;
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::solver::FiniteDifferenceSolver;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 /// @brief    The Q-law is a Lyapunov feedback control law developed by Petropoulos,

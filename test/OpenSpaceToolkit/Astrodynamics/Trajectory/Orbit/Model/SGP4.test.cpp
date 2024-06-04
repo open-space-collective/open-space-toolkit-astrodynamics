@@ -39,10 +39,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
     using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
     using ostk::mathematics::object::Vector3d;
 
-    using ostk::physics::Environment;
     using ostk::physics::coordinate::Frame;
     using ostk::physics::coordinate::Position;
     using ostk::physics::coordinate::Velocity;
+    using ostk::physics::Environment;
     using ostk::physics::environment::object::celestial::Earth;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
@@ -54,9 +54,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
     using ostk::physics::unit::Length;
 
     using ostk::astrodynamics::trajectory::Orbit;
-    using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::State;
 
     {
         // Environment setup

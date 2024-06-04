@@ -8,17 +8,17 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
-using ostk::core::type::Size;
+using ostk::core::container::Array;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
-using ostk::core::container::Array;
+using ostk::core::type::Size;
 
-using ostk::physics::time::Instant;
-using ostk::physics::time::Duration;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
-using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::trajectory::State;

@@ -8,8 +8,8 @@ using ostk::core::type::Shared;
 
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybind11::module& aModule)
 {

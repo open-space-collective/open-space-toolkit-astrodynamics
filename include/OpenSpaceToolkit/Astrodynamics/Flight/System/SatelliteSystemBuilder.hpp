@@ -36,8 +36,8 @@ using ostk::mathematics::object::Vector3d;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::flight::System;
-using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
+using ostk::astrodynamics::flight::system::SatelliteSystem;
 
 /// @brief Satellite System builder, meant to simplify creation of a SatelliteSystem, by allowing
 /// you to only specify the parameters you want. There are two ways of doing this:

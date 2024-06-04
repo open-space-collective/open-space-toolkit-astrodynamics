@@ -23,8 +23,8 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Shared;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
@@ -35,13 +35,13 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Angle;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
-using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;

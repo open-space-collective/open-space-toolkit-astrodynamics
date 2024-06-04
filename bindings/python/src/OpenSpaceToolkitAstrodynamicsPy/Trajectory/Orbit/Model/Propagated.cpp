@@ -6,15 +6,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
 {
     using namespace pybind11;
 
-    using ostk::core::type::Shared;
-    using ostk::core::type::Integer;
     using ostk::core::container::Array;
+    using ostk::core::type::Integer;
+    using ostk::core::type::Shared;
 
     using ostk::physics::time::Instant;
 
-    using ostk::astrodynamics::trajectory::State;
-    using ostk::astrodynamics::trajectory::Propagator;
     using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+    using ostk::astrodynamics::trajectory::Propagator;
+    using ostk::astrodynamics::trajectory::State;
 
     {
         class_<Propagated, ostk::astrodynamics::trajectory::orbit::Model> propagated_class(

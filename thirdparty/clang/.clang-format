@@ -145,7 +145,7 @@ ReferenceAlignment: Pointer
 ReflowComments:  true
 SeparateDefinitionBlocks: Always
 SortIncludes:    true
-SortUsingDeclarations: Never
+SortUsingDeclarations: Lexicographic
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
