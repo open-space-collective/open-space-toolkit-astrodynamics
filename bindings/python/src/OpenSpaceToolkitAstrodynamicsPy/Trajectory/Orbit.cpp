@@ -20,6 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::unit::Angle;
+    using ostk::physics::time::Duration;
 
     using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::orbit::model::Kepler;
@@ -219,12 +220,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         revolution_number (int): The revolution number.
+                        step_duration (Duration): The initial step duration used for the pass computation algorithm.
 
                     Returns:
                         Pass: The pass.
 
                 )doc",
-                arg("revolution_number")
+                arg("revolution_number"),
+                arg_v("step_duration", Duration::Minutes(10.0), "Duration.minutes(10.0)")
             )
             .def(
                 "get_orbital_frame",

@@ -763,6 +763,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             );
         }
     }
+
+    // Regression test to ensure we can calculate passes for elliptical orbits
+    {
+        // Environment setup
+
+        const Environment environment = Environment::Default();
+
+        // Orbit setup
+
+        const TLE tle = {
+            "1  7276U 74026A   19177.06815612 -.00000040  00000-0 -59146-3 0  9999",
+            "2  7276  63.5942  41.6062 6850823 289.3685  12.0680  2.45095050222705",
+        };
+
+        const SGP4 sgp4 = SGP4(tle);
+
+        const Orbit orbit = {sgp4, environment.accessCelestialObjectWithName("Earth")};
+
+        const Pass pass = orbit.getPassWithRevolutionNumber(22273, Duration::Minutes(10.0));
+
+        EXPECT_TRUE(pass.isDefined());
+        EXPECT_EQ(pass.getType(), Pass::Type::Complete);
+        EXPECT_EQ(pass.getRevolutionNumber(), 22273);
+        EXPECT_EQ(pass.accessInstantAtAscendingNode(), Instant::Parse("2019-06-26 21:13:14.137.431.788", Scale::UTC));
+        EXPECT_EQ(pass.accessInstantAtPassBreak(), Instant::Parse("2019-06-27 07:00:45.686.118.913", Scale::UTC));
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)

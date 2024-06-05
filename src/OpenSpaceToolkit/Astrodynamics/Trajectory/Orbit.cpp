@@ -170,13 +170,8 @@ Pass Orbit::getPassAt(const Instant& anInstant) const
     return this->getPassWithRevolutionNumber(this->getRevolutionNumberAt(anInstant));
 }
 
-Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
+Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const Duration& aStepDuration) const
 {
-    // [TBI] Dead with equatorial case
-
-    // std::cout << "aRevolutionNumber = " << aRevolutionNumber.toString() << std::endl ;
-    // std::cout << "this->passMap_.size() = " << this->passMap_.size() << std::endl ;
-
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Orbit");
@@ -200,8 +195,6 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
         if (lowerBoundMapIt != this->passMap_.end())
         {
-            // std::cout << "lowerBoundMap = " << lowerBoundMapIt->second << std::endl ;
-
             if (lowerBoundMapIt == this->passMap_.begin())
             {
                 closestPasSPtr = &(lowerBoundMapIt->second);
@@ -222,7 +215,6 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
         }
         else if (this->passMap_.size() > 0)
         {
-            // std::cout << "this->passMap_ IS NOT EMPTY" << std::endl ;
             closestPasSPtr = &(this->passMap_.begin()->second);
         }
 
@@ -239,14 +231,16 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
         {
             return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
                 .getPosition()
-                .accessCoordinates()[2];
+                .accessCoordinates()
+                .z();
         };
 
         const auto getZDot = [this, &epoch](const double& aDurationInSeconds) -> Real
         {
             return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
                 .getVelocity()
-                .accessCoordinates()[2];
+                .accessCoordinates()
+                .z();
         };
 
         while ((!currentPass.isDefined()) || (currentPass.getRevolutionNumber() != aRevolutionNumber))
@@ -257,9 +251,17 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                                         ? (currentPass.accessInstantAtPassBreak() + Duration::Microseconds(1.0))
                                         : this->modelPtr_->getEpoch();
 
-            Duration stepDuration = (currentPass.isDefined() && currentPass.isComplete())
-                                      ? currentPass.getDuration() / 5.0
-                                      : Duration::Minutes(10.0);  // [TBM] param
+            Duration stepDuration = aStepDuration;
+            if (currentPass.isDefined() && currentPass.isComplete())
+            {
+                Array<Duration> durations = {
+                    (currentPass.accessInstantAtNorthPoint() - currentPass.accessInstantAtAscendingNode()),
+                    (currentPass.accessInstantAtDescendingNode() - currentPass.accessInstantAtNorthPoint()),
+                    (currentPass.accessInstantAtSouthPoint() - currentPass.accessInstantAtDescendingNode()),
+                    (currentPass.accessInstantAtPassBreak() - currentPass.accessInstantAtSouthPoint()),
+                };
+                stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
+            }
 
             if (currentRevolutionNumber <= aRevolutionNumber)  // Forward propagation
             {
