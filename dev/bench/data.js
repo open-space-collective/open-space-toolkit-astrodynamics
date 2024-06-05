@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1717530562381,
+  "lastUpdate": 1717547638003,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 2782593601.399992,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2782487935.3 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "285dd0227779d86e1a81aa400305426a9df2299d",
+          "message": "feat: add duration step parameter to Orbit.getPassWithRevolutionNumber (#403)\n\n* feat: add duration step parameter to Orbit.getPassWithRevolutionNumber\r\n\r\n* feat: address feedback\r\n\r\n* feat: improve algorithm logic\r\n\r\n* feat: address remaining feedback\r\n\r\n* feat: uncomment tests\r\n\r\n* Apply suggestions from code review\r\n\r\n* feat: address remaining feedback\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\r\n\r\n---------\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2024-06-05T00:16:16Z",
+          "tree_id": "46745feb8d86014a89165e4b147f0efa92c7cd36",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/285dd0227779d86e1a81aa400305426a9df2299d"
+        },
+        "date": 1717547636173,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 542625732.0000104,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 542612924.2999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 787112621.099999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 787093892.4000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2776360251.3999953,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2776293362.0999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2775799229.100005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2775739568.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2777642112.7999983,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2777554426.600003 ns\nthreads: 1"
           }
         ]
       }
