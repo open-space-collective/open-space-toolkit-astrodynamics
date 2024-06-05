@@ -31,7 +31,7 @@ Want to get started? This is the simplest and quickest way:
 The following command will start an [iPython](https://ipython.org/) shell within a container where the OSTk components are already installed:
 
 ```shell
-docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
+docker run -it openspacecollective/open-space-toolkit-astrodynamics-development ipython
 ```
 
 Once the shell is up and running, playing with it is easy:
