@@ -230,9 +230,9 @@ State State::operator+(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    if (this->getSize() != aState.getSize())
+    if (!this->coordinatesBrokerSPtr_ != aState.coordinatesBrokerSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("Size");
+        throw ostk::core::error::runtime::Wrong("Coordinates");
     }
 
     VectorXd addedCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
@@ -275,9 +275,9 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    if (this->getSize() != aState.getSize())
+    if (!this->coordinatesBrokerSPtr_ != aState.coordinatesBrokerSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("Size");
+        throw ostk::core::error::runtime::Wrong("Coordinates");
     }
 
     VectorXd subtractedCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
