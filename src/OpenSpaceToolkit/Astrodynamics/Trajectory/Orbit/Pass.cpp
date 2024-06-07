@@ -187,6 +187,66 @@ Duration Pass::getDuration() const
     return Duration::Undefined();
 }
 
+Instant Pass::getStartInstant() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    if (instantAtAscendingNode_.isDefined())
+    {
+        return instantAtAscendingNode_;
+    }
+
+    if (instantAtNorthPoint_.isDefined())
+    {
+        return instantAtNorthPoint_;
+    }
+
+    if (instantAtDescendingNode_.isDefined())
+    {
+        return instantAtDescendingNode_;
+    }
+
+    if (instantAtSouthPoint_.isDefined())
+    {
+        return instantAtSouthPoint_;
+    }
+
+    return instantAtPassBreak_;
+}
+
+Instant Pass::getEndInstant() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    if (instantAtPassBreak_.isDefined())
+    {
+        return instantAtPassBreak_;
+    }
+
+    if (instantAtSouthPoint_.isDefined())
+    {
+        return instantAtSouthPoint_;
+    }
+
+    if (instantAtDescendingNode_.isDefined())
+    {
+        return instantAtDescendingNode_;
+    }
+
+    if (instantAtNorthPoint_.isDefined())
+    {
+        return instantAtNorthPoint_;
+    }
+
+    return instantAtAscendingNode_;
+}
+
 const Instant& Pass::accessInstantAtAscendingNode() const
 {
     if (!this->isDefined())

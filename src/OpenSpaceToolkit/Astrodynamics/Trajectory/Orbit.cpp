@@ -247,9 +247,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
         {
             Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber()
                                                                       : this->modelPtr_->getRevolutionNumberAtEpoch();
-            Instant previousInstant = currentPass.isDefined()
-                                        ? (currentPass.accessInstantAtPassBreak() + Duration::Microseconds(1.0))
-                                        : this->modelPtr_->getEpoch();
+            Instant previousInstant = Instant::Undefined();
 
             Duration stepDuration = aStepDuration;
             if (currentPass.isDefined() && currentPass.isComplete())
@@ -265,6 +263,9 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
             if (currentRevolutionNumber <= aRevolutionNumber)  // Forward propagation
             {
+                previousInstant = currentPass.isDefined() ? currentPass.getEndInstant() + Duration::Microseconds(1.0)
+                                                          : this->modelPtr_->getEpoch();
+
                 const State previousState = this->modelPtr_->calculateStateAt(previousInstant);
                 Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
                 Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
@@ -323,9 +324,10 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
                     currentPass = {
                         currentRevolutionNumber + 1,
                         currentPass.accessInstantAtPassBreak(),
-                        northPointCrossing,
-                        descendingNodeCrossing,
-                        southPointCrossing,
+                        northPointCrossing.isDefined() ? northPointCrossing : currentPass.accessInstantAtNorthPoint(),
+                        descendingNodeCrossing.isDefined() ? descendingNodeCrossing
+                                                           : currentPass.accessInstantAtDescendingNode(),
+                        southPointCrossing.isDefined() ? southPointCrossing : currentPass.accessInstantAtSouthPoint(),
                         previousInstant,
                     };
                 }
@@ -352,9 +354,94 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             }
             else  // Reverse propagation
             {
-                throw ostk::core::error::runtime::ToBeImplemented(
-                    "Orbit::getPassWithRevolutionNumber > Reverse propagation"
-                );
+                previousInstant = currentPass.isDefined() ? currentPass.getStartInstant() - Duration::Microseconds(1.0)
+                                                          : this->modelPtr_->getEpoch();
+
+                const State previousState = this->modelPtr_->calculateStateAt(previousInstant);
+                Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
+                Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
+
+                Instant northPointCrossing = Instant::Undefined();
+                Instant southPointCrossing = Instant::Undefined();
+                Instant descendingNodeCrossing = Instant::Undefined();
+
+                while (true)
+                {
+                    const Instant currentInstant = previousInstant - stepDuration;
+
+                    const State currentState = this->modelPtr_->calculateStateAt(currentInstant);
+                    const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
+                    const Real currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
+
+                    if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
+                    {
+                        throw ostk::core::error::runtime::ToBeImplemented("Equatorial orbit support.");
+                    }
+
+                    if (((previousStateCoordinates_ECI_zdot > 0.0) && (currentStateCoordinates_ECI_zdot <= 0.0)) ||
+                        ((previousStateCoordinates_ECI_zdot < 0.0) && (currentStateCoordinates_ECI_zdot >= 0.0)))
+                    {
+                        if (currentStateCoordinates_ECI_z > 0.0)
+                        {
+                            northPointCrossing =
+                                Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
+                        }
+                        else
+                        {
+                            southPointCrossing =
+                                Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
+                        }
+                    }
+
+                    if ((previousStateCoordinates_ECI_z > 0.0) && (currentStateCoordinates_ECI_z <= 0.0))
+                    {
+                        previousInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
+                        break;
+                    }
+
+                    if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
+                    {
+                        descendingNodeCrossing =
+                            Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
+                    }
+
+                    previousStateCoordinates_ECI_z = currentStateCoordinates_ECI_z;
+                    previousStateCoordinates_ECI_zdot = currentStateCoordinates_ECI_zdot;
+                    previousInstant = currentInstant;
+                }
+
+                if (currentPass.isDefined())
+                {
+                    currentPass = {
+                        currentRevolutionNumber - 1,
+                        previousInstant,
+                        northPointCrossing.isDefined() ? northPointCrossing : currentPass.accessInstantAtNorthPoint(),
+                        descendingNodeCrossing.isDefined() ? descendingNodeCrossing
+                                                           : currentPass.accessInstantAtDescendingNode(),
+                        southPointCrossing.isDefined() ? southPointCrossing : currentPass.accessInstantAtSouthPoint(),
+                        currentPass.accessInstantAtAscendingNode(),
+                    };
+                }
+                else
+                {
+                    const Instant passBreakCrossing =
+                        Real(this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch())
+                                 .getPosition()
+                                 .accessCoordinates()
+                                 .z())
+                                .isNear(0.0, epsilon)
+                            ? this->modelPtr_->getEpoch()
+                            : Instant::Undefined();
+
+                    currentPass = {
+                        currentRevolutionNumber,
+                        previousInstant,
+                        northPointCrossing,
+                        descendingNodeCrossing,
+                        southPointCrossing,
+                        passBreakCrossing,
+                    };
+                }
             }
 
             if (currentPass.isDefined())
