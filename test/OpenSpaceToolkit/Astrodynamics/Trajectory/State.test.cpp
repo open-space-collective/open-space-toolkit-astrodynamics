@@ -837,7 +837,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-        VectorXd aCoordinates(3);
+        VectorXd aCoordinates(6);
         aCoordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
         const Shared<const CoordinateBroker> brokerSPtr1 = std::make_shared<CoordinateBroker>(
             CoordinateBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
@@ -958,7 +958,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-        VectorXd aCoordinates(3);
+        VectorXd aCoordinates(6);
         aCoordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
         const Shared<const CoordinateBroker> brokerSPtr1 = std::make_shared<CoordinateBroker>(
             CoordinateBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
