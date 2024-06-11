@@ -33,7 +33,7 @@
 <sect4 id="md__r_e_a_d_m_e_1autotoc_md4">
 <title>iPython</title>
 <para>The following command will start an <ulink url="https://ipython.org/">iPython</ulink> shell within a container where the OSTk components are already installed:</para>
-<para><programlisting filename=".shell"><codeline><highlight class="normal">docker<sp/>run<sp/>-it<sp/>openspacecollective/open-space-toolkit-astrodynamics-python</highlight></codeline>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">docker<sp/>run<sp/>-it<sp/>openspacecollective/open-space-toolkit-astrodynamics-development<sp/>ipython</highlight></codeline>
 </programlisting></para>
 <para>Once the shell is up and running, playing with it is easy:</para>
 <para><programlisting filename=".py"><codeline><highlight class="normal">from<sp/>ostk.physics<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Environment</highlight></codeline>

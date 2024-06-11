@@ -40,7 +40,7 @@
 <codeline><highlight class="normal">The<sp/>following<sp/>command<sp/>will<sp/>start<sp/>an<sp/>[iPython](https://ipython.org/)<sp/>shell<sp/>within<sp/>a<sp/>container<sp/>where<sp/>the<sp/>OSTk<sp/>components<sp/>are<sp/>already<sp/>installed:</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">```shell</highlight></codeline>
-<codeline><highlight class="normal">docker<sp/>run<sp/>-it<sp/>openspacecollective/open-space-toolkit-astrodynamics-python</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>run<sp/>-it<sp/>openspacecollective/open-space-toolkit-astrodynamics-development<sp/>ipython</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">Once<sp/>the<sp/>shell<sp/>is<sp/>up<sp/>and<sp/>running,<sp/>playing<sp/>with<sp/>it<sp/>is<sp/>easy:</highlight></codeline>

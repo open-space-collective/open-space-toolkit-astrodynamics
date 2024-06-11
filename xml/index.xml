@@ -756,7 +756,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1b164ea936fb2a37e0243dc2f2721aa9" kind="function"><name>isDefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67553e524c37d74359548676bb501cb3" kind="function"><name>getRevolutionNumberAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac699476394541956810059e89b7b5732" kind="function"><name>getPassAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a02e911dd665b6b9510db0676bbe2885d" kind="function"><name>getPassWithRevolutionNumber</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a6a5639866b5487f0a72960f3247a7685" kind="function"><name>getPassWithRevolutionNumber</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ab53a007a76ed06ff7901edcbede3a853" kind="function"><name>getOrbitalFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1acfc9841a0a122ab45e9a7b945130a0dd" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67d2e9aa18fc6a00a1dce2f480585f0c" kind="function"><name>Undefined</name></member>
