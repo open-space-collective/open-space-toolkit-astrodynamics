@@ -13,6 +13,9 @@ docker_release_image_cpp_repository := $(docker_image_repository)-cpp
 docker_release_image_python_repository := $(docker_image_repository)-python
 docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 
+test_python_version := 3.11
+test_python_directory := /usr/local/lib/python${test_python_version}/dist-packages
+
 jupyter_notebook_port := 9005
 jupyter_python_version := 3.11
 jupyter_python_version_without_dot := $(shell echo $(jupyter_python_version) | sed 's/\.//')
@@ -532,11 +535,11 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF .. \
-		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/OpenSpaceToolkit*Py-python-package-3.11 \
-		&& python3.11 -m pip install plotly pandas \
-		&& python3.11 -m pip install git+https://github.com/open-space-collective/cesiumpy.git#egg=cesiumpy \
-		&& cd /usr/local/lib/python3.11/site-packages/ostk/$(project_name)/ \
-		&& python3.11 -m pytest -sv ."
+		&& $(MAKE) -j 4 \
+		&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} bindings/python/OpenSpaceToolkit*Py-python-package-${test_python_version} \
+		&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} plotly pandas git+https://github.com/open-space-collective/cesiumpy.git#egg=cesiumpy \
+		&& cd ${test_python_directory}/ostk/$(project_name)/ \
+		&& python${test_python_version} -m pytest -sv ."
 
 .PHONY: test-unit-python-standalone
 
