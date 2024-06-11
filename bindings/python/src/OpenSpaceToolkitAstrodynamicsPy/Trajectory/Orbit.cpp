@@ -19,8 +19,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::core::type::Shared;
 
     using ostk::physics::environment::object::Celestial;
-    using ostk::physics::unit::Angle;
     using ostk::physics::time::Duration;
+    using ostk::physics::unit::Angle;
 
     using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::orbit::model::Kepler;

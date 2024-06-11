@@ -43,8 +43,8 @@ using ostk::core::type::Unique;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::Celestial;
-using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
