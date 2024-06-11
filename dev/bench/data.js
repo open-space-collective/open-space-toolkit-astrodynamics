@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1718123125620,
+  "lastUpdate": 1718131643012,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 2778601050.4999976,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 2778509527.5999975 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8986e16b7cbe7be1fa8e3050dda04fd14a2f8227",
+          "message": "fix: prevent State addition and subtraction based on coordinates broker not being equal (#407)\n\n* fix: prevent State addition and subtraction based on coordinates broker not being equal\r\n\r\n* test: fix State addition and subtraction operation tests\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2024-06-11T18:27:04Z",
+          "tree_id": "6609f4572464df0a0cb5cce0ddb6c6538845505f",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/8986e16b7cbe7be1fa8e3050dda04fd14a2f8227"
+        },
+        "date": 1718131640290,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 549449759.7000077,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 549407530.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 792196889.9000036,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 792139396.3000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 2804948753.899993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2804757896.5999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 2797525403.4000044,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2797319780.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 2798235957.8999987,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2798049417.400003 ns\nthreads: 1"
           }
         ]
       }
