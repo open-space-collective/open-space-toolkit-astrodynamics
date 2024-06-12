@@ -1,6 +1,6 @@
 # Apache License 2.0
 
-open-space-toolkit-core~=3.0
+open-space-toolkit-core~=3.1
 open-space-toolkit-io~=3.0
 open-space-toolkit-mathematics~=3.0
 open-space-toolkit-physics~=7.0
