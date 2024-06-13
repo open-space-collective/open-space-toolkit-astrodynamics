@@ -213,7 +213,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             return this->passMap_.begin()->second;
         }
 
-        // Cloases revolution number is within the map
+        // Closest revolution number is within the map
 
         const auto closestPassMapIt = std::prev(lowerBoundMapIt);
 
