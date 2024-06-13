@@ -181,7 +181,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     const std::lock_guard<std::mutex> lock {this->mutex_};
 
-    const auto getClosestPass = [&passMap_](const Integer& aRevolutionNumber) -> Pass
+    const auto getClosestPass = [this](const Integer& aRevolutionNumber) -> Pass
     {
         if (this->passMap_.empty())
         {
