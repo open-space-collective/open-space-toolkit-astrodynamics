@@ -595,7 +595,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetStartInstant)
             defaultInstantAtSouthPoint_,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtAscendingNode_);
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtDescendingNode_);
     }
 
     {
@@ -607,7 +607,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetStartInstant)
             defaultInstantAtSouthPoint_,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtNorthPoint_);
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtSouthPoint_);
     }
 
     {
@@ -619,7 +619,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetStartInstant)
             Instant::Undefined(),
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtDescendingNode_);
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtPassBreak_);
     }
 }
 
