@@ -181,7 +181,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     const std::lock_guard<std::mutex> lock {this->mutex_};
 
-    const auto getClosestPass = [this, aRevolutionNumber]() -> Pass
+    const auto getClosestPass = [&passMap_](const Integer& aRevolutionNumber) -> Pass
     {
         if (this->passMap_.empty())
         {
@@ -198,7 +198,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
         const auto lowerBoundMapIt = this->passMap_.lower_bound(aRevolutionNumber);
 
         // Revolution number is greater than any existing revolution number in map
-        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(12) -> return 10
+        // {5, 6, 9, 10} -> aRevolutionNumber=12 -> return 10
 
         if (lowerBoundMapIt == this->passMap_.end())
         {
@@ -206,7 +206,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
         }
 
         // Revolution number is lesser than any existing revolution number in map
-        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(4) -> return 5
+        // {5, 6, 9, 10} -> aRevolutionNumber=4 -> return 5
 
         if (lowerBoundMapIt == this->passMap_.begin())
         {
@@ -217,7 +217,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
         const auto closestPassMapIt = std::prev(lowerBoundMapIt);
 
-        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(8) -> return 9
+        // {5, 6, 9, 10} -> aRevolutionNumber=8 -> return 9
         // lowerBoundMapIt = 9, closestPassMapIt = 6
 
         if ((aRevolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - aRevolutionNumber))
@@ -225,13 +225,13 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             return closestPassMapIt->second;
         }
 
-        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(7) -> return 6
+        // {5, 6, 9, 10} -> aRevolutionNumber=7 -> return 6
         // lowerBoundMapIt = 9, closestPassMapIt = 6
 
         return lowerBoundMapIt->second;
     };
 
-    Pass currentPass = getClosestPass();
+    Pass currentPass = getClosestPass(aRevolutionNumber);
 
     Integer currentRevolutionNumber =
         currentPass.isDefined() ? currentPass.getRevolutionNumber() : this->modelPtr_->getRevolutionNumberAtEpoch();
