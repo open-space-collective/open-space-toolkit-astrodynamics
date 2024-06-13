@@ -41,6 +41,12 @@ class TestPass:
     def test_get_duration(self, pass_: Pass):
         assert pass_.get_duration() is not None
 
+    def test_get_start_instant(self, pass_: Pass):
+        assert pass_.get_start_instant() is not None
+
+    def test_get_end_instant(self, pass_: Pass):
+        assert pass_.get_end_instant() is not None
+
     def test_get_instant_at_ascending_node(self, pass_: Pass):
         assert pass_.get_instant_at_ascending_node() is not None
 

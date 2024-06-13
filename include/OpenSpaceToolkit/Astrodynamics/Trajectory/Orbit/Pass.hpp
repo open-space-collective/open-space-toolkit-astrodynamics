@@ -113,6 +113,16 @@ class Pass
     /// @return The duration of the pass.
     Duration getDuration() const;
 
+    /// @brief Get the start instant of the pass. For partial passes, this is the minimum defined instant.
+    ///
+    /// @return The start instant of the pass.
+    Instant getStartInstant() const;
+
+    /// @brief Get the end instant of the pass. For partial passes, this is the maximum defined instant.
+    ///
+    /// @return The end instant of the pass.
+    Instant getEndInstant() const;
+
     /// @brief Accesses the instant at the ascending node of the pass.
     ///
     /// @return The instant at the ascending node of the pass.

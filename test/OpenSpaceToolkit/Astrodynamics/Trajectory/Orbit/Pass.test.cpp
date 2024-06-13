@@ -564,6 +564,124 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetDuration)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetStartInstant)
+{
+    {
+        EXPECT_THROW(Pass::Undefined().getStartInstant(), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        EXPECT_EQ(defaultPass_.getStartInstant(), defaultInstantAtAscendingNode_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            Instant::Undefined(),
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtSouthPoint_,
+            defaultInstantAtPassBreak_,
+        };
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtNorthPoint_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtSouthPoint_,
+            defaultInstantAtPassBreak_,
+        };
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtDescendingNode_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            defaultInstantAtSouthPoint_,
+            defaultInstantAtPassBreak_,
+        };
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtSouthPoint_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            defaultInstantAtPassBreak_,
+        };
+        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtPassBreak_);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetEndInstant)
+{
+    {
+        EXPECT_THROW(Pass::Undefined().getEndInstant(), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        EXPECT_EQ(defaultPass_.getEndInstant(), defaultInstantAtPassBreak_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtSouthPoint_,
+            Instant::Undefined(),
+        };
+        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtSouthPoint_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtDescendingNode_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtNorthPoint_);
+    }
+
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            defaultInstantAtAscendingNode_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtAscendingNode_);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtAscendingNode)
 {
     {

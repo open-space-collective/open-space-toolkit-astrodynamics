@@ -136,6 +136,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             )doc"
         )
         .def(
+            "get_start_instant",
+            &Pass::getStartInstant,
+            R"doc(
+                Get the start instant of the pass. For partial passes, this is the minimum defined instant.
+
+                Returns:
+                    Instant: The start instant of the pass.
+            
+            )doc"
+        )
+        .def(
+            "get_end_instant",
+            &Pass::getEndInstant,
+            R"doc(
+                Get the end instant of the pass. For partial passes, this is the maximum defined instant.
+
+                Returns:
+                    Instant: The end instant of the pass.
+
+            )doc"
+        )
+        .def(
             "get_instant_at_ascending_node",
             &Pass::accessInstantAtAscendingNode,
             R"doc(
