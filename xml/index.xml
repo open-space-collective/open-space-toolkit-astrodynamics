@@ -812,6 +812,8 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a1bfb88023b13cad2be2d23daaf04cd05" kind="function"><name>getType</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1af6460907d361d0b6c993d2643aaa0f22" kind="function"><name>getRevolutionNumber</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aa2ab48943d0f51284dd7517baf032987" kind="function"><name>getDuration</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a304cc0aa025947bf2ec4c275da2ef752" kind="function"><name>getStartInstant</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a35f910ef3b112067daa6ebfd8305ac9f" kind="function"><name>getEndInstant</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a13fd5c80c0b7f9b05de6d71d1893ea12" kind="function"><name>accessInstantAtAscendingNode</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afe4c1f4a38d4d9e98b96337e0f745a7c" kind="function"><name>accessInstantAtNorthPoint</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6576ed61cbe52f8dae929a96c1f5bc0e" kind="function"><name>accessInstantAtDescendingNode</name></member>

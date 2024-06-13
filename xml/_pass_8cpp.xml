@@ -244,139 +244,199 @@
 <codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Duration::Undefined();</highlight></codeline>
 <codeline lineno="188"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="189"><highlight class="normal"></highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a13fd5c80c0b7f9b05de6d71d1893ea12" kindref="member">Pass::accessInstantAtAscendingNode</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">Instant<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a304cc0aa025947bf2ec4c275da2ef752" kindref="member">Pass::getStartInstant</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="191"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="196"><highlight class="normal"></highlight></codeline>
-<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtAscendingNode_;</highlight></codeline>
-<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="199"><highlight class="normal"></highlight></codeline>
-<codeline lineno="200"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afe4c1f4a38d4d9e98b96337e0f745a7c" kindref="member">Pass::accessInstantAtNorthPoint</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="201"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtAscendingNode_.isDefined())</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtAscendingNode_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtNorthPoint_.isDefined())</highlight></codeline>
 <codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtNorthPoint_;</highlight></codeline>
 <codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="206"><highlight class="normal"></highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtNorthPoint_;</highlight></codeline>
-<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"></highlight></codeline>
-<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6576ed61cbe52f8dae929a96c1f5bc0e" kindref="member">Pass::accessInstantAtDescendingNode</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="211"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtDescendingNode_.isDefined())</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtDescendingNode_;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtSouthPoint_.isDefined())</highlight></codeline>
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtSouthPoint_;</highlight></codeline>
 <codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="216"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtDescendingNode_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtPassBreak_;</highlight></codeline>
 <codeline lineno="218"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="219"><highlight class="normal"></highlight></codeline>
-<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a25fadf5c4c2d9094a2b0d5d6ffc4d628" kindref="member">Pass::accessInstantAtSouthPoint</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">Instant<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a35f910ef3b112067daa6ebfd8305ac9f" kindref="member">Pass::getEndInstant</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="221"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
 <codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="226"><highlight class="normal"></highlight></codeline>
-<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtSouthPoint_;</highlight></codeline>
-<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="229"><highlight class="normal"></highlight></codeline>
-<codeline lineno="230"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a51f471116f948b1a5e6f45dc9548bb37" kindref="member">Pass::accessInstantAtPassBreak</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="231"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtPassBreak_.isDefined())</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtPassBreak_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtSouthPoint_.isDefined())</highlight></codeline>
 <codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtSouthPoint_;</highlight></codeline>
 <codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="236"><highlight class="normal"></highlight></codeline>
-<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtPassBreak_;</highlight></codeline>
-<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="239"><highlight class="normal"></highlight></codeline>
-<codeline lineno="240"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a776c7e5d072f3a0478bfe4d857a35c38" kindref="member">Pass::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="241"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="243"><highlight class="normal"></highlight></codeline>
-<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration<sp/>duration<sp/>=<sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>()<sp/>?<sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aa2ab48943d0f51284dd7517baf032987" kindref="member">getDuration</ref>()<sp/>:<sp/>Duration::<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6745523fe10370a49aacd4e2176c4776" kindref="member">Undefined</ref>();</highlight></codeline>
-<codeline lineno="245"><highlight class="normal"></highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Type:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a49bd989a4aeaa90a7669c4341c0af880" kindref="member">Pass::StringFromType</ref>(type_);</highlight></codeline>
-<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Revolution<sp/>#:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(revolutionNumber_.isDefined()<sp/>?<sp/>revolutionNumber_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duration:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(duration.isDefined()<sp/>?<sp/>duration.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Ascending<sp/>node:&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>(instantAtAscendingNode_.isDefined()<sp/>?<sp/>instantAtAscendingNode_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;North<sp/>point:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(instantAtNorthPoint_.isDefined()<sp/>?<sp/>instantAtNorthPoint_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Descending<sp/>node:&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>(instantAtDescendingNode_.isDefined()<sp/>?<sp/>instantAtDescendingNode_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;South<sp/>point:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(instantAtSouthPoint_.isDefined()<sp/>?<sp/>instantAtSouthPoint_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pass<sp/>break:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(instantAtPassBreak_.isDefined()<sp/>?<sp/>instantAtPassBreak_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"></highlight></codeline>
-<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtDescendingNode_.isDefined())</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtDescendingNode_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(instantAtNorthPoint_.isDefined())</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtNorthPoint_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtAscendingNode_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a13fd5c80c0b7f9b05de6d71d1893ea12" kindref="member">Pass::accessInstantAtAscendingNode</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="251"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtAscendingNode_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afe4c1f4a38d4d9e98b96337e0f745a7c" kindref="member">Pass::accessInstantAtNorthPoint</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="261"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="266"><highlight class="normal"></highlight></codeline>
-<codeline lineno="267"><highlight class="normal">Pass<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6745523fe10370a49aacd4e2176c4776" kindref="member">Pass::Undefined</ref>()</highlight></codeline>
-<codeline lineno="268"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer::Undefined(),</highlight></codeline>
-<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
-<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
-<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
-<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
-<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="278"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a49bd989a4aeaa90a7669c4341c0af880" kindref="member">Pass::StringFromType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15" kindref="member">Pass::Type</ref>&amp;<sp/>aType)</highlight></codeline>
-<codeline lineno="280"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aType)</highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15aec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Pass::Type::Undefined</ref>:</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="285"><highlight class="normal"></highlight></codeline>
-<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15aae94f80b3ce82062a5dd7815daa04f9d" kindref="member">Pass::Type::Complete</ref>:</highlight></codeline>
-<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Complete&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="288"><highlight class="normal"></highlight></codeline>
-<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15a44ffd38a6dea695cbe2b34efdcc6cf27" kindref="member">Pass::Type::Partial</ref>:</highlight></codeline>
-<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Partial&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="291"><highlight class="normal"></highlight></codeline>
-<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Type&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="295"><highlight class="normal"></highlight></codeline>
-<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Empty();</highlight></codeline>
-<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="298"><highlight class="normal"></highlight></codeline>
-<codeline lineno="299"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a03cb9c16b72f2b20e48a4b03e5256b01" kindref="member">Pass::StringFromPhase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286ba" kindref="member">Pass::Phase</ref>&amp;<sp/>aPhase)</highlight></codeline>
-<codeline lineno="300"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aPhase)</highlight></codeline>
-<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286baaec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Pass::Phase::Undefined</ref>:</highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtNorthPoint_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6576ed61cbe52f8dae929a96c1f5bc0e" kindref="member">Pass::accessInstantAtDescendingNode</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="271"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtDescendingNode_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a25fadf5c4c2d9094a2b0d5d6ffc4d628" kindref="member">Pass::accessInstantAtSouthPoint</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="281"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtSouthPoint_;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a51f471116f948b1a5e6f45dc9548bb37" kindref="member">Pass::accessInstantAtPassBreak</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="291"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instantAtPassBreak_;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a776c7e5d072f3a0478bfe4d857a35c38" kindref="member">Pass::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="301"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration<sp/>duration<sp/>=<sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a23855be8d8ff78a2cf8c8fc0ff122d42" kindref="member">isDefined</ref>()<sp/>?<sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aa2ab48943d0f51284dd7517baf032987" kindref="member">getDuration</ref>()<sp/>:<sp/>Duration::<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6745523fe10370a49aacd4e2176c4776" kindref="member">Undefined</ref>();</highlight></codeline>
 <codeline lineno="305"><highlight class="normal"></highlight></codeline>
-<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286baacf3fb1ff52ea1eed3347ac5401ee7f0c" kindref="member">Pass::Phase::Ascending</ref>:</highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Ascending&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="308"><highlight class="normal"></highlight></codeline>
-<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286baae3cf5ac19407b1a62c6fccaff675a53b" kindref="member">Pass::Phase::Descending</ref>:</highlight></codeline>
-<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Descending&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="311"><highlight class="normal"></highlight></codeline>
-<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Phase&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="315"><highlight class="normal"></highlight></codeline>
-<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Empty();</highlight></codeline>
-<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="318"><highlight class="normal"></highlight></codeline>
-<codeline lineno="319"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>orbit</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="320"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="321"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="322"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Type:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a49bd989a4aeaa90a7669c4341c0af880" kindref="member">Pass::StringFromType</ref>(type_);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Revolution<sp/>#:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(revolutionNumber_.isDefined()<sp/>?<sp/>revolutionNumber_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duration:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(duration.isDefined()<sp/>?<sp/>duration.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Ascending<sp/>node:&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>(instantAtAscendingNode_.isDefined()<sp/>?<sp/>instantAtAscendingNode_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;North<sp/>point:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(instantAtNorthPoint_.isDefined()<sp/>?<sp/>instantAtNorthPoint_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Descending<sp/>node:&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>(instantAtDescendingNode_.isDefined()<sp/>?<sp/>instantAtDescendingNode_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;South<sp/>point:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(instantAtSouthPoint_.isDefined()<sp/>?<sp/>instantAtSouthPoint_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pass<sp/>break:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(instantAtPassBreak_.isDefined()<sp/>?<sp/>instantAtPassBreak_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">Pass<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6745523fe10370a49aacd4e2176c4776" kindref="member">Pass::Undefined</ref>()</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Integer::Undefined(),</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Undefined(),</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a49bd989a4aeaa90a7669c4341c0af880" kindref="member">Pass::StringFromType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15" kindref="member">Pass::Type</ref>&amp;<sp/>aType)</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aType)</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15aec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Pass::Type::Undefined</ref>:</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15aae94f80b3ce82062a5dd7815daa04f9d" kindref="member">Pass::Type::Complete</ref>:</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Complete&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ab4748b44703914d51808fa8815e2bf15a44ffd38a6dea695cbe2b34efdcc6cf27" kindref="member">Pass::Type::Partial</ref>:</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Partial&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Type&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Empty();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a03cb9c16b72f2b20e48a4b03e5256b01" kindref="member">Pass::StringFromPhase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286ba" kindref="member">Pass::Phase</ref>&amp;<sp/>aPhase)</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aPhase)</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286baaec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Pass::Phase::Undefined</ref>:</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286baacf3fb1ff52ea1eed3347ac5401ee7f0c" kindref="member">Pass::Phase::Ascending</ref>:</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Ascending&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aabe56ba8cb115e2dd98ec81419e286baae3cf5ac19407b1a62c6fccaff675a53b" kindref="member">Pass::Phase::Descending</ref>:</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Descending&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Phase&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Empty();</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>orbit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp"/>
   </compounddef>

@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="165" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="165" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="175" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a4d575b7063d1804d151ae4e25ce8d283" prot="private" static="no" mutable="no">
         <type>Integer</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="167" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="167" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="177" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="177" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afd0aa4f87c0cf900d3411d7b4bcf2999" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="168" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="168" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="178" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="178" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a04ee2d98d4d0a190f7ba7fb87ad1a774" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="169" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="169" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="179" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a37213f4de5275b3a47f8e3257107393d" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -141,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="170" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="170" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="180" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1ad88cb5cf446c1f56d1711a6294fcacad" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="171" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="171" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="181" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="181" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a616c0db7ab0d961fee3f0db66f6ecfed" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="172" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="172" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="182" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="182" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -404,6 +404,40 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="114" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="175" bodyend="188"/>
       </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a304cc0aa025947bf2ec4c275da2ef752" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::orbit::Pass::getStartInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getStartInstant</name>
+        <briefdescription>
+<para>Get the start instant of the pass. For partial passes, this is the minimum defined instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The start instant of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="119" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="190" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a35f910ef3b112067daa6ebfd8305ac9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::orbit::Pass::getEndInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getEndInstant</name>
+        <briefdescription>
+<para>Get the end instant of the pass. For partial passes, this is the maximum defined instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The end instant of the pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="124" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="220" bodyend="248"/>
+      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a13fd5c80c0b7f9b05de6d71d1893ea12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Instant &amp;</type>
         <definition>const Instant &amp; ostk::astrodynamics::trajectory::orbit::Pass::accessInstantAtAscendingNode</definition>
@@ -419,7 +453,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="119" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="190" bodyend="198"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="129" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="250" bodyend="258"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afe4c1f4a38d4d9e98b96337e0f745a7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Instant &amp;</type>
@@ -436,7 +470,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="124" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="200" bodyend="208"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="134" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="260" bodyend="268"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6576ed61cbe52f8dae929a96c1f5bc0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Instant &amp;</type>
@@ -453,7 +487,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="129" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="210" bodyend="218"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="139" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="270" bodyend="278"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a25fadf5c4c2d9094a2b0d5d6ffc4d628" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Instant &amp;</type>
@@ -470,7 +504,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="134" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="220" bodyend="228"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="144" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="280" bodyend="288"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a51f471116f948b1a5e6f45dc9548bb37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Instant &amp;</type>
@@ -487,7 +521,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="139" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="230" bodyend="238"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="149" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="290" bodyend="298"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a776c7e5d072f3a0478bfe4d857a35c38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -528,7 +562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="145" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="240" bodyend="265"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="155" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="300" bodyend="325"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -591,7 +625,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="150" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="267" bodyend="277"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="160" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="327" bodyend="337"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a49bd989a4aeaa90a7669c4341c0af880" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -621,7 +655,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="156" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="279" bodyend="297"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="166" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="339" bodyend="357"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a03cb9c16b72f2b20e48a4b03e5256b01" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -651,7 +685,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="162" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="299" bodyend="317"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="172" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="359" bodyend="377"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -662,7 +696,7 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="34" bodyend="173"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp" bodystart="34" bodyend="183"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a13fd5c80c0b7f9b05de6d71d1893ea12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>accessInstantAtAscendingNode</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6576ed61cbe52f8dae929a96c1f5bc0e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>accessInstantAtDescendingNode</name></member>
@@ -670,7 +704,9 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a51f471116f948b1a5e6f45dc9548bb37" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>accessInstantAtPassBreak</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a25fadf5c4c2d9094a2b0d5d6ffc4d628" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>accessInstantAtSouthPoint</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aa2ab48943d0f51284dd7517baf032987" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>getDuration</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a35f910ef3b112067daa6ebfd8305ac9f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>getEndInstant</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1af6460907d361d0b6c993d2643aaa0f22" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>getRevolutionNumber</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a304cc0aa025947bf2ec4c275da2ef752" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>getStartInstant</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a1bfb88023b13cad2be2d23daaf04cd05" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>getType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afd0aa4f87c0cf900d3411d7b4bcf2999" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>instantAtAscendingNode_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a37213f4de5275b3a47f8e3257107393d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Pass</scope><name>instantAtDescendingNode_</name></member>
