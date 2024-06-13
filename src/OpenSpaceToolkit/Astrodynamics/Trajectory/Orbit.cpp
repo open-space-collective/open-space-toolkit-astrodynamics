@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -31,6 +32,7 @@ namespace astrodynamics
 namespace trajectory
 {
 
+using ostk::core::container::Tuple;
 using ostk::core::type::Index;
 using ostk::core::type::Real;
 using ostk::core::type::Uint8;
@@ -179,50 +181,57 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     const std::lock_guard<std::mutex> lock {this->mutex_};
 
-    const auto passMapIt = this->passMap_.find(aRevolutionNumber);
-
-    if (passMapIt != this->passMap_.end())
+    const auto getClosestPass = [this, aRevolutionNumber]() -> Pass
     {
-        return passMapIt->second;
-    }
+        if (this->passMap_.empty())
+        {
+            return Pass::Undefined();
+        }
 
-    // If any, get pass with closest revolution number
+        // exact revolution number exists
 
-    Pass const* closestPasSPtr = nullptr;
+        if (this->passMap_.count(aRevolutionNumber))
+        {
+            return this->passMap_.at(aRevolutionNumber);
+        }
 
-    const auto lowerBoundMapIt = this->passMap_.lower_bound(aRevolutionNumber);
+        const auto lowerBoundMapIt = this->passMap_.lower_bound(aRevolutionNumber);
 
-    if (lowerBoundMapIt != this->passMap_.end())
-    {
+        // Revolution number is greater than any existing revolution number in map
+        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(12) -> return 10
+
+        if (lowerBoundMapIt == this->passMap_.end())
+        {
+            return this->passMap_.rbegin()->second;
+        }
+
+        // Revolution number is lesser than any existing revolution number in map
+        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(4) -> return 5
+
         if (lowerBoundMapIt == this->passMap_.begin())
         {
-            closestPasSPtr = &(lowerBoundMapIt->second);
+            return this->passMap_.begin()->second;
         }
-        else
+
+        // Cloases revolution number is within the map
+
+        const auto closestPassMapIt = std::prev(lowerBoundMapIt);
+
+        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(8) -> return 9
+        // lowerBoundMapIt = 9, closestPassMapIt = 6
+
+        if ((aRevolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - aRevolutionNumber))
         {
-            const auto closestPassMapIt = std::prev(lowerBoundMapIt);
-
-            if ((aRevolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - aRevolutionNumber))
-            {
-                closestPasSPtr = &(closestPassMapIt->second);
-            }
-            else
-            {
-                closestPasSPtr = &(lowerBoundMapIt->second);
-            }
+            return closestPassMapIt->second;
         }
-    }
-    else if (this->passMap_.size() > 0)
-    {
-        closestPasSPtr = &(this->passMap_.begin()->second);
-    }
 
-    Pass currentPass = Pass::Undefined();
+        // {5, 6, 9, 10} -> getPassWithRevolutionNumber(7) -> return 6
+        // lowerBoundMapIt = 9, closestPassMapIt = 6
 
-    if (closestPasSPtr != nullptr)  // Pass with closest revolution number found
-    {
-        currentPass = *closestPasSPtr;
-    }
+        return lowerBoundMapIt->second;
+    };
+
+    Pass currentPass = getClosestPass();
 
     Integer currentRevolutionNumber =
         currentPass.isDefined() ? currentPass.getRevolutionNumber() : this->modelPtr_->getRevolutionNumberAtEpoch();
@@ -230,61 +239,40 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
     const bool isForwardPropagated = currentRevolutionNumber <= aRevolutionNumber;
     const Integer propagationSign = isForwardPropagated ? 1 : -1;
 
-    const Instant epoch = this->modelPtr_->getEpoch();
-
-    const auto getZ = [this, &epoch](const double& aDurationInSeconds) -> Real
+    const auto computeCrossings = [this, &isForwardPropagated](
+                                      Instant previousInstant, const Duration& stepDuration
+                                  ) -> Tuple<Instant, Instant, Instant, Instant>
     {
-        return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
-            .getPosition()
-            .accessCoordinates()
-            .z();
-    };
-
-    const auto getZDot = [this, &epoch](const double& aDurationInSeconds) -> Real
-    {
-        return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
-            .getVelocity()
-            .accessCoordinates()
-            .z();
-    };
-
-    while ((!currentPass.isDefined()) || (currentPass.getRevolutionNumber() != aRevolutionNumber))
-    {
-        Instant previousInstant = Instant::Undefined();
-
-        Duration stepDuration = aStepDuration;
-        if (currentPass.isDefined() && currentPass.isComplete())
-        {
-            Array<Duration> durations = {
-                (currentPass.accessInstantAtNorthPoint() - currentPass.accessInstantAtAscendingNode()),
-                (currentPass.accessInstantAtDescendingNode() - currentPass.accessInstantAtNorthPoint()),
-                (currentPass.accessInstantAtSouthPoint() - currentPass.accessInstantAtDescendingNode()),
-                (currentPass.accessInstantAtPassBreak() - currentPass.accessInstantAtSouthPoint()),
-            };
-            stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
-        }
-
         Instant northPointCrossing = Instant::Undefined();
         Instant southPointCrossing = Instant::Undefined();
         Instant descendingNodeCrossing = Instant::Undefined();
+        Instant passBreakCrossing = Instant::Undefined();
 
-        if (currentPass.isDefined())
-        {
-            previousInstant = isForwardPropagated ? currentPass.getEndInstant() + Duration::Microseconds(1.0)
-                                                  : currentPass.getStartInstant() - Duration::Microseconds(1.0);
-        }
-        else
-        {
-            previousInstant = this->modelPtr_->getEpoch();
-        }
+        const Instant epoch = this->modelPtr_->getEpoch();
 
         const State previousState = this->modelPtr_->calculateStateAt(previousInstant);
         Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
         Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
 
-        while (true)
+        const auto getZ = [this, &epoch](const double& aDurationInSeconds) -> Real
         {
-            const Instant currentInstant = previousInstant + (stepDuration * Real::Integer(propagationSign));
+            return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
+                .getPosition()
+                .accessCoordinates()
+                .z();
+        };
+
+        const auto getZDot = [this, &epoch](const double& aDurationInSeconds) -> Real
+        {
+            return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
+                .getVelocity()
+                .accessCoordinates()
+                .z();
+        };
+
+        while (!passBreakCrossing.isDefined())
+        {
+            const Instant currentInstant = previousInstant + stepDuration;
 
             const State currentState = this->modelPtr_->calculateStateAt(currentInstant);
             const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
@@ -318,8 +306,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
                 }
                 else
                 {
-                    previousInstant = crossingInstant;
-                    break;
+                    passBreakCrossing = crossingInstant;
                 }
             }
 
@@ -328,8 +315,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
                 const Instant crossingInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
                 if (isForwardPropagated)
                 {
-                    previousInstant = crossingInstant;
-                    break;
+                    passBreakCrossing = crossingInstant;
                 }
                 else
                 {
@@ -342,13 +328,53 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             previousInstant = currentInstant;
         }
 
+        return {
+            northPointCrossing,
+            descendingNodeCrossing,
+            southPointCrossing,
+            passBreakCrossing,
+        };
+    };
+
+    // If `currentPass` is undefined, then the `_passMap` is empty and we start filling it. Otherwise, fill the
+    // `_passMap` starting from the closest defined Pass until we reach the desired revolution number.
+
+    while ((!currentPass.isDefined()) || (currentPass.getRevolutionNumber() != aRevolutionNumber))
+    {
+        Instant previousInstant = this->modelPtr_->getEpoch();
+
+        Duration stepDuration = aStepDuration;
+        if (currentPass.isDefined() && currentPass.isComplete())
+        {
+            Array<Duration> durations = {
+                (currentPass.accessInstantAtNorthPoint() - currentPass.accessInstantAtAscendingNode()),
+                (currentPass.accessInstantAtDescendingNode() - currentPass.accessInstantAtNorthPoint()),
+                (currentPass.accessInstantAtSouthPoint() - currentPass.accessInstantAtDescendingNode()),
+                (currentPass.accessInstantAtPassBreak() - currentPass.accessInstantAtSouthPoint()),
+            };
+            stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
+        }
+
+        if (currentPass.isDefined())
+        {
+            previousInstant = isForwardPropagated ? currentPass.getEndInstant() + Duration::Microseconds(1.0)
+                                                  : currentPass.getStartInstant() - Duration::Microseconds(1.0);
+        }
+
+        Instant northPointCrossing = Instant::Undefined();
+        Instant southPointCrossing = Instant::Undefined();
+        Instant descendingNodeCrossing = Instant::Undefined();
+        Instant passBreakCrossing = Instant::Undefined();
+
+        std::tie(northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing) =
+            computeCrossings(previousInstant, stepDuration * Real::Integer(propagationSign));
+
         if (currentPass.isDefined())
         {
             currentRevolutionNumber += propagationSign;
             const Instant ascendingNodeCrossing =
-                isForwardPropagated ? currentPass.accessInstantAtPassBreak() : previousInstant;
-            const Instant passBreakCrossing =
-                isForwardPropagated ? previousInstant : currentPass.accessInstantAtAscendingNode();
+                isForwardPropagated ? currentPass.accessInstantAtPassBreak() : passBreakCrossing;
+            passBreakCrossing = isForwardPropagated ? passBreakCrossing : currentPass.accessInstantAtAscendingNode();
 
             currentPass = {
                 currentRevolutionNumber,
@@ -370,8 +396,8 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
                     ? this->modelPtr_->getEpoch()
                     : Instant::Undefined();
 
-            const Instant ascendingNodeCrossing = isForwardPropagated ? crossingInstant : previousInstant;
-            const Instant passBreakCrossing = isForwardPropagated ? previousInstant : crossingInstant;
+            const Instant ascendingNodeCrossing = isForwardPropagated ? crossingInstant : passBreakCrossing;
+            passBreakCrossing = isForwardPropagated ? passBreakCrossing : crossingInstant;
 
             currentPass = {
                 currentRevolutionNumber,

@@ -123,10 +123,6 @@ class Pass
     /// @return The end instant of the pass.
     Instant getEndInstant() const;
 
-    /// @brief Get the end instant of the pass.
-    ///
-    /// @return The end instant of the pass.
-
     /// @brief Accesses the instant at the ascending node of the pass.
     ///
     /// @return The instant at the ascending node of the pass.
