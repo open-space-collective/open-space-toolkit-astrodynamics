@@ -217,7 +217,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
         const auto closestPassMapIt = std::prev(lowerBoundMapIt);
 
-        // {5, 6, 9, 10} -> aRevolutionNumber=8 -> return 9
+        // {5, 6, 9, 10} -> aRevolutionNumber=7 -> return 6
         // lowerBoundMapIt = 9, closestPassMapIt = 6
 
         if ((aRevolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - aRevolutionNumber))
@@ -225,7 +225,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             return closestPassMapIt->second;
         }
 
-        // {5, 6, 9, 10} -> aRevolutionNumber=7 -> return 6
+        // {5, 6, 9, 10} -> aRevolutionNumber=8 -> return 9
         // lowerBoundMapIt = 9, closestPassMapIt = 6
 
         return lowerBoundMapIt->second;
