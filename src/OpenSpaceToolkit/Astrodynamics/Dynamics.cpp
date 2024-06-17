@@ -111,7 +111,7 @@ void Dynamics::DynamicalEquations(
 }
 
 VectorXd Dynamics::extractReadState(
-    const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+    const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size& readSize
 )
 {
     Index offset = 0;

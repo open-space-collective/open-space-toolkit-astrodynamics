@@ -151,7 +151,7 @@ class Dynamics
     );
 
     static VectorXd extractReadState(
-        const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+        const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size& readSize
     );
 
     static void applyContribution(
