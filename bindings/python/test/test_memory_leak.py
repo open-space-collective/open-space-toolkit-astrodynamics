@@ -63,7 +63,19 @@ from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 
 
-from .memory_leak_tracker import track_memory_usage
+# from .memory_leak_tracker_psutil import track_memory_usage
+from .memory_leak_tracker_memray import track_memory_usage_memray
+
+
+from pathlib import Path
+
+import gc
+import memray
+from memray._stats import Stats
+from memray._memray import (  # pylint: disable=no-name-in-module
+    compute_statistics,
+)
+from memray.reporters.stats import StatsReporter
 
 
 @pytest.fixture
@@ -267,7 +279,7 @@ class TestMemoryLeak:
             epoch, epoch + Duration.minutes(num_instants)
         ).generate_grid(Duration.seconds(60.0))
 
-        @track_memory_usage
+        @track_memory_usage_memray
         def call_function_of_interest():
             model = SGP4(tle)
 
@@ -309,7 +321,7 @@ class TestMemoryLeak:
         # def call_function_of_interest():
         #     for instant in instants:
         #         propagator.calculate_state_at(state, instant)
-        @track_memory_usage
+        @track_memory_usage_memray
         def call_function_of_interest():
             propagator.calculate_states_at(state, instants)
 
@@ -322,6 +334,38 @@ class TestMemoryLeak:
         #     propagated_model.calculate_states_at(instants)
 
         call_function_of_interest()
+
+    def test_leak_propagator_memray(
+        self,
+        epoch: Instant,
+        tle: TLE,
+        sgp4_model: SGP4,
+        kepler_model: Kepler,
+        state: State,
+        propagator: Propagator,
+        propagated_model: Propagated,
+        num_instants: float = 1000.0,
+    ):
+
+
+        interval = Interval.closed(epoch, epoch + Duration.minutes(num_instants))
+        instants = interval.generate_grid(Duration.seconds(60.0))
+
+        file_dest = memray.FileDestination("memory-profile.bin", overwrite=True)
+        with memray.Tracker(destination=file_dest, native_traces=True):
+            # Execute the function
+            propagator.calculate_states_at(state, instants)
+
+            # Trigger garbage collection
+            gc.collect()
+
+        stats: Stats = compute_statistics(
+            file_name="memory-profile.bin",
+            report_progress=False,
+            num_largest=10,
+        )
+        reporter: StatsReporter = StatsReporter(stats, num_largest=10)
+        reporter.render()
 
     def test_leak_numerical_solver(
         self,
@@ -354,7 +398,7 @@ class TestMemoryLeak:
             dxdt[5] = -mu * x[2] / position_mag**3
             return dxdt
 
-        @track_memory_usage
+        # @track_memory_usage
         def call_function_of_interest():
             numerical_solver.integrate_time(state, instants, central_body_dynamic)
 
