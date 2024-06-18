@@ -218,6 +218,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 ## Configure environment
 
 ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"
+ENV PYTHONPATH="/home/${USERNAME}/.local/lib:${PYTHONPATH}"
 
 # Entrypoint
 
