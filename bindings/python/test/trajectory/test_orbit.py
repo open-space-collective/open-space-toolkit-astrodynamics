@@ -98,7 +98,19 @@ class TestOrbit:
         assert isinstance(pass_, Pass)
         assert pass_.is_defined()
 
-        assert orbit.get_pass_with_revolution_number(2, Duration.minutes(10.0)) is not None
+        assert (
+            orbit.get_pass_with_revolution_number(2, Duration.minutes(10.0)) is not None
+        )
+
+    def test_get_passes_within_interval(self, orbit: Orbit):
+        passes: list[Pass] = orbit.get_passes_within_interval(
+            Interval.closed(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+                Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
+            )
+        )
+
+        assert len(passes) > 0
 
     def test_undefined(self):
         assert Orbit.undefined().is_defined() is False
@@ -169,6 +181,17 @@ class TestOrbit:
             argument_of_latitude=Angle.degrees(50.0),
         ).is_defined()
 
-    def test_compute_passes(self, orbit: Orbit, states: list[State]):
-        passes: list[tuple[int, Pass]] = orbit.compute_passes(states, 1)
+    def test_compute_passes(self, states: list[State]):
+        passes: list[tuple[int, Pass]] = Orbit.compute_passes(states, 1)
         assert passes is not None
+
+    def test_compute_passes_with_model(self, orbit: Orbit):
+        passes: list[tuple[int, Pass]] = Orbit.compute_passes_with_model(
+            model=orbit.access_kepler_model(),
+            interval=Interval.closed(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+                Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
+            ),
+        )
+
+        assert len(passes) > 0
