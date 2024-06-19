@@ -41,7 +41,7 @@ Integer Model::calculateRevolutionNumberAt(const Instant& anInstant) const
 
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
+        throw ostk::core::error::runtime::Undefined("Model");
     }
 
     if (anInstant < this->getEpoch())

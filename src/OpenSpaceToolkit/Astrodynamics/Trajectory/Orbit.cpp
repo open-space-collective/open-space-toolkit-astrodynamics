@@ -1309,7 +1309,7 @@ Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Inte
         throw ostk::core::error::runtime::Undefined("Interval");
     }
 
-    Array<Pass> passes;
+    Array<Pass> passes = Array<Pass>::Empty();
 
     const Instant epoch = aModel.getEpoch();
 

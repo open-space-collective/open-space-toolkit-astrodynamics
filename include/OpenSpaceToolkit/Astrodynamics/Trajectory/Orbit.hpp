@@ -78,18 +78,29 @@ class Orbit : public Trajectory
 
     typedef Array<Pass>::ConstIterator ConstPassIterator;
 
-    /// @brief Default constructor.
-
+    /// @brief Constructor.
+    ///
+    /// @param aModel An orbit model.
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
     Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr);
 
+    /// @brief Constructor.
+    ///
+    /// @param aStateArray An array of states.
+    /// @param anInitialRevolutionNumber An initial revolution number.
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
     Orbit(
         const Array<State>& aStateArray,
         const Integer& anInitialRevolutionNumber,
         const Shared<const Celestial>& aCelestialObjectSPtr
     );
 
+    /// @brief Copy constructor.
+    ///
+    /// @param anOrbit Orbit to copy from.
     Orbit(const Orbit& anOrbit);
 
+    /// @brief Destructor.
     ~Orbit();
 
     /// @brief Copy assignment operator.
