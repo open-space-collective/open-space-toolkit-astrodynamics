@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import pandas as pd
+
+import plotly.graph_objs as go
+
+from tqdm.notebook import tqdm
+
+from ostk.mathematics.object import RealInterval
+
+from ostk.physics import Environment
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate.spherical import AER
+from ostk.physics.coordinate.spherical import LLA
+from ostk.physics.environment.object import Celestial
+from ostk.physics.time import DateTime
+from ostk.physics.time import Duration
+from ostk.physics.time import Instant
+from ostk.physics.time import Interval
+from ostk.physics.time import Scale
+from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
+
+from ostk.astrodynamics import Access
+from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.access import Generator as AccessGenerator
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 6[0m
+[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objs[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
+[0;32m----> 6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtqdm[39;00m[38;5;21;01m.[39;00m[38;5;21;01mnotebook[39;00m [38;5;28;01mimport[39;00m tqdm
+[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmathematics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mobject[39;00m [38;5;28;01mimport[39;00m RealInterval
+[1;32m     10[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mphysics[39;00m [38;5;28;01mimport[39;00m Environment
+
+[0;31mModuleNotFoundError[0m: No module named 'tqdm'
+

@@ -1,0 +1,37 @@
+<meta charset="utf-8">
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.86/Build/Cesium/Cesium.js"></script>
+<script src="https://storage.googleapis.com/loft-orbital-public/cesium-sensor-volumes.js"></script>
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.86/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<div id="cesiumContainer" style="width:1500px; height:800px;"><div>
+<script type="text/javascript">
+  async function init() {
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYmYyODhkOS1jNDY5LTQ0NTUtOWNlZi0zMDhjNjE1NDY2OTUiLCJpZCI6NzE4ODUsImlhdCI6MTYzNTUzNzc1Mn0.YQiV6xUFOiEhdQ-w3Dmgy1XYZogK5dclhn7X0U6i7Oo";
+    var widget = new Cesium.Viewer("cesiumContainer", {fullscreenButton: false, homeButton: false, infoBox: false, sceneModePicker: false, selectionIndicator: false, timeline: true, navigationHelpButton: false, navigationInstructionsInitiallyVisible: false, scene3dOnly: true, clockViewModel: new Cesium.ClockViewModel(new Cesium.Clock({startTime: Cesium.JulianDate.fromIso8601("2024-01-01T15:08:42.062270+00:00"), stopTime: Cesium.JulianDate.fromIso8601("2024-01-01T15:09:59.522054+00:00"), clockRange: Cesium.ClockRange.CLAMPED, canAnimate: true, shouldAnimate: false}))});
+    widget.property_b41d6aad = new Cesium.SampledProperty(Cesium.Cartesian3);
+    widget.property_b41d6aad.addSample("2024-01-01T15:08:42.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.137930206964592, 4.36243069464541, 550122.7669713907));
+    widget.property_b41d6aad.addSample("2024-01-01T15:08:52.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.261797414893252, 3.7375222070361627, 550090.1592055677));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:02.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.385549172024783, 3.112595118313606, 550062.5564602121));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:12.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.509204639764805, 2.487652541239966, 550039.9721103959));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:22.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.632783561922796, 1.8626975872800973, 550022.417099835));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:32.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.756304938206313, 1.2377333668825972, 550009.899935408));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:42.062270+00:00", Cesium.Cartesian3.fromDegrees(-9.879788219034602, 0.6127629897428399, 550002.4266828273));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:52.062270+00:00", Cesium.Cartesian3.fromDegrees(-10.003252819293257, -0.012210434938399874, 550000.0009636243));
+    widget.property_b41d6aad.addSample("2024-01-01T15:09:59.522054+00:00", Cesium.Cartesian3.fromDegrees(-10.095353696148225, -0.47842726863586893, 550001.4793336198));
+    widget.property_741e58bd = new Cesium.SampledProperty(Cesium.Quaternion);
+    widget.property_741e58bd.addSample("2024-01-01T15:08:42.062270+00:00", new Cesium.Quaternion(-0.774527060079774, 0.32019866957932464, 0.381849407615689, 0.3895788432491684));
+    widget.property_741e58bd.addSample("2024-01-01T15:08:52.062270+00:00", new Cesium.Quaternion(-0.7458551132221194, 0.34504730693980695, 0.41423861982994287, 0.3912146110453827));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:02.062270+00:00", new Cesium.Quaternion(-0.7140832246829558, 0.37052998866370396, 0.4486169722283479, 0.3892755938354428));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:12.062270+00:00", new Cesium.Quaternion(-0.6793714727694591, 0.3958062505502451, 0.48449460158008956, 0.38347984960381365));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:22.062270+00:00", new Cesium.Quaternion(-0.6421430590240904, 0.41986388718047685, 0.5211727777473111, 0.37382555252956595));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:32.062270+00:00", new Cesium.Quaternion(-0.603095395440592, 0.4416491515552108, 0.5578119103763948, 0.36064919738044016));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:42.062270+00:00", new Cesium.Quaternion(-0.5631387250035137, 0.46023838882150303, 0.5935492613671093, 0.3446080036606276));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:52.062270+00:00", new Cesium.Quaternion(-0.5232686965396078, 0.47499263804153646, 0.627629020911558, 0.32657874569187884));
+    widget.property_741e58bd.addSample("2024-01-01T15:09:59.522054+00:00", new Cesium.Quaternion(-0.4941434847826268, 0.48332441145798055, 0.6516334864168297, 0.3123996304670128));
+    widget.entities.add({position: widget.property_b41d6aad, orientation: widget.property_741e58bd, model: {uri: await Cesium.IonResource.fromAssetId(1359555), availability: new Cesium.TimeIntervalCollection({intervals: [new Cesium.TimeInterval({start: Cesium.JulianDate.fromIso8601("2024-01-01T15:08:42.062270+00:00"), stop: Cesium.JulianDate.fromIso8601("2024-01-01T15:09:59.522054+00:00")})]})}});
+    widget.entities.add({polyline: {positions: Cesium.Cartesian3.fromDegreesArrayHeights([-9.137930206964592, 4.36243069464541, 550122.7669713907, -9.261797414893252, 3.7375222070361627, 550090.1592055677, -9.385549172024783, 3.112595118313606, 550062.5564602121, -9.509204639764805, 2.487652541239966, 550039.9721103959, -9.632783561922796, 1.8626975872800973, 550022.417099835, -9.756304938206313, 1.2377333668825972, 550009.899935408, -9.879788219034602, 0.6127629897428399, 550002.4266828273, -10.003252819293257, -0.012210434938399874, 550000.0009636243, -10.095353696148225, -0.47842726863586893, 550001.4793336198]), width: 1.0}});
+    widget.entities.add({position: Cesium.Cartesian3.fromDegrees(0.0, 0.0, 9.999999999622059), point: {pixelSize: 10.0, color: Cesium.Color.RED}});
+    widget.zoomTo(widget.entities);
+    widget.trackedEntity = widget.entities.values[0];
+  }
+  init();
+</script>
