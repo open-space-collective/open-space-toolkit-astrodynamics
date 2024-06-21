@@ -1247,7 +1247,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
     const Interval interval =
         Interval::Closed(aStateArray.accessFirst().accessInstant(), aStateArray.accessLast().accessInstant());
 
-    const Array<Pass> passes = Orbit::ComputePassesWithModel(tabulated, interval);
+    const Array<Pass> passes = Orbit::ComputePassesWithModel(tabulated, interval, anInitialRevolutionNumber);
 
     Array<Pair<Index, Pass>> passMap;
     passMap.reserve(passes.getSize());
@@ -1295,7 +1295,9 @@ Instant Orbit::GetCrossingInstant(
     return anEpoch + Duration::Seconds(solution.root);
 }
 
-Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Interval& anInterval)
+Array<Pass> Orbit::ComputePassesWithModel(
+    const orbit::Model& aModel, const Interval& anInterval, const Integer& aRevolutionNumber
+)
 {
     // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
 
@@ -1309,9 +1311,14 @@ Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Inte
         throw ostk::core::error::runtime::Undefined("Interval");
     }
 
+    if (!aRevolutionNumber.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Revolution number");
+    }
+
     Array<Pass> passes = Array<Pass>::Empty();
 
-    const Instant epoch = aModel.getEpoch();
+    const Instant epoch = anInterval.getStart();
 
     const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> double
     {
@@ -1321,7 +1328,7 @@ Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Inte
             .z();
     };
 
-    const auto getZDot = [&aModel, &epoch](const double& aDurationInSeconds) -> double
+    const auto getZDot = [&aModel, epoch](const double& aDurationInSeconds) -> double
     {
         return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getVelocity()
@@ -1329,7 +1336,7 @@ Array<Pass> Orbit::ComputePassesWithModel(const orbit::Model& aModel, const Inte
             .z();
     };
 
-    Integer revolutionNumber = aModel.getRevolutionNumberAtEpoch();
+    Integer revolutionNumber = aRevolutionNumber;
     State previousState = aModel.calculateStateAt(anInterval.getStart());
     Duration stepDuration = Duration::Minutes(5.0);
 

@@ -54,10 +54,9 @@ Integer Model::calculateRevolutionNumberAt(const Instant& anInstant) const
         return this->getRevolutionNumberAtEpoch();
     }
 
-    const Instant startInstant = this->getEpoch();
-    const Instant endInstant = anInstant;
-
-    const Array<Pass> passes = Orbit::ComputePassesWithModel(*this, Interval::Closed(startInstant, endInstant));
+    const Array<Pass> passes = Orbit::ComputePassesWithModel(
+        *this, Interval::Closed(this->getEpoch(), anInstant), this->getRevolutionNumberAtEpoch()
+    );
 
     if (passes.isEmpty())
     {

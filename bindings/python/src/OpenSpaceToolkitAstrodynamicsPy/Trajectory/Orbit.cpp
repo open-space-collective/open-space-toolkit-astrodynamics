@@ -397,12 +397,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 &Orbit::ComputePassesWithModel,
                 arg("model"),
                 arg("interval"),
+                arg("initial_revolution_number"),
                 R"doc(
                     Compute passes with the given model for the provided interval.
 
                     Args:
                         model (orbit.Model): The model.
                         interval (Interval): The interval within which to generate passes.
+                        initial_revolution_number (int): The initial revolution number.
 
                     Returns:
                         list[Pass]: List of passes

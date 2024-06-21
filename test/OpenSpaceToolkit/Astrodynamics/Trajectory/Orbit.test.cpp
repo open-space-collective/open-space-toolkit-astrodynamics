@@ -587,7 +587,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
             Kepler::PerturbationType::None,
         };
         const Interval interval = Interval::Closed(Instant::Now(), Instant::Now() + Duration::Days(1.0));
-        EXPECT_THROW(Orbit::ComputePassesWithModel(kepler, interval), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Orbit::ComputePassesWithModel(kepler, interval, 1), ostk::core::error::runtime::Undefined);
     }
 
     // undefined interval
@@ -596,7 +596,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
             TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
                 "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
         const SGP4 sgp4 = SGP4(tle);
-        EXPECT_THROW(Orbit::ComputePassesWithModel(sgp4, Interval::Undefined()), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(
+            Orbit::ComputePassesWithModel(sgp4, Interval::Undefined(), 1), ostk::core::error::runtime::Undefined
+        );
+    }
+
+    // undefined revolution number
+    {
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+        const SGP4 sgp4 = SGP4(tle);
+        const Interval interval = Interval::Closed(Instant::Now(), Instant::Now() + Duration::Days(1.0));
+        EXPECT_THROW(
+            Orbit::ComputePassesWithModel(sgp4, interval, Integer::Undefined()), ostk::core::error::runtime::Undefined
+        );
     }
 
     // Kepler model
@@ -629,7 +643,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
             const Instant endInstant = Instant::DateTime(DateTime::Parse("2018-01-01 02:30:00"), Scale::UTC);
             const Interval interval = Interval::Closed(startInstant, endInstant);
 
-            const Array<Pass> passes = Orbit::ComputePassesWithModel(keplerianModel, interval);
+            const Array<Pass> passes = Orbit::ComputePassesWithModel(keplerianModel, interval, 1);
 
             for (const auto &pass : passes)
             {
@@ -653,7 +667,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
             const Instant endInstant = Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC);
             const Interval interval = Interval::Closed(startInstant, endInstant);
 
-            const Array<Pass> passes = Orbit::ComputePassesWithModel(keplerianModel, interval);
+            const Array<Pass> passes = Orbit::ComputePassesWithModel(keplerianModel, interval, 1);
 
             EXPECT_EQ(
                 referenceData.getRowCount(), passes.size() - 1
@@ -724,7 +738,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
                 "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
         const SGP4 sgp4 = SGP4(tle);
 
-        const Array<Pass> passes = Orbit::ComputePassesWithModel(sgp4, interval);
+        const Array<Pass> passes = Orbit::ComputePassesWithModel(sgp4, interval, 8423);
 
         for (const auto &pass : passes)
         {
@@ -754,7 +768,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
             states.accessFirst().accessInstant() + Duration::Hours(3.0)
         );
 
-        const Array<Pass> passes = Orbit::ComputePassesWithModel(propagated, interval);
+        const Array<Pass> passes = Orbit::ComputePassesWithModel(propagated, interval, 1);
 
         for (const auto &pass : passes)
         {

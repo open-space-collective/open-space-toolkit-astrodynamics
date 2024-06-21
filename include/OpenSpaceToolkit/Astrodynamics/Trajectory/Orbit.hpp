@@ -264,10 +264,14 @@ class Orbit : public Trajectory
     );
 
     /// @brief Compute passes for a given model and interval
-    /// @param aModel
-    /// @param anInterval
+    ///
+    /// @param aModel An Orbit model.
+    /// @param anInterval An interval over which to compute passes.
+    /// @param anInitialRevolutionNumber Initial revolution number at the start of the interval.
     /// @return Array of passes
-    static Array<Pass> ComputePassesWithModel(const orbit::Model& aModel, const Interval& anInterval);
+    static Array<Pass> ComputePassesWithModel(
+        const orbit::Model& aModel, const Interval& anInterval, const Integer& anInitialRevolutionNumber
+    );
 
    private:
     const orbit::Model* modelPtr_;
