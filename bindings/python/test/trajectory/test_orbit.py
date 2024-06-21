@@ -192,6 +192,7 @@ class TestOrbit:
                 Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
                 Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
             ),
+            initial_revolution_number=1,
         )
 
         assert len(passes) > 0
