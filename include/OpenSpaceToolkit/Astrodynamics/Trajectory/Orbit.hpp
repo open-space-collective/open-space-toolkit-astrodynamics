@@ -7,6 +7,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -35,6 +36,7 @@ namespace trajectory
 using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::Pair;
+using ostk::core::container::Tuple;
 using ostk::core::type::Index;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
@@ -263,14 +265,19 @@ class Orbit : public Trajectory
         const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber
     );
 
-    /// @brief Compute passes for a given model and interval
+    /// @brief Compute passes for a given model and interval.
+    /// Note: An Interval object is not used, as the start and end Instant can be forward or backward intervals.
     ///
     /// @param aModel An Orbit model.
-    /// @param anInterval An interval over which to compute passes.
+    /// @param aStartInstant Start instant of the interval.
+    /// @param anEndInstant End instant of the interval.
     /// @param anInitialRevolutionNumber Initial revolution number at the start of the interval.
     /// @return Array of passes
     static Array<Pass> ComputePassesWithModel(
-        const orbit::Model& aModel, const Interval& anInterval, const Integer& anInitialRevolutionNumber
+        const orbit::Model& aModel,
+        const Instant& aStartInstant,
+        const Instant& anEndInstant,
+        const Integer& anInitialRevolutionNumber
     );
 
    private:
@@ -287,16 +294,34 @@ class Orbit : public Trajectory
     /// Use a bisection search to find the Instant between `previousInstant` and `nextInstant` at which the return value
     /// of `getValue` crosses zero.
     ///
-    /// @param anEpoch An orbit epoch from which to measure
-    /// @param previousInstant lower bound of search
-    /// @param currentInstant upper bound of search
-    /// @param getValue function that receives a duration [s] from `anEpoch` and returns a real value
-    /// @return Instant at which the crossing occurs
+    /// @param anEpoch An orbit epoch from which to measure.
+    /// @param previousInstant lower bound of search.
+    /// @param currentInstant upper bound of search.
+    /// @param getValue function that receives a duration [s] from `anEpoch` and returns a real value.
+    /// @return Instant at which the crossing occurs.
     static Instant GetCrossingInstant(
         const Instant& anEpoch,
         const Instant& previousInstant,
         const Instant& currentInstant,
         const std::function<double(double)>& getValue
+    );
+
+    /// @brief Compute the instants at which the orbit crosses the north point, descending node, south point and pass
+    /// break
+    ///
+    /// @param aModel An orbit model.
+    /// @param previousInstant The previous instant.
+    /// @param stepDuration The step duration.
+    /// @param isForwardPropagated Whether the orbit is forward propagated.
+    /// @param anEndInstant The end instant.
+    /// @return Tuple of instants at which the orbit crosses the north point, descending node, south point and pass
+    /// break.
+    static Tuple<Instant, Instant, Instant, Instant> ComputeCrossings(
+        const orbit::Model& aModel,
+        Instant previousInstant,
+        const Duration& stepDuration,
+        const bool& isForwardPropagated,
+        const Instant& anEndInstant = Instant::Undefined()
     );
 };
 

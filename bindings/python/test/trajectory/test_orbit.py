@@ -188,10 +188,8 @@ class TestOrbit:
     def test_compute_passes_with_model(self, orbit: Orbit):
         passes: list[tuple[int, Pass]] = Orbit.compute_passes_with_model(
             model=orbit.access_kepler_model(),
-            interval=Interval.closed(
-                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
-                Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
-            ),
+            start_instant=Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+            end_instant=Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
             initial_revolution_number=1,
         )
 

@@ -44,19 +44,13 @@ Integer Model::calculateRevolutionNumberAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Model");
     }
 
-    if (anInstant < this->getEpoch())
-    {
-        throw ostk::core::error::runtime::ToBeImplemented("Backward propagation.");
-    }
-
     if (anInstant == this->getEpoch())
     {
         return this->getRevolutionNumberAtEpoch();
     }
 
-    const Array<Pass> passes = Orbit::ComputePassesWithModel(
-        *this, Interval::Closed(this->getEpoch(), anInstant), this->getRevolutionNumberAtEpoch()
-    );
+    const Array<Pass> passes =
+        Orbit::ComputePassesWithModel(*this, this->getEpoch(), anInstant, this->getRevolutionNumberAtEpoch());
 
     if (passes.isEmpty())
     {
