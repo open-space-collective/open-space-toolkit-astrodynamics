@@ -1182,24 +1182,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
     return passMap;
 }
 
-Instant Orbit::GetCrossingInstant(
-    const Instant& anEpoch,
-    const Instant& previousInstant,
-    const Instant& currentInstant,
-    const std::function<double(double)>& getValue
-)
-{
-    const RootSolver::Solution solution =
-        rootSolver.bisection(getValue, (previousInstant - anEpoch).inSeconds(), (currentInstant - anEpoch).inSeconds());
-
-    if (!solution.hasConverged)
-    {
-        throw ostk::core::error::RuntimeError("Root solver did not converge.");
-    }
-
-    return anEpoch + Duration::Seconds(solution.root);
-}
-
 Array<Pass> Orbit::ComputePassesWithModel(
     const orbit::Model& aModel,
     const Instant& aStartInstant,
@@ -1281,6 +1263,24 @@ Array<Pass> Orbit::ComputePassesWithModel(
     }
 
     return passes;
+}
+
+Instant Orbit::GetCrossingInstant(
+    const Instant& anEpoch,
+    const Instant& previousInstant,
+    const Instant& currentInstant,
+    const std::function<double(double)>& getValue
+)
+{
+    const RootSolver::Solution solution =
+        rootSolver.bisection(getValue, (previousInstant - anEpoch).inSeconds(), (currentInstant - anEpoch).inSeconds());
+
+    if (!solution.hasConverged)
+    {
+        throw ostk::core::error::RuntimeError("Root solver did not converge.");
+    }
+
+    return anEpoch + Duration::Seconds(solution.root);
 }
 
 Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
