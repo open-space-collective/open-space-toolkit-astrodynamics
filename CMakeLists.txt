@@ -23,7 +23,7 @@ OPTION (BUILD_CODE_COVERAGE "Build code coverage" OFF)
 OPTION (BUILD_DOCUMENTATION "Build documentation" OFF)
 OPTION (BUILD_WITH_DEBUG_SYMBOLS "Build with debug symbols" ON)
 OPTION (BUILD_BENCHMARK "Build benchmark" ON)
-OPTION (BUILD_UTILITY "Build utility" ON)
+OPTION (BUILD_UTILITY "Build utility" OFF)
 
 ## Setup
 
