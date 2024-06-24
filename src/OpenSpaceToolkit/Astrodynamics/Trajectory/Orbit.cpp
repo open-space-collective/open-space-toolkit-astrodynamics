@@ -1320,19 +1320,19 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
 
     const Duration stepDuration = isForwardPropagated ? aStepDuration : -aStepDuration;
 
-    while (!passBreakCrossing.isDefined())
+    bool lastStep = false;
+
+    while (!passBreakCrossing.isDefined() && !lastStep)
     {
-        const Instant currentInstant = previousInstant + stepDuration;
+        Instant currentInstant = previousInstant + stepDuration;
+
         if (anEndInstant.isDefined())
         {
-            if (isForwardPropagated && (currentInstant >= anEndInstant))
+            if ((isForwardPropagated && (currentInstant >= anEndInstant)) ||
+                (!isForwardPropagated && (currentInstant <= anEndInstant)))
             {
-                break;
-            }
-
-            if (!isForwardPropagated && (currentInstant <= anEndInstant))
-            {
-                break;
+                currentInstant = anEndInstant;
+                lastStep = true;
             }
         }
 
