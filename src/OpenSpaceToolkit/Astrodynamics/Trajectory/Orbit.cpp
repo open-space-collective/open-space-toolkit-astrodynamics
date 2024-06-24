@@ -335,7 +335,7 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
     Integer revolutionNumber = Integer::Undefined();
 
     // Check if the Pass is already within Pass map
-    for (const auto& passIt : this->passMap_)
+    for (const auto& passPair : this->passMap_)
     {
         const Pass& pass = passIt.second;
 
