@@ -798,7 +798,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
 {
 };
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, TestName)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCustomOrientation)
 {
     const auto param = GetParam();
     Profile::TargetType alignmentTargetType;
