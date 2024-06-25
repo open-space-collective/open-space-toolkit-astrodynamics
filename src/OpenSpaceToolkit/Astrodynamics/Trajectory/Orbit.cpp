@@ -1221,6 +1221,12 @@ Array<Pass> Orbit::ComputePassesWithModel(
 
     while (true)
     {
+        if ((isForwardPropagated && (previousInstant >= anEndInstant)) ||
+            (!isForwardPropagated && (previousInstant <= anEndInstant)))
+        {
+            break;
+        }
+
         std::tie(northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing) =
             Orbit::ComputeCrossings(aModel, previousInstant, stepDuration, isForwardPropagated, anEndInstant);
 
@@ -1235,6 +1241,15 @@ Array<Pass> Orbit::ComputePassesWithModel(
 
         passes.add(pass);
 
+        // if forward propagating and the pass has an undefined PassBreak, then we have crossed the end of the interval
+        // if backward propagating and the pass has an undefined AscendingNode, then we have crossed the end of the
+        // interval
+        if ((isForwardPropagated && !pass.accessInstantAtPassBreak().isDefined()) ||
+            (!isForwardPropagated && !pass.accessInstantAtAscendingNode().isDefined()))
+        {
+            break;
+        }
+
         revolutionNumber += isForwardPropagated ? 1 : -1;
         previousPassEndInstant = passBreakCrossing;
 
@@ -1247,15 +1262,6 @@ Array<Pass> Orbit::ComputePassesWithModel(
                 (pass.accessInstantAtPassBreak() - pass.accessInstantAtSouthPoint()),
             };
             stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
-        }
-
-        // if forward propagating and the pass has an undefined PassBreak, then we have crossed the end of the interval
-        // if backward propagating and the pass has an undefined AscendingNode, then we have crossed the end of the
-        // interval
-        if ((isForwardPropagated && !pass.accessInstantAtPassBreak().isDefined()) ||
-            (!isForwardPropagated && !pass.accessInstantAtAscendingNode().isDefined()))
-        {
-            break;
         }
 
         previousInstant = isForwardPropagated ? pass.accessInstantAtPassBreak() + Duration::Microseconds(1.0)
@@ -1295,6 +1301,11 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
     Instant southPointCrossing = Instant::Undefined();
     Instant descendingNodeCrossing = Instant::Undefined();
     Instant passBreakCrossing = Instant::Undefined();
+
+    if (anEndInstant.isDefined() && (previousInstant >= anEndInstant))
+    {
+        return {northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing};
+    }
 
     const Instant epoch = aModel.getEpoch();
 
