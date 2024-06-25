@@ -1160,18 +1160,15 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
     Index stateIndex = 0;
     Index passIndex = 0;
 
-    Pass const* currentPassPtr = &passes[passIndex];
-
     while (stateIndex < aStateArray.getSize())
     {
         const Instant& stateInstant = aStateArray[stateIndex].accessInstant();
 
-        if (currentPassPtr->accessInstantAtPassBreak().isDefined() &&
-            stateInstant >= currentPassPtr->accessInstantAtPassBreak())
+        if (passes[passIndex].accessInstantAtPassBreak().isDefined() &&
+            stateInstant >= passes[passIndex].accessInstantAtPassBreak())
         {
-            passMap.add({stateIndex, *currentPassPtr});
+            passMap.add({stateIndex, passes[passIndex]});
             ++passIndex;
-            currentPassPtr = &passes[passIndex];
         }
 
         stateIndex++;
