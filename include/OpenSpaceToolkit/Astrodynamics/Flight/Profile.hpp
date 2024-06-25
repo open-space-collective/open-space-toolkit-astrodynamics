@@ -38,19 +38,19 @@ namespace flight
 using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
+using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
-using ostk::core::type::Integer;
 using ostk::core::type::Unique;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
-using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::environment::object::Celestial;
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
@@ -95,11 +95,24 @@ class Profile
     {
         TargetType type;
         Axis axis;
-        bool antiDirection = false;
+        bool antiDirection;
+        Trajectory trajectory;
 
-        Integer getSign() const
+        Target(
+            const TargetType& aType,
+            const Axis& anAxis,
+            const bool& isAntiDirection = false,
+            const Trajectory& aTrajectory = Trajectory::Undefined()
+        )
+            : type(aType),
+              axis(anAxis),
+              antiDirection(isAntiDirection),
+              trajectory(aTrajectory)
         {
-            return antiDirection ? -1 : 1;
+            if (type == TargetType::Trajectory && !trajectory.isDefined())
+            {
+                throw ostk::core::error::runtime::Undefined("Trajectory");
+            }
         }
     };
 
@@ -230,14 +243,10 @@ class Profile
     ///
     /// @param anAlignmentAxis An alignment axis
     /// @param aClockingAxis A clocking axis
-    /// @param anAngularOffset An angular offset
-    /// @param aTrajectory A trajectory
+    /// @param anAngularOffset An angular offset applied to the clocking axis
 
     static std::function<Quaternion(const State&)> GenerateCustomOrientation(
-        const Target& anAlignmentTarget,
-        const Target& aClockingTarget,
-        const Angle& anAngularOffset = Angle::Zero(),
-        const Trajectory& aTrajectory = Trajectory::Undefined()
+        const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset = Angle::Zero()
     );
 
    private:
@@ -245,22 +254,22 @@ class Profile
 
     Profile();
 
-    static Vector3d GetGeocentricNadirDirectionVector(const State& state);
+    static Vector3d GetGeocentricNadirDirectionVector(const State& aState);
 
-    static Vector3d GetGeodeticNadirDirectionVector(const State& state);
+    static Vector3d GetGeodeticNadirDirectionVector(const State& aState);
 
-    static Vector3d GetCelestialDirectionVector(const State& state, const Celestial& aCelestial);
+    static Vector3d GetCelestialDirectionVector(const State& aState, const Celestial& aCelestial);
 
-    static Vector3d GetVelocityDirectionVector(const State& state);
+    static Vector3d GetVelocityDirectionVector(const State& aState);
 
-    static Vector3d GetTargetDirectionVector(const State& state, const Trajectory& targetTrajectory);
+    static Vector3d GetTargetDirectionVector(const State& aState, const Trajectory& aTrajectory);
 
-    static Vector3d GetClockingAxisVector(const Vector3d& alignmentAxisVector, const Vector3d& clockingVector);
+    static Vector3d GetClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
 
     static RotationMatrix GetRotationMatrix(
-        const Axis& alignmentAxis,
-        const Axis& clockingAxis,
-        const Vector3d& alignmentAxisVector,
+        const Axis& anAlignmentAxis,
+        const Axis& aClockingAxis,
+        const Vector3d& anAlignmentAxisVector,
         const Vector3d& clockingAxisVector
     );
 };
