@@ -337,7 +337,7 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
     // Check if the Pass is already within Pass map
     for (const auto& passPair : this->passMap_)
     {
-        const Pass& pass = passIt.second;
+        const Pass& pass = passPair.second;
 
         if (pass.getInterval().contains(currentInstant))
         {
