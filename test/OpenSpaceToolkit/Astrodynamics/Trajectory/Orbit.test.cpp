@@ -658,7 +658,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
                     EXPECT_TRUE(pass.isDefined());
                 }
 
-                EXPECT_EQ(passes.accessLast().getType(), Pass::Type::Partial);
+                EXPECT_EQ(passes.accessLast().getType(), Pass::Type::Complete);
             }
         }
 
