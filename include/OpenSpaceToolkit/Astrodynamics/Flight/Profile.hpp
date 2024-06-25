@@ -270,7 +270,7 @@ class Profile
         const Axis& anAlignmentAxis,
         const Axis& aClockingAxis,
         const Vector3d& anAlignmentAxisVector,
-        const Vector3d& clockingAxisVector
+        const Vector3d& aClockingAxisVector
     );
 };
 
