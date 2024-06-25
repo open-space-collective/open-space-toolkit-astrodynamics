@@ -207,6 +207,48 @@ Or to run them manually:
 
 *Tip: The `ostk-test` command simplifies running tests from within the development environment.*
 
+
+### Script
+
+To build an executable for a simple script:
+- create a .cxx file in the `scripts` directory.
+- Enable the CMake BUILD_SCRIPT flag using ccmake or equivalent.
+- run `ostk-build` to build the executable, which will be found in the in `/bin` folder under the name `open-space-toolkit-astrodynamics`
+
+Example:
+```
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
+using ostk::mathematics::object::VectorXd;
+
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::time::Instant;
+
+using ostk::astrodynamics::trajectory::State;
+
+int main()
+{
+    VectorXd coordinates(9);
+    coordinates << 3786681.30288918, -4897593.40751009, -2997836.66403268, 1124.5962634611, -3265.39989654837,
+        6779.45043611605, 100.0, 1.0, 1.36738720713048;
+
+    const State state = {
+        Instant::Parse("2024-06-09 14:44:30.734.999", Scale::UTC),
+        Position::Meters({3786681.30288918, -4897593.40751009, -2997836.66403268}, Frame::GCRF()),
+        Velocity::MetersPerSecond({1124.5962634611, -3265.39989654837, 6779.45043611605, Frame::GCRF()}),
+    };
+
+    std::cout << state << std::endl;
+}
+```
+
 ### Benchmark
 
 To run benchmarks:
