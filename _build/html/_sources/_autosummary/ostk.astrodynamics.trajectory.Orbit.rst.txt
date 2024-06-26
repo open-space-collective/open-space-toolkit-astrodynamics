@@ -24,11 +24,13 @@ ostk.astrodynamics.trajectory.Orbit
       ~Orbit.circular
       ~Orbit.circular_equatorial
       ~Orbit.compute_passes
+      ~Orbit.compute_passes_with_model
       ~Orbit.equatorial
       ~Orbit.geo_synchronous
       ~Orbit.get_orbital_frame
       ~Orbit.get_pass_at
       ~Orbit.get_pass_with_revolution_number
+      ~Orbit.get_passes_within_interval
       ~Orbit.get_revolution_number_at
       ~Orbit.get_state_at
       ~Orbit.get_states_at

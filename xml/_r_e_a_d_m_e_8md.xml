@@ -216,6 +216,48 @@
 <codeline></codeline>
 <codeline><highlight class="normal">*Tip:<sp/>The<sp/>`ostk-test`<sp/>command<sp/>simplifies<sp/>running<sp/>tests<sp/>from<sp/>within<sp/>the<sp/>development<sp/>environment.*</highlight></codeline>
 <codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Script</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>build<sp/>an<sp/>executable<sp/>for<sp/>a<sp/>simple<sp/>script:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>create<sp/>a<sp/>.cxx<sp/>file<sp/>in<sp/>the<sp/>`scripts`<sp/>directory.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Enable<sp/>the<sp/>CMake<sp/>BUILD_SCRIPT<sp/>flag<sp/>using<sp/>ccmake<sp/>or<sp/>equivalent.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>run<sp/>`ostk-build`<sp/>to<sp/>build<sp/>the<sp/>executable,<sp/>which<sp/>will<sp/>be<sp/>found<sp/>in<sp/>the<sp/>in<sp/>`/bin`<sp/>folder<sp/>under<sp/>the<sp/>name<sp/>`open-space-toolkit-astrodynamics`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Example:</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Position.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::mathematics::object::VectorXd;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Frame;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Position;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Velocity;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::astrodynamics::trajectory::State;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">int<sp/>main()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>coordinates(9);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>coordinates<sp/>&lt;&lt;<sp/>3786681.30288918,<sp/>-4897593.40751009,<sp/>-2997836.66403268,<sp/>1124.5962634611,<sp/>-3265.39989654837,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>6779.45043611605,<sp/>100.0,<sp/>1.0,<sp/>1.36738720713048;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>State<sp/>state<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Parse(&quot;2024-06-09<sp/>14:44:30.734.999&quot;,<sp/>Scale::UTC),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position::Meters({3786681.30288918,<sp/>-4897593.40751009,<sp/>-2997836.66403268},<sp/>Frame::GCRF()),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity::MetersPerSecond({1124.5962634611,<sp/>-3265.39989654837,<sp/>6779.45043611605,<sp/>Frame::GCRF()}),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>state<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
 <codeline><highlight class="normal">###<sp/>Benchmark</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">To<sp/>run<sp/>benchmarks:</highlight></codeline>

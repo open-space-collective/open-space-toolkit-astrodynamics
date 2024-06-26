@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="63" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="62" bodyend="77"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="65" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="64" bodyend="79"/>
       </memberdef>
       <memberdef kind="typedef" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac7983e7b7c8ffec20d6f8052dde38f27" prot="public" static="no">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;::ConstIterator</type>
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="79" column="35" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="79" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="81" column="35" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="81" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="203" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="203" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="284" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="284" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac63825246d6347c7431328a7e83c938f" prot="private" static="no" mutable="no">
         <type>Shared&lt; const Celestial &gt;</type>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="205" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="205" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="286" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="286" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1aa60bc82dc85cd9d93f68b27ae69eef5e" prot="private" static="no" mutable="yes">
         <type>std::mutex</type>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="207" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="207" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="288" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="288" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1aa8292e63125f136f11d9de5e29309e7c" prot="private" static="no" mutable="yes">
         <type>Map&lt; Integer, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;</type>
@@ -144,7 +144,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="208" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="208" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="289" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="289" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -162,12 +162,31 @@
           <declname>aCelestialObjectSPtr</declname>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbit model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestialObjectSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A shared pointer to a central celestial body. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="81" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="68" bodyend="73"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="87" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="68" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a6b4e6ad4afbd459b24780a9c5821a632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -187,12 +206,39 @@
           <declname>aCelestialObjectSPtr</declname>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of states. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An initial revolution number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestialObjectSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A shared pointer to a central celestial body. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="83" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="75" bodyend="84"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="94" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="75" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a39167c721e7a8672ba33a4d1216e6ec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -204,12 +250,23 @@
           <declname>anOrbit</declname>
         </param>
         <briefdescription>
+<para>Copy constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> to copy from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="89" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="86" bodyend="91"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="103" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="86" bodyend="91"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a4a171a91ec565f38001037ccf0778ddc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -217,12 +274,13 @@
         <argsstring>()</argsstring>
         <name>~Orbit</name>
         <briefdescription>
+<para>Destructor. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="91" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="93" bodyend="117"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="106" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="93" bodyend="117"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a067aaaac7bd065de3ffc50ad00212e28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> &amp;</type>
@@ -234,12 +292,25 @@
           <declname>anOrbit</declname>
         </param>
         <briefdescription>
+<para>Copy assignment operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> to copy from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to the updated <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref>. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="93" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="119" bodyend="132"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="112" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="119" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a08d564b1e2b697c2bc51d35c80d0ac20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -251,12 +322,25 @@
           <declname>anOrbit</declname>
         </param>
         <briefdescription>
+<para>Equality operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> to compare to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if Orbits are equal, false otherwise. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="95" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="134" bodyend="142"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="118" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="134" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1afd929fc4fe8172ea56b32f03dc894b50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -268,12 +352,25 @@
           <declname>anOrbit</declname>
         </param>
         <briefdescription>
+<para>Inequality operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> to compare to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if Orbits are not equal, false otherwise. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="97" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="144" bodyend="147"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="124" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="144" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1b164ea936fb2a37e0243dc2f2721aa9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -281,12 +378,16 @@
         <argsstring>() const</argsstring>
         <name>isDefined</name>
         <briefdescription>
+<para>Check if the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> is defined. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>True if the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> is defined, false otherwise. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="99" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="149" bodyend="153"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="129" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="149" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67553e524c37d74359548676bb501cb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -298,12 +399,25 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Get the revolution number at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Instant to get the revolution number at. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Revolution number at the given instant. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="101" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="155" bodyend="163"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="135" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="155" bodyend="163"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac699476394541956810059e89b7b5732" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref></type>
@@ -315,12 +429,25 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Get the pass at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Instant to get the pass at. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pass at the given instant. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="103" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="165" bodyend="173"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="141" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="165" bodyend="173"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a6a5639866b5487f0a72960f3247a7685" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref></type>
@@ -337,12 +464,63 @@
           <defval>Duration::Minutes(10.0)</defval>
         </param>
         <briefdescription>
+<para>Get the pass with a given revolution number. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Revolution number to get the pass for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStepDuration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step duration to use. Defaults to Duration::Minutes(10.0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pass with the given revolution number. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="105" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="175" bodyend="416"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="148" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="175" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a93ae8d3ec26e41d848b4742bda05e771" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;</type>
+        <definition>Array&lt; Pass &gt; ostk::astrodynamics::trajectory::Orbit::getPassesWithinInterval</definition>
+        <argsstring>(const Interval &amp;anInterval) const</argsstring>
+        <name>getPassesWithinInterval</name>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <briefdescription>
+<para>Get all passes within a given interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interval to get the passes within. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of passes within the given interval. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="156" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="321" bodyend="368"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ab53a007a76ed06ff7901edcbede3a853" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -354,12 +532,25 @@
           <declname>aFrameType</declname>
         </param>
         <briefdescription>
+<para>Get the orbital frame of a given type. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the frame to get. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to the orbital frame of the given type. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="109" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="418" bodyend="771"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="162" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="370" bodyend="723"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1acfc9841a0a122ab45e9a7b945130a0dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -377,18 +568,15 @@
           <defval>true</defval>
         </param>
         <briefdescription>
-<para>Print trajectory to output stream. </para>
+<para>Print the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> to an output stream. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">trajectory.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
-</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An output stream </para>
+<para>Output stream to print to. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -396,7 +584,7 @@
 <parametername>displayDecorator</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>If true, display decorator </para>
+<para>Whether to display the decorator. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -404,7 +592,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="111" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="773" bodyend="791"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="168" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="725" bodyend="743"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -417,12 +605,13 @@
 <para>Constructs an undefined orbit. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>         Undefined orbit 
-</verbatim> </para>
+<para><simplesect kind="return"><para>Undefined orbit </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="116" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="793" bodyend="796"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="173" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="745" bodyend="748"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a7e32f0d281ea72dbba2199f2d91c93cc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -449,8 +638,7 @@
 <para>Constructs a circular orbit. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>         Model: Kepler (No Perturbation).
-</verbatim></para>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref>: Kepler (No Perturbation).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anEpoch</parametername>
@@ -490,7 +678,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="127" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="798" bodyend="840"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="184" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="750" bodyend="792"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1afd7b71443830562d589158667a678952" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -517,8 +705,7 @@
 <para>Constructs an equatorial orbit. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>         Model: Kepler (No Perturbation).
-</verbatim></para>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref>: Kepler (No Perturbation).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anEpoch</parametername>
@@ -558,7 +745,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="143" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="842" bodyend="896"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="200" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="794" bodyend="848"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a172a47f4555fa3b3f8e3863f5b8459fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -581,8 +768,7 @@
 <para>Constructs a circular-equatorial orbit. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>         Model: Kepler (No Perturbation).
-</verbatim></para>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref>: Kepler (No Perturbation).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anEpoch</parametername>
@@ -614,7 +800,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="158" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="898" bodyend="903"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="215" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="850" bodyend="855"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a5dadd77b377ec8db4d9f74012716df9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -641,8 +827,7 @@
 <para>Constructs a geosynchronous orbit. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>         Model: Kepler (J2 Perturbation).
-</verbatim></para>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref>: Kepler (J2 Perturbation).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anEpoch</parametername>
@@ -682,7 +867,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="171" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="905" bodyend="970"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="228" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="857" bodyend="922"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1addbf182a308b0ea313d2dd2f5828477d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -714,8 +899,7 @@
 <para>Constructs a Sun-synchronous orbit. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>         Model: Kepler (J2 Perturbation).
-</verbatim></para>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref>: Kepler (J2 Perturbation).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anEpoch</parametername>
@@ -764,7 +948,7 @@
         <inbodydescription>
 <para>Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292</para>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="188" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="972" bodyend="1127"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="245" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="924" bodyend="1079"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -776,12 +960,25 @@
           <declname>aFrameType</declname>
         </param>
         <briefdescription>
+<para>Get the string representation of a frame type. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the frame to get the string representation of </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation of the frame type </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="196" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1129" bodyend="1166"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="257" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1081" bodyend="1118"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a970789fecee44d1fb733b9ada798f0d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Pair&lt; Index, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt; &gt;</type>
@@ -797,12 +994,99 @@
           <declname>anInitialRevolutionNumber</declname>
         </param>
         <briefdescription>
+<para>Compute passes for a given state array and initial revolution number. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of states </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial revolution number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of Pair of Index + Passes </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="198" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1173" bodyend="1314"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="264" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1125" bodyend="1180"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;</type>
+        <definition>Array&lt; Pass &gt; ostk::astrodynamics::trajectory::Orbit::ComputePassesWithModel</definition>
+        <argsstring>(const orbit::Model &amp;aModel, const Instant &amp;aStartInstant, const Instant &amp;anEndInstant, const Integer &amp;anInitialRevolutionNumber)</argsstring>
+        <name>ComputePassesWithModel</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" kindref="compound">orbit::Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>aStartInstant</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEndInstant</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>anInitialRevolutionNumber</declname>
+        </param>
+        <briefdescription>
+<para>Compute passes for a given model and interval. Note: An Interval object is not used, as the start and end Instant can be forward or backward intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStartInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start instant of the interval. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End instant of the interval. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialRevolutionNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial revolution number at the start of the interval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of passes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="276" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1182" bodyend="1269"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -821,7 +1105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="210" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1168" bodyend="1171"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="291" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1120" bodyend="1123"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -855,7 +1139,7 @@
 <parametername>anEpoch</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An orbit epoch from which to measure </para>
+<para>An orbit epoch from which to measure. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -863,7 +1147,7 @@
 <parametername>previousInstant</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>lower bound of search </para>
+<para>lower bound of search. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -871,7 +1155,7 @@
 <parametername>currentInstant</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>upper bound of search </para>
+<para>upper bound of search. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -879,17 +1163,96 @@
 <parametername>getValue</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>function that receives a duration [s] from <computeroutput>anEpoch</computeroutput> and returns a real value </para>
+<para>function that receives a duration [s] from <computeroutput>anEpoch</computeroutput> and returns a real value. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Instant at which the crossing occurs </para>
+<simplesect kind="return"><para>Instant at which the crossing occurs. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="221" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1316" bodyend="1332"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="302" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1271" bodyend="1287"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ad995d450ecf4656c3c30c496d83aee9e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple&lt; Instant, Instant, Instant, Instant &gt;</type>
+        <definition>Tuple&lt; Instant, Instant, Instant, Instant &gt; ostk::astrodynamics::trajectory::Orbit::ComputeCrossings</definition>
+        <argsstring>(const orbit::Model &amp;aModel, Instant previousInstant, const Duration &amp;stepDuration, const bool &amp;isForwardPropagated, const Instant &amp;anEndInstant=Instant::Undefined())</argsstring>
+        <name>ComputeCrossings</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" kindref="compound">orbit::Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <param>
+          <type>Instant</type>
+          <declname>previousInstant</declname>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>stepDuration</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isForwardPropagated</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEndInstant</declname>
+          <defval>Instant::Undefined()</defval>
+        </param>
+        <briefdescription>
+<para>Compute the instants at which the orbit crosses the north point, descending node, south point and pass break. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbit model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>previousInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The previous instant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stepDuration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step duration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isForwardPropagated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the orbit is forward propagated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end instant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tuple of instants at which the orbit crosses the north point, descending node, south point and pass break. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="319" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1289" bodyend="1411"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -922,13 +1285,15 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="60" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="59" bodyend="227"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="62" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="61" bodyend="326"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a00e0200bc70fc7c5c764b2204f3232f8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>accessModel</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac63825246d6347c7431328a7e83c938f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>celestialObjectSPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a7e32f0d281ea72dbba2199f2d91c93cc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>Circular</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a172a47f4555fa3b3f8e3863f5b8459fe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>CircularEquatorial</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ad995d450ecf4656c3c30c496d83aee9e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>ComputeCrossings</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a970789fecee44d1fb733b9ada798f0d8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>ComputePasses</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>ComputePassesWithModel</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac7983e7b7c8ffec20d6f8052dde38f27" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>ConstPassIterator</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1afd7b71443830562d589158667a678952" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>Equatorial</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>FrameType</name></member>
@@ -937,6 +1302,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a0a3dfea131274c942528fd3b87e38f65" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>GetCrossingInstant</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ab53a007a76ed06ff7901edcbede3a853" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getOrbitalFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac699476394541956810059e89b7b5732" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getPassAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a93ae8d3ec26e41d848b4742bda05e771" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getPassesWithinInterval</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a6a5639866b5487f0a72960f3247a7685" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getPassWithRevolutionNumber</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67553e524c37d74359548676bb501cb3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getRevolutionNumberAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ab72172193ac72db5b7acf922d1b0a9b7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getStateAt</name></member>

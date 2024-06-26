@@ -656,7 +656,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a9867f3f069a4333ba5a037ace603466d" kind="function"><name>getEpoch</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1af94c4fb7500e16671735e1d978b7475e" kind="function"><name>getRevolutionNumberAtEpoch</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ac1357b291393c44c18be2d5db954e32b" kind="function"><name>calculateStateAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a48dd2c58579d0453fe9dfb0a0fa1c708" kind="function"><name>calculateRevolutionNumberAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a96da6a07d34c0b30d8e8dc579065b8b8" kind="function"><name>calculateRevolutionNumberAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1adb95510c1c7cde93bcfc7fd0d8c8f4f7" kind="function"><name>print</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kind="class"><name>ostk::astrodynamics::trajectory::Model</name>
@@ -757,6 +757,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67553e524c37d74359548676bb501cb3" kind="function"><name>getRevolutionNumberAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac699476394541956810059e89b7b5732" kind="function"><name>getPassAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a6a5639866b5487f0a72960f3247a7685" kind="function"><name>getPassWithRevolutionNumber</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a93ae8d3ec26e41d848b4742bda05e771" kind="function"><name>getPassesWithinInterval</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ab53a007a76ed06ff7901edcbede3a853" kind="function"><name>getOrbitalFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1acfc9841a0a122ab45e9a7b945130a0dd" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67d2e9aa18fc6a00a1dce2f480585f0c" kind="function"><name>Undefined</name></member>
@@ -767,8 +768,10 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1addbf182a308b0ea313d2dd2f5828477d" kind="function"><name>SunSynchronous</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" kind="function"><name>StringFromFrameType</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a970789fecee44d1fb733b9ada798f0d8" kind="function"><name>ComputePasses</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" kind="function"><name>ComputePassesWithModel</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1af8446f2955df120d726432c94094f52b" kind="function"><name>generateFrameName</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a0a3dfea131274c942528fd3b87e38f65" kind="function"><name>GetCrossingInstant</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ad995d450ecf4656c3c30c496d83aee9e" kind="function"><name>ComputeCrossings</name></member>
   </compound>
   <compound refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters" kind="struct"><name>ostk::astrodynamics::guidancelaw::QLaw::Parameters</name>
     <member refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters_1a86015ebdc8c8c09c6b5792bbf391ef99" kind="variable"><name>m</name></member>
@@ -814,6 +817,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1aa2ab48943d0f51284dd7517baf032987" kind="function"><name>getDuration</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a304cc0aa025947bf2ec4c275da2ef752" kind="function"><name>getStartInstant</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a35f910ef3b112067daa6ebfd8305ac9f" kind="function"><name>getEndInstant</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1acd935b8898e0fba31a1970abd4c0e5b0" kind="function"><name>getInterval</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a13fd5c80c0b7f9b05de6d71d1893ea12" kind="function"><name>accessInstantAtAscendingNode</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1afe4c1f4a38d4d9e98b96337e0f745a7c" kind="function"><name>accessInstantAtNorthPoint</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass_1a6576ed61cbe52f8dae929a96c1f5bc0e" kind="function"><name>accessInstantAtDescendingNode</name></member>
@@ -1114,7 +1118,6 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ae54bd0ba0ab57343a301b332587c8a8c" kind="function"><name>getEpoch</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ae5070899e3a10f0727ed29772677151e" kind="function"><name>getRevolutionNumberAtEpoch</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a41cbcbf78726ae3beaa0b4d1e9255fbc" kind="function"><name>calculateStateAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ac616cde8dad1b03d92291439d4822024" kind="function"><name>calculateRevolutionNumberAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a50eed9bbbdeab33745acfad02b10bc5f" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a44bd6a41f5d1be384d07b897785529f1" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a1b7db3daa2bcd07f6b5e1324d22db02d" kind="function"><name>operator==</name></member>
@@ -1263,7 +1266,6 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a2179b5781de8a1b58be9794d295158e8" kind="function"><name>getEpoch</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9785d1c1f627838e69f6c816026226ec" kind="function"><name>getRevolutionNumberAtEpoch</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1afe6ee6f73e40b3c1723de24663158b93" kind="function"><name>calculateStateAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a65feeca602a25c89f377add0a0553fb2" kind="function"><name>calculateRevolutionNumberAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1acc995493734898e0aa5f174e9370be4b" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9e5b9df39988d48b0f20e0623ed70e70" kind="function"><name>operator==</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a17b974edccbb8a3f22e1ae48a9d328b7" kind="function"><name>operator!=</name></member>

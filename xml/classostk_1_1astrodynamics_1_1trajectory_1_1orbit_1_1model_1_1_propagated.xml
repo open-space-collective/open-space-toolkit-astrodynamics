@@ -373,7 +373,7 @@
         <definition>Integer ostk::astrodynamics::trajectory::orbit::model::Propagated::calculateRevolutionNumberAt</definition>
         <argsstring>(const Instant &amp;anInstant) const override</argsstring>
         <name>calculateRevolutionNumberAt</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a48dd2c58579d0453fe9dfb0a0fa1c708">calculateRevolutionNumberAt</reimplements>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a96da6a07d34c0b30d8e8dc579065b8b8">calculateRevolutionNumberAt</reimplements>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>

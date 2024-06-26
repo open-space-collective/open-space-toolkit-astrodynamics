@@ -183,16 +183,56 @@
 <para><emphasis>Tip: The <computeroutput>ostk-test</computeroutput> command simplifies running tests from within the development environment.</emphasis></para>
 </sect2>
 <sect2 id="md__r_e_a_d_m_e_1autotoc_md16">
+<title>Script</title>
+<para>To build an executable for a simple script:<itemizedlist>
+<listitem><para>create a .cxx file in the <computeroutput>scripts</computeroutput> directory.</para>
+</listitem><listitem><para>Enable the CMake BUILD_SCRIPT flag using ccmake or equivalent.</para>
+</listitem><listitem><para>run <computeroutput>ostk-build</computeroutput> to build the executable, which will be found in the in <computeroutput>/bin</computeroutput> folder under the name <computeroutput>open-space-toolkit-astrodynamics</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting><codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Position.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::mathematics::object::VectorXd;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Frame;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Position;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Velocity;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::astrodynamics::trajectory::State;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">int<sp/>main()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>coordinates(9);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>coordinates<sp/>&lt;&lt;<sp/>3786681.30288918,<sp/>-4897593.40751009,<sp/>-2997836.66403268,<sp/>1124.5962634611,<sp/>-3265.39989654837,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>6779.45043611605,<sp/>100.0,<sp/>1.0,<sp/>1.36738720713048;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>State<sp/>state<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Parse(&quot;2024-06-09<sp/>14:44:30.734.999&quot;,<sp/>Scale::UTC),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position::Meters({3786681.30288918,<sp/>-4897593.40751009,<sp/>-2997836.66403268},<sp/>Frame::GCRF()),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity::MetersPerSecond({1124.5962634611,<sp/>-3265.39989654837,<sp/>6779.45043611605,<sp/>Frame::GCRF()}),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>state<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md17">
 <title>Benchmark</title>
 <para>To run benchmarks:</para>
 <para><programlisting filename=".shell"><codeline><highlight class="normal">make<sp/>benchmark</highlight></codeline>
 </programlisting></para>
 <para>Benchmarks are pushed to the <ulink url="https://open-space-collective.github.io/open-space-toolkit-astrodynamics/dev/bench/">GitHub pages</ulink>.</para>
 </sect2>
-<sect2 id="md__r_e_a_d_m_e_1autotoc_md17">
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md18">
 <title>Validation</title>
 <para>OSTk has a cross-validation framework built into it (inside the <computeroutput>/validation</computeroutput> folder), which allows us to compare its end-to-end propagation accuracy of a full &quot;mission sequence&quot; to other flight qualified tools like GMAT and Orekit.</para>
-<sect3 id="md__r_e_a_d_m_e_1autotoc_md18">
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md19">
 <title>Scenario Definition</title>
 <para>A standardized input format (a yaml file) to define the particular mission sequence scenario is used, and is tooling agnostic. An example of it is shown below.</para>
 <para><itemizedlist>
@@ -255,7 +295,7 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>CARTESIAN_VELOCITY_GCRF</highlight></codeline>
 </programlisting></para>
 </sect3>
-<sect3 id="md__r_e_a_d_m_e_1autotoc_md19">
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md20">
 <title>Cross Validation and Accuracy Tolerances</title>
 <para>The validation framework takes this yaml scenario definition (from the <computeroutput>/validation/data/scenarios</computeroutput> folder) and runs the scenario using OSTk. Next, it compares the specified outputs (quantities like the position, velocity, mass, acceleration of the spacecraft) at the desired reporting step generated by OSTk with each external validation tool (whose outputs were generated via the same process and are in the <computeroutput>/validation/data/gmat_astrodynamics</computeroutput> or <computeroutput>/validation/data/orekit_astrodynamics</computeroutput> folder as <computeroutput>.csv</computeroutput>), to ensure they are within a certain tolerance of each other.</para>
 <para><bold>To add a scenario:</bold><orderedlist>
@@ -285,13 +325,13 @@
 <codeline><highlight class="normal">},</highlight></codeline>
 </programlisting></para>
 </sect3>
-<sect3 id="md__r_e_a_d_m_e_1autotoc_md20">
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md21">
 <title>Running the Validation Tests</title>
 <para>The validation tests can be run with <computeroutput>ostk-validate</computeroutput> from within the dev container, or <computeroutput>make validation</computeroutput> as a standalone.</para>
 </sect3>
 </sect2>
 </sect1>
-<sect1 id="md__r_e_a_d_m_e_1autotoc_md21">
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md22">
 <title>Dependencies</title>
 <para><table rows="11" cols="4"><row>
 <entry thead="yes"><para>Name </para>
@@ -362,17 +402,17 @@
 </table>
 </para>
 </sect1>
-<sect1 id="md__r_e_a_d_m_e_1autotoc_md22">
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md23">
 <title>Contribution</title>
 <para>Contributions are more than welcome!</para>
 <para>For the contributing guide, please consult the CONTRIBUTING.md in the <ulink url="https://github.com/open-space-collective/open-space-toolkit">open-space-toolkit</ulink> base repo <ulink url="https://github.com/open-space-collective/open-space-toolkit/blob/main/CONTRIBUTING.md">here</ulink>.</para>
 </sect1>
-<sect1 id="md__r_e_a_d_m_e_1autotoc_md23">
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md24">
 <title>Special Thanks</title>
 <para><ulink url="https://www.loftorbital.com/"><image type="html" name="loft_orbital.png" inline="yes"></image>
 </ulink></para>
 </sect1>
-<sect1 id="md__r_e_a_d_m_e_1autotoc_md24">
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md25">
 <title>License</title>
 <para>Apache License 2.0 </para>
 </sect1>

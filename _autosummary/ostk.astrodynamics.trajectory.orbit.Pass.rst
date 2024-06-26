@@ -23,6 +23,7 @@ ostk.astrodynamics.trajectory.orbit.Pass
       ~Pass.get_instant_at_north_point
       ~Pass.get_instant_at_pass_break
       ~Pass.get_instant_at_south_point
+      ~Pass.get_interval
       ~Pass.get_revolution_number
       ~Pass.get_start_instant
       ~Pass.get_type
