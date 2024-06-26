@@ -712,7 +712,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCach
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, PropagationAtExactInstants)
 {
     {
-        Array<State> states = {
+        const Array<State> states = {
             {
                 Instant::DateTime(DateTime::Parse("2023-01-30T18:30:00.184", DateTime::Format::ISO8601), Scale::UTC),
                 Position::Meters({-5981016.371280898340, 2114677.607544674072, 2683244.080375305377}, gcrfSPtr_),
@@ -730,9 +730,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Propaga
             }
         };
 
-        Propagated propagatedModel(propagator_, states);
+        const Propagated propagatedModel(propagator_, states);
 
-        State estimatedState = propagatedModel.calculateStateAt(states[1].getInstant());
+        const State estimatedState = propagatedModel.calculateStateAt(states[1].getInstant());
 
         ASSERT_EQ(estimatedState, states[1]);
     }

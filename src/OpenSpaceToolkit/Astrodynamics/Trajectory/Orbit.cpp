@@ -43,8 +43,6 @@ using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
 
-using orbit::model::Kepler;
-using orbit::model::kepler::COE;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
@@ -54,6 +52,8 @@ using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::RootSolver;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::unit::Time::Unit::Second);
@@ -181,7 +181,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     const std::lock_guard<std::mutex> lock {this->mutex_};
 
-    const auto getClosestPass = [this](const Integer& aRevolutionNumber) -> Pass
+    const auto getClosestPass = [this](const Integer& revolutionNumber) -> Pass
     {
         if (this->passMap_.empty())
         {
@@ -190,15 +190,15 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
         // exact revolution number exists
 
-        if (this->passMap_.count(aRevolutionNumber))
+        if (this->passMap_.count(revolutionNumber))
         {
-            return this->passMap_.at(aRevolutionNumber);
+            return this->passMap_.at(revolutionNumber);
         }
 
-        const auto lowerBoundMapIt = this->passMap_.lower_bound(aRevolutionNumber);
+        const auto lowerBoundMapIt = this->passMap_.lower_bound(revolutionNumber);
 
         // Revolution number is greater than any existing revolution number in map
-        // {5, 6, 9, 10} -> aRevolutionNumber=12 -> return 10
+        // {5, 6, 9, 10} -> revolutionNumber=12 -> return 10
 
         if (lowerBoundMapIt == this->passMap_.end())
         {
@@ -206,7 +206,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
         }
 
         // Revolution number is lesser than any existing revolution number in map
-        // {5, 6, 9, 10} -> aRevolutionNumber=4 -> return 5
+        // {5, 6, 9, 10} -> revolutionNumber=4 -> return 5
 
         if (lowerBoundMapIt == this->passMap_.begin())
         {
@@ -217,15 +217,15 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
         const auto closestPassMapIt = std::prev(lowerBoundMapIt);
 
-        // {5, 6, 9, 10} -> aRevolutionNumber=7 -> return 6
+        // {5, 6, 9, 10} -> revolutionNumber=7 -> return 6
         // lowerBoundMapIt = 9, closestPassMapIt = 6
 
-        if ((aRevolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - aRevolutionNumber))
+        if ((revolutionNumber - closestPassMapIt->first) < (lowerBoundMapIt->first - revolutionNumber))
         {
             return closestPassMapIt->second;
         }
 
-        // {5, 6, 9, 10} -> aRevolutionNumber=8 -> return 9
+        // {5, 6, 9, 10} -> revolutionNumber=8 -> return 9
         // lowerBoundMapIt = 9, closestPassMapIt = 6
 
         return lowerBoundMapIt->second;
@@ -239,114 +239,19 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
     const bool isForwardPropagated = currentRevolutionNumber <= aRevolutionNumber;
     const Integer propagationSign = isForwardPropagated ? 1 : -1;
 
-    const auto computeCrossings = [this, &isForwardPropagated](
-                                      Instant previousInstant, const Duration& stepDuration
-                                  ) -> Tuple<Instant, Instant, Instant, Instant>
-    {
-        Instant northPointCrossing = Instant::Undefined();
-        Instant southPointCrossing = Instant::Undefined();
-        Instant descendingNodeCrossing = Instant::Undefined();
-        Instant passBreakCrossing = Instant::Undefined();
-
-        const Instant epoch = this->modelPtr_->getEpoch();
-
-        const State previousState = this->modelPtr_->calculateStateAt(previousInstant);
-        Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
-        Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
-
-        const auto getZ = [this, &epoch](const double& aDurationInSeconds) -> Real
-        {
-            return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
-                .getPosition()
-                .accessCoordinates()
-                .z();
-        };
-
-        const auto getZDot = [this, &epoch](const double& aDurationInSeconds) -> Real
-        {
-            return this->modelPtr_->calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
-                .getVelocity()
-                .accessCoordinates()
-                .z();
-        };
-
-        while (!passBreakCrossing.isDefined())
-        {
-            const Instant currentInstant = previousInstant + stepDuration;
-
-            const State currentState = this->modelPtr_->calculateStateAt(currentInstant);
-            const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
-            const Real currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
-
-            if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
-            {
-                throw ostk::core::error::runtime::ToBeImplemented("Equatorial orbit support.");
-            }
-
-            if (((previousStateCoordinates_ECI_zdot > 0.0) && (currentStateCoordinates_ECI_zdot <= 0.0)) ||
-                ((previousStateCoordinates_ECI_zdot < 0.0) && (currentStateCoordinates_ECI_zdot >= 0.0)))
-            {
-                if (currentStateCoordinates_ECI_z > 0.0)
-                {
-                    northPointCrossing = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
-                }
-                else
-                {
-                    southPointCrossing = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
-                }
-            }
-
-            if ((previousStateCoordinates_ECI_z > 0.0) && (currentStateCoordinates_ECI_z <= 0.0))
-            {
-                const Instant crossingInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
-
-                if (isForwardPropagated)
-                {
-                    descendingNodeCrossing = crossingInstant;
-                }
-                else
-                {
-                    passBreakCrossing = crossingInstant;
-                }
-            }
-
-            if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
-            {
-                const Instant crossingInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
-                if (isForwardPropagated)
-                {
-                    passBreakCrossing = crossingInstant;
-                }
-                else
-                {
-                    descendingNodeCrossing = crossingInstant;
-                }
-            }
-
-            previousStateCoordinates_ECI_z = currentStateCoordinates_ECI_z;
-            previousStateCoordinates_ECI_zdot = currentStateCoordinates_ECI_zdot;
-            previousInstant = currentInstant;
-        }
-
-        return {
-            northPointCrossing,
-            descendingNodeCrossing,
-            southPointCrossing,
-            passBreakCrossing,
-        };
-    };
-
     Instant northPointCrossing = Instant::Undefined();
     Instant southPointCrossing = Instant::Undefined();
     Instant descendingNodeCrossing = Instant::Undefined();
     Instant passBreakCrossing = Instant::Undefined();
+
+    Duration stepDuration = aStepDuration;
 
     if (!currentPass.isDefined())
     {
         const Instant previousInstant = this->modelPtr_->getEpoch();
 
         std::tie(northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing) =
-            computeCrossings(previousInstant, aStepDuration * Real::Integer(propagationSign));
+            Orbit::ComputeCrossings(*this->modelPtr_, previousInstant, stepDuration, isForwardPropagated);
 
         const Instant crossingInstant =
             Real(this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch()).getPosition().accessCoordinates().z())
@@ -374,8 +279,6 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     while ((currentPass.getRevolutionNumber() != aRevolutionNumber))
     {
-        Duration stepDuration = aStepDuration;
-
         if (currentPass.isComplete())
         {
             Array<Duration> durations = {
@@ -392,7 +295,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
                                           : currentPass.getStartInstant() - Duration::Microseconds(1.0);
 
         std::tie(northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing) =
-            computeCrossings(previousInstant, stepDuration * Real::Integer(propagationSign));
+            Orbit::ComputeCrossings(*this->modelPtr_, previousInstant, stepDuration, isForwardPropagated);
 
         currentRevolutionNumber += propagationSign;
 
@@ -413,6 +316,55 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
     }
 
     return currentPass;
+}
+
+Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Orbit");
+    }
+
+    if (!anInterval.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Interval");
+    }
+
+    Instant currentInstant = anInterval.getStart();
+
+    Integer revolutionNumber = Integer::Undefined();
+
+    // Check if the Pass is already within Pass map
+    for (const auto& passPair : this->passMap_)
+    {
+        const Pass& pass = passPair.second;
+
+        if (pass.getInterval().contains(currentInstant))
+        {
+            revolutionNumber = pass.getRevolutionNumber();
+            break;
+        }
+    }
+
+    // If not, then calculate using the model method
+    if (!revolutionNumber.isDefined())
+    {
+        revolutionNumber = this->modelPtr_->calculateRevolutionNumberAt(currentInstant);
+    }
+
+    Array<Pass> passes = {};
+
+    while (currentInstant <= anInterval.accessEnd())
+    {
+        const Pass pass = this->getPassWithRevolutionNumber(revolutionNumber);
+
+        passes.add(pass);
+
+        currentInstant = pass.accessInstantAtPassBreak();
+        revolutionNumber++;
+    }
+
+    return passes;
 }
 
 Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) const
@@ -1177,10 +1129,6 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         throw ostk::core::error::runtime::Undefined("Initial revolution number");
     }
 
-    // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
-
-    Array<Pair<Index, Pass>> passMap;
-
     if (aStateArray.getSize() < 2)
     {
         throw ostk::core::error::RuntimeError(
@@ -1196,121 +1144,128 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         }
     }
 
-    const model::Tabulated tabulated = model::Tabulated(aStateArray, Interpolator::Type::BarycentricRational);
+    const orbit::model::Tabulated tabulated =
+        orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber, Interpolator::Type::BarycentricRational);
 
-    const Instant& epoch = aStateArray.accessFirst().accessInstant();
+    const Array<Pass> passes = Orbit::ComputePassesWithModel(
+        tabulated,
+        aStateArray.accessFirst().accessInstant(),
+        aStateArray.accessLast().accessInstant(),
+        anInitialRevolutionNumber
+    );
 
-    const auto getZ = [&tabulated, &epoch](const double& aDurationInSeconds) -> double
+    Array<Pair<Index, Pass>> passMap;
+    passMap.reserve(passes.getSize());
+
+    Index stateIndex = 0;
+    Index passIndex = 0;
+
+    while (stateIndex < aStateArray.getSize())
     {
-        return tabulated.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
-            .getPosition()
-            .accessCoordinates()
-            .z();
-    };
+        const Instant& stateInstant = aStateArray[stateIndex].accessInstant();
 
-    const auto getZDot = [&tabulated, &epoch](const double& aDurationInSeconds) -> double
+        if (passes[passIndex].accessInstantAtPassBreak().isDefined() &&
+            stateInstant >= passes[passIndex].accessInstantAtPassBreak())
+        {
+            passMap.add({stateIndex, passes[passIndex]});
+            ++passIndex;
+        }
+
+        stateIndex++;
+    }
+
+    passMap.add({stateIndex, passes.accessLast()});
+
+    return passMap;
+}
+
+Array<Pass> Orbit::ComputePassesWithModel(
+    const orbit::Model& aModel,
+    const Instant& aStartInstant,
+    const Instant& anEndInstant,
+    const Integer& aRevolutionNumber
+)
+{
+    // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
+
+    if (!aModel.isDefined())
     {
-        return tabulated.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
-            .getVelocity()
-            .accessCoordinates()
-            .z();
-    };
+        throw ostk::core::error::runtime::Undefined("Model");
+    }
 
-    Index currentIndex = 0;
-    State const* previousStatePtr = nullptr;
+    if (!aRevolutionNumber.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Revolution number");
+    }
 
-    Integer revolutionNumber = anInitialRevolutionNumber;
+    Array<Pass> passes = Array<Pass>::Empty();
 
-    Instant previousPassEndInstant =
-        (Real(aStateArray.accessFirst().getPosition().accessCoordinates().z()).isNear(0.0, epsilon))
-            ? aStateArray.accessFirst().accessInstant()
-            : Instant::Undefined();
+    Integer revolutionNumber = aRevolutionNumber;
+    Instant previousInstant = aStartInstant;
+    State previousState = aModel.calculateStateAt(previousInstant);
+
+    Instant previousPassEndInstant = (Real(previousState.getPosition().accessCoordinates().z()).isNear(0.0, epsilon))
+                                       ? previousState.accessInstant()
+                                       : Instant::Undefined();
+
     Instant northPointCrossing = Instant::Undefined();
     Instant descendingNodeCrossing = Instant::Undefined();
     Instant southPointCrossing = Instant::Undefined();
-    Instant passBreak = Instant::Undefined();
+    Instant passBreakCrossing = Instant::Undefined();
 
-    for (const auto& state : aStateArray)
+    const bool isForwardPropagated = aStartInstant < anEndInstant;
+    Duration stepDuration = Duration::Minutes(5.0);
+
+    while (true)
     {
-        if (previousStatePtr != nullptr)
+        if ((isForwardPropagated && (previousInstant >= anEndInstant)) ||
+            (!isForwardPropagated && (previousInstant <= anEndInstant)))
         {
-            const Vector3d previousPositionCoordinates_ECI = previousStatePtr->getPosition().accessCoordinates();
-            const Vector3d previousVelocityCoordinates_ECI = previousStatePtr->getVelocity().accessCoordinates();
-            const Vector3d currentPositionCoordinates_ECI = state.getPosition().accessCoordinates();
-            const Vector3d currentVelocityCoordinates_ECI = state.getVelocity().accessCoordinates();
-
-            // North & South point crossings
-            if (((previousVelocityCoordinates_ECI.z() > 0.0) && (currentVelocityCoordinates_ECI.z() <= 0.0)) ||
-                ((previousVelocityCoordinates_ECI.z() < 0.0) && (currentVelocityCoordinates_ECI.z() >= 0.0)))
-            {
-                if (currentPositionCoordinates_ECI.z() > 0.0)
-                {
-                    northPointCrossing = Orbit::GetCrossingInstant(
-                        epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZDot
-                    );
-                }
-                else
-                {
-                    southPointCrossing = Orbit::GetCrossingInstant(
-                        epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZDot
-                    );
-                }
-            }
-
-            // Descending node
-            if ((previousPositionCoordinates_ECI.z() > 0.0) && (currentPositionCoordinates_ECI.z() <= 0.0))
-            {
-                descendingNodeCrossing =
-                    Orbit::GetCrossingInstant(epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZ);
-            }
-
-            // Pass break
-            if ((previousPositionCoordinates_ECI.z() < 0.0) && (currentPositionCoordinates_ECI.z() >= 0.0))
-            {
-                passBreak =
-                    Orbit::GetCrossingInstant(epoch, previousStatePtr->accessInstant(), state.accessInstant(), getZ);
-            }
-
-            if (passBreak.isDefined())
-            {
-                const Pass pass = {
-                    revolutionNumber,
-                    previousPassEndInstant,
-                    northPointCrossing,
-                    descendingNodeCrossing,
-                    southPointCrossing,
-                    passBreak,
-                };
-
-                passMap.add({currentIndex, pass});
-
-                revolutionNumber++;
-                previousPassEndInstant = passBreak;
-
-                southPointCrossing = Instant::Undefined();
-                northPointCrossing = Instant::Undefined();
-                descendingNodeCrossing = Instant::Undefined();
-                passBreak = Instant::Undefined();
-            }
+            break;
         }
 
-        previousStatePtr = &state;
-        currentIndex++;
+        std::tie(northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing) =
+            Orbit::ComputeCrossings(aModel, previousInstant, stepDuration, isForwardPropagated, anEndInstant);
+
+        Pass pass = {
+            revolutionNumber,
+            isForwardPropagated ? previousPassEndInstant : passBreakCrossing,
+            northPointCrossing,
+            descendingNodeCrossing,
+            southPointCrossing,
+            isForwardPropagated ? passBreakCrossing : previousPassEndInstant,
+        };
+
+        passes.add(pass);
+
+        // if forward propagating and the pass has an undefined PassBreak, then we have crossed the end of the interval
+        // if backward propagating and the pass has an undefined AscendingNode, then we have crossed the end of the
+        // interval
+        if ((isForwardPropagated && !pass.accessInstantAtPassBreak().isDefined()) ||
+            (!isForwardPropagated && !pass.accessInstantAtAscendingNode().isDefined()))
+        {
+            break;
+        }
+
+        revolutionNumber += isForwardPropagated ? 1 : -1;
+        previousPassEndInstant = passBreakCrossing;
+
+        if (pass.isComplete())
+        {
+            Array<Duration> durations = {
+                (pass.accessInstantAtNorthPoint() - pass.accessInstantAtAscendingNode()),
+                (pass.accessInstantAtDescendingNode() - pass.accessInstantAtNorthPoint()),
+                (pass.accessInstantAtSouthPoint() - pass.accessInstantAtDescendingNode()),
+                (pass.accessInstantAtPassBreak() - pass.accessInstantAtSouthPoint()),
+            };
+            stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
+        }
+
+        previousInstant = isForwardPropagated ? pass.accessInstantAtPassBreak() + Duration::Microseconds(1.0)
+                                              : pass.accessInstantAtAscendingNode() - Duration::Microseconds(1.0);
     }
 
-    // Add last partial pass
-    const Pass pass = {
-        revolutionNumber,
-        previousPassEndInstant,
-        northPointCrossing,
-        descendingNodeCrossing,
-        southPointCrossing,
-        passBreak,
-    };
-
-    passMap.add({currentIndex, pass});
-
-    return passMap;
+    return passes;
 }
 
 Instant Orbit::GetCrossingInstant(
@@ -1329,6 +1284,130 @@ Instant Orbit::GetCrossingInstant(
     }
 
     return anEpoch + Duration::Seconds(solution.root);
+}
+
+Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
+    const orbit::Model& aModel,
+    Instant previousInstant,
+    const Duration& aStepDuration,
+    const bool& isForwardPropagated,
+    const Instant& anEndInstant
+)
+{
+    Instant northPointCrossing = Instant::Undefined();
+    Instant southPointCrossing = Instant::Undefined();
+    Instant descendingNodeCrossing = Instant::Undefined();
+    Instant passBreakCrossing = Instant::Undefined();
+
+    if (anEndInstant.isDefined())
+    {
+        if ((isForwardPropagated && (previousInstant >= anEndInstant)) ||
+            (!isForwardPropagated && (previousInstant <= anEndInstant)))
+        {
+            return {northPointCrossing, descendingNodeCrossing, southPointCrossing, passBreakCrossing};
+        }
+    }
+
+    const Instant epoch = aModel.getEpoch();
+
+    const State previousState = aModel.calculateStateAt(previousInstant);
+    Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
+    Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
+
+    const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> Real
+    {
+        return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
+            .getPosition()
+            .accessCoordinates()
+            .z();
+    };
+
+    const auto getZDot = [&aModel, &epoch](const double& aDurationInSeconds) -> Real
+    {
+        return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
+            .getVelocity()
+            .accessCoordinates()
+            .z();
+    };
+
+    const Duration stepDuration = isForwardPropagated ? aStepDuration : -aStepDuration;
+
+    bool lastStep = false;
+
+    while (!passBreakCrossing.isDefined() && !lastStep)
+    {
+        Instant currentInstant = previousInstant + stepDuration;
+
+        if (anEndInstant.isDefined())
+        {
+            if ((isForwardPropagated && (currentInstant >= anEndInstant)) ||
+                (!isForwardPropagated && (currentInstant <= anEndInstant)))
+            {
+                currentInstant = anEndInstant;
+                lastStep = true;
+            }
+        }
+
+        const State currentState = aModel.calculateStateAt(currentInstant);
+        const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
+        const Real currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
+
+        if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
+        {
+            throw ostk::core::error::runtime::ToBeImplemented("Equatorial orbit support.");
+        }
+
+        if (((previousStateCoordinates_ECI_zdot > 0.0) && (currentStateCoordinates_ECI_zdot <= 0.0)) ||
+            ((previousStateCoordinates_ECI_zdot < 0.0) && (currentStateCoordinates_ECI_zdot >= 0.0)))
+        {
+            if (currentStateCoordinates_ECI_z > 0.0)
+            {
+                northPointCrossing = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
+            }
+            else
+            {
+                southPointCrossing = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZDot);
+            }
+        }
+
+        if ((previousStateCoordinates_ECI_z > 0.0) && (currentStateCoordinates_ECI_z <= 0.0))
+        {
+            const Instant crossingInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
+
+            if (isForwardPropagated)
+            {
+                descendingNodeCrossing = crossingInstant;
+            }
+            else
+            {
+                passBreakCrossing = crossingInstant;
+            }
+        }
+
+        if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
+        {
+            const Instant crossingInstant = Orbit::GetCrossingInstant(epoch, previousInstant, currentInstant, getZ);
+            if (isForwardPropagated)
+            {
+                passBreakCrossing = crossingInstant;
+            }
+            else
+            {
+                descendingNodeCrossing = crossingInstant;
+            }
+        }
+
+        previousStateCoordinates_ECI_z = currentStateCoordinates_ECI_z;
+        previousStateCoordinates_ECI_zdot = currentStateCoordinates_ECI_zdot;
+        previousInstant = currentInstant;
+    }
+
+    return {
+        northPointCrossing,
+        descendingNodeCrossing,
+        southPointCrossing,
+        passBreakCrossing,
+    };
 }
 
 }  // namespace trajectory

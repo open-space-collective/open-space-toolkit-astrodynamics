@@ -247,6 +247,21 @@ Instant Pass::getEndInstant() const
     return instantAtAscendingNode_;
 }
 
+Interval Pass::getInterval() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Pass");
+    }
+
+    if (type_ == Pass::Type::Complete)
+    {
+        return Interval::Closed(instantAtAscendingNode_, instantAtPassBreak_);
+    }
+
+    return Interval::Undefined();
+}
+
 const Instant& Pass::accessInstantAtAscendingNode() const
 {
     if (!this->isDefined())

@@ -42,7 +42,7 @@ class Model : public virtual ostk::astrodynamics::trajectory::Model
 
     virtual State calculateStateAt(const Instant& anInstant) const = 0;
 
-    virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const = 0;  // [TBR]
+    virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const;
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
 };

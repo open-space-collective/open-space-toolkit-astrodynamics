@@ -99,22 +99,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 )doc"
             )
 
-            .def(
-                "calculate_revolution_number_at",
-                &SGP4::calculateRevolutionNumberAt,
-                arg("instant"),
-                R"doc(
-                    Calculate the revolution number of the `SGP4` model at a given instant.
-
-                    Args:
-                        instant (Instant): The instant.
-
-                    Returns:
-                        int: The revolution number.
-
-                )doc"
-            )
-
             ;
     }
 

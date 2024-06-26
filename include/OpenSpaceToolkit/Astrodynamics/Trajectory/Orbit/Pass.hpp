@@ -8,6 +8,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 namespace ostk
 {
@@ -23,6 +24,7 @@ using ostk::core::type::String;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 
 /// @class Pass
 /// @brief A revolution of an orbiting object.
@@ -122,6 +124,11 @@ class Pass
     ///
     /// @return The end instant of the pass.
     Instant getEndInstant() const;
+
+    /// @brief Gets the interval of the pass.
+    ///
+    /// @return The interval of the pass.
+    Interval getInterval() const;
 
     /// @brief Accesses the instant at the ascending node of the pass.
     ///
