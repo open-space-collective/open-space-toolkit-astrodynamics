@@ -127,7 +127,7 @@
 <span class=p >)</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >sol</span> <span class=o >=</span> <span class=n >sequence</span><span class=o >.</span><span class=n >solve</span><span class=p >(</span><span class=n >state</span><span class=p >,</span> <span class=mi >2</span><span class=p >)</span>
 <span class=n >states</span> <span class=o >=</span> <span class=n >sol</span><span class=o >.</span><span class=n >get_states</span><span class=p >()</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-06-26 14:10:48.065287] [0x00007f138cee4740] [debug]   Solving Segment:
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-07-16 17:57:29.891957] [0x00007f2b2b9bd740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Coast                                    
     Type:                                    Coast                                    
@@ -148,7 +148,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-06-26 14:10:48.841244] [0x00007f138cee4740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-07-16 17:57:30.673714] [0x00007f2b2b9bd740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Coast - Mean SMA crossing - coast - 0    
     Condition satisfied:                     True                                     
@@ -159,7 +159,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2024-06-26 14:10:48.841434] [0x00007f138cee4740] [debug]   Solving Segment:
+[2024-07-16 17:57:30.673912] [0x00007f2b2b9bd740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Maneuver                                 
     Type:                                    Maneuver                                 
@@ -204,7 +204,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-06-26 14:10:49.751591] [0x00007f138cee4740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-07-16 17:57:31.581791] [0x00007f2b2b9bd740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Maneuver - Mean SMA crossing - thrust - 0 
     Condition satisfied:                     True                                     
@@ -218,7 +218,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2024-06-26 14:10:49.751778] [0x00007f138cee4740] [debug]   Solving Segment:
+[2024-07-16 17:57:31.582004] [0x00007f2b2b9bd740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Coast                                    
     Type:                                    Coast                                    
@@ -239,7 +239,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-06-26 14:10:52.804504] [0x00007f138cee4740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-07-16 17:57:34.639648] [0x00007f2b2b9bd740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Coast - Mean SMA crossing - coast - 1    
     Condition satisfied:                     True                                     
@@ -250,7 +250,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2024-06-26 14:10:52.805070] [0x00007f138cee4740] [debug]   Solving Segment:
+[2024-07-16 17:57:34.640219] [0x00007f2b2b9bd740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Maneuver                                 
     Type:                                    Maneuver                                 
@@ -295,7 +295,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-06-26 14:10:53.728828] [0x00007f138cee4740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2024-07-16 17:57:35.556677] [0x00007f2b2b9bd740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Maneuver - Mean SMA crossing - thrust - 1 
     Condition satisfied:                     True                                     
@@ -360,4 +360,4 @@
     <span class=n >time</span> <span class=o >=</span> <span class=n >segment_solution</span><span class=o >.</span><span class=n >states</span><span class=p >[</span><span class=o >-</span><span class=mi >1</span><span class=p >]</span><span class=o >.</span><span class=n >get_instant</span><span class=p >()</span><span class=o >.</span><span class=n >get_date_time</span><span class=p >(</span><span class=n >Scale</span><span class=o >.</span><span class=n >UTC</span><span class=p >)</span>
     <span class=n >figure2</span><span class=o >.</span><span class=n >add_vline</span><span class=p >(</span><span class=n >x</span><span class=o >=</span><span class=n >time</span><span class=o >.</span><span class=n >isoformat</span><span class=p >())</span>
 <span class=n >figure2</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"png"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/2c9b1835effe7474d3b57232534f306d40111b20ee1da1cc370476a3ee189555.png" src="../_images/2c9b1835effe7474d3b57232534f306d40111b20ee1da1cc370476a3ee189555.png"/> </div> </div> <hr class=docutils /> </section> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="Sensor%20Modeling.html" title="Sensor Modeling" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Sensor Modeling </span> </div> </a> <a href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" title="Altitude + Eccentricity Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Altitude + Eccentricity Station-keeping Sequence </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.3.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/2c9b1835effe7474d3b57232534f306d40111b20ee1da1cc370476a3ee189555.png" src="../_images/2c9b1835effe7474d3b57232534f306d40111b20ee1da1cc370476a3ee189555.png"/> </div> </div> <hr class=docutils /> </section> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="Sensor%20Modeling.html" title="Sensor Modeling" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Sensor Modeling </span> </div> </a> <a href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" title="Altitude + Eccentricity Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Altitude + Eccentricity Station-keeping Sequence </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.4. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
