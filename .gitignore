@@ -54,3 +54,4 @@ __pycache__
 .ipynb_checkpoints
 .open-space-toolkit
 share/OpenSpaceToolkit/*
+scripts

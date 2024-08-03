@@ -38,8 +38,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
         .value("LVLHGD", LocalOrbitalFrameTransformProvider::Type::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
         .value("VVLH", LocalOrbitalFrameTransformProvider::Type::VVLH, "Vertical-Local Horizontal")
         .value("QSW", LocalOrbitalFrameTransformProvider::Type::QSW, "Quasi-Satellite West")
-        .value("TNW", LocalOrbitalFrameTransformProvider::Type::TNW, "Topocentric North-West")
-        .value("VNC", LocalOrbitalFrameTransformProvider::Type::VNC, "Velocity-Normal-Co-normal")
+        .value("TNW", LocalOrbitalFrameTransformProvider::Type::TNW, "Tangent-Normal-Wideband")
+        .value("VNC", LocalOrbitalFrameTransformProvider::Type::VNC, "Velocity-Normal-Conormal")
 
         ;
 

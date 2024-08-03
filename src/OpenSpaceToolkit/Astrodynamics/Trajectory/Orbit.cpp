@@ -1119,7 +1119,10 @@ String Orbit::StringFromFrameType(const Orbit::FrameType& aFrameType)
 
 String Orbit::generateFrameName(const Orbit::FrameType& aFrameType) const
 {
-    return String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), fmt::ptr(this));
+    std::stringstream stringStream;
+    stringStream << this;
+
+    return String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), stringStream.str());
 }
 
 Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)

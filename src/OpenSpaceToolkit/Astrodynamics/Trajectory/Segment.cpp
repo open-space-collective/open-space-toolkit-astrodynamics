@@ -110,7 +110,7 @@ Mass Segment::Solution::computeDeltaMass() const
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
-Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
+Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
 {
     if (this->states.isEmpty())
     {
@@ -191,8 +191,7 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
         return {};
     }
 
-    Array<ostk::astrodynamics::flight::Maneuver> extractedManeuvers =
-        Array<ostk::astrodynamics::flight::Maneuver>::Empty();
+    Array<flightManeuver> extractedManeuvers = Array<flightManeuver>::Empty();
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
@@ -201,7 +200,7 @@ Array<Maneuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& a
         const MatrixXd maneuverContributionBlock =
             fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
 
-        extractedManeuvers.add(ostk::astrodynamics::flight::Maneuver::TabulatedDynamics(TabulatedDynamics(
+        extractedManeuvers.add(flightManeuver::TabulatedDynamics(TabulatedDynamics(
             maneuverInstantsBlock,
             maneuverContributionBlock,
             {CartesianVelocity::Default(), CoordinateSubset::Mass()},
