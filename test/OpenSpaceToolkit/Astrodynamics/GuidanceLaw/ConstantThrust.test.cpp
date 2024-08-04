@@ -178,7 +178,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
         };
 
         // Loop through test cases
-        for (const auto testCase : testCases)
+        for (const auto& testCase : testCases)
         {
             // Extract test case input data
             const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactory = std::get<0>(testCase);
