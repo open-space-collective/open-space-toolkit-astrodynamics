@@ -301,7 +301,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Stre
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
 {
     {
-        EXPECT_NO_THROW(Sequence sequence());
+        EXPECT_NO_THROW(Sequence sequence);
     }
 
     {

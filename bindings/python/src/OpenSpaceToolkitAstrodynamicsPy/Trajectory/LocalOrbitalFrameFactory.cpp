@@ -136,7 +136,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
             &LocalOrbitalFrameFactory::TNW,
             arg("parent_frame"),
             R"doc(
-                Get a Topocentric North-West-Up (TNW) local orbital frame factory.
+                Get a Tangent-Normal-Wideband (TNW) local orbital frame factory.
 
                 Args:
                     parent_frame (Frame): The parent frame.

@@ -32,7 +32,7 @@ using ostk::physics::time::Instant;
 
 /// @brief Local orbital frame transform provider, frame provider
 ///
-/// @note                       Generates a specific transform based on instant, position, velocity and a LOF type.
+/// @note  Generates a specific transform based on instant, position, velocity and a LOF type.
 class LocalOrbitalFrameTransformProvider : public Provider
 {
    public:
@@ -46,9 +46,10 @@ class LocalOrbitalFrameTransformProvider : public Provider
                  ///< aligned with opposite of orbital momentum)
         LVLHGD,  ///< Local Vertical, Local Horizontal GeoDetic (LVLHGD) frame
         QSW,     ///< QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
-        TNW,     ///< TNW frame (X axis aligned with velocity, Z axis aligned with orbital momentum)
-        VNC  ///< Velocity - Normal - Co-normal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
-             ///< momentum)
+        TNW,     ///< Tangent-Normal-Wideband (TNW) frame (X axis aligned with velocity, Z axis aligned with orbital
+                 ///< momentum)
+        VNC      ///< Velocity-Normal-Co-normal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
+                 ///< momentum)
     };
 
     /// @brief Destructor

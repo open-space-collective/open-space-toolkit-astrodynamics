@@ -162,7 +162,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
     {
         const VectorXd coordinates = generateStateCoordinates(anInputState, anInstantArray[0]);
 
-        const MatrixXd coordinatesMatrix = {coordinates};
+        const MatrixXd coordinatesMatrix = MatrixXd(coordinates);
 
         return coordinatesMatrix;
     };

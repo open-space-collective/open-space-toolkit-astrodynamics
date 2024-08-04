@@ -47,7 +47,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative : public ::test
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, Constructor)
 {
     {
-        EXPECT_NO_THROW(PositionDerivative positionDerivative());
+        EXPECT_NO_THROW(PositionDerivative positionDerivative);
     }
 }
 

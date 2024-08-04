@@ -119,9 +119,9 @@ ENDIF ()
 
 IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
-    IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+    IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
 
-        MESSAGE (FATAL_ERROR "GCC version must be at least 4.8")
+        MESSAGE (FATAL_ERROR "GCC version must be at least 13")
 
     ENDIF ()
 
@@ -129,9 +129,9 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
 ENDIF ()
 
-### C++ 17 support
+### C++ 20 support
 
-SET (CMAKE_CXX_STANDARD 17)
+SET (CMAKE_CXX_STANDARD 20)
 SET (CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_CXX_EXTENSIONS OFF)
 
@@ -274,9 +274,9 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Open Space Toolkit ▸ Core [3.x.y]
+### Open Space Toolkit ▸ Core [4.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitCore" "3" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "4" REQUIRED)
 
 IF (NOT OpenSpaceToolkitCore_FOUND)
 
@@ -284,9 +284,9 @@ IF (NOT OpenSpaceToolkitCore_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ I/O [3.x.y]
+### Open Space Toolkit ▸ I/O [4.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitIO" "3" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitIO" "4" REQUIRED)
 
 IF (NOT OpenSpaceToolkitIO_FOUND)
 
@@ -294,9 +294,9 @@ IF (NOT OpenSpaceToolkitIO_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ Mathematics [3.x.y]
+### Open Space Toolkit ▸ Mathematics [4.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitMathematics" "3" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" "4" REQUIRED)
 
 IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
@@ -304,9 +304,9 @@ IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ Physics [7.x.y]
+### Open Space Toolkit ▸ Physics [8.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "7" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "8" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 

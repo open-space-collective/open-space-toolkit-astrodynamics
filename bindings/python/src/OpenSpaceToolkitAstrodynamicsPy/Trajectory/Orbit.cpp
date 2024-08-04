@@ -54,8 +54,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             .value("LVLHGDGT", Orbit::FrameType::LVLHGDGT, "Local Vertical-Local Horizontal GeoDetic Ground Track")
             .value("VVLH", Orbit::FrameType::VVLH, "Vertical-Local Horizontal")
             .value("QSW", Orbit::FrameType::QSW, "Quasi-Satellite West")
-            .value("TNW", Orbit::FrameType::TNW, "Topocentric North-West")
-            .value("VNC", Orbit::FrameType::VNC, "Velocity-Normal-Co-normal")
+            .value("TNW", Orbit::FrameType::TNW, "Tangent-Normal-Wideband")
+            .value("VNC", Orbit::FrameType::VNC, "Velocity-Normal-Conormal")
 
             ;
 
