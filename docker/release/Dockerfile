@@ -61,7 +61,7 @@ RUN apt-get update -y \
  && apt-get install -y libcurl4-openssl-dev libssl-dev wget unzip \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install ipython numpy
+RUN pip install "ipython" "numpy~=2.0"
 
 # Install OSTk data
 

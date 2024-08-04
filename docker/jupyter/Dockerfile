@@ -18,7 +18,7 @@ RUN apt-get update \
  && apt-get install -y curl git-lfs \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --quiet "numpy" "pandas" "plotly" "ipywidgets>=7.6" "ipympl>=0.9.0"
+RUN pip install --quiet "numpy~=2.0" "pandas" "plotly" "ipywidgets>=7.6" "ipympl>=0.9.0"
 
 # Install JupyterLab extensions
 
