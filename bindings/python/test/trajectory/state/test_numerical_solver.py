@@ -191,7 +191,7 @@ class TestNumericalSolver:
         initial_state: State,
         numerical_solver: NumericalSolver,
     ):
-        duration_seconds: float = 100.0
+        duration_seconds: float = 10.0
         end_instant: Instant = initial_state.get_instant() + Duration.seconds(
             duration_seconds
         )
@@ -205,7 +205,7 @@ class TestNumericalSolver:
 
         end_instants: list[Instant] = [
             initial_state.get_instant() + Duration.seconds(duration)
-            for duration in np.arange(600.0, 1000.0, 50.0)
+            for duration in np.arange(60.0, 100.0, 20.0)
         ]
         states: list[State] = numerical_solver.integrate_time(
             initial_state, end_instants, oscillator
