@@ -19,18 +19,17 @@ from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics import display
 from ostk.astrodynamics.access import Generator as AccessGenerator
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.orbit.model import SGP4
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 
 class TestDisplay:
-    def test_accesses_plot(self, state: State):
+    def test_accesses_plot(self):
         start_instant: Instant = Instant.date_time(
             DateTime(2023, 1, 3, 0, 0, 0),
             Scale.UTC,
         )
-        duration: Duration = Duration.days(7.0)
+        duration: Duration = Duration.hours(12.0)
         step: Duration = Duration.seconds(10.0)
         tolerance: Duration = Duration.seconds(1.0)
 

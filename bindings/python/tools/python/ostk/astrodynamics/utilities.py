@@ -134,7 +134,7 @@ def convert_state(
     state: trajectory.State,
 ) -> tuple[str, float, float, float, float, float, float, float, float, float]:
     """
-    Convert an input (Instant, State) into dataframe-ready values.
+    Convert a State into dataframe-ready values.
     """
 
     lla: LLA = LLA.cartesian(
