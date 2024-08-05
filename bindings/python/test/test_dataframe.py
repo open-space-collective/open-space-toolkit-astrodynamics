@@ -29,7 +29,6 @@ from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 from ostk.astrodynamics.dataframe import generate_dataframe_from_states
 from ostk.astrodynamics.dataframe import generate_profile_from_dataframe
 from ostk.astrodynamics.dataframe import generate_dataframe_from_profile
-from ostk.astrodynamics.dataframe import generate_locally_perturbed_state
 
 
 class TestOrbitDataframe:
