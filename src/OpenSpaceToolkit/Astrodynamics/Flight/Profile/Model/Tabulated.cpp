@@ -5,6 +5,8 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 
 namespace ostk
@@ -18,7 +20,18 @@ namespace profile
 namespace model
 {
 
+using ostk::core::container::Unpack;
+using ostk::core::type::Real;
+using ostk::core::type::String;
+
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::Vector3d;
+
+using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Transform;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::time::Duration;
 
 Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
@@ -71,14 +84,6 @@ Interval Tabulated::getInterval() const
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::core::type::Real;
-
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::coordinate::Position;
-    using ostk::physics::coordinate::Velocity;
-    using ostk::physics::time::Duration;
-
     if (!anInstant.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Instant");
@@ -147,9 +152,14 @@ Axes Tabulated::getAxesAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    throw ostk::core::error::runtime::ToBeImplemented("Tabulated::getAxesAt");
+    const State state = this->calculateStateAt(anInstant);
+    const Quaternion q_GCRF_BODY = state.getAttitude().toConjugate();
 
-    return Axes::Undefined();
+    const Vector3d xAxis = q_GCRF_BODY * Vector3d::X();
+    const Vector3d yAxis = q_GCRF_BODY * Vector3d::Y();
+    const Vector3d zAxis = q_GCRF_BODY * Vector3d::Z();
+
+    return {xAxis, yAxis, zAxis, state.accessFrame()};
 }
 
 Shared<const Frame> Tabulated::getBodyFrame(const String& aFrameName) const
@@ -159,15 +169,35 @@ Shared<const Frame> Tabulated::getBodyFrame(const String& aFrameName) const
         throw ostk::core::error::runtime::Undefined("Body frame name");
     }
 
-    throw ostk::core::error::runtime::ToBeImplemented("Tabulated::getBodyFrame");
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tabulated");
+    }
 
-    return nullptr;
+    const DynamicProvider dynamicTransformProvider = {
+        [this](const Instant& anInstant) -> Transform
+        {
+            const State state = this->calculateStateAt(anInstant);
+            return Transform::Passive(
+                anInstant,
+                -state.getPosition().getCoordinates(),
+                -state.getVelocity().getCoordinates(),
+                state.getAttitude().normalize(),
+                Vector3d::Zero()
+            );
+        }
+    };
+
+    return Frame::Construct(
+        aFrameName,
+        false,
+        this->states_.accessFirst().accessFrame(),
+        std::make_shared<const DynamicProvider>(dynamicTransformProvider)
+    );
 }
 
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::type::String;
-
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
@@ -224,8 +254,6 @@ bool Tabulated::operator!=(const Model& aModel) const
 
 Pair<const State*, const State*> Tabulated::accessStateRangeAt(const Instant& anInstant) const
 {
-    using ostk::core::container::Unpack;
-
     State const* previousStatePtr = nullptr;
     State const* nextStatePtr = nullptr;
 
