@@ -7,11 +7,13 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::String;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
@@ -160,7 +162,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, getAxesAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetAxesAt)
 {
     // undefined
     {
@@ -176,23 +178,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, getAxesAt
         EXPECT_THROW(tabulated_.getAxesAt(instant), ostk::core::error::runtime::Undefined);
     }
 
-    // not yet implemented
     {
-        EXPECT_THROW(
-            tabulated_.getAxesAt(states_.accessFirst().accessInstant()), ostk::core::error::runtime::ToBeImplemented
-        );
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
+        const Axes axes = tabulated_.getAxesAt(instant);
+        const State state = tabulated_.calculateStateAt(instant);
+        const Quaternion q_B_GCRF = state.getAttitude();
+        EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * axes.x(), Vector3d::X(), 1e-15);
+        EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * axes.y(), Vector3d::Y(), 1e-15);
+        EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * axes.z(), Vector3d::Z(), 1e-15);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, getBodyFrame)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetBodyFrame)
 {
-    // instant undefined
+    // name undefined
     {
         const String frameName = String::Empty();
         EXPECT_THROW(tabulated_.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
     }
 
+    // undefined tabulated
     {
-        EXPECT_THROW(tabulated_.getBodyFrame("Body Frame Name"), ostk::core::error::runtime::ToBeImplemented);
+        const Tabulated undefinedTabulated = {{}};
+        const String frameName = "test";
+        EXPECT_THROW(undefinedTabulated.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        const Shared<const Frame> bodyFrame = tabulated_.getBodyFrame("test");
+        EXPECT_EQ(bodyFrame->getName(), "test");
+        EXPECT_EQ(
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getTranslation(),
+            -states_.accessFirst().getPosition().getCoordinates()
+        );
+        EXPECT_EQ(
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getVelocity(),
+            -states_.accessFirst().getVelocity().getCoordinates()
+        );
+        EXPECT_EQ(
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getOrientation(),
+            states_.accessFirst().getAttitude().normalize()
+        );
+        EXPECT_EQ(
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getAngularVelocity(),
+            Vector3d::Zero()
+        );
     }
 }

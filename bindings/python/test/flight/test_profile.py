@@ -29,20 +29,53 @@ from ostk.astrodynamics.flight.profile.model import Tabulated as TabulatedModel
 
 @pytest.fixture
 def instant() -> Instant:
-    return Instant.date_time(DateTime(2020, 1, 3), Scale.UTC)
+    return Instant.date_time(DateTime(2020, 1, 1, 0, 0, 30), Scale.UTC)
 
 
 @pytest.fixture
-def profile() -> Profile:
+def transform_model() -> TransformModel:
     def dynamic_provider_generator(instant: Instant):
         return Transform.identity(instant)
 
-    return Profile(
-        model=TransformModel(
-            dynamic_provider=DynamicProvider(dynamic_provider_generator),
-            frame=Frame.GCRF(),
-        ),
+    return TransformModel(
+        dynamic_provider=DynamicProvider(dynamic_provider_generator),
+        frame=Frame.GCRF(),
     )
+
+
+@pytest.fixture
+def tabulated_model() -> TabulatedModel:
+    return TabulatedModel(
+        states=[
+            State(
+                instant=Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+                position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
+                velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                attitude=Quaternion.unit(),
+                angular_velocity=(0.0, 0.0, 0.0),
+                attitude_frame=Frame.GCRF(),
+            ),
+            State(
+                instant=Instant.date_time(datetime(2020, 1, 1, 0, 1, 0), Scale.UTC),
+                position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
+                velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                attitude=Quaternion.unit(),
+                angular_velocity=(0.0, 0.0, 0.0),
+                attitude_frame=Frame.GCRF(),
+            ),
+        ],
+    )
+
+
+@pytest.fixture(
+    params=[
+        "transform_model",
+        "tabulated_model",
+    ]
+)
+def profile(request) -> Profile:
+    model: TransformModel | TabulatedModel = request.getfixturevalue(request.param)
+    return Profile(model=model)
 
 
 class TestProfile:
@@ -68,7 +101,10 @@ class TestProfile:
         assert axes is not None
         assert isinstance(axes, Axes)
 
-    def test_get_body_frame(self, profile: Profile, instant: Instant):
+    def test_get_body_frame(self, profile: Profile):
+        if Frame.exists("Name"):
+            Frame.destruct("Name")
+
         frame = profile.get_body_frame("Name")
 
         assert frame is not None
@@ -109,45 +145,3 @@ class TestProfile:
         assert profile is not None
         assert isinstance(profile, Profile)
         assert profile.is_defined()
-
-    def test_tabulated(self):
-        profile = Profile(
-            model=TabulatedModel(
-                states=[
-                    State(
-                        instant=Instant.date_time(
-                            datetime(2020, 1, 1, 0, 0, 0), Scale.UTC
-                        ),
-                        position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
-                        velocity=Velocity.meters_per_second(
-                            (0.0, 0.0, 0.0), Frame.GCRF()
-                        ),
-                        attitude=Quaternion.unit(),
-                        angular_velocity=(0.0, 0.0, 0.0),
-                        attitude_frame=Frame.GCRF(),
-                    ),
-                    State(
-                        instant=Instant.date_time(
-                            datetime(2020, 1, 1, 0, 1, 0), Scale.UTC
-                        ),
-                        position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
-                        velocity=Velocity.meters_per_second(
-                            (0.0, 0.0, 0.0), Frame.GCRF()
-                        ),
-                        attitude=Quaternion.unit(),
-                        angular_velocity=(0.0, 0.0, 0.0),
-                        attitude_frame=Frame.GCRF(),
-                    ),
-                ],
-            ),
-        )
-
-        assert isinstance(profile, Profile)
-        assert profile.is_defined()
-
-        assert (
-            profile.get_state_at(
-                Instant.date_time(datetime(2020, 1, 1, 0, 0, 30), Scale.UTC)
-            )
-            is not None
-        )
