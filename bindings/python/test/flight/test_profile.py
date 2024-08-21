@@ -1,7 +1,6 @@
 # Apache License 2.0
 
 from datetime import datetime
-from pyexpat import model
 
 import pytest
 
