@@ -16,6 +16,20 @@ RUN apt-get update \
     && apt-get install -y unzip jq git-lfs locales \
     && rm -rf /var/lib/apt/lists/*
 
+## fmt
+
+ARG FMT_VERSION="5.2.0"
+
+RUN cd /tmp \
+    && git clone --branch ${FMT_VERSION} --depth 1 https://github.com/fmtlib/fmt.git \
+    && cd fmt \
+    && mkdir build \
+    && cd build \
+    && cmake -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE .. \
+    && make --silent -j $(nproc) \
+    && make install \
+    && rm -rf /tmp/fmt
+
 ## ordered-map
 
 ARG ORDERED_MAP_VERSION="0.6.0"
