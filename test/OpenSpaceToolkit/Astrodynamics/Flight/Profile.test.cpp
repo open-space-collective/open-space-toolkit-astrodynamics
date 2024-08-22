@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <unordered_set>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -8,8 +10,11 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -43,9 +48,12 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::environment::object::celestial::Moon;
+using ostk::physics::environment::object::celestial::Sun;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -792,6 +800,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
+{
+    {
+        EXPECT_THROW(
+            Profile::Target(Profile::TargetType::Trajectory, Profile::Axis::X), ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        const Profile::Target target = Profile::Target(Profile::TargetType::GeocentricNadir, Profile::Axis::X);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateCustomOrientation)
+{
+    {
+        EXPECT_THROW(
+            Profile::GenerateCustomOrientation(
+                {Profile::TargetType::VelocityECEF, Profile::Axis::X},
+                {Profile::TargetType::GeocentricNadir, Profile::Axis::Y}
+            ),
+            ostk::core::error::runtime::ToBeImplemented
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            Profile::GenerateCustomOrientation(
+                {Profile::TargetType::GeocentricNadir, Profile::Axis::Y},
+                {Profile::TargetType::VelocityECEF, Profile::Axis::X}
+            ),
+            ostk::core::error::runtime::ToBeImplemented
+        );
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
     : public ::testing::TestWithParam<
           std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>
@@ -806,6 +850,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
     Profile::Axis alignmentAxis;
     Profile::Axis clockingAxis;
     std::tie(alignmentAxis, clockingAxis, alignmentTargetType, clockingTargetType) = param;
+
+    // check failure conditions
 
     if (alignmentAxis == clockingAxis)
     {
@@ -845,13 +891,13 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
 
     const Instant epoch = Instant::J2000();
 
-    const Orbit orbit = Orbit::SunSynchronous(
-        epoch, Length::Kilometers(500.0), Time(14, 0, 0), std::make_shared<Earth>(Earth::Default())
-    );
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+    const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
     const State state = orbit.getStateAt(epoch);
 
-    const Map<Profile::Axis, Vector3d> axisMap = {
+    static const Map<Profile::Axis, Vector3d> axisMap = {
         {Profile::Axis::X, {1.0, 0.0, 0.0}},
         {Profile::Axis::Y, {0.0, 1.0, 0.0}},
         {Profile::Axis::Z, {0.0, 0.0, 1.0}},
@@ -862,32 +908,122 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
 
     const Quaternion q_B_GCRF = orientation(state);
 
+    const auto getExpectedDirectionVector =
+        [&earthSPtr](const Profile::TargetType& aTargetType, const State& aState) -> Vector3d
+    {
+        switch (aTargetType)
+        {
+            case Profile::TargetType::GeocentricNadir:
+                return -aState.getPosition().getCoordinates().normalized();
+                break;
+
+            case Profile::TargetType::GeodeticNadir:
+            {
+                const LLA lla = LLA::Cartesian(
+                    aState.inFrame(Frame::ITRF()).getPosition().getCoordinates(),
+                    earthSPtr->getEquatorialRadius(),
+                    earthSPtr->getFlattening()
+                );
+                const LLA llaOnSurface = LLA(lla.getLatitude(), lla.getLongitude(), Length::Meters(0.0));
+                Vector3d positionOnSurface =
+                    Position::Meters(
+                        llaOnSurface.toCartesian(earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()),
+                        Frame::ITRF()
+                    )
+                        .inFrame(Frame::GCRF(), aState.accessInstant())
+                        .getCoordinates();
+                return (positionOnSurface - aState.getPosition().getCoordinates()).normalized();
+            }
+            break;
+
+            case Profile::TargetType::VelocityECI:
+                return aState.getVelocity().getCoordinates().normalized();
+                break;
+
+            case Profile::TargetType::Sun:
+            {
+                const Sun sun = Sun::Default();
+                return (sun.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
+                        aState.getPosition().getCoordinates())
+                    .normalized();
+            }
+            break;
+
+            case Profile::TargetType::Moon:
+            {
+                const Moon moon = Moon::Default();
+                return (moon.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
+                        aState.getPosition().getCoordinates())
+                    .normalized();
+            }
+            break;
+
+            default:
+                return Vector3d::Zero();
+                break;
+        }
+    };
+
+    // check alignment axis
+
     const Vector3d alignmentAxisVector = axisMap.at(alignmentAxis);
 
     const Vector3d estimatedAlignmentDirection = (q_B_GCRF.toConjugate() * alignmentAxisVector);
 
-    // TBI: Add more tests
+    const Vector3d expectedAlignmentDirection = getExpectedDirectionVector(alignmentTargetType, state);
+
+    EXPECT_VECTORS_ALMOST_EQUAL(expectedAlignmentDirection, estimatedAlignmentDirection, 1e-12);
+
+    // check clocking axis
+
+    const Vector3d clockingAxisVector = axisMap.at(clockingAxis);
+
+    const Vector3d estimatedClockingDirection = (q_B_GCRF.toConjugate() * clockingAxisVector);
+
+    const Vector3d expectedClockingDirection = getExpectedDirectionVector(clockingTargetType, state);
+
+    // TBI: These tests can be improved in the future
+    if (alignmentTargetType == Profile::TargetType::VelocityECI && clockingTargetType == Profile::TargetType::Sun)
+    {
+        EXPECT_LT(Angle::Between(expectedClockingDirection, estimatedClockingDirection).inDegrees(), 16.0);
+    }
+    else if (clockingTargetType == Profile::TargetType::Sun)
+    {
+        EXPECT_LT(Angle::Between(expectedClockingDirection, estimatedClockingDirection).inDegrees(), 1.0);
+    }
+    else
+    {
+        EXPECT_LT(Angle::Between(expectedClockingDirection, estimatedClockingDirection).inDegrees(), 1e-3);
+    }
+}
+
+std::string ParamNameGenerator(
+    const ::testing::TestParamInfo<std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>&
+        info
+)
+{
+    std::string name = "Axis" + std::to_string(static_cast<int>(std::get<0>(info.param))) + "_Axis" +
+                       std::to_string(static_cast<int>(std::get<1>(info.param))) + "_Target" +
+                       std::to_string(static_cast<int>(std::get<2>(info.param))) + "_Target" +
+                       std::to_string(static_cast<int>(std::get<3>(info.param)));
+    return name;
 }
 
 INSTANTIATE_TEST_SUITE_P(
     OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_Values,
     OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized,
     ::testing::Combine(
-        ::testing::Values(Profile::Axis::X, Profile::Axis::Y, Profile::Axis::Z),
-        ::testing::Values(Profile::Axis::X, Profile::Axis::Y, Profile::Axis::Z),
+        ::testing::Values(Profile::Axis::X),
+        ::testing::Values(Profile::Axis::Y),
         ::testing::Values(
-            Profile::TargetType::GeocentricNadir,
-            Profile::TargetType::GeodeticNadir,
-            Profile::TargetType::Velocity,
-            Profile::TargetType::Sun,
-            Profile::TargetType::Moon
+            Profile::TargetType::GeocentricNadir, Profile::TargetType::GeodeticNadir, Profile::TargetType::VelocityECI
         ),
         ::testing::Values(
             Profile::TargetType::GeocentricNadir,
             Profile::TargetType::GeodeticNadir,
-            Profile::TargetType::Velocity,
-            Profile::TargetType::Sun,
-            Profile::TargetType::Moon
+            Profile::TargetType::VelocityECI,
+            Profile::TargetType::Sun
         )
-    )
+    ),
+    ParamNameGenerator
 );

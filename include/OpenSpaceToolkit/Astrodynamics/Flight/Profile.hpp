@@ -88,7 +88,8 @@ class Profile
         Trajectory,
         Sun,
         Moon,
-        Velocity
+        VelocityECI,
+        VelocityECEF,
     };
 
     struct Target
@@ -254,19 +255,21 @@ class Profile
 
     Profile();
 
-    static Vector3d GetGeocentricNadirDirectionVector(const State& aState);
+    static Vector3d ComputeGeocentricNadirDirectionVector(const State& aState);
 
-    static Vector3d GetGeodeticNadirDirectionVector(const State& aState);
+    static Vector3d ComputeGeodeticNadirDirectionVector(const State& aState);
 
-    static Vector3d GetCelestialDirectionVector(const State& aState, const Celestial& aCelestial);
+    static Vector3d ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial);
 
-    static Vector3d GetVelocityDirectionVector(const State& aState);
+    static Vector3d ComputeVelocityDirectionVector_ECI(const State& aState);
 
-    static Vector3d GetTargetDirectionVector(const State& aState, const Trajectory& aTrajectory);
+    static Vector3d ComputeVelocityDirectionVector_ECEF(const State& aState);
 
-    static Vector3d GetClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
+    static Vector3d ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory);
 
-    static RotationMatrix GetRotationMatrix(
+    static Vector3d ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
+
+    static Quaternion ComputeBodyToECIQuaternion(
         const Axis& anAlignmentAxis,
         const Axis& aClockingAxis,
         const Vector3d& anAlignmentAxisVector,

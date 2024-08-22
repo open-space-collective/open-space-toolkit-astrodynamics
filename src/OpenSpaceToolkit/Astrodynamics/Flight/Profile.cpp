@@ -147,6 +147,10 @@ std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
     const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset
 )
 {
+    if ((anAlignmentTarget.type == TargetType::VelocityECEF) || (aClockingTarget.type == TargetType::VelocityECEF))
+    {
+        throw ostk::core::error::runtime::ToBeImplemented("Velocity ECEF");
+    }
     if ((anAlignmentTarget.type == aClockingTarget.type) && (anAlignmentTarget.type != TargetType::Trajectory))
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
@@ -172,26 +176,28 @@ std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
         switch (aTarget.type)
         {
             case TargetType::GeocentricNadir:
-                return Profile::GetGeocentricNadirDirectionVector;
+                return Profile::ComputeGeocentricNadirDirectionVector;
             case TargetType::GeodeticNadir:
-                return Profile::GetGeodeticNadirDirectionVector;
+                return Profile::ComputeGeodeticNadirDirectionVector;
             case TargetType::Trajectory:
                 return [aTarget](const State& aState)
                 {
-                    return Profile::GetTargetDirectionVector(aState, aTarget.trajectory);
+                    return Profile::ComputeTargetDirectionVector(aState, aTarget.trajectory);
                 };
             case TargetType::Sun:
                 return [](const State& aState)
                 {
-                    return Profile::GetCelestialDirectionVector(aState, Sun::Default());
+                    return Profile::ComputeCelestialDirectionVector(aState, Sun::Default());
                 };
             case TargetType::Moon:
                 return [](const State& aState)
                 {
-                    return Profile::GetCelestialDirectionVector(aState, Moon::Default());
+                    return Profile::ComputeCelestialDirectionVector(aState, Moon::Default());
                 };
-            case TargetType::Velocity:
-                return Profile::GetVelocityDirectionVector;
+            case TargetType::VelocityECI:
+                return Profile::ComputeVelocityDirectionVector_ECI;
+            case TargetType::VelocityECEF:
+                return Profile::ComputeVelocityDirectionVector_ECEF;
             default:
                 throw ostk::core::error::RuntimeError("Invalid alignment target type.");
         }
@@ -203,18 +209,18 @@ std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
     const Integer alignmentSign = anAlignmentTarget.antiDirection ? -1 : 1;
     const Integer clockingSign = aClockingTarget.antiDirection ? -1 : 1;
 
-    return [&anAngularOffset,
+    return [anAngularOffset,
             alignmentAxisVectorFunction,
             clockingAxisVectorFunction,
-            &anAlignmentTarget,
-            &aClockingTarget,
-            &alignmentSign,
-            &clockingSign](const State& aState) -> Quaternion
+            anAlignmentTarget,
+            aClockingTarget,
+            alignmentSign,
+            clockingSign](const State& aState) -> Quaternion
     {
         const Vector3d alignemntAxisVector = alignmentAxisVectorFunction(aState) * alignmentSign;
         const Vector3d clockingVector = clockingAxisVectorFunction(aState) * clockingSign;
 
-        const Vector3d clockingAxisVector = Profile::GetClockingAxisVector(alignemntAxisVector, clockingVector);
+        const Vector3d clockingAxisVector = Profile::ComputeClockingAxisVector(alignemntAxisVector, clockingVector);
 
         const Real thetaOffsetRad = anAngularOffset.inRadians();
 
@@ -223,11 +229,9 @@ std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
              (alignemntAxisVector.cross(clockingAxisVector)) * std::sin(thetaOffsetRad) +
              alignemntAxisVector * (alignemntAxisVector.dot(clockingAxisVector)) * (1.0 - std::cos(thetaOffsetRad)));
 
-        const RotationMatrix rotationMatrix = Profile::GetRotationMatrix(
+        return Profile::ComputeBodyToECIQuaternion(
             anAlignmentTarget.axis, aClockingTarget.axis, alignemntAxisVector, rotatedClockingAxisVector
         );
-
-        return Quaternion::RotationMatrix(rotationMatrix);
     };
 }
 
@@ -259,30 +263,31 @@ Profile::Profile()
 {
 }
 
-Vector3d Profile::GetGeocentricNadirDirectionVector(const State& aState)
+Vector3d Profile::ComputeGeocentricNadirDirectionVector(const State& aState)
 {
     return -aState.getPosition().accessCoordinates().normalized();
 }
 
-Vector3d Profile::GetGeodeticNadirDirectionVector(const State& aState)
+Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
 {
+    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant());
+
     const LLA lla = LLA::Cartesian(
-        aState.getPosition().accessCoordinates(),
+        ITRF_GCRF_transform.getInverse().applyToPosition(aState.getPosition().accessCoordinates()),
         EarthGravitationalModel::EGM2008.equatorialRadius_,
         EarthGravitationalModel::EGM2008.flattening_
     );
+
     const Vector3d nadir = {
         -std::cos(lla.getLatitude().inRadians()) * std::cos(lla.getLongitude().inRadians()),
         -std::cos(lla.getLatitude().inRadians()) * std::sin(lla.getLongitude().inRadians()),
         -std::sin(lla.getLatitude().inRadians()),
     };
 
-    const Transform itrfGcrfTransform = Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.getInstant());
-
-    return itrfGcrfTransform.applyToVector(nadir).normalized();
+    return ITRF_GCRF_transform.applyToVector(nadir).normalized();
 }
 
-Vector3d Profile::GetCelestialDirectionVector(const State& aState, const Celestial& aCelestial)
+Vector3d Profile::ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial)
 {
     const Vector3d celestialPositionCoordinates =
         aCelestial.getPositionIn(Frame::GCRF(), aState.getInstant()).accessCoordinates();
@@ -291,12 +296,17 @@ Vector3d Profile::GetCelestialDirectionVector(const State& aState, const Celesti
     return (celestialPositionCoordinates - satellitePositionCoordinates).normalized();
 }
 
-Vector3d Profile::GetVelocityDirectionVector(const State& aState)
+Vector3d Profile::ComputeVelocityDirectionVector_ECI(const State& aState)
 {
     return aState.getVelocity().accessCoordinates().normalized();
 }
 
-Vector3d Profile::GetTargetDirectionVector(const State& aState, const Trajectory& aTrajectory)
+Vector3d Profile::ComputeVelocityDirectionVector_ECEF(const State& aState)
+{
+    return aState.inFrame(Frame::ITRF()).getVelocity().accessCoordinates().normalized();
+}
+
+Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory)
 {
     if (!aTrajectory.isDefined())
     {
@@ -310,12 +320,12 @@ Vector3d Profile::GetTargetDirectionVector(const State& aState, const Trajectory
     return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
 }
 
-Vector3d Profile::GetClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector)
+Vector3d Profile::ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector)
 {
     return (anAlignmentAxisVector.cross(aClockingVector)).cross(anAlignmentAxisVector).normalized();
 }
 
-RotationMatrix Profile::GetRotationMatrix(
+Quaternion Profile::ComputeBodyToECIQuaternion(
     const Axis& anAlignmentAxis,
     const Axis& aClockingAxis,
     const Vector3d& anAlignmentAxisVector,
@@ -358,7 +368,7 @@ RotationMatrix Profile::GetRotationMatrix(
     rotationMatrix.row(axisIndexMap.at(triadAxis)) =
         rotationMatrix.row(firstAxisVectorIndex).cross(rotationMatrix.row(secondAxisVectorIndex));
 
-    return RotationMatrix(rotationMatrix);
+    return Quaternion::RotationMatrix(rotationMatrix);
 }
 
 }  // namespace flight
