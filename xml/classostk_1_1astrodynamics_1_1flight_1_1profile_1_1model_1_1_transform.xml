@@ -6,7 +6,7 @@
     <includes refid="_transform_8hpp" local="no">Transform.hpp</includes>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a615e43fe5fdef896b6c7c423662de794" prot="private" static="no" mutable="no">
-        <type><ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" kindref="member">DynamicProvider</ref></type>
+        <type><ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1aaa0373529fefab449f97fd611e64d420" kindref="member">DynamicProvider</ref></type>
         <definition>DynamicProvider ostk::astrodynamics::flight::profile::model::Transform::transformProvider_</definition>
         <argsstring></argsstring>
         <name>transformProvider_</name>
@@ -39,7 +39,7 @@
         <argsstring>(const DynamicProvider &amp;aDynamicTransformProvider, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
         <name>Transform</name>
         <param>
-          <type>const <ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" kindref="member">DynamicProvider</ref> &amp;</type>
+          <type>const <ref refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1aaa0373529fefab449f97fd611e64d420" kindref="member">DynamicProvider</ref> &amp;</type>
           <declname>aDynamicTransformProvider</declname>
         </param>
         <param>

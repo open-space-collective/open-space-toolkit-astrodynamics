@@ -5,9 +5,9 @@
     <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" prot="public">ostk::astrodynamics::flight::profile::model::Tabulated</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" prot="public">ostk::astrodynamics::flight::profile::model::Transform</innerclass>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" prot="public" static="no">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1aaa0373529fefab449f97fd611e64d420" prot="public" static="no">
         <type>ostk::physics::coordinate::frame::provider::Dynamic</type>
-        <definition>using ostk::astrodynamics::flight::profile::model::DynamicProvider = typedef ostk::physics::coordinate::frame::provider::Dynamic</definition>
+        <definition>typedef ostk::physics::coordinate::frame::provider::Dynamic ostk::astrodynamics::flight::profile::model::DynamicProvider</definition>
         <argsstring></argsstring>
         <name>DynamicProvider</name>
         <briefdescription>
@@ -39,7 +39,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="50" bodyend="55"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="63" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="63" bodyend="68"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

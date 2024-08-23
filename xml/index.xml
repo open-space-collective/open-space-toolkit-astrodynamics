@@ -1506,7 +1506,7 @@
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1a665f4f70116fa1d32cd8b1dcc7e42ae7" kind="function"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model" kind="namespace"><name>ostk::astrodynamics::flight::profile::model</name>
-    <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a7a92c942d8e2080f78c9263f998af0c2" kind="typedef"><name>DynamicProvider</name></member>
+    <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1aaa0373529fefab449f97fd611e64d420" kind="typedef"><name>DynamicProvider</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1ab86779e60364bc20eabff522e776190c" kind="function"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system" kind="namespace"><name>ostk::astrodynamics::flight::system</name>
