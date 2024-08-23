@@ -139,7 +139,7 @@ Profile Profile::NadirPointing(const trajectory::Orbit& anOrbit, const trajector
     return {TransformModel::NadirPointing(anOrbit, anOrbitalFrameType)};
 }
 
-std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
+std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset
 )
 {

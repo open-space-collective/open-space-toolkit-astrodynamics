@@ -241,13 +241,13 @@ class Profile
         const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
     );
 
-    /// @brief Generate a custom orientation
+    /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.
     ///
     /// @param anAlignmentAxis An alignment axis
     /// @param aClockingAxis A clocking axis
     /// @param anAngularOffset An angular offset applied to the clocking axis
 
-    static std::function<Quaternion(const State&)> GenerateCustomOrientation(
+    static std::function<Quaternion(const State&)> AlignAndConstrain(
         const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset = Angle::Zero()
     );
 

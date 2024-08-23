@@ -33,6 +33,21 @@ def instant() -> Instant:
 
 
 @pytest.fixture
+def environment() -> Environment:
+    return Environment.default()
+
+
+@pytest.fixture
+def orbit(instant: Instant, environment: Environment) -> Orbit:
+    return Orbit.sun_synchronous(
+        epoch=instant,
+        altitude=Length.kilometers(500.0),
+        local_time_at_descending_node=Time(14, 0, 0),
+        celestial_object=environment.access_celestial_object_with_name("Earth"),
+    )
+
+
+@pytest.fixture
 def transform_model() -> TransformModel:
     def dynamic_provider_generator(instant: Instant):
         return Transform.identity(instant)
@@ -78,10 +93,24 @@ def profile(request) -> Profile:
     return Profile(model=model)
 
 
+@pytest.fixture
+def alignment_target() -> Profile.Target:
+    return Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X)
+
+
+@pytest.fixture
+def clocking_target() -> Profile.Target:
+    return Profile.Target(Profile.TargetType.VelocityECI, Profile.Axis.Y)
+
+
 class TestProfile:
     def test_constructors(self, profile: Profile):
         assert profile is not None
         assert isinstance(profile, Profile)
+
+    def test_profile_target(self, alignment_target: Profile.Target):
+        assert alignment_target is not None
+        assert isinstance(alignment_target, Profile.Target)
 
     def test_get_state_at(self, profile: Profile, instant: Instant):
         state: State = profile.get_state_at(instant)
@@ -130,18 +159,40 @@ class TestProfile:
         assert isinstance(profile, Profile)
         assert profile.is_defined()
 
-    def test_nadir_pointing(self):
-        environment = Environment.default()
-
-        orbit = Orbit.sun_synchronous(
-            epoch=Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
-            altitude=Length.kilometers(500.0),
-            local_time_at_descending_node=Time(14, 0, 0),
-            celestial_object=environment.access_celestial_object_with_name("Earth"),
-        )
-
+    def test_nadir_pointing(
+        self,
+        orbit: Orbit,
+    ):
         profile: Profile = Profile.nadir_pointing(orbit, Orbit.FrameType.VVLH)
 
         assert profile is not None
         assert isinstance(profile, Profile)
+        assert profile.is_defined()
+
+    def test_align_and_constrain(
+        self,
+        orbit: Orbit,
+        instant: Instant,
+        alignment_target: Profile.Target,
+        clocking_target: Profile.Target,
+    ):
+        orientation = Profile.align_and_constrain(
+            alignment_target=alignment_target,
+            clocking_target=clocking_target,
+        )
+
+        assert orientation is not None
+        assert orientation(orbit.get_state_at(instant)) is not None
+
+    def test_generate_tracking_profile(
+        self,
+        orbit: Orbit,
+        alignment_target: Profile.Target,
+        clocking_target: Profile.Target,
+    ):
+        profile = Profile.generate_tracking_profile(
+            orbit, Profile.align_and_constrain(alignment_target, clocking_target)
+        )
+
+        assert profile is not None
         assert profile.is_defined()

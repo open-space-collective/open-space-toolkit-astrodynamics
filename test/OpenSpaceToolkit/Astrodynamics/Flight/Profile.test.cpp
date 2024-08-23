@@ -139,6 +139,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, StreamOperator)
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
+
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << Profile::Undefined() << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
@@ -814,11 +822,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateCustomOrientation)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
 {
     {
         EXPECT_THROW(
-            Profile::GenerateCustomOrientation(
+            Profile::AlignAndConstrain(
                 {Profile::TargetType::VelocityECEF, Profile::Axis::X},
                 {Profile::TargetType::GeocentricNadir, Profile::Axis::Y}
             ),
@@ -828,7 +836,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateCustomOrientation)
 
     {
         EXPECT_THROW(
-            Profile::GenerateCustomOrientation(
+            Profile::AlignAndConstrain(
                 {Profile::TargetType::GeocentricNadir, Profile::Axis::Y},
                 {Profile::TargetType::VelocityECEF, Profile::Axis::X}
             ),
@@ -839,7 +847,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateCustomOrientation)
     // Trajectory
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
-        const auto orientation = Profile::GenerateCustomOrientation(
+        const auto orientation = Profile::AlignAndConstrain(
             Profile::Target(Profile::TargetType::Trajectory, Profile::Axis::X, false, trajectory),
             {Profile::TargetType::VelocityECI, Profile::Axis::Y}
         );
@@ -870,7 +878,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateTrackingProfile)
 
     // VNC frame
 
-    const auto orientation = Profile::GenerateCustomOrientation(
+    const auto orientation = Profile::AlignAndConstrain(
         {Profile::TargetType::VelocityECI, Profile::Axis::X}, {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
     );
 
@@ -902,7 +910,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
 {
 };
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCustomOrientation)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConstrain)
 {
     const auto param = GetParam();
     Profile::TargetType alignmentTargetType;
@@ -916,9 +924,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
     if (alignmentAxis == clockingAxis)
     {
         EXPECT_THROW(
-            Profile::GenerateCustomOrientation(
-                {alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}
-            ),
+            Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}),
             ostk::core::error::RuntimeError
         );
         return;
@@ -927,9 +933,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
     if (alignmentTargetType == clockingTargetType)
     {
         EXPECT_THROW(
-            Profile::GenerateCustomOrientation(
-                {alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}
-            ),
+            Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}),
             ostk::core::error::RuntimeError
         );
         return;
@@ -941,9 +945,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
          (alignmentTargetType == Profile::TargetType::GeodeticNadir)))
     {
         EXPECT_THROW(
-            Profile::GenerateCustomOrientation(
-                {alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}
-            ),
+            Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}),
             ostk::core::error::RuntimeError
         );
         return;
@@ -964,7 +966,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, GenerateCusto
     };
 
     const std::function<Quaternion(const State&)> orientation =
-        Profile::GenerateCustomOrientation({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis});
+        Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis});
 
     const Quaternion q_B_GCRF = orientation(state);
 

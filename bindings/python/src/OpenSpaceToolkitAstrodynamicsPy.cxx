@@ -38,9 +38,9 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     OpenSpaceToolkitAstrodynamicsPy_RootSolver(m);
 
     // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);
     OpenSpaceToolkitAstrodynamicsPy_Flight(m);
     OpenSpaceToolkitAstrodynamicsPy_Dynamics(m);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);
     OpenSpaceToolkitAstrodynamicsPy_Access(m);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition(m);
