@@ -68,6 +68,7 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::flight::Profile;
 using ostk::astrodynamics::flight::profile::model::Tabulated;
 using ostk::astrodynamics::flight::profile::model::Transform;
+using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
@@ -834,6 +835,48 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateCustomOrientation)
             ostk::core::error::runtime::ToBeImplemented
         );
     }
+
+    // Trajectory
+    {
+        const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
+        const auto orientation = Profile::GenerateCustomOrientation(
+            Profile::Target(Profile::TargetType::Trajectory, Profile::Axis::X, false, trajectory),
+            {Profile::TargetType::VelocityECI, Profile::Axis::Y}
+        );
+
+        const Instant epoch = Instant::J2000();
+
+        const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+        const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+
+        const State state = orbit.getStateAt(epoch);
+
+        const Quaternion q_B_GCRF = orientation(state);
+
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            q_B_GCRF * -state.getPosition().getCoordinates().normalized(), Vector3d::X(), 1e-12
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateTrackingProfile)
+{
+    const Instant epoch = Instant::J2000();
+
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+    const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+
+    const auto orientation = Profile::GenerateCustomOrientation(
+        {Profile::TargetType::GeocentricNadir, Profile::Axis::X}, {Profile::TargetType::VelocityECI, Profile::Axis::Y}
+    );
+
+    const Profile profile = Profile::GenerateTrackingProfile(orbit, orientation);
+
+    EXPECT_TRUE(profile.isDefined());
+
+    // TBI: Add better tests
 }
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized

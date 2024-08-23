@@ -131,16 +131,12 @@ Profile Profile::Undefined()
 
 Profile Profile::InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion)
 {
-    using ostk::astrodynamics::flight::profile::model::Transform;
-
-    return {Transform::InertialPointing(aTrajectory, aQuaternion)};
+    return {TransformModel::InertialPointing(aTrajectory, aQuaternion)};
 }
 
 Profile Profile::NadirPointing(const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType)
 {
-    using ostk::astrodynamics::flight::profile::model::Transform;
-
-    return {Transform::NadirPointing(anOrbit, anOrbitalFrameType)};
+    return {TransformModel::NadirPointing(anOrbit, anOrbitalFrameType)};
 }
 
 std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
