@@ -24,6 +24,7 @@ OPTION (BUILD_DOCUMENTATION "Build documentation" OFF)
 OPTION (BUILD_WITH_DEBUG_SYMBOLS "Build with debug symbols" ON)
 OPTION (BUILD_BENCHMARK "Build benchmark" ON)
 OPTION (BUILD_SCRIPT "Build script" OFF)
+OPTION (BUILD_WITH_CXX_17 "Build with C++ 17 support." OFF)
 
 ## Setup
 
@@ -129,9 +130,44 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
 ENDIF ()
 
-### C++ 20 support
+### C++ 17/20 support
 
-SET (CMAKE_CXX_STANDARD 20)
+IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+
+    IF (BUILD_WITH_CXX_17)
+
+        SET (CMAKE_CXX_STANDARD 17)
+
+        MESSAGE (STATUS "C++17 support enabled")
+
+        IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+
+            MESSAGE (FATAL_ERROR "GCC version must be at least 7.0 to build with C++17")
+
+        ENDIF ()
+    
+    ELSE ()
+
+        MESSAGE (STATUS "C++20 support enabled")
+
+        SET (CMAKE_CXX_STANDARD 20)
+
+        IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13.0)
+
+            MESSAGE (FATAL_ERROR "GCC version must be at least 13.0 to build with C++20")
+
+        ENDIF ()
+    
+    ENDIF ()
+
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated")
+
+ELSE ()
+
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow")
+
+ENDIF ()
+
 SET (CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_CXX_EXTENSIONS OFF)
 
