@@ -142,7 +142,7 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
         IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
 
-            MESSAGE (FATAL_ERROR "GCC version must be at least 7.0")
+            MESSAGE (FATAL_ERROR "GCC version must be at least 7.0 to build with C++17")
 
         ENDIF ()
     
@@ -154,7 +154,7 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
         IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13.0)
 
-            MESSAGE (FATAL_ERROR "GCC version must be at least 13.0")
+            MESSAGE (FATAL_ERROR "GCC version must be at least 13.0 to build with C++20")
 
         ENDIF ()
     
