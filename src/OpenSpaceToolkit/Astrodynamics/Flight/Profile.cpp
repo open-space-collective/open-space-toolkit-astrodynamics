@@ -194,6 +194,8 @@ std::function<Quaternion(const State&)> Profile::GenerateCustomOrientation(
                 return Profile::ComputeVelocityDirectionVector_ECI;
             case TargetType::VelocityECEF:
                 return Profile::ComputeVelocityDirectionVector_ECEF;
+            case TargetType::OrbitalMomentum:
+                return Profile::ComputeOrbitalMomentumDirectionVector;
             default:
                 throw ostk::core::error::RuntimeError("Invalid alignment target type.");
         }
@@ -283,6 +285,20 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
     return ITRF_GCRF_transform.applyToVector(nadir).normalized();
 }
 
+Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory)
+{
+    if (!aTrajectory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Trajectory");
+    }
+
+    const Vector3d targetPositionCoordinates =
+        aTrajectory.getStateAt(aState.accessInstant()).getPosition().accessCoordinates();
+    const Vector3d satellitePositionCoordinates = aState.getPosition().accessCoordinates();
+
+    return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
+}
+
 Vector3d Profile::ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial)
 {
     const Vector3d celestialPositionCoordinates =
@@ -302,23 +318,17 @@ Vector3d Profile::ComputeVelocityDirectionVector_ECEF(const State& aState)
     return aState.inFrame(Frame::ITRF()).getVelocity().accessCoordinates().normalized();
 }
 
-Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory)
-{
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
-    const Vector3d targetPositionCoordinates =
-        aTrajectory.getStateAt(aState.accessInstant()).getPosition().accessCoordinates();
-    const Vector3d satellitePositionCoordinates = aState.getPosition().accessCoordinates();
-
-    return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
-}
-
 Vector3d Profile::ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector)
 {
     return (anAlignmentAxisVector.cross(aClockingVector)).cross(anAlignmentAxisVector).normalized();
+}
+
+Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
+{
+    const Vector3d positionDirection = aState.getPosition().getCoordinates().normalized();
+    const Vector3d velocityDirection = aState.getVelocity().getCoordinates().normalized();
+
+    return positionDirection.cross(velocityDirection).normalized();
 }
 
 Quaternion Profile::ComputeBodyToECIQuaternion(

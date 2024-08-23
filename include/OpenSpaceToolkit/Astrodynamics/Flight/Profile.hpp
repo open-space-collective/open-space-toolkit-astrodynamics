@@ -90,6 +90,7 @@ class Profile
         Moon,
         VelocityECI,
         VelocityECEF,
+        OrbitalMomentum,
     };
 
     struct Target
@@ -259,13 +260,15 @@ class Profile
 
     static Vector3d ComputeGeodeticNadirDirectionVector(const State& aState);
 
+    static Vector3d ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory);
+
     static Vector3d ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial);
 
     static Vector3d ComputeVelocityDirectionVector_ECI(const State& aState);
 
     static Vector3d ComputeVelocityDirectionVector_ECEF(const State& aState);
 
-    static Vector3d ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory);
+    static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 
     static Vector3d ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
 

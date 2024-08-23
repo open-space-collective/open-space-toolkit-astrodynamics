@@ -868,15 +868,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateTrackingProfile)
 
     const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
+    // VNC frame
+
     const auto orientation = Profile::GenerateCustomOrientation(
-        {Profile::TargetType::GeocentricNadir, Profile::Axis::X}, {Profile::TargetType::VelocityECI, Profile::Axis::Y}
+        {Profile::TargetType::VelocityECI, Profile::Axis::X}, {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
     );
 
-    const Profile profile = Profile::GenerateTrackingProfile(orbit, orientation);
+    const Profile calculatedProfile = Profile::GenerateTrackingProfile(orbit, orientation);
 
-    EXPECT_TRUE(profile.isDefined());
+    // Compare against Orbit VNC frame which has been validated
 
-    // TBI: Add better tests
+    const Profile expectedProfile = Profile::NadirPointing(orbit, Orbit::FrameType::VNC);
+
+    for (const auto instant :
+         Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
+    {
+        const State calculatedState = calculatedProfile.getStateAt(instant);
+        const State expectedState = expectedProfile.getStateAt(instant);
+
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            calculatedState.getPosition().getCoordinates(), expectedState.getPosition().getCoordinates(), 1e-6
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            calculatedState.getVelocity().getCoordinates(), expectedState.getVelocity().getCoordinates(), 1e-6
+        );
+        EXPECT_TRUE(calculatedState.getAttitude().isNear(expectedState.getAttitude(), Angle::Arcseconds(1e-12)));
+    }
 }
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
