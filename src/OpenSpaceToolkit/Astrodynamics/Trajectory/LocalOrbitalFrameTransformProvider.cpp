@@ -43,6 +43,18 @@ Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvi
     return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(transform));
 }
 
+Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(
+    const Instant& anInstant,
+    const Vector3d& aPosition,
+    const Vector3d& aVelocity,
+    const std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)>& aTransformGenerator
+)
+{
+    const Transform transform = aTransformGenerator(anInstant, aPosition, aVelocity);
+
+    return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(transform));
+}
+
 LocalOrbitalFrameTransformProvider::~LocalOrbitalFrameTransformProvider() {}
 
 LocalOrbitalFrameTransformProvider* LocalOrbitalFrameTransformProvider::clone() const

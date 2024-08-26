@@ -72,7 +72,7 @@ class LocalOrbitalFrameTransformProvider : public Provider
     /// @return The transform from the provider at provided instant
     virtual Transform getTransformAt(const Instant& anInstant) const override;
 
-    /// @brief Construct a local orbital frame transform provider shared pointed
+    /// @brief Construct a local orbital frame transform provider shared pointer for the provided type
     ///
     /// @param aType A local orbital frame provider type
     /// @param anInstant An instant
@@ -85,6 +85,21 @@ class LocalOrbitalFrameTransformProvider : public Provider
         const Instant& anInstant,
         const Vector3d& aPosition,
         const Vector3d& aVelocity
+    );
+
+    /// @brief Construct a local orbital frame transform provider with a custom type
+    ///
+    /// @param anInstant An instant
+    /// @param aPosition A position vector
+    /// @param aVelocity A velocity vector
+    /// @param aTransformGenerator A function to generate the transform
+    ///
+    /// @return The shared pointer to the local orbital frame transform provider constructed
+    static Shared<const LocalOrbitalFrameTransformProvider> Construct(
+        const Instant& anInstant,
+        const Vector3d& aPosition,
+        const Vector3d& aVelocity,
+        const std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)>& aTransformGenerator
     );
 
     /// @brief Convert local orbital frame transform provider type to string

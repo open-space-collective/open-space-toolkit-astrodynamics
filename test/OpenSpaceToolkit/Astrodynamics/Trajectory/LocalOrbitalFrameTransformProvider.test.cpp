@@ -2,6 +2,9 @@
 
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -13,14 +16,15 @@
 
 using ostk::core::type::Shared;
 
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Vector3d;
 
+using ostk::physics::coordinate::Transform;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
-
-using ostk::physics::coordinate::Transform;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
@@ -37,45 +41,86 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvid
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider, Construct)
 {
     {
-        EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::VNC, instant_, position_, velocity_
-        ));
+        {
+            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::VNC, instant_, position_, velocity_
+            ));
+        }
+
+        {
+            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::NED, instant_, position_, velocity_
+            ));
+        }
+
+        {
+            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::LVLH, instant_, position_, velocity_
+            ));
+        }
+
+        {
+            EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::LVLHGD, instant_, position_, velocity_
+            ));  // ToBeImplemented
+        }
+
+        {
+            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::QSW, instant_, position_, velocity_
+            ));
+        }
+
+        {
+            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::TNW, instant_, position_, velocity_
+            ));
+        }
+
+        {
+            EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::Undefined, instant_, position_, velocity_
+            ));
+        }
     }
 
+    // custom transform
     {
-        EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::NED, instant_, position_, velocity_
-        ));
-    }
+        const auto aTransformGenerator = [](const Instant& anInstant,
+                                            const Vector3d& aPositionCoordinates,
+                                            const Vector3d& aVelocityCoordinates) -> Transform
+        {
+            const Vector3d transformPosition = -aPositionCoordinates;
+            const Vector3d transformVelocity = -aVelocityCoordinates;
+            const Vector3d xAxis = aVelocityCoordinates.normalized();
+            const Vector3d yAxis = aPositionCoordinates.cross(aVelocityCoordinates).normalized();
+            const Vector3d zAxis = xAxis.cross(yAxis);
+            const Quaternion transformOrientation =
+                Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+            const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};
 
-    {
-        EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::LVLH, instant_, position_, velocity_
-        ));
-    }
+            return {
+                anInstant,
+                transformPosition,
+                transformVelocity,
+                transformOrientation,
+                transformAngularVelocity,
+                Transform::Type::Passive
+            };
+        };
 
-    {
-        EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::LVLHGD, instant_, position_, velocity_
-        ));  // ToBeImplemented
-    }
+        const Shared<const LocalOrbitalFrameTransformProvider> localOrbitalFrameTransformProvider =
+            LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::VNC, instant_, position_, velocity_
+            );
 
-    {
-        EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::QSW, instant_, position_, velocity_
-        ));
-    }
+        const Shared<const LocalOrbitalFrameTransformProvider> localOrbitalFrameTransformProviderCustom =
+            LocalOrbitalFrameTransformProvider::Construct(instant_, position_, velocity_, aTransformGenerator);
 
-    {
-        EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::TNW, instant_, position_, velocity_
-        ));
-    }
-
-    {
-        EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
-            LocalOrbitalFrameTransformProvider::Type::Undefined, instant_, position_, velocity_
-        ));
+        EXPECT_EQ(
+            localOrbitalFrameTransformProvider->getTransformAt(instant_),
+            localOrbitalFrameTransformProviderCustom->getTransformAt(instant_)
+        );
     }
 }
 
