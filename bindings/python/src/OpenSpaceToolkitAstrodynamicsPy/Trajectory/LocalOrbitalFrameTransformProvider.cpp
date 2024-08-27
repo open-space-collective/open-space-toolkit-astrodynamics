@@ -8,6 +8,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
 
     using ostk::core::type::Shared;
 
+    using ostk::physics::coordinate::Transform;
     using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
@@ -46,6 +47,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
     localOrbitalFrameTransformProviderClass
 
         .def(
+            init<const Transform&>(),
+            arg("transform"),
+            R"doc(
+                Constructs a local orbital frame transform provider.
+
+                Args:
+                    transform (Transform): The transform.
+
+                Returns:
+                    LocalOrbitalFrameTransformProvider: The provider.
+            )doc"
+        )
+
+        .def(
             "is_defined",
             &LocalOrbitalFrameTransformProvider::isDefined,
             R"doc(
@@ -69,6 +84,42 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
                     Transform: The transform at the given instant.
             )doc",
             arg("instant")
+        )
+
+        .def_static(
+            "construct",
+            &LocalOrbitalFrameTransformProvider::Construct,
+            R"doc(
+                Constructs a local orbital frame transform provider for the provided type.
+
+                Args:
+                    type (LocalOrbitalFrameTransformProvider.Type): The local orbital frame provider type.
+                    instant (Instant): The instant.
+                    position (Vector3d): The position vector.
+                    velocity (Vector3d): The velocity vector.
+
+                Returns:
+                    LocalOrbitalFrameTransformProvider: The provider.
+            )doc",
+            arg("type"),
+            arg("instant"),
+            arg("position"),
+            arg("velocity")
+        )
+
+        .def_static(
+            "get_transform_generator",
+            &LocalOrbitalFrameTransformProvider::GetTransformGenerator,
+            R"doc(
+                Returns the transform generator function for a given type.
+
+                Args:
+                    type (LocalOrbitalFrameTransformProvider.Type): The local orbital frame provider type.
+
+                Returns:
+                    callable[[Instant, np.array, np.array], Transform]: The transform generator function.
+            )doc",
+            arg("type")
         )
 
         ;

@@ -30,6 +30,11 @@ using ostk::physics::coordinate::Vector3d;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
 
+LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const Transform& aTransform)
+    : transform_(aTransform)
+{
+}
+
 Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(
     const LocalOrbitalFrameTransformProvider::Type& aType,
     const Instant& anInstant,
@@ -66,6 +71,15 @@ Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anIn
     return transform_;
 }
 
+std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)>
+LocalOrbitalFrameTransformProvider::GetTransformGenerator(const LocalOrbitalFrameTransformProvider::Type& aType)
+{
+    return [aType](const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity)
+    {
+        return LocalOrbitalFrameTransformProvider::generateTransform(aType, anInstant, aPosition, aVelocity);
+    };
+}
+
 String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFrameTransformProvider::Type& aType)
 {
     switch (aType)
@@ -94,17 +108,15 @@ String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFram
         case LocalOrbitalFrameTransformProvider::Type::VNC:
             return "VNC";
 
+        case LocalOrbitalFrameTransformProvider::Type::Custom:
+            return "Custom";
+
         default:
             throw ostk::core::error::runtime::Wrong("Frame type");
             break;
     }
 
     return String::Empty();
-}
-
-LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const Transform& aTransform)
-    : transform_(aTransform)
-{
 }
 
 Transform LocalOrbitalFrameTransformProvider::generateTransform(

@@ -25,6 +25,7 @@ using ostk::core::type::String;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::frame::Provider;
+using ostk::physics::coordinate::Transform;
 using ostk::physics::coordinate::Vector3d;
 using ostk::physics::time::Instant;
 
@@ -36,6 +37,7 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 class LocalOrbitalFrameFactory
 {
    public:
+    typedef std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)> TransformGenerator;
     /// @brief Generate a frame shared pointer based on current state input
     ///
     /// @param anInstant An instant
@@ -112,24 +114,40 @@ class LocalOrbitalFrameFactory
     ///
     /// @param aType The type of local orbital frame transform provider
     /// @param aParentFrame The parent frame of the local orbital frame factory
+    ///
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
+    );
+
+    /// @brief Construct custom frame
+    ///
+    /// @param aTransformGenerator A function to generate the transform
+    /// @param aParentFrame The parent frame of the local orbital frame factory
+    ///
+    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    static Shared<const LocalOrbitalFrameFactory> Construct(
+        const TransformGenerator& aTransformGenerator, const Shared<const Frame>& aParentFrame
     );
 
    private:
     LocalOrbitalFrameTransformProvider::Type type_;
     Shared<const Frame> parentFrameSPtr_;
+    TransformGenerator transformGenerator_;
 
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///                  LocalOrbitalFrameFactory localOrbitalFrameFactory = {aType, aParentFrame};
+    ///                  LocalOrbitalFrameFactory localOrbitalFrameFactory = {aType, aParentFrame, aTransformGenerator};
     /// @endcode
     ///
     /// @param aType The type of local orbital frame transform provider
     /// @param aParentFrame The parent frame of the local orbital frame factory
+    /// @param aTransformGenerator A function to generate the transform
     LocalOrbitalFrameFactory(
-        const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
+        const LocalOrbitalFrameTransformProvider::Type& aType,
+        const Shared<const Frame>& aParentFrame,
+        const TransformGenerator& aTransformGenerator
     );
 
     /// @brief Generate a frame name based on current state

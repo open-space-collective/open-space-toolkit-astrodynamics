@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -26,6 +27,7 @@ using ostk::core::type::Shared;
 using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
@@ -50,7 +52,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory : publi
    protected:
     const LocalOrbitalFrameTransformProvider::Type type_ = LocalOrbitalFrameTransformProvider::Type::VNC;
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
-    Shared<const LocalOrbitalFrameFactory> LOFFactorySPtr_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
+    const Shared<const LocalOrbitalFrameFactory> LOFFactorySPtr_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
 
     const Instant instant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
     const Vector3d position_ = {7000000.0, 0.0, 0.0};
@@ -87,6 +89,45 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
         EXPECT_NO_THROW(
             LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
         );
+    }
+
+    {
+        {
+            EXPECT_THROW(
+                LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Custom, gcrfSPtr_),
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            const auto aTransformGenerator = [](const Instant& anInstant,
+                                                const Vector3d& aPositionCoordinates,
+                                                const Vector3d& aVelocityCoordinates) -> Transform
+            {
+                const Vector3d transformPosition = -aPositionCoordinates;
+                const Vector3d transformVelocity = -aVelocityCoordinates;
+                const Vector3d xAxis = aVelocityCoordinates.normalized();
+                const Vector3d yAxis = aPositionCoordinates.cross(aVelocityCoordinates).normalized();
+                const Vector3d zAxis = xAxis.cross(yAxis);
+                const Quaternion transformOrientation =
+                    Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+                const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};
+
+                return {
+                    anInstant,
+                    transformPosition,
+                    transformVelocity,
+                    transformOrientation,
+                    transformAngularVelocity,
+                    Transform::Type::Passive
+                };
+            };
+
+            const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactory =
+                LocalOrbitalFrameFactory::Construct(aTransformGenerator, gcrfSPtr_);
+
+            EXPECT_TRUE(localOrbitalFrameFactory->isDefined());
+        }
     }
 }
 
@@ -137,7 +178,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Gener
         Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, position_, velocity_);
 
         Transform transform = localOrbitalFrame->getTransformTo(gcrfSPtr_, instant_);
-        transform.accessOrientation();
+
+        EXPECT_TRUE(transform.isDefined());
     }
 
     {

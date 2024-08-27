@@ -48,9 +48,17 @@ class LocalOrbitalFrameTransformProvider : public Provider
         QSW,     ///< QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
         TNW,     ///< Tangent-Normal-Wideband (TNW) frame (X axis aligned with velocity, Z axis aligned with orbital
                  ///< momentum)
-        VNC      ///< Velocity-Normal-Co-normal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
+        VNC,     ///< Velocity-Normal-Co-normal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
                  ///< momentum)
+        Custom   ///< Custom frame
     };
+
+    /// @brief Constructor
+    ///
+    /// @param aTransform A transform
+    ///
+    /// @return A local orbital frame transform provider
+    LocalOrbitalFrameTransformProvider(const Transform& aTransform);
 
     /// @brief Destructor
     virtual ~LocalOrbitalFrameTransformProvider() override;
@@ -72,7 +80,7 @@ class LocalOrbitalFrameTransformProvider : public Provider
     /// @return The transform from the provider at provided instant
     virtual Transform getTransformAt(const Instant& anInstant) const override;
 
-    /// @brief Construct a local orbital frame transform provider shared pointed
+    /// @brief Construct a local orbital frame transform provider shared pointer for the provided type
     ///
     /// @param aType A local orbital frame provider type
     /// @param anInstant An instant
@@ -87,6 +95,15 @@ class LocalOrbitalFrameTransformProvider : public Provider
         const Vector3d& aVelocity
     );
 
+    /// @brief Get the transform generator function for a given type
+    ///
+    /// @param aType A local orbital frame provider type
+    ///
+    /// @return The transform generator function
+    static std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)> GetTransformGenerator(
+        const LocalOrbitalFrameTransformProvider::Type& aType
+    );
+
     /// @brief Convert local orbital frame transform provider type to string
     ///
     /// @param aType A local orbital frame provider type
@@ -96,13 +113,6 @@ class LocalOrbitalFrameTransformProvider : public Provider
 
    private:
     Transform transform_;
-
-    /// @brief Constructor
-    ///
-    /// @param aTransform A transform
-    ///
-    /// @return A local orbital frame transform provider
-    LocalOrbitalFrameTransformProvider(const Transform& aTransform);
 
     /// @brief Generate a transform based on current state and LOF type
     ///
