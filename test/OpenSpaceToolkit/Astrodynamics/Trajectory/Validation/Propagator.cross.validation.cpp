@@ -841,7 +841,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
         // Get LOF
         Shared<const Frame> lofSPtr = param_localOrbitalFrameFactory->generateFrame(
-            instantArray[i], positionGCRF_Thruster.accessCoordinates(), velocityGCRF_Thruster.accessCoordinates()
+            State(instantArray[i], positionGCRF_Thruster, velocityGCRF_Thruster)
         );
 
         // Get LOF State

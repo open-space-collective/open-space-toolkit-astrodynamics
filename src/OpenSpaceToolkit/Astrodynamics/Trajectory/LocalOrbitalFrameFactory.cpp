@@ -50,18 +50,18 @@ struct SharedFrameEnabler : public Frame
     }
 };
 
-Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
-    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
-) const
+Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState) const
 {
-    const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
+    const State stateInParentFrame = aState.inFrame(parentFrameSPtr_);
+
+    const String name = this->generateFrameName(stateInParentFrame);
 
     if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
     {
         return frameSPtr;
     }
 
-    const Transform transform = transformGenerator_(anInstant, aPosition, aVelocity);
+    const Transform transform = transformGenerator_(stateInParentFrame);
 
     const Shared<const LocalOrbitalFrameTransformProvider> providerSPtr =
         std::make_shared<const LocalOrbitalFrameTransformProvider>(transform);
@@ -164,12 +164,10 @@ LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
 {
 }
 
-String LocalOrbitalFrameFactory::generateFrameName(
-    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
-) const
+String LocalOrbitalFrameFactory::generateFrameName(const State& aState) const
 {
-    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString() +
-           aPosition.toString() + aVelocity.toString();
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + aState.accessInstant().toString() +
+           aState.getPosition().getCoordinates().toString() + aState.getVelocity().getCoordinates().toString();
 }
 
 }  // namespace trajectory

@@ -17,6 +17,9 @@ namespace guidancelaw
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
@@ -53,10 +56,14 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
+    const State state = {
+        anInstant,
+        Position::Meters(aPositionCoordinates, outputFrameSPtr),
+        Velocity::MetersPerSecond(aVelocityCoordinates, outputFrameSPtr),
+    };
+
     const Shared<const Frame> localOrbitalFrameSPtr =
-        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
-            anInstant, aPositionCoordinates, aVelocityCoordinates
-        );
+        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(state);
 
     const Quaternion q_requestedFrame_LOF =
         localOrbitalFrameSPtr->getTransformTo(outputFrameSPtr, anInstant).getOrientation().normalize();

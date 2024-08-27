@@ -36,14 +36,10 @@ LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const Tra
 }
 
 Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(
-    const LocalOrbitalFrameTransformProvider::Type& aType,
-    const Instant& anInstant,
-    const Vector3d& aPosition,
-    const Vector3d& aVelocity
+    const LocalOrbitalFrameTransformProvider::Type& aType, const State& aState
 )
 {
-    const Transform transform =
-        LocalOrbitalFrameTransformProvider::generateTransform(aType, anInstant, aPosition, aVelocity);
+    const Transform transform = LocalOrbitalFrameTransformProvider::GenerateTransform(aType, aState);
 
     return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(transform));
 }
@@ -71,12 +67,13 @@ Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anIn
     return transform_;
 }
 
-std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)>
-LocalOrbitalFrameTransformProvider::GetTransformGenerator(const LocalOrbitalFrameTransformProvider::Type& aType)
+std::function<Transform(const State&)> LocalOrbitalFrameTransformProvider::GetTransformGenerator(
+    const LocalOrbitalFrameTransformProvider::Type& aType
+)
 {
-    return [aType](const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity)
+    return [aType](const State& aState)
     {
-        return LocalOrbitalFrameTransformProvider::generateTransform(aType, anInstant, aPosition, aVelocity);
+        return LocalOrbitalFrameTransformProvider::GenerateTransform(aType, aState);
     };
 }
 
@@ -119,18 +116,20 @@ String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFram
     return String::Empty();
 }
 
-Transform LocalOrbitalFrameTransformProvider::generateTransform(
-    const LocalOrbitalFrameTransformProvider::Type& aType,
-    const Instant& anInstant,
-    const Vector3d& aPosition,
-    const Vector3d& aVelocity
+Transform LocalOrbitalFrameTransformProvider::GenerateTransform(
+    const LocalOrbitalFrameTransformProvider::Type& aType, const State& aState
 )
 {
+    const Instant& instant = aState.accessInstant();
+    const Vector3d positionCoordinates = aState.getPosition().accessCoordinates();
+    const Vector3d velocityCoordinates = aState.getVelocity().accessCoordinates();
+
     switch (aType)
     {
         case LocalOrbitalFrameTransformProvider::Type::NED:
         {
-            const LLA lla = LLA::Cartesian(aPosition, Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_);
+            const LLA lla =
+                LLA::Cartesian(positionCoordinates, Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_);
 
             // Compute the NED frame to central body centered, central body fixed frame transform at position
 
@@ -145,17 +144,18 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
         {
             // X axis along position vector
             // Z axis along orbital momentum
-            const Vector3d transformPosition = -aPosition;
-            const Vector3d transformVelocity = -aVelocity;
-            const Vector3d xAxis = aPosition.normalized();
-            const Vector3d zAxis = aPosition.cross(aVelocity).normalized();
+            // Y axis toward velocity vector
+            const Vector3d transformPosition = -positionCoordinates;
+            const Vector3d transformVelocity = -velocityCoordinates;
+            const Vector3d xAxis = positionCoordinates.normalized();
+            const Vector3d zAxis = positionCoordinates.cross(velocityCoordinates).normalized();
             const Vector3d yAxis = zAxis.cross(xAxis);
             const Quaternion transformOrientation =
                 Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
             const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
             return {
-                anInstant,
+                instant,
                 transformPosition,
                 transformVelocity,
                 transformOrientation,
@@ -167,18 +167,18 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
         case LocalOrbitalFrameTransformProvider::Type::VVLH:
         {
             // Y axis along negative orbital momentum
-            // Z axis along negative position vector
-            const Vector3d transformPosition = -aPosition;
-            const Vector3d transformVelocity = -aVelocity;
-            const Vector3d zAxis = -aPosition.normalized();
-            const Vector3d yAxis = -aPosition.cross(aVelocity).normalized();
+            // X axis toward velocity vector
+            const Vector3d transformPosition = -positionCoordinates;
+            const Vector3d transformVelocity = -velocityCoordinates;
+            const Vector3d zAxis = -positionCoordinates.normalized();
+            const Vector3d yAxis = -positionCoordinates.cross(velocityCoordinates).normalized();
             const Vector3d xAxis = yAxis.cross(zAxis);
             const Quaternion transformOrientation =
                 Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
             const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
             return {
-                anInstant,
+                instant,
                 transformPosition,
                 transformVelocity,
                 transformOrientation,
@@ -191,17 +191,17 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
         {
             // X axis along position vector
             // Z axis along orbital momentum
-            const Vector3d transformPosition = -aPosition;
-            const Vector3d transformVelocity = -aVelocity;
-            const Vector3d xAxis = aPosition.normalized();
-            const Vector3d zAxis = aPosition.cross(aVelocity).normalized();
+            const Vector3d transformPosition = -positionCoordinates;
+            const Vector3d transformVelocity = -velocityCoordinates;
+            const Vector3d xAxis = positionCoordinates.normalized();
+            const Vector3d zAxis = positionCoordinates.cross(velocityCoordinates).normalized();
             const Vector3d yAxis = zAxis.cross(xAxis);
             const Quaternion transformOrientation =
                 Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
             const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
             return {
-                anInstant,
+                instant,
                 transformPosition,
                 transformVelocity,
                 transformOrientation,
@@ -214,17 +214,17 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
         {
             // X axis along velocity vector
             // Z axis along orbital momentum
-            const Vector3d transformPosition = -aPosition;
-            const Vector3d transformVelocity = -aVelocity;
-            const Vector3d xAxis = aVelocity.normalized();
-            const Vector3d zAxis = aPosition.cross(aVelocity).normalized();
+            const Vector3d transformPosition = -positionCoordinates;
+            const Vector3d transformVelocity = -velocityCoordinates;
+            const Vector3d xAxis = velocityCoordinates.normalized();
+            const Vector3d zAxis = positionCoordinates.cross(velocityCoordinates).normalized();
             const Vector3d yAxis = zAxis.cross(xAxis);
             const Quaternion transformOrientation =
                 Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
             const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
             return {
-                anInstant,
+                instant,
                 transformPosition,
                 transformVelocity,
                 transformOrientation,
@@ -237,17 +237,17 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
         {
             // X axis along velocity vector
             // Y axis along orbital momentum
-            const Vector3d transformPosition = -aPosition;
-            const Vector3d transformVelocity = -aVelocity;
-            const Vector3d xAxis = aVelocity.normalized();
-            const Vector3d yAxis = aPosition.cross(aVelocity).normalized();
+            const Vector3d transformPosition = -positionCoordinates;
+            const Vector3d transformVelocity = -velocityCoordinates;
+            const Vector3d xAxis = velocityCoordinates.normalized();
+            const Vector3d yAxis = positionCoordinates.cross(velocityCoordinates).normalized();
             const Vector3d zAxis = xAxis.cross(yAxis);
             const Quaternion transformOrientation =
                 Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
             const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
             return {
-                anInstant,
+                instant,
                 transformPosition,
                 transformVelocity,
                 transformOrientation,

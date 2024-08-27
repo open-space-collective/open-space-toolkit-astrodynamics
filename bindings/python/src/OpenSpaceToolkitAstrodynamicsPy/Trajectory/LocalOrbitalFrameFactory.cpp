@@ -53,16 +53,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         .def(
             "generate_frame",
             &LocalOrbitalFrameFactory::generateFrame,
-            arg("instant"),
-            arg("position_vector"),
-            arg("velocity_vector"),
+            arg("state"),
             R"doc(
                 Generate a local orbital frame.
 
                 Args:
-                    instant (Instant): The instant.
-                    position_vector (numpy.ndarray): The position vector.
-                    velocity_vector (numpy.ndarray): The velocity vector.
+                    state (State): The state.
 
                 Returns:
                     Frame: The local orbital frame.
@@ -185,16 +181,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         )
         .def_static(
             "construct",
-            overload_cast<
-                const std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)>&,
-                const Shared<const Frame>&>(&LocalOrbitalFrameFactory::Construct),
+            overload_cast<const std::function<Transform(const State&)>&, const Shared<const Frame>&>(
+                &LocalOrbitalFrameFactory::Construct
+            ),
             arg("transform_generator"),
             arg("parent_frame"),
             R"doc(
                 Construct a local orbital frame factory for a custom type, using the provided transform generator.
 
                 Args:
-                    transform_generator (callable[[Instant, np.array, np.array], Transform]): The transform generator.
+                    transform_generator (callable[[State], Transform]): The transform generator.
                     parent_frame (Frame): The parent frame.
 
                 Returns:

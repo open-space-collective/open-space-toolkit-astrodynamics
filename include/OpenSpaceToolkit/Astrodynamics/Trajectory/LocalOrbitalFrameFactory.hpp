@@ -37,16 +37,13 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 class LocalOrbitalFrameFactory
 {
    public:
-    typedef std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)> TransformGenerator;
+    typedef std::function<Transform(const State&)> TransformGenerator;
     /// @brief Generate a frame shared pointer based on current state input
     ///
-    /// @param anInstant An instant
-    /// @param aPosition A position vector
-    /// @param aVelocity A velocity vector
+    /// @param aState A State
     ///
     /// @return A shared pointer to the frame created
-    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity)
-        const;
+    Shared<const Frame> generateFrame(const State& aState) const;
 
     /// @brief Check if local orbital frame factory is defined
     ///
@@ -152,12 +149,10 @@ class LocalOrbitalFrameFactory
 
     /// @brief Generate a frame name based on current state
     ///
-    /// @param anInstant An instant
-    /// @param aPosition A position vector
-    /// @param aVelocity A velocity vector
+    /// @param aState A state
     ///
     /// @return A frame name
-    String generateFrameName(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
+    String generateFrameName(const State& aState) const;
 };
 
 }  // namespace trajectory

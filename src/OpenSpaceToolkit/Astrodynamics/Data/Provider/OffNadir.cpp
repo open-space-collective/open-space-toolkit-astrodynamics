@@ -48,9 +48,7 @@ Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Posi
 
     const Instant instant = aState.getInstant();
 
-    const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory->generateFrame(
-        instant, aState.getPosition().getCoordinates(), aState.getVelocity().getCoordinates()
-    );
+    const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory->generateFrame(aState);
 
     // Calculate satellite to target direction vector in GCRF frame
     const Vector3d satelliteToTargetDirection =
