@@ -69,8 +69,10 @@ Propagator::Propagator(
         {
             if (maneuver != otherManeuver)
             {
-                if (maneuver.getInstants().accessFirst() <= otherManeuver.getInstants().accessLast() &&
-                    maneuver.getInstants().accessLast() >= otherManeuver.getInstants().accessFirst())
+                if (maneuver.getStates().accessFirst().accessInstant() <=
+                        otherManeuver.getStates().accessLast().accessInstant() &&
+                    maneuver.getStates().accessLast().accessInstant() >=
+                        otherManeuver.getStates().accessFirst().accessInstant())
                 {
                     throw ostk::core::error::RuntimeError("Maneuvers cannot overlap in time.");
                 }
