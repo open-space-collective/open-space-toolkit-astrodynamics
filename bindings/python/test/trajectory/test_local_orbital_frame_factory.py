@@ -9,7 +9,7 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate import Transform
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
-from ostk.astrodynamics.trajectory import LocalOrbitalTransformProvider
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameTransformProvider
 
 
 @pytest.fixture
@@ -18,12 +18,14 @@ def parent_frame() -> Frame:
 
 
 @pytest.fixture
-def local_orbital_transform_provider_type() -> LocalOrbitalTransformProvider.Type:
-    return LocalOrbitalTransformProvider.Type.VNC
+def local_orbital_transform_provider_type() -> LocalOrbitalFrameTransformProvider.Type:
+    return LocalOrbitalFrameTransformProvider.Type.VNC
+
 
 @pytest.fixture
 def transform_generator() -> callable:
     return lambda instant, position, velocity: Transform.identity(Transform.Type.passive)
+
 
 @pytest.fixture
 def local_orbital_frame_factory(parent_frame: Frame) -> LocalOrbitalFrameFactory:
@@ -85,12 +87,22 @@ class TestLocalOrbitalFrameFactory:
 
     def test_constructor(
         self,
-        local_orbital_transform_provider_type: LocalOrbitalTransformProvider.Type,
+        local_orbital_transform_provider_type: LocalOrbitalFrameTransformProvider.Type,
         parent_frame: Frame,
     ):
-        assert LocalOrbitalFrameFactory.construct(local_orbital_transform_provider_type, parent_frame) is not None
+        assert (
+            LocalOrbitalFrameFactory.construct(
+                local_orbital_transform_provider_type, parent_frame
+            )
+            is not None
+        )
 
     def test_custom_constructor(
-        self, 
-
-    )
+        self,
+        transform_generator: callable,
+        parent_frame: Frame,
+    ):
+        assert (
+            LocalOrbitalFrameFactory.construct(transform_generator, parent_frame)
+            is not None
+        )
