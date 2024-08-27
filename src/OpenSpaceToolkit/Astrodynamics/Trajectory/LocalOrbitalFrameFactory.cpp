@@ -136,7 +136,7 @@ Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
 {
     if (aType == LocalOrbitalFrameTransformProvider::Type::Custom)
     {
-        throw ostk::core::error::RuntimeError("Must provider transform generator for custom frame type.");
+        throw ostk::core::error::RuntimeError("Must provide a transform generator for custom frame type.");
     }
 
     return std::make_shared<LocalOrbitalFrameFactory>(
