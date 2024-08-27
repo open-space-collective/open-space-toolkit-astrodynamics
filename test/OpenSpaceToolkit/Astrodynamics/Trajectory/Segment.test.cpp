@@ -348,13 +348,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         EXPECT_EQ(1, maneuvers.getSize());
-        EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getInstants().getSize());
+        EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getStates().getSize());
         EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getAccelerationProfile().getSize());
         EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getMassFlowRateProfile().getSize());
 
-        for (Size i = 0; i < maneuvers[0].getInstants().getSize(); i++)
+        for (Size i = 0; i < maneuvers[0].getStates().getSize(); i++)
         {
-            EXPECT_EQ(maneuveringSegmentSolution.states[i].getInstant(), maneuvers[0].getInstants()[i]);
+            EXPECT_EQ(
+                maneuveringSegmentSolution.states[i].accessInstant(), maneuvers[0].getStates()[i].accessInstant()
+            );
         }
 
         // Check that metrics from the maneuvering segment solution are the same as the ones from the extracted maneuver
@@ -487,28 +489,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             Size startingIndexSecondManeuver = 71;
 
             // First maneuver
-            EXPECT_EQ(numberOfInstantInFirstManeuver, maneuvers[0].getInstants().getSize());
+            EXPECT_EQ(numberOfInstantInFirstManeuver, maneuvers[0].getStates().getSize());
             EXPECT_EQ(numberOfInstantInFirstManeuver, maneuvers[0].getAccelerationProfile().getSize());
             EXPECT_EQ(numberOfInstantInFirstManeuver, maneuvers[0].getMassFlowRateProfile().getSize());
 
-            for (Size i = 0; i < maneuvers[0].getInstants().getSize(); i++)
+            for (Size i = 0; i < maneuvers[0].getStates().getSize(); i++)
             {
                 EXPECT_EQ(
                     maneuveringSegmentSolution.states[startingIndexFirstManeuver + i].getInstant(),
-                    maneuvers[0].getInstants()[i]
+                    maneuvers[0].getStates()[i].accessInstant()
                 );
             }
 
             // Second maneuver
-            EXPECT_EQ(numberOfInstantInSecondManeuver, maneuvers[1].getInstants().getSize());
+            EXPECT_EQ(numberOfInstantInSecondManeuver, maneuvers[1].getStates().getSize());
             EXPECT_EQ(numberOfInstantInSecondManeuver, maneuvers[1].getAccelerationProfile().getSize());
             EXPECT_EQ(numberOfInstantInSecondManeuver, maneuvers[1].getMassFlowRateProfile().getSize());
 
-            for (Size j = 0; j < maneuvers[1].getInstants().getSize(); j++)
+            for (Size j = 0; j < maneuvers[1].getStates().getSize(); j++)
             {
                 EXPECT_EQ(
                     maneuveringSegmentSolution.states[startingIndexSecondManeuver + j].getInstant(),
-                    maneuvers[1].getInstants()[j]
+                    maneuvers[1].getStates()[j].accessInstant()
                 );
             }
         }

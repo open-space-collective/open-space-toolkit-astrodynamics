@@ -45,6 +45,7 @@ class Tabulated : public Dynamics
 {
    public:
     static const Shared<const Frame> DefaultContributionFrameSPtr;
+
     /// @brief Constructor
     ///
     /// @param anInstantArray An array of instants, must be sorted

@@ -149,13 +149,6 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
     }
 
-    const Array<Instant> instantArray = this->states.map<Instant>(
-        [](const State& aState) -> Instant
-        {
-            return aState.accessInstant();
-        }
-    );
-
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
         thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
@@ -205,21 +198,29 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
-        const Array<Instant> maneuverInstantsBlock =
-            Array<Instant>(instantArray.begin() + startStopPair.first, instantArray.begin() + startStopPair.second);
+        const Array<State> maneuverStatesBlock =
+            Array<State>(this->states.begin() + startStopPair.first, this->states.begin() + startStopPair.second);
         const MatrixXd maneuverContributionBlock =
             fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
 
-        extractedManeuvers.add(flightManeuver::TabulatedDynamics(TabulatedDynamics(
-            maneuverInstantsBlock,
-            maneuverContributionBlock,
-            {CartesianVelocity::Default(), CoordinateSubset::Mass()},
-            aFrameSPtr,
-            Interpolator::Type::Linear  // Don't actually need to interpolate, because we convert straight to a
-                                        // maneuver, but specifying linear interpolation allows us to get away with
-                                        // segments that only have two states, as opposed to needing more than two
-                                        // states present to use the other higher order interpolators
-        )));
+        // Convert Eigen expressions to Array<Vector3d>
+        Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
+        accelerationProfile.reserve(blockLength);
+        for (Size i = 0; i < blockLength; ++i)
+        {
+            accelerationProfile.add(maneuverContributionBlock.block(i, 0, 1, 3));
+        }
+
+        // Convert Eigen expressions to Array<Real>
+        Array<Real> massFlowRateProfile = Array<Real>::Empty();
+        massFlowRateProfile.reserve(blockLength);
+        for (Size i = 0; i < blockLength; ++i)
+        {
+            massFlowRateProfile.add(fullSegmentContributions(startStopPair.first + i, 3));
+        }
+
+        extractedManeuvers.add(flightManeuver(maneuverStatesBlock, accelerationProfile, aFrameSPtr, massFlowRateProfile)
+        );
     }
 
     return extractedManeuvers;

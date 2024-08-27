@@ -68,13 +68,13 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver(...);
     /// @endcode
     ///
-    /// @param anInstantArray An array of instants, must be sorted
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
+    /// @param aStateArray An array of states, must be sorted
+    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per state in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver (negative numbers expected), one Real per
     /// instant in kg/s
     Maneuver(
-        const Array<Instant>& anInstantArray,
+        const Array<State>& aStateArray,
         const Array<Vector3d>& anAccelerationProfile,
         const Shared<const Frame>& aFrameSPtr,
         const Array<Real>& aMassFlowRateProfile
@@ -109,14 +109,14 @@ class Maneuver
     /// @return True if maneuver is defined (always returns true)
     bool isDefined() const;
 
-    /// @brief Get the instants of the maneuver
+    /// @brief Get the states of the maneuver
     ///
     /// @code{.cpp}
-    ///                  Array<Instant> instants = maneuver.getInstants();
+    ///                  Array<State> states = maneuver.getStates();
     /// @endcode
     ///
-    /// @return The instants
-    Array<Instant> getInstants() const;
+    /// @return The states
+    Array<State> getStates() const;
 
     /// @brief Get the acceleration profile of the maneuver
     ///
@@ -220,7 +220,7 @@ class Maneuver
     /// @param aTabulatedDynamics A TabulatedDynamics object
     ///
     /// @return A maneuver
-    static Maneuver TabulatedDynamics(const Tabulated& aTabulatedDynamics);
+    // static Maneuver TabulatedDynamics(const Tabulated& aTabulatedDynamics);
 
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///
@@ -228,21 +228,21 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
     /// @endcode
     ///
-    /// @param anInstantArray An array of instants, must be sorted
+    /// @param aStateArray An array of states, must be sorted
     /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     ///
     /// @return A maneuver
     static Maneuver ConstantMassFlowRateProfile(
-        const Array<Instant>& anInstantArray,
+        const Array<State>& aStatearray,
         const Array<Vector3d>& anAccelerationProfile,
         const Shared<const Frame>& aFrameSPtr,
         const Real& aMassFlowRate
     );
 
    private:
-    Array<Instant> instants_;
+    Array<State> states_;
     Array<Vector3d> accelerationProfileDefaultFrame_;
     Array<Real> massFlowRateProfile_;
 
