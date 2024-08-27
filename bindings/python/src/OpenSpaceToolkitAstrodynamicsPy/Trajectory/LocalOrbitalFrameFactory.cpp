@@ -10,9 +10,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
     using ostk::core::type::Shared;
 
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::mathematics::object::Vector3d;
+
+    using ostk::physics::coordinate::Transform;
     using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
     class_<LocalOrbitalFrameFactory, Shared<LocalOrbitalFrameFactory>>(
         aModule,
@@ -157,6 +162,43 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
                 Returns:
                     LocalOrbitalFrameFactory: The VNC local orbital frame factory.
+            )doc"
+        )
+
+        .def_static(
+            "construct",
+            overload_cast<const LocalOrbitalFrameTransformProvider::Type&, const Shared<const Frame>&>(
+                &LocalOrbitalFrameFactory::Construct
+            ),
+            arg("type"),
+            arg("parent_frame"),
+            R"doc(
+                Construct a local orbital frame factory for the provided type.
+
+                Args:
+                    type (LocalOrbitalFrameTransformProvider.Type): The type of local orbital frame transform provider.
+                    parent_frame (Frame): The parent frame.
+
+                Returns:
+                    LocalOrbitalFrameFactory: The local orbital frame factory.
+            )doc"
+        )
+        .def_static(
+            "construct",
+            overload_cast<
+                const std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)>&,
+                const Shared<const Frame>&>(&LocalOrbitalFrameFactory::Construct),
+            arg("transform_generator"),
+            arg("parent_frame"),
+            R"doc(
+                Construct a local orbital frame factory for a custom type, using the provided transform generator.
+
+                Args:
+                    transform_generator (callable[[Instant, np.array, np.array], Transform]): The transform generator.
+                    parent_frame (Frame): The parent frame.
+
+                Returns:
+                    LocalOrbitalFrameFactory: The local orbital frame factory.
             )doc"
         )
 

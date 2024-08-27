@@ -56,16 +56,18 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
 {
     const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
 
-    const Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_ =
-        LocalOrbitalFrameTransformProvider::Construct(this->type_, anInstant, aPosition, aVelocity);
-
     if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
     {
         return frameSPtr;
     }
 
+    const Transform transform = transformGenerator_(anInstant, aPosition, aVelocity);
+
+    const Shared<const LocalOrbitalFrameTransformProvider> providerSPtr =
+        std::make_shared<const LocalOrbitalFrameTransformProvider>(transform);
+
     const Shared<const Frame> frameSPtr =
-        std::make_shared<const SharedFrameEnabler>(name, false, parentFrameSPtr_, providerSPtr_);
+        std::make_shared<const SharedFrameEnabler>(name, false, parentFrameSPtr_, providerSPtr);
 
     FrameManager::Get().addFrame(frameSPtr);
 
@@ -132,15 +134,34 @@ Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
 )
 {
-    return std::make_shared<LocalOrbitalFrameFactory>(LocalOrbitalFrameFactory(aType, aParentFrame));
+    if (aType == LocalOrbitalFrameTransformProvider::Type::Custom)
+    {
+        throw ostk::core::error::RuntimeError("Must provider transform generator for custom frame type.");
+    }
+
+    return std::make_shared<LocalOrbitalFrameFactory>(
+        LocalOrbitalFrameFactory(aType, aParentFrame, LocalOrbitalFrameTransformProvider::GetTransformGenerator(aType))
+    );
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
+    const TransformGenerator& aTransformGenerator, const Shared<const Frame>& aParentFrame
+)
+{
+    return std::make_shared<LocalOrbitalFrameFactory>(
+        LocalOrbitalFrameFactory(LocalOrbitalFrameTransformProvider::Type::Custom, aParentFrame, aTransformGenerator)
+    );
 }
 
 LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
-    const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
+    const LocalOrbitalFrameTransformProvider::Type& aType,
+    const Shared<const Frame>& aParentFrame,
+    const TransformGenerator& aTransformGenerator
 )
+    : type_(aType),
+      parentFrameSPtr_(aParentFrame),
+      transformGenerator_(aTransformGenerator)
 {
-    this->type_ = aType;
-    this->parentFrameSPtr_ = aParentFrame;
 }
 
 String LocalOrbitalFrameFactory::generateFrameName(
