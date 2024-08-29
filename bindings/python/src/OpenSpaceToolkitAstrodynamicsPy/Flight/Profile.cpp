@@ -11,11 +11,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
 
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+
     using ostk::physics::coordinate::Frame;
 
     using ostk::astrodynamics::flight::Profile;
     using ostk::astrodynamics::flight::profile::Model;
     using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::State;
 
     class_<Profile, Shared<Profile>> profileClass(
@@ -234,17 +237,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def_static(
-            "generate_tracking_profile",
-            &Profile::GenerateTrackingProfile,
+            "custom_pointing",
+            overload_cast<const Orbit&, const std::function<Quaternion(const State&)>&>(&Profile::CustomPointing),
             R"doc(
-                Generate a tracking profile.
+                Create a custom pointing profile.
 
                 Args:
                     orbit (Orbit): The orbit.
                     orientation_generator (callable[Quaternion, State]): The orientation generator. Typically used in conjunction with `align_and_constrain`.
 
                 Returns:
-                    Profile: The tracking profile.
+                    Profile: The custom pointing profile.
 
             )doc",
             arg("orbit"),
@@ -252,15 +255,39 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def_static(
+            "custom_pointing",
+            overload_cast<const Orbit&, const Profile::Target&, const Profile::Target&, const Angle&>(
+                &Profile::CustomPointing
+            ),
+            R"doc(
+                Create a custom pointing profile.
+
+                Args:
+                    orbit (Orbit): The orbit.
+                    alignment_target (Profile.Target): The alignment target.
+                    clocking_target (Profile.Target): The clocking target.
+                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
+
+                Returns:
+                    Profile: The custom pointing profile.
+
+            )doc",
+            arg("orbit"),
+            arg("alignment_target"),
+            arg("clocking_target"),
+            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+        )
+
+        .def_static(
             "align_and_constrain",
             &Profile::AlignAndConstrain,
             R"doc(
-                Generate a function that provides a quaternion that aligns and constrains for a given state.
+                Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
 
                 Args:
                     alignment_target (Profile.Target): The alignment target.
                     clocking_target (Profile.Target): The clocking target.
-                    angular_offset (Angle): The angular offset.
+                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:
                     callable[Quaternion, State]: The custom orientation.

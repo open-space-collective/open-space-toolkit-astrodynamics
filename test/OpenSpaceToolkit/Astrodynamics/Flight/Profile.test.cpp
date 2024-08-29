@@ -868,7 +868,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateTrackingProfile)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
 {
     const Instant epoch = Instant::J2000();
 
@@ -876,31 +876,65 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GenerateTrackingProfile)
 
     const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
-    // VNC frame
-
-    const auto orientation = Profile::AlignAndConstrain(
-        {Profile::TargetType::VelocityECI, Profile::Axis::X}, {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
-    );
-
-    const Profile calculatedProfile = Profile::GenerateTrackingProfile(orbit, orientation);
-
-    // Compare against Orbit VNC frame which has been validated
-
-    const Profile expectedProfile = Profile::NadirPointing(orbit, Orbit::FrameType::VNC);
-
-    for (const auto instant :
-         Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
     {
-        const State calculatedState = calculatedProfile.getStateAt(instant);
-        const State expectedState = expectedProfile.getStateAt(instant);
+        // VNC frame
 
-        EXPECT_VECTORS_ALMOST_EQUAL(
-            calculatedState.getPosition().getCoordinates(), expectedState.getPosition().getCoordinates(), 1e-6
+        const auto orientation = Profile::AlignAndConstrain(
+            {Profile::TargetType::VelocityECI, Profile::Axis::X},
+            {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
         );
-        EXPECT_VECTORS_ALMOST_EQUAL(
-            calculatedState.getVelocity().getCoordinates(), expectedState.getVelocity().getCoordinates(), 1e-6
+
+        const Profile calculatedProfile = Profile::CustomPointing(orbit, orientation);
+
+        // Compare against Orbit VNC frame which has been validated
+
+        const Profile expectedProfile = Profile::NadirPointing(orbit, Orbit::FrameType::VNC);
+
+        for (const auto instant :
+             Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
+        {
+            const State calculatedState = calculatedProfile.getStateAt(instant);
+            const State expectedState = expectedProfile.getStateAt(instant);
+
+            EXPECT_VECTORS_ALMOST_EQUAL(
+                calculatedState.getPosition().getCoordinates(), expectedState.getPosition().getCoordinates(), 1e-6
+            );
+            EXPECT_VECTORS_ALMOST_EQUAL(
+                calculatedState.getVelocity().getCoordinates(), expectedState.getVelocity().getCoordinates(), 1e-6
+            );
+            EXPECT_TRUE(calculatedState.getAttitude().isNear(expectedState.getAttitude(), Angle::Arcseconds(1e-12)));
+        }
+    }
+
+    // Self consistent test for the interface function
+    {
+        const auto orientation = Profile::AlignAndConstrain(
+            {Profile::TargetType::VelocityECI, Profile::Axis::X},
+            {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
         );
-        EXPECT_TRUE(calculatedState.getAttitude().isNear(expectedState.getAttitude(), Angle::Arcseconds(1e-12)));
+
+        const Profile expectedProfile = Profile::CustomPointing(orbit, orientation);
+
+        const Profile calculatedProfile = Profile::CustomPointing(
+            orbit,
+            {Profile::TargetType::VelocityECI, Profile::Axis::X},
+            {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
+        );
+
+        for (const auto instant :
+             Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
+        {
+            const State calculatedState = calculatedProfile.getStateAt(instant);
+            const State expectedState = expectedProfile.getStateAt(instant);
+
+            EXPECT_VECTORS_ALMOST_EQUAL(
+                calculatedState.getPosition().getCoordinates(), expectedState.getPosition().getCoordinates(), 1e-15
+            );
+            EXPECT_VECTORS_ALMOST_EQUAL(
+                calculatedState.getVelocity().getCoordinates(), expectedState.getVelocity().getCoordinates(), 1e-15
+            );
+            EXPECT_TRUE(calculatedState.getAttitude().isNear(expectedState.getAttitude(), Angle::Arcseconds(1e-15)));
+        }
     }
 }
 

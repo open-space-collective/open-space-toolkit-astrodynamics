@@ -169,6 +169,19 @@ class TestProfile:
         assert isinstance(profile, Profile)
         assert profile.is_defined()
 
+    def test_custom_pointing(
+        self,
+        orbit: Orbit,
+        alignment_target: Profile.Target,
+        clocking_target: Profile.Target,
+    ):
+        profile = Profile.custom_pointing(
+            orbit, Profile.align_and_constrain(alignment_target, clocking_target)
+        )
+
+        assert profile is not None
+        assert profile.is_defined()
+
     def test_align_and_constrain(
         self,
         orbit: Orbit,
@@ -184,14 +197,23 @@ class TestProfile:
         assert orientation is not None
         assert orientation(orbit.get_state_at(instant)) is not None
 
-    def test_generate_tracking_profile(
+    def test_custom_pointing(
         self,
         orbit: Orbit,
         alignment_target: Profile.Target,
         clocking_target: Profile.Target,
     ):
-        profile = Profile.generate_tracking_profile(
+        profile = Profile.custom_pointing(
             orbit, Profile.align_and_constrain(alignment_target, clocking_target)
+        )
+
+        assert profile is not None
+        assert profile.is_defined()
+
+        profile = Profile.custom_pointing(
+            orbit,
+            alignment_target,
+            clocking_target,
         )
 
         assert profile is not None

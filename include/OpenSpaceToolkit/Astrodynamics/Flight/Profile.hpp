@@ -235,10 +235,24 @@ class Profile
     /// @brief Construct a flight profile with custom target pointing
     ///
     /// @param anOrbit An orbit
-    /// @param anOrientationGenerator
+    /// @param anOrientationGenerator An orientation generator
     /// @return Flight profile
-    static Profile GenerateTrackingProfile(
+    static Profile CustomPointing(
         const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
+    );
+
+    /// @brief Construct a flight profile with custom target pointing
+    ///
+    /// @param anOrbit An orbit
+    /// @param anAlignmentTarget An alignment target
+    /// @param aClockingTarget A clocking target
+    /// @param anAngularOffset An angular offset
+    /// @return Flight profile
+    static Profile CustomPointing(
+        const trajectory::Orbit& anOrbit,
+        const Target& anAlignmentTarget,
+        const Target& aClockingTarget,
+        const Angle& anAngularOffset = Angle::Zero()
     );
 
     /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.

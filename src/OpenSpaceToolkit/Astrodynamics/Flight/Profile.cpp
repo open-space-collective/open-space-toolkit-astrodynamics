@@ -139,6 +139,42 @@ Profile Profile::NadirPointing(const trajectory::Orbit& anOrbit, const trajector
     return {TransformModel::NadirPointing(anOrbit, anOrbitalFrameType)};
 }
 
+Profile Profile::CustomPointing(
+    const trajectory::Orbit& anOrbit,
+    const Target& anAlignmentTarget,
+    const Target& aClockingTarget,
+    const Angle& anAngularOffset
+)
+{
+    const auto orientationGenerator = Profile::AlignAndConstrain(anAlignmentTarget, aClockingTarget, anAngularOffset);
+
+    return Profile::CustomPointing(anOrbit, orientationGenerator);
+}
+
+Profile Profile::CustomPointing(
+    const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
+)
+{
+    // Copy the orientation generator to avoid dangling references.
+    auto dynamicProviderGenerator = [&anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
+    {
+        const State state = anOrbit.getStateAt(anInstant);
+
+        const Position position_GCRF = state.getPosition();
+        const Velocity velocity_GCRF = state.getVelocity();
+
+        return Transform::Active(
+            anInstant,
+            -position_GCRF.accessCoordinates(),
+            -velocity_GCRF.accessCoordinates(),
+            anOrientationGenerator(state),
+            Vector3d(0.0, 0.0, 0.0)  // TBM: Artificially set to 0 for now.
+        );
+    };
+
+    return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), Frame::GCRF()));
+}
+
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset
 )
@@ -231,29 +267,6 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
             anAlignmentTarget.axis, aClockingTarget.axis, alignemntAxisVector, rotatedClockingAxisVector
         );
     };
-}
-
-Profile Profile::GenerateTrackingProfile(
-    const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
-)
-{
-    auto dynamicProviderGenerator = [&anOrbit, &anOrientationGenerator](const Instant& anInstant) -> Transform
-    {
-        const State state = anOrbit.getStateAt(anInstant);
-
-        const Position position_GCRF = state.getPosition();
-        const Velocity velocity_GCRF = state.getVelocity();
-
-        return Transform::Active(
-            anInstant,
-            -position_GCRF.accessCoordinates(),
-            -velocity_GCRF.accessCoordinates(),
-            anOrientationGenerator(state),
-            Vector3d(0.0, 0.0, 0.0)  // TBM: Artificially set to 0 for now.
-        );
-    };
-
-    return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), Frame::GCRF()));
 }
 
 Profile::Profile()
