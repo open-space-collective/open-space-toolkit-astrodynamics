@@ -8,6 +8,7 @@ from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
 from ostk.physics import Environment
 from ostk.physics.time import DateTime
+from ostk.physics.time import Duration
 from ostk.physics.time import Time
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
@@ -93,7 +94,24 @@ def profile(request) -> Profile:
     return Profile(model=model)
 
 
-@pytest.fixture
+@pytest.fixture(
+    params=[
+        Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X),
+        Profile.TrajectoryTarget(
+            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            Profile.Axis.X,
+        ),
+        Profile.AlignmentProfileTarget(
+            [
+                (Instant.J2000(), [1.0, 0.0, 0.0]),
+                (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
+                (Instant.J2000() + Duration.minutes(2.0), [1.0, 0.0, 0.0]),
+                (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
+            ],
+            Profile.Axis.X,
+        ),
+    ]
+)
 def alignment_target() -> Profile.Target:
     return Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X)
 

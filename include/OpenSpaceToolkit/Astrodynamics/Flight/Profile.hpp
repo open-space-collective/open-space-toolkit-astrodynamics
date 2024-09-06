@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -37,16 +38,23 @@ namespace flight
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
+using ostk::core::type::Index;
 using ostk::core::type::Integer;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
@@ -91,6 +99,7 @@ class Profile
         VelocityECI,
         VelocityECEF,
         OrbitalMomentum,
+        AlignmentProfile,
     };
 
     struct Target
@@ -98,24 +107,84 @@ class Profile
         TargetType type;
         Axis axis;
         bool antiDirection;
-        Trajectory trajectory;
 
-        Target(
-            const TargetType& aType,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false,
-            const Trajectory& aTrajectory = Trajectory::Undefined()
-        )
+        Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection = false)
             : type(aType),
               axis(anAxis),
-              antiDirection(isAntiDirection),
+              antiDirection(isAntiDirection)
+        {
+        }
+    };
+
+    struct TrajectoryTarget : Target
+    {
+        Trajectory trajectory;
+
+        TrajectoryTarget(const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false)
+            : Target(TargetType::Trajectory, anAxis, isAntiDirection),
               trajectory(aTrajectory)
         {
-            if (type == TargetType::Trajectory && !trajectory.isDefined())
+            if (!trajectory.isDefined())
             {
                 throw ostk::core::error::runtime::Undefined("Trajectory");
             }
         }
+    };
+
+    struct AlignmentProfileTarget : Target
+    {
+        Array<Pair<Instant, Vector3d>> alignmentProfile;
+
+        AlignmentProfileTarget(
+            const Array<Pair<Instant, Vector3d>>& anAlignmentProfileArray,
+            const Axis& anAxis,
+            const bool& isAntiDirection = false
+        )
+            : Target(TargetType::AlignmentProfile, anAxis, isAntiDirection),
+              alignmentProfile(anAlignmentProfileArray)
+        {
+            if (alignmentProfile.isEmpty())
+            {
+                throw ostk::core::error::runtime::Undefined("Alignment Profile");
+            }
+
+            VectorXd timestamps(anAlignmentProfileArray.getSize());
+            MatrixXd coordinates(anAlignmentProfileArray.getSize(), 3);
+
+            for (Index i = 0; i < anAlignmentProfileArray.getSize(); ++i)
+            {
+                timestamps(i) =
+                    (anAlignmentProfileArray[i].first - anAlignmentProfileArray.accessFirst().first).inSeconds();
+
+                coordinates.row(i) = anAlignmentProfileArray[i].second;
+            }
+
+            interpolators_.reserve(coordinates.cols());
+
+            for (Index i = 0; i < Size(coordinates.cols()); ++i)
+            {
+                interpolators_.add(Interpolator::GenerateInterpolator(
+                    Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i)
+                ));
+            }
+        }
+
+        Vector3d getAlignmentVectorAt(const Instant& anInstant) const
+        {
+            Vector3d interpolatedCoordinates = Vector3d::Zero();
+
+            const Real duration = (anInstant - alignmentProfile.accessFirst().first).inSeconds();
+
+            for (Index i = 0; i < interpolators_.getSize(); ++i)
+            {
+                interpolatedCoordinates(i) = interpolators_[i]->evaluate(duration);
+            }
+
+            return interpolatedCoordinates;
+        }
+
+       private:
+        Array<Shared<const Interpolator>> interpolators_;
     };
 
     /// @brief Constructor
@@ -250,8 +319,8 @@ class Profile
     /// @return Flight profile
     static Profile CustomPointing(
         const trajectory::Orbit& anOrbit,
-        const Target& anAlignmentTarget,
-        const Target& aClockingTarget,
+        const Shared<const Target>& anAlignmentTargetSPtr,
+        const Shared<const Target>& aClockingTargetSPtr,
         const Angle& anAngularOffset = Angle::Zero()
     );
 
@@ -262,7 +331,9 @@ class Profile
     /// @param anAngularOffset An angular offset applied to the clocking axis
 
     static std::function<Quaternion(const State&)> AlignAndConstrain(
-        const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset = Angle::Zero()
+        const Shared<const Target>& anAlignmentTargetSPtr,
+        const Shared<const Target>& aClockingTargetSPtr,
+        const Angle& anAngularOffset = Angle::Zero()
     );
 
    private:

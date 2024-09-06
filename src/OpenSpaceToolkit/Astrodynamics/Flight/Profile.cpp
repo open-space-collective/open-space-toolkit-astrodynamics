@@ -141,12 +141,13 @@ Profile Profile::NadirPointing(const trajectory::Orbit& anOrbit, const trajector
 
 Profile Profile::CustomPointing(
     const trajectory::Orbit& anOrbit,
-    const Target& anAlignmentTarget,
-    const Target& aClockingTarget,
+    const Shared<const Target>& anAlignmentTargetSPtr,
+    const Shared<const Target>& aClockingTargetSPtr,
     const Angle& anAngularOffset
 )
 {
-    const auto orientationGenerator = Profile::AlignAndConstrain(anAlignmentTarget, aClockingTarget, anAngularOffset);
+    const auto orientationGenerator =
+        Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
 
     return Profile::CustomPointing(anOrbit, orientationGenerator);
 }
@@ -176,46 +177,56 @@ Profile Profile::CustomPointing(
 }
 
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
-    const Target& anAlignmentTarget, const Target& aClockingTarget, const Angle& anAngularOffset
+    const Shared<const Target>& anAlignmentTargetSPtr,
+    const Shared<const Target>& aClockingTargetSPtr,
+    const Angle& anAngularOffset
 )
 {
-    if ((anAlignmentTarget.type == TargetType::VelocityECEF) || (aClockingTarget.type == TargetType::VelocityECEF))
+    if ((anAlignmentTargetSPtr->type == TargetType::VelocityECEF) ||
+        (aClockingTargetSPtr->type == TargetType::VelocityECEF))
     {
         throw ostk::core::error::runtime::ToBeImplemented("Velocity ECEF");
     }
-    if ((anAlignmentTarget.type == aClockingTarget.type) && (anAlignmentTarget.type != TargetType::Trajectory))
+    if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
+        (anAlignmentTargetSPtr->type != TargetType::Trajectory))
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
     }
 
-    if (anAlignmentTarget.axis == aClockingTarget.axis)
+    if (anAlignmentTargetSPtr->axis == aClockingTargetSPtr->axis)
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking axis cannot be the same.");
     }
 
-    if (std::set<TargetType>({anAlignmentTarget.type, aClockingTarget.type}) == std::set<TargetType>({
-                                                                                    TargetType::GeocentricNadir,
-                                                                                    TargetType::GeodeticNadir,
-                                                                                }))
+    if (std::set<TargetType>({anAlignmentTargetSPtr->type, aClockingTargetSPtr->type}) ==
+        std::set<TargetType>({
+            TargetType::GeocentricNadir,
+            TargetType::GeodeticNadir,
+        }))
     {
         throw ostk::core::error::RuntimeError(
             "Alignment and clocking target cannot be both geocentric nadir and geodetic nadir."
         );
     }
 
-    const auto axisVectorGenerator = [](const Target& aTarget) -> std::function<Vector3d(const State&)>
+    const auto axisVectorGenerator = [](const Shared<const Target>& aTargetSPtr
+                                     ) -> std::function<Vector3d(const State&)>
     {
-        switch (aTarget.type)
+        switch (aTargetSPtr->type)
         {
             case TargetType::GeocentricNadir:
                 return Profile::ComputeGeocentricNadirDirectionVector;
             case TargetType::GeodeticNadir:
                 return Profile::ComputeGeodeticNadirDirectionVector;
             case TargetType::Trajectory:
-                return [aTarget](const State& aState)
+            {
+                const Shared<const TrajectoryTarget> trajectoryTargetSPtr =
+                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
+                return [trajectoryTargetSPtr](const State& aState) -> Vector3d
                 {
-                    return Profile::ComputeTargetDirectionVector(aState, aTarget.trajectory);
+                    return Profile::ComputeTargetDirectionVector(aState, trajectoryTargetSPtr->trajectory);
                 };
+            }
             case TargetType::Sun:
                 return [](const State& aState)
                 {
@@ -232,22 +243,31 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
                 return Profile::ComputeVelocityDirectionVector_ECEF;
             case TargetType::OrbitalMomentum:
                 return Profile::ComputeOrbitalMomentumDirectionVector;
+            case TargetType::AlignmentProfile:
+            {
+                const Shared<const AlignmentProfileTarget> alignmentProfileTargetSPtr =
+                    std::static_pointer_cast<const AlignmentProfileTarget>(aTargetSPtr);
+                return [alignmentProfileTargetSPtr](const State& aState) -> Vector3d
+                {
+                    return alignmentProfileTargetSPtr->getAlignmentVectorAt(aState.accessInstant());
+                };
+            }
             default:
                 throw ostk::core::error::RuntimeError("Invalid alignment target type.");
         }
     };
 
-    const auto alignmentAxisVectorFunction = axisVectorGenerator(anAlignmentTarget);
-    const auto clockingAxisVectorFunction = axisVectorGenerator(aClockingTarget);
+    const auto alignmentAxisVectorFunction = axisVectorGenerator(anAlignmentTargetSPtr);
+    const auto clockingAxisVectorFunction = axisVectorGenerator(aClockingTargetSPtr);
 
-    const Integer alignmentSign = anAlignmentTarget.antiDirection ? -1 : 1;
-    const Integer clockingSign = aClockingTarget.antiDirection ? -1 : 1;
+    const Integer alignmentSign = anAlignmentTargetSPtr->antiDirection ? -1 : 1;
+    const Integer clockingSign = aClockingTargetSPtr->antiDirection ? -1 : 1;
 
     return [anAngularOffset,
             alignmentAxisVectorFunction,
             clockingAxisVectorFunction,
-            anAlignmentTarget,
-            aClockingTarget,
+            anAlignmentTargetSPtr,
+            aClockingTargetSPtr,
             alignmentSign,
             clockingSign](const State& aState) -> Quaternion
     {
@@ -264,7 +284,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
              alignemntAxisVector * (alignemntAxisVector.dot(clockingAxisVector)) * (1.0 - std::cos(thetaOffsetRad)));
 
         return Profile::ComputeBodyToECIQuaternion(
-            anAlignmentTarget.axis, aClockingTarget.axis, alignemntAxisVector, rotatedClockingAxisVector
+            anAlignmentTargetSPtr->axis, aClockingTargetSPtr->axis, alignemntAxisVector, rotatedClockingAxisVector
         );
     };
 }

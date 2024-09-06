@@ -35,6 +35,7 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
@@ -812,13 +813,40 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
 {
     {
+        EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Profile::Axis::X));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
+{
+    {
         EXPECT_THROW(
-            Profile::Target(Profile::TargetType::Trajectory, Profile::Axis::X), ostk::core::error::runtime::Undefined
+            Profile::TrajectoryTarget(Trajectory::Undefined(), Profile::Axis::X), ostk::core::error::runtime::Undefined
         );
     }
 
     {
-        const Profile::Target target = Profile::Target(Profile::TargetType::GeocentricNadir, Profile::Axis::X);
+        const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X, true));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignmentProfileTarget)
+{
+    {
+        EXPECT_THROW(Profile::AlignmentProfileTarget({}, Profile::Axis::X), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        const Array<Pair<Instant, Vector3d>> alignmentProfile = {
+            {Instant::J2000(), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(.0), Vector3d::X()},
+        };
+        EXPECT_NO_THROW(Profile::AlignmentProfileTarget(alignmentProfile, Profile::Axis::X));
     }
 }
 
@@ -827,8 +855,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
     {
         EXPECT_THROW(
             Profile::AlignAndConstrain(
-                {Profile::TargetType::VelocityECEF, Profile::Axis::X},
-                {Profile::TargetType::GeocentricNadir, Profile::Axis::Y}
+                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Profile::Axis::X),
+                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Profile::Axis::Y)
             ),
             ostk::core::error::runtime::ToBeImplemented
         );
@@ -837,8 +865,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
     {
         EXPECT_THROW(
             Profile::AlignAndConstrain(
-                {Profile::TargetType::GeocentricNadir, Profile::Axis::Y},
-                {Profile::TargetType::VelocityECEF, Profile::Axis::X}
+                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Profile::Axis::Y),
+                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Profile::Axis::X)
             ),
             ostk::core::error::runtime::ToBeImplemented
         );
@@ -848,8 +876,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
         const auto orientation = Profile::AlignAndConstrain(
-            Profile::Target(Profile::TargetType::Trajectory, Profile::Axis::X, false, trajectory),
-            {Profile::TargetType::VelocityECI, Profile::Axis::Y}
+            std::make_shared<Profile::TrajectoryTarget>(trajectory, Profile::Axis::X, false),
+            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
         );
 
         const Instant epoch = Instant::J2000();
@@ -866,6 +894,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             q_B_GCRF * -state.getPosition().getCoordinates().normalized(), Vector3d::X(), 1e-12
         );
     }
+
+    // Alignment profile
+    {
+        const Array<Pair<Instant, Vector3d>> alignmentProfile = {
+            {Instant::J2000(), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
+        };
+
+        const auto orientation = Profile::AlignAndConstrain(
+            std::make_shared<Profile::AlignmentProfileTarget>(alignmentProfile, Profile::Axis::X),
+            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+        );
+
+        const Instant epoch = Instant::J2000();
+
+        const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+        const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+
+        const State state = orbit.getStateAt(epoch);
+
+        const Quaternion q_B_GCRF = orientation(state);
+
+        EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
@@ -876,13 +932,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
 
     const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
+    const Shared<const Profile::Target> alignmentTargetSPtr =
+        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X);
+
+    const Shared<const Profile::Target> clockingTargetSPtr =
+        std::make_shared<Profile::Target>(Profile::TargetType::OrbitalMomentum, Profile::Axis::Y);
+
     {
         // VNC frame
 
-        const auto orientation = Profile::AlignAndConstrain(
-            {Profile::TargetType::VelocityECI, Profile::Axis::X},
-            {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
-        );
+        const auto orientation = Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr);
 
         const Profile calculatedProfile = Profile::CustomPointing(orbit, orientation);
 
@@ -908,18 +967,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
 
     // Self consistent test for the interface function
     {
-        const auto orientation = Profile::AlignAndConstrain(
-            {Profile::TargetType::VelocityECI, Profile::Axis::X},
-            {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
-        );
+        const auto orientation = Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr);
 
         const Profile expectedProfile = Profile::CustomPointing(orbit, orientation);
 
-        const Profile calculatedProfile = Profile::CustomPointing(
-            orbit,
-            {Profile::TargetType::VelocityECI, Profile::Axis::X},
-            {Profile::TargetType::OrbitalMomentum, Profile::Axis::Y}
-        );
+        const Profile calculatedProfile = Profile::CustomPointing(orbit, alignmentTargetSPtr, clockingTargetSPtr);
 
         for (const auto instant :
              Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
@@ -953,13 +1005,18 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConst
     Profile::Axis clockingAxis;
     std::tie(alignmentAxis, clockingAxis, alignmentTargetType, clockingTargetType) = param;
 
+    const Shared<const Profile::Target> alignmentTargetSPtr =
+        std::make_shared<Profile::Target>(alignmentTargetType, alignmentAxis);
+
+    const Shared<const Profile::Target> clockingTargetSPtr =
+        std::make_shared<Profile::Target>(clockingTargetType, clockingAxis);
+
     // check failure conditions
 
     if (alignmentAxis == clockingAxis)
     {
         EXPECT_THROW(
-            Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}),
-            ostk::core::error::RuntimeError
+            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr), ostk::core::error::RuntimeError
         );
         return;
     }
@@ -967,8 +1024,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConst
     if (alignmentTargetType == clockingTargetType)
     {
         EXPECT_THROW(
-            Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}),
-            ostk::core::error::RuntimeError
+            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr), ostk::core::error::RuntimeError
         );
         return;
     }
@@ -979,8 +1035,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConst
          (alignmentTargetType == Profile::TargetType::GeodeticNadir)))
     {
         EXPECT_THROW(
-            Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis}),
-            ostk::core::error::RuntimeError
+            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr), ostk::core::error::RuntimeError
         );
         return;
     }
@@ -1000,7 +1055,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConst
     };
 
     const std::function<Quaternion(const State&)> orientation =
-        Profile::AlignAndConstrain({alignmentTargetType, alignmentAxis}, {clockingTargetType, clockingAxis});
+        Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr);
 
     const Quaternion q_B_GCRF = orientation(state);
 
