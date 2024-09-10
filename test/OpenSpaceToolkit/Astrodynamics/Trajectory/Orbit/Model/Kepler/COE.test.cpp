@@ -14,6 +14,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <Global.test.hpp>
 
@@ -30,6 +31,7 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
@@ -37,6 +39,7 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE : public ::testing::Test
 {
@@ -604,6 +607,40 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
         EXPECT_NEAR(coe.getRaan().inDegrees(), 19.06529544678578, 1e-10);
         EXPECT_NEAR(coe.getAop().inDegrees(), 68.50632506660459, 1e-10);
         EXPECT_NEAR(coe.getMeanAnomaly().inDegrees(), 291.4817543658902, 1e-10);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FromState)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(0.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE referenceCoe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const COE::CartesianState cartesianState =
+            referenceCoe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
+
+        const State state = {
+            Instant::J2000(),
+            cartesianState.first,
+            cartesianState.second,
+        };
+
+        const COE coe = COE::FromState(state);
+
+        EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6));
+        EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon()));
+        EXPECT_TRUE(coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), Real::Epsilon())
+        );
+        EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), Real::Epsilon()));
+        EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), Real::Epsilon()));
+        EXPECT_TRUE(coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), Real::Epsilon())
+        );
     }
 }
 

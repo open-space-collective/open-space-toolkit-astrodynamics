@@ -102,9 +102,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        {
+            const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        EXPECT_TRUE(orbit.isDefined());
+            EXPECT_TRUE(orbit.isDefined());
+        }
+
+        {
+            const Orbit orbit = {keplerianModel};
+
+            EXPECT_TRUE(orbit.isDefined());
+        }
     }
 
     {
@@ -126,6 +134,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Orbit orbit = {states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit.isDefined());
+    }
+
+    {
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+
+        {
+            const Orbit orbit = {tle};
+            EXPECT_TRUE(orbit.isDefined());
+        }
+
+        {
+            const Orbit orbit = {tle, std::make_shared<Earth>(Earth::Default())};
+            EXPECT_TRUE(orbit.isDefined());
+        }
     }
 }
 

@@ -23,6 +23,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 
 namespace ostk
@@ -54,6 +55,7 @@ using ostk::physics::unit::Mass;
 using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::unit::Time::Unit::Second);
@@ -78,6 +80,13 @@ Orbit::Orbit(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
     : Trajectory(orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber)),
+      modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
+      celestialObjectSPtr_(aCelestialObjectSPtr)
+{
+}
+
+Orbit::Orbit(const TLE& aTLE, const Shared<const Celestial>& aCelestialObjectSPtr)
+    : Trajectory(SGP4(aTLE)),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {

@@ -23,13 +23,15 @@ namespace model
 namespace kepler
 {
 
-using ostk::physics::unit::Angle;
+using ostk::core::type::Size;
+
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+using ostk::mathematics::object::Vector3d;
+
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::ElectricCurrent;
-using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 using ostk::physics::unit::Time;
-using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
@@ -236,9 +238,6 @@ Derived COE::getAngularMomentum(const Derived& aGravitationalParameter) const
 
 Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 {
-    using ostk::physics::unit::Mass;
-    using ostk::physics::unit::Time;
-
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -276,8 +275,6 @@ Derived COE::getNodalPrecessionRate(
 
 Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
 {
-    using ostk::physics::unit::Time;
-
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -298,14 +295,6 @@ COE::CartesianState COE::getCartesianState(
     const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    using ostk::core::type::Shared;
-
-    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::unit::Mass;
-    using ostk::physics::unit::Time;
-
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -385,8 +374,6 @@ Vector6d COE::getSIVector(const COE::AnomalyType& anAnomalyType) const
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::type::String;
-
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
@@ -440,11 +427,6 @@ COE COE::Undefined()
 
 COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter)
 {
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::unit::Mass;
-    using ostk::physics::unit::Time;
-
     if ((!aCartesianState.first.isDefined()) || (!aCartesianState.second.isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Cartesian state");
@@ -642,6 +624,11 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     };
 }
 
+COE COE::FromState(const State& aState, const Derived& aGravitationalParameter)
+{
+    return COE::Cartesian({aState.getPosition(), aState.getVelocity()}, aGravitationalParameter);
+}
+
 COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType)
 {
     return {
@@ -780,9 +767,6 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
 )
 {
-    using ostk::core::type::Real;
-    using ostk::core::type::Size;
-
     if (!aMeanAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Mean anomaly");

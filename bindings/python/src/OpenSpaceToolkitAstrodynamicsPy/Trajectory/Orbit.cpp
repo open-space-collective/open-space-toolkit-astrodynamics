@@ -4,6 +4,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Message.cpp>
@@ -19,6 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::core::type::Shared;
 
     using ostk::physics::environment::object::Celestial;
+    using ostk::physics::environment::object::celestial::Earth;
     using ostk::physics::time::Duration;
     using ostk::physics::unit::Angle;
 
@@ -26,6 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::astrodynamics::trajectory::orbit::model::Kepler;
     using ostk::astrodynamics::trajectory::orbit::model::Propagated;
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
     using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
     using ostk::astrodynamics::trajectory::State;
 
@@ -64,13 +67,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             .def(
                 init<const ostk::astrodynamics::trajectory::orbit::Model&, const Shared<const Celestial>&>(),
                 arg("model"),
-                arg("celestial_object"),
+                arg_v("celestial_object", std::make_shared<Earth>(Earth::Default()), "Earth.default()"),
                 R"doc(
-                    Constructs an `Orbit` object.
+                    Constructs an `Orbit` object with the provided model.
 
                     Args:
                         model (orbit.Model): The orbit model.
-                        celestial_object (Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object. Defaults to Earth.default().
 
                 )doc"
             )
@@ -79,14 +82,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 init<const Array<State>&, const Integer&, const Shared<const Celestial>&>(),
                 arg("states"),
                 arg("initial_revolution_number"),
-                arg("celestial_object"),
+                arg_v("celestial_object", std::make_shared<Earth>(Earth::Default()), "Earth.default()"),
                 R"doc(
-                    Constructs an `Orbit` object.
+                    Constructs an `Orbit` object with a tabulated model.
 
                     Args:
                         states (Array<State>): The states.
                         initial_revolution_number (Integer): The initial revolution number.
-                        celestial_object (Celestial): The celestial object.
+                        celestial_object (Celestial): The celestial object. Defaults to Earth.default().
+
+                )doc"
+            )
+
+            .def(
+                init<const TLE&, const Shared<const Celestial>&>(),
+                arg("tle"),
+                arg_v("celestial_object", std::make_shared<Earth>(Earth::Default()), "Earth.default()"),
+                R"doc(
+                    Constructs an `Orbit` object with an SGP4 model.
+
+                    Args:
+                        tle (TLE): The TLE.
+                        celestial_object (Celestial): The celestial object. Defaults to Earth.default().
 
                 )doc"
             )

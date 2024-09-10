@@ -16,6 +16,7 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
@@ -23,6 +24,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -45,6 +47,7 @@ using ostk::core::type::Unique;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::Celestial;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Time;
@@ -52,6 +55,7 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::orbit::Pass;
 using ostk::astrodynamics::trajectory::State;
 
@@ -83,18 +87,30 @@ class Orbit : public Trajectory
     /// @brief Constructor.
     ///
     /// @param aModel An orbit model.
-    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
-    Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr);
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
+    Orbit(
+        const orbit::Model& aModel,
+        const Shared<const Celestial>& aCelestialObjectSPtr = std::make_shared<Celestial>(Earth::Default())
+    );
 
     /// @brief Constructor.
     ///
     /// @param aStateArray An array of states.
     /// @param anInitialRevolutionNumber An initial revolution number.
-    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
     Orbit(
         const Array<State>& aStateArray,
         const Integer& anInitialRevolutionNumber,
-        const Shared<const Celestial>& aCelestialObjectSPtr
+        const Shared<const Celestial>& aCelestialObjectSPtr = std::make_shared<Celestial>(Earth::Default())
+    );
+
+    /// @brief Constructor.
+    ///
+    /// @param aTLE Two-Line Element (TLE).
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
+    Orbit(
+        const TLE& aTLE,
+        const Shared<const Celestial>& aCelestialObjectSPtr = std::make_shared<Celestial>(Earth::Default())
     );
 
     /// @brief Copy constructor.

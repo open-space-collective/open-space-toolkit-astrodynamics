@@ -38,7 +38,7 @@ def states(orbit: Orbit, epoch: Instant) -> list[State]:
 
 
 class TestOrbit:
-    def test_constructors(self, earth):
+    def test_constructors(self, earth, states):
         # Construct Two-Line Element set
         tle = TLE(
             "1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
@@ -52,11 +52,11 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-        # Construct get state at current epoch
-        state: State = orbit.get_state_at(Instant.now())
+        assert Orbit(tle, earth) is not None
+        assert Orbit(tle) is not None
 
-        assert state is not None
-        assert isinstance(state, State)
+        assert Orbit(states, 1, earth) is not None
+        assert Orbit(states, 1) is not None
 
     @pytest.mark.parametrize(
         "frame_type",

@@ -10,8 +10,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Length;
+    using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
     using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+    using ostk::astrodynamics::trajectory::State;
 
     class_<COE> coe(
         aModule,
@@ -368,6 +370,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("cartesian_state"),
             arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "from_state",
+            &COE::FromState,
+            R"doc(
+                Create a `COE` model from `State`.
+
+                Args:
+                    state (State): The State, must contain position and velocity coordinate subsets.
+                    gravitational_parameter (float): The gravitational parameter of the central body. Defaults to EarthGravitationalModel.EGM2008.gravitational_parameter.
+
+                Returns:
+                    COE: The `COE` model.
+            )doc",
+            arg("state"),
+            arg("gravitational_parameter") = EarthGravitationalModel::EGM2008.gravitationalParameter_
         )
 
         .def_static(
