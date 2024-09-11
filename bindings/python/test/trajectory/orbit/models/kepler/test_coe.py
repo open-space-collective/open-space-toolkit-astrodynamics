@@ -160,7 +160,7 @@ class TestCOE:
 
     def test_cartesian(self, cartesian_state: tuple[Position, Velocity]):
         assert (
-            COE.cartesian(*cartesian_state, Earth.EGM2008.gravitational_parameter)
+            COE.cartesian(cartesian_state, Earth.EGM2008.gravitational_parameter)
             is not None
         )
 
