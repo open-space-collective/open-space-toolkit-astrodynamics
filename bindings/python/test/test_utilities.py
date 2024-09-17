@@ -1,25 +1,15 @@
 # Apache License 2.0
 
-import pytest
+from datetime import datetime
 
-import ostk.physics as physics
-import ostk.astrodynamics as astrodynamics
+from ostk.physics import Environment
+from ostk.physics.time import Instant, Interval
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate.spherical import LLA, AER
+
 from ostk.astrodynamics import utilities
-
-Length = physics.unit.Length
-Angle = physics.unit.Angle
-DateTime = physics.time.DateTime
-Scale = physics.time.Scale
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-LLA = physics.coordinate.spherical.LLA
-AER = physics.coordinate.spherical.AER
-Environment = physics.Environment
-Trajectory = astrodynamics.Trajectory
-State = astrodynamics.trajectory.State
+from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.trajectory import State
 
 
 class TestUtility:
@@ -27,16 +17,11 @@ class TestUtility:
         self,
         state: State,
     ):
-        lla: tuple[float, float, float] = utilities.lla_from_state(state)
+        lla: LLA = utilities.lla_from_state(state)
 
         assert lla is not None
-        assert len(lla) == 3
-        assert isinstance(lla, tuple)
-        assert isinstance(lla[0], float)
-        assert lla[0] >= -90.0 and lla[0] <= 90.0
-        assert isinstance(lla[1], float)
-        assert lla[0] >= -180.0 and lla[0] <= 180.0
-        assert isinstance(lla[2], float)
+        assert isinstance(lla, LLA)
+        assert lla.is_defined()
 
     def test_lla_from_position(
         self,
@@ -49,12 +34,6 @@ class TestUtility:
         assert lla is not None
         assert isinstance(lla, LLA)
         assert lla.is_defined()
-
-        lla_from_state: tuple[float, float, float] = utilities.lla_from_state(state)
-
-        assert lla.get_latitude().in_degrees() == lla_from_state[0]
-        assert lla.get_longitude().in_degrees() == lla_from_state[1]
-        assert lla.get_altitude().in_meters() == lla_from_state[2]
 
     def test_position_from_lla(
         self,
@@ -72,28 +51,24 @@ class TestUtility:
         position: Position,
         environment: Environment,
     ):
-        aer: tuple[float, float, float] = utilities.compute_aer(
-            instant, position, position, environment
-        )
+        aer: AER = utilities.compute_aer(instant, position, position, environment)
 
         assert aer is not None
-        assert len(aer) == 3
-        assert aer[2] == 0.0
+        assert isinstance(aer, AER)
 
-    def test_compute_time_lla_aer_state(
+    def test_compute_time_lla_aer_coordinates(
         self,
         state: State,
         position: Position,
         environment: Environment,
     ):
-        time_lla_aer: float[Instant, float, float, float, float, float, float] = (
-            utilities.compute_time_lla_aer_state(state, position, environment)
+        time_lla_aer: float[datetime, float, float, float, float, float, float] = (
+            utilities.compute_time_lla_aer_coordinates(state, position, environment)
         )
 
         assert time_lla_aer is not None
         assert len(time_lla_aer) == 7
-        assert isinstance(time_lla_aer[0], Instant)
-        assert time_lla_aer[0] == state.get_instant()
+        assert isinstance(time_lla_aer[0], datetime)
         for i in range(1, 7):
             assert isinstance(time_lla_aer[i], float)
 
@@ -102,12 +77,23 @@ class TestUtility:
         interval: Interval,
         trajectory: Trajectory,
     ):
-        output: list[tuple[float, float, float]] = utilities.compute_trajectory_geometry(
-            trajectory, interval
-        )
+        output: list[LLA] = utilities.compute_trajectory_geometry(trajectory, interval)
 
         assert output is not None
         assert len(output) == 2
+        assert isinstance(output[0], LLA)
+
+    def test_compute_ground_track(
+        self,
+        interval: Interval,
+        trajectory: Trajectory,
+    ):
+        output: list[LLA] = utilities.compute_ground_track(trajectory, interval)
+
+        assert output is not None
+        assert len(output) == 2
+        assert isinstance(output[0], LLA)
+        assert output[0].get_altitude().in_meters() <= 15.0
 
     def test_convert_state(self, state: State):
         output: tuple[

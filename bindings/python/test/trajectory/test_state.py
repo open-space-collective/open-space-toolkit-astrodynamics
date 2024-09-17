@@ -2,6 +2,8 @@
 
 import pytest
 
+from datetime import datetime, timezone
+
 import numpy as np
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
@@ -176,6 +178,142 @@ class TestState:
 
         assert custom_state == state
         assert custom_state is not state
+
+    def test_from_dict_with_eci_coordinates(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_frame() == Frame.GCRF()
+
+    def test_from_dict_with_ecef_coordinates(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_ecef": 7000.0,
+            "ry_ecef": 0.0,
+            "rz_ecef": 0.0,
+            "vx_ecef": 0.0,
+            "vy_ecef": 7.5,
+            "vz_ecef": 0.0,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_frame() == Frame.ITRF()
+
+    def test_from_dict_with_generic_coordinates(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx": 7000.0,
+            "ry": 0.0,
+            "rz": 0.0,
+            "vx": 0.0,
+            "vy": 7.5,
+            "vz": 0.0,
+            "frame": "GCRF",
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_frame() == Frame.GCRF()
+
+        with pytest.raises(
+            ValueError, match="Frame must be provided for generic columns."
+        ):
+            data = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "rx": 7000.0,
+                "ry": 0.0,
+                "rz": 0.0,
+                "vx": 0.0,
+                "vy": 7.5,
+                "vz": 0.0,
+            }
+
+            State.from_dict(data)
+
+        with pytest.raises(ValueError, match="No frame exists with name \\[TEME\\]."):
+            data = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "rx": 7000.0,
+                "ry": 0.0,
+                "rz": 0.0,
+                "vx": 0.0,
+                "vy": 7.5,
+                "vz": 0.0,
+                "frame": "TEME",
+            }
+
+            State.from_dict(data)
+
+        with pytest.raises(ValueError, match="Invalid frame data \\[123\\]"):
+            data = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "rx": 7000.0,
+                "ry": 0.0,
+                "rz": 0.0,
+                "vx": 0.0,
+                "vy": 7.5,
+                "vz": 0.0,
+                "frame": 123,
+            }
+
+            State.from_dict(data)
+
+    def test_from_dict_with_attitude_quaternion(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "q_B_ECI_x": 0.0,
+            "q_B_ECI_y": 0.0,
+            "q_B_ECI_z": 0.0,
+            "q_B_ECI_s": 1.0,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_frame() == Frame.GCRF()
+
+    def test_from_dict_with_angular_velocity(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "w_B_ECI_in_B_x": 0.1,
+            "w_B_ECI_in_B_y": 0.2,
+            "w_B_ECI_in_B_z": 0.3,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_frame() == Frame.GCRF()
 
     def test_comparators(self, state: State):
         assert (state == state) is True

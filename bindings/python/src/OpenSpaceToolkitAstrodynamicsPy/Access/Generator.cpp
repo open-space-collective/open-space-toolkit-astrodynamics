@@ -236,7 +236,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             "aer_ranges",
             &Generator::AerRanges,
             R"doc(
-                Create an AER generator with ranges.
+                Create an access generator with provided Azimuth Elevation Range intervals.
 
                 Args:
                     azimuth_range (Interval): The azimuth range.
@@ -245,7 +245,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
                     environment (Environment): The environment.
 
                 Returns:
-                    Generator: The AER generator.
+                    Generator: The access generator.
             )doc",
             arg("azimuth_range"),
             arg("elevation_range"),
@@ -256,7 +256,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             "aer_mask",
             &Generator::AerMask,
             R"doc(
-                Create an AER generator with a mask.
+                Create an access generator with a mask.
 
                 Args:
                     azimuth_elevation_mask (Interval): The azimuth-elevation mask.
