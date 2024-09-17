@@ -235,7 +235,7 @@ def convert_state(
     instant: Instant = state.get_instant()
 
     return (
-        instant.to_string(),
+        str(instant.to_string()),
         float(instant.get_modified_julian_date(Scale.UTC)),
         *state.get_position().get_coordinates().transpose().tolist(),
         *state.get_velocity().get_coordinates().transpose().tolist(),

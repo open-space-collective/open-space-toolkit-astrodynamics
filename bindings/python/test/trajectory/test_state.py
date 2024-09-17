@@ -246,7 +246,7 @@ class TestState:
 
             State.from_dict(data)
 
-        with pytest.raises(ValueError, match="No frame exists with name \\[TEME\\]."):
+        with pytest.raises(ValueError, match="No frame exists with name \\[RANDOM\\]."):
             data = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "rx": 7000.0,
@@ -255,7 +255,7 @@ class TestState:
                 "vx": 0.0,
                 "vy": 7.5,
                 "vz": 0.0,
-                "frame": "TEME",
+                "frame": "RANDOM",
             }
 
             State.from_dict(data)

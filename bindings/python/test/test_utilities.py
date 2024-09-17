@@ -27,7 +27,6 @@ class TestUtility:
         self,
         instant: Instant,
         position: Position,
-        state: State,
     ):
         lla: LLA = utilities.lla_from_position(position, instant)
 
