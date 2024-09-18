@@ -67,26 +67,69 @@ static const Real epsilon = 1e-6;
 
 static const RootSolver rootSolver = RootSolver::Default();
 
+Orbit::Builder::Builder()
+    : modelPtr_(nullptr),
+      celestialObjectSPtr_(nullptr)
+{
+}
+
+Orbit::Builder::~Builder()
+{
+    delete modelPtr_;
+}
+
+Orbit::Builder& Orbit::Builder::withCelestial(const Shared<const Celestial>& aCelestialObjectSPtr)
+{
+    celestialObjectSPtr_ = aCelestialObjectSPtr;
+
+    return *this;
+}
+
+Orbit::Builder& Orbit::Builder::withEarth()
+{
+    celestialObjectSPtr_ = std::make_shared<const Celestial>(Earth::Default());
+
+    return *this;
+}
+
+Orbit::Builder& Orbit::Builder::withModel(const orbit::Model& aModel)
+{
+    modelPtr_ = aModel.clone();
+
+    return *this;
+}
+
+Orbit::Builder& Orbit::Builder::withTLE(const TLE& aTLE)
+{
+    modelPtr_ = new SGP4(aTLE);
+
+    return *this;
+}
+
+Orbit::Builder& Orbit::Builder::withTabulated(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
+{
+    modelPtr_ = new orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber);
+
+    return *this;
+}
+
+Orbit Orbit::Builder::build() const
+{
+    if (modelPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Model");
+    }
+
+    if (celestialObjectSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial");
+    }
+
+    return Orbit(*modelPtr_, celestialObjectSPtr_);
+}
+
 Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr)
     : Trajectory(aModel),
-      modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
-      celestialObjectSPtr_(aCelestialObjectSPtr)
-{
-}
-
-Orbit::Orbit(
-    const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
-    const Shared<const Celestial>& aCelestialObjectSPtr
-)
-    : Trajectory(orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber)),
-      modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
-      celestialObjectSPtr_(aCelestialObjectSPtr)
-{
-}
-
-Orbit::Orbit(const TLE& aTLE, const Shared<const Celestial>& aCelestialObjectSPtr)
-    : Trajectory(SGP4(aTLE)),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
@@ -749,11 +792,6 @@ void Orbit::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-Orbit Orbit::Undefined()
-{
-    return {Array<State>::Empty(), Integer::Undefined(), nullptr};
 }
 
 Orbit Orbit::Circular(

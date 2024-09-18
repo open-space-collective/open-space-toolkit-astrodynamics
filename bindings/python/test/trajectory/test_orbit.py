@@ -24,6 +24,20 @@ def epoch() -> Instant:
 
 
 @pytest.fixture
+def tle() -> TLE:
+    return TLE(
+        satellite_name="Satellite",
+        first_line="1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
+        second_line="2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316",
+    )
+
+
+@pytest.fixture
+def sgp4(tle: TLE) -> SGP4:
+    return SGP4(tle)
+
+
+@pytest.fixture
 def orbit(earth: Earth, epoch: Instant):
     return Orbit.sun_synchronous(epoch, Length.kilometers(500.0), Time.midnight(), earth)
 
@@ -38,6 +52,24 @@ def states(orbit: Orbit, epoch: Instant) -> list[State]:
 
 
 class TestOrbit:
+    def test_builder(
+        self,
+        earth: Earth,
+        sgp4: SGP4,
+        tle: TLE,
+        states: list[State],
+    ):
+        builder: Orbit.Builder = Orbit.Builder()
+
+        assert builder is not None
+        assert isinstance(builder, Orbit.Builder)
+
+        assert Orbit.Builder().with_celestial(earth).with_model(sgp4).build().is_defined()
+
+        assert Orbit.Builder().with_earth().with_tle(tle).build().is_defined()
+
+        assert Orbit.Builder().with_earth().with_tabulated(states).build()
+
     def test_constructors(self, earth, states):
         # Construct Two-Line Element set
         tle = TLE(
@@ -51,12 +83,6 @@ class TestOrbit:
         assert orbit is not None
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
-
-        assert Orbit(tle, earth) is not None
-        assert Orbit(tle) is not None
-
-        assert Orbit(states, 1, earth) is not None
-        assert Orbit(states, 1) is not None
 
     @pytest.mark.parametrize(
         "frame_type",
@@ -111,9 +137,6 @@ class TestOrbit:
         )
 
         assert len(passes) > 0
-
-    def test_undefined(self):
-        assert Orbit.undefined().is_defined() is False
 
     def test_circular(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)

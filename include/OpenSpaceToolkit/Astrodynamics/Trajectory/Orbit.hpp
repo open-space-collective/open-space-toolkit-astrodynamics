@@ -82,36 +82,38 @@ class Orbit : public Trajectory
               // momentum)
     };
 
+    class Builder
+    {
+       public:
+        Builder();
+
+        ~Builder();
+
+        Builder& withCelestial(const Shared<const Celestial>& aCelestialObjectSPtr);
+
+        Builder& withEarth();
+
+        Builder& withModel(const orbit::Model& aModel);
+
+        Builder& withTLE(const TLE& aTLE);
+
+        Builder& withTabulated(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber = 0);
+
+        Orbit build() const;
+
+       private:
+        orbit::Model* modelPtr_;
+
+        Shared<const Celestial> celestialObjectSPtr_;
+    };
+
     typedef Array<Pass>::ConstIterator ConstPassIterator;
 
     /// @brief Constructor.
     ///
     /// @param aModel An orbit model.
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
-    Orbit(
-        const orbit::Model& aModel,
-        const Shared<const Celestial>& aCelestialObjectSPtr = std::make_shared<Celestial>(Earth::Default())
-    );
-
-    /// @brief Constructor.
-    ///
-    /// @param aStateArray An array of states.
-    /// @param anInitialRevolutionNumber An initial revolution number.
-    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
-    Orbit(
-        const Array<State>& aStateArray,
-        const Integer& anInitialRevolutionNumber,
-        const Shared<const Celestial>& aCelestialObjectSPtr = std::make_shared<Celestial>(Earth::Default())
-    );
-
-    /// @brief Constructor.
-    ///
-    /// @param aTLE Two-Line Element (TLE).
-    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
-    Orbit(
-        const TLE& aTLE,
-        const Shared<const Celestial>& aCelestialObjectSPtr = std::make_shared<Celestial>(Earth::Default())
-    );
+    Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr);
 
     /// @brief Copy constructor.
     ///

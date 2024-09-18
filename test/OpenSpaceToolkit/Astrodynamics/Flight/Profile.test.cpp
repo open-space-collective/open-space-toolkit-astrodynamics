@@ -88,12 +88,11 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        this->profile_ = Profile::NadirPointing(this->orbit_, Orbit::FrameType::VVLH);
+        this->profile_ = Profile::NadirPointing(orbit, Orbit::FrameType::VVLH);
     }
 
-    Orbit orbit_ = Orbit::Undefined();
     Profile profile_ = Profile::Undefined();
 };
 

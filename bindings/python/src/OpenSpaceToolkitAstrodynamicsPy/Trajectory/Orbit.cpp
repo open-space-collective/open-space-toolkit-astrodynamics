@@ -62,48 +62,32 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
             ;
 
+        class_<Orbit::Builder>(orbit_class, "Builder")
+
+            .def(init<>())
+
+            .def("with_celestial", &Orbit::Builder::withCelestial, arg("celestial"))
+            .def("with_earth", &Orbit::Builder::withEarth)
+            .def("with_model", &Orbit::Builder::withModel, arg("model"))
+            .def("with_tle", &Orbit::Builder::withTLE, arg("tle"))
+            .def("with_tabulated", &Orbit::Builder::withTabulated, arg("states"), arg("initial_revolution_number") = 0)
+
+            .def("build", &Orbit::Builder::build)
+
+            ;
+
         orbit_class
 
             .def(
                 init<const ostk::astrodynamics::trajectory::orbit::Model&, const Shared<const Celestial>&>(),
                 arg("model"),
-                arg_v("celestial_object", std::make_shared<Earth>(Earth::Default()), "Earth.default()"),
+                arg("celestial_object"),
                 R"doc(
                     Constructs an `Orbit` object with the provided model.
 
                     Args:
                         model (orbit.Model): The orbit model.
-                        celestial_object (Celestial): The celestial object. Defaults to Earth.default().
-
-                )doc"
-            )
-
-            .def(
-                init<const Array<State>&, const Integer&, const Shared<const Celestial>&>(),
-                arg("states"),
-                arg("initial_revolution_number"),
-                arg_v("celestial_object", std::make_shared<Earth>(Earth::Default()), "Earth.default()"),
-                R"doc(
-                    Constructs an `Orbit` object with a tabulated model.
-
-                    Args:
-                        states (Array<State>): The states.
-                        initial_revolution_number (Integer): The initial revolution number.
-                        celestial_object (Celestial): The celestial object. Defaults to Earth.default().
-
-                )doc"
-            )
-
-            .def(
-                init<const TLE&, const Shared<const Celestial>&>(),
-                arg("tle"),
-                arg_v("celestial_object", std::make_shared<Earth>(Earth::Default()), "Earth.default()"),
-                R"doc(
-                    Constructs an `Orbit` object with an SGP4 model.
-
-                    Args:
-                        tle (TLE): The TLE.
-                        celestial_object (Celestial): The celestial object. Defaults to Earth.default().
+                        celestial_object (Celestial): The celestial object.
 
                 )doc"
             )
@@ -274,17 +258,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                 )doc",
                 arg("frame_type")
-            )
-
-            .def_static(
-                "undefined",
-                &Orbit::Undefined,
-                R"doc(
-                    Get an undefined `Orbit` object.
-
-                    Returns:
-                        Orbit: The undefined `Orbit` object.
-                )doc"
             )
 
             .def_static(

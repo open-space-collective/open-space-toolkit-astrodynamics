@@ -78,6 +78,70 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Builder)
+{
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+    const Length semiMajorAxis = Length::Kilometers(7000.0);
+    const Real eccentricity = 0.0;
+    const Angle inclination = Angle::Degrees(45.0);
+    const Angle raan = Angle::Degrees(0.0);
+    const Angle aop = Angle::Degrees(0.0);
+    const Angle trueAnomaly = Angle::Degrees(0.0);
+
+    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+    const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+    const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+    const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+    const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+    const Kepler keplerianModel = {
+        coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+    };
+
+    {
+        EXPECT_TRUE(Orbit::Builder().withCelestial(earthSPtr).withModel(keplerianModel).build().isDefined());
+    }
+
+    {
+        EXPECT_TRUE(Orbit::Builder().withEarth().withModel(keplerianModel).build().isDefined());
+    }
+
+    {
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+
+        EXPECT_TRUE(Orbit::Builder().withCelestial(earthSPtr).withTLE(tle).build().isDefined());
+    }
+
+    {
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF();
+
+        const Array<State> states = {
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
+        };
+
+        const Integer initialRevolutionNumber = 123;
+
+        {
+            EXPECT_TRUE(Orbit::Builder().withEarth().withTabulated(states, initialRevolutionNumber).build().isDefined()
+            );
+        }
+
+        {
+            EXPECT_TRUE(Orbit::Builder().withEarth().withTabulated(states).build().isDefined());
+        }
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {
     {
@@ -105,49 +169,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         {
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-            EXPECT_TRUE(orbit.isDefined());
-        }
-
-        {
-            const Orbit orbit = {keplerianModel};
-
-            EXPECT_TRUE(orbit.isDefined());
-        }
-    }
-
-    {
-        const Environment environment = Environment::Default();
-
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF();
-
-        const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
-             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
-             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
-             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
-        };
-
-        const Integer initialRevolutionNumber = 123;
-
-        const Orbit orbit = {states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth")};
-
-        EXPECT_TRUE(orbit.isDefined());
-    }
-
-    {
-        const TLE tle =
-            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
-                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
-
-        {
-            const Orbit orbit = {tle};
-            EXPECT_TRUE(orbit.isDefined());
-        }
-
-        {
-            const Orbit orbit = {tle, std::make_shared<Earth>(Earth::Default())};
             EXPECT_TRUE(orbit.isDefined());
         }
     }
@@ -180,13 +201,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit == orbit);
-
-        EXPECT_FALSE(orbit == Orbit::Undefined());
-        EXPECT_FALSE(Orbit::Undefined() == orbit);
-    }
-
-    {
-        EXPECT_FALSE(Orbit::Undefined() == Orbit::Undefined());
     }
 }
 
@@ -217,13 +231,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
         EXPECT_FALSE(orbit != orbit);
-
-        EXPECT_TRUE(orbit != Orbit::Undefined());
-        EXPECT_TRUE(Orbit::Undefined() != orbit);
-    }
-
-    {
-        EXPECT_TRUE(Orbit::Undefined() != Orbit::Undefined());
     }
 }
 
@@ -254,10 +261,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(Orbit::Undefined().isDefined());
     }
 }
 
@@ -1178,19 +1181,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
         // orbit
         {
             const Interval interval = Interval::Closed(Instant::Now(), Instant::Now() + Duration::Days(1.0));
-            EXPECT_THROW(Orbit::Undefined().getPassesWithinInterval(interval), ostk::core::error::runtime::Undefined);
+            const TLE tle =
+                TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                    "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+            const SGP4 sgp4 = SGP4(tle);
+            const Orbit orbit = {sgp4, nullptr};
+            EXPECT_THROW(orbit.getPassesWithinInterval(interval), ostk::core::error::runtime::Undefined);
         }
+    }
 
-        // interval
-        {
-            const Orbit orbit = Orbit::SunSynchronous(
-                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-                Length::Kilometers(500.0),
-                Time::Parse("12:00:00"),
-                Environment::Default().accessCelestialObjectWithName("Earth")
-            );
-            EXPECT_THROW(orbit.getPassesWithinInterval(Interval::Undefined()), ostk::core::error::runtime::Undefined);
-        }
+    // interval
+    {
+        const Orbit orbit = Orbit::SunSynchronous(
+            Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+            Length::Kilometers(500.0),
+            Time::Parse("12:00:00"),
+            Environment::Default().accessCelestialObjectWithName("Earth")
+        );
+        EXPECT_THROW(orbit.getPassesWithinInterval(Interval::Undefined()), ostk::core::error::runtime::Undefined);
     }
 
     // Kepler model
@@ -1505,9 +1513,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             Orbit::FrameType::VNC,
         };
 
+        const TLE tle =
+            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
+                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
+        const SGP4 sgp4 = SGP4(tle);
+        const Orbit orbit = {sgp4, nullptr};
+
         for (const auto &frameType : orbitFrameTypes)
         {
-            EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(frameType));
+            EXPECT_ANY_THROW(orbit.getOrbitalFrame(frameType));
         }
     }
 }
@@ -1544,14 +1558,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         EXPECT_NO_THROW(orbit.print(std::cout, false));
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
-{
-    {
-        EXPECT_NO_THROW(Orbit::Undefined());
-        EXPECT_FALSE(Orbit::Undefined().isDefined());
     }
 }
 
