@@ -112,7 +112,7 @@ class Orbit : public Trajectory
     /// @brief Constructor.
     ///
     /// @param aModel An orbit model.
-    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body. Defaults to Earth.
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
     Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr);
 
     /// @brief Copy constructor.
