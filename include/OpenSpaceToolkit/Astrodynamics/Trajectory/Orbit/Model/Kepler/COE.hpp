@@ -13,13 +13,10 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
-
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -48,9 +45,6 @@ using ostk::physics::time::Duration;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
-
-using ostk::astrodynamics::trajectory::State;
-using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 /// @brief Classical Orbital Elements (COE)
 ///
@@ -245,20 +239,7 @@ class COE
     /// @param aCartesianState A cartesian state
     /// @param aGravitationalParameter A gravitational parameter
     /// @return COE
-    static COE Cartesian(
-        const COE::CartesianState& aCartesianState,
-        const Derived& aGravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_
-    );
-
-    /// @brief Construct a COE from a State
-    ///
-    /// @param aState A state
-    /// @param aGravitationalParameter A gravitational parameter
-    /// @return COE
-    static COE FromState(
-        const State& aState,
-        const Derived& aGravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_
-    );
+    static COE Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter);
 
     /// @brief Construct a COE from a vector
     ///

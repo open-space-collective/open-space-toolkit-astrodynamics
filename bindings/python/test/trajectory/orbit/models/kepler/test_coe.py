@@ -4,14 +4,9 @@ import pytest
 
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
-from ostk.physics.time import Instant
-from ostk.physics.coordinate import Frame
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
 from ostk.physics.environment.gravitational import Earth
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
-from ostk.astrodynamics.trajectory import State
 
 
 @pytest.fixture
@@ -54,19 +49,6 @@ def coe(
     true_anomaly: Angle,
 ) -> COE:
     return COE(semi_major_axis, eccentricity, inclination, raan, aop, true_anomaly)
-
-
-@pytest.fixture
-def cartesian_state(coe: COE) -> tuple[Position, Velocity]:
-    return coe.get_cartesian_state(Earth.EGM2008.gravitational_parameter, Frame.GCRF())
-
-
-@pytest.fixture
-def state(coe: COE) -> State:
-    return State(
-        Instant.J2000(),
-        *coe.get_cartesian_state(Earth.EGM2008.gravitational_parameter, Frame.GCRF()),
-    )
 
 
 class TestCOE:
@@ -157,16 +139,6 @@ class TestCOE:
             is not None
         )
         assert COE.compute_radial_distance(7000.0e3, 0.0, 0.0) is not None
-
-    def test_cartesian(self, cartesian_state: tuple[Position, Velocity]):
-        assert (
-            COE.cartesian(cartesian_state, Earth.EGM2008.gravitational_parameter)
-            is not None
-        )
-
-    def test_from_state(self, state: State):
-        assert COE.from_state(state) is not None
-        assert COE.from_state(state, Earth.EGM2008.gravitational_parameter) is not None
 
     def test_from_SI_vector(
         self,
