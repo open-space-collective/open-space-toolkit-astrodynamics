@@ -241,52 +241,49 @@ def test_coerce_to_iso_failure():
         coerce_to_iso("some_ill_formed_iso")
 
 
-def test_coerce_to_interval_success_interval():
-    value = Interval.closed(
-        Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
-        Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
-    )
-    assert coerce_to_interval(value) == value
-
-
-def test_coerce_to_interval_success_tuple_instant():
-    value = (
-        Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
-        Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
-    )
-    assert coerce_to_interval(value) == Interval.closed(
-        Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
-        Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
-    )
-
-
-def test_coerce_to_interval_success_list_instant():
-    value = [
-        Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
-        Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
-    ]
-    assert coerce_to_interval(value) == Interval.closed(
-        Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
-        Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
-    )
-
-
-def test_coerce_to_interval_success_tuple_datetime():
-    value = (
-        datetime(2020, 1, 1, tzinfo=timezone.utc),
-        datetime(2020, 1, 2, tzinfo=timezone.utc),
-    )
-    assert coerce_to_interval(value) == Interval.closed(
-        Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
-        Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
-    )
-
-
-def test_coerce_to_interval_success_list_datetime():
-    value = [
-        datetime(2020, 1, 1, tzinfo=timezone.utc),
-        datetime(2020, 1, 2, tzinfo=timezone.utc),
-    ]
+@pytest.mark.parametrize(
+    "value",
+    [
+        (
+            Interval.closed(
+                Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
+                Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
+            )
+        ),
+        (
+            (
+                Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
+                Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
+            )
+        ),
+        (
+            [
+                Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
+                Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
+            ]
+        ),
+        (
+            (
+                datetime(2020, 1, 1, tzinfo=timezone.utc),
+                datetime(2020, 1, 2, tzinfo=timezone.utc),
+            )
+        ),
+        (
+            [
+                datetime(2020, 1, 1, tzinfo=timezone.utc),
+                datetime(2020, 1, 2, tzinfo=timezone.utc),
+            ]
+        ),
+        (
+            [
+                "2020-01-01T00:00:00Z",
+                "2020-01-02T00:00:00Z",
+            ]
+        ),
+        ("[2020-01-01T00:00:00Z - 2020-01-02T00:00:00Z] [UTC]"),
+    ],
+)
+def test_coerce_to_interval(value):
     assert coerce_to_interval(value) == Interval.closed(
         Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
         Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),

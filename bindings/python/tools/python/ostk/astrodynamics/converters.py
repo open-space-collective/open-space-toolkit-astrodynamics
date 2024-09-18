@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+import re
+
 from datetime import datetime, timezone
 
 from ostk.physics.time import Instant
@@ -30,7 +32,9 @@ def coerce_to_datetime(value: Instant | datetime | str) -> datetime:
 
         return datetime.fromisoformat(value)
 
-    raise TypeError("Argument must be a datetime, an Instant, or a str.")
+    raise TypeError(
+        f"Argument is of type [{type(value)}]. Must be a datetime, an Instant, or a str."
+    )
 
 
 def coerce_to_instant(value: Instant | datetime | str) -> Instant:
@@ -53,7 +57,9 @@ def coerce_to_instant(value: Instant | datetime | str) -> Instant:
     if isinstance(value, str):
         return coerce_to_instant(coerce_to_datetime(value))
 
-    raise TypeError("Argument must be a datetime, an Instant, or a str.")
+    raise TypeError(
+        f"Argument is of type [{type(value)}]. Must be a datetime, an Instant, or a str."
+    )
 
 
 def coerce_to_iso(value: Instant | datetime | str, timespec: str = "microseconds") -> str:
@@ -77,12 +83,18 @@ def coerce_to_iso(value: Instant | datetime | str, timespec: str = "microseconds
     if isinstance(value, Instant):
         return coerce_to_iso(coerce_to_datetime(value), timespec=timespec)
 
-    raise TypeError("Argument must be a datetime, an Instant, or a str.")
+    raise TypeError(
+        f"Argument is of type [{type(value)}]. Must be a datetime, an Instant, or a str."
+    )
 
 
 def coerce_to_interval(
     value: (
-        Interval | tuple[Instant, Instant] | tuple[datetime, datetime] | tuple[str, str]
+        Interval
+        | tuple[Instant, Instant]
+        | tuple[datetime, datetime]
+        | tuple[str, str]
+        | str
     ),
 ) -> Interval:
     """
@@ -97,6 +109,18 @@ def coerce_to_interval(
 
     if isinstance(value, Interval):
         return value
+
+    if isinstance(value, str):
+        regex = r"\[(.*) - (.*)\] \[UTC\]"
+        matches = re.search(regex, value)
+
+        if matches:
+            return Interval.closed(
+                start_instant=coerce_to_instant(matches.group(1)),
+                end_instant=coerce_to_instant(matches.group(2)),
+            )
+
+        raise ValueError(f"String [{value}] does not match the expected format.")
 
     return Interval.closed(
         start_instant=coerce_to_instant(value[0]),
