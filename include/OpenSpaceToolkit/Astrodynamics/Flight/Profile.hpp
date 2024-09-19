@@ -91,100 +91,85 @@ class Profile
 
     enum class TargetType
     {
-        GeocentricNadir,
-        GeodeticNadir,
-        Trajectory,
-        Sun,
-        Moon,
-        VelocityECI,
-        VelocityECEF,
-        OrbitalMomentum,
-        AlignmentProfile,
+        GeocentricNadir,     /// Negative of the position vector of the satellite in the ECI frame
+        GeodeticNadir,       /// Negative of the geodetic normal of the satellite in the ECI frame
+        Trajectory,          /// Points towards the provided trajectory, eg. Ground Station in ECEF
+        Sun,                 /// The position of the Sun
+        Moon,                /// The position of the Moon
+        VelocityECI,         /// The velocity vector in the ECI frame
+        VelocityECEF,        /// The velocity vector in the ECEF frame
+        OrbitalMomentum,     /// The orbital momentum vector of the satellite in the ECI frame
+        OrientationProfile,  /// Points towards a profile of orientations in the ECI frame
+        Custom,              /// Custom target
     };
 
-    struct Target
+    /// @brief Represents a target for alignment or pointing purposes.
+    class Target
     {
-        TargetType type;
-        Axis axis;
-        bool antiDirection;
+       public:
+        /// @brief Constructs a Target object.
+        ///
+        /// @param aType The type of the target.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection = false);
 
-        Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection = false)
-            : type(aType),
-              axis(anAxis),
-              antiDirection(isAntiDirection)
-        {
-        }
+        TargetType type;     ///< The type of the target.
+        Axis axis;           ///< The axis of the target.
+        bool antiDirection;  ///< Whether the target is in the anti-direction.
     };
 
-    struct TrajectoryTarget : Target
+    /// @brief Represents a target that points towards a trajectory.
+    class TrajectoryTarget : public Target
     {
-        Trajectory trajectory;
+       public:
+        /// @brief Constructs a TrajectoryTarget object.
+        ///
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        TrajectoryTarget(const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false);
 
-        TrajectoryTarget(const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false)
-            : Target(TargetType::Trajectory, anAxis, isAntiDirection),
-              trajectory(aTrajectory)
-        {
-            if (!trajectory.isDefined())
-            {
-                throw ostk::core::error::runtime::Undefined("Trajectory");
-            }
-        }
+        Trajectory trajectory;  ///< The trajectory to point towards.
     };
 
-    struct AlignmentProfileTarget : Target
+    /// @brief Represents a target that points towards a profile of orientations.
+    class OrientationProfileTarget : public Target
     {
-        Array<Pair<Instant, Vector3d>> alignmentProfile;
-
-        AlignmentProfileTarget(
-            const Array<Pair<Instant, Vector3d>>& anAlignmentProfileArray,
+       public:
+        /// @brief Constructs an OrientationProfileTarget object.
+        ///
+        /// @param anOrientationProfile The profile of orientations.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        OrientationProfileTarget(
+            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
             const Axis& anAxis,
             const bool& isAntiDirection = false
-        )
-            : Target(TargetType::AlignmentProfile, anAxis, isAntiDirection),
-              alignmentProfile(anAlignmentProfileArray)
-        {
-            if (alignmentProfile.isEmpty())
-            {
-                throw ostk::core::error::runtime::Undefined("Alignment Profile");
-            }
+        );
 
-            VectorXd timestamps(anAlignmentProfileArray.getSize());
-            MatrixXd coordinates(anAlignmentProfileArray.getSize(), 3);
+        /// @brief Gets the alignment vector at a specific instant.
+        ///
+        /// @param anInstant The instant at which to get the alignment vector.
+        /// @return The alignment vector at the specified instant.
+        Vector3d getAlignmentVectorAt(const Instant& anInstant) const;
 
-            for (Index i = 0; i < anAlignmentProfileArray.getSize(); ++i)
-            {
-                timestamps(i) =
-                    (anAlignmentProfileArray[i].first - anAlignmentProfileArray.accessFirst().first).inSeconds();
-
-                coordinates.row(i) = anAlignmentProfileArray[i].second;
-            }
-
-            interpolators_.reserve(coordinates.cols());
-
-            for (Index i = 0; i < Size(coordinates.cols()); ++i)
-            {
-                interpolators_.add(Interpolator::GenerateInterpolator(
-                    Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i)
-                ));
-            }
-        }
-
-        Vector3d getAlignmentVectorAt(const Instant& anInstant) const
-        {
-            Vector3d interpolatedCoordinates = Vector3d::Zero();
-
-            const Real duration = (anInstant - alignmentProfile.accessFirst().first).inSeconds();
-
-            for (Index i = 0; i < interpolators_.getSize(); ++i)
-            {
-                interpolatedCoordinates(i) = interpolators_[i]->evaluate(duration);
-            }
-
-            return interpolatedCoordinates;
-        }
+        Array<Pair<Instant, Vector3d>> orientationProfile;  ///< The profile of orientations.
 
        private:
-        Array<Shared<const Interpolator>> interpolators_;
+        Array<Shared<const Interpolator>> interpolators_;  ///< Interpolators for the orientation profile.
+    };
+
+    class CustomTarget : public Target
+    {
+       public:
+        CustomTarget(
+            std::function<Vector3d(const State&)> anOrientationGenerator,
+            const Axis& anAxis,
+            const bool& isAntiDirection = false
+        );
+
+        std::function<Vector3d(const State&)> orientationGenerator;
     };
 
     /// @brief Constructor

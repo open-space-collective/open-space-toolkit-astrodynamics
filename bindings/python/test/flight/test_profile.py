@@ -101,13 +101,17 @@ def profile(request) -> Profile:
             Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
             Profile.Axis.X,
         ),
-        Profile.AlignmentProfileTarget(
+        Profile.OrientationProfileTarget(
             [
                 (Instant.J2000(), [1.0, 0.0, 0.0]),
                 (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
                 (Instant.J2000() + Duration.minutes(2.0), [1.0, 0.0, 0.0]),
                 (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
             ],
+            Profile.Axis.X,
+        ),
+        Profile.CustomTarget(
+            lambda state: [1.0, 0.0, 0.0],
             Profile.Axis.X,
         ),
     ]

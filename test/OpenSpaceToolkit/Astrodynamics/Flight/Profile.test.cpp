@@ -832,21 +832,39 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignmentProfileTarget)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomTarget)
 {
     {
-        EXPECT_THROW(Profile::AlignmentProfileTarget({}, Profile::Axis::X), ostk::core::error::runtime::Undefined);
+        std::function<Vector3d(const State&)> orientationGenerator = [](const State&) -> Vector3d
+        {
+            return Vector3d::X();
+        };
+
+        {
+            EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Profile::Axis::X));
+        }
+
+        {
+            EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Profile::Axis::X, true));
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
+{
+    {
+        EXPECT_THROW(Profile::OrientationProfileTarget({}, Profile::Axis::X), ostk::core::error::runtime::Undefined);
     }
 
     {
-        const Array<Pair<Instant, Vector3d>> alignmentProfile = {
+        const Array<Pair<Instant, Vector3d>> orientationProfile = {
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(.0), Vector3d::X()},
         };
-        EXPECT_NO_THROW(Profile::AlignmentProfileTarget(alignmentProfile, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X));
     }
 }
 
@@ -872,14 +890,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         );
     }
 
-    // Trajectory
     {
-        const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
-        const auto orientation = Profile::AlignAndConstrain(
-            std::make_shared<Profile::TrajectoryTarget>(trajectory, Profile::Axis::X, false),
-            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
-        );
-
         const Instant epoch = Instant::J2000();
 
         const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
@@ -888,39 +899,57 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
 
         const State state = orbit.getStateAt(epoch);
 
-        const Quaternion q_B_GCRF = orientation(state);
+        // Trajectory
+        {
+            const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
+            const auto orientation = Profile::AlignAndConstrain(
+                std::make_shared<Profile::TrajectoryTarget>(trajectory, Profile::Axis::X, false),
+                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+            );
 
-        EXPECT_VECTORS_ALMOST_EQUAL(
-            q_B_GCRF * -state.getPosition().getCoordinates().normalized(), Vector3d::X(), 1e-12
-        );
-    }
+            const Quaternion q_B_GCRF = orientation(state);
 
-    // Alignment profile
-    {
-        const Array<Pair<Instant, Vector3d>> alignmentProfile = {
-            {Instant::J2000(), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
-        };
+            EXPECT_VECTORS_ALMOST_EQUAL(
+                q_B_GCRF * -state.getPosition().getCoordinates().normalized(), Vector3d::X(), 1e-12
+            );
+        }
 
-        const auto orientation = Profile::AlignAndConstrain(
-            std::make_shared<Profile::AlignmentProfileTarget>(alignmentProfile, Profile::Axis::X),
-            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
-        );
+        // Orientation profile
+        {
+            const Array<Pair<Instant, Vector3d>> orientationProfile = {
+                {Instant::J2000(), Vector3d::X()},
+                {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
+                {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
+                {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
+                {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
+            };
 
-        const Instant epoch = Instant::J2000();
+            const auto orientation = Profile::AlignAndConstrain(
+                std::make_shared<Profile::OrientationProfileTarget>(orientationProfile, Profile::Axis::X),
+                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+            );
 
-        const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+            const Quaternion q_B_GCRF = orientation(state);
 
-        const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+            EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
+        }
 
-        const State state = orbit.getStateAt(epoch);
+        // Custom profile
+        {
+            std::function<Vector3d(const State&)> orientationGenerator = [](const State&) -> Vector3d
+            {
+                return Vector3d::X();
+            };
 
-        const Quaternion q_B_GCRF = orientation(state);
+            const auto orientation = Profile::AlignAndConstrain(
+                std::make_shared<Profile::CustomTarget>(orientationGenerator, Profile::Axis::X, false),
+                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+            );
 
-        EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
+            const Quaternion q_B_GCRF = orientation(state);
+
+            EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
+        }
     }
 }
 

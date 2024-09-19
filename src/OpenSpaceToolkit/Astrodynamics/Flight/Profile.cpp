@@ -31,6 +31,78 @@ using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 
 using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
 
+Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection)
+    : type(aType),
+      axis(anAxis),
+      antiDirection(isAntiDirection)
+{
+}
+
+Profile::TrajectoryTarget::TrajectoryTarget(
+    const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+)
+    : Target(TargetType::Trajectory, anAxis, isAntiDirection),
+      trajectory(aTrajectory)
+{
+    if (!trajectory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Trajectory");
+    }
+}
+
+Profile::OrientationProfileTarget::OrientationProfileTarget(
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Axis& anAxis, const bool& isAntiDirection
+)
+    : Target(TargetType::OrientationProfile, anAxis, isAntiDirection),
+      orientationProfile(anOrientationProfile)
+{
+    if (orientationProfile.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("Orientation Profile");
+    }
+
+    VectorXd timestamps(anOrientationProfile.getSize());
+    MatrixXd coordinates(anOrientationProfile.getSize(), 3);
+
+    for (Index i = 0; i < anOrientationProfile.getSize(); ++i)
+    {
+        timestamps(i) = (anOrientationProfile[i].first - anOrientationProfile.accessFirst().first).inSeconds();
+
+        coordinates.row(i) = anOrientationProfile[i].second;
+    }
+
+    interpolators_.reserve(coordinates.cols());
+
+    for (Index i = 0; i < Size(coordinates.cols()); ++i)
+    {
+        interpolators_.add(
+            Interpolator::GenerateInterpolator(Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i))
+        );
+    }
+}
+
+Vector3d Profile::OrientationProfileTarget::getAlignmentVectorAt(const Instant& anInstant) const
+{
+    Vector3d interpolatedCoordinates = Vector3d::Zero();
+
+    const Real duration = (anInstant - orientationProfile.accessFirst().first).inSeconds();
+
+    for (Index i = 0; i < interpolators_.getSize(); ++i)
+    {
+        interpolatedCoordinates(i) = interpolators_[i]->evaluate(duration);
+    }
+
+    return interpolatedCoordinates;
+}
+
+Profile::CustomTarget::CustomTarget(
+    std::function<Vector3d(const State&)> anOrientationGenerator, const Axis& anAxis, const bool& isAntiDirection
+)
+    : Target(TargetType::Custom, anAxis, isAntiDirection),
+      orientationGenerator(anOrientationGenerator)
+{
+}
+
 Profile::Profile(const Model& aModel)
     : modelUPtr_(aModel.clone())
 {
@@ -243,13 +315,22 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
                 return Profile::ComputeVelocityDirectionVector_ECEF;
             case TargetType::OrbitalMomentum:
                 return Profile::ComputeOrbitalMomentumDirectionVector;
-            case TargetType::AlignmentProfile:
+            case TargetType::OrientationProfile:
             {
-                const Shared<const AlignmentProfileTarget> alignmentProfileTargetSPtr =
-                    std::static_pointer_cast<const AlignmentProfileTarget>(aTargetSPtr);
-                return [alignmentProfileTargetSPtr](const State& aState) -> Vector3d
+                const Shared<const OrientationProfileTarget> orientationProfileTargetSPtr =
+                    std::static_pointer_cast<const OrientationProfileTarget>(aTargetSPtr);
+                return [orientationProfileTargetSPtr](const State& aState) -> Vector3d
                 {
-                    return alignmentProfileTargetSPtr->getAlignmentVectorAt(aState.accessInstant());
+                    return orientationProfileTargetSPtr->getAlignmentVectorAt(aState.accessInstant());
+                };
+            }
+            case TargetType::Custom:
+            {
+                const Shared<const CustomTarget> customTargetSPtr =
+                    std::static_pointer_cast<const CustomTarget>(aTargetSPtr);
+                return [customTargetSPtr](const State& aState) -> Vector3d
+                {
+                    return customTargetSPtr->orientationGenerator(aState);
                 };
             }
             default:

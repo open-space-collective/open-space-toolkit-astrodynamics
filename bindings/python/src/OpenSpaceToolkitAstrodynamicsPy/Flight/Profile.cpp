@@ -61,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         .value("VelocityECI", Profile::TargetType::VelocityECI, "Velocity in ECI")
         .value("VelocityECEF", Profile::TargetType::VelocityECEF, "Velocity in ECEF")
         .value("OrbitalMomentum", Profile::TargetType::OrbitalMomentum, "Orbital momentum")
-        .value("AlignmentProfile", Profile::TargetType::AlignmentProfile, "Alignment profile")
+        .value("OrientationProfile", Profile::TargetType::OrientationProfile, "Orientation profile")
 
         ;
 
@@ -129,9 +129,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::AlignmentProfileTarget, Profile::Target, Shared<Profile::AlignmentProfileTarget>>(
+    class_<Profile::OrientationProfileTarget, Profile::Target, Shared<Profile::OrientationProfileTarget>>(
         profileClass,
-        "AlignmentProfileTarget",
+        "OrientationProfileTarget",
         R"doc(
             The alignment profile target.
 
@@ -144,19 +144,51 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Constructor.
 
                 Args:
-                    alignment_profile (list[Tuple[Instant, Vector3d]]): The alignment profile.
+                    orientation_profile (list[Tuple[Instant, Vector3d]]): The orientation profile.
                     axis (Profile.Axis): The axis.
                     anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
             )doc",
-            arg("alignment_profile"),
+            arg("orientation_profile"),
             arg("axis"),
             arg("anti_direction") = false
         )
 
         .def_readonly(
-            "alignment_profile",
-            &Profile::AlignmentProfileTarget::alignmentProfile,
-            "The alignment profile of the target"
+            "orientation_profile",
+            &Profile::OrientationProfileTarget::orientationProfile,
+            "The orientation profile of the target"
+        )
+
+        ;
+
+    class_<Profile::CustomTarget, Profile::Target, Shared<Profile::CustomTarget>>(
+        profileClass,
+        "CustomTarget",
+        R"doc(
+            The custom target.
+
+        )doc"
+    )
+
+        .def(
+            init<const std::function<Vector3d(const State&)>&, const Profile::Axis&, const bool&&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    orientation_generator (Callable[np.ndarray, State]]): The orientation generator, accepts a state and returns a size 3 array of directions.
+                    axis (Profile.Axis): The axis.
+                    anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
+            )doc",
+            arg("orientation_generator"),
+            arg("axis"),
+            arg("anti_direction") = false
+        )
+
+        .def_readonly(
+            "orientation_generator",
+            &Profile::CustomTarget::orientationGenerator,
+            "The orientation generator of the target"
         )
 
         ;
@@ -344,8 +376,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
 
                 Args:
-                    alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.AlignmentProfileTarget): The alignment target.
-                    clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.AlignmentProfileTarget): The clocking target.
+                    alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
+                    clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
                     angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:
