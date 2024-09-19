@@ -56,8 +56,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     const Array<Instant> defaultInstants_ = {
         Instant::J2000(),
         Instant::J2000() + Duration::Seconds(1.0),
-        Instant::J2000() + Duration::Seconds(5.0),
-        Instant::J2000() + Duration::Seconds(7.0),
+        Instant::J2000() + Duration::Seconds(15.0),
+        Instant::J2000() + Duration::Seconds(37.0),
     };
 
     const Array<Vector3d> defaultAccelerationProfileDefaultFrame_ = {
