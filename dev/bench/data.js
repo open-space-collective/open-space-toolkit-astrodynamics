@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1726638706605,
+  "lastUpdate": 1726761640250,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 3174867082.5000033,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3174769365.3000026 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "19b96f551ecb53602785e7d51344625af1e5066d",
+          "message": "feat: add custom profile generators (#419)\n\n* feat: add custom profile generators\r\n\r\n* wip: tests\r\n\r\n* feat: address feedback\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Lucas <lucas.bremond@gmail.com>\r\n\r\n* feat: fix tests\r\n\r\n* feat: add more tests\r\n\r\n* feat: add orbital momentum\r\n\r\n* feat: add python bindings and tests\r\n\r\n* refactor: rename and streamline\r\n\r\n* feat: create trajectory and alignment targets\r\n\r\n* feat: address remaining feedback\r\n\r\n---------\r\n\r\nCo-authored-by: Lucas <lucas.bremond@gmail.com>",
+          "timestamp": "2024-09-19T08:40:05-07:00",
+          "tree_id": "ac0c31a476372a7f62bf48da9f0ef37fa1b191bd",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/19b96f551ecb53602785e7d51344625af1e5066d"
+        },
+        "date": 1726761638082,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 543264394.9999828,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 543233327.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 864246267.5999979,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 864233704.6999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3191487807.2999954,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191402351.6000013 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3190281529.599992,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3190199093.2999983 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3189189407.4000106,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3189150181.1999974 ns\nthreads: 1"
           }
         ]
       }
