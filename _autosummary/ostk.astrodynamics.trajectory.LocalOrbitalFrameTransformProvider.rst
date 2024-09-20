@@ -16,7 +16,9 @@ ostk.astrodynamics.trajectory.LocalOrbitalFrameTransformProvider
    .. autosummary::
       :nosignatures:
    
+      ~LocalOrbitalFrameTransformProvider.construct
       ~LocalOrbitalFrameTransformProvider.get_transform_at
+      ~LocalOrbitalFrameTransformProvider.get_transform_generator
       ~LocalOrbitalFrameTransformProvider.is_defined
    
    

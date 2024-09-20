@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::Target</basecompoundref>
+    <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1af90ac26892d7625d06d9900ade83887f" prot="public" static="no" mutable="no">
+        <type>Array&lt; Pair&lt; Instant, Vector3d &gt; &gt;</type>
+        <definition>Array&lt;Pair&lt;Instant, Vector3d&gt; &gt; ostk::astrodynamics::flight::Profile::OrientationProfileTarget::orientationProfile</definition>
+        <argsstring></argsstring>
+        <name>orientationProfile</name>
+        <briefdescription>
+<para>The profile of orientations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="157" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1aa6954f553adda6ad3b0be982eabf61b8" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; const Interpolator &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const Interpolator&gt; &gt; ostk::astrodynamics::flight::Profile::OrientationProfileTarget::interpolators_</definition>
+        <argsstring></argsstring>
+        <name>interpolators_</name>
+        <briefdescription>
+<para>Interpolators for the orientation profile. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="160" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1a0114061513402e8441550472a12835d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Profile::OrientationProfileTarget::OrientationProfileTarget</definition>
+        <argsstring>(const Array&lt; Pair&lt; Instant, Vector3d &gt;&gt; &amp;anOrientationProfile, const Axis &amp;anAxis, const bool &amp;isAntiDirection=false)</argsstring>
+        <name>OrientationProfileTarget</name>
+        <param>
+          <type>const Array&lt; Pair&lt; Instant, Vector3d &gt;&gt; &amp;</type>
+          <declname>anOrientationProfile</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" kindref="member">Axis</ref> &amp;</type>
+          <declname>anAxis</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isAntiDirection</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target" kindref="compound">OrientationProfileTarget</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrientationProfile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The profile of orientations. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The axis of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAntiDirection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the target is in the anti-direction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="145" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="53" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1aac2d8cf6c63df0285ac1eead41bb8d68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::OrientationProfileTarget::getAlignmentVectorAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const</argsstring>
+        <name>getAlignmentVectorAt</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Gets the alignment vector at a specific instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to get the alignment vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The alignment vector at the specified instant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="155" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="84" bodyend="96"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a target that points towards a profile of orientations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::Target</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Array&lt; Pair&lt; Instant, Vector3d &gt; &gt;</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>orientationProfile</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::Target</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="138" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="137" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a64c09bafe204f7fb7b2e152ff7c49d00" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>antiDirection</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a6c746cc29caea39fbd308fc78b415fbc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>axis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1aac2d8cf6c63df0285ac1eead41bb8d68" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>getAlignmentVectorAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1aa6954f553adda6ad3b0be982eabf61b8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>interpolators_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1af90ac26892d7625d06d9900ade83887f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>orientationProfile</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1a0114061513402e8441550472a12835d4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>OrientationProfileTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a192673acea78f21926fcc3144616ea26" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>Target</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1afa9cf268b2a791c0d0b31afeeb75f6ac" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

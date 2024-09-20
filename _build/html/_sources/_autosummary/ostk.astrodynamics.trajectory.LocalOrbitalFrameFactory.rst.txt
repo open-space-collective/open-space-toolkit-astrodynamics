@@ -23,6 +23,7 @@ ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory
       ~LocalOrbitalFrameFactory.VNC
       ~LocalOrbitalFrameFactory.VVLH
       ~LocalOrbitalFrameFactory.access_parent_frame
+      ~LocalOrbitalFrameFactory.construct
       ~LocalOrbitalFrameFactory.generate_frame
       ~LocalOrbitalFrameFactory.is_defined
       ~LocalOrbitalFrameFactory.undefined

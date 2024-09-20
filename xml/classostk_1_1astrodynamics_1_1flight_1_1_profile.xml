@@ -3,6 +3,10 @@
   <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_profile" kind="class" language="C++" prot="public">
     <compoundname>ostk::astrodynamics::flight::Profile</compoundname>
     <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_custom_target" prot="public">ostk::astrodynamics::flight::Profile::CustomTarget</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target" prot="public">ostk::astrodynamics::flight::Profile::OrientationProfileTarget</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" prot="public">ostk::astrodynamics::flight::Profile::Target</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" prot="public">ostk::astrodynamics::flight::Profile::TrajectoryTarget</innerclass>
       <sectiondef kind="public-type">
       <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a71550cc961f583e02b8e6915423c58d9" prot="public" static="no" strong="yes">
         <type></type>
@@ -34,7 +38,7 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a71550cc961f583e02b8e6915423c58d9ac41a31890959544c6523af684561abe5" prot="public">
           <name>Target</name>
           <briefdescription>
-<para>Target pointing mode (the spacecraft points to a given target position) </para>
+<para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" kindref="compound">Target</ref> pointing mode (the spacecraft points to a given target position) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -53,7 +57,129 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="53" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="52" bodyend="60"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="76" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Axis</name>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080a02129bb861061d1a052c592e2dc6b383" prot="public">
+          <name>X</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080a57cec4137b614c87cb4e24a3d003a3e0" prot="public">
+          <name>Y</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080a21c2e59531c8710156d34a3c30ac81d5" prot="public">
+          <name>Z</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="86" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TargetType</name>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440ab33a455491d5af35eb5eaeb0c1c43cde" prot="public">
+          <name>GeocentricNadir</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440a4e2caa3cd4fbc1ba7c3ed9b2ff3ac2f2" prot="public">
+          <name>GeodeticNadir</name>
+          <briefdescription>
+<para>Negative of the position vector of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440a2c1f43c429c5e00feaef7ba3327375dc" prot="public">
+          <name>Trajectory</name>
+          <briefdescription>
+<para>Negative of the geodetic normal of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440aef6572e4cd58bb39a3f4e82fc64fe9f0" prot="public">
+          <name>Sun</name>
+          <briefdescription>
+<para>Points towards the provided trajectory, eg. Ground Station in ECEF. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440ad502a50ed945d5fca74e0105575b5b34" prot="public">
+          <name>Moon</name>
+          <briefdescription>
+<para>The position of the Sun. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440a91cce8c5dfb9fb6916acd5779b4d020c" prot="public">
+          <name>VelocityECI</name>
+          <briefdescription>
+<para>The position of the Moon. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440a59bd763f05b94cb8c8244592c851272e" prot="public">
+          <name>VelocityECEF</name>
+          <briefdescription>
+<para>The velocity vector in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440ae866d42f2134a0c63162edbb3e3a3a42" prot="public">
+          <name>OrbitalMomentum</name>
+          <briefdescription>
+<para>The velocity vector in the ECEF frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440a2ae357b7672767300aa30afd757e1eae" prot="public">
+          <name>OrientationProfile</name>
+          <briefdescription>
+<para>The orbital momentum vector of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440a90589c47f06eb971d548591f23c285af" prot="public">
+          <name>Custom</name>
+          <briefdescription>
+<para>Points towards a profile of orientations in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="93" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="92" bodyend="104"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -68,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="177" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="177" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="325" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="325" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -98,7 +224,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="65" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="17" bodyend="20"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="178" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="106" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a0ca170ebf0f7ba933589a0070fafaa63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -126,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="70" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="22" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="183" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="111" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a93fad36aacb9e5ce30c8f017937fbd5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref> &amp;</type>
@@ -156,7 +282,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="76" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="27" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="189" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="116" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ad3ff13d3d8e1141542ba946756f44532" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -175,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="96" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="44" bodyend="47"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="209" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="133" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a3d63ca2ade006c23ec450a4f4030fc61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -209,7 +335,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="108" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="49" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="221" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="138" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a024e820df226aa5873725e60f865ca76" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -243,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="120" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="59" bodyend="67"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="233" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="148" bodyend="156"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aeb8721e2f031d5569ea192510f807b16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Axes</type>
@@ -277,7 +403,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="132" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="69" bodyend="77"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="245" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="158" bodyend="166"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affb473c8ce59ff6f14520c8579ea7278" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -307,7 +433,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="138" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="79" bodyend="92"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="251" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="168" bodyend="181"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1afc2e113ef038e3dd84d9e65da38161da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -351,7 +477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="149" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="94" bodyend="101"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="262" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="183" bodyend="197"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -397,7 +523,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="87" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="37" bodyend="42"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="200" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="126" bodyend="131"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -418,7 +544,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="158" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="103" bodyend="106"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="271" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="199" bodyend="202"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a65397390f48c3a5564e3a3f8cedd26f3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
@@ -460,7 +586,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="165" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="108" bodyend="113"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="278" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="204" bodyend="207"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a75326e6f109fac90fc58aa2084a52d5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
@@ -502,7 +628,169 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="172" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="115" bodyend="120"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="285" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="209" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ad6e3b2007d0fa30b297c2dc092b0f659" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
+        <definition>Profile ostk::astrodynamics::flight::Profile::CustomPointing</definition>
+        <argsstring>(const trajectory::Orbit &amp;anOrbit, const std::function&lt; Quaternion(const State &amp;)&gt; &amp;anOrientationGenerator)</argsstring>
+        <name>CustomPointing</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">trajectory::Orbit</ref> &amp;</type>
+          <declname>anOrbit</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; Quaternion(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>anOrientationGenerator</declname>
+        </param>
+        <briefdescription>
+<para>Construct a flight profile with custom target pointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOrientationGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orientation generator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="294" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="227" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a9c7ae3efcc54586d4cc14847c85f873c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref></type>
+        <definition>Profile ostk::astrodynamics::flight::Profile::CustomPointing</definition>
+        <argsstring>(const trajectory::Orbit &amp;anOrbit, const Shared&lt; const Target &gt; &amp;anAlignmentTargetSPtr, const Shared&lt; const Target &gt; &amp;aClockingTargetSPtr, const Angle &amp;anAngularOffset=Angle::Zero())</argsstring>
+        <name>CustomPointing</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">trajectory::Orbit</ref> &amp;</type>
+          <declname>anOrbit</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" kindref="compound">Target</ref> &gt; &amp;</type>
+          <declname>anAlignmentTargetSPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" kindref="compound">Target</ref> &gt; &amp;</type>
+          <declname>aClockingTargetSPtr</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAngularOffset</declname>
+          <defval>Angle::Zero()</defval>
+        </param>
+        <briefdescription>
+<para>Construct a flight profile with custom target pointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An orbit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAlignmentTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An alignment target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aClockingTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A clocking target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAngularOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An angular offset </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flight profile </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="305" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="214" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a26f8188de4d75cc7d3f344836e97f2a5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; Quaternion(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>std::function&lt; Quaternion(const State &amp;)&gt; ostk::astrodynamics::flight::Profile::AlignAndConstrain</definition>
+        <argsstring>(const Shared&lt; const Target &gt; &amp;anAlignmentTargetSPtr, const Shared&lt; const Target &gt; &amp;aClockingTargetSPtr, const Angle &amp;anAngularOffset=Angle::Zero())</argsstring>
+        <name>AlignAndConstrain</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" kindref="compound">Target</ref> &gt; &amp;</type>
+          <declname>anAlignmentTargetSPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" kindref="compound">Target</ref> &gt; &amp;</type>
+          <declname>aClockingTargetSPtr</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAngularOffset</declname>
+          <defval>Angle::Zero()</defval>
+        </param>
+        <briefdescription>
+<para>Generate a function that provides a quaternion that aligns and constrains for a given state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAlignmentAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An alignment axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aClockingAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A clocking axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAngularOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An angular offset applied to the clocking axis </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="318" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="251" bodyend="371"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -517,7 +805,186 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="179" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="122" bodyend="125"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="327" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="373" bodyend="376"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1d10bb4daa2a6227259b160ba2f3935c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeGeocentricNadirDirectionVector</definition>
+        <argsstring>(const State &amp;aState)</argsstring>
+        <name>ComputeGeocentricNadirDirectionVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="329" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="378" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aa103dd295f872fbb585320bf122b9e59" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeGeodeticNadirDirectionVector</definition>
+        <argsstring>(const State &amp;aState)</argsstring>
+        <name>ComputeGeodeticNadirDirectionVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="331" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="383" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ae1adb8d8cd70d4877341dc54551e9fe6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeTargetDirectionVector</definition>
+        <argsstring>(const State &amp;aState, const Trajectory &amp;aTrajectory)</argsstring>
+        <name>ComputeTargetDirectionVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="333" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="402" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a21244ed0e0630371134ce2275dda8c54" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeCelestialDirectionVector</definition>
+        <argsstring>(const State &amp;aState, const Celestial &amp;aCelestial)</argsstring>
+        <name>ComputeCelestialDirectionVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Celestial &amp;</type>
+          <declname>aCelestial</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="335" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="416" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1d13ed85e90a4fa81a2164052fa061d6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeVelocityDirectionVector_ECI</definition>
+        <argsstring>(const State &amp;aState)</argsstring>
+        <name>ComputeVelocityDirectionVector_ECI</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="337" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="425" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a2175a3c8b7747be9a552caa3f6e989ac" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeVelocityDirectionVector_ECEF</definition>
+        <argsstring>(const State &amp;aState)</argsstring>
+        <name>ComputeVelocityDirectionVector_ECEF</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="339" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="430" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affd94ab4573a3771f048498db0dacc7b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeOrbitalMomentumDirectionVector</definition>
+        <argsstring>(const State &amp;aState)</argsstring>
+        <name>ComputeOrbitalMomentumDirectionVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="341" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="440" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aca16c6820e568f67ece6523848e6d654" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::ComputeClockingAxisVector</definition>
+        <argsstring>(const Vector3d &amp;anAlignmentAxisVector, const Vector3d &amp;aClockingVector)</argsstring>
+        <name>ComputeClockingAxisVector</name>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>anAlignmentAxisVector</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aClockingVector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="343" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="435" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aebf2ef154e7e925d41c8f2b0d56a07a3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Quaternion</type>
+        <definition>Quaternion ostk::astrodynamics::flight::Profile::ComputeBodyToECIQuaternion</definition>
+        <argsstring>(const Axis &amp;anAlignmentAxis, const Axis &amp;aClockingAxis, const Vector3d &amp;anAlignmentAxisVector, const Vector3d &amp;aClockingAxisVector)</argsstring>
+        <name>ComputeBodyToECIQuaternion</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" kindref="member">Axis</ref> &amp;</type>
+          <declname>anAlignmentAxis</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" kindref="member">Axis</ref> &amp;</type>
+          <declname>aClockingAxis</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>anAlignmentAxisVector</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aClockingAxisVector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="345" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="448" bodyend="492"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -525,8 +992,21 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="50" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="49" bodyend="180"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="73" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="72" bodyend="351"/>
     <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a26f8188de4d75cc7d3f344836e97f2a5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>AlignAndConstrain</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>Axis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aebf2ef154e7e925d41c8f2b0d56a07a3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeBodyToECIQuaternion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a21244ed0e0630371134ce2275dda8c54" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeCelestialDirectionVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aca16c6820e568f67ece6523848e6d654" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeClockingAxisVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1d10bb4daa2a6227259b160ba2f3935c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeGeocentricNadirDirectionVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aa103dd295f872fbb585320bf122b9e59" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeGeodeticNadirDirectionVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affd94ab4573a3771f048498db0dacc7b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeOrbitalMomentumDirectionVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ae1adb8d8cd70d4877341dc54551e9fe6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeTargetDirectionVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a2175a3c8b7747be9a552caa3f6e989ac" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeVelocityDirectionVector_ECEF</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1d13ed85e90a4fa81a2164052fa061d6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>ComputeVelocityDirectionVector_ECI</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ad6e3b2007d0fa30b297c2dc092b0f659" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>CustomPointing</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a9c7ae3efcc54586d4cc14847c85f873c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>CustomPointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aeb8721e2f031d5569ea192510f807b16" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>getAxesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affb473c8ce59ff6f14520c8579ea7278" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>getBodyFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a3d63ca2ade006c23ec450a4f4030fc61" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>getStateAt</name></member>
@@ -542,6 +1022,7 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>Profile</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a0ca170ebf0f7ba933589a0070fafaa63" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>Profile</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affc9fb559bac3163e33883c466264564" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>Profile</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>TargetType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ab6edc8d4ac9424bb95716d217f258dc3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile</scope><name>Undefined</name></member>
     </listofallmembers>
   </compounddef>

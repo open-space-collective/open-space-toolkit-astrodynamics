@@ -18,6 +18,7 @@ ostk.astrodynamics.trajectory.State
    
       ~State.extract_coordinate
       ~State.extract_coordinates
+      ~State.from_dict
       ~State.get_angular_velocity
       ~State.get_attitude
       ~State.get_coordinate_subsets

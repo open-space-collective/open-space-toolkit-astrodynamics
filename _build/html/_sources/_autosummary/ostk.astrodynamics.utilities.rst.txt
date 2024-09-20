@@ -16,7 +16,8 @@
       :nosignatures:
    
       compute_aer
-      compute_time_lla_aer_state
+      compute_ground_track
+      compute_time_lla_aer_coordinates
       compute_trajectory_geometry
       convert_state
       lla_from_position

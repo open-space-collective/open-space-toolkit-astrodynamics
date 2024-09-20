@@ -16,6 +16,8 @@ ostk.astrodynamics.flight.Profile
    .. autosummary::
       :nosignatures:
    
+      ~Profile.align_and_constrain
+      ~Profile.custom_pointing
       ~Profile.get_axes_at
       ~Profile.get_body_frame
       ~Profile.get_state_at
