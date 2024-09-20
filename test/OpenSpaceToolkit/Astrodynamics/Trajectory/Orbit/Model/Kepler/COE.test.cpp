@@ -29,7 +29,10 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
@@ -286,6 +289,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngu
 
     {
         EXPECT_ANY_THROW(COE::Undefined().getAngularMomentum(Earth::EGM2008.gravitationalParameter_));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeLTAN)
+{
+    {
+        const Angle raan = Angle::Radians(4.289024646407403);
+        const Instant instant = Instant::DateTime(DateTime::Parse("2021-06-19T19:35:35"), Scale::UTC);
+
+        const Real ltan = COE::ComputeLTAN(raan, instant);
+
+        EXPECT_NEAR(22.5, ltan, 1e-1);
     }
 }
 
