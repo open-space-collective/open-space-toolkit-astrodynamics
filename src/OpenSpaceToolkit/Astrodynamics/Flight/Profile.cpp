@@ -407,7 +407,7 @@ Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const Trajec
     }
 
     const Vector3d targetPositionCoordinates =
-        aTrajectory.getStateAt(aState.accessInstant()).getPosition().accessCoordinates();
+        aTrajectory.getStateAt(aState.accessInstant()).inFrame(Frame::GCRF()).getPosition().accessCoordinates();
     const Vector3d satellitePositionCoordinates = aState.getPosition().accessCoordinates();
 
     return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
