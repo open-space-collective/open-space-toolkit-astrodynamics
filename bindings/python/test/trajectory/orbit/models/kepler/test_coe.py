@@ -147,6 +147,11 @@ class TestCOE:
             COE.compute_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
+        assert COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
+        assert (
+            COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            is not None
+        )
 
     def test_from_SI_vector(
         self,

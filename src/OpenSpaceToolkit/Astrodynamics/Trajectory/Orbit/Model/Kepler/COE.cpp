@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -23,6 +24,7 @@ namespace model
 namespace kepler
 {
 
+using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -37,18 +39,20 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::ElectricCurrent;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
+using TimeUnit = ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, TimeUnit::Unit::Second);
+static const Derived::Unit angularVelocitySIUnit =
+    Derived::Unit::AngularVelocity(Angle::Unit::Radian, TimeUnit::Unit::Second);
 static const Derived::Unit AngularMomentumSIUnit = {
     Length::Unit::Meter,
     {2},
     Mass::Unit::Kilogram,
     {1},
-    Time::Unit::Second,
+    TimeUnit::Unit::Second,
     {-2},
     ElectricCurrent::Unit::Undefined,
     {0},
@@ -261,7 +265,7 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 
     return Derived(
         std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
-        Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)
+        angularVelocitySIUnit
     );
 }
 
@@ -269,15 +273,14 @@ Derived COE::getNodalPrecessionRate(
     const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
 ) const
 {
-    const Real omega = this->getMeanMotion(aGravitationalParameter)
-                           .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+    const Real omega = this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit);
 
     const Real omega_p =
         -(3.0 / 2.0) * std::pow(anEquatorialRadius.inMeters(), 2.0) * aJ2Parameter * omega *
         std::cos(this->inclination_.inRadians()) /
         std::pow(this->semiMajorAxis_.inMeters() * (1.0 - (this->eccentricity_ * this->eccentricity_)), 2.0);
 
-    return Derived(omega_p, Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+    return Derived(omega_p, angularVelocitySIUnit);
 }
 
 Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
@@ -292,10 +295,7 @@ Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return Duration::Seconds(
-        Real::TwoPi() / this->getMeanMotion(aGravitationalParameter)
-                            .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second))
-    );
+    return Duration::Seconds(Real::TwoPi() / this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit));
 }
 
 COE::CartesianState COE::getCartesianState(
@@ -879,7 +879,7 @@ Real COE::ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aG
     return std::sqrt(mu_SI * aSemiLatusRectum);
 }
 
-Real COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
 {
     // Calculate sun position
     const Vector3d sunDirectionGCRF = aSun.getPositionIn(Frame::GCRF(), anInstant).getCoordinates();
@@ -896,8 +896,61 @@ Real COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aS
     // Get angle between sun and ascending node
     const Real alpha = std::fmod((raan - smlt).inRadians(), 2.0 * M_PI);
 
+    // Get Mean LTAN
+    const Real MLTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+
+    std::cout << MLTAN << std::endl;
+
+    const int hours = static_cast<int>(MLTAN);
+
+    const Real minutesFloat = (MLTAN - Real::Integer(hours)) * 60.0;
+    const int minutes = static_cast<int>(minutesFloat);
+
+    const Real secondsFloat = (minutesFloat - Real::Integer(minutes)) * 60.0;
+    const int seconds = static_cast<int>(secondsFloat);
+
+    const Real millisecondsFloat = (secondsFloat - Real::Integer(seconds)) * 1000.0;
+    const int milliseconds = static_cast<int>(millisecondsFloat);
+
+    const Real microsecondsFloat = (millisecondsFloat - Real::Integer(milliseconds)) * 1000.0;
+    const int microseconds = static_cast<int>(microsecondsFloat);
+
+    const int nanoseconds = static_cast<int>((microsecondsFloat - Real::Integer(microseconds)) * 1000.0);
+
+    return Time(hours, minutes, seconds, milliseconds, microseconds, nanoseconds);
+}
+
+Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+{
+    // Calculate sun position
+    const Vector3d sunDirectionGCRF = aSun.getPositionIn(Frame::GCRF(), anInstant).getCoordinates();
+
+    // Calculate sun apparent local time
+    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirectionGCRF.y(), sunDirectionGCRF.x()));
+
+    // Get angle between sun and ascending node
+    const Real alpha = std::fmod((raan - apparentSolarTime).inRadians(), 2.0 * M_PI);
+
     // Get LTAN
-    return std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+    const Real LTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+
+    const int hours = static_cast<int>(LTAN);
+
+    const Real minutesFloat = (LTAN - Real::Integer(hours)) * 60.0;
+    const int minutes = static_cast<int>(minutesFloat);
+
+    const Real secondsFloat = (minutesFloat - Real::Integer(minutes)) * 60.0;
+    const int seconds = static_cast<int>(secondsFloat);
+
+    const Real millisecondsFloat = (secondsFloat - Real::Integer(seconds)) * 1000.0;
+    const int milliseconds = static_cast<int>(millisecondsFloat);
+
+    const Real microsecondsFloat = (millisecondsFloat - Real::Integer(milliseconds)) * 1000.0;
+    const int microseconds = static_cast<int>(microsecondsFloat);
+
+    const int nanoseconds = static_cast<int>((microsecondsFloat - Real::Integer(microseconds)) * 1000.0);
+
+    return Time(hours, minutes, seconds, milliseconds, microseconds, nanoseconds);
 }
 
 String COE::StringFromElement(const COE::Element& anElement)

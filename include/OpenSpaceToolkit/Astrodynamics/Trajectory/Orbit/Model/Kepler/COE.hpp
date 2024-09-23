@@ -45,6 +45,7 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
@@ -324,12 +325,19 @@ class COE
     /// @return Radial distance in meters.
     static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);
 
+    /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from RAAN and instant
+    ///
+    /// @param raan Right Ascension of the Ascending Node
+    /// @param anInstant The instant at which to compute LTAN
+    /// @return Mean Local Time of the Ascending Node (MLTAN) in hours
+    static Time ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+
     /// @brief Compute Local Time of the Ascending Node (LTAN) from RAAN and instant
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
     /// @return Local Time of the Ascending Node (LTAN) in hours
-    static Real ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+    static Time ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
     /// @brief Convert element to string
     ///

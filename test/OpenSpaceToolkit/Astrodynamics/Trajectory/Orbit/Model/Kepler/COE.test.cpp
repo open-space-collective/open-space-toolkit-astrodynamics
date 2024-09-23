@@ -33,6 +33,7 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
@@ -292,15 +293,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngu
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeLTAN)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeMeanLTAN)
 {
     {
-        const Angle raan = Angle::Radians(4.289024646407403);
-        const Instant instant = Instant::DateTime(DateTime::Parse("2021-06-19T19:35:35"), Scale::UTC);
+        const Array<Tuple<String, String, String, Real>> testData = {
+            {"2024-09-23T19:34:00.000", "09:05:14.305", "09:05:13.710", 359.782729651204},
+        };
 
-        const Real ltan = COE::ComputeLTAN(raan, instant);
+        for (const auto& data : testData)
+        {
+            const Instant instant = Instant::DateTime(DateTime::Parse(std::get<0>(data)), Scale::UTC);
+            const Time expectedLTAN = Time::Parse(std::get<1>(data));
+            const Time expectedMLTAN = Time::Parse(std::get<2>(data));
+            const Angle raan = Angle::Degrees(std::get<3>(data));
 
-        EXPECT_NEAR(22.5, ltan, 1e-1);
+            const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant);
+
+            EXPECT_EQ(meanLTAN.getHour(), expectedMLTAN.getHour());
+            EXPECT_EQ(meanLTAN.getMinute(), expectedMLTAN.getMinute());
+            EXPECT_NEAR(meanLTAN.getFloatingSeconds(), expectedMLTAN.getFloatingSeconds(), 1e-3);
+        }
     }
 }
 
