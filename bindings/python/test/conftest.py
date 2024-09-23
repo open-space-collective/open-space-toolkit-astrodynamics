@@ -115,5 +115,5 @@ def aer(azimuth: Angle, elevation: Angle, range: Length) -> LLA:
 
 
 @pytest.fixture
-def trajectory(position: Position) -> Trajectory:
-    return Trajectory.position(position)
+def trajectory(position: Position, instant_1: Instant) -> Trajectory:
+    return Trajectory.position(position.in_frame(Frame.ITRF(), instant_1))
