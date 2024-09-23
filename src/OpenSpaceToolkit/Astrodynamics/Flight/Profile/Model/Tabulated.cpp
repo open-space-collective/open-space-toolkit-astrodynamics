@@ -106,23 +106,23 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
         return State(
                    anInstant,
-                   Position {
+                   Position(
                        previousState.getPosition().accessCoordinates() +
                            ratio * (nextState.getPosition().accessCoordinates() -
                                     previousState.getPosition().accessCoordinates()),
                        previousState.getPosition().getUnit(),
                        previousState.getPosition().accessFrame()
-                   },
-                   Velocity {
+                   ),
+                   Velocity(
                        previousState.getVelocity().accessCoordinates() +
                            ratio * (nextState.getVelocity().accessCoordinates() -
                                     previousState.getVelocity().accessCoordinates()),
                        previousState.getVelocity().getUnit(),
                        previousState.getVelocity().accessFrame()
-                   },
+                   ),
                    Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
-                   previousState.getAngularVelocity() +
-                       ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity()),
+                   Vector3d(previousState.getAngularVelocity() +
+                       ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity())),
                    previousState.getFrame()
         )
             .inFrame(Frame::GCRF());
