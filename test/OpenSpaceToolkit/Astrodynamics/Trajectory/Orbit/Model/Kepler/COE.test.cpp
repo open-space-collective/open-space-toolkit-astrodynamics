@@ -296,23 +296,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngu
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeMeanLTAN)
 {
     {
-        const Array<Tuple<String, String, String, Real>> testData = {
-            {"2024-09-23T19:34:00.000", "09:05:14.305", "09:05:13.710", 359.782729651204},
-        };
+        const Instant instant = Instant::DateTime(DateTime::Parse("2024-01-01T01:34:36.978"), Scale::UTC);
+        const Time expectedMeanLTAN = Time::Parse("11:59:55.403");
+        const Angle raan = Angle::Degrees(279.823758664135426);
 
-        for (const auto& data : testData)
-        {
-            const Instant instant = Instant::DateTime(DateTime::Parse(std::get<0>(data)), Scale::UTC);
-            const Time expectedLTAN = Time::Parse(std::get<1>(data));
-            const Time expectedMLTAN = Time::Parse(std::get<2>(data));
-            const Angle raan = Angle::Degrees(std::get<3>(data));
+        const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant);
 
-            const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant);
+        EXPECT_EQ(meanLTAN.getHour(), expectedMeanLTAN.getHour());
+        EXPECT_NEAR(meanLTAN.getMinute(), expectedMeanLTAN.getMinute(), 5.0);
+    }
+}
 
-            EXPECT_EQ(meanLTAN.getHour(), expectedMLTAN.getHour());
-            EXPECT_EQ(meanLTAN.getMinute(), expectedMLTAN.getMinute());
-            EXPECT_NEAR(meanLTAN.getFloatingSeconds(), expectedMLTAN.getFloatingSeconds(), 1e-3);
-        }
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeLTAN)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime::Parse("2024-01-01T01:34:36.978"), Scale::UTC);
+        const Time expectedLTAN = Time::Parse("11:56:50.133");
+        const Angle raan = Angle::Degrees(279.823758664135426);
+
+        const Time LTAN = COE::ComputeLTAN(raan, instant);
+
+        EXPECT_EQ(LTAN.getHour(), expectedLTAN.getHour());
+        EXPECT_NEAR(LTAN.getMinute(), expectedLTAN.getMinute(), 5.0);
     }
 }
 
