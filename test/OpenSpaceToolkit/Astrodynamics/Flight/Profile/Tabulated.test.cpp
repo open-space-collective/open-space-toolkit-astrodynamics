@@ -159,6 +159,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
         const Vector3d angularVelocity = {0.0, 0.0, 0.0};
         EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), angularVelocity, 1e-10);
+
+        EXPECT_TRUE(state.getPosition().accessFrame() == Frame::GCRF());
     }
 }
 
