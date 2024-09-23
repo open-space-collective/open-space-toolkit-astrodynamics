@@ -18,6 +18,10 @@ Static::Static(const Position& aPosition)
     : Model(),
       position_(aPosition)
 {
+    if (aPosition.accessFrame() != Frame::ITRF())
+    {
+        throw ostk::core::error::runtime::Wrong("Position Frame", aPosition.accessFrame()->getName());
+    }
 }
 
 Static* Static::clone() const
@@ -66,7 +70,8 @@ State Static::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Static");
     }
 
-    return State(anInstant, position_, Velocity::MetersPerSecond({0.0, 0.0, 0.0}, position_.accessFrame()));
+    return State(anInstant, position_, Velocity::MetersPerSecond({0.0, 0.0, 0.0}, position_.accessFrame()))
+        .inFrame(Frame::GCRF());
 }
 
 void Static::print(std::ostream& anOutputStream, bool displayDecorator) const

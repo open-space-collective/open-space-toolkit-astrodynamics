@@ -104,35 +104,36 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         const Real ratio = Duration::Between(previousState.accessInstant(), anInstant).inSeconds() /
                            Duration::Between(previousState.accessInstant(), nextState.accessInstant()).inSeconds();
 
-        return {
-            anInstant,
-            Position {
-                previousState.getPosition().accessCoordinates() +
-                    ratio *
-                        (nextState.getPosition().accessCoordinates() - previousState.getPosition().accessCoordinates()),
-                previousState.getPosition().getUnit(),
-                previousState.getPosition().accessFrame()
-            },
-            Velocity {
-                previousState.getVelocity().accessCoordinates() +
-                    ratio *
-                        (nextState.getVelocity().accessCoordinates() - previousState.getVelocity().accessCoordinates()),
-                previousState.getVelocity().getUnit(),
-                previousState.getVelocity().accessFrame()
-            },
-            Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
-            previousState.getAngularVelocity() +
-                ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity()),
-            previousState.getFrame()
-        };
+        return State(
+                   anInstant,
+                   Position(
+                       previousState.getPosition().accessCoordinates() +
+                           ratio * (nextState.getPosition().accessCoordinates() -
+                                    previousState.getPosition().accessCoordinates()),
+                       previousState.getPosition().getUnit(),
+                       previousState.getPosition().accessFrame()
+                   ),
+                   Velocity(
+                       previousState.getVelocity().accessCoordinates() +
+                           ratio * (nextState.getVelocity().accessCoordinates() -
+                                    previousState.getVelocity().accessCoordinates()),
+                       previousState.getVelocity().getUnit(),
+                       previousState.getVelocity().accessFrame()
+                   ),
+                   Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
+                   Vector3d(previousState.getAngularVelocity() +
+                       ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity())),
+                   previousState.getFrame()
+        )
+            .inFrame(Frame::GCRF());
     }
     else if (stateRange.first != nullptr)
     {
-        return *(stateRange.first);
+        return (*(stateRange.first)).inFrame(Frame::GCRF());
     }
     else if (stateRange.second != nullptr)
     {
-        return *(stateRange.second);
+        return (*(stateRange.second)).inFrame(Frame::GCRF());
     }
 
     throw ostk::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString());
@@ -153,11 +154,11 @@ Axes Tabulated::getAxesAt(const Instant& anInstant) const
     }
 
     const State state = this->calculateStateAt(anInstant);
-    const Quaternion q_GCRF_BODY = state.getAttitude().toConjugate();
+    const Quaternion q_GCRF_B = state.getAttitude().toConjugate();
 
-    const Vector3d xAxis = q_GCRF_BODY * Vector3d::X();
-    const Vector3d yAxis = q_GCRF_BODY * Vector3d::Y();
-    const Vector3d zAxis = q_GCRF_BODY * Vector3d::Z();
+    const Vector3d xAxis = q_GCRF_B * Vector3d::X();
+    const Vector3d yAxis = q_GCRF_B * Vector3d::Y();
+    const Vector3d zAxis = q_GCRF_B * Vector3d::Z();
 
     return {xAxis, yAxis, zAxis, state.accessFrame()};
 }

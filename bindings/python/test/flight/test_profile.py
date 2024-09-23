@@ -172,7 +172,7 @@ class TestProfile:
         quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
 
         trajectory: Trajectory = Trajectory.position(
-            Position.meters((0.0, 0.0, 0.0), Frame.GCRF())
+            Position.meters((0.0, 0.0, 0.0), Frame.ITRF())
         )
 
         profile: Profile = Profile.inertial_pointing(trajectory, quaternion)

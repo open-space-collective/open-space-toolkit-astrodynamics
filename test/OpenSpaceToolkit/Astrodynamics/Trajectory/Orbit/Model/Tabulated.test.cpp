@@ -216,6 +216,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
             VectorXd residuals = (states[i].getCoordinates() - referenceStates[i].getCoordinates()).array().abs();
 
             EXPECT_TRUE((residuals.array() < tolerance).all()) << String::Format("Residual: {}", residuals.maxCoeff());
+
+            EXPECT_TRUE(states[i].getFrame() == Frame::GCRF());
         }
     }
 }

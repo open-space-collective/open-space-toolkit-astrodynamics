@@ -125,7 +125,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                 Create a `Trajectory` object representing a position.
 
                 Args:
-                    position (Position): The position.
+                    position (Position): The position. Must be in the ITRF frame.
 
                 Returns:
                     Trajectory: The `Trajectory` object representing the position.

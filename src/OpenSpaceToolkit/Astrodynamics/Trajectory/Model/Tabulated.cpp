@@ -156,7 +156,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     const Shared<const Frame>& frame = firstState_.accessFrame();
     const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
 
-    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker);
+    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker).inFrame(Frame::GCRF());
 }
 
 Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) const
