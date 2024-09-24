@@ -897,27 +897,9 @@ Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun
     const Real alpha = std::fmod((raan - smlt).inRadians(), 2.0 * M_PI);
 
     // Get Mean LTAN
-    const Real MLTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+    const Real meanLTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
 
-    std::cout << MLTAN << std::endl;
-
-    const int hours = static_cast<int>(MLTAN);
-
-    const Real minutesFloat = (MLTAN - Real::Integer(hours)) * 60.0;
-    const int minutes = static_cast<int>(minutesFloat);
-
-    const Real secondsFloat = (minutesFloat - Real::Integer(minutes)) * 60.0;
-    const int seconds = static_cast<int>(secondsFloat);
-
-    const Real millisecondsFloat = (secondsFloat - Real::Integer(seconds)) * 1000.0;
-    const int milliseconds = static_cast<int>(millisecondsFloat);
-
-    const Real microsecondsFloat = (millisecondsFloat - Real::Integer(milliseconds)) * 1000.0;
-    const int microseconds = static_cast<int>(microsecondsFloat);
-
-    const int nanoseconds = static_cast<int>((microsecondsFloat - Real::Integer(microseconds)) * 1000.0);
-
-    return Time(hours, minutes, seconds, milliseconds, microseconds, nanoseconds);
+    return Time::Hours(meanLTAN);
 }
 
 Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
@@ -934,23 +916,7 @@ Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aS
     // Get LTAN
     const Real LTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
 
-    const int hours = static_cast<int>(LTAN);
-
-    const Real minutesFloat = (LTAN - Real::Integer(hours)) * 60.0;
-    const int minutes = static_cast<int>(minutesFloat);
-
-    const Real secondsFloat = (minutesFloat - Real::Integer(minutes)) * 60.0;
-    const int seconds = static_cast<int>(secondsFloat);
-
-    const Real millisecondsFloat = (secondsFloat - Real::Integer(seconds)) * 1000.0;
-    const int milliseconds = static_cast<int>(millisecondsFloat);
-
-    const Real microsecondsFloat = (millisecondsFloat - Real::Integer(milliseconds)) * 1000.0;
-    const int microseconds = static_cast<int>(microsecondsFloat);
-
-    const int nanoseconds = static_cast<int>((microsecondsFloat - Real::Integer(microseconds)) * 1000.0);
-
-    return Time(hours, minutes, seconds, milliseconds, microseconds, nanoseconds);
+    return Time::Hours(LTAN);
 }
 
 String COE::StringFromElement(const COE::Element& anElement)
