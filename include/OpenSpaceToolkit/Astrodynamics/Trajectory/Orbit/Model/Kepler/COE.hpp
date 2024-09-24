@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
@@ -41,15 +42,18 @@ using ostk::mathematics::object::Vector6d;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 /// @brief Classical Orbital Elements (COE)
 ///
-/// @ref                        https://en.wikipedia.org/wiki/Orbital_elements
-/// @ref                        http://help.agi.com/stk/index.htm#stk/vehSat_coordType_classical.htm
+/// @ref https://en.wikipedia.org/wiki/Orbital_elements
+/// @ref http://help.agi.com/stk/index.htm#stk/vehSat_coordType_classical.htm
 class COE
 {
    public:
@@ -293,7 +297,7 @@ class COE
     ///
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param anEccentricity Eccentricity of the orbit.
-    /// @return Real Semi-latus rectum.
+    /// @return Semi-latus rectum in meters.
     static Real ComputeSemiLatusRectum(const Real& aSemiMajorAxis, const Real& anEccentricity);
 
     /// @brief Compute the angular momentum of the orbit.
@@ -318,8 +322,22 @@ class COE
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param anEccentricity Eccentricity of the orbit.
     /// @param trueAnomaly True anomaly in radians.
-    /// @return Radial distance.
+    /// @return Radial distance in meters.
     static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);
+
+    /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from RAAN and instant
+    ///
+    /// @param raan Right Ascension of the Ascending Node
+    /// @param anInstant The instant at which to compute LTAN
+    /// @return Mean Local Time of the Ascending Node (MLTAN) in hours
+    static Time ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+
+    /// @brief Compute Local Time of the Ascending Node (LTAN) from RAAN and instant
+    ///
+    /// @param raan Right Ascension of the Ascending Node
+    /// @param anInstant The instant at which to compute LTAN
+    /// @return Local Time of the Ascending Node (LTAN) in hours
+    static Time ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
     /// @brief Convert element to string
     ///
@@ -369,6 +387,12 @@ class COE
         const AnomalyType& toAnomalyType,
         const Real& aTolerance
     );
+
+    /// @brief Compute the equation of time
+    ///
+    /// @param anInstant The instant at which to compute the equation of time
+    /// @return The equation of time as an angle
+    static Angle ComputeEquationOfTime(const Instant& anInstant);
 };
 
 }  // namespace kepler

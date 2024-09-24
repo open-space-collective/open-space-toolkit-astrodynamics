@@ -549,6 +549,44 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
+            "compute_mean_ltan",
+            &COE::ComputeMeanLTAN,
+            R"doc(
+                Compute the Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant.
+
+                Args:
+                    raan (Angle): The Right Ascension of the Ascending Node.
+                    instant (Instant): The instant at which to compute MLTAN.
+                    sun (Sun): The Sun model.
+
+                Returns:
+                    float: The Mean Local Time of the Ascending Node (MLTAN) in hours.
+            )doc",
+            arg("raan"),
+            arg("instant"),
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+        )
+
+        .def_static(
+            "compute_ltan",
+            &COE::ComputeLTAN,
+            R"doc(
+                Compute the Local Time of the Ascending Node (LTAN) from the RAAN and instant.
+
+                Args:
+                    raan (Angle): The Right Ascension of the Ascending Node.
+                    instant (Instant): The instant at which to compute LTAN.
+                    sun (Sun): The Sun model.
+
+                Returns:
+                    float: The Local Time of the Ascending Node (LTAN) in hours.
+            )doc",
+            arg("raan"),
+            arg("instant"),
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+        )
+
+        .def_static(
             "string_from_element",
             &COE::StringFromElement,
             R"doc(

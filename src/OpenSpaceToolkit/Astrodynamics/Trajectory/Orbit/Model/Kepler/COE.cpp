@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -23,23 +24,35 @@ namespace model
 namespace kepler
 {
 
+using ostk::core::type::Integer;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+using ostk::core::type::Size;
+using ostk::core::type::String;
+
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+using ostk::mathematics::object::Vector3d;
+
+using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::ElectricCurrent;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
-using ostk::physics::unit::Time;
+using TimeUnit = ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, TimeUnit::Unit::Second);
+static const Derived::Unit angularVelocitySIUnit =
+    Derived::Unit::AngularVelocity(Angle::Unit::Radian, TimeUnit::Unit::Second);
 static const Derived::Unit AngularMomentumSIUnit = {
     Length::Unit::Meter,
     {2},
     Mass::Unit::Kilogram,
     {1},
-    Time::Unit::Second,
+    TimeUnit::Unit::Second,
     {-2},
     ElectricCurrent::Unit::Undefined,
     {0},
@@ -236,9 +249,6 @@ Derived COE::getAngularMomentum(const Derived& aGravitationalParameter) const
 
 Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 {
-    using ostk::physics::unit::Mass;
-    using ostk::physics::unit::Time;
-
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -255,7 +265,7 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 
     return Derived(
         std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
-        Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)
+        angularVelocitySIUnit
     );
 }
 
@@ -263,21 +273,18 @@ Derived COE::getNodalPrecessionRate(
     const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
 ) const
 {
-    const Real omega = this->getMeanMotion(aGravitationalParameter)
-                           .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+    const Real omega = this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit);
 
     const Real omega_p =
         -(3.0 / 2.0) * std::pow(anEquatorialRadius.inMeters(), 2.0) * aJ2Parameter * omega *
         std::cos(this->inclination_.inRadians()) /
         std::pow(this->semiMajorAxis_.inMeters() * (1.0 - (this->eccentricity_ * this->eccentricity_)), 2.0);
 
-    return Derived(omega_p, Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+    return Derived(omega_p, angularVelocitySIUnit);
 }
 
 Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
 {
-    using ostk::physics::unit::Time;
-
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -288,24 +295,13 @@ Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return Duration::Seconds(
-        Real::TwoPi() / this->getMeanMotion(aGravitationalParameter)
-                            .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second))
-    );
+    return Duration::Seconds(Real::TwoPi() / this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit));
 }
 
 COE::CartesianState COE::getCartesianState(
     const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    using ostk::core::type::Shared;
-
-    using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::unit::Mass;
-    using ostk::physics::unit::Time;
-
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -385,8 +381,6 @@ Vector6d COE::getSIVector(const COE::AnomalyType& anAnomalyType) const
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::type::String;
-
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
@@ -440,11 +434,6 @@ COE COE::Undefined()
 
 COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter)
 {
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::unit::Mass;
-    using ostk::physics::unit::Time;
-
     if ((!aCartesianState.first.isDefined()) || (!aCartesianState.second.isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Cartesian state");
@@ -780,9 +769,6 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
 )
 {
-    using ostk::core::type::Real;
-    using ostk::core::type::Size;
-
     if (!aMeanAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Mean anomaly");
@@ -893,6 +879,46 @@ Real COE::ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aG
     return std::sqrt(mu_SI * aSemiLatusRectum);
 }
 
+Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+{
+    // Calculate sun position
+    const Vector3d sunDirectionGCRF = aSun.getPositionIn(Frame::GCRF(), anInstant).getCoordinates();
+
+    // Calculate sun apparent local time
+    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirectionGCRF.y(), sunDirectionGCRF.x()));
+
+    // Get equation of time
+    const Angle equationOfTime = COE::ComputeEquationOfTime(anInstant);
+
+    // Compute sun mean local time
+    const Angle smlt = apparentSolarTime + equationOfTime;
+
+    // Get angle between sun and ascending node
+    const Real alpha = std::fmod((raan - smlt).inRadians(), 2.0 * M_PI);
+
+    // Get Mean LTAN
+    const Real meanLTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+
+    return Time::Hours(meanLTAN);
+}
+
+Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+{
+    // Calculate sun position
+    const Vector3d sunDirectionGCRF = aSun.getPositionIn(Frame::GCRF(), anInstant).getCoordinates();
+
+    // Calculate sun apparent local time
+    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirectionGCRF.y(), sunDirectionGCRF.x()));
+
+    // Get angle between sun and ascending node
+    const Real alpha = std::fmod((raan - apparentSolarTime).inRadians(), 2.0 * M_PI);
+
+    // Get LTAN
+    const Real LTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+
+    return Time::Hours(LTAN);
+}
+
 String COE::StringFromElement(const COE::Element& anElement)
 {
     switch (anElement)
@@ -997,6 +1023,40 @@ Angle COE::ConvertAnomaly(
         default:
             throw ostk::core::error::runtime::Wrong("From Anomaly type");
     }
+}
+
+Angle COE::ComputeEquationOfTime(const Instant& anInstant)
+{
+    // Assume instant is a datetime object
+    const Real julianDate = anInstant.getJulianDate(Scale::UTC);
+
+    // Julian Date of J2000.0
+    const Real julianDate_J2000 = 2451545.0;
+
+    // Number of Julian centuries from J2000.0
+    const Real T_UT1 = (julianDate - julianDate_J2000) / 36525.0;
+
+    // Mean longitude of the Sun
+    const Real sunMeanLongitude_deg = std::fmod(280.460 + 36000.771 * T_UT1, 360.0);
+
+    // Mean anomaly of the Sun
+    const Real sunMeanAnomaly_rad = Angle::Degrees(std::fmod(357.5291092 + 35999.05034 * T_UT1, 360.0)).inRadians();
+
+    // Ecliptic latitude of the Sun
+    const Real sunEclipticLatitude_rad =
+        Angle::Degrees(std::fmod(
+                           sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
+                               0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
+                           360.0
+                       ))
+            .inRadians();
+
+    // Compute the equation of time
+    const Real equationOfTime_deg =
+        -1.914666471 * std::sin(sunMeanAnomaly_rad) - 0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad) +
+        2.466 * std::sin(2.0 * sunEclipticLatitude_rad) - 0.0053 * std::sin(4.0 * sunEclipticLatitude_rad);
+
+    return Angle::Degrees(equationOfTime_deg);
 }
 
 }  // namespace kepler

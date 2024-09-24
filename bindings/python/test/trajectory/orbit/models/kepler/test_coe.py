@@ -4,7 +4,9 @@ import pytest
 
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
+from ostk.physics.time import Instant
 from ostk.physics.environment.gravitational import Earth
+from ostk.physics.environment.object.celestial import Sun
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 
@@ -139,6 +141,17 @@ class TestCOE:
             is not None
         )
         assert COE.compute_radial_distance(7000.0e3, 0.0, 0.0) is not None
+
+        assert COE.compute_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
+        assert (
+            COE.compute_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            is not None
+        )
+        assert COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
+        assert (
+            COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            is not None
+        )
 
     def test_from_SI_vector(
         self,
