@@ -40,8 +40,8 @@ class Trajectory
     /// @brief Constructor (model)
     ///
     /// @code{.cpp}
-    ///              Tabulated model = Tabulated::Load(File::Path(Path::Parse("/path/to/trajectory.csv"))) ;
-    ///              Trajectory trajectory = { model } ;
+    ///              Tabulated model = Tabulated::Load(File::Path(Path::Parse("/path/to/trajectory.csv")));
+    ///              Trajectory trajectory = { model };
     /// @endcode
     ///
     /// @param aModel A trajectory model
@@ -50,8 +50,8 @@ class Trajectory
     /// @brief Constructor (state array)
     ///
     /// @code{.cpp}
-    ///              Array<State> stateArray = { ... } ;
-    ///              Trajectory trajectory = { stateArray } ;
+    ///              Array<State> stateArray = { ... };
+    ///              Trajectory trajectory = { stateArray };
     /// @endcode
     ///
     /// @param aStateArray An array of states
@@ -68,7 +68,7 @@ class Trajectory
     /// @brief Equal to operator
     ///
     /// @code{.cpp}
-    ///              Trajectory(...) == Trajectory(...) ;
+    ///              Trajectory(...) == Trajectory(...);
     /// @endcode
     ///
     /// @param aTrajectory A trajectory
@@ -78,7 +78,7 @@ class Trajectory
     /// @brief Not equal to operator
     ///
     /// @code{.cpp}
-    ///              Trajectory(...) != Trajectory(...) ;
+    ///              Trajectory(...) != Trajectory(...);
     /// @endcode
     ///
     /// @param aTrajectory A trajectory
@@ -88,7 +88,7 @@ class Trajectory
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///              std::cout << Trajectory(...) ;
+    ///              std::cout << Trajectory(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream
@@ -99,7 +99,7 @@ class Trajectory
     /// @brief Check if trajectory is defined
     ///
     /// @code{.cpp}
-    ///              Trajectory(...).isDefined() ;
+    ///              Trajectory(...).isDefined();
     /// @endcode
     ///
     /// @return True if trajectory is defined
@@ -113,9 +113,9 @@ class Trajectory
     /// @brief Get state at a given instant
     ///
     /// @code{.cpp}
-    ///              Trajectory trajectory = { ... } ;
-    ///              Instant instant = { ... } ;
-    ///              State state = trajectory.getStateAt(instant) ;
+    ///              Trajectory trajectory = { ... };
+    ///              Instant instant = { ... };
+    ///              State state = trajectory.getStateAt(instant);
     /// @endcode
     ///
     /// @param anInstant An instant
@@ -125,9 +125,9 @@ class Trajectory
     /// @brief Get states at a given instants
     ///
     /// @code{.cpp}
-    ///              Trajectory trajectory = { ... } ;
-    ///              Array<Instant> instants = { ... } ;
-    ///              Array<State> state = trajectory.getStatesAt(instants) ;
+    ///              Trajectory trajectory = { ... };
+    ///              Array<Instant> instants = { ... };
+    ///              Array<State> state = trajectory.getStatesAt(instants);
     /// @endcode
     ///
     /// @param anInstantArray An array of instants
@@ -137,8 +137,8 @@ class Trajectory
     /// @brief Print trajectory to output stream
     ///
     /// @code{.cpp}
-    ///              Trajectory trajectory = { ... } ;
-    ///              trajectory.print(std::cout, true) ;
+    ///              Trajectory trajectory = { ... };
+    ///              trajectory.print(std::cout, true);
     /// @endcode
     ///
     /// @param anOutputStream An output stream
@@ -148,7 +148,7 @@ class Trajectory
     /// @brief Constructs an undefined trajectory
     ///
     /// @code{.cpp}
-    ///              Trajectory trajectory = Trajectory::Undefined() ; // Undefined
+    ///              Trajectory trajectory = Trajectory::Undefined(); // Undefined
     /// @endcode
     ///
     /// @return Undefined trajectory
@@ -157,8 +157,8 @@ class Trajectory
     /// @brief Constructs a trajectory from a given position
     ///
     /// @code{.cpp}
-    ///              Position position = Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF()) ;
-    ///              Trajectory trajectory = Trajectory::Position(position) ;
+    ///              Position position = Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF());
+    ///              Trajectory trajectory = Trajectory::Position(position);
     /// @endcode
     ///
     /// @param aPosition A position

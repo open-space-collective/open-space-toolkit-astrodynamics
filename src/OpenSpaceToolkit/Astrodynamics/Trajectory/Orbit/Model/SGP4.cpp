@@ -193,7 +193,7 @@ void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Separator(anOutputStream, "Two-Line Elements");
 
-    // tle_.print(anOutputStream, false) ;
+    // tle_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

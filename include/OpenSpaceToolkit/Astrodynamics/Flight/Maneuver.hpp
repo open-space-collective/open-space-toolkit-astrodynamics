@@ -95,7 +95,7 @@ class Maneuver
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///                  std::cout << Maneuver(...) ;
+    ///                  std::cout << Maneuver(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream

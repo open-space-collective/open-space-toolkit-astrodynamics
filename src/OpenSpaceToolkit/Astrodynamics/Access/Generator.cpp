@@ -224,15 +224,15 @@ Generator Generator::AerRanges(
     const Interval<Real> elevationRange_deg = anElevationRange;
     const Interval<Real> rangeRange_m = aRangeRange;
 
-    // const Interval<Real> azimuthRange_deg = anAzimuthRange ; // anAzimuthRange.isDefined() ?
+    // const Interval<Real> azimuthRange_deg = anAzimuthRange; // anAzimuthRange.isDefined() ?
     // Interval<Real>(anAzimuthRange.accessLowerBound().inDegrees(0.0, +360.0),
     // anAzimuthRange.accessUpperBound().inDegrees(0.0, +360.0), anAzimuthRange.getType()) : Interval<Real>::Undefined()
-    // ; const Interval<Real> elevationRange_deg = anElevationRange ; // anElevationRange.isDefined() ?
+    //; const Interval<Real> elevationRange_deg = anElevationRange; // anElevationRange.isDefined() ?
     // Interval<Real>(anElevationRange.accessLowerBound().inDegrees(-180.0, +180.0),
     // anElevationRange.accessUpperBound().inDegrees(-180.0, +180.0), anElevationRange.getType()) :
-    // Interval<Real>::Undefined() ; const Interval<Real> rangeRange_m = aRangeRange ; // aRangeRange.isDefined() ?
+    // Interval<Real>::Undefined(); const Interval<Real> rangeRange_m = aRangeRange; // aRangeRange.isDefined() ?
     // Interval<Real>(aRangeRange.accessLowerBound().inMeters(), aRangeRange.accessUpperBound().inMeters(),
-    // aRangeRange.getType()) : Interval<Real>::Undefined() ;
+    // aRangeRange.getType()) : Interval<Real>::Undefined();
 
     const std::function<bool(const AER&)> aerFilter =
         [azimuthRange_deg, elevationRange_deg, rangeRange_m](const AER& anAER) -> bool

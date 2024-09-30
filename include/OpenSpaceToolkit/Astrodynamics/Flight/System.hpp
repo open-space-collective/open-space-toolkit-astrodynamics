@@ -28,9 +28,9 @@ class System
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              Mass mass = { ... } ;
-    ///              Composite composite ( ... ) ;
-    ///              System system = { mass, composite } ;
+    ///              Mass mass = { ... };
+    ///              Composite composite ( ... );
+    ///              System system = { mass, composite };
     /// @endcode
     ///
     /// @param aMass A mass
@@ -78,7 +78,7 @@ class System
     /// @brief Get system's mass
     ///
     /// @code{.cpp}
-    ///              Mass mass = system.getMass() ;
+    ///              Mass mass = system.getMass();
     /// @endcode
     ///
     /// @return Mass
@@ -87,7 +87,7 @@ class System
     /// @brief Get system's geometry
     ///
     /// @code{.cpp}
-    ///              Mass mass = system.getGeometry() ;
+    ///              Mass mass = system.getGeometry();
     /// @endcode
     ///
     /// @return Composite

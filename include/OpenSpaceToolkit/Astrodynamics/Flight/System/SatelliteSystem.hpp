@@ -45,14 +45,14 @@ class SatelliteSystem : public System
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///                  Mass mass = { ... } ;
-    ///                  Composite composite ( ... ) ;
-    ///                  Matrix3d intertiaTensor ( ... ) ;
-    ///                  Real crossSectionalSurfaceArea = 0.8 ;
-    ///                  Real dragCoefficient = 2.2 ;
-    ///                  PropulsionSystem propulsionSystem = { ... } ;
+    ///                  Mass mass = { ... };
+    ///                  Composite composite ( ... );
+    ///                  Matrix3d intertiaTensor ( ... );
+    ///                  Real crossSectionalSurfaceArea = 0.8;
+    ///                  Real dragCoefficient = 2.2;
+    ///                  PropulsionSystem propulsionSystem = { ... };
     ///                  System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
-    ///                  dragCoefficient, propulsionSystem } ;
+    ///                  dragCoefficient, propulsionSystem };
     /// @endcode
     ///
     /// @param aDryMass A dry mass (without propellant)
@@ -105,7 +105,7 @@ class SatelliteSystem : public System
     /// @brief Access satellite system's propulsion system
     ///
     /// @code{.cpp}
-    ///                  PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem() ;
+    ///                  PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem();
     /// @endcode
     ///
     /// @return PropulsionSystem
@@ -114,7 +114,7 @@ class SatelliteSystem : public System
     /// @brief Get satellite system's inertia tensor
     ///
     /// @code{.cpp}
-    ///                  Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
+    ///                  Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor();
     /// @endcode
     ///
     /// @return Matrix3d
@@ -123,7 +123,7 @@ class SatelliteSystem : public System
     /// @brief Get satellite system's surface area
     ///
     /// @code{.cpp}
-    ///                  Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
+    ///                  Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
     /// @endcode
     ///
     /// @return Real
@@ -132,7 +132,7 @@ class SatelliteSystem : public System
     /// @brief Get satellite system's drag coefficient
     ///
     /// @code{.cpp}
-    ///                  Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
+    ///                  Real dragCoefficient = satelliteSystem.getDragCoefficient();
     /// @endcode
     ///
     /// @return Real
@@ -141,7 +141,7 @@ class SatelliteSystem : public System
     /// @brief Get satellite system's propulsion system
     ///
     /// @code{.cpp}
-    ///                  PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem() ;
+    ///                  PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem();
     /// @endcode
     ///
     /// @return PropulsionSystem

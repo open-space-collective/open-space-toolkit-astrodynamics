@@ -83,7 +83,7 @@ class EventCondition
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///                  std::cout << EventCondition(...) ;
+    ///                  std::cout << EventCondition(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream

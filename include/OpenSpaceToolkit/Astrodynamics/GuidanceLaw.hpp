@@ -43,7 +43,7 @@ class GuidanceLaw
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///                  std::cout << GuidanceLaw(...) ;
+    ///                  std::cout << GuidanceLaw(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream

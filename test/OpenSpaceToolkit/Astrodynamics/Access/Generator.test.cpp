@@ -802,7 +802,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 
         const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
-        // std::cout << accesses << std::endl ;
+        // std::cout << accesses << std::endl;
 
         // Reference data setup
 
@@ -826,7 +826,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const Instant reference_acquisitionOfSignal =
                 Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
             // const Instant reference_timeOfClosestApproach =
-            // Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            // Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant reference_lossOfSignal =
                 Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
@@ -837,7 +837,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
                    );
             // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
             // << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
-            // access.getTimeOfClosestApproach().toString()) ;
+            // access.getTimeOfClosestApproach().toString());
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
                 << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
@@ -908,7 +908,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 
         const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
-        // std::cout << accesses << std::endl ;
+        // std::cout << accesses << std::endl;
 
         // Reference data setup
 
@@ -931,7 +931,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const Instant reference_acquisitionOfSignal =
                 Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
             // const Instant reference_timeOfClosestApproach =
-            // Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            // Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant reference_lossOfSignal =
                 Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
@@ -942,7 +942,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
                    );
             // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
             // << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
-            // access.getTimeOfClosestApproach().toString()) ;
+            // access.getTimeOfClosestApproach().toString());
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
                 << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))

@@ -55,7 +55,7 @@ class Propagator
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray } ;
+    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray };
     /// @endcode
     ///
     /// @param aNumericalSolver A numerical solver
@@ -68,7 +68,7 @@ class Propagator
     /// @brief Constructor with Maneuvers
     ///
     /// @code{.cpp}
-    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray, aManeuverArray } ;
+    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray, aManeuverArray };
     /// @endcode
     ///
     /// @param aNumericalSolver A numerical solver
