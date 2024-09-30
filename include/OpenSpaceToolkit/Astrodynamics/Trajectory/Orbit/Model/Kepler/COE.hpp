@@ -108,7 +108,7 @@ class COE
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///                  std::cout << COE(...) ;
+    ///                  std::cout << COE(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream

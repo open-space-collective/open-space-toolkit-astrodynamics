@@ -129,7 +129,7 @@ class QLaw : public GuidanceLaw
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///                  std::cout << QLaw(...) ;
+    ///                  std::cout << QLaw(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream

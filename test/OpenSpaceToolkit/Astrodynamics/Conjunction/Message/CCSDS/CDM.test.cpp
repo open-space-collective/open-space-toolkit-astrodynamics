@@ -193,8 +193,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelative
         EXPECT_EQ(String::Empty(), relativeMetadata.comment);
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC), relativeMetadata.TCA);
         EXPECT_EQ(Length::Meters(715.0), relativeMetadata.missDistance);
-        // EXPECT_EQ(Position::Undefined(), relativeMetadata.relativePosition) ;
-        // EXPECT_EQ(Velocity::Undefined(), relativeMetadata.relativeVelocity) ;
+        // EXPECT_EQ(Position::Undefined(), relativeMetadata.relativePosition);
+        // EXPECT_EQ(Velocity::Undefined(), relativeMetadata.relativeVelocity);
         EXPECT_EQ(
             Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC), relativeMetadata.startScreenPeriod
         );
@@ -301,15 +301,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
         EXPECT_EQ(97.8, objectData.residualsAccepted);
         EXPECT_EQ(0.864, objectData.weightedRMS);
         EXPECT_EQ(5.2, objectData.areaPC);
-        // EXPECT_EQ(Real::Undefined(), objectData.areaDrag) ;
-        // EXPECT_EQ(Real::Undefined(), objectData.areaSRP) ;
+        // EXPECT_EQ(Real::Undefined(), objectData.areaDrag);
+        // EXPECT_EQ(Real::Undefined(), objectData.areaSRP);
         EXPECT_EQ(Mass::Kilograms(251.6), objectData.mass);
         EXPECT_EQ(0.045663, objectData.cdAreaOverMass);
         EXPECT_EQ(0.0, objectData.crAreaOverMass);
         EXPECT_EQ(0.0, objectData.thrustAcceleration);
         EXPECT_EQ(0.000045457, objectData.SEDR);
-        // EXPECT_EQ(State::Undefined(), objectData.state ) ;
-        // EXPECT_EQ(MatrixXd(9, 9), objectData.covarianceMatrix ) ;
+        // EXPECT_EQ(State::Undefined(), objectData.state );
+        // EXPECT_EQ(MatrixXd(9, 9), objectData.covarianceMatrix );
     }
 
     {
@@ -407,13 +407,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMissDist
 
 //     {
 
-//         EXPECT_EQ(Length.Meters(715.0), this->cdm_.getRelativePosition()) ;
+//         EXPECT_EQ(Length.Meters(715.0), this->cdm_.getRelativePosition());
 
 //     }
 
 //     {
 
-//         EXPECT_ANY_THROW(CDM::Undefined().getRelativePosition()) ;
+//         EXPECT_ANY_THROW(CDM::Undefined().getRelativePosition());
 
 //     }
 
@@ -424,13 +424,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMissDist
 
 //     {
 
-//         EXPECT_EQ(Length.Meters(715.0), this->cdm_.getRelativeVelocity()) ;
+//         EXPECT_EQ(Length.Meters(715.0), this->cdm_.getRelativeVelocity());
 
 //     }
 
 //     {
 
-//         EXPECT_ANY_THROW(CDM::Undefined().getRelativeVelocity()) ;
+//         EXPECT_ANY_THROW(CDM::Undefined().getRelativeVelocity());
 
 //     }
 
@@ -551,13 +551,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectRe
 
 //     {
 
-//         EXPECT_EQ("EME2000", this->cdm_.getObjectStateAtTCA(1)) ;
+//         EXPECT_EQ("EME2000", this->cdm_.getObjectStateAtTCA(1));
 
 //     }
 
 //     {
 
-//         EXPECT_ANY_THROW(CDM::Undefined().getObjectStateAtTCA(1)) ;
+//         EXPECT_ANY_THROW(CDM::Undefined().getObjectStateAtTCA(1));
 
 //     }
 
@@ -568,13 +568,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectRe
 
 //     {
 
-//         EXPECT_EQ("EME2000", this->cdm_.getObjectCovarianceMatrix(1)) ;
+//         EXPECT_EQ("EME2000", this->cdm_.getObjectCovarianceMatrix(1));
 
 //     }
 
 //     {
 
-//         EXPECT_ANY_THROW(CDM::Undefined().getObjectCovarianceMatrix(1)) ;
+//         EXPECT_ANY_THROW(CDM::Undefined().getObjectCovarianceMatrix(1));
 
 //     }
 

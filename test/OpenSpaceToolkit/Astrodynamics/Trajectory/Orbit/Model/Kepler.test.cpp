@@ -55,76 +55,76 @@ using ostk::astrodynamics::trajectory::State;
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Constructor)
 // {
 
-//     using ostk::core::type::Shared ;
-//     using ostk::core::type::Real ;
-//     using ostk::core::container::Array ;
-//     using ostk::core::container::Table ;
-//     using ostk::core::filesystem::Path ;
-//     using ostk::core::filesystem::File ;
+//     using ostk::core::type::Shared;
+//     using ostk::core::type::Real;
+//     using ostk::core::container::Array;
+//     using ostk::core::container::Table;
+//     using ostk::core::filesystem::Path;
+//     using ostk::core::filesystem::File;
 
-//     using ostk::mathematics::object::Vector3d ;
+//     using ostk::mathematics::object::Vector3d;
 
-//     using ostk::physics::unit::Length ;
-//     using ostk::physics::unit::Angle ;
-//     using ostk::physics::unit::Derived ;
-//     using ostk::physics::time::Scale ;
-//     using ostk::physics::time::Instant ;
-//     using ostk::physics::time::Duration ;
-//     using ostk::physics::time::Interval ;
-//     using ostk::physics::time::DateTime ;
-//     using ostk::physics::coordinate::Frame ;
-//     using ostk::physics::coordinate::Position ;
-//     using ostk::physics::coordinate::Velocity ;
-//     using ostk::physics::environment::object::celestial::Earth ;
+//     using ostk::physics::unit::Length;
+//     using ostk::physics::unit::Angle;
+//     using ostk::physics::unit::Derived;
+//     using ostk::physics::time::Scale;
+//     using ostk::physics::time::Instant;
+//     using ostk::physics::time::Duration;
+//     using ostk::physics::time::Interval;
+//     using ostk::physics::time::DateTime;
+//     using ostk::physics::coordinate::Frame;
+//     using ostk::physics::coordinate::Position;
+//     using ostk::physics::coordinate::Velocity;
+//     using ostk::physics::environment::object::celestial::Earth;
 
-//     using ostk::astrodynamics::trajectory::Orbit ;
-//     using ostk::astrodynamics::trajectory::State ;
-//     using ostk::astrodynamics::trajectory::orbit::model::Kepler ;
-//     using ostk::astrodynamics::trajectory::orbit::model::kepler::COE ;
+//     using ostk::astrodynamics::trajectory::Orbit;
+//     using ostk::astrodynamics::trajectory::State;
+//     using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+//     using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 //     // {
 
-//     //     const Earth earth = Earth::Analytical() ;
+//     //     const Earth earth = Earth::Analytical();
 
-//     //     const Length semiMajorAxis = Length::Kilometers(7000.0) ;
-//     //     const Real eccentricity = 0.0 ;
-//     //     const Angle inclination = Angle::Degrees(0.0) ;
-//     //     const Angle raan = Angle::Degrees(0.0) ;
-//     //     const Angle aop = Angle::Degrees(0.0) ;
-//     //     const Angle trueAnomaly = Angle::Degrees(0.0) ;
+//     //     const Length semiMajorAxis = Length::Kilometers(7000.0);
+//     //     const Real eccentricity = 0.0;
+//     //     const Angle inclination = Angle::Degrees(0.0);
+//     //     const Angle raan = Angle::Degrees(0.0);
+//     //     const Angle aop = Angle::Degrees(0.0);
+//     //     const Angle trueAnomaly = Angle::Degrees(0.0);
 
-//     //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+//     //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly };
 
-//     //     std::cout << coe << std::endl ;
+//     //     std::cout << coe << std::endl;
 
-//     //     const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+//     //     const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
 
-//     //     const Kepler keplerianModel = { coe, epoch, earth, Kepler::PerturbationType::None } ;
+//     //     const Kepler keplerianModel = { coe, epoch, earth, Kepler::PerturbationType::None };
 
-//     //     std::cout << keplerianModel.getClassicalOrbitalElements() << std::endl ;
+//     //     std::cout << keplerianModel.getClassicalOrbitalElements() << std::endl;
 
 //     // }
 
 //     {
 
-//         const Earth earth = Earth::Analytical() ;
+//         const Earth earth = Earth::Analytical();
 
-//         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
-//         const Real eccentricity = 0.0 ;
-//         const Angle inclination = Angle::Degrees(0.0) ;
-//         const Angle raan = Angle::Degrees(0.0) ;
-//         const Angle aop = Angle::Degrees(0.0) ;
-//         const Angle trueAnomaly = Angle::Degrees(0.0) ;
+//         const Length semiMajorAxis = Length::Kilometers(7000.0);
+//         const Real eccentricity = 0.0;
+//         const Angle inclination = Angle::Degrees(0.0);
+//         const Angle raan = Angle::Degrees(0.0);
+//         const Angle aop = Angle::Degrees(0.0);
+//         const Angle trueAnomaly = Angle::Degrees(0.0);
 
-//         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+//         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly };
 
-//         std::cout << coe << std::endl ;
+//         std::cout << coe << std::endl;
 
-//         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+//         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
 
-//         const Kepler keplerianModel = { coe, epoch, earth, Kepler::PerturbationType::None, true } ;
+//         const Kepler keplerianModel = { coe, epoch, earth, Kepler::PerturbationType::None, true };
 
-//         std::cout << keplerianModel.getClassicalOrbitalElements() << std::endl ;
+//         std::cout << keplerianModel.getClassicalOrbitalElements() << std::endl;
 
 //     }
 
@@ -237,22 +237,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
             ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant));
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            // referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
 }
@@ -355,22 +355,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
             }
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            // referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
 }
@@ -462,22 +462,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_3)
             ASSERT_GT(1e-2, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            // referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
 }
@@ -569,22 +569,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_4)
             ASSERT_GT(1e-3, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            // referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
 }
@@ -676,22 +676,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_5)
             ASSERT_GT(5e-3, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            // referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
 }
@@ -783,22 +783,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
             ASSERT_GT(5e-3, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            // referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
 }

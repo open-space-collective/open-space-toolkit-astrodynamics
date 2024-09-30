@@ -17,8 +17,8 @@ struct type_caster<Array<T>> : list_caster<Array<T>, T>
 {
 };
 
-// using list_caster::load ;
-// using list_caster::cast ;
+// using list_caster::load;
+// using list_caster::cast;
 
 }  // namespace detail
 }  // namespace pybind11

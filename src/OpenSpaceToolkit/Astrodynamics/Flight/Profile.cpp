@@ -432,6 +432,31 @@ Vector3d Profile::ComputeVelocityDirectionVector_ECEF(const State& aState)
     return aState.inFrame(Frame::ITRF()).getVelocity().accessCoordinates().normalized();
 }
 
+Vector3d Profile::ComputeGroundScanDirection(const State& aState)
+{
+    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant());
+
+    const LLA lla = LLA::Cartesian(
+        ITRF_GCRF_transform.getInverse().applyToPosition(aState.getPosition().accessCoordinates()),
+        EarthGravitationalModel::EGM2008.equatorialRadius_,
+        EarthGravitationalModel::EGM2008.flattening_
+    );
+
+    const Vector3d east = {
+        -std::sin(lla.getLongitude().inRadians()),
+        std::cos(lla.getLongitude().inRadians()),
+        0.0,
+    };
+
+    const Vector3d north = {
+        -std::cos(lla.getLatitude().inRadians()) * std::cos(lla.getLongitude().inRadians()),
+        -std::cos(lla.getLatitude().inRadians()) * std::sin(lla.getLongitude().inRadians()),
+        -std::sin(lla.getLatitude().inRadians()),
+    };
+
+    return ITRF_GCRF_transform.applyToVector(east.cross(north)).normalized();
+}
+
 Vector3d Profile::ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector)
 {
     return (anAlignmentAxisVector.cross(aClockingVector)).cross(anAlignmentAxisVector).normalized();

@@ -130,6 +130,14 @@ class Profile
         /// @param isAntiDirection Whether the target is in the anti-direction.
         TrajectoryTarget(const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false);
 
+        /// @brief Constructs a TrajectoryTarget object.
+        /// @param aStartLLA The start LLA.
+        /// @param anEndLLA The end LLA.
+        /// @param aGroundSpeed The ground speed in m/s.
+        TrajectoryTarget(
+            const LLA& aStartLLA, const LLA& anEndLLA, const Real& aGroundSpeed, const Instant& aStartInstant
+        );
+
         Trajectory trajectory;  ///< The trajectory to point towards.
     };
 
@@ -191,7 +199,7 @@ class Profile
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///              std::cout << Profile(...) ;
+    ///              std::cout << Profile(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream
@@ -202,7 +210,7 @@ class Profile
     /// @brief Check if profile is defined
     ///
     /// @code{.cpp}
-    ///              Profile(...).isDefined() ;
+    ///              Profile(...).isDefined();
     /// @endcode
     ///
     /// @return True if profile is defined
@@ -211,9 +219,9 @@ class Profile
     /// @brief Get state at a given instant
     ///
     /// @code{.cpp}
-    ///              Profile profile = { ... } ;
-    ///              Instant instant = { ... } ;
-    ///              State state = profile.getStateAt(instant) ;
+    ///              Profile profile = { ... };
+    ///              Instant instant = { ... };
+    ///              State state = profile.getStateAt(instant);
     /// @endcode
     ///
     /// @param anInstant An instant
@@ -223,9 +231,9 @@ class Profile
     /// @brief Get states at a given instants
     ///
     /// @code{.cpp}
-    ///              Profile profile = { ... } ;
-    ///              Array<Instant> instants = { ... } ;
-    ///              Array<State> state = profile.getStatesAt(instants) ;
+    ///              Profile profile = { ... };
+    ///              Array<Instant> instants = { ... };
+    ///              Array<State> state = profile.getStatesAt(instants);
     /// @endcode
     ///
     /// @param anInstantArray An array of instants
@@ -235,9 +243,9 @@ class Profile
     /// @brief Get axes at a given instant
     ///
     /// @code{.cpp}
-    ///              Profile profile = { ... } ;
-    ///              Instant instant = { ... } ;
-    ///              Axes axes = profile.getAxesAt(instant) ;
+    ///              Profile profile = { ... };
+    ///              Instant instant = { ... };
+    ///              Axes axes = profile.getAxesAt(instant);
     /// @endcode
     ///
     /// @param anInstant An instant
@@ -253,8 +261,8 @@ class Profile
     /// @brief Print flight profile to output stream
     ///
     /// @code{.cpp}
-    ///              Profile profile = { ... } ;
-    ///              profile.print(std::cout, true) ;
+    ///              Profile profile = { ... };
+    ///              profile.print(std::cout, true);
     /// @endcode
     ///
     /// @param anOutputStream An output stream
@@ -264,7 +272,7 @@ class Profile
     /// @brief Constructs an undefined flight profile
     ///
     /// @code{.cpp}
-    ///              Profile profile = Profile::Undefined() ; // Undefined
+    ///              Profile profile = Profile::Undefined(); // Undefined
     /// @endcode
     ///
     /// @return Undefined profile

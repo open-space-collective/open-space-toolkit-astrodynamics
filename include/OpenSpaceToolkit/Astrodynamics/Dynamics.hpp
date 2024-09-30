@@ -73,7 +73,7 @@ class Dynamics
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///                  std::cout << Dynamics(...) ;
+    ///                  std::cout << Dynamics(...);
     /// @endcode
     ///
     /// @param anOutputStream An output stream

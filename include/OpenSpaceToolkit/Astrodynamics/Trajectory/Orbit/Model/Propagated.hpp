@@ -43,9 +43,9 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              Propagated propagated = { aPropagator, aState } ;
+    ///              Propagated propagated = { aPropagator, aState };
     /// 	     or
-    ///              Propagated propagated = { aPropagator, aState, aRevolutionNumber } ;
+    ///              Propagated propagated = { aPropagator, aState, aRevolutionNumber };
     /// @endcode
     ///
     /// @param aPropagator A propagator
@@ -56,9 +56,9 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Constructor with a cached state array
     ///
     /// @code{.cpp}
-    ///              Propagated propagated = { aPropagator, aCachedStateArray } ;
+    ///              Propagated propagated = { aPropagator, aCachedStateArray };
     ///		     or
-    ///              Propagated propagated = { aPropagator, aCachedStateArray, aRevolutionNumber } ;
+    ///              Propagated propagated = { aPropagator, aCachedStateArray, aRevolutionNumber };
     /// @endcode
     ///
     /// @param aPropagator A propagator
@@ -100,7 +100,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get epoch (in this case it is the first instant in the cached state array)
     ///
     /// @code{.cpp}
-    ///              Instant instant = propagated.getEpoch() ;
+    ///              Instant instant = propagated.getEpoch();
     /// @endcode
     ///
     /// @return Instant
@@ -109,7 +109,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get revolution number at epoch (it is equal to 1)
     ///
     /// @code{.cpp}
-    ///              Real real = propagated.getRevolutionNumberAtEpoch() ;
+    ///              Real real = propagated.getRevolutionNumberAtEpoch();
     /// @endcode
     ///
     /// @return Integer
@@ -118,7 +118,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Calculate the state at an instant, given initial state
 
     /// @code{.cpp}
-    ///              State state = propagated.calculateStateAt(anInstant) ;
+    ///              State state = propagated.calculateStateAt(anInstant);
     /// @endcode
     /// @param anInstant An instant
     /// @return State
@@ -129,7 +129,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// instant array
 
     /// @code{.cpp}
-    ///              Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
+    ///              Array<State> states = propagated.calculateStatesAt(anInstantArray);
     /// @endcode
     /// @param aState An initial state
     /// @param anInstantArray An instant
@@ -139,7 +139,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Calculate the revolution number at an instant
     ///
     /// @code{.cpp}
-    ///              Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;
+    ///              Integer integer = propagated.calculateRevolutionNumberAt(anInstant);
     /// @endcode
     /// @param anInstant An instant
     /// @return Integer
@@ -148,7 +148,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Fetch internal cached state array
     ///
     /// @code{.cpp}
-    ///              Array<State> stateArray = propagated.accessCachedStateArray() ;
+    ///              Array<State> stateArray = propagated.accessCachedStateArray();
     /// @endcode
     /// @return Array<State>&
     const Array<State>& accessCachedStateArray() const;
@@ -156,7 +156,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Access propagator
     ///
     /// @code{.cpp}
-    ///              Propagator propagator = propagated.accessPropagator() ;
+    ///              Propagator propagator = propagated.accessPropagator();
     /// @endcode
     ///
     /// @return Propagator
@@ -165,8 +165,8 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Set internal cached state array manually
     ///
     /// @code{.cpp}
-    ///              Array<State> stateArray = { ... } ;
-    ///              propagated.setCachedStateArray(stateArray) ;
+    ///              Array<State> stateArray = { ... };
+    ///              propagated.setCachedStateArray(stateArray);
     /// @endcode
     /// @param aStateArray A state array
     void setCachedStateArray(const Array<State>& aStateArray);

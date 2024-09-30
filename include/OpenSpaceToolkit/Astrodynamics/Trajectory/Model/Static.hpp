@@ -32,8 +32,8 @@ class Static : public virtual Model
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              Position position = { ... } ;
-    ///              Static staticModel(position) ;
+    ///              Position position = { ... };
+    ///              Static staticModel(position);
     /// @endcode
     ///
     /// @param aPosition The position of the static model. Must be provided in the ITRF frame.
@@ -42,8 +42,8 @@ class Static : public virtual Model
     /// @brief Clone the static model
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              Static* clonedModel = staticModel.clone() ;
+    ///              Static staticModel = { ... };
+    ///              Static* clonedModel = staticModel.clone();
     /// @endcode
     ///
     /// @return A pointer to the cloned static model
@@ -52,9 +52,9 @@ class Static : public virtual Model
     /// @brief Equality operator
     ///
     /// @code{.cpp}
-    ///              Static staticModel1 = { ... } ;
-    ///              Static staticModel2 = { ... } ;
-    ///              bool isEqual = (staticModel1 == staticModel2) ;
+    ///              Static staticModel1 = { ... };
+    ///              Static staticModel2 = { ... };
+    ///              bool isEqual = (staticModel1 == staticModel2);
     /// @endcode
     ///
     /// @param aStaticModel The static model to compare with
@@ -64,9 +64,9 @@ class Static : public virtual Model
     /// @brief Inequality operator
     ///
     /// @code{.cpp}
-    ///              Static staticModel1 = { ... } ;
-    ///              Static staticModel2 = { ... } ;
-    ///              bool isNotEqual = (staticModel1 != staticModel2) ;
+    ///              Static staticModel1 = { ... };
+    ///              Static staticModel2 = { ... };
+    ///              bool isNotEqual = (staticModel1 != staticModel2);
     /// @endcode
     ///
     /// @param aStaticModel The static model to compare with
@@ -76,8 +76,8 @@ class Static : public virtual Model
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              std::cout << staticModel ;
+    ///              Static staticModel = { ... };
+    ///              std::cout << staticModel;
     /// @endcode
     ///
     /// @param anOutputStream The output stream
@@ -88,8 +88,8 @@ class Static : public virtual Model
     /// @brief Check if the static model is defined
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              bool isDefined = staticModel.isDefined() ;
+    ///              Static staticModel = { ... };
+    ///              bool isDefined = staticModel.isDefined();
     /// @endcode
     ///
     /// @return True if the model is defined, false otherwise
@@ -98,9 +98,9 @@ class Static : public virtual Model
     /// @brief Calculate the state at a given instant
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              Instant instant = { ... } ;
-    ///              State state = staticModel.calculateStateAt(instant) ;
+    ///              Static staticModel = { ... };
+    ///              Instant instant = { ... };
+    ///              State state = staticModel.calculateStateAt(instant);
     /// @endcode
     ///
     /// @param anInstant The instant at which to calculate the state
@@ -110,8 +110,8 @@ class Static : public virtual Model
     /// @brief Print the static model to an output stream
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              staticModel.print(std::cout, true) ;
+    ///              Static staticModel = { ... };
+    ///              staticModel.print(std::cout, true);
     /// @endcode
     ///
     /// @param anOutputStream The output stream
@@ -122,9 +122,9 @@ class Static : public virtual Model
     /// @brief Equality operator for Model base class
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              Model model = { ... } ;
-    ///              bool isEqual = (staticModel == model) ;
+    ///              Static staticModel = { ... };
+    ///              Model model = { ... };
+    ///              bool isEqual = (staticModel == model);
     /// @endcode
     ///
     /// @param aModel The model to compare with
@@ -134,9 +134,9 @@ class Static : public virtual Model
     /// @brief Inequality operator for Model base class
     ///
     /// @code{.cpp}
-    ///              Static staticModel = { ... } ;
-    ///              Model model = { ... } ;
-    ///              bool isNotEqual = (staticModel != model) ;
+    ///              Static staticModel = { ... };
+    ///              Model model = { ... };
+    ///              bool isNotEqual = (staticModel != model);
     /// @endcode
     ///
     /// @param aModel The model to compare with

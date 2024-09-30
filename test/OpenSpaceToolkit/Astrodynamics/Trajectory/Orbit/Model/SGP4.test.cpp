@@ -112,7 +112,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
                 referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal()
             };
 
-            // const Real referenceRevolutionNumber = referenceRow[19].accessReal() ;
+            // const Real referenceRevolutionNumber = referenceRow[19].accessReal();
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -135,40 +135,40 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             // STK
 
             // const Quaternion ref_q_TEME_GCRF = Quaternion::XYZS(0.000013730697, 0.000889461232, -0.002075913109,
-            // 0.999997449624).normalize() ;
+            // 0.999997449624).normalize();
 
             // OUT
 
-            // const Quaternion q_TEME_GCRF = Frame::GCRF()->getTransformTo(Frame::TEME(), instant).getOrientation() ;
+            // const Quaternion q_TEME_GCRF = Frame::GCRF()->getTransformTo(Frame::TEME(), instant).getOrientation();
 
-            // std::cout << "[REF] q_TEME_GCRF = " << ref_q_TEME_GCRF.toString(12) << std::endl ;
+            // std::cout << "[REF] q_TEME_GCRF = " << ref_q_TEME_GCRF.toString(12) << std::endl;
 
-            // std::cout << "[REF] x_GCRF: " << referencePosition_GCRF.toString(12) << std::endl ;
-            // std::cout << "[REF] x_TEME: " << referencePosition_TEME.toString(12) << std::endl ;
+            // std::cout << "[REF] x_GCRF: " << referencePosition_GCRF.toString(12) << std::endl;
+            // std::cout << "[REF] x_TEME: " << referencePosition_TEME.toString(12) << std::endl;
 
-            // std::cout << "q_TEME_GCRF = " << q_TEME_GCRF.toString(12) << std::endl ;
+            // std::cout << "q_TEME_GCRF = " << q_TEME_GCRF.toString(12) << std::endl;
 
-            // std::cout << "x_GCRF: " << position_GCRF.accessCoordinates().toString(12) << std::endl ;
-            // std::cout << "x_TEME: " << position_TEME.accessCoordinates().toString(12) << std::endl ;
+            // std::cout << "x_GCRF: " << position_GCRF.accessCoordinates().toString(12) << std::endl;
+            // std::cout << "x_TEME: " << position_TEME.accessCoordinates().toString(12) << std::endl;
 
             // std::cout << "dq = " << RotationVector::Quaternion((q_TEME_GCRF /
             // ref_q_TEME_GCRF).normalize().rectify()).getAngle().inArcseconds().toString(12) << " [asec]" << std::endl
-            // ; std::cout << "dx_GCRF = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " [m]" << std::endl ; std::cout << "dx_TEME = " <<
+            //; std::cout << "dx_GCRF = " << Real((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " [m]" << std::endl; std::cout << "dx_TEME = " <<
             // Real((position_TEME.accessCoordinates() - referencePosition_TEME).norm()).toString(12) << " [m]" <<
-            // std::endl ;
+            // std::endl;
 
             // std::cout << "x_GCRF A: " << (ref_q_TEME_GCRF.toConjugate() *
-            // position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl ; std::cout << "x_GCRF B: " <<
-            // (q_TEME_GCRF.toConjugate() * position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl ;
+            // position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl; std::cout << "x_GCRF B: " <<
+            // (q_TEME_GCRF.toConjugate() * position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl;
 
-            // std::cout << "position_GCRF 1 = " << std::endl << position_GCRF << std::endl ;
+            // std::cout << "position_GCRF 1 = " << std::endl << position_GCRF << std::endl;
             // std::cout << "position_GCRF 2 = " << std::endl <<
-            // state_GCRF.inFrame(temeOfEpochFrame).inFrame(Frame::GCRF()).getPosition() << std::endl ;
+            // state_GCRF.inFrame(temeOfEpochFrame).inFrame(Frame::GCRF()).getPosition() << std::endl;
 
-            // std::cout << "position_TEME 1 = " << std::endl << position_TEME << std::endl ;
+            // std::cout << "position_TEME 1 = " << std::endl << position_TEME << std::endl;
             // std::cout << "position_TEME 2 = " << std::endl <<
-            // state_TEME.inFrame(Frame::GCRF()).inFrame(temeOfEpochFrame).getPosition() << std::endl ;
+            // state_TEME.inFrame(Frame::GCRF()).inFrame(temeOfEpochFrame).getPosition() << std::endl;
 
             EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *position_TEME.accessFrame());
             EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *velocity_TEME.accessFrame());
@@ -189,26 +189,26 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             EXPECT_GT(10.0, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm());
             EXPECT_GT(1e-2, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
-            // EXPECT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
+            // EXPECT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant));
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "x @ ITRF = " <<
+            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
             // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl ; std::cout << "v @ ITRF = " <<
+            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
             // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl ; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
             // std::cout   << "dx = " << Real((position_TEME.accessCoordinates() -
             // referencePosition_TEME).norm()).toString(12) << " - " << Real((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12)
             //    << " | " << "dv = " << Real((velocity_TEME.accessCoordinates() -
             //    referenceVelocity_TEME).norm()).toString(12) << " - " << Real((velocity_GCRF.accessCoordinates() -
-            //    referenceVelocity_GCRF).norm()).toString(12) << std::endl ;
+            //    referenceVelocity_GCRF).norm()).toString(12) << std::endl;
 
             // std::cout   << "dx = " << Real((position_TEME.accessCoordinates() -
             // referencePosition_TEME).norm()).toString(12) << " - " << Real((position_GCRF.accessCoordinates() -
@@ -217,9 +217,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             //    << " | " << "dv = " << Real((velocity_TEME.accessCoordinates() -
             //    referenceVelocity_TEME).norm()).toString(12) << " - " << Real((velocity_GCRF.accessCoordinates() -
             //    referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
-            //    referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+            //    referenceVelocity_ITRF).norm()).toString(12) << std::endl;
 
-            // FAIL() ;
+            // FAIL();
         }
     }
 }

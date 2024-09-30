@@ -157,7 +157,7 @@ class CDM
     {
         // OD Parameters
 
-        // String              ODComment = String::Empty() ;
+        // String              ODComment = String::Empty();
         Instant timeLastObStart = Instant::Undefined();
         Instant timeLastObEnd = Instant::Undefined();
         Duration recommendedODSpan = Duration::Undefined();
@@ -171,7 +171,7 @@ class CDM
 
         // Additional Parameters
 
-        // String              additionParametersComment ;
+        // String              additionParametersComment;
         Real areaPC = Real::Undefined();  // Area, add Unit
         Real areaDrag = Real::Undefined();
         Real areaSRP = Real::Undefined();
@@ -183,12 +183,12 @@ class CDM
 
         // State Vector
 
-        // String              stateVectorComment ;
+        // String              stateVectorComment;
         State state;
 
         // Covariance Matrix
 
-        // String              covarianceComment ;
+        // String              covarianceComment;
         MatrixXd covarianceMatrix;  // Usually defined in RTN Frame
     };
 

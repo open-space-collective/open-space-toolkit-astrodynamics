@@ -70,7 +70,7 @@ const Model& Trajectory::accessModel() const
 {
     // if (!this->isDefined())
     // {
-    //     throw ostk::core::error::runtime::Undefined("Trajectory") ;
+    //     throw ostk::core::error::runtime::Undefined("Trajectory");
     // }
 
     if (modelUPtr_ == nullptr)
