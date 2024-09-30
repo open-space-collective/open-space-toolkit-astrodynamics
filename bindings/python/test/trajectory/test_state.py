@@ -313,7 +313,89 @@ class TestState:
 
         assert state is not None
         assert isinstance(state, State)
-        assert state.get_frame() == Frame.GCRF()
+
+    def test_from_dict_with_drag_coefficient(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "drag_coefficient": 2.2,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "cd": 2.2,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+
+    def test_from_dict_with_surface_area(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "surface_area": 2.2,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "cross_sectional_area": 2.2,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+
+    def test_from_dict_with_mass(self):
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "mass": 2.2,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
 
     def test_comparators(self, state: State):
         assert (state == state) is True

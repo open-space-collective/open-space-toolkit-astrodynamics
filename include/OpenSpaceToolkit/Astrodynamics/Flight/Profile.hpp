@@ -130,14 +130,6 @@ class Profile
         /// @param isAntiDirection Whether the target is in the anti-direction.
         TrajectoryTarget(const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false);
 
-        /// @brief Constructs a TrajectoryTarget object.
-        /// @param aStartLLA The start LLA.
-        /// @param anEndLLA The end LLA.
-        /// @param aGroundSpeed The ground speed in m/s.
-        TrajectoryTarget(
-            const LLA& aStartLLA, const LLA& anEndLLA, const Real& aGroundSpeed, const Instant& aStartInstant
-        );
-
         Trajectory trajectory;  ///< The trajectory to point towards.
     };
 
