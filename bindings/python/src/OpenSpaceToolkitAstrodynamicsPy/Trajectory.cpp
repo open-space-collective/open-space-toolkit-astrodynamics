@@ -23,6 +23,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::environment::object::celestial::Earth;
+    using ostk::physics::time::Duration;
+    using ostk::physics::unit::Derived;
 
     using ostk::astrodynamics::Trajectory;
     using ostk::astrodynamics::trajectory::State;
@@ -150,9 +152,39 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         )
         .def_static(
             "ground_strip",
+            overload_cast<const LLA&, const LLA&, const Derived&, const Instant&, const Celestial&, const Duration&>(
+                &Trajectory::GroundStrip
+            ),
+            R"doc(
+                Create a `Trajectory` object representing a ground strip.
+                Computes the duration as the geodetic distance / ground speed.
+                Instants are generated at a 1 second interval.
+
+                Args:
+                    start_lla (LLA): The start LLA.
+                    end_lla (LLA): The end LLA.
+                    ground_speed (Derived): The ground speed.
+                    start_instant (Instant): The start instant.
+                    celestial_object (Celestial): The celestial object. Defaults to Earth.WGS84().
+                    step_size (Duration): The step size. Defaults to 1 second.
+
+                Returns:
+                    Trajectory: The `Trajectory` object representing the ground strip.
+
+            )doc",
+            arg("start_lla"),
+            arg("end_lla"),
+            arg("ground_speed"),
+            arg("start_instant"),
+            arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()"),
+            arg_v("step_size", Duration::Seconds(1.0), "Duration.Seconds(1.0)")
+        )
+        .def_static(
+            "ground_strip",
             overload_cast<const LLA&, const LLA&, const Array<Instant>&, const Celestial&>(&Trajectory::GroundStrip),
             R"doc(
                 Create a `Trajectory` object representing a ground strip.
+                This method computes the duration as the geodetic distance / ground speed.
 
                 Args:
                     start_lla (LLA): The start LLA.
@@ -167,33 +199,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             arg("start_lla"),
             arg("end_lla"),
             arg("instants"),
-            arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()")
-        )
-        .def_static(
-            "ground_strip",
-            overload_cast<const LLA&, const LLA&, const Real&, const Instant&, const Celestial&>(
-                &Trajectory::GroundStrip
-            ),
-            R"doc(
-                Create a `Trajectory` object representing a ground strip.
-                Computes the duration as the geodetic distance / ground speed.
-                Instants are generated at a 1 second interval.
-
-                Args:
-                    start_lla (LLA): The start LLA.
-                    end_lla (LLA): The end LLA.
-                    ground_speed (float): The ground speed.
-                    start_instant (Instant): The start instant.
-                    celestial_object (Celestial): The celestial object. Defaults to Earth.WGS84().
-
-                Returns:
-                    Trajectory: The `Trajectory` object representing the ground strip.
-
-            )doc",
-            arg("start_lla"),
-            arg("end_lla"),
-            arg("ground_speed"),
-            arg("start_instant"),
             arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()")
         )
 

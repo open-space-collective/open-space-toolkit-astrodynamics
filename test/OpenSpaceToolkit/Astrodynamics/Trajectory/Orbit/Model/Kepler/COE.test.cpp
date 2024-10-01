@@ -282,7 +282,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetAngu
 
         EXPECT_DOUBLE_EQ(
             std::sqrt(
-                Earth::EGM2008.gravitationalParameter_.in(Earth::EGM2008.gravitationalParameter_.getUnit()) *
+                Earth::EGM2008.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared()) *
                 coe_.getSemiLatusRectum().inMeters()
             ),
             angularMomentum.in(angularMomentum.getUnit())
@@ -430,7 +430,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetNoda
             Earth::EGM2008.gravitationalParameter_, Length::Meters(6.378137e6), 1.08262668e-3
         );
 
-        EXPECT_NEAR(nodalPrecessionRate.in(nodalPrecessionRate.getUnit()), -7.44e-7, 1e-6);
+        EXPECT_NEAR(nodalPrecessionRate.in(Derived::Unit::RadianPerSecond()), -7.44e-7, 1e-6);
     }
 }
 

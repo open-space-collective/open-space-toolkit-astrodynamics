@@ -43,10 +43,8 @@ using TimeUnit = ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 static const Real Tolerance = 1e-30;
-static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, TimeUnit::Unit::Second);
-static const Derived::Unit angularVelocitySIUnit =
-    Derived::Unit::AngularVelocity(Angle::Unit::Radian, TimeUnit::Unit::Second);
+static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::MeterCubedPerSecondSquared();
+static const Derived::Unit angularVelocitySIUnit = Derived::Unit::RadianPerSecond();
 static const Derived::Unit AngularMomentumSIUnit = {
     Length::Unit::Meter,
     {2},

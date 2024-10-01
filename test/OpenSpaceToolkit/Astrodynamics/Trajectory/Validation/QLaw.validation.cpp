@@ -202,8 +202,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         Length::Kilometers(6578.0)
     };
 
-    const Derived gravitationalParameter =
-        Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
+    const Derived gravitationalParameter = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
 
     const Shared<QLaw> qlaw =
         std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
@@ -299,8 +298,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         },
     };
 
-    const Derived gravitationalParameter =
-        Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
+    const Derived gravitationalParameter = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
 
     const Shared<QLaw> qlaw =
         std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
@@ -385,8 +383,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         Instant::J2000(), Length::Meters(585.0e3), Time(10, 0, 0), std::make_shared<Earth>(Earth::Default())
     );
 
-    const Derived gravitationalParameter =
-        Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
+    const Derived gravitationalParameter = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
 
     const State currentState = orbit.getStateAt(Instant::J2000());
     const COE currentCOE =

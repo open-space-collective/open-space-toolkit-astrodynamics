@@ -8,6 +8,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.time import Instant
 from ostk.physics.time import Duration
+from ostk.physics.unit import Derived
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import State
@@ -29,8 +30,8 @@ def start_instant() -> Instant:
 
 
 @pytest.fixture
-def ground_speed() -> float:
-    return 7000.0
+def ground_speed() -> Derived:
+    return Derived(7000.0, Derived.Unit.meter_per_second())
 
 
 @pytest.fixture
@@ -97,7 +98,7 @@ class TestTrajectory:
         self,
         start_lla: LLA,
         end_lla: LLA,
-        ground_speed: float,
+        ground_speed: Derived,
         start_instant: Instant,
         earth: Earth,
         instants: list[Instant],

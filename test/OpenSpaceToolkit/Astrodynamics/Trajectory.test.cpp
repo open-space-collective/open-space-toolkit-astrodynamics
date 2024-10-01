@@ -20,6 +20,8 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::model::Tabulated;
@@ -570,7 +572,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
     }
 
     {
-        const Real groundSpeed = 7000.0;
+        const Derived groundSpeed = Derived(7000.0, Derived::Unit::MeterPerSecond());
         const Instant startInstant = Instant::J2000();
 
         {
@@ -604,7 +606,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 
             {
                 EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, endLLA, Real::Undefined(), startInstant, earth),
+                    Trajectory::GroundStrip(startLLA, endLLA, Derived::Undefined(), startInstant, earth),
                     ostk::core::error::runtime::Undefined
                 );
             }
@@ -618,6 +620,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
         }
 
         {
+            {
+                const Trajectory trajectory =
+                    Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth, Duration::Seconds(1.0));
+
+                EXPECT_TRUE(trajectory.isDefined());
+            }
+
             {
                 const Trajectory trajectory =
                     Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth);
@@ -648,8 +657,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
             }
 
             {
+                const Length distance =
+                    startLLA.calculateDistanceTo(endLLA, earth.getEquatorialRadius(), earth.getFlattening());
                 const Duration duration =
-                    Duration::Seconds(15.796341222542683);  // computed from ground speed and distance
+                    Duration::Seconds(distance.inMeters() / groundSpeed.in(Derived::Unit::MeterPerSecond()));
                 const State state = trajectory.getStateAt(startInstant + duration).inFrame(Frame::ITRF());
 
                 EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-13));

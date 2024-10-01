@@ -4,6 +4,7 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
@@ -139,9 +140,10 @@ Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 Trajectory Trajectory::GroundStrip(
     const LLA& aStartLLA,
     const LLA& anEndLLA,
-    const Real& aGroundSpeed,
+    const Derived& aGroundSpeed,
     const Instant& aStartInstant,
-    const Celestial& aCelestial
+    const Celestial& aCelestial,
+    const Duration& aStepSize
 )
 {
     if (!aStartLLA.isDefined())
@@ -172,13 +174,13 @@ Trajectory Trajectory::GroundStrip(
     const Length distance =
         aStartLLA.calculateDistanceTo(anEndLLA, aCelestial.getEquatorialRadius(), aCelestial.getFlattening());
 
-    const Duration duration = Duration::Seconds(distance.inMeters() / aGroundSpeed);
+    const Duration duration = Duration::Seconds(distance.inMeters() / aGroundSpeed.in(Derived::Unit::MeterPerSecond()));
 
     const Instant endInstant = aStartInstant + duration;
 
     const Interval interval = Interval::Closed(aStartInstant, endInstant);
 
-    const Array<Instant> instants = interval.generateGrid(Duration::Seconds(1.0));  // TBI: Make a param?
+    const Array<Instant> instants = interval.generateGrid(aStepSize);
 
     return GroundStrip(aStartLLA, anEndLLA, instants, aCelestial);
 }
@@ -207,7 +209,7 @@ Trajectory Trajectory::GroundStrip(
         throw ostk::core::error::RuntimeError("LLA altitude must be zero.");
     }
 
-    const Velocity velocity = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF());
+    const Velocity velocity = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, aCelestial.accessFrame());
 
     Array<State> states = Array<State>::Empty();
 
@@ -222,10 +224,11 @@ Trajectory Trajectory::GroundStrip(
         );
 
         const physics::coordinate::Position position = physics::coordinate::Position::Meters(
-            intermediateLLA.toCartesian(aCelestial.getEquatorialRadius(), aCelestial.getFlattening()), Frame::ITRF()
+            intermediateLLA.toCartesian(aCelestial.getEquatorialRadius(), aCelestial.getFlattening()),
+            aCelestial.accessFrame()
         );
 
-        const State state = State(instant, position, velocity).inFrame(Frame::GCRF());
+        const State state = State(instant, position, velocity);
 
         states.add(state);
     }

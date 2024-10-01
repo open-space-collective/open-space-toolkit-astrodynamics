@@ -12,8 +12,10 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -32,8 +34,10 @@ using ostk::core::type::Unique;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
+using ostk::physics::unit::Derived;
 
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
@@ -177,10 +181,12 @@ class Trajectory
     /// @code{.cpp}
     ///             LLA startLLA = { 0.0, 0.0, 0.0 };
     ///             LLA endLLA = { 1.0, 0.0, 0.0 };
-    ///             Real groundSpeed = 1000.0;
+    ///             Derived groundSpeed = Derived(1000.0, Derived::Unit::MeterPerSecond());
     ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
     ///             Earth earth = Earth::WGS84();
-    ///             Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth);
+    ///             Duration stepSize = Duration::Seconds(1.0);
+    ///             Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth,
+    ///             duration);
     /// @endcode
     ///
     /// @param aStartLLA A start LLA
@@ -192,9 +198,10 @@ class Trajectory
     static Trajectory GroundStrip(
         const LLA& aStartLLA,
         const LLA& anEndLLA,
-        const Real& aGroundSpeed,
+        const Derived& aGroundSpeed,
         const Instant& aStartInstant,
-        const Celestial& aCelestial = Earth::WGS84()
+        const Celestial& aCelestial = Earth::WGS84(),
+        const Duration& aStepSize = Duration::Seconds(1.0)
     );
 
     /// @brief Constructs a trajectory for a given strip, assuming a constant ground speed and start instant

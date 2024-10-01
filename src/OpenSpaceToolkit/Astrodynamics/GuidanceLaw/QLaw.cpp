@@ -109,7 +109,7 @@ QLaw::QLaw(
 )
     : GuidanceLaw("Q-Law"),
       parameters_(aParameterSet),
-      mu_(aGravitationalParameter.in(aGravitationalParameter.getUnit())),
+      mu_(aGravitationalParameter.in(Derived::Unit::MeterCubedPerSecondSquared())),
       targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),
       gravitationalParameter_(aGravitationalParameter),
       gradientStrategy_(aGradientStrategy),
