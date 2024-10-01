@@ -54,13 +54,16 @@ def from_dict(data: dict) -> State:
     - 'vy'/'vy_eci'/'vy_ecef': The y-coordinate of the velocity.
     - 'vz'/'vz_eci'/'vz_ecef': The z-coordinate of the velocity.
     - 'frame': The frame of the state. Required if 'rx', 'ry', 'rz', 'vx', 'vy', 'vz' are provided.
-    - 'q_B_ECI_x': The x-coordinate of the quaternion.
-    - 'q_B_ECI_y': The y-coordinate of the quaternion.
-    - 'q_B_ECI_z': The z-coordinate of the quaternion.
-    - 'q_B_ECI_s': The s-coordinate of the quaternion.
-    - 'w_B_ECI_in_B_x': The x-coordinate of the angular velocity.
-    - 'w_B_ECI_in_B_y': The y-coordinate of the angular velocity.
-    - 'w_B_ECI_in_B_z': The z-coordinate of the angular velocity.
+    - 'q_B_ECI_x': The x-coordinate of the quaternion. Optional.
+    - 'q_B_ECI_y': The y-coordinate of the quaternion. Optional.
+    - 'q_B_ECI_z': The z-coordinate of the quaternion. Optional.
+    - 'q_B_ECI_s': The s-coordinate of the quaternion. Optional.
+    - 'w_B_ECI_in_B_x': The x-coordinate of the angular velocity. Optional.
+    - 'w_B_ECI_in_B_y': The y-coordinate of the angular velocity. Optional.
+    - 'w_B_ECI_in_B_z': The z-coordinate of the angular velocity. Optional.
+    - 'drag_coefficient'/'cd': The drag coefficient. Optional.
+    - 'cross_sectional_area'/'surface_area': The cross-sectional area. Optional.
+    - 'mass': The mass. Optional.
 
 
     Args:
@@ -182,6 +185,27 @@ def from_dict(data: dict) -> State:
                 data["w_B_ECI_in_B_y"],
                 data["w_B_ECI_in_B_z"],
             ],
+        )
+
+    if "drag_coefficient" in data or "cd" in data:
+        coordinate_subsets.append(CoordinateSubset.drag_coefficient())
+        coordinates = np.append(
+            coordinates,
+            data.get("drag_coefficient", data.get("cd")),
+        )
+
+    if "cross_sectional_area" in data or "surface_area" in data:
+        coordinate_subsets.append(CoordinateSubset.surface_area())
+        coordinates = np.append(
+            coordinates,
+            data.get("cross_sectional_area", data.get("surface_area")),
+        )
+
+    if "mass" in data:
+        coordinate_subsets.append(CoordinateSubset.mass())
+        coordinates = np.append(
+            coordinates,
+            data["mass"],
         )
 
     return State(
