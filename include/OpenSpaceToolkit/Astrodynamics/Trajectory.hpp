@@ -197,7 +197,7 @@ class Trajectory
         const Celestial& aCelestial = Earth::WGS84()
     );
 
-    /// @brief Constructs a trajectory for a given strip, specified ground speed and start instant
+    /// @brief Constructs a trajectory for a given strip, assuming a constant ground speed and start instant
     ///
     /// @code{.cpp}
     ///             LLA startLLA = LLA::FromVector({ 0.0, 0.0, 0.0 });
