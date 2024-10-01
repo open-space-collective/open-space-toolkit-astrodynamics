@@ -195,7 +195,7 @@ def from_dict(data: dict) -> State:
         )
 
     if "cross_sectional_area" in data or "surface_area" in data:
-        coordinate_subsets.append(CoordinateSubset.cross_sectional_area())
+        coordinate_subsets.append(CoordinateSubset.surface_area())
         coordinates = np.append(
             coordinates,
             data.get("cross_sectional_area", data.get("surface_area")),
