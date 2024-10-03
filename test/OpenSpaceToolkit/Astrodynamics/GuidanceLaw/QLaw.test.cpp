@@ -158,8 +158,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
         Angle::Degrees(0.0),
     };
 
-    const Derived gravitationalParameter_ =
-        Derived(398600.49 * 1e9, EarthGravitationalModel::EGM2008.gravitationalParameter_.getUnit());
+    const Derived gravitationalParameter_ = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
 
     const Real thrustAcceleration_ = 1.0 / 300.0;
 
