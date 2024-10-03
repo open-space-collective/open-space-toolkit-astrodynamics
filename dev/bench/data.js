@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1727750388031,
+  "lastUpdate": 1727996057164,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 3195488728.0000095,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3195383879.6 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "57f7d7c18bfb72e02d037d860569b97b40c39c64",
+          "message": "feat: Trajectory constructor based on a ground strip (#441)\n\n* feat: Trajectory constructor based on a ground strip\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>\r\n\r\n* feat: address feedback\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>",
+          "timestamp": "2024-10-03T17:34:16-05:00",
+          "tree_id": "0ff0c71ca592669614ae1610371e48be3317f1b1",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/57f7d7c18bfb72e02d037d860569b97b40c39c64"
+        },
+        "date": 1727996054620,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 582448871.5999962,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 582427767.3000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 875356042.5999864,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 875128329.3999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3196041001.9000163,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3195796001.5 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3192652325.999995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3192512091.699998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3194397282.600005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3194298202.899999 ns\nthreads: 1"
           }
         ]
       }
