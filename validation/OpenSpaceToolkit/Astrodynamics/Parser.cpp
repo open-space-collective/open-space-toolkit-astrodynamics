@@ -111,7 +111,7 @@ State Parser::CreateInitialState(const Dictionary& aDictionary, const SatelliteS
 
 Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
 {
-    Array<Shared<Object>> celestials = Array<Shared<Object>>::Empty();
+    Array<Shared<const Object>> celestials = Array<Shared<const Object>>::Empty();
 
     EarthGravitationalModel::Type earthGravitationalModelType = EarthGravitationalModel::Type::Undefined;
     Integer earthGravitationalModelDegree = 0;
@@ -138,11 +138,11 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
             }
             else if (force["data"]["body"].accessString() == "SUN")
             {
-                celestials.add(std::make_shared<Sun>(Sun::Default()));
+                celestials.add(std::make_shared<const Sun>(Sun::Default()));
             }
             else if (force["data"]["body"].accessString() == "MOON")
             {
-                celestials.add(std::make_shared<Moon>(Moon::Default()));
+                celestials.add(std::make_shared<const Moon>(Moon::Default()));
             }
             else
             {
@@ -177,7 +177,7 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
         }
     }
 
-    celestials.add(std::make_shared<Earth>(Earth::FromModels(
+    celestials.add(std::make_shared<const Earth>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(
             earthGravitationalModelType,
             Directory::Undefined(),
