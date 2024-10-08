@@ -1239,7 +1239,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, FromEnv
     }
 
     {
-        const Array<Shared<Object>> celestials = {
+        const Array<Shared<const Object>> celestials = {
             std::make_shared<Earth>(Earth::FromModels(
                 std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
                 std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
