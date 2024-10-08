@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="169" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" bodystart="169" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="233" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" bodystart="233" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,8 +33,8 @@
 <para>Constructor (model) </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Tabulated<sp/>model<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aa1d0df1bc3984644065a06e462ff0704" kindref="member">Tabulated::Load</ref>(File::Path(Path::Parse(</highlight><highlight class="stringliteral">&quot;/path/to/trajectory.csv&quot;</highlight><highlight class="normal">)))<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>model<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Tabulated<sp/>model<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aa1d0df1bc3984644065a06e462ff0704" kindref="member">Tabulated::Load</ref>(File::Path(Path::Parse(</highlight><highlight class="stringliteral">&quot;/path/to/trajectory.csv&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>model<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="48" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="17" bodyend="20"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="59" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="25" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a333aa41110b47e8c69a97aae3669032c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -64,8 +64,8 @@
 <para>Constructor (state array) </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>stateArray<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>stateArray<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="58" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="22" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="69" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1adc2a737f516231faa65684ab6232dc7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -108,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="63" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="74" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="35" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1ad98dea12af414af8162b085cdd5dd511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
@@ -126,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="66" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="32" bodyend="40"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="77" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="40" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1aab7ed9137581cdc28ce569f8165c1e60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -141,7 +141,7 @@
 <para>Equal to operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -158,7 +158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="76" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="42" bodyend="50"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="87" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="50" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1aa46d34603ab19531c6b6dfde9b394e85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -173,7 +173,7 @@
 <para>Not equal to operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>!=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>!=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -190,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="86" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="52" bodyend="55"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="97" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="60" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a6f0f0e6fb825b858c86ffe9d9071fdbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -201,7 +201,7 @@
 <para>Check if trajectory is defined. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...).isDefined()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...).isDefined();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>True if trajectory is defined </para>
 </simplesect>
@@ -209,7 +209,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="106" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="64" bodyend="67"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="117" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="72" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a00e0200bc70fc7c5c764b2204f3232f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> &amp;</type>
@@ -226,7 +226,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="111" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="69" bodyend="82"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="122" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="77" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1ab72172193ac72db5b7acf922d1b0a9b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -241,9 +241,9 @@
 <para>Get state at a given instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>trajectory.getStateAt(instant)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>trajectory.getStateAt(instant);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -260,7 +260,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="123" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="84" bodyend="92"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="134" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="92" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a828ef112e449b697c961e61825b48cbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -275,9 +275,9 @@
 <para>Get states at a given instants. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Array&lt;State&gt;<sp/>state<sp/>=<sp/>trajectory.getStatesAt(instants)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;State&gt;<sp/>state<sp/>=<sp/>trajectory.getStatesAt(instants);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -294,7 +294,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="135" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="94" bodyend="102"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="146" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="102" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a5621f3ab62b023cd125505adda04e70a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -315,8 +315,8 @@
 <para>Print trajectory to output stream. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">trajectory.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">trajectory.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -339,7 +339,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="146" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="104" bodyend="113"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="157" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="112" bodyend="121"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -360,7 +360,7 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -385,7 +385,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="97" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="57" bodyend="62"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="108" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="65" bodyend="70"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -398,7 +398,7 @@
 <para>Constructs an undefined trajectory. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a5cd4a31ab2f9e4b4ca5dd62c515490ef" kindref="member">Trajectory::Undefined</ref>()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a5cd4a31ab2f9e4b4ca5dd62c515490ef" kindref="member">Trajectory::Undefined</ref>();<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Undefined trajectory </para>
 </simplesect>
@@ -406,7 +406,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="155" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="115" bodyend="118"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="166" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="123" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a7c3e5cb45279eb2d7cbf32c2347d3840" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref></type>
@@ -421,8 +421,8 @@
 <para>Constructs a trajectory from a given position. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a7c3e5cb45279eb2d7cbf32c2347d3840" kindref="member">Position</ref><sp/>position<sp/>=<sp/>Position::Meters({<sp/>0.0,<sp/>0.0,<sp/>0.0<sp/>},<sp/>Frame::GCRF())<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a7c3e5cb45279eb2d7cbf32c2347d3840" kindref="member">Trajectory::Position</ref>(position)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a7c3e5cb45279eb2d7cbf32c2347d3840" kindref="member">Position</ref><sp/>position<sp/>=<sp/>Position::Meters({<sp/>0.0,<sp/>0.0,<sp/>0.0<sp/>},<sp/>Frame::GCRF());</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a7c3e5cb45279eb2d7cbf32c2347d3840" kindref="member">Trajectory::Position</ref>(position);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -439,7 +439,176 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="166" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="120" bodyend="130"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="177" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="128" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref></type>
+        <definition>Trajectory ostk::astrodynamics::Trajectory::GroundStrip</definition>
+        <argsstring>(const LLA &amp;aStartLLA, const LLA &amp;anEndLLA, const Derived &amp;aGroundSpeed, const Instant &amp;aStartInstant, const Celestial &amp;aCelestial=Earth::WGS84(), const Duration &amp;aStepSize=Duration::Seconds(1.0))</argsstring>
+        <name>GroundStrip</name>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>aStartLLA</declname>
+        </param>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>anEndLLA</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGroundSpeed</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>aStartInstant</declname>
+        </param>
+        <param>
+          <type>const Celestial &amp;</type>
+          <declname>aCelestial</declname>
+          <defval>Earth::WGS84()</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aStepSize</declname>
+          <defval>Duration::Seconds(1.0)</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a trajectory for a given strip, specified ground speed and start instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">LLA<sp/>startLLA<sp/>=<sp/>{<sp/>0.0,<sp/>0.0,<sp/>0.0<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">LLA<sp/>endLLA<sp/>=<sp/>{<sp/>1.0,<sp/>0.0,<sp/>0.0<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Derived<sp/>groundSpeed<sp/>=<sp/>Derived(1000.0,<sp/>Derived::Unit::MeterPerSecond());</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>startInstant<sp/>=<sp/>Instant::DateTime(DateTime::Parse(</highlight><highlight class="stringliteral">&quot;2020-01-01<sp/>00:00:00&quot;</highlight><highlight class="normal">),<sp/>Scale::UTC);</highlight></codeline>
+<codeline><highlight class="normal">Earth<sp/>earth<sp/>=<sp/>Earth::WGS84();</highlight></codeline>
+<codeline><highlight class="normal">Duration<sp/>stepSize<sp/>=<sp/>Duration::Seconds(1.0);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" kindref="member">Trajectory::GroundStrip</ref>(startLLA,<sp/>endLLA,<sp/>groundSpeed,<sp/>startInstant,<sp/>earth,</highlight></codeline>
+<codeline><highlight class="normal">duration);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStartLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A start LLA </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An end LLA </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGroundSpeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A ground speed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStartInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A start instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Celestial body </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GroundStrip trajectory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="198" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="140" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1ae0657f4bca61121f64aa8d66643afccd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref></type>
+        <definition>Trajectory ostk::astrodynamics::Trajectory::GroundStrip</definition>
+        <argsstring>(const LLA &amp;aStartLLA, const LLA &amp;anEndLLA, const Array&lt; Instant &gt; &amp;anInstantArray, const Celestial &amp;aCelestial=Earth::WGS84())</argsstring>
+        <name>GroundStrip</name>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>aStartLLA</declname>
+        </param>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>anEndLLA</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <param>
+          <type>const Celestial &amp;</type>
+          <declname>aCelestial</declname>
+          <defval>Earth::WGS84()</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a trajectory for a given strip, assuming a constant ground speed and start instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">LLA<sp/>startLLA<sp/>=<sp/>LLA::FromVector({<sp/>0.0,<sp/>0.0,<sp/>0.0<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">LLA<sp/>endLLA<sp/>=<sp/>LLA::FromVector({<sp/>1.0,<sp/>0.0,<sp/>0.0<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>startInstant<sp/>=<sp/>Instant::DateTime(DateTime::Parse(</highlight><highlight class="stringliteral">&quot;2020-01-01<sp/>00:00:00&quot;</highlight><highlight class="normal">),<sp/>Scale::UTC);</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>endInstant<sp/>=<sp/>Instant::DateTime(DateTime::Parse(</highlight><highlight class="stringliteral">&quot;2020-01-01<sp/>00:10:00&quot;</highlight><highlight class="normal">),<sp/>Scale::UTC);</highlight></codeline>
+<codeline><highlight class="normal">Interval<sp/>interval<sp/>=<sp/>Interval::Closed(startInstant,<sp/>endInstant);</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>interval.generateGrid(Duration::Seconds(1.0));</highlight></codeline>
+<codeline><highlight class="normal">Earth<sp/>earth<sp/>=<sp/>Earth::WGS84();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a8eb87464a355610b52b9b2401a5ceb35" kindref="member">Trajectory</ref><sp/>trajectory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" kindref="member">Trajectory::GroundStrip</ref>(startLLA,<sp/>endLLA,<sp/>instants,<sp/>earth);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStartLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A start LLA </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An end LLA </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Celestial body </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GroundStrip trajectory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="225" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="188" bodyend="237"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -454,7 +623,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="171" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="132" bodyend="135"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="235" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="239" bodyend="242"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -475,11 +644,13 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="38" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" bodystart="37" bodyend="172"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" bodystart="48" bodyend="236"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a00e0200bc70fc7c5c764b2204f3232f8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>accessModel</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ab72172193ac72db5b7acf922d1b0a9b7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>getStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a828ef112e449b697c961e61825b48cbc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>getStatesAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>GroundStrip</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ae0657f4bca61121f64aa8d66643afccd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>GroundStrip</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a6f0f0e6fb825b858c86ffe9d9071fdbd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1afb4157336944088c5cf9e1080cce04b0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>modelUPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1aa46d34603ab19531c6b6dfde9b394e85" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>operator!=</name></member>

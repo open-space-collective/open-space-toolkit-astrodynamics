@@ -68,9 +68,9 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState<sp/>};</highlight></codeline>
 <codeline><highlight class="normal">or</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState,<sp/>aRevolutionNumber<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState,<sp/>aRevolutionNumber<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -125,9 +125,9 @@
 <para>Constructor with a cached state array. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray<sp/>};</highlight></codeline>
 <codeline><highlight class="normal">or</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray,<sp/>aRevolutionNumber<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1da8d3a22e5c59f95fd52d674982a9ba" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray,<sp/>aRevolutionNumber<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -266,7 +266,7 @@
 <para>Get epoch (in this case it is the first instant in the cached state array) </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>propagated.getEpoch()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>propagated.getEpoch();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Instant </para>
 </simplesect>
@@ -286,7 +286,7 @@
 <para>Get revolution number at epoch (it is equal to 1) </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>real<sp/>=<sp/>propagated.getRevolutionNumberAtEpoch()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>real<sp/>=<sp/>propagated.getRevolutionNumberAtEpoch();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Integer </para>
 </simplesect>
@@ -310,7 +310,7 @@
 <para>Calculate the state at an instant, given initial state. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>propagated.calculateStateAt(anInstant)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>propagated.calculateStateAt(anInstant);</highlight></codeline>
 </programlisting> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anInstant</parametername>
@@ -342,7 +342,7 @@
 <para>Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. Does not have macro-level sorting optimization, should not be used with disorded instant array. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>states<sp/>=<sp/>propagated.calculateStatesAt(anInstantArray)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>states<sp/>=<sp/>propagated.calculateStatesAt(anInstantArray);</highlight></codeline>
 </programlisting> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aState</parametername>
@@ -382,7 +382,7 @@
 <para>Calculate the revolution number at an instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Integer<sp/>integer<sp/>=<sp/>propagated.calculateRevolutionNumberAt(anInstant)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Integer<sp/>integer<sp/>=<sp/>propagated.calculateRevolutionNumberAt(anInstant);</highlight></codeline>
 </programlisting> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anInstant</parametername>
@@ -409,7 +409,7 @@
 <para>Fetch internal cached state array. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>propagated.accessCachedStateArray()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>propagated.accessCachedStateArray();</highlight></codeline>
 </programlisting> <simplesect kind="return"><para>Array&lt;State&gt;&amp; </para>
 </simplesect>
 </para>
@@ -427,7 +427,7 @@
 <para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> propagator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Propagator<sp/>propagator<sp/>=<sp/>propagated.accessPropagator()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Propagator<sp/>propagator<sp/>=<sp/>propagated.accessPropagator();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> </para>
 </simplesect>
@@ -450,8 +450,8 @@
 <para>Set internal cached state array manually. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">propagated.setCachedStateArray(stateArray)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>stateArray<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">propagated.setCachedStateArray(stateArray);</highlight></codeline>
 </programlisting> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aStateArray</parametername>

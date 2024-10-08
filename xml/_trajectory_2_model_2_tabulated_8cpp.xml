@@ -341,7 +341,7 @@
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>frame<sp/>=<sp/>firstState_.accessFrame();</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateBroker&gt;&amp;<sp/>coordinatesBroker<sp/>=<sp/>firstState_.accessCoordinateBroker();</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>State(anInstant,<sp/>interpolatedCoordinates,<sp/>frame,<sp/>coordinatesBroker);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>State(anInstant,<sp/>interpolatedCoordinates,<sp/>frame,<sp/>coordinatesBroker).inFrame(Frame::GCRF());</highlight></codeline>
 <codeline lineno="160"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
 <codeline lineno="162"><highlight class="normal">Array&lt;State&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a92535c63e7618408c0cbd5acbba9a10c" kindref="member">Tabulated::calculateStatesAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Instant&gt;&amp;<sp/>anInstantArray)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>

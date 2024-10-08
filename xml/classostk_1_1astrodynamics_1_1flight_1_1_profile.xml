@@ -293,7 +293,7 @@
 <para>Check if profile is defined. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref>(...).isDefined()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref>(...).isDefined();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>True if profile is defined </para>
 </simplesect>
@@ -316,9 +316,9 @@
 <para>Get state at a given instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>profile.getStateAt(instant)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>profile.getStateAt(instant);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -350,9 +350,9 @@
 <para>Get states at a given instants. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Array&lt;State&gt;<sp/>state<sp/>=<sp/>profile.getStatesAt(instants)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Instant&gt;<sp/>instants<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;State&gt;<sp/>state<sp/>=<sp/>profile.getStatesAt(instants);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -384,9 +384,9 @@
 <para>Get axes at a given instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Axes<sp/>axes<sp/>=<sp/>profile.getAxesAt(instant)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Axes<sp/>axes<sp/>=<sp/>profile.getAxesAt(instant);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -453,8 +453,8 @@
 <para>Print flight profile to output stream. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">profile.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">profile.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -498,7 +498,7 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -536,7 +536,7 @@
 <para>Constructs an undefined flight profile. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ab6edc8d4ac9424bb95716d217f258dc3" kindref="member">Profile::Undefined</ref>()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1abb353cfa1b58766abf0c56f91db5053c" kindref="member">Profile</ref><sp/>profile<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ab6edc8d4ac9424bb95716d217f258dc3" kindref="member">Profile::Undefined</ref>();<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Undefined profile </para>
 </simplesect>

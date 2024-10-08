@@ -103,7 +103,7 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>QLaw(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>QLaw(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

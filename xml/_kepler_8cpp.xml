@@ -66,7 +66,7 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="31">
+      <node id="32">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="25">
@@ -103,6 +103,9 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
+      <node id="30">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
+      </node>
       <node id="29">
         <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
       </node>
@@ -136,9 +139,11 @@
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -219,7 +224,7 @@
       <node id="11">
         <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
-      <node id="30">
+      <node id="31">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
       </node>
     </incdepgraph>
@@ -767,7 +772,7 @@
 <codeline lineno="533"><highlight class="normal"></highlight></codeline>
 <codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;T0<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).toString()<sp/>&lt;&lt;<sp/>&quot;<sp/>==</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;<sp/>&lt;&lt;<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds().toString()<sp/>&lt;&lt;<sp/>&quot;<sp/>[s]&quot;<sp/>&lt;&lt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::endl<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="537"><highlight class="normal"></highlight></codeline>
 <codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>orbitalPeriod<sp/>=<sp/>Duration::Undefined();</highlight></codeline>
 <codeline lineno="539"><highlight class="normal"></highlight></codeline>
@@ -780,25 +785,25 @@
 <codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>(e<sp/>&gt;<sp/>0.1)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>ostk::core::error::runtime::ToBeImplemented(&quot;Kepler::CalculateJ2RevolutionNumberAt<sp/>-&gt;<sp/>Only</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>near-circular<sp/>orbits<sp/>are<sp/>supported.&quot;)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>near-circular<sp/>orbits<sp/>are<sp/>supported.&quot;);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="551"><highlight class="normal"></highlight></codeline>
-<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>w_rad<sp/>=<sp/>aClassicalOrbitalElementSet.getAop().inRadians()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>w_rad<sp/>=<sp/>aClassicalOrbitalElementSet.getAop().inRadians();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="553"><highlight class="normal"></highlight></codeline>
-<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>sin_i<sp/>=<sp/>std::sin(i_rad)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>sin_i_2<sp/>=<sp/>sin_i<sp/>*<sp/>sin_i<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>sin_i<sp/>=<sp/>std::sin(i_rad);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>sin_i_2<sp/>=<sp/>sin_i<sp/>*<sp/>sin_i;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="556"><highlight class="normal"></highlight></codeline>
 <codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>correctionFactor<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>((3.0<sp/>*<sp/>aJ2<sp/>*<sp/>(4.0<sp/>-<sp/>5.0<sp/>*<sp/>sin_i_2))<sp/>/<sp/>(4.0<sp/>*<sp/>std::pow(a_m<sp/>/<sp/>R_m,<sp/>2)<sp/>*</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::sqrt(1.0<sp/>-<sp/>e<sp/>*<sp/>e)<sp/>*<sp/>std::pow(1.0<sp/>+<sp/>e<sp/>*<sp/>std::cos(w_rad),<sp/>2)))</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>((3.0<sp/>*<sp/>aJ2<sp/>*<sp/>std::pow(1.0<sp/>-<sp/>e<sp/>*<sp/>std::cos(w_rad),<sp/>3))<sp/>/<sp/>(2.0<sp/>*<sp/>std::pow(a_m<sp/>/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R_m,<sp/>2)<sp/>*<sp/>std::pow(1.0<sp/>-<sp/>e<sp/>*<sp/>e,<sp/>3)))<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R_m,<sp/>2)<sp/>*<sp/>std::pow(1.0<sp/>-<sp/>e<sp/>*<sp/>e,<sp/>3)));</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="562"><highlight class="normal"></highlight></codeline>
-<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>orbitalPeriod<sp/>=<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)<sp/>*<sp/>correctionFactor<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>orbitalPeriod<sp/>=<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)<sp/>*<sp/>correctionFactor;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="564"><highlight class="normal"></highlight></codeline>
 <codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>T<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>orbitalPeriod.toString()<sp/>&lt;&lt;<sp/>&quot;<sp/>==<sp/>&quot;<sp/>&lt;&lt;<sp/>orbitalPeriod.inSeconds().toString()<sp/>&lt;&lt;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>[s]&quot;<sp/>&lt;&lt;<sp/>std::endl<sp/>;<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;A<sp/>-<sp/>DT<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>(orbitalPeriod<sp/>-</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString()<sp/>&lt;&lt;<sp/>std::endl<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>[s]&quot;<sp/>&lt;&lt;<sp/>std::endl;<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;A<sp/>-<sp/>DT<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>(orbitalPeriod<sp/>-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString()<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="568"><highlight class="normal"></highlight></codeline>
 <codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="570"><highlight class="normal"></highlight></codeline>
@@ -806,50 +811,50 @@
 <codeline lineno="572"><highlight class="normal"></highlight></codeline>
 <codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>//<sp/>https://www.mathworks.com/matlabcentral/fileexchange/39550-orbital-periods-of-a-satellite</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="574"><highlight class="normal"></highlight></codeline>
-<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Mass<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Time<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Derived<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Angle<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Mass;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Time;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Derived;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>using<sp/>ostk::physics::unit::Angle;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="579"><highlight class="normal"></highlight></codeline>
-<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>a_m<sp/>=<sp/>aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>ecc<sp/>=<sp/>aClassicalOrbitalElementSet.getEccentricity()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>inc<sp/>=<sp/>aClassicalOrbitalElementSet.getInclination().inRadians()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>argper<sp/>=<sp/>aClassicalOrbitalElementSet.getAop().inRadians()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>a_m<sp/>=<sp/>aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>ecc<sp/>=<sp/>aClassicalOrbitalElementSet.getEccentricity();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>inc<sp/>=<sp/>aClassicalOrbitalElementSet.getInclination().inRadians();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>argper<sp/>=<sp/>aClassicalOrbitalElementSet.getAop().inRadians();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="584"><highlight class="normal"></highlight></codeline>
 <codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>static<sp/>const<sp/>Derived::Unit<sp/>gravitationalParameterSIUnit<sp/>=<sp/>{<sp/>Length::Unit::Meter,<sp/>Derived::Order(3),</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Mass::Unit::Undefined,<sp/>Derived::Order::Zero(),<sp/>Time::Unit::Second,<sp/>Derived::Order(-2),</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Angle::Unit::Undefined,<sp/>Derived::Order::Zero()<sp/>}<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Angle::Unit::Undefined,<sp/>Derived::Order::Zero()<sp/>};</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="588"><highlight class="normal"></highlight></codeline>
-<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>gravitationalParameter_SI<sp/>=<sp/>aGravitationalParameter.in(gravitationalParameterSIUnit)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>Real<sp/>gravitationalParameter_SI<sp/>=<sp/>aGravitationalParameter.in(gravitationalParameterSIUnit);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="590"><highlight class="normal"></highlight></codeline>
-<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>sma<sp/>=<sp/>a_m<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>mu<sp/>=<sp/>gravitationalParameter_SI<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>req<sp/>=<sp/>R_m<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>j2<sp/>=<sp/>aJ2<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>sma<sp/>=<sp/>a_m;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>mu<sp/>=<sp/>gravitationalParameter_SI;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>req<sp/>=<sp/>R_m;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>j2<sp/>=<sp/>aJ2;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="595"><highlight class="normal"></highlight></codeline>
-<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>tkepler<sp/>=<sp/>2.0<sp/>*<sp/>M_PI<sp/>*<sp/>sma<sp/>*<sp/>std::sqrt(sma<sp/>/<sp/>mu)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>mm<sp/>=<sp/>2.0<sp/>*<sp/>M_PI<sp/>/<sp/>tkepler<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>tkepler<sp/>=<sp/>2.0<sp/>*<sp/>M_PI<sp/>*<sp/>sma<sp/>*<sp/>std::sqrt(sma<sp/>/<sp/>mu);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>mm<sp/>=<sp/>2.0<sp/>*<sp/>M_PI<sp/>/<sp/>tkepler;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="598"><highlight class="normal"></highlight></codeline>
-<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>slr<sp/>=<sp/>sma<sp/>*<sp/>(1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>slr<sp/>=<sp/>sma<sp/>*<sp/>(1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="600"><highlight class="normal"></highlight></codeline>
-<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>b<sp/>=<sp/>std::sqrt(1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>c<sp/>=<sp/>req<sp/>/<sp/>slr<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>d<sp/>=<sp/>c<sp/>*<sp/>c<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>e<sp/>=<sp/>std::sin(inc)<sp/>*<sp/>std::sin(inc)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>b<sp/>=<sp/>std::sqrt(1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>c<sp/>=<sp/>req<sp/>/<sp/>slr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>d<sp/>=<sp/>c<sp/>*<sp/>c;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>e<sp/>=<sp/>std::sin(inc)<sp/>*<sp/>std::sin(inc);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="605"><highlight class="normal"></highlight></codeline>
 <codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>pmm<sp/>=<sp/>mm<sp/>*<sp/>(1.0<sp/>+<sp/>1.5<sp/>*<sp/>j2<sp/>*<sp/>d<sp/>*<sp/>std::sqrt(1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc)<sp/>*<sp/>(1.0<sp/>-<sp/>1.5<sp/>*<sp/>e));</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="607"><highlight class="normal"></highlight></codeline>
-<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>ar<sp/>=<sp/>(sma<sp/>/<sp/>req)<sp/>*<sp/>(sma<sp/>/<sp/>req)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>ep<sp/>=<sp/>1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>sw<sp/>=<sp/>std::sin(argper)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>pp<sp/>=<sp/>1.0<sp/>+<sp/>ecc<sp/>*<sp/>std::cos(argper)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>ar<sp/>=<sp/>(sma<sp/>/<sp/>req)<sp/>*<sp/>(sma<sp/>/<sp/>req);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>ep<sp/>=<sp/>1.0<sp/>-<sp/>ecc<sp/>*<sp/>ecc;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>sw<sp/>=<sp/>std::sin(argper);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>pp<sp/>=<sp/>1.0<sp/>+<sp/>ecc<sp/>*<sp/>std::cos(argper);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="612"><highlight class="normal"></highlight></codeline>
-<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>a<sp/>=<sp/>-0.75<sp/>*<sp/>j2<sp/>*<sp/>(4.0<sp/>-<sp/>5.0<sp/>*<sp/>e)<sp/>/<sp/>(ar<sp/>*<sp/>std::sqrt(ep)<sp/>*<sp/>pp<sp/>*<sp/>pp)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>bb<sp/>=<sp/>-1.5<sp/>*<sp/>j2<sp/>*<sp/>pp<sp/>*<sp/>pp<sp/>*<sp/>pp<sp/>/<sp/>(ar<sp/>*<sp/>ep<sp/>*<sp/>ep<sp/>*<sp/>ep)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>a<sp/>=<sp/>-0.75<sp/>*<sp/>j2<sp/>*<sp/>(4.0<sp/>-<sp/>5.0<sp/>*<sp/>e)<sp/>/<sp/>(ar<sp/>*<sp/>std::sqrt(ep)<sp/>*<sp/>pp<sp/>*<sp/>pp);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>bb<sp/>=<sp/>-1.5<sp/>*<sp/>j2<sp/>*<sp/>pp<sp/>*<sp/>pp<sp/>*<sp/>pp<sp/>/<sp/>(ar<sp/>*<sp/>ep<sp/>*<sp/>ep<sp/>*<sp/>ep);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="615"><highlight class="normal"></highlight></codeline>
-<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>tnodal<sp/>=<sp/>tkepler<sp/>*<sp/>(1.0<sp/>+<sp/>a<sp/>+<sp/>bb)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>tnodal<sp/>=<sp/>tkepler<sp/>*<sp/>(1.0<sp/>+<sp/>a<sp/>+<sp/>bb);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="617"><highlight class="normal"></highlight></codeline>
-<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;tnodal<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>tnodal<sp/>&lt;&lt;<sp/>std::endl<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;tnodal<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>tnodal<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="619"><highlight class="normal"></highlight></codeline>
 <codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="621"><highlight class="normal"></highlight></codeline>
@@ -858,20 +863,20 @@
 <codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>https://books.google.com/books?id=tLU-wjQktoMC&amp;pg=PA50&amp;lpg=PA50&amp;dq=draconic+period+j2&amp;source=bl&amp;ots=GF-KGM4jIr&amp;sig=NG77REHR3SpC4FhRLpX8AfoeBAo&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwia5YTd6L3cAhUDKnwKHfSoCwEQ6AEwAnoECAQQAQ#v=onepage&amp;q=draconic%20period%20j2&amp;f=false</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="626"><highlight class="normal"></highlight></codeline>
-<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>T_0<sp/>=<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds()<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>T_0<sp/>=<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="628"><highlight class="normal"></highlight></codeline>
-<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>n_0<sp/>=<sp/>Real::TwoPi()<sp/>/<sp/>T_0<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>n_0<sp/>=<sp/>Real::TwoPi()<sp/>/<sp/>T_0;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>n<sp/>=<sp/>n_0<sp/>-<sp/>(3.0<sp/>/<sp/>4.0)<sp/>*<sp/>n_0<sp/>*<sp/>aJ2<sp/>*<sp/>std::pow(R_m<sp/>/<sp/>a_m,<sp/>2)<sp/>*<sp/>(1.0<sp/>-<sp/>3.0<sp/>*<sp/>std::cos(i_rad)<sp/>*</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cos(i_rad))<sp/>;<sp/>const<sp/>double<sp/>w_dot<sp/>=<sp/>-<sp/>(3.0<sp/>/<sp/>4.0)<sp/>*<sp/>n_0<sp/>*<sp/>aJ2<sp/>*<sp/>std::pow(R_m<sp/>/<sp/>a_m,<sp/>2)<sp/>*<sp/>(1.0<sp/>-<sp/>5.0<sp/>*</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cos(i_rad)<sp/>*<sp/>std::cos(i_rad))<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cos(i_rad));<sp/>const<sp/>double<sp/>w_dot<sp/>=<sp/>-<sp/>(3.0<sp/>/<sp/>4.0)<sp/>*<sp/>n_0<sp/>*<sp/>aJ2<sp/>*<sp/>std::pow(R_m<sp/>/<sp/>a_m,<sp/>2)<sp/>*<sp/>(1.0<sp/>-<sp/>5.0<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cos(i_rad)<sp/>*<sp/>std::cos(i_rad));</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="633"><highlight class="normal"></highlight></codeline>
-<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>T<sp/>=<sp/>Real::TwoPi()<sp/>/<sp/>(n<sp/>+<sp/>w_dot)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>const<sp/>double<sp/>T<sp/>=<sp/>Real::TwoPi()<sp/>/<sp/>(n<sp/>+<sp/>w_dot);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="635"><highlight class="normal"></highlight></codeline>
-<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>orbitalPeriod<sp/>=<sp/>Duration::Seconds(T)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>orbitalPeriod<sp/>=<sp/>Duration::Seconds(T);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="637"><highlight class="normal"></highlight></codeline>
 <codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>T<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>orbitalPeriod.toString()<sp/>&lt;&lt;<sp/>&quot;<sp/>==<sp/>&quot;<sp/>&lt;&lt;<sp/>orbitalPeriod.inSeconds().toString()<sp/>&lt;&lt;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>[s]&quot;<sp/>&lt;&lt;<sp/>std::endl<sp/>;<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>DT<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>(orbitalPeriod<sp/>-</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString()<sp/>&lt;&lt;<sp/>std::endl<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>[s]&quot;<sp/>&lt;&lt;<sp/>std::endl;<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>DT<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>(orbitalPeriod<sp/>-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString()<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="641"><highlight class="normal"></highlight></codeline>
 <codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="643"><highlight class="normal"></highlight></codeline>
@@ -891,8 +896,8 @@
 <codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orbitalPeriod<sp/>=<sp/>Duration::Seconds(T);</highlight></codeline>
 <codeline lineno="658"><highlight class="normal"></highlight></codeline>
 <codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>T<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>orbitalPeriod.toString()<sp/>&lt;&lt;<sp/>&quot;<sp/>==<sp/>&quot;<sp/>&lt;&lt;<sp/>orbitalPeriod.inSeconds().toString()<sp/>&lt;&lt;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[s]&quot;<sp/>&lt;&lt;<sp/>std::endl<sp/>;<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>DT<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>(orbitalPeriod<sp/>-</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString()<sp/>&lt;&lt;<sp/>std::endl<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[s]&quot;<sp/>&lt;&lt;<sp/>std::endl;<sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;B<sp/>-<sp/>DT<sp/>=<sp/>&quot;<sp/>&lt;&lt;<sp/>(orbitalPeriod<sp/>-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString()<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="663"><highlight class="normal"></highlight></codeline>
 <codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration<sp/>durationFromEpoch<sp/>=<sp/>Duration::Between(anEpoch,<sp/>anInstant);</highlight></codeline>

@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="56" bodyend="66"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="61" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="60" bodyend="70"/>
       </memberdef>
       <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" prot="public" static="no" strong="yes">
         <type></type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="69" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="68" bodyend="73"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="73" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="72" bodyend="77"/>
       </memberdef>
       <memberdef kind="typedef" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afe61bec3df3ed29002a9bc07f3f53311" prot="public" static="no">
         <type>Pair&lt; Position, Velocity &gt;</type>
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="75" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="75" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="79" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="79" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-attrib">
@@ -130,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="331" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="331" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="349" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="349" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aad6be786eb38ced8cdb170af32c6a75d" prot="protected" static="no" mutable="no">
         <type>Real</type>
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="332" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="332" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="350" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="350" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a62d1b6d74c04b351bb35a897179ae519" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -156,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="333" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="333" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="351" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="351" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a0632e479d04b69bd929cb3d9209f8ab9" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -169,7 +169,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="334" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="334" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="352" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="352" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3f5f26d20b18fca6335b56209b465a49" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -182,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="335" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="335" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="353" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="353" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -195,7 +195,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="336" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="336" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="354" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="354" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a1ee850c01b3469538db439e3fcdc6ffb" prot="protected" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" kindref="member">AnomalyType</ref></type>
@@ -208,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="337" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="337" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="355" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="355" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -298,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="85" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="50" bodyend="66"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="89" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="61" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aff72535c563c51c5457a42f4935dcbe3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -328,7 +328,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="96" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="68" bodyend="78"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="100" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="79" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7e596be2bdbd8bfc8689f212940acb18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -358,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="102" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="80" bodyend="83"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="106" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="91" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a70018a70f0d36e2bb88b328e0b78484f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -375,7 +375,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="118" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="92" bodyend="96"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="122" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="103" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a462a859a6c27f62d729e5caa967e1030" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Length</type>
@@ -392,7 +392,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="123" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="98" bodyend="106"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="127" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="109" bodyend="117"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad75957f6b47fa6e152e7e3e78b070b2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -409,7 +409,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="128" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="108" bodyend="116"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="132" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="119" bodyend="127"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a6e143d633133c02a2576103c2640d125" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -426,7 +426,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="133" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="118" bodyend="126"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="137" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="129" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac6af84890e2b719a4fe8cca0e13e3fad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -443,7 +443,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="138" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="128" bodyend="136"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="142" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="139" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aae05ff592f697d49ac2261e065a0c5af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -460,7 +460,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="143" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="138" bodyend="146"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="147" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="149" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a51ab2a414c3da0dad56216b92e8e6542" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Angle</type>
@@ -478,7 +478,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="148" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="148" bodyend="156"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="152" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="159" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaf1b31de1df8692b26d642cc8f3fd082" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Angle</type>
@@ -496,7 +496,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="153" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="158" bodyend="166"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="157" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="169" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a14165b80740c07bcbb8220d72a2b303a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Angle</type>
@@ -514,7 +514,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="158" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="168" bodyend="176"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="162" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="179" bodyend="187"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7d518d3a51572c89252e86f349807e80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Length</type>
@@ -531,7 +531,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="163" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="178" bodyend="186"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="167" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="189" bodyend="197"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a39554007da04f798eb165cccad09d91d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Length</type>
@@ -548,7 +548,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="168" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="188" bodyend="196"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="172" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="199" bodyend="207"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaf238543edcd5889b5788910e12bca73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Length</type>
@@ -565,7 +565,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="173" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="198" bodyend="206"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="177" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="209" bodyend="217"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaf0183b14a5f8cf9e46db1f55079755c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Length</type>
@@ -582,7 +582,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="178" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="208" bodyend="220"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="182" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="219" bodyend="231"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a086be845a0b8359252431b52b755931d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Derived</type>
@@ -612,7 +612,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="184" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="222" bodyend="235"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="188" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="233" bodyend="246"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aada6c64f035662e9a32201f95de0eeb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Derived</type>
@@ -642,7 +642,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="190" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="237" bodyend="260"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="194" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="248" bodyend="268"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ab32fb12776070d71e4381bac2aca54d2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Derived</type>
@@ -696,7 +696,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="198" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="262" bodyend="275"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="202" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="270" bodyend="282"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac9b6ef6b81de82080889e713fde2796f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -726,7 +726,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="206" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="277" bodyend="295"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="210" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="284" bodyend="297"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3ea436614339f9a04752679b3e852492" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afe61bec3df3ed29002a9bc07f3f53311" kindref="member">COE::CartesianState</ref></type>
@@ -768,7 +768,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="213" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="297" bodyend="372"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="217" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="299" bodyend="366"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a86cd3cb76cc484be9a2008e19458173b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Vector6d</type>
@@ -798,7 +798,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="220" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="374" bodyend="384"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="224" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="368" bodyend="378"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a86877732fb16a51197145b134593a7ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -839,7 +839,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="226" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="386" bodyend="427"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="230" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="380" bodyend="419"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -860,7 +860,7 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac7303dc5cd7c9a24aa9e82049de6103b" kindref="member">COE</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac7303dc5cd7c9a24aa9e82049de6103b" kindref="member">COE</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -885,7 +885,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="113" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="85" bodyend="90"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="117" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="96" bodyend="101"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -906,7 +906,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="235" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="429" bodyend="439"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="239" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="421" bodyend="431"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ae0c7f2ae8e6a40161f1b976fe80c2911" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
@@ -948,7 +948,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="242" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="441" bodyend="643"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="246" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="433" bodyend="630"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a0124cb803a367588595c9e5222c02d97" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
@@ -990,7 +990,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="249" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="645" bodyend="655"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="253" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="632" bodyend="642"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a9b1f7533901966add395f67143c21324" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -1032,7 +1032,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="256" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="657" bodyend="738"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="260" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="644" bodyend="725"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad5d28c03990087706bb5eefa689c965e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -1074,7 +1074,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="263" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="740" bodyend="759"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="267" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="727" bodyend="746"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a503017783745fc1c2f29e5e5961a09c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -1116,7 +1116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="270" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="761" bodyend="777"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="274" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="748" bodyend="764"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aab17fd6d3ff8af61c06b17ce2a90cd2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -1170,7 +1170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="278" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="779" bodyend="861"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="282" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="766" bodyend="845"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ae74b1b69141c6a008a967a256954c13f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -1224,7 +1224,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="288" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="863" bodyend="868"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="292" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="847" bodyend="852"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a82c5f6186a979b53092675699517601d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -1260,13 +1260,13 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Real Semi-latus rectum. </para>
+<simplesect kind="return"><para>Semi-latus rectum in meters. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="297" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="870" bodyend="873"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="301" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="854" bodyend="857"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5f3bfc58424cb44a7f6f449f1555409a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -1320,7 +1320,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="305" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="880" bodyend="887"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="309" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="864" bodyend="871"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5c3b082070e866d26c52a3754f804bbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -1362,7 +1362,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="314" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="889" bodyend="894"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="318" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="873" bodyend="878"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa77eb1ebcf7b116557519a12ee36daf0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -1410,13 +1410,107 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Radial distance. </para>
+<simplesect kind="return"><para>Radial distance in meters. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="322" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="875" bodyend="878"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="326" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="859" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa70eb790b3235a2d515dca52b3e5ef50" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Time</type>
+        <definition>Time ostk::astrodynamics::trajectory::orbit::model::kepler::COE::ComputeMeanLTAN</definition>
+        <argsstring>(const Angle &amp;raan, const Instant &amp;anInstant, const Sun &amp;sun=Sun::Default())</argsstring>
+        <name>ComputeMeanLTAN</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>raan</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Sun &amp;</type>
+          <declname>sun</declname>
+          <defval>Sun::Default()</defval>
+        </param>
+        <briefdescription>
+<para>Compute Mean Local Time of the Ascending Node (MLTAN) from RAAN and instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right Ascension of the Ascending Node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to compute LTAN </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Mean Local Time of the Ascending Node (MLTAN) in hours </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="333" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="880" bodyend="901"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7b983230cbd19b3041ddeb3f7f34539f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Time</type>
+        <definition>Time ostk::astrodynamics::trajectory::orbit::model::kepler::COE::ComputeLTAN</definition>
+        <argsstring>(const Angle &amp;raan, const Instant &amp;anInstant, const Sun &amp;sun=Sun::Default())</argsstring>
+        <name>ComputeLTAN</name>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>raan</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Sun &amp;</type>
+          <declname>sun</declname>
+          <defval>Sun::Default()</defval>
+        </param>
+        <briefdescription>
+<para>Compute Local Time of the Ascending Node (LTAN) from RAAN and instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right Ascension of the Ascending Node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to compute LTAN </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Local Time of the Ascending Node (LTAN) in hours </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="340" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="903" bodyend="918"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3347d99fa79c1ba759aa8871a240d488" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -1446,7 +1540,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="328" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="896" bodyend="919"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="346" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="920" bodyend="943"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -1548,7 +1642,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="348" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="921" bodyend="938"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="366" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="945" bodyend="962"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -1628,7 +1722,37 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="365" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="940" bodyend="1000"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="383" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="964" bodyend="1024"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad7cb62716b9f33786e49bed05eb4a6ca" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::kepler::COE::ComputeEquationOfTime</definition>
+        <argsstring>(const Instant &amp;anInstant)</argsstring>
+        <name>ComputeEquationOfTime</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Compute the equation of time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to compute the equation of time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The equation of time as an angle </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="395" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1026" bodyend="1058"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1688,7 +1812,7 @@
         <label>Length</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="54" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="53" bodyend="372"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="58" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="57" bodyend="396"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>anomaly_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>AnomalyType</name></member>
@@ -1700,6 +1824,9 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a9c53658e24acd7d01ee3b00f61df1d9a" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>COE</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5f3bfc58424cb44a7f6f449f1555409a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeAngularMomentum</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5c3b082070e866d26c52a3754f804bbd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeAngularMomentum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad7cb62716b9f33786e49bed05eb4a6ca" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeEquationOfTime</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7b983230cbd19b3041ddeb3f7f34539f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeLTAN</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa70eb790b3235a2d515dca52b3e5ef50" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeMeanLTAN</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa77eb1ebcf7b116557519a12ee36daf0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeRadialDistance</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a82c5f6186a979b53092675699517601d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ComputeSemiLatusRectum</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a769377558fe9b059146e01bf89d1fdbb" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>ConvertAnomaly</name></member>

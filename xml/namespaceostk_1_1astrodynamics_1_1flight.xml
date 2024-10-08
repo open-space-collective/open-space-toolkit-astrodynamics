@@ -65,7 +65,7 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Maneuver(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Maneuver(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -108,7 +108,7 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Profile(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Profile(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

@@ -16,8 +16,10 @@ ostk.astrodynamics.Trajectory
    .. autosummary::
       :nosignatures:
    
+      ~Trajectory.access_model
       ~Trajectory.get_state_at
       ~Trajectory.get_states_at
+      ~Trajectory.ground_strip
       ~Trajectory.is_defined
       ~Trajectory.position
       ~Trajectory.undefined

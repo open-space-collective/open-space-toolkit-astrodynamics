@@ -4,6 +4,19 @@
     <compoundname>ostk::astrodynamics::trajectory::orbit::model::kepler</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" prot="public">ostk::astrodynamics::trajectory::orbit::model::kepler::COE</innerclass>
       <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1a2964688a083595b9507974ce1d3df7ae" prot="public" static="no">
+        <type>ostk::physics::unit::Time</type>
+        <definition>using ostk::astrodynamics::trajectory::orbit::model::kepler::TimeUnit = typedef ostk::physics::unit::Time</definition>
+        <argsstring></argsstring>
+        <name>TimeUnit</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="42" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ac00bdd48808828c877ed546be98e6e49" prot="public" static="no">
         <type>ostk::physics::environment::gravitational::Earth</type>
         <definition>using ostk::astrodynamics::trajectory::orbit::model::kepler::EarthGravitationalModel = typedef ostk::physics::environment::gravitational::Earth</definition>
@@ -15,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="32" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="32" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="43" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -31,22 +44,35 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="34" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="34" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="45" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ac099f370dafe9f1f38bb1711071988bc" prot="public" static="yes" mutable="no">
         <type>const Derived::Unit</type>
         <definition>const Derived::Unit ostk::astrodynamics::trajectory::orbit::model::kepler::GravitationalParameterSIUnit</definition>
         <argsstring></argsstring>
         <name>GravitationalParameterSIUnit</name>
-        <initializer>=
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second)</initializer>
+        <initializer>= Derived::Unit::MeterCubedPerSecondSquared()</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="35" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="35" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="46" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1a712b68b5c11d4c701fd0398dda6ac891" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astrodynamics::trajectory::orbit::model::kepler::angularVelocitySIUnit</definition>
+        <argsstring></argsstring>
+        <name>angularVelocitySIUnit</name>
+        <initializer>= Derived::Unit::RadianPerSecond()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="47" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1af3f5feab0e8a816ae65b6b6c85055419" prot="public" static="yes" mutable="no">
         <type>const Derived::Unit</type>
@@ -58,7 +84,7 @@
     {2},
     Mass::Unit::Kilogram,
     {1},
-    Time::Unit::Second,
+    TimeUnit::Unit::Second,
     {-2},
     ElectricCurrent::Unit::Undefined,
     {0},
@@ -71,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="37" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="37" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="48" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="48" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -91,7 +117,7 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>COE(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>COE(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -116,13 +142,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="85" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="85" bodyend="90"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="96" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="96" bodyend="101"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="32" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="33" column="1"/>
   </compounddef>
 </doxygen>

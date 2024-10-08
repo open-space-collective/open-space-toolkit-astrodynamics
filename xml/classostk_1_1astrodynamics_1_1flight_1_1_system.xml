@@ -50,9 +50,9 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Composite<sp/>composite<sp/>(<sp/>...<sp/>)<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System</ref><sp/>system<sp/>=<sp/>{<sp/>mass,<sp/>composite<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Composite<sp/>composite<sp/>(<sp/>...<sp/>);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System</ref><sp/>system<sp/>=<sp/>{<sp/>mass,<sp/>composite<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -237,7 +237,7 @@
 <para>Get system&apos;s mass. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>system.getMass()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>system.getMass();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Mass </para>
 </simplesect>
@@ -256,7 +256,7 @@
 <para>Get system&apos;s geometry. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>system.getGeometry()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>system.getGeometry();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Composite </para>
 </simplesect>

@@ -20,8 +20,8 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">TLE<sp/>tle(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tle<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">TLE<sp/>tle(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tle;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

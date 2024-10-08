@@ -65,6 +65,9 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
+      </node>
       <node id="14">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp</label>
         <link refid="_brouwer_lyddane_mean_8hpp"/>
@@ -122,6 +125,8 @@
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>

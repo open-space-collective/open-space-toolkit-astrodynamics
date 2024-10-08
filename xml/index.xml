@@ -246,9 +246,12 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5f3bfc58424cb44a7f6f449f1555409a" kind="function"><name>ComputeAngularMomentum</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5c3b082070e866d26c52a3754f804bbd" kind="function"><name>ComputeAngularMomentum</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa77eb1ebcf7b116557519a12ee36daf0" kind="function"><name>ComputeRadialDistance</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa70eb790b3235a2d515dca52b3e5ef50" kind="function"><name>ComputeMeanLTAN</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7b983230cbd19b3041ddeb3f7f34539f" kind="function"><name>ComputeLTAN</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3347d99fa79c1ba759aa8871a240d488" kind="function"><name>StringFromElement</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a9c53658e24acd7d01ee3b00f61df1d9a" kind="function"><name>COE</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a769377558fe9b059146e01bf89d1fdbb" kind="function"><name>ConvertAnomaly</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad7cb62716b9f33786e49bed05eb4a6ca" kind="function"><name>ComputeEquationOfTime</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kind="class"><name>ostk::astrodynamics::eventcondition::COECondition</name>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ab0eca692df7d3e66a09148d7837e78a1" kind="function"><name>SemiMajorAxis</name></member>
@@ -1496,6 +1499,8 @@
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1aef0327f0240dc2d71eca34dc287f88ea" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a5cd4a31ab2f9e4b4ca5dd62c515490ef" kind="function"><name>Undefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a7c3e5cb45279eb2d7cbf32c2347d3840" kind="function"><name>Position</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" kind="function"><name>GroundStrip</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ae0657f4bca61121f64aa8d66643afccd" kind="function"><name>GroundStrip</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a6c0103df039a8de9701125b235de1bff" kind="function"><name>Trajectory</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kind="class"><name>ostk::astrodynamics::flight::Profile::TrajectoryTarget</name>
@@ -1623,9 +1628,11 @@
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1a3b0c64bbbe158ec2b0820f203e607b88" kind="typedef"><name>EarthGravitationalModel</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler" kind="namespace"><name>ostk::astrodynamics::trajectory::orbit::model::kepler</name>
+    <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1a2964688a083595b9507974ce1d3df7ae" kind="typedef"><name>TimeUnit</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ac00bdd48808828c877ed546be98e6e49" kind="typedef"><name>EarthGravitationalModel</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ad80969f424d940af52bab5889f8d004b" kind="variable"><name>Tolerance</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ac099f370dafe9f1f38bb1711071988bc" kind="variable"><name>GravitationalParameterSIUnit</name></member>
+    <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1a712b68b5c11d4c701fd0398dda6ac891" kind="variable"><name>angularVelocitySIUnit</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1af3f5feab0e8a816ae65b6b6c85055419" kind="variable"><name>AngularMomentumSIUnit</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1aa326f2c05044d69b40e29fc3e4912f59" kind="function"><name>operator&lt;&lt;</name></member>
   </compound>

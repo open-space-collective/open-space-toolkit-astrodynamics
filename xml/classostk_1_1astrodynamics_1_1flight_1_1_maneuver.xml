@@ -532,7 +532,7 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kindref="member">Maneuver</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

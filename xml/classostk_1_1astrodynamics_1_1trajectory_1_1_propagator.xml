@@ -82,7 +82,7 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8641cdc43835c124f91ccafd62b32155" kindref="member">Propagator</ref><sp/>propagator<sp/>=<sp/>{<sp/>aNumericalSolver,<sp/>aDynamicsArray<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8641cdc43835c124f91ccafd62b32155" kindref="member">Propagator</ref><sp/>propagator<sp/>=<sp/>{<sp/>aNumericalSolver,<sp/>aDynamicsArray<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -133,7 +133,7 @@
 <para>Constructor with Maneuvers. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8641cdc43835c124f91ccafd62b32155" kindref="member">Propagator</ref><sp/>propagator<sp/>=<sp/>{<sp/>aNumericalSolver,<sp/>aDynamicsArray,<sp/>aManeuverArray<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1a8641cdc43835c124f91ccafd62b32155" kindref="member">Propagator</ref><sp/>propagator<sp/>=<sp/>{<sp/>aNumericalSolver,<sp/>aDynamicsArray,<sp/>aManeuverArray<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

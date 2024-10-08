@@ -59,7 +59,7 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="28">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="5">
@@ -96,10 +96,13 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="27">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
+      </node>
       <node id="26">
         <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
       </node>
-      <node id="28">
+      <node id="29">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
       </node>
       <node id="2">
@@ -127,21 +130,23 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
       </node>
-      <node id="29">
+      <node id="30">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
         <link refid="_state_builder_8hpp"/>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
@@ -160,7 +165,7 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="30">
+      <node id="31">
         <label>OpenSpaceToolkit/Core/Type/Integer.hpp</label>
       </node>
       <node id="1">
@@ -203,7 +208,7 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
       </node>
       <node id="15">
@@ -370,7 +375,7 @@
 <codeline lineno="109"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>GuidanceLaw(</highlight><highlight class="stringliteral">&quot;Q-Law&quot;</highlight><highlight class="normal">),</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameters_(aParameterSet),</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>mu_(aGravitationalParameter.in(aGravitationalParameter.getUnit())),</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>mu_(aGravitationalParameter.in(Derived::Unit::MeterCubedPerSecondSquared())),</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),</highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gravitationalParameter_(aGravitationalParameter),</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gradientStrategy_(aGradientStrategy),</highlight></codeline>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="54" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" bodystart="54" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="147" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" bodystart="147" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -30,12 +30,26 @@
           <declname>aPosition</declname>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Position<sp/>position<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel(position);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position of the static model. Must be provided in the ITRF frame. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="32" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="17" bodyend="21"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="17" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a37b27d80820a12ac8e096b6266b5407c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static" kindref="compound">Static</ref> *</type>
@@ -44,12 +58,19 @@
         <name>clone</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd">clone</reimplements>
         <briefdescription>
+<para>Clone the static model. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref>*<sp/>clonedModel<sp/>=<sp/>staticModel.clone();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A pointer to the cloned static model </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="34" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="23" bodyend="26"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="50" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="27" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ab588208e9d9859b30208ea6488c91a27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -61,12 +82,29 @@
           <declname>aStaticModel</declname>
         </param>
         <briefdescription>
+<para>Equality operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel1<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel2<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/>(staticModel1<sp/>==<sp/>staticModel2);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStaticModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are equal, false otherwise </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="36" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="28" bodyend="36"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="62" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="32" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1af5f92baf327c859d478125ad8ebdcfa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -78,12 +116,29 @@
           <declname>aStaticModel</declname>
         </param>
         <briefdescription>
+<para>Inequality operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel1<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel2<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/>(staticModel1<sp/>!=<sp/>staticModel2);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStaticModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are not equal, false otherwise </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="38" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="38" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="74" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="42" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1afe9bcc0dbd33385904b00c0ef3531dc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -92,12 +147,19 @@
         <name>isDefined</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481">isDefined</reimplements>
         <briefdescription>
+<para>Check if the static model is defined. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1afe9bcc0dbd33385904b00c0ef3531dc9" kindref="member">isDefined</ref><sp/>=<sp/>staticModel.isDefined();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the model is defined, false otherwise </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="42" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="50" bodyend="53"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="96" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="54" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a54dc2696b84b3db796d4291de721dc35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -110,12 +172,29 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Calculate the state at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>staticModel.calculateStateAt(instant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to calculate the state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The state at the given instant </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="44" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="55" bodyend="70"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="108" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="59" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ae30f8ba6533aca4f229525a032aefb0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -133,12 +212,34 @@
           <defval>true</defval>
         </param>
         <briefdescription>
+<para>Print the static model to an output stream. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">staticModel.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="46" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="72" bodyend="82"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="119" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="77" bodyend="87"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -156,12 +257,36 @@
           <declname>aStaticModel</declname>
         </param>
         <briefdescription>
+<para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>staticModel;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStaticModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to output </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="40" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="43" bodyend="48"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="86" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="47" bodyend="52"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -176,12 +301,29 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Equality operator for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> base class. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kindref="member">Model</ref><sp/>model<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/>(staticModel<sp/>==<sp/>model);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are equal, false otherwise </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="49" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="84" bodyend="89"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="132" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="89" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1acb140acc2965e7a67c42f45a5119dce4" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -194,16 +336,33 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Inequality operator for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> base class. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ac62872a3613724889f7bc4044780d28b" kindref="member">Static</ref><sp/>staticModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kindref="member">Model</ref><sp/>model<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/>(staticModel<sp/>!=<sp/>model);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are not equal, false otherwise </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="51" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="91" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="144" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="96" bodyend="99"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static" kindref="compound">Static</ref> trajectory model. </para>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static" kindref="compound">Static</ref> trajectory model to represent a fixed position on the surface of the earth. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -231,7 +390,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" bodystart="29" bodyend="55"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" bodystart="29" bodyend="148"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Static</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a54dc2696b84b3db796d4291de721dc35" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Static</scope><name>calculateStateAt</name></member>

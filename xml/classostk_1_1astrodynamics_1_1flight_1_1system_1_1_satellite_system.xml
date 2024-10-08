@@ -93,14 +93,14 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Composite<sp/>composite<sp/>(<sp/>...<sp/>)<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Matrix3d<sp/>intertiaTensor<sp/>(<sp/>...<sp/>)<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Real<sp/>crossSectionalSurfaceArea<sp/>=<sp/>0.8<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Real<sp/>dragCoefficient<sp/>=<sp/>2.2<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mass<sp/>mass<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Composite<sp/>composite<sp/>(<sp/>...<sp/>);</highlight></codeline>
+<codeline><highlight class="normal">Matrix3d<sp/>intertiaTensor<sp/>(<sp/>...<sp/>);</highlight></codeline>
+<codeline><highlight class="normal">Real<sp/>crossSectionalSurfaceArea<sp/>=<sp/>0.8;</highlight></codeline>
+<codeline><highlight class="normal">Real<sp/>dragCoefficient<sp/>=<sp/>2.2;</highlight></codeline>
+<codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
 <codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System</ref><sp/>system<sp/>=<sp/>{<sp/>mass,<sp/>composite,<sp/>intertiaTensor,<sp/>crossSectionalSurfaceArea,</highlight></codeline>
-<codeline><highlight class="normal">dragCoefficient,<sp/>propulsionSystem<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">dragCoefficient,<sp/>propulsionSystem<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -275,7 +275,7 @@
 <para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> satellite system&apos;s propulsion system. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>satelliteSystem.accessPropulsionSystem()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>satelliteSystem.accessPropulsionSystem();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> </para>
 </simplesect>
@@ -294,7 +294,7 @@
 <para>Get satellite system&apos;s inertia tensor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Matrix3d<sp/>inertiaTensor<sp/>=<sp/>satelliteSystem.getInertiaTensor()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Matrix3d<sp/>inertiaTensor<sp/>=<sp/>satelliteSystem.getInertiaTensor();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Matrix3d </para>
 </simplesect>
@@ -313,7 +313,7 @@
 <para>Get satellite system&apos;s surface area. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>surfaceArea<sp/>=<sp/>satelliteSystem.getCrossSectionalSurfaceArea()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>surfaceArea<sp/>=<sp/>satelliteSystem.getCrossSectionalSurfaceArea();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Real </para>
 </simplesect>
@@ -332,7 +332,7 @@
 <para>Get satellite system&apos;s drag coefficient. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>dragCoefficient<sp/>=<sp/>satelliteSystem.getDragCoefficient()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>dragCoefficient<sp/>=<sp/>satelliteSystem.getDragCoefficient();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Real </para>
 </simplesect>
@@ -351,7 +351,7 @@
 <para>Get satellite system&apos;s propulsion system. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>satelliteSystem.getPropulsionSystem()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">PropulsionSystem<sp/>propulsionSystem<sp/>=<sp/>satelliteSystem.getPropulsionSystem();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> </para>
 </simplesect>

@@ -432,7 +432,7 @@
 <codeline lineno="193"><highlight class="normal"></highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Two-Line<sp/>Elements&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"></highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tle_.print(anOutputStream,<sp/>false)<sp/>;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tle_.print(anOutputStream,<sp/>false);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
 <codeline lineno="199"><highlight class="normal">}</highlight></codeline>

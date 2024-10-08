@@ -19,6 +19,8 @@ ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean.BrouwerLyddaneMeanS
       ~BrouwerLyddaneMeanShort.COE
       ~BrouwerLyddaneMeanShort.cartesian
       ~BrouwerLyddaneMeanShort.compute_angular_momentum
+      ~BrouwerLyddaneMeanShort.compute_ltan
+      ~BrouwerLyddaneMeanShort.compute_mean_ltan
       ~BrouwerLyddaneMeanShort.compute_radial_distance
       ~BrouwerLyddaneMeanShort.compute_semi_latus_rectum
       ~BrouwerLyddaneMeanShort.eccentric_anomaly_from_mean_anomaly

@@ -222,7 +222,7 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" kindref="member">GuidanceLaw</ref>(...)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" kindref="member">GuidanceLaw</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

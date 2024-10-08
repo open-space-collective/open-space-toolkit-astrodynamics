@@ -172,85 +172,90 @@
 <codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>Model(),</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>position_(aPosition)</highlight></codeline>
 <codeline lineno="20"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal">Static*<sp/>Static::clone()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="24"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Static(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static&amp;<sp/>aStaticModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="29"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!this-&gt;isDefined())<sp/>||<sp/>(!aStaticModel.isDefined()))</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>position_<sp/>==<sp/>aStaticModel.position_;</highlight></codeline>
-<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static&amp;<sp/>aStaticModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="39"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aStaticModel);</highlight></codeline>
-<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static&amp;<sp/>aStaticModel)</highlight></codeline>
-<codeline lineno="44"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>aStaticModel.print(anOutputStream);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aPosition.accessFrame()<sp/>!=<sp/>Frame::ITRF())</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Position<sp/>Frame&quot;</highlight><highlight class="normal">,<sp/>aPosition.accessFrame()-&gt;getName());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">Static*<sp/>Static::clone()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="28"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Static(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static&amp;<sp/>aStaticModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="33"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!this-&gt;isDefined())<sp/>||<sp/>(!aStaticModel.isDefined()))</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>position_<sp/>==<sp/>aStaticModel.position_;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static&amp;<sp/>aStaticModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="43"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aStaticModel);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::isDefined()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="51"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>position_.isDefined();</highlight></codeline>
-<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal">State<sp/>Static::calculateStateAt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="56"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Position;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static&amp;<sp/>aStaticModel)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>aStaticModel.print(anOutputStream);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::isDefined()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="55"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>position_.isDefined();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anInstant.isDefined())</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Instant&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Static&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>State(anInstant,<sp/>position_,<sp/>Velocity::MetersPerSecond({0.0,<sp/>0.0,<sp/>0.0},<sp/>position_.accessFrame()));</highlight></codeline>
-<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Static::print(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="73"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::String;</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Static&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(position_.isDefined()<sp/>?<sp/>position_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">State<sp/>Static::calculateStateAt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="60"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Position;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anInstant.isDefined())</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Instant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Static&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>State(anInstant,<sp/>position_,<sp/>Velocity::MetersPerSecond({0.0,<sp/>0.0,<sp/>0.0},<sp/>position_.accessFrame()))</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.inFrame(Frame::GCRF());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Static::print(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="78"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::String;</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Model&amp;<sp/>aModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="85"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static*<sp/>staticModelPtr<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">Static*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;aModel);</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(staticModelPtr<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>this-&gt;operator==(*staticModelPtr);</highlight></codeline>
-<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Model&amp;<sp/>aModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="92"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aModel);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Static&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(position_.isDefined()<sp/>?<sp/>position_.toString()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Model&amp;<sp/>aModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="90"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Static*<sp/>staticModelPtr<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">Static*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;aModel);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(staticModelPtr<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>this-&gt;operator==(*staticModelPtr);</highlight></codeline>
 <codeline lineno="94"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>model</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Static::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Model&amp;<sp/>aModel)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="97"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aModel);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp"/>
   </compounddef>

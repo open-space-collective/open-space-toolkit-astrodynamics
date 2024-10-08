@@ -63,7 +63,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -111,7 +111,7 @@
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -157,7 +157,7 @@
 <para>Equal to operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -189,7 +189,7 @@
 <para>Not equal to operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>!=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>!=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -218,7 +218,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).isDefined()<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).isDefined();</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>True if <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> is defined </para>
@@ -241,7 +241,7 @@
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
-<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;ISS<sp/>(ZARYA)&quot;</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName();<sp/></highlight><highlight class="comment">//<sp/>&quot;ISS<sp/>(ZARYA)&quot;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Satellite name </para>
 </simplesect>
@@ -263,7 +263,7 @@
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
-<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName();<sp/></highlight><highlight class="comment">//<sp/>&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>First line </para>
@@ -286,7 +286,7 @@
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref>(</highlight><highlight class="stringliteral">&quot;ISS<sp/>(ZARYA)&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
-<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">).getSatelliteName();<sp/></highlight><highlight class="comment">//<sp/>&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>130.5360<sp/>325.0288<sp/>15.72125391563537</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Second line </para>
@@ -712,8 +712,8 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tle<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle(</highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tle;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -751,7 +751,7 @@
 <para>Constructs an undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aad2a342d40b9e53b49c430f52b725d28" kindref="member">TLE::Undefined</ref>()<sp/>;<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aad2a342d40b9e53b49c430f52b725d28" kindref="member">TLE::Undefined</ref>();<sp/></highlight><highlight class="comment">//<sp/>Undefined</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> </para>
 </simplesect>
@@ -775,7 +775,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a8deef332b19ede8f7afe8be3c1407e45" kindref="member">TLE::CanParse</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927\n</highlight></codeline>
-<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>True</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -813,7 +813,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a8deef332b19ede8f7afe8be3c1407e45" kindref="member">TLE::CanParse</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/><sp/>2927&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360<sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>True</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -856,7 +856,7 @@
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a9a7098780c078cdd814ae64145d1b78f" kindref="member">TLE::Parse</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0<sp/>2927\n</highlight></codeline>
 <codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/>25544<sp/><sp/>51.6416<sp/>247.4627<sp/>0006703<sp/>130.5360</highlight></codeline>
-<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>325.0288<sp/>15.72125391563537&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -888,7 +888,7 @@
 <para>Load a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> from a given file. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/>TLE::File(File::Path(Path::String(</highlight><highlight class="stringliteral">&quot;/path/to/file.tle&quot;</highlight><highlight class="normal">)))<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kindref="member">TLE</ref><sp/>tle<sp/>=<sp/>TLE::File(File::Path(Path::String(</highlight><highlight class="stringliteral">&quot;/path/to/file.tle&quot;</highlight><highlight class="normal">)));</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1083,7 +1083,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab2183d753590a806818a969dfb4257b0" kindref="member">TLE::GenerateChecksum</ref>(</highlight><highlight class="stringliteral">&quot;1<sp/>25544U<sp/>98067A<sp/><sp/><sp/>08264.51782528<sp/>-.00002182<sp/><sp/>00000-0<sp/>-11606-4<sp/>0</highlight></codeline>
-<codeline><highlight class="stringliteral">2927&quot;</highlight><highlight class="normal">)<sp/>;</highlight></codeline>
+<codeline><highlight class="stringliteral">2927&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

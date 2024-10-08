@@ -63,7 +63,7 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="2">
@@ -97,10 +97,13 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="24">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
+      </node>
       <node id="23">
         <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
       </node>
-      <node id="25">
+      <node id="26">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
       </node>
       <node id="9">
@@ -125,21 +128,23 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
         <childnode refid="25" relation="include">
         </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
         <link refid="_state_builder_8hpp"/>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -158,7 +163,7 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="28">
         <label>OpenSpaceToolkit/Core/Type/Integer.hpp</label>
       </node>
       <node id="18">
@@ -187,7 +192,7 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="12">

@@ -62,7 +62,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="28">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="21">
@@ -96,6 +96,9 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="26">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
+      </node>
       <node id="25">
         <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
       </node>
@@ -126,9 +129,11 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -206,7 +211,7 @@
       <node id="7">
         <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
-      <node id="26">
+      <node id="27">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
       </node>
     </incdepgraph>
