@@ -116,20 +116,6 @@ ENDIF ()
 
 ## Flags
 
-### Warnings
-
-IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-
-    IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
-
-        MESSAGE (FATAL_ERROR "GCC version must be at least 13")
-
-    ENDIF ()
-
-    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated")
-
-ENDIF ()
-
 ### C++ 17/20 support
 
 IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
