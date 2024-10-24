@@ -266,13 +266,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             "in_frame",
             &State::inFrame,
             R"doc(
-                Check if the state is in a given reference frame.
+                Transform the state to the provided reference frame.
 
                 Args:
-                    frame (Frame): The reference frame to check.
+                    frame (Frame): The reference frame to transform to.
 
                 Returns:
-                    bool: True if the state is in the reference frame, False otherwise.
+                    State: The transformed state.
             )doc",
             arg("frame")
         )
