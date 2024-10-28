@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <chrono>
 #include <nlopt.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -9,16 +10,22 @@
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
-using ostk::astrodynamics::solver::TemporalConditionSolver;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::celestial::Earth;
+
+using ostk::astrodynamics::RootSolver;
+using ostk::astrodynamics::solver::TemporalConditionSolver;
 
 namespace ostk
 {
@@ -26,6 +33,92 @@ namespace astrodynamics
 {
 namespace access
 {
+
+GroundTargetConfiguration::GroundTargetConfiguration(
+    const Interval<Real>& anAzimuthInterval,
+    const Interval<Real>& anElevationInterval,
+    const Interval<Real>& aRangeInterval,
+    const Position& aPosition
+)
+    : azimuthInterval_(anAzimuthInterval),
+      elevationInterval_(anElevationInterval),
+      rangeInterval_(aRangeInterval),
+      position_(aPosition),
+      lla_(LLA::Cartesian(
+          aPosition.getCoordinates(),
+          EarthGravitationalModel::EGM2008.equatorialRadius_,
+          EarthGravitationalModel::EGM2008.flattening_
+      ))
+{
+    if (aPosition.isDefined() && aPosition.accessFrame() != Frame::ITRF())
+    {
+        throw ostk::core::error::RuntimeError("The position frame must be ITRF.");
+    }
+}
+
+GroundTargetConfiguration::GroundTargetConfiguration(
+    const Interval<Real>& anAzimuthInterval,
+    const Interval<Real>& anElevationInterval,
+    const Interval<Real>& aRangeInterval,
+    const LLA& aLLA
+)
+    : azimuthInterval_(anAzimuthInterval),
+      elevationInterval_(anElevationInterval),
+      rangeInterval_(aRangeInterval),
+      position_(Position::Meters(
+          aLLA.toCartesian(
+              EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
+          ),
+          Frame::ITRF()
+      )),
+      lla_(aLLA)
+{
+}
+
+Trajectory GroundTargetConfiguration::getTrajectory() const
+{
+    return Trajectory::Position(position_);
+}
+
+Position GroundTargetConfiguration::getPosition() const
+{
+    return position_;
+}
+
+LLA GroundTargetConfiguration::getLLA() const
+{
+    return lla_;
+}
+
+Interval<Real> GroundTargetConfiguration::getAzimuthInterval() const
+{
+    return azimuthInterval_;
+}
+
+Interval<Real> GroundTargetConfiguration::getElevationInterval() const
+{
+    return elevationInterval_;
+}
+
+Interval<Real> GroundTargetConfiguration::getRangeInterval() const
+{
+    return rangeInterval_;
+}
+
+Matrix3d GroundTargetConfiguration::getR_SEZ_ECEF() const
+{
+    // TBM: Move this to OSTk physics as a utility function
+    const double sinLat = std::sin(lla_.getLatitude().inRadians());
+    const double cosLat = std::cos(lla_.getLatitude().inRadians());
+    const double sinLon = std::sin(lla_.getLongitude().inRadians());
+    const double cosLon = std::cos(lla_.getLongitude().inRadians());
+
+    Matrix3d SEZRotation;
+    SEZRotation << sinLat * cosLon, sinLat * sinLon, -cosLat, -sinLon, cosLon, 0.0, cosLat * cosLon, cosLat * sinLon,
+        sinLat;
+
+    return SEZRotation;
+}
 
 Generator::Generator(const Environment& anEnvironment, const Duration& aStep, const Duration& aTolerance)
     : environment_(anEnvironment),
@@ -152,23 +245,235 @@ Array<Access> Generator::computeAccesses(
 
     const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
-    return accessIntervals
-        .map<Access>(
-            [&anInterval, &aFromTrajectory, &aToTrajectory, &earthSPtr, this](
-                const physics::time::Interval& anAccessInterval
-            ) -> Access
-            {
-                return Generator::GenerateAccess(
-                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, earthSPtr, this->tolerance_
-                );
-            }
+    return generateAccessesFromIntervals(accessIntervals, anInterval, aFromTrajectory, aToTrajectory);
+}
+
+Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
+    const physics::time::Interval& anInterval,
+    const Array<GroundTargetConfiguration>& someGroundTargetConfigurations,
+    const Trajectory& aToTrajectory
+) const
+{
+    // create a stacked matrix of SEZ rotations for all ground targets
+    const Index targetCount = someGroundTargetConfigurations.getSize();
+    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> SEZRotations(3, 3 * targetCount);
+
+    for (Index i = 0; i < targetCount; ++i)
+    {
+        SEZRotations.block(0, 3 * i, 3, 3) = someGroundTargetConfigurations[i].getR_SEZ_ECEF();
+    }
+
+    // create a stacked matrix of ITRF positions for all ground targets
+    MatrixXd fromPositionCoordinates_ITRF = MatrixXd::Zero(3, targetCount);
+
+    for (Index i = 0; i < targetCount; ++i)
+    {
+        fromPositionCoordinates_ITRF.col(i) = someGroundTargetConfigurations[i].getPosition().getCoordinates();
+    }
+
+    // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
+    MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
+    MatrixXd aerUpperBounds = MatrixXd::Zero(targetCount, 3);
+
+    for (Index i = 0; i < targetCount; ++i)
+    {
+        aerLowerBounds(i, 0) =
+            someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * Real::Pi() / 180.0;
+        aerLowerBounds(i, 1) =
+            someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * Real::Pi() / 180.0;
+        aerLowerBounds(i, 2) =
+            someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound() * Real::Pi() / 180.0;
+
+        aerUpperBounds(i, 0) =
+            someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * Real::Pi() / 180.0;
+        aerUpperBounds(i, 1) =
+            someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * Real::Pi() / 180.0;
+        aerUpperBounds(i, 2) =
+            someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound() * Real::Pi() / 180.0;
+    }
+
+    // initialize solver and condition
+    const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
+
+    const auto createAccessCondition =
+        [&fromPositionCoordinates_ITRF, &SEZRotations, &aToTrajectory, &aerLowerBounds, &aerUpperBounds](
+            const Index& targetIdx
         )
-        .getWhere(
-            [this](const Access& anAccess) -> bool
+    {
+        const Vector3d fromPositionCoordinate_ITRF = fromPositionCoordinates_ITRF.col(targetIdx);
+
+        const Matrix3d SEZRotation = SEZRotations.block(0, 3 * targetIdx, 3, 3);
+
+        const double azimuthLowerBound = aerLowerBounds(targetIdx, 0);
+        const double azimuthUpperBound = aerUpperBounds(targetIdx, 0);
+        const double elevationLowerBound = aerLowerBounds(targetIdx, 1);
+        const double elevationUpperBound = aerUpperBounds(targetIdx, 1);
+        const double rangeLowerBound = aerLowerBounds(targetIdx, 2);
+        const double rangeUpperBound = aerUpperBounds(targetIdx, 2);
+
+        return [fromPositionCoordinate_ITRF,
+                SEZRotation,
+                azimuthLowerBound,
+                azimuthUpperBound,
+                elevationLowerBound,
+                elevationUpperBound,
+                rangeLowerBound,
+                rangeUpperBound,
+                &aToTrajectory](const Instant& instant) -> bool
+        {
+            const auto toPositionCoordinates_ITRF =
+                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+
+            const VectorXd dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
+
+            const MatrixXd dx_SEZ = SEZRotation * dx;
+
+            const double range = dx_SEZ.norm();
+            const double elevation_rad = std::asin(dx_SEZ(2) / range);
+            double azimuth_rad = std::atan2(dx_SEZ(1), dx_SEZ(0));
+
+            azimuth_rad = azimuth_rad < 0.0 ? azimuth_rad + 2.0 * M_PI : azimuth_rad;
+
+            return azimuth_rad > azimuthLowerBound && azimuth_rad < azimuthUpperBound &&
+                   elevation_rad > elevationLowerBound && elevation_rad < elevationUpperBound &&
+                   range > rangeLowerBound && range < rangeUpperBound;
+        };
+    };
+
+    // initialize containers
+    const Array<Instant> instants = anInterval.generateGrid(this->step_);
+
+    Array<std::function<bool(const Instant&)>> conditionArray(targetCount, nullptr);
+    for (Index i = 0; i < targetCount; ++i)
+    {
+        conditionArray[i] = createAccessCondition(i);
+    }
+
+    Array<Array<physics::time::Interval>> accessIntervals =
+        Array<Array<physics::time::Interval>>(targetCount, Array<physics::time::Interval>::Empty());
+    Array<bool> previousAccessStates = Array<bool>(targetCount, false);
+
+    for (Index index = 0; index < instants.getSize(); ++index)
+    {
+        const Instant& instant = instants[index];
+
+        // calculate target to satellite vector in ITRF
+        const Vector3d toPositionCoordinates_ITRF =
+            aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+
+        const MatrixXd dx =
+            toPositionCoordinates_ITRF.replicate(1, fromPositionCoordinates_ITRF.cols()) - fromPositionCoordinates_ITRF;
+
+        // calculate target to satellite vector in SEZ
+        MatrixXd dx_SEZ = MatrixXd::Zero(3, dx.cols());
+        for (Index i = 0; i < (Index)dx.cols(); ++i)
+        {
+            dx_SEZ.col(i) = SEZRotations.block<3, 3>(0, 3 * i) * dx.col(i);
+        }
+
+        // calculate azimuth, elevation, and range
+        const VectorXd range = dx_SEZ.colwise().norm();
+        const VectorXd elevation_rad = (dx_SEZ.row(2).transpose().array() / range.array()).asin();
+        VectorXd azimuth_rad = dx_SEZ.row(0).array().binaryExpr(
+            dx_SEZ.row(1).array(),
+            [](double x, double y)
             {
-                return this->accessFilter_ ? this->accessFilter_(anAccess) : true;
+                return std::atan2(y, x);
             }
         );
+
+        azimuth_rad = azimuth_rad.unaryExpr(
+            [](double x)
+            {
+                return x < 0.0 ? x + 2.0 * M_PI : x;
+            }
+        );
+
+        // check if satellite is in access
+        const auto inAccess =
+            (azimuth_rad.array() > aerLowerBounds.col(0).array() &&
+             azimuth_rad.array() < aerUpperBounds.col(0).array() &&
+             elevation_rad.array() > aerLowerBounds.col(1).array() &&
+             elevation_rad.array() < aerUpperBounds.col(1).array() && range.array() > aerLowerBounds.col(2).array() &&
+             range.array() < aerUpperBounds.col(2).array())
+                .eval();
+
+        // First instant handling
+        if (index == 0)
+        {
+            for (Index i = 0; i < (Index)inAccess.size(); ++i)
+            {
+                previousAccessStates[i] = inAccess[i];
+                if (inAccess[i])
+                {
+                    accessIntervals[i].add(physics::time::Interval::Closed(instant, instant));
+                }
+            }
+            continue;
+        }
+
+        const Instant& previousInstant = instants[index - 1];
+
+        // Check for state changes and find exact crossings
+
+        for (Index i = 0; i < (Index)inAccess.size(); ++i)
+        {
+            const bool currentAccess = inAccess[i];
+
+            if (currentAccess != previousAccessStates[i])
+            {
+                // Find exact crossing time
+                const auto condition = conditionArray[i];
+
+                const auto result = rootSolver.solve(
+                    [&previousInstant, &condition](double aDurationInSeconds) -> double
+                    {
+                        return condition(previousInstant + Duration::Seconds(aDurationInSeconds)) ? +1.0 : -1.0;
+                    },
+                    0.0,
+                    Duration::Between(previousInstant, instant).inSeconds()
+                );
+
+                const Instant crossingTime = previousInstant + Duration::Seconds(result.root);
+
+                if (currentAccess)  // Rising edge
+                {
+                    accessIntervals[i].add(physics::time::Interval::Closed(crossingTime, instant));
+                }
+                else  // Falling edge
+                {
+                    if (!accessIntervals[i].isEmpty())
+                    {
+                        const physics::time::Interval& lastInterval = accessIntervals[i].accessLast();
+                        accessIntervals[i].accessLast() =
+                            physics::time::Interval::Closed(lastInterval.getStart(), crossingTime);
+                    }
+                }
+            }
+            else if (currentAccess)  // Continuing access
+            {
+                if (!accessIntervals[i].isEmpty())
+                {
+                    const physics::time::Interval& lastInterval = accessIntervals[i].accessLast();
+                    accessIntervals[i].accessLast() = physics::time::Interval::Closed(lastInterval.getStart(), instant);
+                }
+            }
+
+            previousAccessStates[i] = currentAccess;
+        }
+    }
+
+    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+
+    Array<Array<Access>> accesses = Array<Array<Access>>(targetCount, Array<Access>::Empty());
+    for (Index i = 0; i < accessIntervals.getSize(); ++i)
+    {
+        const Trajectory fromTrajectory = someGroundTargetConfigurations[i].getTrajectory();
+        accesses[i] =
+            this->generateAccessesFromIntervals(accessIntervals[i], anInterval, fromTrajectory, aToTrajectory);
+    }
+
+    return accesses;
 }
 
 void Generator::setStep(const Duration& aStep)
@@ -223,16 +528,6 @@ Generator Generator::AerRanges(
     const Interval<Real> azimuthRange_deg = anAzimuthRange;
     const Interval<Real> elevationRange_deg = anElevationRange;
     const Interval<Real> rangeRange_m = aRangeRange;
-
-    // const Interval<Real> azimuthRange_deg = anAzimuthRange; // anAzimuthRange.isDefined() ?
-    // Interval<Real>(anAzimuthRange.accessLowerBound().inDegrees(0.0, +360.0),
-    // anAzimuthRange.accessUpperBound().inDegrees(0.0, +360.0), anAzimuthRange.getType()) : Interval<Real>::Undefined()
-    //; const Interval<Real> elevationRange_deg = anElevationRange; // anElevationRange.isDefined() ?
-    // Interval<Real>(anElevationRange.accessLowerBound().inDegrees(-180.0, +180.0),
-    // anElevationRange.accessUpperBound().inDegrees(-180.0, +180.0), anElevationRange.getType()) :
-    // Interval<Real>::Undefined(); const Interval<Real> rangeRange_m = aRangeRange; // aRangeRange.isDefined() ?
-    // Interval<Real>(aRangeRange.accessLowerBound().inMeters(), aRangeRange.accessUpperBound().inMeters(),
-    // aRangeRange.getType()) : Interval<Real>::Undefined();
 
     const std::function<bool(const AER&)> aerFilter =
         [azimuthRange_deg, elevationRange_deg, rangeRange_m](const AER& anAER) -> bool
@@ -309,6 +604,34 @@ Generator Generator::AerMask(
     };
 
     return {anEnvironment, aerFilter};
+}
+
+Array<Access> Generator::generateAccessesFromIntervals(
+    const Array<physics::time::Interval>& someIntervals,
+    const physics::time::Interval& anInterval,
+    const Trajectory& aFromTrajectory,
+    const Trajectory& aToTrajectory
+) const
+{
+    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+
+    return someIntervals
+        .map<Access>(
+            [&anInterval, &aFromTrajectory, &aToTrajectory, &earthSPtr, this](
+                const physics::time::Interval& anAccessInterval
+            ) -> Access
+            {
+                return Generator::GenerateAccess(
+                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, earthSPtr, this->tolerance_
+                );
+            }
+        )
+        .getWhere(
+            [this](const Access& anAccess) -> bool
+            {
+                return this->accessFilter_ ? this->accessFilter_(anAccess) : true;
+            }
+        );
 }
 
 Access Generator::GenerateAccess(
@@ -474,6 +797,7 @@ bool GeneratorContext::isAccessActive(const Instant& anInstant)
     const auto [fromPosition, toPosition] = GeneratorContext::GetPositionsFromStates(fromState, toState);
 
     // Line of sight
+    // TBI: Remove this check as it is redundant
 
     static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
 
@@ -542,12 +866,10 @@ AER GeneratorContext::CalculateAer(
 )
 {
     // [TBM] This logic is Earth-specific
-    const Point referencePoint_ITRF =
-        Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates());
+    const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();
 
-    const LLA referencePoint_LLA = LLA::Cartesian(
-        referencePoint_ITRF.asVector(), anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening()
-    );
+    const LLA referencePoint_LLA =
+        LLA::Cartesian(referenceCoordinates_ITRF, anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening());
 
     const Shared<const Frame> nedFrameSPtr = anEarthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED);
 

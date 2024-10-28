@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
@@ -17,6 +19,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <Global.test.hpp>
 
@@ -25,8 +29,12 @@ using ostk::core::container::Table;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
+using ostk::core::type::Index;
 using ostk::core::type::Real;
 using ostk::core::type::String;
+
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -46,6 +54,7 @@ using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Access;
 using ostk::astrodynamics::access::Generator;
+using ostk::astrodynamics::access::GroundTargetConfiguration;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
@@ -646,6 +655,226 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
+{
+    const ostk::mathematics::object::Interval<Real> azimuthInterval =
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+    const ostk::mathematics::object::Interval<Real> elevationInterval =
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+    const ostk::mathematics::object::Interval<Real> rangeInterval =
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+    const LLA lla = LLA::Vector({0.0, 0.0, 0.0});
+
+    // Constructor
+    {
+        {
+            EXPECT_NO_THROW(GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla));
+        }
+
+        {
+            {
+                const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
+                EXPECT_NO_THROW(GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, position));
+            }
+
+            {
+                const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
+                EXPECT_THROW(
+                    GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, position),
+                    ostk::core::error::RuntimeError
+                );
+            }
+        }
+    }
+
+    // Getters
+    {
+        const GroundTargetConfiguration groundTargetConfiguration =
+            GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla);
+        EXPECT_EQ(groundTargetConfiguration.getAzimuthInterval(), azimuthInterval);
+        EXPECT_EQ(groundTargetConfiguration.getElevationInterval(), elevationInterval);
+        EXPECT_EQ(groundTargetConfiguration.getRangeInterval(), rangeInterval);
+        EXPECT_EQ(groundTargetConfiguration.getLLA(), lla);
+        EXPECT_EQ(
+            groundTargetConfiguration.getPosition(),
+            Position::Meters(
+                lla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
+            )
+        );
+        EXPECT_NO_THROW(groundTargetConfiguration.getTrajectory());
+
+        Matrix3d r_SEZ_ECEF;
+        r_SEZ_ECEF.row(0) = Vector3d {0.0, 0.0, 1.0};
+        r_SEZ_ECEF.row(1) = Vector3d {0.0, 1.0, 0.0};
+        r_SEZ_ECEF.row(2) = Vector3d {-1.0, 0.0, 0.0};
+
+        EXPECT_EQ(groundTargetConfiguration.getR_SEZ_ECEF(), r_SEZ_ECEF);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccessesWithGroundTargets)
+{
+    {
+        const Environment environment = Environment::Default();
+
+        const TLE tle = {
+            "1 60504U 24149AN  24293.10070306  .00000000  00000-0  58313-3 0    08",
+            "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
+        };
+        const SGP4 sgp4 = SGP4(tle);
+        const Orbit aToTrajectory = Orbit(sgp4, environment.accessCelestialObjectWithName("Earth"));
+
+        const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
+        const Instant endInstant = startInstant + Duration::Days(1.0);
+        const Interval interval = Interval::Closed(startInstant, endInstant);
+
+        const Array<LLA> LLAs = {
+            LLA(Angle::Degrees(53.406), Angle::Degrees(-6.225), Length::Meters(50.5)),
+            LLA(Angle::Degrees(13.51), Angle::Degrees(144.82), Length::Meters(46)),
+            LLA(Angle::Degrees(42.77), Angle::Degrees(141.62), Length::Meters(100)),
+            LLA(Angle::Degrees(47.2393), Angle::Degrees(-119.88515), Length::Meters(392.5)),
+            LLA(Angle::Degrees(78.22702), Angle::Degrees(15.38624), Length::Meters(493)),
+            LLA(Angle::Degrees(60.674), Angle::Degrees(17.142), Length::Meters(100)),
+            LLA(Angle::Degrees(37.7716), Angle::Degrees(-122.4135), Length::Meters(100)),
+            LLA(Angle::Degrees(69.09), Angle::Degrees(17.6986), Length::Meters(12)),
+            LLA(Angle::Degrees(78.23164), Angle::Degrees(15.37725), Length::Meters(483)),
+            LLA(Angle::Degrees(-72.0021), Angle::Degrees(2.5251), Length::Meters(1401)),
+            LLA(Angle::Degrees(-25.89), Angle::Degrees(27.71), Length::Meters(1562.66)),
+            LLA(Angle::Degrees(-46.53), Angle::Degrees(168.38), Length::Meters(13.65)),
+            LLA(Angle::Degrees(71.275), Angle::Degrees(-156.806), Length::Meters(24)),
+            LLA(Angle::Degrees(-52.9351), Angle::Degrees(-70.8713), Length::Meters(23))
+        };
+
+        const ostk::mathematics::object::Interval<Real> azimuthInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<Real> elevationInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+        const ostk::mathematics::object::Interval<Real> rangeInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+
+        Array<GroundTargetConfiguration> groundTargets = LLAs.map<GroundTargetConfiguration>(
+            [&azimuthInterval, &elevationInterval, &rangeInterval](const LLA& lla) -> GroundTargetConfiguration
+            {
+                return GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla);
+            }
+        );
+
+        const Generator generator =
+            Generator::AerRanges(azimuthInterval, elevationInterval, rangeInterval, environment);
+
+        const Array<Array<Access>> accessesPerTarget =
+            generator.computeAccessesWithGroundTargets(interval, groundTargets, aToTrajectory);
+
+        ASSERT_EQ(accessesPerTarget.getSize(), groundTargets.getSize());
+
+        for (Index i = 0; i < accessesPerTarget.getSize(); ++i)
+        {
+            const Array<Access> accesses = accessesPerTarget.at(i);
+            const GroundTargetConfiguration groundTarget = groundTargets.at(i);
+
+            const Array<Access> expectedAccesses =
+                generator.computeAccesses(interval, groundTarget.getTrajectory(), aToTrajectory);
+
+            ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
+
+            for (Index j = 0; j < accesses.getSize(); ++j)
+            {
+                const Access& access = accesses.at(j);
+                const Access& expectedAccess = expectedAccesses.at(j);
+
+                EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(
+                    expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
+                )) << access.getAcquisitionOfSignal().toString()
+                   << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
+                EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
+                    expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
+                )) << access.getTimeOfClosestApproach().toString()
+                   << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                EXPECT_TRUE(
+                    access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
+                ) << access.getLossOfSignal().toString()
+                  << " ~ " << expectedAccess.getLossOfSignal().toString();
+                EXPECT_TRUE(access.getDuration().isNear(expectedAccess.getDuration(), Duration::Microseconds(1.0)))
+                    << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
+            }
+        }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SpeedTest)
+{
+    {
+        using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+        using ostk::mathematics::curvefitting::Interpolator;
+        const Environment environment = Environment::Default();
+
+        const TLE tle = {
+            "1 60504U 24149AN  24293.10070306  .00000000  00000-0  58313-3 0    08",
+            "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
+        };
+        const SGP4 sgp4 = SGP4(tle);
+        const Orbit aToTrajectory = Orbit(sgp4, environment.accessCelestialObjectWithName("Earth"));
+
+        const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
+        const Instant endInstant = startInstant + Duration::Days(14.0);
+        const Interval interval = Interval::Closed(startInstant, endInstant);
+
+        const Array<Instant> instants = interval.generateGrid(Duration::Seconds(20.0));
+        const Array<State> states = aToTrajectory.getStatesAt(instants);
+        const Orbit tabulatedOrbit = Orbit(
+            Tabulated(states, 1, Interpolator::Type::CubicSpline), environment.accessCelestialObjectWithName("Earth")
+        );
+
+        const Array<LLA> LLAs = {
+            LLA(Angle::Degrees(53.406), Angle::Degrees(-6.225), Length::Meters(50.5)),
+            LLA(Angle::Degrees(13.51), Angle::Degrees(144.82), Length::Meters(46)),
+            LLA(Angle::Degrees(42.77), Angle::Degrees(141.62), Length::Meters(100)),
+            LLA(Angle::Degrees(47.2393), Angle::Degrees(-119.88515), Length::Meters(392.5)),
+            LLA(Angle::Degrees(78.22702), Angle::Degrees(15.38624), Length::Meters(493)),
+            LLA(Angle::Degrees(60.674), Angle::Degrees(17.142), Length::Meters(100)),
+            LLA(Angle::Degrees(37.7716), Angle::Degrees(-122.4135), Length::Meters(100)),
+            LLA(Angle::Degrees(69.09), Angle::Degrees(17.6986), Length::Meters(12)),
+            LLA(Angle::Degrees(78.23164), Angle::Degrees(15.37725), Length::Meters(483)),
+            LLA(Angle::Degrees(-72.0021), Angle::Degrees(2.5251), Length::Meters(1401)),
+            LLA(Angle::Degrees(-25.89), Angle::Degrees(27.71), Length::Meters(1562.66)),
+            LLA(Angle::Degrees(-46.53), Angle::Degrees(168.38), Length::Meters(13.65)),
+            LLA(Angle::Degrees(71.275), Angle::Degrees(-156.806), Length::Meters(24)),
+            LLA(Angle::Degrees(-52.9351), Angle::Degrees(-70.8713), Length::Meters(23)),
+        };
+
+        const ostk::mathematics::object::Interval<Real> azimuthInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<Real> elevationInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+        const ostk::mathematics::object::Interval<Real> rangeInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+
+        Array<GroundTargetConfiguration> groundTargets = LLAs.map<GroundTargetConfiguration>(
+            [&azimuthInterval, &elevationInterval, &rangeInterval](const LLA& lla) -> GroundTargetConfiguration
+            {
+                return GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla);
+            }
+        );
+
+        std::cout << "Speed test: ComputeAccessesWithGroundTargets" << std::endl;
+        // start timer
+        std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+
+        const Generator generator =
+            Generator::AerRanges(azimuthInterval, elevationInterval, rangeInterval, environment);
+
+        const Array<Array<Access>> accessesPerTarget =
+            generator.computeAccessesWithGroundTargets(interval, groundTargets, tabulatedOrbit);
+
+        // end timer
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+        std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
+                  << " ms" << std::endl;
+
+        ASSERT_EQ(accessesPerTarget.getSize(), groundTargets.getSize());
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
 {
     {
@@ -835,7 +1064,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
                 << String::Format(
                        "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                    );
-            // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+            // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach,
+            // toleranceDuration))
             // << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
             // access.getTimeOfClosestApproach().toString());
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
@@ -940,7 +1170,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
                 << String::Format(
                        "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                    );
-            // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+            // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach,
+            // toleranceDuration))
             // << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
             // access.getTimeOfClosestApproach().toString());
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
