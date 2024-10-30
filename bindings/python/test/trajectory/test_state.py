@@ -407,6 +407,82 @@ class TestState:
         assert isinstance(state, State)
         assert state.get_size() == 7
 
+    @pytest.mark.parametrize(
+        ("data", "expected_length", "expected_frame"),
+        [
+            (
+                {
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "r_GCRF_x": 1.0,
+                    "r_GCRF_y": 2.0,
+                    "r_GCRF_z": 3.0,
+                    "v_GCRF_x": 4.0,
+                    "v_GCRF_y": 5.0,
+                    "v_GCRF_z": 6.0,
+                },
+                6,
+                Frame.GCRF(),
+            ),
+            (
+                {
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "r_ITRF_x": 1.0,
+                    "r_ITRF_y": 2.0,
+                    "r_ITRF_z": 3.0,
+                    "v_ITRF_x": 4.0,
+                    "v_ITRF_y": 5.0,
+                    "v_ITRF_z": 6.0,
+                },
+                6,
+                Frame.ITRF(),
+            ),
+        ],
+    )
+    def test_from_dict_cannonical_success(
+        self, data: dict, expected_length: int, expected_frame: Frame
+    ):
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+
+        assert state.get_size() == expected_length
+        assert state.get_frame() == expected_frame
+
+    @pytest.mark.parametrize(
+        ("data", "expected_failure_message"),
+        [
+            (
+                {
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "r_GCRF_x": 1.0,
+                    "r_GCRF_y": 2.0,
+                    "r_GCRF_z": 3.0,
+                    "v_GCRF_x": 4.0,
+                    "v_GCRF_y": 5.0,
+                },
+                "Invalid state data.",
+            ),
+            (
+                {
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "r_TEST_x": 1.0,
+                    "r_TEST_y": 2.0,
+                    "r_TEST_z": 3.0,
+                    "v_TEST_x": 4.0,
+                    "v_TEST_y": 5.0,
+                    "v_TEST_z": 6.0,
+                },
+                "No frame exists with name \\[TEST\\].",
+            ),
+        ],
+    )
+    def test_from_dict_cannonical_failure(
+        self, data: dict, expected_failure_message: str
+    ):
+        with pytest.raises(ValueError, match=expected_failure_message):
+            State.from_dict(data)
+
     def test_comparators(self, state: State):
         assert (state == state) is True
         assert (state != state) is False
