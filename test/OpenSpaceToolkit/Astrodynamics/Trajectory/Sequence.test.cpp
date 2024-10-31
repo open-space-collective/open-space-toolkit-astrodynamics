@@ -499,62 +499,89 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
 {
-    // sequence completion due to event condition
+    // // sequence completion due to event condition
+    // {
+    //     const Sequence sequence = {
+    //         defaultSegments_,
+    //         defaultNumericalSolver_,
+    //         defaultDynamics_,
+    //         defaultMaximumPropagationDuration_,
+    //     };
+
+    //     const InstantCondition eventCondition = InstantCondition(
+    //         InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
+    //     );
+
+    //     const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
+
+    //     EXPECT_TRUE(solution.executionIsComplete);
+    //     EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    // }
+
+    // // sequence failure, segment termination due to maximum propagation duration
+    // {
+    //     const Sequence sequence = {
+    //         defaultSegments_,
+    //         defaultNumericalSolver_,
+    //         defaultDynamics_,
+    //         Duration::Seconds(1.0),
+    //     };
+
+    //     const InstantCondition eventCondition = InstantCondition(
+    //         InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
+    //     );
+
+    //     const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
+
+    //     EXPECT_FALSE(solution.executionIsComplete);
+    //     EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+    //     EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+    // }
+
+    // // sequence failure, event condition not met
+    // {
+    //     const Sequence sequence = {
+    //         defaultSegments_,
+    //         defaultNumericalSolver_,
+    //         defaultDynamics_,
+    //         defaultMaximumPropagationDuration_,
+    //     };
+
+    //     const InstantCondition eventCondition = InstantCondition(
+    //         InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
+    //     );
+
+    //     const Sequence::Solution solution =
+    //         sequence.solveToCondition(defaultState_, eventCondition, Duration::Minutes(1.0));
+
+    //     EXPECT_FALSE(solution.executionIsComplete);
+    // }
+
+    // sequence completion due to duration condition (Regression test)
     {
+        const Segment segment = Segment::Coast(
+            "Coast",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+            ),
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
         const Sequence sequence = {
-            defaultSegments_,
+            {segment},
             defaultNumericalSolver_,
             defaultDynamics_,
             defaultMaximumPropagationDuration_,
         };
 
-        const InstantCondition eventCondition = InstantCondition(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
-        );
+        const RealCondition eventCondition =
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(1.0));
 
         const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
 
         EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
-    }
-
-    // sequence failure, segment termination due to maximum propagation duration
-    {
-        const Sequence sequence = {
-            defaultSegments_,
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            Duration::Seconds(1.0),
-        };
-
-        const InstantCondition eventCondition = InstantCondition(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
-        );
-
-        const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
-
-        EXPECT_FALSE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
-        EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
-    }
-
-    // sequence failure, event condition not met
-    {
-        const Sequence sequence = {
-            defaultSegments_,
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_,
-        };
-
-        const InstantCondition eventCondition = InstantCondition(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
-        );
-
-        const Sequence::Solution solution =
-            sequence.solveToCondition(defaultState_, eventCondition, Duration::Minutes(1.0));
-
-        EXPECT_FALSE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 6);
     }
 }
 

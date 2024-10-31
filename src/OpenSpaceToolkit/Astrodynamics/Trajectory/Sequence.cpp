@@ -4,6 +4,8 @@
 #include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
 
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
@@ -15,6 +17,7 @@ namespace astrodynamics
 namespace trajectory
 {
 
+using ostk::core::type::Unique;
 using ostk::physics::time::Duration;
 
 Sequence::Solution::Solution(const Array<Segment::Solution>& aSegmentSolutionArray, const bool& anExecutionIsComplete)
@@ -322,6 +325,9 @@ Sequence::Solution Sequence::solveToCondition(
 
     Duration propagationDuration = Duration::Zero();
 
+    const Unique<EventCondition> sequenceCondition(anEventCondition.clone());
+    sequenceCondition->updateTarget(initialState);
+
     while (!eventConditionIsSatisfied && propagationDuration <= aMaximumPropagationDuration)
     {
         for (const Segment& segment : segments_)
@@ -350,7 +356,8 @@ Sequence::Solution Sequence::solveToCondition(
                 return {segmentSolutions, false};
             }
 
-            eventConditionIsSatisfied = anEventCondition.isSatisfied(segmentSolution.states.accessLast(), initialState);
+            eventConditionIsSatisfied =
+                sequenceCondition->isSatisfied(segmentSolution.states.accessLast(), initialState);
 
             // Terminate Sequence successfully if a provided event condition was satisfied
             if (eventConditionIsSatisfied)

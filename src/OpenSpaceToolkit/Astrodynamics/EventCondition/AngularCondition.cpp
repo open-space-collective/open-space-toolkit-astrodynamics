@@ -93,6 +93,11 @@ bool AngularCondition::isSatisfied(const State& currentState, const State& previ
     return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value + target_.valueOffset));
 }
 
+AngularCondition* AngularCondition::clone() const
+{
+    return new AngularCondition(*this);
+}
+
 AngularCondition AngularCondition::WithinRange(
     const String& aName, const std::function<Real(const State&)>& anEvaluator, const Pair<Angle, Angle>& aTargetRange
 )

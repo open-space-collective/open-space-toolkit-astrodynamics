@@ -36,12 +36,13 @@ def event_condition(
     class MyEventCondition(EventCondition):
         def is_satisfied(
             self,
-            current_state_vector,
-            current_time,
-            previous_state_vector,
-            previous_time,
+            current_state,
+            previous_state,
         ):
-            return current_state_vector[0] > 0.0 and previous_state_vector[0] < 0.0
+            return (
+                current_state.get_position().get_coordinates()[2] > 0.0
+                and previous_state.get_position().get_coordinates()[2] < 0.0
+            )
 
     return MyEventCondition(name, evaluator, target)
 

@@ -67,6 +67,11 @@ bool RealCondition::isSatisfied(const State& currentState, const State& previous
     return comparator_(evaluate(currentState), evaluate(previousState));
 }
 
+RealCondition* RealCondition::clone() const
+{
+    return new RealCondition(*this);
+}
+
 String RealCondition::StringFromCriterion(const Criterion& aCriterion)
 {
     switch (aCriterion)

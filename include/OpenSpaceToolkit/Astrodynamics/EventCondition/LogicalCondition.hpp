@@ -85,6 +85,11 @@ class LogicalCondition : public EventCondition
     ///                  the printing process.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
+    /// @brief Create a copy of this LogicalCondition.
+    ///
+    /// @return Unique pointer to the cloned EventCondition
+    virtual LogicalCondition* clone() const override;
+
    private:
     typedef std::function<
         bool(const Array<Shared<EventCondition>>&, const State& currentState, const State& previousState)>

@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
@@ -18,6 +19,7 @@ namespace astrodynamics
 
 using ostk::core::type::Real;
 using ostk::core::type::String;
+using ostk::core::type::Unique;
 
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
@@ -121,7 +123,7 @@ class EventCondition
     /// @brief Create a copy of this EventCondition
     ///
     /// @return Unique pointer to the cloned EventCondition
-    virtual std::unique_ptr<EventCondition> clone() const = 0;
+    virtual EventCondition* clone() const = 0;
 
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
