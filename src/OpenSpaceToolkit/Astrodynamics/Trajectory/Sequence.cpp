@@ -33,6 +33,11 @@ const Instant& Sequence::Solution::accessEndInstant() const
     return this->segmentSolutions.accessLast().accessEndInstant();
 }
 
+Interval Sequence::Solution::getInterval() const
+{
+    return Interval::Closed(this->accessStartInstant(), this->accessEndInstant());
+}
+
 Array<State> Sequence::Solution::getStates() const
 {
     if (this->segmentSolutions.isEmpty())

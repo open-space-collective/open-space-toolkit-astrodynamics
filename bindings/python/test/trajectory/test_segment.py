@@ -11,8 +11,8 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth
 
-from ostk.astrodynamics.flight import Maneuver
 from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import Thruster
@@ -133,6 +133,104 @@ def thruster_dynamics() -> Thruster:
         satellite_system=SatelliteSystem.default(),
         guidance_law=ConstantThrust.intrack(),
     )
+
+
+@pytest.fixture
+def segment_solution(dynamics: list[Dynamics], state: State) -> Segment.Solution:
+    return Segment.Solution(
+        name="A Segment",
+        dynamics=dynamics,
+        states=[
+            state,
+        ],
+        condition_is_satisfied=True,
+        segment_type=Segment.Type.Coast,
+    )
+
+
+class TestSegmentSolution:
+    def test_constructors(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution is not None
+        assert segment_solution.name is not None
+        assert segment_solution.dynamics is not None
+        assert segment_solution.states is not None
+        assert segment_solution.condition_is_satisfied is not None
+        assert segment_solution.segment_type is not None
+
+    def test_getters_and_accessors(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.access_start_instant() is not None
+        assert segment_solution.access_end_instant() is not None
+        assert segment_solution.get_interval() is not None
+        assert segment_solution.get_initial_mass() is not None
+        assert segment_solution.get_final_mass() is not None
+        assert segment_solution.get_propagation_duration() is not None
+
+    def test_compute_delta_v(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.compute_delta_v(1500.0) is not None
+
+    def test_compute_delta_mass(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.compute_delta_mass() is not None
+
+    @pytest.mark.skip(reason="Not implemented yet")
+    def test_extract_maneuvers(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.extract_maneuvers(Frame.GCRF()) is not None
+
+    def test_calculate_states_at(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert (
+            segment_solution.calculate_states_at(
+                [
+                    segment_solution.states[0].get_instant(),
+                ],
+                NumericalSolver.default_conditional(),
+            )
+            is not None
+        )
+
+    def get_dynamics_contribution(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert (
+            segment_solution.get_dynamics_contribution(
+                segment_solution.dynamics[0], Frame.GCRF()
+            )
+            is not None
+        )
+
+    def get_dynamics_acceleration_contribution(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert (
+            segment_solution.get_dynamics_acceleration_contribution(
+                segment_solution.dynamics[0], Frame.GCRF()
+            )
+            is not None
+        )
+
+    def get_all_dynamics_contributions(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.get_all_dynamics_contributions(Frame.GCRF()) is not None
 
 
 class TestSegment:

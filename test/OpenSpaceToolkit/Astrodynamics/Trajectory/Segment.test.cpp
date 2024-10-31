@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
@@ -73,6 +74,7 @@ using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
@@ -217,6 +219,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Getter
         EXPECT_THROW(segmentSolution.getInitialMass(), ostk::core::error::RuntimeError);
         EXPECT_THROW(segmentSolution.getFinalMass(), ostk::core::error::RuntimeError);
         EXPECT_THROW(segmentSolution.getPropagationDuration(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.getInterval(), ostk::core::error::RuntimeError);
     }
 
     {
@@ -227,6 +230,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Getter
         EXPECT_DOUBLE_EQ(200.0, segmentSolution.getInitialMass().inKilograms());
         EXPECT_DOUBLE_EQ(199.999592114, segmentSolution.getFinalMass().inKilograms());
         EXPECT_DOUBLE_EQ(60.0, segmentSolution.getPropagationDuration().inSeconds());
+        EXPECT_EQ(
+            Interval::Closed(initialStateWithMass_.accessInstant(), finalStateWithMass_.accessInstant()),
+            segmentSolution.getInterval()
+        );
     }
 }
 

@@ -9,6 +9,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
@@ -28,6 +29,7 @@ using ostk::core::type::Real;
 using ostk::core::type::Size;
 
 using ostk::physics::Environment;
+using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::dynamics::Thruster;
@@ -59,6 +61,10 @@ class Sequence
         /// @brief Access end instant
         /// @return End Instant
         const Instant& accessEndInstant() const;
+
+        /// @brief Get interval
+        /// @return Interval
+        Interval getInterval() const;
 
         /// @brief Get all states (at variable intervals) that were computed when solving the sequence.
         /// @return Array of states.

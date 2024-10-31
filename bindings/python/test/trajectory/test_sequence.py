@@ -339,6 +339,59 @@ def instants(state: State) -> list[Instant]:
     return [state.get_instant(), state.get_instant() + Duration.minutes(1.0)]
 
 
+@pytest.fixture
+def sequence_solution(
+    segment_solution: Segment.Solution,
+):
+    return Sequence.Solution(
+        segment_solutions=[
+            segment_solution,
+        ],
+        execution_is_complete=True,
+    )
+
+
+class TestSequenceSolution:
+    def test_properties(
+        self,
+        sequence_solution: Sequence.Solution,
+    ):
+        assert sequence_solution is not None
+        assert len(sequence_solution.segment_solutions) == 1
+        assert sequence_solution.execution_is_complete
+
+    def test_getters_and_accessors(
+        self,
+        sequence_solution: Sequence.Solution,
+    ):
+        assert sequence_solution.access_start_instant() is not None
+        assert sequence_solution.access_end_instant() is not None
+
+        assert sequence_solution.get_states() is not None
+        assert sequence_solution.get_initial_mass() is not None
+        assert sequence_solution.get_final_mass() is not None
+        assert sequence_solution.get_propagation_duration() is not None
+
+        assert sequence_solution.compute_delta_mass() is not None
+        assert sequence_solution.compute_delta_v(1500.0) is not None
+
+    def test_calculate_states_at(
+        self,
+        sequence_solution: Sequence.Solution,
+        numerical_solver: NumericalSolver,
+    ):
+        instants: list[Instant] = sequence_solution.get_interval().generate_grid(
+            Duration.seconds(10.0)
+        )
+        states: list[State] = sequence_solution.calculate_states_at(
+            instants,
+            numerical_solver,
+        )
+
+        assert states is not None
+        assert len(states) == len(instants)
+
+
 class TestSequence:
     def test_get_segments(
         self,
