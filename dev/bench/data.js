@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1730406729813,
+  "lastUpdate": 1730419068513,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 3172838880.6,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3172645599.8999996 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "32769f6d9c56b213ee69a70aa5f13b7740c293a1",
+          "message": "fix: sequence relative event condition (#456)\n\n* feat: add clone methods to EventCondition classes\r\n\r\n* fix: sequence relative event condition update\r\n\r\n* patch: things",
+          "timestamp": "2024-10-31T16:39:37-07:00",
+          "tree_id": "9128eab26856fec71e895bc499495de9eb14a979",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/32769f6d9c56b213ee69a70aa5f13b7740c293a1"
+        },
+        "date": 1730419066224,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 586715301.2000017,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 586700320.5000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 877690561.0000029,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 877640109.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3180599967.1999984,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3180404476.100002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3180117406.800008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3180019247.9000006 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3179987387.500006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3179833940.0999966 ns\nthreads: 1"
           }
         ]
       }
