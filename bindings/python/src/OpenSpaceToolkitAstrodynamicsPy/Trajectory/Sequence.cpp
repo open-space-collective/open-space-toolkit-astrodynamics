@@ -98,6 +98,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc"
         )
+        .def(
+            "get_interval",
+            &Sequence::Solution::getInterval,
+            R"doc(
+                Get the interval.
+
+                Returns:
+                    Interval: The interval.
+
+            )doc"
+        )
 
         .def(
             "get_states",

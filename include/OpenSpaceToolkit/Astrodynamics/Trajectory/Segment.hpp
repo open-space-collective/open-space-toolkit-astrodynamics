@@ -13,6 +13,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
@@ -39,6 +40,7 @@ using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::Dynamics;
@@ -85,6 +87,10 @@ class Segment
         /// @brief Access end instant
         /// @return End Instant
         const Instant& accessEndInstant() const;
+
+        /// @brief Get interval
+        /// @return Interval
+        Interval getInterval() const;
 
         /// @brief Get initial mass
         /// @return Initial mass

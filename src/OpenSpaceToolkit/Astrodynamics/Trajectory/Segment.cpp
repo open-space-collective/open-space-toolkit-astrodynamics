@@ -63,6 +63,16 @@ const Instant& Segment::Solution::accessEndInstant() const
     return this->states.accessLast().accessInstant();
 }
 
+Interval Segment::Solution::getInterval() const
+{
+    if (this->states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No solution available.");
+    }
+
+    return Interval::Closed(accessStartInstant(), accessEndInstant());
+}
+
 Mass Segment::Solution::getInitialMass() const
 {
     if (this->states.isEmpty())

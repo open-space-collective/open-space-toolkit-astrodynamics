@@ -130,6 +130,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )
 
         .def(
+            "get_interval",
+            &Segment::Solution::getInterval,
+            R"doc(
+                Get the time interval of the solution.
+
+                Returns:
+                    Interval: The interval.
+
+            )doc"
+        )
+        .def(
             "get_initial_mass",
             &Segment::Solution::getInitialMass,
             R"doc(
