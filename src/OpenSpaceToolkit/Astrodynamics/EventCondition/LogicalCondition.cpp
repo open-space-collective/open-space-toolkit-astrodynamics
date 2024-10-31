@@ -59,6 +59,11 @@ void LogicalCondition::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+LogicalCondition* LogicalCondition::clone() const
+{
+    return new LogicalCondition(*this);
+}
+
 LogicalCondition::evaluationSignature LogicalCondition::GenerateEvaluator(const LogicalCondition::Type& aType)
 {
     switch (aType)

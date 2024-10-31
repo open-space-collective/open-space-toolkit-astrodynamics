@@ -105,6 +105,11 @@ class RealCondition : public EventCondition
     /// @return Boolean value indicating if the Event Condition is met
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
+    /// @brief clone the Real Condition
+    ///
+    /// @return Pointer to the cloned Real Condition
+    virtual RealCondition* clone() const override;
+
     /// @brief Convert criterion to string
     ///
     /// @param aCriterion An enum representing the criterion

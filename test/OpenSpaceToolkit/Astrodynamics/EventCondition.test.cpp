@@ -16,6 +16,7 @@
 
 using ostk::core::type::Real;
 using ostk::core::type::String;
+using ostk::core::type::Unique;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -36,6 +37,8 @@ class TestCondition : public EventCondition
         : EventCondition(aName, anEvaluator, aTarget)
     {
     }
+
+    MOCK_METHOD(EventCondition*, clone, (), (const, override));
 
     MOCK_METHOD(bool, isSatisfied, (const State& currentState, const State& previousState), (const, override));
 };

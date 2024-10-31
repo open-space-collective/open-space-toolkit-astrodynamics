@@ -14,6 +14,7 @@ using namespace pybind11;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
+using ostk::core::type::Unique;
 
 using ostk::mathematics::object::VectorXd;
 
@@ -34,6 +35,11 @@ class PyEventCondition : public EventCondition
     bool isSatisfied(const State& currentState, const State& previousState) const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(bool, EventCondition, "is_satisfied", isSatisfied, currentState, previousState);
+    }
+
+    EventCondition* clone() const override
+    {
+        PYBIND11_OVERRIDE_PURE_NAME(EventCondition*, EventCondition, "clone", clone);
     }
 };
 

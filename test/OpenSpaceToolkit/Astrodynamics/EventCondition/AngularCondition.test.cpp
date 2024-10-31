@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -23,6 +24,7 @@ using ostk::core::container::Pair;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
+using ostk::core::type::Unique;
 
 using ostk::mathematics::object::VectorXd;
 
@@ -307,6 +309,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfi
             }
         }
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Clone)
+{
+    EXPECT_NO_THROW({ Unique<AngularCondition> clonedCondition(defaultCondition_.clone()); });
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, StringFromCriterion)

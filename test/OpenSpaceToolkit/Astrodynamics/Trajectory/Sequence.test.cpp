@@ -556,6 +556,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
 
         EXPECT_FALSE(solution.executionIsComplete);
     }
+
+    // sequence completion due to duration condition (Regression test)
+    {
+        const Segment segment = Segment::Coast(
+            "Coast",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+            ),
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        const Sequence sequence = {
+            {segment},
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_,
+        };
+
+        const RealCondition eventCondition =
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(1.0));
+
+        const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
+
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 6);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
