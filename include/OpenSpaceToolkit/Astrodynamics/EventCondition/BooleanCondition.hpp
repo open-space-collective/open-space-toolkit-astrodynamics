@@ -59,6 +59,11 @@ class BooleanCondition : public RealCondition
     /// printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Create a copy of this BooleanCondition
+    ///
+    /// @return Unique pointer to the cloned EventCondition
+    virtual std::unique_ptr<EventCondition> clone() const override;
+
    private:
     bool inverse_;
 };

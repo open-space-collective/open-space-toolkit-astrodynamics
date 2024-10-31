@@ -118,6 +118,11 @@ class EventCondition
     ///                  printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Create a copy of this EventCondition
+    ///
+    /// @return Unique pointer to the cloned EventCondition
+    virtual std::unique_ptr<EventCondition> clone() const = 0;
+
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
     ///

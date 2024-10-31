@@ -108,6 +108,11 @@ class AngularCondition : public EventCondition
     /// @return Boolean value indicating if the Event Condition is met
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
+    /// @brief Create a copy of this AngularCondition
+    ///
+    /// @return Unique pointer to the cloned EventCondition
+    virtual std::unique_ptr<EventCondition> clone() const override;
+
     /// @brief Create an angular condition that is satisfied when the angle is within a range
     ///
     /// @param aName A string representing the name of the Angular Event Condition

@@ -42,6 +42,11 @@ bool BooleanCondition::isInversed() const
 void BooleanCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Boolean Condition") : void();
+}
+
+std::unique_ptr<EventCondition> BooleanCondition::clone() const
+{
+    return std::make_unique<BooleanCondition>(*this);
 
     RealCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "isInversed:" << (isInversed() ? "True" : "False");
