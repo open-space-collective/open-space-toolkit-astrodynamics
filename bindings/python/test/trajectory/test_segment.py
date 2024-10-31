@@ -160,7 +160,7 @@ class TestSegmentSolution:
         assert segment_solution.condition_is_satisfied is not None
         assert segment_solution.segment_type is not None
 
-    def test_accessors(
+    def test_getters_and_accessors(
         self,
         segment_solution: Segment.Solution,
     ):

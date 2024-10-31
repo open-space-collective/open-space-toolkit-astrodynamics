@@ -360,7 +360,7 @@ class TestSequenceSolution:
         assert len(sequence_solution.segment_solutions) == 1
         assert sequence_solution.execution_is_complete
 
-    def test_getters(
+    def test_getters_and_accessors(
         self,
         sequence_solution: Sequence.Solution,
     ):
