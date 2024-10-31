@@ -45,6 +45,7 @@ using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
@@ -131,7 +132,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
     };
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetStates)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution)
 {
     // Test throw with empty sequence solving
     {
@@ -139,37 +140,51 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetS
         EXPECT_THROW(sequenceSolution.getStates(), ostk::core::error::RuntimeError);
     }
 
-    const State state1 = defaultState_;
-    const State state2 = {
-        defaultState_.getInstant() + Duration::Minutes(1.0),
-        defaultState_.getPosition(),
-        defaultState_.getVelocity(),
-    };
-    const State state3 = {
-        defaultState_.getInstant() + Duration::Minutes(2.0),
-        defaultState_.getPosition(),
-        defaultState_.getVelocity(),
-    };
-
-    const Segment::Solution segmentSolution1 = {
-        "A Segment",
-        defaultDynamics_,
-        {state1, state2},
-        true,
-        Segment::Type::Coast,
-    };
-
-    const Segment::Solution segmentSolution2 = {
-        "A Segment",
-        defaultDynamics_,
-        {state2, state3},
-        true,
-        Segment::Type::Coast,
-    };
-
-    // Test regular states
     {
+        const auto generateState = [this](const Instant& anInstant) -> State
+        {
+            VectorXd coordinates(7);
+            coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100.0;
+            return {
+                anInstant,
+                coordinates,
+                Frame::GCRF(),
+                {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()},
+            };
+        };
+
+        const State state1 = generateState(defaultState_.getInstant());
+        const State state2 = generateState(defaultState_.getInstant() + Duration::Minutes(1.0));
+        const State state3 = generateState(defaultState_.getInstant() + Duration::Minutes(2.0));
+
+        const Segment::Solution segmentSolution1 = {
+            "A Segment",
+            defaultDynamics_,
+            {state1, state2},
+            true,
+            Segment::Type::Coast,
+        };
+
+        const Segment::Solution segmentSolution2 = {
+            "A Segment",
+            defaultDynamics_,
+            {state2, state3},
+            true,
+            Segment::Type::Coast,
+        };
+
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
+
+        EXPECT_EQ(sequenceSolution.accessStartInstant(), state1.getInstant());
+        EXPECT_EQ(sequenceSolution.accessEndInstant(), state3.getInstant());
+        EXPECT_EQ(sequenceSolution.getInterval(), Interval::Closed(state1.getInstant(), state3.getInstant()));
+        EXPECT_EQ(
+            sequenceSolution.getInitialMass().inKilograms(), state1.extractCoordinate(CoordinateSubset::Mass())[0]
+        );
+        EXPECT_EQ(sequenceSolution.getFinalMass().inKilograms(), state3.extractCoordinate(CoordinateSubset::Mass())[0]);
+        EXPECT_EQ(sequenceSolution.getPropagationDuration(), state3.getInstant() - state1.getInstant());
+        EXPECT_EQ(sequenceSolution.computeDeltaV(1.0), 0.0);
+        EXPECT_EQ(sequenceSolution.computeDeltaMass().inKilograms(), 0.0);
 
         const Array<State> states = sequenceSolution.getStates();
 
@@ -177,6 +192,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_GetS
         EXPECT_EQ(states[1], state2);
         EXPECT_EQ(states[2], state3);
         EXPECT_EQ(states.getSize(), 3);
+
+        const Array<State> propagatedStates = sequenceSolution.calculateStatesAt(
+            {state1.getInstant(), state2.getInstant(), state3.getInstant()}, defaultNumericalSolver_
+        );
+        EXPECT_EQ(propagatedStates[0].getInstant(), state1.getInstant());
+        EXPECT_EQ(propagatedStates[1].getInstant(), state2.getInstant());
+        EXPECT_EQ(propagatedStates[2].getInstant(), state3.getInstant());
     }
 }
 

@@ -183,14 +183,54 @@ class TestSegmentSolution:
     ):
         assert segment_solution.compute_delta_mass() is not None
 
-    # def test_extract_maneuvers(
-    #     self,
-    #     dynamics: list,
-    #     state: State,
-    # ):
-    #     segment_solution: Segment.Solution = Segment.Solution(
-    #         name="A Segment",
-    #         dynamics=dynamics,
+    @pytest.mark.skip(reason="Not implemented yet")
+    def test_extract_maneuvers(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.extract_maneuvers(Frame.GCRF()) is not None
+
+    def test_calculate_states_at(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert (
+            segment_solution.calculate_states_at(
+                [
+                    segment_solution.states[0].get_instant(),
+                ],
+                NumericalSolver.default_conditional(),
+            )
+            is not None
+        )
+
+    def get_dynamics_contribution(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert (
+            segment_solution.get_dynamics_contribution(
+                segment_solution.dynamics[0], Frame.GCRF()
+            )
+            is not None
+        )
+
+    def get_dynamics_acceleration_contribution(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert (
+            segment_solution.get_dynamics_acceleration_contribution(
+                segment_solution.dynamics[0], Frame.GCRF()
+            )
+            is not None
+        )
+
+    def get_all_dynamics_contributions(
+        self,
+        segment_solution: Segment.Solution,
+    ):
+        assert segment_solution.get_all_dynamics_contributions(Frame.GCRF()) is not None
 
 
 class TestSegment:
