@@ -107,7 +107,7 @@ class RealCondition : public EventCondition
 
     /// @brief clone the Real Condition
     ///
-    /// @return Unique pointer to the cloned Real Condition
+    /// @return Pointer to the cloned Real Condition
     virtual RealCondition* clone() const override;
 
     /// @brief Convert criterion to string

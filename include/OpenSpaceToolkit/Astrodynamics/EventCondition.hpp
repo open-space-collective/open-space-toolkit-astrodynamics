@@ -122,7 +122,7 @@ class EventCondition
 
     /// @brief Create a copy of this EventCondition
     ///
-    /// @return Unique pointer to the cloned EventCondition
+    /// @return Pointer to the cloned EventCondition
     virtual EventCondition* clone() const = 0;
 
     /// @brief Check if the Event Condition is satisfied based on current state and previous

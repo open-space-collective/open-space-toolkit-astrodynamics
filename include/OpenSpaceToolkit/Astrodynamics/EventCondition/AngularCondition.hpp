@@ -110,7 +110,7 @@ class AngularCondition : public EventCondition
 
     /// @brief Create a copy of this AngularCondition
     ///
-    /// @return Unique pointer to the cloned EventCondition
+    /// @return Pointer to the cloned EventCondition
     virtual AngularCondition* clone() const override;
 
     /// @brief Create an angular condition that is satisfied when the angle is within a range

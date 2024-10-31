@@ -87,7 +87,7 @@ class LogicalCondition : public EventCondition
 
     /// @brief Create a copy of this LogicalCondition.
     ///
-    /// @return Unique pointer to the cloned EventCondition
+    /// @return Pointer to the cloned EventCondition
     virtual LogicalCondition* clone() const override;
 
    private:
