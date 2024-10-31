@@ -141,7 +141,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                 R"doc(
                     The value of the target.
 
-                    :type: Real
+                    :type: float
                 )doc"
             )
             .def_readonly(
@@ -151,6 +151,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                     The type of the target.
 
                     :type: Type
+                )doc"
+            )
+            .def_readonly(
+                "value_offset",
+                &EventCondition::Target::valueOffset,
+                R"doc(
+                    The value offset of the target. Used for Relative targets.
+
+                    :type: float
                 )doc"
             )
 
@@ -231,6 +240,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                     Returns:
                        target (EventConditionTarget): The target of the event condition.
                 )doc"
+            )
+
+            .def(
+                "update_target",
+                &EventCondition::updateTarget,
+                R"doc(
+                    Update the target value if the event condition is relative.
+
+                    Args:
+                        state (State): The state to calculate the relative target from.
+                )doc",
+                arg("state")
             )
 
             .def(

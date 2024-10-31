@@ -2,6 +2,10 @@
 
 import pytest
 
+from ostk.physics.time import Instant
+from ostk.physics.coordinate import Position, Velocity, Frame
+
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics import EventCondition
 
 
@@ -12,7 +16,7 @@ def name() -> str:
 
 @pytest.fixture
 def evaluator() -> callable:
-    return lambda state: 0.0
+    return lambda state: 5.0
 
 
 @pytest.fixture
@@ -22,7 +26,7 @@ def target_value() -> float:
 
 @pytest.fixture
 def target(target_value: float) -> EventCondition.Target:
-    return EventCondition.Target(target_value, EventCondition.Target.Type.Absolute)
+    return EventCondition.Target(target_value, EventCondition.Target.Type.Relative)
 
 
 @pytest.fixture
@@ -56,3 +60,18 @@ class TestEventCondition:
         self, event_condition: EventCondition, target: EventCondition.Target
     ):
         assert event_condition.get_target() == target
+
+    def test_update_target(
+        self,
+        event_condition: EventCondition,
+    ):
+        current_target_value_offset: float = event_condition.get_target().value_offset
+        event_condition.update_target(
+            State(
+                Instant.J2000(),
+                Position.meters([0.0, 0.0, 0.0], Frame.GCRF()),
+                Velocity.meters_per_second([0.0, 0.0, 0.0], Frame.GCRF()),
+            )
+        )
+
+        assert event_condition.get_target().value_offset != current_target_value_offset
