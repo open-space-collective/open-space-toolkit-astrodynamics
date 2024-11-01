@@ -275,21 +275,17 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
     MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
     MatrixXd aerUpperBounds = MatrixXd::Zero(targetCount, 3);
 
+    const Real degToRad = Real::Pi() / 180.0;
+
     for (Index i = 0; i < targetCount; ++i)
     {
-        aerLowerBounds(i, 0) =
-            someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * Real::Pi() / 180.0;
-        aerLowerBounds(i, 1) =
-            someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * Real::Pi() / 180.0;
-        aerLowerBounds(i, 2) =
-            someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound() * Real::Pi() / 180.0;
+        aerLowerBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * degToRad;
+        aerLowerBounds(i, 1) = someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * degToRad;
+        aerLowerBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound() * degToRad;
 
-        aerUpperBounds(i, 0) =
-            someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * Real::Pi() / 180.0;
-        aerUpperBounds(i, 1) =
-            someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * Real::Pi() / 180.0;
-        aerUpperBounds(i, 2) =
-            someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound() * Real::Pi() / 180.0;
+        aerUpperBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * degToRad;
+        aerUpperBounds(i, 1) = someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * degToRad;
+        aerUpperBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound() * degToRad;
     }
 
     // initialize solver and condition
@@ -300,9 +296,9 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
             const Index& targetIdx
         )
     {
-        const Vector3d fromPositionCoordinate_ITRF = fromPositionCoordinates_ITRF.col(targetIdx);
+        const Vector3d& fromPositionCoordinate_ITRF = fromPositionCoordinates_ITRF.col(targetIdx);
 
-        const Matrix3d SEZRotation = SEZRotations.block(0, 3 * targetIdx, 3, 3);
+        const Matrix3d& SEZRotation = SEZRotations.block(0, 3 * targetIdx, 3, 3);
 
         const double azimuthLowerBound = aerLowerBounds(targetIdx, 0);
         const double azimuthUpperBound = aerUpperBounds(targetIdx, 0);
@@ -324,9 +320,9 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
             const auto toPositionCoordinates_ITRF =
                 aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
-            const VectorXd dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
+            const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
-            const MatrixXd dx_SEZ = SEZRotation * dx;
+            const Vector3d dx_SEZ = SEZRotation * dx;
 
             const double range = dx_SEZ.norm();
             const double elevation_rad = std::asin(dx_SEZ(2) / range);
@@ -404,9 +400,12 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
             for (Index i = 0; i < (Index)inAccess.size(); ++i)
             {
                 previousAccessStates[i] = inAccess[i];
+
+                const physics::time::Interval defaultInterval = physics::time::Interval::Closed(instant, instant);
+
                 if (inAccess[i])
                 {
-                    accessIntervals[i].add(physics::time::Interval::Closed(instant, instant));
+                    accessIntervals[i].add(defaultInterval);
                 }
             }
             continue;
@@ -418,12 +417,12 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
         for (Index i = 0; i < (Index)inAccess.size(); ++i)
         {
-            const bool currentAccess = inAccess[i];
+            const bool& currentAccess = inAccess[i];
 
             if (currentAccess != previousAccessStates[i])
             {
                 // Find exact crossing time
-                const auto condition = conditionArray[i];
+                const auto& condition = conditionArray[i];
 
                 const auto result = rootSolver.solve(
                     [&previousInstant, &condition](double aDurationInSeconds) -> double
@@ -462,8 +461,6 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
             previousAccessStates[i] = currentAccess;
         }
     }
-
-    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
     Array<Array<Access>> accesses = Array<Array<Access>>(targetCount, Array<Access>::Empty());
     for (Index i = 0; i < accessIntervals.getSize(); ++i)
