@@ -685,6 +685,89 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
                 );
             }
         }
+
+        // undefined
+        {
+            const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
+
+            EXPECT_THROW(
+                GroundTargetConfiguration(
+                    ostk::mathematics::object::Interval<Real>::Undefined(), elevationInterval, rangeInterval, position
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+            EXPECT_THROW(
+                GroundTargetConfiguration(
+                    azimuthInterval, ostk::mathematics::object::Interval<Real>::Undefined(), rangeInterval, position
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+            EXPECT_THROW(
+                GroundTargetConfiguration(
+                    azimuthInterval, elevationInterval, ostk::mathematics::object::Interval<Real>::Undefined(), position
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+            EXPECT_THROW(
+                GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, LLA::Undefined()),
+                ostk::core::error::runtime::Undefined
+            );
+        }
+
+        // incorrect bounds
+        {
+            {
+                EXPECT_THROW(
+                    GroundTargetConfiguration(
+                        ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0),
+                        elevationInterval,
+                        rangeInterval,
+                        lla
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+                EXPECT_THROW(
+                    GroundTargetConfiguration(
+                        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1),
+                        elevationInterval,
+                        rangeInterval,
+                        lla
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+            }
+            {
+                EXPECT_THROW(
+                    GroundTargetConfiguration(
+                        azimuthInterval,
+                        ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0),
+                        rangeInterval,
+                        lla
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+                EXPECT_THROW(
+                    GroundTargetConfiguration(
+                        azimuthInterval,
+                        ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0),
+                        rangeInterval,
+                        lla
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+            }
+            {
+                EXPECT_THROW(
+                    GroundTargetConfiguration(
+                        azimuthInterval,
+                        elevationInterval,
+                        ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0),
+                        lla
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+            }
+        }
     }
 
     // Getters
@@ -704,9 +787,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
         EXPECT_NO_THROW(groundTargetConfiguration.getTrajectory());
 
         Matrix3d r_SEZ_ECEF;
-        r_SEZ_ECEF.row(0) = Vector3d {0.0, 0.0, 1.0};
+        r_SEZ_ECEF.row(0) = Vector3d {0.0, 0.0, -1.0};
         r_SEZ_ECEF.row(1) = Vector3d {0.0, 1.0, 0.0};
-        r_SEZ_ECEF.row(2) = Vector3d {-1.0, 0.0, 0.0};
+        r_SEZ_ECEF.row(2) = Vector3d {1.0, 0.0, 0.0};
 
         EXPECT_EQ(groundTargetConfiguration.getR_SEZ_ECEF(), r_SEZ_ECEF);
     }

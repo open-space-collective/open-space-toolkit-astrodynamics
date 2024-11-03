@@ -36,6 +36,8 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Interval;
 using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXi;
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::AER;
@@ -88,8 +90,8 @@ struct GroundTargetConfiguration
     /// @brief Get the trajectory
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              Trajectory trajectory = groundStationConfiguration.getTrajectory();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Trajectory trajectory = groundTargetConfiguration.getTrajectory();
     /// @endcode
     ///
     /// @return The trajectory
@@ -98,8 +100,8 @@ struct GroundTargetConfiguration
     /// @brief Get the position
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              Position position = groundStationConfiguration.getPosition();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Position position = groundTargetConfiguration.getPosition();
     /// @endcode
     ///
     /// @return The position
@@ -108,8 +110,8 @@ struct GroundTargetConfiguration
     /// @brief Get the latitude, longitude, and altitude (LLA)
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              LLA lla = groundStationConfiguration.getLLA();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              LLA lla = groundTargetConfiguration.getLLA();
     /// @endcode
     ///
     /// @return The latitude, longitude, and altitude (LLA)
@@ -118,8 +120,8 @@ struct GroundTargetConfiguration
     /// @brief Get the azimuth interval
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              Interval<Real> groundStationConfiguration = generator.getAzimuthInterval();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Interval<Real> groundTargetConfiguration = generator.getAzimuthInterval();
     /// @endcode
     ///
     /// @return The azimuth interval
@@ -128,8 +130,8 @@ struct GroundTargetConfiguration
     /// @brief Get the elevation interval
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              Interval<Real> groundStationConfiguration = generator.getElevationInterval();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Interval<Real> groundTargetConfiguration = generator.getElevationInterval();
     /// @endcode
     ///
     /// @return The elevation interval
@@ -138,8 +140,8 @@ struct GroundTargetConfiguration
     /// @brief Get the range interval
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              Interval<Real> groundStationConfiguration = generator.getRangeInterval();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Interval<Real> groundTargetConfiguration = generator.getRangeInterval();
     /// @endcode
     ///
     /// @return The range interval
@@ -149,8 +151,8 @@ struct GroundTargetConfiguration
     /// frame
     ///
     /// @code{.cpp}
-    ///              GroundStationConfiguration groundStationConfiguration = { ... } ;
-    ///              Matrix3d sezRotation = groundStationConfiguration.getR_SEZ_ECEF();
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Matrix3d sezRotation = groundTargetConfiguration.getR_SEZ_ECEF();
     /// @endcode
     ///
     /// @return The SEZ rotation matrix
@@ -163,6 +165,8 @@ struct GroundTargetConfiguration
 
     Position position_;
     LLA lla_;
+
+    void validateIntervals_() const;
 };
 
 class Generator
@@ -206,7 +210,8 @@ class Generator
     Array<Array<Access>> computeAccessesWithGroundTargets(
         const physics::time::Interval& anInterval,
         const Array<GroundTargetConfiguration>& someGroundTargetConfigurations,
-        const Trajectory& aToTrajectory
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
     ) const;
 
     void setStep(const Duration& aStep);
@@ -263,6 +268,19 @@ class Generator
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory
     ) const;
+
+    Array<physics::time::Interval> computePreciseCrossings(
+        const Array<physics::time::Interval>& accessIntervals,
+        const physics::time::Interval& anAnalysisInterval,
+        const Vector3d& fromPositionCoordinate_ITRF,
+        const Trajectory& aToTrajectory,
+        const Matrix3d& SEZRotation,
+        const Interval<Real>& anAzimuthInterval,
+        const Interval<Real>& anElevationInterval,
+        const Interval<Real>& aRangeInterval
+    ) const;
+
+    static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);
 
     static Access GenerateAccess(
         const physics::time::Interval& anAccessInterval,

@@ -16,8 +16,10 @@
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
 using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::MatrixXi;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
+using ostk::mathematics::object::VectorXi;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::spherical::LLA;
@@ -54,6 +56,8 @@ GroundTargetConfiguration::GroundTargetConfiguration(
     {
         throw ostk::core::error::RuntimeError("The position frame must be ITRF.");
     }
+
+    validateIntervals_();
 }
 
 GroundTargetConfiguration::GroundTargetConfiguration(
@@ -73,6 +77,12 @@ GroundTargetConfiguration::GroundTargetConfiguration(
       )),
       lla_(aLLA)
 {
+    if (!aLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("LLA");
+    }
+
+    validateIntervals_();
 }
 
 Trajectory GroundTargetConfiguration::getTrajectory() const
@@ -118,6 +128,41 @@ Matrix3d GroundTargetConfiguration::getR_SEZ_ECEF() const
         sinLat;
 
     return SEZRotation;
+}
+
+void GroundTargetConfiguration::validateIntervals_() const
+{
+    if (!azimuthInterval_.isDefined() || !elevationInterval_.isDefined() || !rangeInterval_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Interval");
+    }
+
+    if (azimuthInterval_.getLowerBound() < 0.0 || azimuthInterval_.getUpperBound() > 360.0)
+    {
+        throw ostk::core::error::RuntimeError(
+            "The azimuth interval [{}, {}] must be in the range [0, 360] deg",
+            azimuthInterval_.accessLowerBound(),
+            azimuthInterval_.accessUpperBound()
+        );
+    }
+
+    if (elevationInterval_.getLowerBound() < -90.0 || elevationInterval_.getUpperBound() > 90.0)
+    {
+        throw ostk::core::error::RuntimeError(
+            "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
+            elevationInterval_.accessLowerBound(),
+            elevationInterval_.accessUpperBound()
+        );
+    }
+
+    if (rangeInterval_.getLowerBound() < 0.0)
+    {
+        throw ostk::core::error::RuntimeError(
+            "The range interval [{}, {}] must be positive.",
+            rangeInterval_.accessLowerBound(),
+            rangeInterval_.accessUpperBound()
+        );
+    }
 }
 
 Generator::Generator(const Environment& anEnvironment, const Duration& aStep, const Duration& aTolerance)
@@ -251,7 +296,8 @@ Array<Access> Generator::computeAccesses(
 Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
     const physics::time::Interval& anInterval,
     const Array<GroundTargetConfiguration>& someGroundTargetConfigurations,
-    const Trajectory& aToTrajectory
+    const Trajectory& aToTrajectory,
+    const bool& coarse
 ) const
 {
     // create a stacked matrix of SEZ rotations for all ground targets
@@ -260,7 +306,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
     for (Index i = 0; i < targetCount; ++i)
     {
-        SEZRotations.block(0, 3 * i, 3, 3) = someGroundTargetConfigurations[i].getR_SEZ_ECEF();
+        SEZRotations.block<3, 3>(0, 3 * i) = someGroundTargetConfigurations[i].getR_SEZ_ECEF();
     }
 
     // create a stacked matrix of ITRF positions for all ground targets
@@ -281,73 +327,16 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
     {
         aerLowerBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * degToRad;
         aerLowerBounds(i, 1) = someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * degToRad;
-        aerLowerBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound() * degToRad;
+        aerLowerBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound();
 
         aerUpperBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * degToRad;
         aerUpperBounds(i, 1) = someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * degToRad;
-        aerUpperBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound() * degToRad;
+        aerUpperBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound();
     }
 
-    // initialize solver and condition
-    const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
-
-    const auto createAccessCondition =
-        [&fromPositionCoordinates_ITRF, &SEZRotations, &aToTrajectory, &aerLowerBounds, &aerUpperBounds](
-            const Index& targetIdx
-        )
-    {
-        const Vector3d& fromPositionCoordinate_ITRF = fromPositionCoordinates_ITRF.col(targetIdx);
-
-        const Matrix3d& SEZRotation = SEZRotations.block(0, 3 * targetIdx, 3, 3);
-
-        const double azimuthLowerBound = aerLowerBounds(targetIdx, 0);
-        const double azimuthUpperBound = aerUpperBounds(targetIdx, 0);
-        const double elevationLowerBound = aerLowerBounds(targetIdx, 1);
-        const double elevationUpperBound = aerUpperBounds(targetIdx, 1);
-        const double rangeLowerBound = aerLowerBounds(targetIdx, 2);
-        const double rangeUpperBound = aerUpperBounds(targetIdx, 2);
-
-        return [fromPositionCoordinate_ITRF,
-                SEZRotation,
-                azimuthLowerBound,
-                azimuthUpperBound,
-                elevationLowerBound,
-                elevationUpperBound,
-                rangeLowerBound,
-                rangeUpperBound,
-                &aToTrajectory](const Instant& instant) -> bool
-        {
-            const auto toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
-
-            const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
-
-            const Vector3d dx_SEZ = SEZRotation * dx;
-
-            const double range = dx_SEZ.norm();
-            const double elevation_rad = std::asin(dx_SEZ(2) / range);
-            double azimuth_rad = std::atan2(dx_SEZ(1), dx_SEZ(0));
-
-            azimuth_rad = azimuth_rad < 0.0 ? azimuth_rad + 2.0 * M_PI : azimuth_rad;
-
-            return azimuth_rad > azimuthLowerBound && azimuth_rad < azimuthUpperBound &&
-                   elevation_rad > elevationLowerBound && elevation_rad < elevationUpperBound &&
-                   range > rangeLowerBound && range < rangeUpperBound;
-        };
-    };
-
-    // initialize containers
     const Array<Instant> instants = anInterval.generateGrid(this->step_);
 
-    Array<std::function<bool(const Instant&)>> conditionArray(targetCount, nullptr);
-    for (Index i = 0; i < targetCount; ++i)
-    {
-        conditionArray[i] = createAccessCondition(i);
-    }
-
-    Array<Array<physics::time::Interval>> accessIntervals =
-        Array<Array<physics::time::Interval>>(targetCount, Array<physics::time::Interval>::Empty());
-    Array<bool> previousAccessStates = Array<bool>(targetCount, false);
+    MatrixXi inAccessPerTarget = MatrixXi::Zero(instants.getSize(), targetCount);
 
     for (Index index = 0; index < instants.getSize(); ++index)
     {
@@ -357,8 +346,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         const Vector3d toPositionCoordinates_ITRF =
             aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
-        const MatrixXd dx =
-            toPositionCoordinates_ITRF.replicate(1, fromPositionCoordinates_ITRF.cols()) - fromPositionCoordinates_ITRF;
+        const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + toPositionCoordinates_ITRF;
 
         // calculate target to satellite vector in SEZ
         MatrixXd dx_SEZ = MatrixXd::Zero(3, dx.cols());
@@ -394,71 +382,31 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
              range.array() < aerUpperBounds.col(2).array())
                 .eval();
 
-        // First instant handling
-        if (index == 0)
+        inAccessPerTarget.row(index) = inAccess.cast<int>().transpose();
+    }
+
+    Array<Array<physics::time::Interval>> accessIntervals =
+        Array<Array<physics::time::Interval>>(targetCount, Array<physics::time::Interval>::Empty());
+
+    for (Index i = 0; i < targetCount; ++i)
+    {
+        accessIntervals[i] = ComputeIntervals(inAccessPerTarget.col(i), instants);
+    }
+
+    if (!coarse)
+    {
+        for (Index i = 0; i < accessIntervals.getSize(); ++i)
         {
-            for (Index i = 0; i < (Index)inAccess.size(); ++i)
-            {
-                previousAccessStates[i] = inAccess[i];
-
-                const physics::time::Interval defaultInterval = physics::time::Interval::Closed(instant, instant);
-
-                if (inAccess[i])
-                {
-                    accessIntervals[i].add(defaultInterval);
-                }
-            }
-            continue;
-        }
-
-        const Instant& previousInstant = instants[index - 1];
-
-        // Check for state changes and find exact crossings
-
-        for (Index i = 0; i < (Index)inAccess.size(); ++i)
-        {
-            const bool& currentAccess = inAccess[i];
-
-            if (currentAccess != previousAccessStates[i])
-            {
-                // Find exact crossing time
-                const auto& condition = conditionArray[i];
-
-                const auto result = rootSolver.solve(
-                    [&previousInstant, &condition](double aDurationInSeconds) -> double
-                    {
-                        return condition(previousInstant + Duration::Seconds(aDurationInSeconds)) ? +1.0 : -1.0;
-                    },
-                    0.0,
-                    Duration::Between(previousInstant, instant).inSeconds()
-                );
-
-                const Instant crossingTime = previousInstant + Duration::Seconds(result.root);
-
-                if (currentAccess)  // Rising edge
-                {
-                    accessIntervals[i].add(physics::time::Interval::Closed(crossingTime, instant));
-                }
-                else  // Falling edge
-                {
-                    if (!accessIntervals[i].isEmpty())
-                    {
-                        const physics::time::Interval& lastInterval = accessIntervals[i].accessLast();
-                        accessIntervals[i].accessLast() =
-                            physics::time::Interval::Closed(lastInterval.getStart(), crossingTime);
-                    }
-                }
-            }
-            else if (currentAccess)  // Continuing access
-            {
-                if (!accessIntervals[i].isEmpty())
-                {
-                    const physics::time::Interval& lastInterval = accessIntervals[i].accessLast();
-                    accessIntervals[i].accessLast() = physics::time::Interval::Closed(lastInterval.getStart(), instant);
-                }
-            }
-
-            previousAccessStates[i] = currentAccess;
+            accessIntervals[i] = this->computePreciseCrossings(
+                accessIntervals[i],
+                anInterval,
+                fromPositionCoordinates_ITRF.col(i),
+                aToTrajectory,
+                someGroundTargetConfigurations[i].getR_SEZ_ECEF(),
+                someGroundTargetConfigurations[i].getAzimuthInterval(),
+                someGroundTargetConfigurations[i].getElevationInterval(),
+                someGroundTargetConfigurations[i].getRangeInterval()
+            );
         }
     }
 
@@ -631,6 +579,143 @@ Array<Access> Generator::generateAccessesFromIntervals(
         );
 }
 
+Array<physics::time::Interval> Generator::computePreciseCrossings(
+    const Array<physics::time::Interval>& accessIntervals,
+    const physics::time::Interval& anAnalysisInterval,
+    const Vector3d& fromPositionCoordinate_ITRF,
+    const Trajectory& aToTrajectory,
+    const Matrix3d& SEZRotation,
+    const Interval<Real>& anAzimuthInterval,
+    const Interval<Real>& anElevationInterval,
+    const Interval<Real>& aRangeInterval
+) const
+{
+    const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
+
+    const auto condition = [&fromPositionCoordinate_ITRF,
+                            &SEZRotation,
+                            &aToTrajectory,
+                            &anAzimuthInterval,
+                            &anElevationInterval,
+                            &aRangeInterval](const Instant& instant) -> bool
+    {
+        const double& azimuthLowerBound = anAzimuthInterval.accessLowerBound();
+        const double& azimuthUpperBound = anAzimuthInterval.accessUpperBound();
+        const double& elevationLowerBound = anElevationInterval.accessLowerBound();
+        const double& elevationUpperBound = anElevationInterval.accessUpperBound();
+        const double& rangeLowerBound = aRangeInterval.accessLowerBound();
+        const double& rangeUpperBound = aRangeInterval.accessUpperBound();
+
+        const auto toPositionCoordinates_ITRF =
+            aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+
+        const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
+
+        const Vector3d dx_SEZ = SEZRotation * dx;
+
+        const double range = dx_SEZ.norm();
+        const double elevation_rad = std::asin(dx_SEZ(2) / range);
+        double azimuth_rad = std::atan2(dx_SEZ(1), dx_SEZ(0));
+
+        azimuth_rad = azimuth_rad < 0.0 ? azimuth_rad + 2.0 * M_PI : azimuth_rad;
+
+        return azimuth_rad > azimuthLowerBound && azimuth_rad < azimuthUpperBound &&
+               elevation_rad > elevationLowerBound && elevation_rad < elevationUpperBound && range > rangeLowerBound &&
+               range < rangeUpperBound;
+    };
+
+    Array<physics::time::Interval> preciseAccessIntervals = accessIntervals;
+
+    for (Index i = 0; i < preciseAccessIntervals.getSize(); ++i)
+    {
+        const auto& interval = accessIntervals[i];
+
+        const Instant lowerBoundPreviousInstant = interval.getStart() - this->step_;
+        const Instant lowerBoundInstant = interval.getStart();
+
+        Instant intervalStart = anAnalysisInterval.getStart();
+
+        // compute start crossing if it is not the start of the requested analysis interval
+        if (lowerBoundInstant != anAnalysisInterval.getStart())
+        {
+            const auto startCrossingDurationSeconds = rootSolver.solve(
+                [&lowerBoundPreviousInstant, &condition](double aDurationInSeconds) -> double
+                {
+                    return condition(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds)) ? +1.0 : -1.0;
+                },
+                0.0,
+                Duration::Between(lowerBoundPreviousInstant, lowerBoundInstant).inSeconds()
+            );
+            intervalStart = lowerBoundPreviousInstant + Duration::Seconds(startCrossingDurationSeconds.root);
+        }
+
+        const Instant upperBoundInstant = interval.getEnd();
+        const Instant upperBoundNextInstant = interval.getEnd() + this->step_;
+
+        Instant intervalEnd = anAnalysisInterval.getEnd();
+
+        // compute end crossing if it is not the end of the requested analysis interval
+        if (upperBoundInstant != anAnalysisInterval.getEnd())
+        {
+            const auto endCrossingDurationSeconds = rootSolver.solve(
+                [&upperBoundInstant, &condition](double aDurationInSeconds) -> double
+                {
+                    return condition(upperBoundInstant + Duration::Seconds(aDurationInSeconds)) ? +1.0 : -1.0;
+                },
+                0.0,
+                Duration::Between(upperBoundInstant, upperBoundNextInstant).inSeconds()
+            );
+            intervalEnd = upperBoundInstant + Duration::Seconds(endCrossingDurationSeconds.root);
+        }
+
+        preciseAccessIntervals[i] = physics::time::Interval::Closed(intervalStart, intervalEnd);
+    }
+
+    return preciseAccessIntervals;
+}
+
+Array<physics::time::Interval> Generator::ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants)
+{
+    Array<physics::time::Interval> accessIntervals = Array<physics::time::Interval>::Empty();
+
+    VectorXi padded = VectorXi::Zero(inAccess.size() + 2);  // adding zeros to start and end
+    padded.segment(1, inAccess.size()) = inAccess;
+
+    const Index paddedSize = padded.size() - 1;
+    const VectorXi diff = padded.tail(paddedSize) - padded.head(paddedSize);
+
+    Instant startInstant = Instant::Undefined();
+    Instant endInstant = Instant::Undefined();
+
+    for (Index j = 0; j < (Index)diff.size() - 1; ++j)
+    {
+        if (!diff[j])
+        {
+            continue;
+        }
+
+        if (diff[j] == 1)
+        {
+            startInstant = instants[j];
+        }
+
+        if (diff[j] == -1)
+        {
+            endInstant = instants[j - 1];
+            accessIntervals.add(physics::time::Interval::Closed(startInstant, endInstant));
+        }
+    }
+
+    // account for last partial interval
+
+    if (diff.tail<1>().value() == -1)
+    {
+        accessIntervals.add(physics::time::Interval::Closed(startInstant, instants.accessLast()));
+    }
+
+    return accessIntervals;
+}
+
 Access Generator::GenerateAccess(
     const physics::time::Interval& anAccessInterval,
     const physics::time::Interval& aGlobalInterval,
@@ -649,6 +734,15 @@ Access Generator::GenerateAccess(
     const Instant timeOfClosestApproach =
         Generator::FindTimeOfClosestApproach(anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance);
     const Instant lossOfSignal = anAccessInterval.getEnd();
+
+    if (!timeOfClosestApproach.isDefined())
+    {
+        throw ostk::core::error::RuntimeError(
+            "Cannot find TCA (solution did not converge): {} - {}.",
+            acquisitionOfSignal.toString(),
+            lossOfSignal.toString()
+        );
+    }
 
     const Angle maxElevation =
         timeOfClosestApproach.isDefined()
@@ -741,7 +835,7 @@ Instant Generator::FindTimeOfClosestApproach(
             case nlopt::ROUNDOFF_LIMITED:
             case nlopt::FORCED_STOP:
             default:
-                throw ostk::core::error::RuntimeError("Cannot find TCA (solution did not converge).");
+                return Instant::Undefined();
         }
     }
     catch (const std::exception& anException)
