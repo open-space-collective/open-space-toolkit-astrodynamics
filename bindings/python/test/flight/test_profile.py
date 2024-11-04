@@ -139,7 +139,6 @@ class TestProfile:
 
         assert model is not None
 
-
         if model.is_transform():
             assert model.as_transform() is not None
 
