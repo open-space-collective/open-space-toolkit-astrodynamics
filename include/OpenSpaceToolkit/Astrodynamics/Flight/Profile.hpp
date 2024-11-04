@@ -212,7 +212,7 @@ class Profile
     ///
     /// @code{.cpp}
     ///              Profile profile = { ... };
-    ///              const Unique<Model>& model = profile.accessModel();
+    ///              const Model& model = profile.accessModel();
     /// @endcode
     ///
     /// @return Reference to the profile model
