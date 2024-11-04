@@ -215,7 +215,7 @@ class Profile
     ///              const Model& model = profile.accessModel();
     /// @endcode
     ///
-    /// @return Reference to the profile model
+    /// @return Const reference to the profile model
     const Model& accessModel() const;
 
     /// @brief Get state at a given instant
