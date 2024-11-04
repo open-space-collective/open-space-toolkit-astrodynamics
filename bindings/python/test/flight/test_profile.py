@@ -139,9 +139,6 @@ class TestProfile:
 
         assert model is not None
 
-        import IPython
-
-        IPython.embed()
 
         if model.is_transform():
             assert model.as_transform() is not None
