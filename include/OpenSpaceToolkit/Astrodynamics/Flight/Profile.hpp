@@ -208,6 +208,16 @@ class Profile
     /// @return True if profile is defined
     bool isDefined() const;
 
+    /// @brief Access profile model
+    ///
+    /// @code{.cpp}
+    ///              Profile profile = { ... };
+    ///              const Unique<Model>& model = profile.accessModel();
+    /// @endcode
+    ///
+    /// @return Reference to the profile model
+    const Model& accessModel() const;
+
     /// @brief Get state at a given instant
     ///
     /// @code{.cpp}

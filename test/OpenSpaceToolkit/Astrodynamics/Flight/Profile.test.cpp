@@ -161,6 +161,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AccessModel)
+{
+    {
+        EXPECT_TRUE(profile_.accessModel().isDefined());
+    }
+
+    {
+        EXPECT_THROW(Profile::Undefined().accessModel(), ostk::core::error::runtime::Undefined);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
 {
     {

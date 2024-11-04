@@ -39,8 +39,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
             arg("frame")
         )
 
-        .def("__str__", &(shiftToString<State>))
-        .def("__repr__", &(shiftToString<State>))
+        .def("__str__", &(shiftToString<Transform>))
+        .def("__repr__", &(shiftToString<Transform>))
 
         .def(
             "is_defined",

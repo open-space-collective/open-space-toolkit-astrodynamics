@@ -50,6 +50,60 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
         )
 
         .def(
+            "is_tabulated",
+            +[](const Model &aModel) -> bool
+            {
+                return aModel.is<ostk::astrodynamics::flight::profile::model::Tabulated>();
+            },
+            R"doc(
+                Check if the model is a tabulated model.
+
+                Returns:
+                    bool: True if the model is a tabulated model, False otherwise.
+            )doc"
+        )
+        .def(
+            "is_transform",
+            +[](const Model &aModel) -> bool
+            {
+                return aModel.is<ostk::astrodynamics::flight::profile::model::Transform>();
+            },
+            R"doc(
+                Check if the model is a transform model.
+
+                Returns:
+                    bool: True if the model is a transform model, False otherwise.
+            )doc"
+        )
+
+        .def(
+            "as_tabulated",
+            +[](const Model &aModel) -> const ostk::astrodynamics::flight::profile::model::Tabulated &
+            {
+                return aModel.as<ostk::astrodynamics::flight::profile::model::Tabulated>();
+            },
+            R"doc(
+                Cast the model to a tabulated model.
+
+                Returns:
+                    Tabulated: The tabulated model.
+            )doc"
+        )
+        .def(
+            "as_transform",
+            +[](const Model &aModel) -> const ostk::astrodynamics::flight::profile::model::Transform &
+            {
+                return aModel.as<ostk::astrodynamics::flight::profile::model::Transform>();
+            },
+            R"doc(
+                Cast the model to a transform model.
+
+                Returns:
+                    Transform: The transform model.
+            )doc"
+        )
+
+        .def(
             "calculate_state_at",
             &Model::calculateStateAt,
             R"doc(

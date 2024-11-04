@@ -221,6 +221,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def(
+            "access_model",
+            &Profile::accessModel,
+            return_value_policy::reference_internal,
+            R"doc(
+                Access the profile model.
+
+                Returns:
+                    Model: The profile model.
+            )doc"
+        )
+
+        .def(
             "get_state_at",
             &Profile::getStateAt,
             R"doc(
