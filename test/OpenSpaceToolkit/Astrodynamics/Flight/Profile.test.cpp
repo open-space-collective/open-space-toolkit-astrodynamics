@@ -381,6 +381,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
     }
 }
 
+// TBI: Should move these tests to the Transform test suite and only test interface here
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 {
     // VVLH #1
