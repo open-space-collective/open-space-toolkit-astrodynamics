@@ -180,16 +180,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, GetBodyFr
         EXPECT_THROW(transform_.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
     }
 
-    // undefined model
     {
-        const Transform undefinedTransform = Transform::Undefined();
-        const String frameName = "test";
-        EXPECT_THROW(undefinedTransform.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
-    }
+        const String frameName = "OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform.GetBodyFrame";
 
-    {
-        const Shared<const Frame> bodyFrame = transform_.getBodyFrame("test");
-        EXPECT_EQ(bodyFrame->getName(), "test");
+        // undefined model
+        {
+            const Transform undefinedTransform = Transform::Undefined();
+            EXPECT_THROW(undefinedTransform.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
+        }
+
+        {
+            const Shared<const Frame> bodyFrame = transform_.getBodyFrame(frameName);
+            EXPECT_EQ(bodyFrame->getName(), frameName);
+        }
     }
 }
 
