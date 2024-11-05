@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1730419068513,
+  "lastUpdate": 1730777281563,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 3179987387.500006,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3179833940.0999966 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f4d98847b44e5b96fecfda552aecbba2c3266b9",
+          "message": "feat: add profile access_model, repr and missing bindings (#458)\n\n* feat: add profile access_model, repr and missing bindings\r\n\r\n* feat: add test file for Transform\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: coderabbitai[bot] <136622811+coderabbitai[bot]@users.noreply.github.com>\r\n\r\n* Update bindings/python/test/flight/test_profile.py\r\n\r\n* Update include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp\r\n\r\n* fix: tests\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\r\n\r\n---------\r\n\r\nCo-authored-by: coderabbitai[bot] <136622811+coderabbitai[bot]@users.noreply.github.com>\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2024-11-04T19:10:07-08:00",
+          "tree_id": "b62668bf62932c5bec8c12823e979d4affa8821e",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/7f4d98847b44e5b96fecfda552aecbba2c3266b9"
+        },
+        "date": 1730777278660,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 580351997.0999901,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 580323044.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 874995995.3999904,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 874954599.9 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3197622537.7999926,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3197524957.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3190376207.0000086,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3190252746.900002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3199489164.900007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3199361588.099997 ns\nthreads: 1"
           }
         ]
       }
