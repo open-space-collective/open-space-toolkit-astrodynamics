@@ -134,6 +134,17 @@ class TestProfile:
         assert alignment_target is not None
         assert isinstance(alignment_target, Profile.Target)
 
+    def test_access_model(self, profile: Profile):
+        model = profile.access_model()
+
+        assert model is not None
+
+        if model.is_transform():
+            assert model.as_transform() is not None
+
+        if model.is_tabulated():
+            assert model.as_tabulated() is not None
+
     def test_get_state_at(self, profile: Profile, instant: Instant):
         state: State = profile.get_state_at(instant)
 

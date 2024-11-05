@@ -34,7 +34,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
         .def(
             "__str__",
-            &(shiftToString<State>),
+            &(shiftToString<Tabulated>),
             R"doc(
                 Convert the model to a string.
 
@@ -45,7 +45,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
         .def(
             "__repr__",
-            &(shiftToString<State>),
+            &(shiftToString<Tabulated>),
             R"doc(
                 Convert the model to a string.
 

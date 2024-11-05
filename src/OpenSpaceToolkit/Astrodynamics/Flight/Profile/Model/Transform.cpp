@@ -27,6 +27,13 @@ Transform* Transform::clone() const
     return new Transform(*this);
 }
 
+std::ostream& operator<<(std::ostream& anOutputStream, const Transform& aTransformModel)
+{
+    aTransformModel.print(anOutputStream, true);
+
+    return anOutputStream;
+}
+
 bool Transform::isDefined() const
 {
     return this->transformProvider_.isDefined() && (this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined();

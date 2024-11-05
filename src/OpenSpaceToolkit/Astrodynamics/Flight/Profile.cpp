@@ -135,6 +135,16 @@ bool Profile::isDefined() const
     return (this->modelUPtr_ != nullptr) && this->modelUPtr_->isDefined();
 }
 
+const Model& Profile::accessModel() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Profile");
+    }
+
+    return *modelUPtr_;
+}
+
 State Profile::getStateAt(const Instant& anInstant) const
 {
     if (!this->isDefined())
