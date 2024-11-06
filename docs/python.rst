@@ -10,6 +10,7 @@ Python API Documentation
    ostk.astrodynamics.access
    ostk.astrodynamics.converters
    ostk.astrodynamics.conjunction.message.ccsds
+   ostk.astrodynamics.dataframe
    ostk.astrodynamics.display
    ostk.astrodynamics.dynamics
    ostk.astrodynamics.event_condition
