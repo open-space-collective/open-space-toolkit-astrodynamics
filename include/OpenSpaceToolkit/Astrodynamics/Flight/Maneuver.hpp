@@ -59,6 +59,7 @@ class Maneuver
 {
    public:
     static const Shared<const Frame> DefaultAccelFrameSPtr;
+    static const Shared<const CoordinateSubset> DefaultAccelerationCoordinateSubsetSPtr;
     static const Duration MinimumRecommendedDuration;
     static const Duration MaximumRecommendedInterpolationInterval;
 
@@ -73,12 +74,7 @@ class Maneuver
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver (negative numbers expected), one Real per
     /// instant in kg/s
-    Maneuver(
-        const Array<State>& aStateArray,
-        const Array<Vector3d>& anAccelerationProfile,
-        const Shared<const Frame>& aFrameSPtr,
-        const Array<Real>& aMassFlowRateProfile
-    );
+    Maneuver(const Array<State>& aStateArray, const Array<Real>& aMassFlowRateProfile);
 
     /// @brief Equal to operator
     ///
@@ -229,24 +225,14 @@ class Maneuver
     /// @endcode
     ///
     /// @param aStateArray An array of states, must be sorted
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
-    /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     ///
     /// @return A maneuver
-    static Maneuver ConstantMassFlowRateProfile(
-        const Array<State>& aStatearray,
-        const Array<Vector3d>& anAccelerationProfile,
-        const Shared<const Frame>& aFrameSPtr,
-        const Real& aMassFlowRate
-    );
+    static Maneuver ConstantMassFlowRateProfile(const Array<State>& aStatearray, const Real& aMassFlowRate);
 
    private:
     Array<State> states_;
-    Array<Vector3d> accelerationProfileDefaultFrame_;
     Array<Real> massFlowRateProfile_;
-
-    Array<Vector3d> convertAccelerationProfileFrame(const Shared<const Frame>& aFrameSPtr) const;
 };
 
 }  // namespace flight
