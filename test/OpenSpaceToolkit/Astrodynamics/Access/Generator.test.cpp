@@ -791,7 +791,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
         r_SEZ_ECEF.row(1) = Vector3d {0.0, 1.0, 0.0};
         r_SEZ_ECEF.row(2) = Vector3d {1.0, 0.0, 0.0};
 
-        EXPECT_EQ(groundTargetConfiguration.getR_SEZ_ECEF(), r_SEZ_ECEF);
+        EXPECT_EQ(groundTargetConfiguration.computeR_SEZ_ECEF(), r_SEZ_ECEF);
     }
 }
 
@@ -1147,7 +1147,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 
         const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
-        // std::cout << accesses << std::endl;
 
         // Reference data setup
 
