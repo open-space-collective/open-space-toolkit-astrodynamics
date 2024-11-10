@@ -87,6 +87,22 @@ struct GroundTargetConfiguration
         const LLA& aLLA
     );
 
+    /// @brief Constructor
+    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
+    /// @param aRangeInterval A range interval [m]
+    /// @param aLLA An LLA
+    GroundTargetConfiguration(
+        const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const LLA& aLLA
+    );
+
+    /// @brief Constructor
+    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
+    /// @param aRangeInterval A range interval [m]
+    /// @param aPosition A Position
+    GroundTargetConfiguration(
+        const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const Position& aPosition
+    );
+
     /// @brief Get the trajectory
     ///
     /// @code{.cpp}
@@ -147,26 +163,50 @@ struct GroundTargetConfiguration
     /// @return The range interval
     Interval<Real> getRangeInterval() const;
 
+    /// @brief Get the azimuth-elevation mask
+    ///
+    /// @code{.cpp}
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Map<Real, Real> azimuthElevationMask = groundTargetConfiguration.getAzimuthElevationMask();
+    /// @endcode
+    ///
+    /// @return The azimuth-elevation mask
+    Map<Real, Real> getAzimuthElevationMask() const;
+
+    /// @brief Check if the elevation-azimuth are within the mask
+    ///
+    /// @code{.cpp}
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              bool isAboveMask = groundTargetConfiguration.isAboveMask(elevation, azimuth);
+    /// @endcode
+    ///
+    /// @param anAzimuth An azimuth [deg]
+    /// @param anElevation An elevation [deg]
+    /// @return True if the azimuth-elevation are within the mask, false otherwise
+    bool isAboveMask(const Real& anAzimuth, const Real& anElevation) const;
+
     /// @brief Get the rotation matrix (Matrix3d) from ECEF (Earth-Centered-Earth-Fixed) to SEZ (South-East-Zenith)
     /// frame
     ///
     /// @code{.cpp}
     ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
-    ///              Matrix3d sezRotation = groundTargetConfiguration.getR_SEZ_ECEF();
+    ///              Matrix3d sezRotation = groundTargetConfiguration.computeR_SEZ_ECEF();
     /// @endcode
     ///
     /// @return The SEZ rotation matrix
-    Matrix3d getR_SEZ_ECEF() const;
+    Matrix3d computeR_SEZ_ECEF() const;
 
    private:
     Interval<Real> azimuthInterval_;
     Interval<Real> elevationInterval_;
     Interval<Real> rangeInterval_;
+    Map<Real, Real> azimuthElevationMask_;
 
     Position position_;
     LLA lla_;
 
     void validateIntervals_() const;
+    void validateMask_();
 };
 
 class Generator
@@ -274,10 +314,7 @@ class Generator
         const physics::time::Interval& anAnalysisInterval,
         const Vector3d& fromPositionCoordinate_ITRF,
         const Trajectory& aToTrajectory,
-        const Matrix3d& SEZRotation,
-        const Interval<Real>& anAzimuthInterval,
-        const Interval<Real>& anElevationInterval,
-        const Interval<Real>& aRangeInterval
+        const GroundTargetConfiguration& aGroundTargetConfiguration
     ) const;
 
     static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);

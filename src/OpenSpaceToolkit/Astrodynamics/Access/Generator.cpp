@@ -3,6 +3,8 @@
 #include <chrono>
 #include <nlopt.hpp>
 
+#include <OpenSpaceToolkit/Core/Container/Triple.hpp>
+
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Segment.hpp>
 
@@ -13,13 +15,17 @@
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
+using ostk::core::container::Triple;
+
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::MatrixXi;
+using ostk::mathematics::object::Vector2d;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 using ostk::mathematics::object::VectorXi;
+using ArrayXb = Eigen::Array<bool, Eigen::Dynamic, 1>;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::spherical::LLA;
@@ -45,6 +51,7 @@ GroundTargetConfiguration::GroundTargetConfiguration(
     : azimuthInterval_(anAzimuthInterval),
       elevationInterval_(anElevationInterval),
       rangeInterval_(aRangeInterval),
+      azimuthElevationMask_({}),
       position_(aPosition),
       lla_(LLA::Cartesian(
           aPosition.getCoordinates(),
@@ -69,6 +76,7 @@ GroundTargetConfiguration::GroundTargetConfiguration(
     : azimuthInterval_(anAzimuthInterval),
       elevationInterval_(anElevationInterval),
       rangeInterval_(aRangeInterval),
+      azimuthElevationMask_({}),
       position_(Position::Meters(
           aLLA.toCartesian(
               EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
@@ -83,6 +91,51 @@ GroundTargetConfiguration::GroundTargetConfiguration(
     }
 
     validateIntervals_();
+}
+
+GroundTargetConfiguration::GroundTargetConfiguration(
+    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const Position& aPosition
+)
+    : azimuthInterval_(Interval<Real>::Undefined()),
+      elevationInterval_(Interval<Real>::Undefined()),
+      rangeInterval_(aRangeInterval),
+      azimuthElevationMask_(anAzimuthElevationMask),
+      position_(aPosition),
+      lla_(LLA::Cartesian(
+          aPosition.getCoordinates(),
+          EarthGravitationalModel::EGM2008.equatorialRadius_,
+          EarthGravitationalModel::EGM2008.flattening_
+      ))
+{
+    if (aPosition.isDefined() && aPosition.accessFrame() != Frame::ITRF())
+    {
+        throw ostk::core::error::RuntimeError("The position frame must be ITRF.");
+    }
+
+    validateMask_();
+}
+
+GroundTargetConfiguration::GroundTargetConfiguration(
+    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const LLA& aLLA
+)
+    : azimuthInterval_(Interval<Real>::Undefined()),
+      elevationInterval_(Interval<Real>::Undefined()),
+      rangeInterval_(aRangeInterval),
+      azimuthElevationMask_(anAzimuthElevationMask),
+      position_(Position::Meters(
+          aLLA.toCartesian(
+              EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
+          ),
+          Frame::ITRF()
+      )),
+      lla_(aLLA)
+{
+    if (!aLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("LLA");
+    }
+
+    validateMask_();
 }
 
 Trajectory GroundTargetConfiguration::getTrajectory() const
@@ -115,7 +168,32 @@ Interval<Real> GroundTargetConfiguration::getRangeInterval() const
     return rangeInterval_;
 }
 
-Matrix3d GroundTargetConfiguration::getR_SEZ_ECEF() const
+Map<Real, Real> GroundTargetConfiguration::getAzimuthElevationMask() const
+{
+    return azimuthElevationMask_;
+}
+
+bool GroundTargetConfiguration::isAboveMask(const Real& anAzimuth_rad, const Real& anElevation_rad) const
+{
+    auto itLow = azimuthElevationMask_.lower_bound(anAzimuth_rad);
+    itLow--;
+    auto itUp = azimuthElevationMask_.upper_bound(anAzimuth_rad);
+
+    // Vector between the two successive mask data points with bounding azimuth values
+
+    const Vector2d lowToUpVector = {itUp->first - itLow->first, itUp->second - itLow->second};
+
+    // Vector from data point with azimuth lower bound to tested point
+
+    const Vector2d lowToPointVector = {anAzimuth_rad - itLow->first, anElevation_rad - itLow->second};
+
+    // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
+    // mask
+
+    return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0);
+}
+
+Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF() const
 {
     // TBM: Move this to OSTk physics as a utility function
     const double sinLat = std::sin(lla_.getLatitude().inRadians());
@@ -163,6 +241,44 @@ void GroundTargetConfiguration::validateIntervals_() const
             rangeInterval_.accessUpperBound()
         );
     }
+}
+
+void GroundTargetConfiguration::validateMask_()
+{
+    if (azimuthElevationMask_.empty() || azimuthElevationMask_.begin()->first < 0.0 ||
+        azimuthElevationMask_.rbegin()->first > 360.0)
+    {
+        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+    }
+
+    for (const auto& azimuthElevationPair : azimuthElevationMask_)
+    {
+        if ((azimuthElevationPair.second).abs() > 90.0)
+        {
+            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+        }
+    }
+
+    if (azimuthElevationMask_.begin()->first != 0.0)
+    {
+        azimuthElevationMask_.insert({0.0, azimuthElevationMask_.begin()->second});
+    }
+
+    if (azimuthElevationMask_.rbegin()->first != 360.0)
+    {
+        azimuthElevationMask_.insert({360.0, azimuthElevationMask_.begin()->second});
+    }
+
+    // convert to radians
+
+    Map<Real, Real> azimuthElevationMaskRad;
+    for (const auto& azimuthElevationPair : azimuthElevationMask_)
+    {
+        const Real azimuthRad = azimuthElevationPair.first * Real::Pi() / 180.0;
+        const Real elevationRad = azimuthElevationPair.second * Real::Pi() / 180.0;
+        azimuthElevationMaskRad.insert({azimuthRad, elevationRad});
+    }
+    azimuthElevationMask_ = azimuthElevationMaskRad;
 }
 
 Generator::Generator(const Environment& anEnvironment, const Duration& aStep, const Duration& aTolerance)
@@ -306,7 +422,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
     for (Index i = 0; i < targetCount; ++i)
     {
-        SEZRotations.block<3, 3>(0, 3 * i) = someGroundTargetConfigurations[i].getR_SEZ_ECEF();
+        SEZRotations.block<3, 3>(0, 3 * i) = someGroundTargetConfigurations[i].computeR_SEZ_ECEF();
     }
 
     // create a stacked matrix of ITRF positions for all ground targets
@@ -317,21 +433,78 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         fromPositionCoordinates_ITRF.col(i) = someGroundTargetConfigurations[i].getPosition().getCoordinates();
     }
 
-    // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
-    MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
-    MatrixXd aerUpperBounds = MatrixXd::Zero(targetCount, 3);
+    const bool allGroundTargetsHaveMasks = std::all_of(
+        someGroundTargetConfigurations.begin(),
+        someGroundTargetConfigurations.end(),
+        [](const auto& groundTargetConfiguration)
+        {
+            return !groundTargetConfiguration.getAzimuthElevationMask().empty();
+        }
+    );
 
-    const Real degToRad = Real::Pi() / 180.0;
+    std::function<ArrayXb(const VectorXd&, const VectorXd&, const VectorXd&)> aerFilter;
 
-    for (Index i = 0; i < targetCount; ++i)
+    if (!allGroundTargetsHaveMasks)
     {
-        aerLowerBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * degToRad;
-        aerLowerBounds(i, 1) = someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * degToRad;
-        aerLowerBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound();
+        // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
+        MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
+        MatrixXd aerUpperBounds = MatrixXd::Zero(targetCount, 3);
 
-        aerUpperBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * degToRad;
-        aerUpperBounds(i, 1) = someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * degToRad;
-        aerUpperBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound();
+        const Real degToRad = Real::Pi() / 180.0;
+
+        for (Index i = 0; i < targetCount; ++i)
+        {
+            aerLowerBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * degToRad;
+            aerLowerBounds(i, 1) =
+                someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * degToRad;
+            aerLowerBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound();
+
+            aerUpperBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * degToRad;
+            aerUpperBounds(i, 1) =
+                someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * degToRad;
+            aerUpperBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound();
+        }
+
+        aerFilter = [aerLowerBounds,
+                     aerUpperBounds](const VectorXd& azimuths, const VectorXd& elevations, const VectorXd& ranges)
+        {
+            return (azimuths.array() > aerLowerBounds.col(0).array() &&
+                    azimuths.array() < aerUpperBounds.col(0).array() &&
+                    elevations.array() > aerLowerBounds.col(1).array() &&
+                    elevations.array() < aerUpperBounds.col(1).array() &&
+                    ranges.array() > aerLowerBounds.col(2).array() && ranges.array() < aerUpperBounds.col(2).array())
+                .eval();
+        };
+    }
+    else
+    {
+        VectorXd rangeLowerBounds = VectorXd::Zero(targetCount, 1);
+        VectorXd rangeUpperBounds = VectorXd::Zero(targetCount, 1);
+
+        for (Index i = 0; i < targetCount; ++i)
+        {
+            rangeLowerBounds(i) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound();
+            rangeUpperBounds(i) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound();
+        }
+
+        aerFilter = [&someGroundTargetConfigurations, rangeLowerBounds, rangeUpperBounds](
+                        const VectorXd& azimuths_rad, const VectorXd& elevations_rad, const VectorXd& ranges_m
+                    )
+        {
+            ArrayXb mask(azimuths_rad.rows());
+            mask = ranges_m.array() > rangeLowerBounds.array() && ranges_m.array() < rangeUpperBounds.array();
+
+            for (Index i = 0; i < (Index)mask.rows(); ++i)
+            {
+                const auto& groundTargetConfiguration = someGroundTargetConfigurations[i];
+                const auto& azimuth_rad = azimuths_rad(i);
+                const auto& elevation_rad = elevations_rad(i);
+
+                mask(i) = mask(i) && groundTargetConfiguration.isAboveMask(azimuth_rad, elevation_rad);
+            }
+
+            return mask;
+        };
     }
 
     const Array<Instant> instants = anInterval.generateGrid(this->step_);
@@ -356,13 +529,13 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         }
 
         // calculate azimuth, elevation, and range
-        const VectorXd range = dx_SEZ.colwise().norm();
-        const VectorXd elevation_rad = (dx_SEZ.row(2).transpose().array() / range.array()).asin();
+        const VectorXd range_m = dx_SEZ.colwise().norm();
+        const VectorXd elevation_rad = (dx_SEZ.row(2).transpose().array() / range_m.array()).asin();
         VectorXd azimuth_rad = dx_SEZ.row(0).array().binaryExpr(
             dx_SEZ.row(1).array(),
             [](double x, double y)
             {
-                return std::atan2(y, x);
+                return std::atan2(y, -x);
             }
         );
 
@@ -374,48 +547,38 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         );
 
         // check if satellite is in access
-        const auto inAccess =
-            (azimuth_rad.array() > aerLowerBounds.col(0).array() &&
-             azimuth_rad.array() < aerUpperBounds.col(0).array() &&
-             elevation_rad.array() > aerLowerBounds.col(1).array() &&
-             elevation_rad.array() < aerUpperBounds.col(1).array() && range.array() > aerLowerBounds.col(2).array() &&
-             range.array() < aerUpperBounds.col(2).array())
-                .eval();
-
+        const auto inAccess = aerFilter(azimuth_rad, elevation_rad, range_m);
         inAccessPerTarget.row(index) = inAccess.cast<int>().transpose();
     }
 
-    Array<Array<physics::time::Interval>> accessIntervals =
+    Array<Array<physics::time::Interval>> accessIntervalsPerTarget =
         Array<Array<physics::time::Interval>>(targetCount, Array<physics::time::Interval>::Empty());
 
     for (Index i = 0; i < targetCount; ++i)
     {
-        accessIntervals[i] = ComputeIntervals(inAccessPerTarget.col(i), instants);
+        accessIntervalsPerTarget[i] = ComputeIntervals(inAccessPerTarget.col(i), instants);
     }
 
     if (!coarse)
     {
-        for (Index i = 0; i < accessIntervals.getSize(); ++i)
+        for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
         {
-            accessIntervals[i] = this->computePreciseCrossings(
-                accessIntervals[i],
+            accessIntervalsPerTarget[i] = this->computePreciseCrossings(
+                accessIntervalsPerTarget[i],
                 anInterval,
                 fromPositionCoordinates_ITRF.col(i),
                 aToTrajectory,
-                someGroundTargetConfigurations[i].getR_SEZ_ECEF(),
-                someGroundTargetConfigurations[i].getAzimuthInterval(),
-                someGroundTargetConfigurations[i].getElevationInterval(),
-                someGroundTargetConfigurations[i].getRangeInterval()
+                someGroundTargetConfigurations[i]
             );
         }
     }
 
     Array<Array<Access>> accesses = Array<Array<Access>>(targetCount, Array<Access>::Empty());
-    for (Index i = 0; i < accessIntervals.getSize(); ++i)
+    for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
     {
         const Trajectory fromTrajectory = someGroundTargetConfigurations[i].getTrajectory();
         accesses[i] =
-            this->generateAccessesFromIntervals(accessIntervals[i], anInterval, fromTrajectory, aToTrajectory);
+            this->generateAccessesFromIntervals(accessIntervalsPerTarget[i], anInterval, fromTrajectory, aToTrajectory);
     }
 
     return accesses;
@@ -584,28 +747,18 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     const physics::time::Interval& anAnalysisInterval,
     const Vector3d& fromPositionCoordinate_ITRF,
     const Trajectory& aToTrajectory,
-    const Matrix3d& SEZRotation,
-    const Interval<Real>& anAzimuthInterval,
-    const Interval<Real>& anElevationInterval,
-    const Interval<Real>& aRangeInterval
+    const GroundTargetConfiguration& aGroundTargetConfiguration
 ) const
 {
     const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
 
-    const auto condition = [&fromPositionCoordinate_ITRF,
-                            &SEZRotation,
-                            &aToTrajectory,
-                            &anAzimuthInterval,
-                            &anElevationInterval,
-                            &aRangeInterval](const Instant& instant) -> bool
-    {
-        const double& azimuthLowerBound = anAzimuthInterval.accessLowerBound();
-        const double& azimuthUpperBound = anAzimuthInterval.accessUpperBound();
-        const double& elevationLowerBound = anElevationInterval.accessLowerBound();
-        const double& elevationUpperBound = anElevationInterval.accessUpperBound();
-        const double& rangeLowerBound = aRangeInterval.accessLowerBound();
-        const double& rangeUpperBound = aRangeInterval.accessUpperBound();
+    const Matrix3d SEZRotation = aGroundTargetConfiguration.computeR_SEZ_ECEF();
 
+    std::function<bool(const Instant&)> condition;
+
+    const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory](const Instant& instant
+                            ) -> Triple<Real, Real, Real>
+    {
         const auto toPositionCoordinates_ITRF =
             aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
@@ -613,16 +766,46 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
         const Vector3d dx_SEZ = SEZRotation * dx;
 
-        const double range = dx_SEZ.norm();
-        const double elevation_rad = std::asin(dx_SEZ(2) / range);
-        double azimuth_rad = std::atan2(dx_SEZ(1), dx_SEZ(0));
-
+        const double range_m = dx_SEZ.norm();
+        const double elevation_rad = std::asin(dx_SEZ(2) / range_m);
+        double azimuth_rad = std::atan2(dx_SEZ(1), -dx_SEZ(0));
         azimuth_rad = azimuth_rad < 0.0 ? azimuth_rad + 2.0 * M_PI : azimuth_rad;
 
-        return azimuth_rad > azimuthLowerBound && azimuth_rad < azimuthUpperBound &&
-               elevation_rad > elevationLowerBound && elevation_rad < elevationUpperBound && range > rangeLowerBound &&
-               range < rangeUpperBound;
+        return {azimuth_rad, elevation_rad, range_m};
     };
+
+    if (aGroundTargetConfiguration.getAzimuthElevationMask().empty())
+    {
+        condition = [&computeAER, &aGroundTargetConfiguration](const Instant& instant) -> bool
+        {
+            const double& azimuthLowerBound = aGroundTargetConfiguration.getAzimuthInterval().accessLowerBound();
+            const double& azimuthUpperBound = aGroundTargetConfiguration.getAzimuthInterval().accessUpperBound();
+            const double& elevationLowerBound = aGroundTargetConfiguration.getElevationInterval().accessLowerBound();
+            const double& elevationUpperBound = aGroundTargetConfiguration.getElevationInterval().accessUpperBound();
+            const double& rangeLowerBound = aGroundTargetConfiguration.getRangeInterval().accessLowerBound();
+            const double& rangeUpperBound = aGroundTargetConfiguration.getRangeInterval().accessUpperBound();
+
+            const auto [azimuth_rad, elevation_rad, range] = computeAER(instant);
+
+            return azimuth_rad > azimuthLowerBound && azimuth_rad < azimuthUpperBound &&
+                   elevation_rad > elevationLowerBound && elevation_rad < elevationUpperBound &&
+                   range > rangeLowerBound && range < rangeUpperBound;
+        };
+    }
+    else
+    {
+        condition = [&computeAER, &aGroundTargetConfiguration](const Instant& instant) -> bool
+        {
+            const double& rangeLowerBound = aGroundTargetConfiguration.getRangeInterval().accessLowerBound();
+            const double& rangeUpperBound = aGroundTargetConfiguration.getRangeInterval().accessUpperBound();
+
+            const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
+
+            const bool inMask = aGroundTargetConfiguration.isAboveMask(azimuth_rad, elevation_rad);
+
+            return inMask && range_m > rangeLowerBound && range_m < rangeUpperBound;
+        };
+    }
 
     Array<physics::time::Interval> preciseAccessIntervals = accessIntervals;
 
