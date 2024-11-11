@@ -15,7 +15,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
+using ostk::core::container::Map;
 using ostk::core::container::Triple;
+using ostk::core::type::Real;
 
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
@@ -175,22 +177,7 @@ Map<Real, Real> GroundTargetConfiguration::getAzimuthElevationMask() const
 
 bool GroundTargetConfiguration::isAboveMask(const Real& anAzimuth_rad, const Real& anElevation_rad) const
 {
-    auto itLow = azimuthElevationMask_.lower_bound(anAzimuth_rad);
-    itLow--;
-    auto itUp = azimuthElevationMask_.upper_bound(anAzimuth_rad);
-
-    // Vector between the two successive mask data points with bounding azimuth values
-
-    const Vector2d lowToUpVector = {itUp->first - itLow->first, itUp->second - itLow->second};
-
-    // Vector from data point with azimuth lower bound to tested point
-
-    const Vector2d lowToPointVector = {anAzimuth_rad - itLow->first, anElevation_rad - itLow->second};
-
-    // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
-    // mask
-
-    return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0);
+    return Generator::IsAboveMask(azimuthElevationMask_, anAzimuth_rad, anElevation_rad);
 }
 
 Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF() const
@@ -245,40 +232,7 @@ void GroundTargetConfiguration::validateIntervals_() const
 
 void GroundTargetConfiguration::validateMask_()
 {
-    if (azimuthElevationMask_.empty() || azimuthElevationMask_.begin()->first < 0.0 ||
-        azimuthElevationMask_.rbegin()->first > 360.0)
-    {
-        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
-    }
-
-    for (const auto& azimuthElevationPair : azimuthElevationMask_)
-    {
-        if ((azimuthElevationPair.second).abs() > 90.0)
-        {
-            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
-        }
-    }
-
-    if (azimuthElevationMask_.begin()->first != 0.0)
-    {
-        azimuthElevationMask_.insert({0.0, azimuthElevationMask_.begin()->second});
-    }
-
-    if (azimuthElevationMask_.rbegin()->first != 360.0)
-    {
-        azimuthElevationMask_.insert({360.0, azimuthElevationMask_.begin()->second});
-    }
-
-    // convert to radians
-
-    Map<Real, Real> azimuthElevationMaskRad;
-    for (const auto& azimuthElevationPair : azimuthElevationMask_)
-    {
-        const Real azimuthRad = azimuthElevationPair.first * Real::Pi() / 180.0;
-        const Real elevationRad = azimuthElevationPair.second * Real::Pi() / 180.0;
-        azimuthElevationMaskRad.insert({azimuthRad, elevationRad});
-    }
-    azimuthElevationMask_ = azimuthElevationMaskRad;
+    azimuthElevationMask_ = Generator::ConvertAzimuthElevationMask(azimuthElevationMask_);
 }
 
 Generator::Generator(const Environment& anEnvironment, const Duration& aStep, const Duration& aTolerance)
@@ -496,9 +450,9 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
             for (Index i = 0; i < (Index)mask.rows(); ++i)
             {
-                const auto& groundTargetConfiguration = someGroundTargetConfigurations[i];
-                const auto& azimuth_rad = azimuths_rad(i);
-                const auto& elevation_rad = elevations_rad(i);
+                const GroundTargetConfiguration& groundTargetConfiguration = someGroundTargetConfigurations[i];
+                const double& azimuth_rad = azimuths_rad(i);
+                const double& elevation_rad = elevations_rad(i);
 
                 mask(i) = mask(i) && groundTargetConfiguration.isAboveMask(azimuth_rad, elevation_rad);
             }
@@ -631,8 +585,6 @@ Generator Generator::AerRanges(
     const Environment& anEnvironment
 )
 {
-    using ostk::core::type::Real;
-
     const Interval<Real> azimuthRange_deg = anAzimuthRange;
     const Interval<Real> elevationRange_deg = anElevationRange;
     const Interval<Real> rangeRange_m = aRangeRange;
@@ -654,61 +606,16 @@ Generator Generator::AerMask(
     const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeRange, const Environment& anEnvironment
 )
 {
-    using ostk::core::container::Map;
-    using ostk::core::type::Real;
+    const Map<Real, Real> anAzimuthElevationMask_rad = ConvertAzimuthElevationMask(anAzimuthElevationMask);
 
-    using ostk::mathematics::object::Vector2d;
-
-    if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
-        (anAzimuthElevationMask.rbegin()->first > 360.0))
+    const std::function<bool(const AER&)> aerFilter = [anAzimuthElevationMask_rad,
+                                                       aRangeRange](const AER& anAER) -> bool
     {
-        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
-    }
+        const Real azimuth = anAER.getAzimuth().inRadians(0.0, Real::TwoPi());
+        const Real elevation = anAER.getElevation().inRadians(-Real::Pi(), Real::Pi());
 
-    for (const auto& azimuthElevationPair : anAzimuthElevationMask)
-    {
-        if ((azimuthElevationPair.second).abs() > 90.0)
-        {
-            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
-        }
-    }
-
-    Map<Real, Real> anAzimuthElevationMask_deg = anAzimuthElevationMask;
-    const Interval<Real> rangeRange_m = aRangeRange;
-
-    if (anAzimuthElevationMask_deg.begin()->first != 0.0)
-    {
-        anAzimuthElevationMask_deg.insert({0.0, anAzimuthElevationMask_deg.begin()->second});
-    }
-
-    if (anAzimuthElevationMask_deg.rbegin()->first != 360.0)
-    {
-        anAzimuthElevationMask_deg.insert({360.0, anAzimuthElevationMask_deg.begin()->second});
-    }
-
-    const std::function<bool(const AER&)> aerFilter = [anAzimuthElevationMask_deg,
-                                                       rangeRange_m](const AER& anAER) -> bool
-    {
-        const Real azimuth = anAER.getAzimuth().inDegrees(0.0, +360.0);
-        const Real elevation = anAER.getElevation().inDegrees(-180.0, +180.0);
-
-        auto itLow = anAzimuthElevationMask_deg.lower_bound(azimuth);
-        itLow--;
-        auto itUp = anAzimuthElevationMask_deg.upper_bound(azimuth);
-
-        // Vector between the two successive mask data points with bounding azimuth values
-
-        const Vector2d lowToUpVector = {itUp->first - itLow->first, itUp->second - itLow->second};
-
-        // Vector from data point with azimuth lower bound to tested point
-
-        const Vector2d lowToPointVector = {azimuth - itLow->first, elevation - itLow->second};
-
-        // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
-        // mask
-
-        return (lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0] >= 0.0) &&
-               ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters()));
+        return Generator::IsAboveMask(anAzimuthElevationMask_rad, azimuth, elevation) &&
+               ((!aRangeRange.isDefined()) || aRangeRange.contains(anAER.getRange().inMeters()));
     };
 
     return {anEnvironment, aerFilter};
@@ -759,7 +666,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory](const Instant& instant
                             ) -> Triple<Real, Real, Real>
     {
-        const auto toPositionCoordinates_ITRF =
+        const Vector3d toPositionCoordinates_ITRF =
             aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
         const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
@@ -811,7 +718,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
     for (Index i = 0; i < preciseAccessIntervals.getSize(); ++i)
     {
-        const auto& interval = accessIntervals[i];
+        const physics::time::Interval& interval = accessIntervals[i];
 
         const Instant lowerBoundPreviousInstant = interval.getStart() - this->step_;
         const Instant lowerBoundInstant = interval.getStart();
@@ -1040,6 +947,66 @@ Angle Generator::CalculateElevationAt(
     const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, anEarthSPtr);
 
     return aer.getElevation();
+}
+
+bool Generator::IsAboveMask(
+    const Map<Real, Real>& anAzimuthElevationMask, const Real& anAzimuth_rad, const Real& anElevation_rad
+)
+{
+    auto itLow = anAzimuthElevationMask.lower_bound(anAzimuth_rad);
+    itLow--;
+    auto itUp = anAzimuthElevationMask.upper_bound(anAzimuth_rad);
+
+    // Vector between the two successive mask data points with bounding azimuth values
+
+    const Vector2d lowToUpVector = {itUp->first - itLow->first, itUp->second - itLow->second};
+
+    // Vector from data point with azimuth lower bound to tested point
+
+    const Vector2d lowToPointVector = {anAzimuth_rad - itLow->first, anElevation_rad - itLow->second};
+
+    // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
+    // mask
+
+    return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0);
+}
+
+Map<Real, Real> Generator::ConvertAzimuthElevationMask(const Map<Real, Real>& anAzimuthElevationMask)
+{
+    if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
+        (anAzimuthElevationMask.rbegin()->first > 360.0))
+    {
+        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+    }
+
+    for (const auto& azimuthElevationPair : anAzimuthElevationMask)
+    {
+        if ((azimuthElevationPair.second).abs() > 90.0)
+        {
+            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+        }
+    }
+
+    Map<Real, Real> anAzimuthElevationMask_deg = anAzimuthElevationMask;
+
+    if (anAzimuthElevationMask_deg.begin()->first != 0.0)
+    {
+        anAzimuthElevationMask_deg.insert({0.0, anAzimuthElevationMask_deg.begin()->second});
+    }
+
+    if (anAzimuthElevationMask_deg.rbegin()->first != 360.0)
+    {
+        anAzimuthElevationMask_deg.insert({360.0, anAzimuthElevationMask_deg.begin()->second});
+    }
+
+    Map<Real, Real> anAzimuthElevationMask_rad;
+
+    for (auto it = anAzimuthElevationMask_deg.begin(); it != anAzimuthElevationMask_deg.end(); ++it)
+    {
+        anAzimuthElevationMask_rad.insert({it->first * M_PI / 180.0, it->second * M_PI / 180.0});
+    }
+
+    return anAzimuthElevationMask_rad;
 }
 
 GeneratorContext::GeneratorContext(

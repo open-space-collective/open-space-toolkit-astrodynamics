@@ -56,13 +56,158 @@ using ostk::astrodynamics::trajectory::State;
 #define DEFAULT_STEP Duration::Minutes(1.0)
 #define DEFAULT_TOLERANCE Duration::Microseconds(1.0)
 
+class GroundTargetConfiguration;
+
+class Generator
+{
+   public:
+    Generator(
+        const Environment& anEnvironment,
+        const Duration& aStep = DEFAULT_STEP,
+        const Duration& aTolerance = DEFAULT_TOLERANCE
+    );
+
+    Generator(
+        const Environment& anEnvironment,
+        const std::function<bool(const AER&)>& anAerFilter,
+        const std::function<bool(const Access&)>& anAccessFilter = {},
+        const std::function<bool(const State&, const State&)>& aStateFilter = {},
+        const Duration& aStep = DEFAULT_STEP,
+        const Duration& aTolerance = DEFAULT_TOLERANCE
+    );
+
+    bool isDefined() const;
+
+    Duration getStep() const;
+
+    Duration getTolerance() const;
+
+    std::function<bool(const AER&)> getAerFilter() const;
+
+    std::function<bool(const Access&)> getAccessFilter() const;
+
+    std::function<bool(const State&, const State&)> getStateFilter() const;
+
+    std::function<bool(const Instant&)> getConditionFunction(
+        const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    ) const;
+
+    Array<Access> computeAccesses(
+        const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    ) const;
+
+    Array<Array<Access>> computeAccessesWithGroundTargets(
+        const physics::time::Interval& anInterval,
+        const Array<GroundTargetConfiguration>& someGroundTargetConfigurations,
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
+    ) const;
+
+    void setStep(const Duration& aStep);
+
+    void setTolerance(const Duration& aTolerance);
+
+    void setAerFilter(const std::function<bool(const AER&)>& anAerFilter);
+
+    void setAccessFilter(const std::function<bool(const Access&)>& anAccessFilter);
+
+    void setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter);
+
+    static Generator Undefined();
+
+    /// @brief Construct an access generator with defined AER ranges
+    ///
+    /// @param anAzimuthRange An azimuth interval [deg]
+    /// @param anElevationRange An elevation interval [deg]
+    /// @param aRangeRange A range interval [m]
+    /// @param anEnvironment An environment
+    /// @return An access generator
+    static Generator AerRanges(
+        const Interval<Real>& anAzimuthRange,
+        const Interval<Real>& anElevationRange,
+        const Interval<Real>& aRangeRange,
+        const Environment& anEnvironment
+    );
+
+    /// @brief Construct an access generator with a defined AER mask
+    ///
+    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
+    /// @param aRangeRange A range interval [m]
+    /// @param anEnvironment An environment
+    /// @return An access generator
+    static Generator AerMask(
+        const Map<Real, Real>& anAzimuthElevationMask,
+        const Interval<Real>& aRangeRange,
+        const Environment& anEnvironment
+    );
+
+   private:
+    Environment environment_;
+
+    Duration step_;
+    Duration tolerance_;
+
+    std::function<bool(const AER&)> aerFilter_;
+    std::function<bool(const Access&)> accessFilter_;
+    std::function<bool(const State&, const State&)> stateFilter_;
+
+    Array<Access> generateAccessesFromIntervals(
+        const Array<physics::time::Interval>& someIntervals,
+        const physics::time::Interval& anInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory
+    ) const;
+
+    Array<physics::time::Interval> computePreciseCrossings(
+        const Array<physics::time::Interval>& accessIntervals,
+        const physics::time::Interval& anAnalysisInterval,
+        const Vector3d& fromPositionCoordinate_ITRF,
+        const Trajectory& aToTrajectory,
+        const GroundTargetConfiguration& aGroundTargetConfiguration
+    ) const;
+
+    static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);
+
+    static Access GenerateAccess(
+        const physics::time::Interval& anAccessInterval,
+        const physics::time::Interval& aGlobalInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial> anEarthSPtr,
+        const Duration& aTolerance
+    );
+
+    static Instant FindTimeOfClosestApproach(
+        const physics::time::Interval& anAccessInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Duration& aTolerance
+    );
+
+    static Angle CalculateElevationAt(
+        const Instant& anInstant,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial> anEarthSPtr
+    );
+
+    static bool IsAboveMask(
+        const Map<Real, Real>& anAzimuthElevationMask, const Real& anAzimuth_rad, const Real& anElevation_rad
+    );
+
+    static Map<Real, Real> ConvertAzimuthElevationMask(const Map<Real, Real>& anAzimuthElevationMask);
+
+    friend class GroundTargetConfiguration;
+};
+
 /// @brief Represents the configuration for a ground target, including azimuth, elevation, and range intervals, as well
 /// as position and LLA (Latitude, Longitude, Altitude).
 ///
 /// @details This class provides methods to retrieve the trajectory, position, LLA, and intervals for azimuth,
 /// elevation, and range. It also includes a method to get the SEZ (South-East-Zenith) rotation matrix.
-struct GroundTargetConfiguration
+class GroundTargetConfiguration
 {
+   public:
     /// @brief Constructor
     /// @param anAzimuthInterval An azimuth interval [deg]
     /// @param anElevationInterval An elevation interval [deg]
@@ -207,140 +352,6 @@ struct GroundTargetConfiguration
 
     void validateIntervals_() const;
     void validateMask_();
-};
-
-class Generator
-{
-   public:
-    Generator(
-        const Environment& anEnvironment,
-        const Duration& aStep = DEFAULT_STEP,
-        const Duration& aTolerance = DEFAULT_TOLERANCE
-    );
-
-    Generator(
-        const Environment& anEnvironment,
-        const std::function<bool(const AER&)>& anAerFilter,
-        const std::function<bool(const Access&)>& anAccessFilter = {},
-        const std::function<bool(const State&, const State&)>& aStateFilter = {},
-        const Duration& aStep = DEFAULT_STEP,
-        const Duration& aTolerance = DEFAULT_TOLERANCE
-    );
-
-    bool isDefined() const;
-
-    Duration getStep() const;
-
-    Duration getTolerance() const;
-
-    std::function<bool(const AER&)> getAerFilter() const;
-
-    std::function<bool(const Access&)> getAccessFilter() const;
-
-    std::function<bool(const State&, const State&)> getStateFilter() const;
-
-    std::function<bool(const Instant&)> getConditionFunction(
-        const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
-    ) const;
-
-    Array<Access> computeAccesses(
-        const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
-    ) const;
-
-    Array<Array<Access>> computeAccessesWithGroundTargets(
-        const physics::time::Interval& anInterval,
-        const Array<GroundTargetConfiguration>& someGroundTargetConfigurations,
-        const Trajectory& aToTrajectory,
-        const bool& coarse = false
-    ) const;
-
-    void setStep(const Duration& aStep);
-
-    void setTolerance(const Duration& aTolerance);
-
-    void setAerFilter(const std::function<bool(const AER&)>& anAerFilter);
-
-    void setAccessFilter(const std::function<bool(const Access&)>& anAccessFilter);
-
-    void setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter);
-
-    static Generator Undefined();
-
-    /// @brief Construct an access generator with defined AER ranges
-    ///
-    /// @param anAzimuthRange An azimuth interval [deg]
-    /// @param anElevationRange An elevation interval [deg]
-    /// @param aRangeRange A range interval [m]
-    /// @param anEnvironment An environment
-    /// @return An access generator
-    static Generator AerRanges(
-        const Interval<Real>& anAzimuthRange,
-        const Interval<Real>& anElevationRange,
-        const Interval<Real>& aRangeRange,
-        const Environment& anEnvironment
-    );
-
-    /// @brief Construct an access generator with a defined AER mask
-    ///
-    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
-    /// @param aRangeRange A range interval [m]
-    /// @param anEnvironment An environment
-    /// @return An access generator
-    static Generator AerMask(
-        const Map<Real, Real>& anAzimuthElevationMask,
-        const Interval<Real>& aRangeRange,
-        const Environment& anEnvironment
-    );
-
-   private:
-    Environment environment_;
-
-    Duration step_;
-    Duration tolerance_;
-
-    std::function<bool(const AER&)> aerFilter_;
-    std::function<bool(const Access&)> accessFilter_;
-    std::function<bool(const State&, const State&)> stateFilter_;
-
-    Array<Access> generateAccessesFromIntervals(
-        const Array<physics::time::Interval>& someIntervals,
-        const physics::time::Interval& anInterval,
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory
-    ) const;
-
-    Array<physics::time::Interval> computePreciseCrossings(
-        const Array<physics::time::Interval>& accessIntervals,
-        const physics::time::Interval& anAnalysisInterval,
-        const Vector3d& fromPositionCoordinate_ITRF,
-        const Trajectory& aToTrajectory,
-        const GroundTargetConfiguration& aGroundTargetConfiguration
-    ) const;
-
-    static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);
-
-    static Access GenerateAccess(
-        const physics::time::Interval& anAccessInterval,
-        const physics::time::Interval& aGlobalInterval,
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory,
-        const Shared<const Celestial> anEarthSPtr,
-        const Duration& aTolerance
-    );
-
-    static Instant FindTimeOfClosestApproach(
-        const physics::time::Interval& anAccessInterval,
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory,
-        const Duration& aTolerance
-    );
-
-    static Angle CalculateElevationAt(
-        const Instant& anInstant,
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory,
-        const Shared<const Celestial> anEarthSPtr
-    );
 };
 
 class GeneratorContext
