@@ -229,14 +229,17 @@ Array<Access> Generator::computeAccesses(
         throw ostk::core::error::runtime::Undefined("Interval");
     }
 
+    if (!aToTrajectory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("To Trajectory");
+    }
+
     if (anAccessTarget.getType() == AccessTarget::Type::Trajectory)
     {
         return this->computeAccessesForTrajectoryTarget(anInterval, anAccessTarget, aToTrajectory);
     }
-    else
-    {
-        return this->computeAccessesForFixedTargets(anInterval, Array<AccessTarget> {anAccessTarget}, aToTrajectory)[0];
-    }
+
+    return this->computeAccessesForFixedTargets(anInterval, Array<AccessTarget> {anAccessTarget}, aToTrajectory)[0];
 }
 
 Array<Array<Access>> Generator::computeAccesses(
@@ -253,6 +256,11 @@ Array<Array<Access>> Generator::computeAccesses(
     if (someAccessTargets.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("Access targets");
+    }
+
+    if (!aToTrajectory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("To Trajectory");
     }
 
     if (std ::all_of(
@@ -287,10 +295,10 @@ Array<Array<Access>> Generator::computeAccesses(
     {
         return this->computeAccessesForFixedTargets(anInterval, someAccessTargets, aToTrajectory);
     }
-    else
-    {
-        throw ostk::core::error::RuntimeError("All targets must be of same type.");
-    }
+
+    throw ostk::core::error::RuntimeError("All targets must be of same type.");
+
+    return {};
 }
 
 void Generator::setStep(const Duration& aStep)
@@ -349,6 +357,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     const bool& coarse
 ) const
 {
+    std::cout << "Computing accesses for fixed targets" << std::endl;
     if (stateFilter_)
     {
         throw ostk::core::error::RuntimeError("State filter is not supported for multiple ground targets.");
@@ -884,8 +893,6 @@ GeneratorContext::GeneratorContext(
 
 bool GeneratorContext::isAccessActive(const Instant& anInstant, const Constraint& aConstraint)
 {
-    this->environment_.setInstant(anInstant);
-
     const auto [fromState, toState] =
         GeneratorContext::GetStatesAt(anInstant, this->fromTrajectory_, this->toTrajectory_);
 
@@ -899,28 +906,43 @@ bool GeneratorContext::isAccessActive(const Instant& anInstant, const Constraint
     // Line of sight
     // TBI: Remove this check as it is redundant
 
-    static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
+    // static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
 
-    const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates());
-    const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates());
+    // const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates());
+    // const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates());
 
-    if (fromPositionCoordinates != toPositionCoordinates)
+    // if (fromPositionCoordinates != toPositionCoordinates)
+    // {
+    //     const Segment fromToSegment = {fromPositionCoordinates, toPositionCoordinates};
+
+    //     const Object::Geometry fromToSegmentGeometry = {fromToSegment, commonFrameSPtr};
+
+    //     const bool lineOfSight = !this->environment_.intersects(fromToSegmentGeometry);
+
+    //     if (!lineOfSight)
+    //     {
+    //         return false;
+    //     }
+    // }
+
+    if (aConstraint.isLineOfSightBased())
     {
-        const Segment fromToSegment = {fromPositionCoordinates, toPositionCoordinates};
-
-        const Object::Geometry fromToSegmentGeometry = {fromToSegment, commonFrameSPtr};
-
-        const bool lineOfSight = !this->environment_.intersects(fromToSegmentGeometry);
-
-        if (!lineOfSight)
-        {
-            return false;
-        }
+        return aConstraint.getLineOfSightConstraint().value().isSatisfied(anInstant, fromPosition, toPosition);
     }
 
     const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, earthSPtr_);
 
-    return aConstraint.isSatisfied(aer);
+    if (aConstraint.isMaskBased())
+    {
+        return aConstraint.getMaskConstraint().value().isSatisfied(aer);
+    }
+
+    if (aConstraint.isIntervalBased())
+    {
+        return aConstraint.getIntervalConstraint().value().isSatisfied(aer);
+    }
+
+    return false;
 }
 
 Pair<State, State> GeneratorContext::GetStatesAt(

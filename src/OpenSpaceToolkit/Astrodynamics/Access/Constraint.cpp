@@ -1,5 +1,10 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Segment.hpp>
+
+#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Access/Constraint.hpp>
 
 namespace ostk
@@ -8,6 +13,14 @@ namespace astrodynamics
 {
 namespace access
 {
+
+using ostk::core::type::Shared;
+
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::geometry::d3::object::Segment;
+
+using ostk::physics::coordinate::Frame;
+using ostk::physics::environment::Object;
 
 Constraint::IntervalConstraint::IntervalConstraint(
     const Interval<Real>& anAzimuthInterval,
@@ -101,7 +114,7 @@ Constraint::MaskConstraint::MaskConstraint(
         anAzimuthElevationMask_rad.insert({it->first * M_PI / 180.0, it->second * M_PI / 180.0});
     }
 
-    azimuthElevationMask = anAzimuthElevationMask_rad;
+    this->azimuthElevationMask = anAzimuthElevationMask_rad;
 }
 
 bool Constraint::MaskConstraint::isSatisfied(const AER& anAer) const
@@ -109,9 +122,9 @@ bool Constraint::MaskConstraint::isSatisfied(const AER& anAer) const
     const Real azimuth_rad = anAer.getAzimuth().inRadians(0.0, Real::TwoPi());
     const Real elevation_rad = anAer.getElevation().inRadians(-Real::Pi(), Real::Pi());
 
-    auto itLow = azimuthElevationMask.lower_bound(azimuth_rad);
+    auto itLow = this->azimuthElevationMask.lower_bound(azimuth_rad);
     itLow--;
-    auto itUp = azimuthElevationMask.upper_bound(azimuth_rad);
+    auto itUp = this->azimuthElevationMask.upper_bound(azimuth_rad);
 
     // Vector between the two successive mask data points with bounding azimuth values
 
@@ -127,6 +140,34 @@ bool Constraint::MaskConstraint::isSatisfied(const AER& anAer) const
     return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0);
 }
 
+Constraint::LineOfSightConstraint::LineOfSightConstraint(const Environment& anEnvironment)
+    : environment(anEnvironment)
+{
+}
+
+bool Constraint::LineOfSightConstraint::isSatisfied(
+    const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition
+) const
+{
+    static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
+
+    this->environment.setInstant(anInstant);
+
+    const Point fromPositionCoordinates = Point::Vector(aFromPosition.accessCoordinates());
+    const Point toPositionCoordinates = Point::Vector(aToPosition.accessCoordinates());
+
+    if (fromPositionCoordinates == toPositionCoordinates)
+    {
+        return true;
+    }
+
+    const Segment fromToSegment = {fromPositionCoordinates, toPositionCoordinates};
+
+    const Object::Geometry fromToSegmentGeometry = {fromToSegment, commonFrameSPtr};
+
+    return !this->environment.intersects(fromToSegmentGeometry);
+}
+
 Constraint Constraint::FromIntervals(
     const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
 )
@@ -139,15 +180,9 @@ Constraint Constraint::FromMask(const Map<Real, Real>& azimuthElevationMask, con
     return Constraint(MaskConstraint {azimuthElevationMask, range});
 }
 
-bool Constraint::isSatisfied(const AER& aer) const
+Constraint Constraint::FromLineOfSight(const Environment& environment)
 {
-    return std::visit(
-        [&aer](const auto& constraint)
-        {
-            return constraint.isSatisfied(aer);
-        },
-        constraint_
-    );
+    return Constraint(LineOfSightConstraint {environment});
 }
 
 bool Constraint::isMaskBased() const
@@ -158,6 +193,11 @@ bool Constraint::isMaskBased() const
 bool Constraint::isIntervalBased() const
 {
     return std::holds_alternative<IntervalConstraint>(constraint_);
+}
+
+bool Constraint::isLineOfSightBased() const
+{
+    return std::holds_alternative<LineOfSightConstraint>(constraint_);
 }
 
 std::optional<Constraint::IntervalConstraint> Constraint::getIntervalConstraint() const
@@ -180,15 +220,14 @@ std::optional<Constraint::MaskConstraint> Constraint::getMaskConstraint() const
     return std::nullopt;
 }
 
-Interval<Real> Constraint::getRangeInterval() const
+std::optional<Constraint::LineOfSightConstraint> Constraint::getLineOfSightConstraint() const
 {
-    return std::visit(
-        [](const auto& constraint) -> Interval<Real>
-        {
-            return constraint.range;
-        },
-        constraint_
-    );
+    if (const auto* lineOfSight = std::get_if<LineOfSightConstraint>(&constraint_))
+    {
+        return *lineOfSight;
+    }
+
+    return std::nullopt;
 }
 
 Constraint::Constraint(const IntervalConstraint& constraint)
@@ -197,6 +236,11 @@ Constraint::Constraint(const IntervalConstraint& constraint)
 }
 
 Constraint::Constraint(const MaskConstraint& constraint)
+    : constraint_(constraint)
+{
+}
+
+Constraint::Constraint(const LineOfSightConstraint& constraint)
     : constraint_(constraint)
 {
 }
