@@ -76,9 +76,9 @@ class Constraint
    private:
     std::variant<IntervalConstraint, MaskConstraint> constraint_;
 
-    explicit Constraint(IntervalConstraint constraint);
+    explicit Constraint(const IntervalConstraint& constraint);
 
-    explicit Constraint(MaskConstraint constraint);
+    explicit Constraint(const MaskConstraint& constraint);
 };
 
 }  // namespace access

@@ -31,6 +31,7 @@ using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::Matrix3d;
@@ -43,6 +44,7 @@ using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -53,8 +55,9 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Access;
+using ostk::astrodynamics::access::AccessTarget;
+using ostk::astrodynamics::access::Constraint;
 using ostk::astrodynamics::access::Generator;
-using ostk::astrodynamics::access::GroundTargetConfiguration;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
@@ -63,38 +66,32 @@ using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
+class OpenSpaceToolkit_Astrodynamics_Access_Generator : public ::testing::Test
+{
+   protected:
+    Environment defaultEnvironment_ = Environment::Default();
+    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.accessCelestialObjectWithName("Earth");
+    Duration defaultStep_ = Duration::Minutes(1.0);
+    Duration defaultTolerance_ = Duration::Microseconds(1.0);
+    Generator defaultGenerator_ = {this->defaultEnvironment_, this->defaultStep_, this->defaultTolerance_};
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
 {
     {
-        const Environment environment = Environment::Default();
-
-        EXPECT_NO_THROW(Generator generator(environment););
+        EXPECT_NO_THROW(Generator generator(defaultEnvironment_););
     }
 
     {
-        const Environment environment = Environment::Default();
-
-        const auto aerFilter = [](const AER&) -> bool
-        {
-            return true;
-        };
-
         const auto accessFilter = [](const Access&) -> bool
         {
             return true;
         };
 
-        EXPECT_NO_THROW(Generator generator(environment, aerFilter, accessFilter););
+        EXPECT_NO_THROW(Generator generator(defaultEnvironment_, defaultStep_, defaultTolerance_, accessFilter););
     }
 
     {
-        const Environment environment = Environment::Default();
-
-        const auto aerFilter = [](const AER&) -> bool
-        {
-            return true;
-        };
-
         const auto accessFilter = [](const Access&) -> bool
         {
             return true;
@@ -105,25 +102,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
             return true;
         };
 
-        EXPECT_NO_THROW(Generator generator(environment, aerFilter, accessFilter, stateFilter););
+        EXPECT_NO_THROW(
+            Generator generator(defaultEnvironment_, defaultStep_, defaultTolerance_, accessFilter, stateFilter);
+        );
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
 {
     {
-        const Environment environment = Environment::Default();
-
-        const Generator generator = {environment};
-
-        EXPECT_TRUE(generator.isDefined());
+        EXPECT_TRUE(defaultGenerator_.isDefined());
     }
 
     {
-        const Environment environment = Environment::Default();
-
-        const auto aerFilter = [](const AER&) -> bool
+        const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
         {
+            (void)aFirstState;
+            (void)aSecondState;
             return true;
         };
 
@@ -132,7 +127,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
             return true;
         };
 
-        const Generator generator = {environment, aerFilter, accessFilter};
+        const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, accessFilter, stateFilter};
 
         EXPECT_TRUE(generator.isDefined());
     }
@@ -142,12 +137,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStep)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStep)
 {
     {
-        const Generator generator = {Environment::Default()};
-
-        EXPECT_EQ(Duration::Minutes(1.0), generator.getStep());
+        EXPECT_EQ(defaultStep_, defaultGenerator_.getStep());
     }
 
     {
@@ -155,12 +148,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStep)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
 {
     {
-        const Generator generator = {Environment::Default()};
-
-        EXPECT_EQ(Duration::Microseconds(1.0), generator.getTolerance());
+        EXPECT_EQ(defaultTolerance_, defaultGenerator_.getTolerance());
     }
 
     {
@@ -168,25 +159,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAerFilter)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
 {
     {
-        const Generator generator = {Environment::Default()};
-
-        EXPECT_EQ(nullptr, generator.getAerFilter());
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getAerFilter());
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
-{
-    {
-        const Generator generator = {Environment::Default()};
-
-        EXPECT_EQ(nullptr, generator.getAccessFilter());
+        EXPECT_EQ(nullptr, defaultGenerator_.getAccessFilter());
     }
 
     {
@@ -194,12 +170,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
 {
     {
-        const Generator generator = {Environment::Default()};
-
-        EXPECT_EQ(nullptr, generator.getStateFilter());
+        EXPECT_EQ(nullptr, defaultGenerator_.getStateFilter());
     }
 
     {
@@ -207,13 +181,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 {
-    const Environment environment = Environment::Default();
-
     const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-    const auto generateFirstOrbit = [&environment, &epoch]() -> Orbit
+    const auto generateFirstOrbit = [this, &epoch]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -233,12 +205,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
         return orbit;
     };
 
-    const auto generateSecondOrbit = [&environment, &epoch]() -> Orbit
+    const auto generateSecondOrbit = [this, &epoch]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -258,7 +230,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -266,32 +238,33 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
     const Orbit fromOrbit = generateFirstOrbit();
     const Orbit toOrbit = generateSecondOrbit();
 
-    {
-        const Generator generator = {environment};
+    const Constraint constraint = Constraint::FromIntervals(
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
+        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+    );
+    const AccessTarget accessTarget = AccessTarget::FromTrajectory(constraint, fromOrbit);
 
-        const auto conditionFunction = generator.getConditionFunction(fromOrbit, toOrbit);
+    {
+        const auto conditionFunction = defaultGenerator_.getConditionFunction(accessTarget, toOrbit);
 
         EXPECT_NE(nullptr, conditionFunction);
         EXPECT_TRUE(conditionFunction(epoch));
     }
 
     {
-        EXPECT_ANY_THROW(Generator::Undefined().getConditionFunction(fromOrbit, toOrbit));
+        EXPECT_ANY_THROW(Generator::Undefined().getConditionFunction(accessTarget, toOrbit));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
 {
-    const Environment environment = Environment::Default();
-
-    const Generator generator = {environment};
-
     const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
     const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
 
     const Interval interval = Interval::Closed(startInstant, endInstant);
 
-    const auto generateFirstOrbit = [&environment, &startInstant]() -> Orbit
+    const auto generateFirstOrbit = [this, &startInstant]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -312,12 +285,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
         return orbit;
     };
 
-    const auto generateSecondOrbit = [&environment, &startInstant]() -> Orbit
+    const auto generateSecondOrbit = [this, &startInstant]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -338,7 +311,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -346,7 +319,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
     const Orbit fromOrbit = generateFirstOrbit();
     const Orbit toOrbit = generateSecondOrbit();
 
-    const Array<Access> accesses = generator.computeAccesses(interval, fromOrbit, toOrbit);
+    const Constraint constraint = Constraint::FromIntervals(
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
+        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+    );
+
+    const AccessTarget accessTarget = AccessTarget::FromTrajectory(constraint, fromOrbit);
+
+    const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, accessTarget, toOrbit);
 
     // Reference data setup
 
@@ -390,29 +371,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
 {
-    const Environment environment = Environment::Default();
-
-    const Generator generator = {environment};
-
     const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
     const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC);
 
     const Interval interval = Interval::Closed(startInstant, endInstant);
 
-    const auto generateGroundStationTrajectory = []() -> Trajectory
-    {
-        const LLA groundStationLla = {Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0)};
+    const LLA groundStationLla = {Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0)};
 
-        const Position groundStationPosition = Position::Meters(
-            groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
-        );
-
-        return Trajectory::Position(groundStationPosition);
-    };
-
-    const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+    const auto generateSatelliteOrbit = [this, &startInstant]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -433,15 +401,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
         return orbit;
     };
 
-    const Trajectory groundStationTrajectory = generateGroundStationTrajectory();
+    const Constraint constraint = Constraint::FromIntervals(
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
+        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+    );
+    const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
+
     const Orbit satelliteOrbit = generateSatelliteOrbit();
 
-    const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
+    const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, groundStationTarget, satelliteOrbit);
 
     // Reference data setup
 
@@ -485,29 +459,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
 {
-    const Environment environment = Environment::Default();
-
-    const Generator generator = {environment};
-
     const Instant startInstant = Instant::DateTime(DateTime(2018, 9, 6, 0, 0, 0), Scale::UTC);
     const Instant endInstant = Instant::DateTime(DateTime(2018, 9, 7, 0, 0, 0), Scale::UTC);
 
     const Interval interval = Interval::Closed(startInstant, endInstant);
 
-    const auto generateGroundStationTrajectory = []() -> Trajectory
-    {
-        const LLA groundStationLla = {Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0)};
+    const LLA groundStationLla = {Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0)};
 
-        const Position groundStationPosition = Position::Meters(
-            groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
-        );
-
-        return Trajectory::Position(groundStationPosition);
-    };
-
-    const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+    const auto generateSatelliteOrbit = [this, &startInstant]() -> Orbit
     {
         const TLE tle = {
             "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
@@ -516,15 +477,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
 
         const SGP4 orbitalModel = {tle};
 
-        const Orbit orbit = {orbitalModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {orbitalModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
         return orbit;
     };
 
-    const Trajectory groundStationTrajectory = generateGroundStationTrajectory();
+    // TBI: Convert to LOS trajectory
+    const Constraint constraint = Constraint::FromIntervals(
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
+        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
+        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+    );
+
+    const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
     const Orbit satelliteOrbit = generateSatelliteOrbit();
 
-    const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
+    const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, groundStationTarget, satelliteOrbit);
 
     // Reference data setup
 
@@ -568,7 +536,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
 {
     const Instant startInstant = Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC);
     const Instant endInstant = Instant::DateTime(DateTime(2020, 1, 1, 0, 10, 0), Scale::UTC);
@@ -603,6 +571,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
         Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF())
     );
 
+    const AccessTarget accessTarget = AccessTarget::FromTrajectory(
+        Constraint::FromIntervals(
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
+            ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+        ),
+        firstTrajectory
+    );
+
     const Trajectory secondTrajectory = generateTrajectory(
         Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()), Velocity::MetersPerSecond({0.0, 0.0, 1.0}, Frame::GCRF())
     );
@@ -615,9 +592,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
             return true;
         };
 
-        const Generator generator = {Environment::Default(), {}, {}, stateFilter};
+        const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, {}, stateFilter};
 
-        const Array<Access> accesses = generator.computeAccesses(interval, firstTrajectory, secondTrajectory);
+        const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, secondTrajectory);
 
         EXPECT_EQ(1, accesses.getSize());
 
@@ -635,9 +612,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
                        .getAbsolute() >= Duration::Minutes(2.0);
         };
 
-        const Generator generator = {Environment::Default(), {}, {}, stateFilter};
+        const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, {}, stateFilter};
 
-        const Array<Access> accesses = generator.computeAccesses(interval, firstTrajectory, secondTrajectory);
+        const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, secondTrajectory);
 
         EXPECT_EQ(2, accesses.getSize());
 
@@ -655,7 +632,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
 {
     const ostk::mathematics::object::Interval<Real> azimuthInterval =
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
@@ -668,21 +645,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
     // Constructor
     {
         {
-            EXPECT_NO_THROW(GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla));
+            const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+
+            EXPECT_NO_THROW(AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_));
         }
 
         {
+            const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
             {
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
-                EXPECT_NO_THROW(GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, position));
+                EXPECT_NO_THROW(AccessTarget::FromPosition(constraint, position));
             }
 
             {
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
-                EXPECT_THROW(
-                    GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, position),
-                    ostk::core::error::RuntimeError
-                );
+                EXPECT_THROW(AccessTarget::FromPosition(constraint, position), ostk::core::error::RuntimeError);
             }
         }
 
@@ -691,25 +668,38 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
             const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
 
             EXPECT_THROW(
-                GroundTargetConfiguration(
-                    ostk::mathematics::object::Interval<Real>::Undefined(), elevationInterval, rangeInterval, position
+                AccessTarget::FromPosition(
+                    Constraint::FromIntervals(
+                        ostk::mathematics::object::Interval<Real>::Undefined(), elevationInterval, rangeInterval
+                    ),
+                    position
                 ),
                 ostk::core::error::runtime::Undefined
             );
             EXPECT_THROW(
-                GroundTargetConfiguration(
-                    azimuthInterval, ostk::mathematics::object::Interval<Real>::Undefined(), rangeInterval, position
+                AccessTarget::FromPosition(
+                    Constraint::FromIntervals(
+                        azimuthInterval, ostk::mathematics::object::Interval<Real>::Undefined(), rangeInterval
+                    ),
+                    position
                 ),
                 ostk::core::error::runtime::Undefined
             );
             EXPECT_THROW(
-                GroundTargetConfiguration(
-                    azimuthInterval, elevationInterval, ostk::mathematics::object::Interval<Real>::Undefined(), position
+                AccessTarget::FromPosition(
+                    Constraint::FromIntervals(
+                        azimuthInterval, elevationInterval, ostk::mathematics::object::Interval<Real>::Undefined()
+                    ),
+                    position
                 ),
                 ostk::core::error::runtime::Undefined
             );
             EXPECT_THROW(
-                GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, LLA::Undefined()),
+                AccessTarget::FromLLA(
+                    Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval),
+                    LLA::Undefined(),
+                    defaultEarthSPtr_
+                ),
                 ostk::core::error::runtime::Undefined
             );
         }
@@ -718,51 +708,66 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
         {
             {
                 EXPECT_THROW(
-                    GroundTargetConfiguration(
-                        ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0),
-                        elevationInterval,
-                        rangeInterval,
-                        lla
+                    AccessTarget::FromLLA(
+                        Constraint::FromIntervals(
+                            ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0),
+                            elevationInterval,
+                            rangeInterval
+                        ),
+                        lla,
+                        defaultEarthSPtr_
                     ),
                     ostk::core::error::RuntimeError
                 );
                 EXPECT_THROW(
-                    GroundTargetConfiguration(
-                        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1),
-                        elevationInterval,
-                        rangeInterval,
-                        lla
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-            }
-            {
-                EXPECT_THROW(
-                    GroundTargetConfiguration(
-                        azimuthInterval,
-                        ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0),
-                        rangeInterval,
-                        lla
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-                EXPECT_THROW(
-                    GroundTargetConfiguration(
-                        azimuthInterval,
-                        ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0),
-                        rangeInterval,
-                        lla
+                    AccessTarget::FromLLA(
+                        Constraint::FromIntervals(
+                            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1),
+                            elevationInterval,
+                            rangeInterval
+                        ),
+                        lla,
+                        defaultEarthSPtr_
                     ),
                     ostk::core::error::RuntimeError
                 );
             }
             {
                 EXPECT_THROW(
-                    GroundTargetConfiguration(
-                        azimuthInterval,
-                        elevationInterval,
-                        ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0),
-                        lla
+                    AccessTarget::FromLLA(
+                        Constraint::FromIntervals(
+                            azimuthInterval,
+                            ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0),
+                            rangeInterval
+                        ),
+                        lla,
+                        defaultEarthSPtr_
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+                EXPECT_THROW(
+                    AccessTarget::FromLLA(
+                        Constraint::FromIntervals(
+                            azimuthInterval,
+                            ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0),
+                            rangeInterval
+                        ),
+                        lla,
+                        defaultEarthSPtr_
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+            }
+            {
+                EXPECT_THROW(
+                    AccessTarget::FromLLA(
+                        Constraint::FromIntervals(
+                            azimuthInterval,
+                            elevationInterval,
+                            ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0)
+                        ),
+                        lla,
+                        defaultEarthSPtr_
                     ),
                     ostk::core::error::RuntimeError
                 );
@@ -772,40 +777,36 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GroundTargetConfiguration)
 
     // Getters
     {
-        const GroundTargetConfiguration groundTargetConfiguration =
-            GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla);
-        EXPECT_EQ(groundTargetConfiguration.getAzimuthInterval(), azimuthInterval);
-        EXPECT_EQ(groundTargetConfiguration.getElevationInterval(), elevationInterval);
-        EXPECT_EQ(groundTargetConfiguration.getRangeInterval(), rangeInterval);
-        EXPECT_EQ(groundTargetConfiguration.getLLA(), lla);
+        const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+        const AccessTarget accessTarget = AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_);
+        // TBI: Fix the checks below
+        EXPECT_EQ(accessTarget.getLLA(defaultEarthSPtr_), lla);
         EXPECT_EQ(
-            groundTargetConfiguration.getPosition(),
+            accessTarget.getPosition(),
             Position::Meters(
                 lla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
             )
         );
-        EXPECT_NO_THROW(groundTargetConfiguration.getTrajectory());
+        EXPECT_NO_THROW(accessTarget.getTrajectory());
 
         Matrix3d r_SEZ_ECEF;
         r_SEZ_ECEF.row(0) = Vector3d {0.0, 0.0, -1.0};
         r_SEZ_ECEF.row(1) = Vector3d {0.0, 1.0, 0.0};
         r_SEZ_ECEF.row(2) = Vector3d {1.0, 0.0, 0.0};
 
-        EXPECT_EQ(groundTargetConfiguration.computeR_SEZ_ECEF(), r_SEZ_ECEF);
+        EXPECT_EQ(accessTarget.computeR_SEZ_ECEF(defaultEarthSPtr_), r_SEZ_ECEF);
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccessesWithGroundTargets)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 {
     {
-        const Environment environment = Environment::Default();
-
         const TLE tle = {
             "1 60504U 24149AN  24293.10070306  .00000000  00000-0  58313-3 0    08",
             "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
         };
         const SGP4 sgp4 = SGP4(tle);
-        const Orbit aToTrajectory = Orbit(sgp4, environment.accessCelestialObjectWithName("Earth"));
+        const Orbit aToTrajectory = Orbit(sgp4, defaultEnvironment_.accessCelestialObjectWithName("Earth"));
 
         const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
         const Instant endInstant = startInstant + Duration::Days(1.0);
@@ -835,28 +836,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccessesWithGroundT
         const ostk::mathematics::object::Interval<Real> rangeInterval =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
 
-        Array<GroundTargetConfiguration> groundTargets = LLAs.map<GroundTargetConfiguration>(
-            [&azimuthInterval, &elevationInterval, &rangeInterval](const LLA& lla) -> GroundTargetConfiguration
+        const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+
+        Array<AccessTarget> accessTargets = LLAs.map<AccessTarget>(
+            [&constraint, this](const LLA& lla) -> AccessTarget
             {
-                return GroundTargetConfiguration(azimuthInterval, elevationInterval, rangeInterval, lla);
+                return AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_);
             }
         );
 
-        const Generator generator =
-            Generator::AerRanges(azimuthInterval, elevationInterval, rangeInterval, environment);
-
         const Array<Array<Access>> accessesPerTarget =
-            generator.computeAccessesWithGroundTargets(interval, groundTargets, aToTrajectory);
+            defaultGenerator_.computeAccesses(interval, accessTargets, aToTrajectory);
 
-        ASSERT_EQ(accessesPerTarget.getSize(), groundTargets.getSize());
+        ASSERT_EQ(accessesPerTarget.getSize(), accessTargets.getSize());
 
         for (Index i = 0; i < accessesPerTarget.getSize(); ++i)
         {
             const Array<Access> accesses = accessesPerTarget.at(i);
-            const GroundTargetConfiguration groundTarget = groundTargets.at(i);
+            const AccessTarget groundTarget = accessTargets.at(i);
 
             const Array<Access> expectedAccesses =
-                generator.computeAccesses(interval, groundTarget.getTrajectory(), aToTrajectory);
+                defaultGenerator_.computeAccesses(interval, groundTarget, aToTrajectory);
 
             ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
 
@@ -884,91 +884,57 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccessesWithGroundT
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
 {
     {
-        const Environment environment = Environment::Default();
-
-        Generator generator = {environment};
-
         const Duration step = Duration::Seconds(1.0);
 
-        EXPECT_NO_THROW(generator.setStep(step));
+        EXPECT_NO_THROW(defaultGenerator_.setStep(step));
 
-        EXPECT_ANY_THROW(generator.setStep(Duration::Undefined()));
+        EXPECT_ANY_THROW(defaultGenerator_.setStep(Duration::Undefined()));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetTolerance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetTolerance)
 {
     {
-        const Environment environment = Environment::Default();
-
-        Generator generator = {environment};
-
         const Duration tolerance = Duration::Seconds(1.0);
 
-        EXPECT_NO_THROW(generator.setTolerance(tolerance));
+        EXPECT_NO_THROW(defaultGenerator_.setTolerance(tolerance));
 
-        EXPECT_ANY_THROW(generator.setTolerance(Duration::Undefined()));
+        EXPECT_ANY_THROW(defaultGenerator_.setTolerance(Duration::Undefined()));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAerFilter)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAccessFilter)
 {
     {
-        const Environment environment = Environment::Default();
-
-        Generator generator = {environment};
-
-        const auto aerFilter = [](const AER&) -> bool
-        {
-            return true;
-        };
-
-        EXPECT_NO_THROW(generator.setAerFilter(aerFilter));
-
-        EXPECT_NO_THROW(generator.setAerFilter({}));
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAccessFilter)
-{
-    {
-        const Environment environment = Environment::Default();
-
-        Generator generator = {environment};
-
         const auto accessFilter = [](const Access&) -> bool
         {
             return true;
         };
 
-        EXPECT_NO_THROW(generator.setAccessFilter(accessFilter));
+        EXPECT_NO_THROW(defaultGenerator_.setAccessFilter(accessFilter));
 
-        EXPECT_NO_THROW(generator.setAccessFilter({}));
+        EXPECT_NO_THROW(defaultGenerator_.setAccessFilter({}));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStateFilter)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStateFilter)
 {
     {
-        const Environment environment = Environment::Default();
-
-        Generator generator = {environment};
-
         const auto stateFilter = [](const State&, const State&) -> bool
         {
             return true;
         };
 
-        EXPECT_NO_THROW(generator.setStateFilter(stateFilter));
+        EXPECT_NO_THROW(defaultGenerator_.setStateFilter(stateFilter));
 
-        EXPECT_NO_THROW(generator.setStateFilter({}));
+        EXPECT_NO_THROW(defaultGenerator_.setStateFilter({}));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
 {
     {
         EXPECT_NO_THROW(Generator::Undefined());
@@ -977,12 +943,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
 {
     {
         // Access computation
-
-        const Environment environment = Environment::Default();
 
         const ostk::mathematics::object::Interval<Real> azimuthRange =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
@@ -991,26 +955,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
         const ostk::mathematics::object::Interval<Real> rangeRange =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
-        const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment);
+        const Constraint constraint = Constraint::FromIntervals(azimuthRange, elevationRange, rangeRange);
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC);
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateGroundStationTrajectory = []() -> Trajectory
-        {
-            const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
+        const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
-            const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
-                Frame::ITRF()
-            );
-
-            return Trajectory::Position(groundStationPosition);
-        };
-
-        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+        const auto generateSatelliteOrbit = [this, &startInstant]() -> Orbit
         {
             const Length semiMajorAxis = Length::Kilometers(6878.14);
             const Real eccentricity = 0.0;
@@ -1031,16 +985,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
             };
 
-            const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
             return orbit;
         };
 
-        const Trajectory groundStationTrajectory = generateGroundStationTrajectory();
+        const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 
-        const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
-        // std::cout << accesses << std::endl;
+        const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, groundStationTarget, satelliteOrbit);
 
         // Reference data setup
 
@@ -1085,12 +1038,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
 {
     {
         // Access computation
-
-        const Environment environment = Environment::Default();
 
         const ostk::core::container::Map<Real, Real> azimuthElevationMask = {
             {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0}
@@ -1098,26 +1049,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
         const ostk::mathematics::object::Interval<Real> rangeRange =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
-        const Generator generator = Generator::AerMask(azimuthElevationMask, rangeRange, environment);
+        const Constraint constraint = Constraint::FromMask(azimuthElevationMask, rangeRange);
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 5, 0, 0, 0), Scale::UTC);
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateGroundStationTrajectory = []() -> Trajectory
-        {
-            const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
+        const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
-            const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
-                Frame::ITRF()
-            );
-
-            return Trajectory::Position(groundStationPosition);
-        };
-
-        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+        const auto generateSatelliteOrbit = [this, &startInstant]() -> Orbit
         {
             const Length semiMajorAxis = Length::Kilometers(6878.14);
             const Real eccentricity = 0.0;
@@ -1138,15 +1079,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
             };
 
-            const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
 
             return orbit;
         };
 
-        const Trajectory groundStationTrajectory = generateGroundStationTrajectory();
+        const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
+
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 
-        const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit);
+        const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, groundStationTarget, satelliteOrbit);
 
         // Reference data setup
 
