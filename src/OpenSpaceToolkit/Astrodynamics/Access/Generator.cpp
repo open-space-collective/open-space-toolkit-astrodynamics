@@ -44,22 +44,22 @@ namespace astrodynamics
 namespace access
 {
 
-GroundTargetConfiguration::Type GroundTargetConfiguration::getType() const
+AccessTarget::Type AccessTarget::getType() const
 {
     return type_;
 }
 
-Constraint GroundTargetConfiguration::getConstraint() const
+Constraint AccessTarget::getConstraint() const
 {
     return constraint_;
 }
 
-Trajectory GroundTargetConfiguration::getTrajectory() const
+Trajectory AccessTarget::getTrajectory() const
 {
     return trajectory_;
 }
 
-Position GroundTargetConfiguration::getPosition() const
+Position AccessTarget::getPosition() const
 {
     if (type_ != Type::Fixed)
     {
@@ -69,39 +69,14 @@ Position GroundTargetConfiguration::getPosition() const
     return trajectory_.getStateAt(Instant::J2000()).inFrame(Frame::ITRF()).getPosition();
 }
 
-LLA GroundTargetConfiguration::getLLA(const Shared<const Celestial>& aCelestialSPtr) const
+LLA AccessTarget::getLLA(const Shared<const Celestial>& aCelestialSPtr) const
 {
     return LLA::Cartesian(
         getPosition().accessCoordinates(), aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()
     );
 }
 
-// Interval<Real> GroundTargetConfiguration::getAzimuthInterval() const
-// {
-//     return azimuthInterval_;
-// }
-
-// Interval<Real> GroundTargetConfiguration::getElevationInterval() const
-// {
-//     return elevationInterval_;
-// }
-
-// Interval<Real> GroundTargetConfiguration::getRangeInterval() const
-// {
-//     return rangeInterval_;
-// }
-
-// Map<Real, Real> GroundTargetConfiguration::getAzimuthElevationMask() const
-// {
-//     return azimuthElevationMask_;
-// }
-
-// bool GroundTargetConfiguration::isAboveMask(const Real& anAzimuth_rad, const Real& anElevation_rad) const
-// {
-//     return Generator::IsAboveMask(azimuthElevationMask_, anAzimuth_rad, anElevation_rad);
-// }
-
-Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF(const Shared<const Celestial>& aCelestialSPtr) const
+Matrix3d AccessTarget::computeR_SEZ_ECEF(const Shared<const Celestial>& aCelestialSPtr) const
 {
     const LLA lla = this->getLLA(aCelestialSPtr);
 
@@ -118,12 +93,12 @@ Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF(const Shared<const Celesti
     return SEZRotation;
 }
 
-GroundTargetConfiguration GroundTargetConfiguration::FromLLA(
+AccessTarget AccessTarget::FromLLA(
     const Constraint& constraint, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
 )
 {
-    return GroundTargetConfiguration(
-        GroundTargetConfiguration::Type::Fixed,
+    return AccessTarget(
+        AccessTarget::Type::Fixed,
         constraint,
         Trajectory::Position(Position::Meters(
             anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()), Frame::ITRF()
@@ -131,24 +106,18 @@ GroundTargetConfiguration GroundTargetConfiguration::FromLLA(
     );
 }
 
-GroundTargetConfiguration GroundTargetConfiguration::FromPosition(
-    const Constraint& constraint, const Position& aPosition
-)
+AccessTarget AccessTarget::FromPosition(const Constraint& constraint, const Position& aPosition)
 {
-    return GroundTargetConfiguration(
-        GroundTargetConfiguration::Type::Fixed, constraint, Trajectory::Position(aPosition)
-    );
+    return AccessTarget(AccessTarget::Type::Fixed, constraint, Trajectory::Position(aPosition));
 }
 
-GroundTargetConfiguration GroundTargetConfiguration::FromTrajectory(
-    const Constraint& constraint, const Trajectory& aTrajectory
-)
+AccessTarget AccessTarget::FromTrajectory(const Constraint& constraint, const Trajectory& aTrajectory)
 {
-    return GroundTargetConfiguration(GroundTargetConfiguration::Type::Trajectory, constraint, aTrajectory);
+    return AccessTarget(AccessTarget::Type::Trajectory, constraint, aTrajectory);
 }
 
-GroundTargetConfiguration::GroundTargetConfiguration(
-    const GroundTargetConfiguration::Type& aType, const Constraint& aConstraint, const Trajectory& aTrajectory
+AccessTarget::AccessTarget(
+    const AccessTarget::Type& aType, const Constraint& aConstraint, const Trajectory& aTrajectory
 )
     : type_(aType),
       constraint_(aConstraint),
@@ -160,68 +129,16 @@ GroundTargetConfiguration::GroundTargetConfiguration(
     }
 }
 
-// void GroundTargetConfiguration::validateIntervals_() const
-// {
-//     if (!azimuthInterval_.isDefined() || !elevationInterval_.isDefined() || !rangeInterval_.isDefined())
-//     {
-//         throw ostk::core::error::runtime::Undefined("Interval");
-//     }
-
-//     if (azimuthInterval_.getLowerBound() < 0.0 || azimuthInterval_.getUpperBound() > 360.0)
-//     {
-//         throw ostk::core::error::RuntimeError(
-//             "The azimuth interval [{}, {}] must be in the range [0, 360] deg",
-//             azimuthInterval_.accessLowerBound(),
-//             azimuthInterval_.accessUpperBound()
-//         );
-//     }
-
-//     if (elevationInterval_.getLowerBound() < -90.0 || elevationInterval_.getUpperBound() > 90.0)
-//     {
-//         throw ostk::core::error::RuntimeError(
-//             "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
-//             elevationInterval_.accessLowerBound(),
-//             elevationInterval_.accessUpperBound()
-//         );
-//     }
-
-//     if (rangeInterval_.getLowerBound() < 0.0)
-//     {
-//         throw ostk::core::error::RuntimeError(
-//             "The range interval [{}, {}] must be positive.",
-//             rangeInterval_.accessLowerBound(),
-//             rangeInterval_.accessUpperBound()
-//         );
-//     }
-// }
-
-// void GroundTargetConfiguration::validateMask_()
-// {
-//     azimuthElevationMask_ = Generator::ConvertAzimuthElevationMask(azimuthElevationMask_);
-// }
-
-Generator::Generator(const Environment& anEnvironment, const Duration& aStep, const Duration& aTolerance)
-    : environment_(anEnvironment),
-      step_(aStep),
-      tolerance_(aTolerance),
-      aerFilter_({}),
-      accessFilter_({}),
-      stateFilter_({})
-{
-}
-
 Generator::Generator(
     const Environment& anEnvironment,
-    const std::function<bool(const AER&)>& anAerFilter,
-    const std::function<bool(const Access&)>& anAccessFilter,
-    const std::function<bool(const State&, const State&)>& aStateFilter,
     const Duration& aStep,
-    const Duration& aTolerance
+    const Duration& aTolerance,
+    const std::function<bool(const Access&)>& anAccessFilter,
+    const std::function<bool(const State&, const State&)>& aStateFilter
 )
     : environment_(anEnvironment),
       step_(aStep),
       tolerance_(aTolerance),
-      aerFilter_(anAerFilter),
       accessFilter_(anAccessFilter),
       stateFilter_(aStateFilter)
 {
@@ -252,16 +169,6 @@ Duration Generator::getTolerance() const
     return this->tolerance_;
 }
 
-std::function<bool(const AER&)> Generator::getAerFilter() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
-    return this->aerFilter_;
-}
-
 std::function<bool(const Access&)> Generator::getAccessFilter() const
 {
     if (!this->isDefined())
@@ -283,9 +190,11 @@ std::function<bool(const State&, const State&)> Generator::getStateFilter() cons
 }
 
 std::function<bool(const Instant&)> Generator::getConditionFunction(
-    const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
 ) const
 {
+    const Trajectory aFromTrajectory = anAccessTarget.getTrajectory();
+
     if (!aFromTrajectory.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("From Trajectory");
@@ -301,16 +210,18 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
+    const Constraint constraint = anAccessTarget.getConstraint();
+
     GeneratorContext generatorContext = GeneratorContext(aFromTrajectory, aToTrajectory, environment_, *this);
 
-    return [generatorContext](const Instant& anInstant) mutable -> bool
+    return [generatorContext, constraint](const Instant& anInstant) mutable -> bool
     {
-        return generatorContext.isAccessActive(anInstant);
+        return generatorContext.isAccessActive(anInstant, constraint);
     };
 }
 
 Array<Access> Generator::computeAccesses(
-    const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    const physics::time::Interval& anInterval, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
 ) const
 {
     if (!anInterval.isDefined())
@@ -318,32 +229,140 @@ Array<Access> Generator::computeAccesses(
         throw ostk::core::error::runtime::Undefined("Interval");
     }
 
+    if (anAccessTarget.getType() == AccessTarget::Type::Trajectory)
+    {
+        return this->computeAccessesForTrajectoryTarget(anInterval, anAccessTarget, aToTrajectory);
+    }
+    else
+    {
+        return this->computeAccessesForFixedTargets(anInterval, Array<AccessTarget> {anAccessTarget}, aToTrajectory)[0];
+    }
+}
+
+Array<Array<Access>> Generator::computeAccesses(
+    const physics::time::Interval& anInterval,
+    const Array<AccessTarget>& someAccessTargets,
+    const Trajectory& aToTrajectory
+) const
+{
+    if (!anInterval.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Interval");
+    }
+
+    if (someAccessTargets.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("Access targets");
+    }
+
+    if (std ::all_of(
+            someAccessTargets.begin(),
+            someAccessTargets.end(),
+            [](const auto& accessTarget)
+            {
+                return accessTarget.getType() == AccessTarget::Type::Trajectory;
+            }
+        ))
+    {
+        Array<Array<Access>> accessesPerTarget;
+        accessesPerTarget.reserve(someAccessTargets.getSize());
+
+        for (const auto& groundTargetConfiguration : someAccessTargets)
+        {
+            accessesPerTarget.add(
+                this->computeAccessesForTrajectoryTarget(anInterval, groundTargetConfiguration, aToTrajectory)
+            );
+        }
+
+        return accessesPerTarget;
+    }
+    else if (std::all_of(
+                 someAccessTargets.begin(),
+                 someAccessTargets.end(),
+                 [](const auto& accessTarget)
+                 {
+                     return accessTarget.getType() == AccessTarget::Type::Fixed;
+                 }
+             ))
+    {
+        return this->computeAccessesForFixedTargets(anInterval, someAccessTargets, aToTrajectory);
+    }
+    else
+    {
+        throw ostk::core::error::RuntimeError("All targets must be of same type.");
+    }
+}
+
+void Generator::setStep(const Duration& aStep)
+{
+    if (!aStep.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Step");
+    }
+
+    this->step_ = aStep;
+}
+
+void Generator::setTolerance(const Duration& aTolerance)
+{
+    if (!aTolerance.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tolerance");
+    }
+
+    this->tolerance_ = aTolerance;
+}
+
+void Generator::setAccessFilter(const std::function<bool(const Access&)>& anAccessFilter)
+{
+    this->accessFilter_ = anAccessFilter;
+}
+
+void Generator::setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter)
+{
+    this->stateFilter_ = aStateFilter;
+}
+
+Generator Generator::Undefined()
+{
+    return {Environment::Undefined(), Duration::Undefined(), Duration::Undefined()};
+}
+
+Array<Access> Generator::computeAccessesForTrajectoryTarget(
+    const physics::time::Interval& anInterval, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
+) const
+{
     const TemporalConditionSolver temporalConditionSolver = {this->step_, this->tolerance_};
 
     const Array<physics::time::Interval> accessIntervals =
-        temporalConditionSolver.solve(this->getConditionFunction(aFromTrajectory, aToTrajectory), anInterval);
+        temporalConditionSolver.solve(this->getConditionFunction(anAccessTarget, aToTrajectory), anInterval);
 
-    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+    const Trajectory aFromTrajectory = anAccessTarget.getTrajectory();
 
     return generateAccessesFromIntervals(accessIntervals, anInterval, aFromTrajectory, aToTrajectory);
 }
 
-Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
+Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     const physics::time::Interval& anInterval,
-    const Array<GroundTargetConfiguration>& someGroundTargetConfigurations,
+    const Array<AccessTarget>& someAccessTargets,
     const Trajectory& aToTrajectory,
     const bool& coarse
 ) const
 {
+    if (stateFilter_)
+    {
+        throw ostk::core::error::RuntimeError("State filter is not supported for multiple ground targets.");
+    }
+
     // create a stacked matrix of SEZ rotations for all ground targets
-    const Index targetCount = someGroundTargetConfigurations.getSize();
+    const Index targetCount = someAccessTargets.getSize();
     Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> SEZRotations(3, 3 * targetCount);
 
     const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
     for (Index i = 0; i < targetCount; ++i)
     {
-        SEZRotations.block<3, 3>(0, 3 * i) = someGroundTargetConfigurations[i].computeR_SEZ_ECEF(earthSPtr);
+        SEZRotations.block<3, 3>(0, 3 * i) = someAccessTargets[i].computeR_SEZ_ECEF(earthSPtr);
     }
 
     // create a stacked matrix of ITRF positions for all ground targets
@@ -351,21 +370,21 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
     for (Index i = 0; i < targetCount; ++i)
     {
-        fromPositionCoordinates_ITRF.col(i) = someGroundTargetConfigurations[i].getPosition().getCoordinates();
+        fromPositionCoordinates_ITRF.col(i) = someAccessTargets[i].getPosition().getCoordinates();
     }
 
-    const bool allGroundTargetsHaveMasks = std::all_of(
-        someGroundTargetConfigurations.begin(),
-        someGroundTargetConfigurations.end(),
-        [](const auto& groundTargetConfiguration)
+    const bool allAccessTargetsHaveMasks = std::all_of(
+        someAccessTargets.begin(),
+        someAccessTargets.end(),
+        [](const auto& accessTarget)
         {
-            return groundTargetConfiguration.getConstraint().isMaskBased();
+            return accessTarget.getConstraint().isMaskBased();
         }
     );
 
     std::function<ArrayXb(const VectorXd&, const VectorXd&, const VectorXd&)> aerFilter;
 
-    if (!allGroundTargetsHaveMasks)
+    if (!allAccessTargetsHaveMasks)
     {
         // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
         MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
@@ -376,7 +395,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         for (Index i = 0; i < targetCount; ++i)
         {
             const Constraint::IntervalConstraint intervalConstraint =
-                someGroundTargetConfigurations[i].getConstraint().getIntervalConstraint().value();
+                someAccessTargets[i].getConstraint().getIntervalConstraint().value();
 
             aerLowerBounds(i, 0) = intervalConstraint.azimuth.accessLowerBound() * degToRad;
             aerLowerBounds(i, 1) = intervalConstraint.elevation.accessLowerBound() * degToRad;
@@ -406,23 +425,23 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         for (Index i = 0; i < targetCount; ++i)
         {
             const Constraint::MaskConstraint constraint =
-                someGroundTargetConfigurations[i].getConstraint().getMaskConstraint().value();
+                someAccessTargets[i].getConstraint().getMaskConstraint().value();
 
             rangeLowerBounds(i) = constraint.range.accessLowerBound();
             rangeUpperBounds(i) = constraint.range.accessUpperBound();
         }
 
-        aerFilter = [&someGroundTargetConfigurations, rangeLowerBounds, rangeUpperBounds](
+        aerFilter = [&someAccessTargets, rangeLowerBounds, rangeUpperBounds](
                         const VectorXd& azimuths_rad, const VectorXd& elevations_rad, const VectorXd& ranges_m
                     )
         {
             ArrayXb mask(azimuths_rad.rows());
             mask = ranges_m.array() > rangeLowerBounds.array() && ranges_m.array() < rangeUpperBounds.array();
 
-            for (Index i = 0; i < (Index)mask.rows(); ++i)
+            for (Eigen::Index i = 0; i < mask.rows(); ++i)
             {
                 const Constraint::MaskConstraint constraint =
-                    someGroundTargetConfigurations[i].getConstraint().getMaskConstraint().value();
+                    someAccessTargets[i].getConstraint().getMaskConstraint().value();
 
                 const double& azimuth_rad = azimuths_rad(i);
                 const double& elevation_rad = elevations_rad(i);
@@ -453,7 +472,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
         // calculate target to satellite vector in SEZ
         MatrixXd dx_SEZ = MatrixXd::Zero(3, dx.cols());
-        for (Index i = 0; i < (Index)dx.cols(); ++i)
+        for (Eigen::Index i = 0; i < dx.cols(); ++i)
         {
             dx_SEZ.col(i) = SEZRotations.block<3, 3>(0, 3 * i) * dx.col(i);
         }
@@ -498,7 +517,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
                 anInterval,
                 fromPositionCoordinates_ITRF.col(i),
                 aToTrajectory,
-                someGroundTargetConfigurations[i]
+                someAccessTargets[i]
             );
         }
     }
@@ -506,95 +525,12 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
     Array<Array<Access>> accesses = Array<Array<Access>>(targetCount, Array<Access>::Empty());
     for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
     {
-        const Trajectory fromTrajectory = someGroundTargetConfigurations[i].getTrajectory();
+        const Trajectory fromTrajectory = someAccessTargets[i].getTrajectory();
         accesses[i] =
             this->generateAccessesFromIntervals(accessIntervalsPerTarget[i], anInterval, fromTrajectory, aToTrajectory);
     }
 
     return accesses;
-}
-
-void Generator::setStep(const Duration& aStep)
-{
-    if (!aStep.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Step");
-    }
-
-    this->step_ = aStep;
-}
-
-void Generator::setTolerance(const Duration& aTolerance)
-{
-    if (!aTolerance.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tolerance");
-    }
-
-    this->tolerance_ = aTolerance;
-}
-
-void Generator::setAerFilter(const std::function<bool(const AER&)>& anAerFilter)
-{
-    this->aerFilter_ = anAerFilter;
-}
-
-void Generator::setAccessFilter(const std::function<bool(const Access&)>& anAccessFilter)
-{
-    this->accessFilter_ = anAccessFilter;
-}
-
-void Generator::setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter)
-{
-    this->stateFilter_ = aStateFilter;
-}
-
-Generator Generator::Undefined()
-{
-    return {Environment::Undefined()};
-}
-
-Generator Generator::AerRanges(
-    const Interval<Real>& anAzimuthRange,
-    const Interval<Real>& anElevationRange,
-    const Interval<Real>& aRangeRange,
-    const Environment& anEnvironment
-)
-{
-    const Interval<Real> azimuthRange_deg = anAzimuthRange;
-    const Interval<Real> elevationRange_deg = anElevationRange;
-    const Interval<Real> rangeRange_m = aRangeRange;
-
-    const std::function<bool(const AER&)> aerFilter =
-        [azimuthRange_deg, elevationRange_deg, rangeRange_m](const AER& anAER) -> bool
-    {
-        return ((!azimuthRange_deg.isDefined()) || azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0))
-               ) &&
-               ((!elevationRange_deg.isDefined()) ||
-                elevationRange_deg.contains(anAER.getElevation().inDegrees(-180.0, +180.0))) &&
-               ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters()));
-    };
-
-    return {anEnvironment, aerFilter};
-}
-
-Generator Generator::AerMask(
-    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeRange, const Environment& anEnvironment
-)
-{
-    const Map<Real, Real> anAzimuthElevationMask_rad = ConvertAzimuthElevationMask(anAzimuthElevationMask);
-
-    const std::function<bool(const AER&)> aerFilter = [anAzimuthElevationMask_rad,
-                                                       aRangeRange](const AER& anAER) -> bool
-    {
-        const Real azimuth = anAER.getAzimuth().inRadians(0.0, Real::TwoPi());
-        const Real elevation = anAER.getElevation().inRadians(-Real::Pi(), Real::Pi());
-
-        return Generator::IsAboveMask(anAzimuthElevationMask_rad, azimuth, elevation) &&
-               ((!aRangeRange.isDefined()) || aRangeRange.contains(anAER.getRange().inMeters()));
-    };
-
-    return {anEnvironment, aerFilter};
 }
 
 Array<Access> Generator::generateAccessesFromIntervals(
@@ -630,14 +566,14 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     const physics::time::Interval& anAnalysisInterval,
     const Vector3d& fromPositionCoordinate_ITRF,
     const Trajectory& aToTrajectory,
-    const GroundTargetConfiguration& aGroundTargetConfiguration
+    const AccessTarget& anAccessTarget
 ) const
 {
     const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
 
     const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
-    const Matrix3d SEZRotation = aGroundTargetConfiguration.computeR_SEZ_ECEF(earthSPtr);
+    const Matrix3d SEZRotation = anAccessTarget.computeR_SEZ_ECEF(earthSPtr);
 
     std::function<bool(const Instant&)> condition;
 
@@ -659,10 +595,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    if (aGroundTargetConfiguration.getConstraint().isIntervalBased())
+    if (anAccessTarget.getConstraint().isIntervalBased())
     {
         const Constraint::IntervalConstraint intervalConstraint =
-            aGroundTargetConfiguration.getConstraint().getIntervalConstraint().value();
+            anAccessTarget.getConstraint().getIntervalConstraint().value();
 
         condition = [&computeAER, intervalConstraint](const Instant& instant) -> bool
         {
@@ -682,8 +618,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     }
     else
     {
-        const Constraint::MaskConstraint maskConstraint =
-            aGroundTargetConfiguration.getConstraint().getMaskConstraint().value();
+        const Constraint::MaskConstraint maskConstraint = anAccessTarget.getConstraint().getMaskConstraint().value();
 
         condition = [&computeAER, maskConstraint](const Instant& instant) -> bool
         {
@@ -761,7 +696,7 @@ Array<physics::time::Interval> Generator::ComputeIntervals(const VectorXi& inAcc
     Instant startInstant = Instant::Undefined();
     Instant endInstant = Instant::Undefined();
 
-    for (Index j = 0; j < (Index)diff.size() - 1; ++j)
+    for (Eigen::Index j = 0; j < diff.size() - 1; ++j)
     {
         if (!diff[j])
         {
@@ -933,66 +868,6 @@ Angle Generator::CalculateElevationAt(
     return aer.getElevation();
 }
 
-bool Generator::IsAboveMask(
-    const Map<Real, Real>& anAzimuthElevationMask, const Real& anAzimuth_rad, const Real& anElevation_rad
-)
-{
-    auto itLow = anAzimuthElevationMask.lower_bound(anAzimuth_rad);
-    itLow--;
-    auto itUp = anAzimuthElevationMask.upper_bound(anAzimuth_rad);
-
-    // Vector between the two successive mask data points with bounding azimuth values
-
-    const Vector2d lowToUpVector = {itUp->first - itLow->first, itUp->second - itLow->second};
-
-    // Vector from data point with azimuth lower bound to tested point
-
-    const Vector2d lowToPointVector = {anAzimuth_rad - itLow->first, anElevation_rad - itLow->second};
-
-    // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
-    // mask
-
-    return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0);
-}
-
-Map<Real, Real> Generator::ConvertAzimuthElevationMask(const Map<Real, Real>& anAzimuthElevationMask)
-{
-    if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
-        (anAzimuthElevationMask.rbegin()->first > 360.0))
-    {
-        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
-    }
-
-    for (const auto& azimuthElevationPair : anAzimuthElevationMask)
-    {
-        if ((azimuthElevationPair.second).abs() > 90.0)
-        {
-            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
-        }
-    }
-
-    Map<Real, Real> anAzimuthElevationMask_deg = anAzimuthElevationMask;
-
-    if (anAzimuthElevationMask_deg.begin()->first != 0.0)
-    {
-        anAzimuthElevationMask_deg.insert({0.0, anAzimuthElevationMask_deg.begin()->second});
-    }
-
-    if (anAzimuthElevationMask_deg.rbegin()->first != 360.0)
-    {
-        anAzimuthElevationMask_deg.insert({360.0, anAzimuthElevationMask_deg.begin()->second});
-    }
-
-    Map<Real, Real> anAzimuthElevationMask_rad;
-
-    for (auto it = anAzimuthElevationMask_deg.begin(); it != anAzimuthElevationMask_deg.end(); ++it)
-    {
-        anAzimuthElevationMask_rad.insert({it->first * M_PI / 180.0, it->second * M_PI / 180.0});
-    }
-
-    return anAzimuthElevationMask_rad;
-}
-
 GeneratorContext::GeneratorContext(
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
@@ -1007,7 +882,7 @@ GeneratorContext::GeneratorContext(
 {
 }
 
-bool GeneratorContext::isAccessActive(const Instant& anInstant)
+bool GeneratorContext::isAccessActive(const Instant& anInstant, const Constraint& aConstraint)
 {
     this->environment_.setInstant(anInstant);
 
@@ -1043,19 +918,9 @@ bool GeneratorContext::isAccessActive(const Instant& anInstant)
         }
     }
 
-    // AER filtering
+    const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, earthSPtr_);
 
-    if (this->generator_.getAerFilter())
-    {
-        const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, this->earthSPtr_);
-
-        if (!this->generator_.getAerFilter()(aer))
-        {
-            return false;
-        }
-    }
-
-    return true;
+    return aConstraint.isSatisfied(aer);
 }
 
 Pair<State, State> GeneratorContext::GetStatesAt(
