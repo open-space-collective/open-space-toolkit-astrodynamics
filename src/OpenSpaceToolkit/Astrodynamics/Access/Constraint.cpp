@@ -166,6 +166,7 @@ std::optional<Constraint::IntervalConstraint> Constraint::getIntervalConstraint(
     {
         return *interval;
     }
+
     return std::nullopt;
 }
 
@@ -175,6 +176,7 @@ std::optional<Constraint::MaskConstraint> Constraint::getMaskConstraint() const
     {
         return *mask;
     }
+
     return std::nullopt;
 }
 
@@ -189,13 +191,13 @@ Interval<Real> Constraint::getRangeInterval() const
     );
 }
 
-Constraint::Constraint(IntervalConstraint constraint)
-    : constraint_(std::move(constraint))
+Constraint::Constraint(const IntervalConstraint& constraint)
+    : constraint_(constraint)
 {
 }
 
-Constraint::Constraint(MaskConstraint constraint)
-    : constraint_(std::move(constraint))
+Constraint::Constraint(const MaskConstraint& constraint)
+    : constraint_(constraint)
 {
 }
 
