@@ -19,6 +19,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/Constraint.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
 namespace ostk
@@ -50,6 +51,7 @@ using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::Access;
+using ostk::astrodynamics::access::Constraint;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::State;
 
@@ -208,45 +210,35 @@ class Generator
 class GroundTargetConfiguration
 {
    public:
+    enum class Type
+    {
+        Fixed,
+        Trajectory
+    };
+
     /// @brief Constructor
-    /// @param anAzimuthInterval An azimuth interval [deg]
-    /// @param anElevationInterval An elevation interval [deg]
-    /// @param aRangeInterval A range interval [m]
     /// @param aPosition A position
-    GroundTargetConfiguration(
-        const Interval<Real>& anAzimuthInterval,
-        const Interval<Real>& anElevationInterval,
-        const Interval<Real>& aRangeInterval,
-        const Position& aPosition
-    );
+    // GroundTargetConfiguration(const Type& aType, const Constraint& constrant, const Position& aPosition);
 
-    /// @brief Constructor
-    /// @param anAzimuthInterval An azimuth interval [deg]
-    /// @param anElevationInterval An elevation interval [deg]
-    /// @param aRangeInterval A range interval [m]
-    /// @param aLLA An LLA
-    GroundTargetConfiguration(
-        const Interval<Real>& anAzimuthInterval,
-        const Interval<Real>& anElevationInterval,
-        const Interval<Real>& aRangeInterval,
-        const LLA& aLLA
-    );
+    /// @brief Get the type
+    ///
+    /// @code{.cpp}
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              GroundTargetConfiguration::Type type = groundTargetConfiguration.getType();
+    /// @endcode
+    ///
+    /// @return The type
+    Type getType() const;
 
-    /// @brief Constructor
-    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
-    /// @param aRangeInterval A range interval [m]
-    /// @param aLLA An LLA
-    GroundTargetConfiguration(
-        const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const LLA& aLLA
-    );
-
-    /// @brief Constructor
-    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
-    /// @param aRangeInterval A range interval [m]
-    /// @param aPosition A Position
-    GroundTargetConfiguration(
-        const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const Position& aPosition
-    );
+    /// @brief Get the constraint
+    ///
+    /// @code{.cpp}
+    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    ///              Constraint constraint = groundTargetConfiguration.getConstraint();
+    /// @endcode
+    ///
+    /// @return The constraint
+    Constraint getConstraint() const;
 
     /// @brief Get the trajectory
     ///
@@ -275,48 +267,50 @@ class GroundTargetConfiguration
     ///              LLA lla = groundTargetConfiguration.getLLA();
     /// @endcode
     ///
+    /// @param aCelestialSPtr A celestial body
+    ///
     /// @return The latitude, longitude, and altitude (LLA)
-    LLA getLLA() const;
+    LLA getLLA(const Shared<const Celestial>& aCelestialSPtr) const;
 
-    /// @brief Get the azimuth interval
-    ///
-    /// @code{.cpp}
-    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
-    ///              Interval<Real> groundTargetConfiguration = generator.getAzimuthInterval();
-    /// @endcode
-    ///
-    /// @return The azimuth interval
-    Interval<Real> getAzimuthInterval() const;
+    // /// @brief Get the azimuth interval
+    // ///
+    // /// @code{.cpp}
+    // ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    // ///              Interval<Real> groundTargetConfiguration = generator.getAzimuthInterval();
+    // /// @endcode
+    // ///
+    // /// @return The azimuth interval
+    // Interval<Real> getAzimuthInterval() const;
 
-    /// @brief Get the elevation interval
-    ///
-    /// @code{.cpp}
-    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
-    ///              Interval<Real> groundTargetConfiguration = generator.getElevationInterval();
-    /// @endcode
-    ///
-    /// @return The elevation interval
-    Interval<Real> getElevationInterval() const;
+    // /// @brief Get the elevation interval
+    // ///
+    // /// @code{.cpp}
+    // ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    // ///              Interval<Real> groundTargetConfiguration = generator.getElevationInterval();
+    // /// @endcode
+    // ///
+    // /// @return The elevation interval
+    // Interval<Real> getElevationInterval() const;
 
-    /// @brief Get the range interval
-    ///
-    /// @code{.cpp}
-    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
-    ///              Interval<Real> groundTargetConfiguration = generator.getRangeInterval();
-    /// @endcode
-    ///
-    /// @return The range interval
-    Interval<Real> getRangeInterval() const;
+    // /// @brief Get the range interval
+    // ///
+    // /// @code{.cpp}
+    // ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    // ///              Interval<Real> groundTargetConfiguration = generator.getRangeInterval();
+    // /// @endcode
+    // ///
+    // /// @return The range interval
+    // Interval<Real> getRangeInterval() const;
 
-    /// @brief Get the azimuth-elevation mask
-    ///
-    /// @code{.cpp}
-    ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
-    ///              Map<Real, Real> azimuthElevationMask = groundTargetConfiguration.getAzimuthElevationMask();
-    /// @endcode
-    ///
-    /// @return The azimuth-elevation mask
-    Map<Real, Real> getAzimuthElevationMask() const;
+    // /// @brief Get the azimuth-elevation mask
+    // ///
+    // /// @code{.cpp}
+    // ///              GroundTargetConfiguration groundTargetConfiguration = { ... } ;
+    // ///              Map<Real, Real> azimuthElevationMask = groundTargetConfiguration.getAzimuthElevationMask();
+    // /// @endcode
+    // ///
+    // /// @return The azimuth-elevation mask
+    // Map<Real, Real> getAzimuthElevationMask() const;
 
     /// @brief Check if the elevation-azimuth are within the mask
     ///
@@ -328,7 +322,7 @@ class GroundTargetConfiguration
     /// @param anAzimuth An azimuth [deg]
     /// @param anElevation An elevation [deg]
     /// @return True if the azimuth-elevation are within the mask, false otherwise
-    bool isAboveMask(const Real& anAzimuth, const Real& anElevation) const;
+    // bool isAboveMask(const Real& anAzimuth, const Real& anElevation) const;
 
     /// @brief Get the rotation matrix (Matrix3d) from ECEF (Earth-Centered-Earth-Fixed) to SEZ (South-East-Zenith)
     /// frame
@@ -339,19 +333,34 @@ class GroundTargetConfiguration
     /// @endcode
     ///
     /// @return The SEZ rotation matrix
-    Matrix3d computeR_SEZ_ECEF() const;
+    Matrix3d computeR_SEZ_ECEF(const Shared<const Celestial>& aCelestialSPtr) const;
+
+    /// @brief Construct a ground target configuration from an LLA (Latitude, Longitude, Altitude)
+    ///
+    /// @code{.cpp}
+    ///              GroundTargetConfiguration groundTargetConfiguration = GroundTargetConfiguration::LLA(
+    ///                  constraint, lla, aCelestialSPtr
+    ///              );
+    /// @endcode
+    ///
+    /// @param constraint
+    /// @param anLLA
+    /// @param aCelestialSPtr
+    /// @return Ground target configuration
+    static GroundTargetConfiguration FromLLA(
+        const Constraint& constraint, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
+    );
+
+    static GroundTargetConfiguration FromPosition(const Constraint& constraint, const Position& aPosition);
+
+    static GroundTargetConfiguration FromTrajectory(const Constraint& constraint, const Trajectory& aTrajectory);
 
    private:
-    Interval<Real> azimuthInterval_;
-    Interval<Real> elevationInterval_;
-    Interval<Real> rangeInterval_;
-    Map<Real, Real> azimuthElevationMask_;
+    Type type_;
+    Constraint constraint_;
+    Trajectory trajectory_;
 
-    Position position_;
-    LLA lla_;
-
-    void validateIntervals_() const;
-    void validateMask_();
+    GroundTargetConfiguration(const Type& aType, const Constraint& constrant, const Trajectory& aTrajectory);
 };
 
 class GeneratorContext
