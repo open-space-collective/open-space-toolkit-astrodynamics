@@ -44,149 +44,72 @@ namespace astrodynamics
 namespace access
 {
 
-GroundTargetConfiguration::GroundTargetConfiguration(
-    const Interval<Real>& anAzimuthInterval,
-    const Interval<Real>& anElevationInterval,
-    const Interval<Real>& aRangeInterval,
-    const Position& aPosition
-)
-    : azimuthInterval_(anAzimuthInterval),
-      elevationInterval_(anElevationInterval),
-      rangeInterval_(aRangeInterval),
-      azimuthElevationMask_({}),
-      position_(aPosition),
-      lla_(LLA::Cartesian(
-          aPosition.getCoordinates(),
-          EarthGravitationalModel::EGM2008.equatorialRadius_,
-          EarthGravitationalModel::EGM2008.flattening_
-      ))
+GroundTargetConfiguration::Type GroundTargetConfiguration::getType() const
 {
-    if (aPosition.isDefined() && aPosition.accessFrame() != Frame::ITRF())
-    {
-        throw ostk::core::error::RuntimeError("The position frame must be ITRF.");
-    }
-
-    validateIntervals_();
+    return type_;
 }
 
-GroundTargetConfiguration::GroundTargetConfiguration(
-    const Interval<Real>& anAzimuthInterval,
-    const Interval<Real>& anElevationInterval,
-    const Interval<Real>& aRangeInterval,
-    const LLA& aLLA
-)
-    : azimuthInterval_(anAzimuthInterval),
-      elevationInterval_(anElevationInterval),
-      rangeInterval_(aRangeInterval),
-      azimuthElevationMask_({}),
-      position_(Position::Meters(
-          aLLA.toCartesian(
-              EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
-          ),
-          Frame::ITRF()
-      )),
-      lla_(aLLA)
+Constraint GroundTargetConfiguration::getConstraint() const
 {
-    if (!aLLA.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("LLA");
-    }
-
-    validateIntervals_();
-}
-
-GroundTargetConfiguration::GroundTargetConfiguration(
-    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const Position& aPosition
-)
-    : azimuthInterval_(Interval<Real>::Undefined()),
-      elevationInterval_(Interval<Real>::Undefined()),
-      rangeInterval_(aRangeInterval),
-      azimuthElevationMask_(anAzimuthElevationMask),
-      position_(aPosition),
-      lla_(LLA::Cartesian(
-          aPosition.getCoordinates(),
-          EarthGravitationalModel::EGM2008.equatorialRadius_,
-          EarthGravitationalModel::EGM2008.flattening_
-      ))
-{
-    if (aPosition.isDefined() && aPosition.accessFrame() != Frame::ITRF())
-    {
-        throw ostk::core::error::RuntimeError("The position frame must be ITRF.");
-    }
-
-    validateMask_();
-}
-
-GroundTargetConfiguration::GroundTargetConfiguration(
-    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval, const LLA& aLLA
-)
-    : azimuthInterval_(Interval<Real>::Undefined()),
-      elevationInterval_(Interval<Real>::Undefined()),
-      rangeInterval_(aRangeInterval),
-      azimuthElevationMask_(anAzimuthElevationMask),
-      position_(Position::Meters(
-          aLLA.toCartesian(
-              EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
-          ),
-          Frame::ITRF()
-      )),
-      lla_(aLLA)
-{
-    if (!aLLA.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("LLA");
-    }
-
-    validateMask_();
+    return constraint_;
 }
 
 Trajectory GroundTargetConfiguration::getTrajectory() const
 {
-    return Trajectory::Position(position_);
+    return trajectory_;
 }
 
 Position GroundTargetConfiguration::getPosition() const
 {
-    return position_;
+    if (type_ != Type::Fixed)
+    {
+        throw ostk::core::error::RuntimeError("Position is only defined for fixed targets.");
+    }
+
+    return trajectory_.getStateAt(Instant::J2000()).inFrame(Frame::ITRF()).getPosition();
 }
 
-LLA GroundTargetConfiguration::getLLA() const
+LLA GroundTargetConfiguration::getLLA(const Shared<const Celestial>& aCelestialSPtr) const
 {
-    return lla_;
+    return LLA::Cartesian(
+        getPosition().accessCoordinates(), aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()
+    );
 }
 
-Interval<Real> GroundTargetConfiguration::getAzimuthInterval() const
-{
-    return azimuthInterval_;
-}
+// Interval<Real> GroundTargetConfiguration::getAzimuthInterval() const
+// {
+//     return azimuthInterval_;
+// }
 
-Interval<Real> GroundTargetConfiguration::getElevationInterval() const
-{
-    return elevationInterval_;
-}
+// Interval<Real> GroundTargetConfiguration::getElevationInterval() const
+// {
+//     return elevationInterval_;
+// }
 
-Interval<Real> GroundTargetConfiguration::getRangeInterval() const
-{
-    return rangeInterval_;
-}
+// Interval<Real> GroundTargetConfiguration::getRangeInterval() const
+// {
+//     return rangeInterval_;
+// }
 
-Map<Real, Real> GroundTargetConfiguration::getAzimuthElevationMask() const
-{
-    return azimuthElevationMask_;
-}
+// Map<Real, Real> GroundTargetConfiguration::getAzimuthElevationMask() const
+// {
+//     return azimuthElevationMask_;
+// }
 
-bool GroundTargetConfiguration::isAboveMask(const Real& anAzimuth_rad, const Real& anElevation_rad) const
-{
-    return Generator::IsAboveMask(azimuthElevationMask_, anAzimuth_rad, anElevation_rad);
-}
+// bool GroundTargetConfiguration::isAboveMask(const Real& anAzimuth_rad, const Real& anElevation_rad) const
+// {
+//     return Generator::IsAboveMask(azimuthElevationMask_, anAzimuth_rad, anElevation_rad);
+// }
 
-Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF() const
+Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF(const Shared<const Celestial>& aCelestialSPtr) const
 {
+    const LLA lla = this->getLLA(aCelestialSPtr);
+
     // TBM: Move this to OSTk physics as a utility function
-    const double sinLat = std::sin(lla_.getLatitude().inRadians());
-    const double cosLat = std::cos(lla_.getLatitude().inRadians());
-    const double sinLon = std::sin(lla_.getLongitude().inRadians());
-    const double cosLon = std::cos(lla_.getLongitude().inRadians());
+    const double sinLat = std::sin(lla.getLatitude().inRadians());
+    const double cosLat = std::cos(lla.getLatitude().inRadians());
+    const double sinLon = std::sin(lla.getLongitude().inRadians());
+    const double cosLon = std::cos(lla.getLongitude().inRadians());
 
     Matrix3d SEZRotation;
     SEZRotation << sinLat * cosLon, sinLat * sinLon, -cosLat, -sinLon, cosLon, 0.0, cosLat * cosLon, cosLat * sinLon,
@@ -195,45 +118,87 @@ Matrix3d GroundTargetConfiguration::computeR_SEZ_ECEF() const
     return SEZRotation;
 }
 
-void GroundTargetConfiguration::validateIntervals_() const
+GroundTargetConfiguration GroundTargetConfiguration::FromLLA(
+    const Constraint& constraint, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
+)
 {
-    if (!azimuthInterval_.isDefined() || !elevationInterval_.isDefined() || !rangeInterval_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Interval");
-    }
+    return GroundTargetConfiguration(
+        GroundTargetConfiguration::Type::Fixed,
+        constraint,
+        Trajectory::Position(Position::Meters(
+            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()), Frame::ITRF()
+        ))
+    );
+}
 
-    if (azimuthInterval_.getLowerBound() < 0.0 || azimuthInterval_.getUpperBound() > 360.0)
-    {
-        throw ostk::core::error::RuntimeError(
-            "The azimuth interval [{}, {}] must be in the range [0, 360] deg",
-            azimuthInterval_.accessLowerBound(),
-            azimuthInterval_.accessUpperBound()
-        );
-    }
+GroundTargetConfiguration GroundTargetConfiguration::FromPosition(
+    const Constraint& constraint, const Position& aPosition
+)
+{
+    return GroundTargetConfiguration(
+        GroundTargetConfiguration::Type::Fixed, constraint, Trajectory::Position(aPosition)
+    );
+}
 
-    if (elevationInterval_.getLowerBound() < -90.0 || elevationInterval_.getUpperBound() > 90.0)
-    {
-        throw ostk::core::error::RuntimeError(
-            "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
-            elevationInterval_.accessLowerBound(),
-            elevationInterval_.accessUpperBound()
-        );
-    }
+GroundTargetConfiguration GroundTargetConfiguration::FromTrajectory(
+    const Constraint& constraint, const Trajectory& aTrajectory
+)
+{
+    return GroundTargetConfiguration(GroundTargetConfiguration::Type::Trajectory, constraint, aTrajectory);
+}
 
-    if (rangeInterval_.getLowerBound() < 0.0)
+GroundTargetConfiguration::GroundTargetConfiguration(
+    const GroundTargetConfiguration::Type& aType, const Constraint& aConstraint, const Trajectory& aTrajectory
+)
+    : type_(aType),
+      constraint_(aConstraint),
+      trajectory_(aTrajectory)
+{
+    if (!aTrajectory.isDefined())
     {
-        throw ostk::core::error::RuntimeError(
-            "The range interval [{}, {}] must be positive.",
-            rangeInterval_.accessLowerBound(),
-            rangeInterval_.accessUpperBound()
-        );
+        throw ostk::core::error::runtime::Undefined("Trajectory");
     }
 }
 
-void GroundTargetConfiguration::validateMask_()
-{
-    azimuthElevationMask_ = Generator::ConvertAzimuthElevationMask(azimuthElevationMask_);
-}
+// void GroundTargetConfiguration::validateIntervals_() const
+// {
+//     if (!azimuthInterval_.isDefined() || !elevationInterval_.isDefined() || !rangeInterval_.isDefined())
+//     {
+//         throw ostk::core::error::runtime::Undefined("Interval");
+//     }
+
+//     if (azimuthInterval_.getLowerBound() < 0.0 || azimuthInterval_.getUpperBound() > 360.0)
+//     {
+//         throw ostk::core::error::RuntimeError(
+//             "The azimuth interval [{}, {}] must be in the range [0, 360] deg",
+//             azimuthInterval_.accessLowerBound(),
+//             azimuthInterval_.accessUpperBound()
+//         );
+//     }
+
+//     if (elevationInterval_.getLowerBound() < -90.0 || elevationInterval_.getUpperBound() > 90.0)
+//     {
+//         throw ostk::core::error::RuntimeError(
+//             "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
+//             elevationInterval_.accessLowerBound(),
+//             elevationInterval_.accessUpperBound()
+//         );
+//     }
+
+//     if (rangeInterval_.getLowerBound() < 0.0)
+//     {
+//         throw ostk::core::error::RuntimeError(
+//             "The range interval [{}, {}] must be positive.",
+//             rangeInterval_.accessLowerBound(),
+//             rangeInterval_.accessUpperBound()
+//         );
+//     }
+// }
+
+// void GroundTargetConfiguration::validateMask_()
+// {
+//     azimuthElevationMask_ = Generator::ConvertAzimuthElevationMask(azimuthElevationMask_);
+// }
 
 Generator::Generator(const Environment& anEnvironment, const Duration& aStep, const Duration& aTolerance)
     : environment_(anEnvironment),
@@ -374,9 +339,11 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
     const Index targetCount = someGroundTargetConfigurations.getSize();
     Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> SEZRotations(3, 3 * targetCount);
 
+    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+
     for (Index i = 0; i < targetCount; ++i)
     {
-        SEZRotations.block<3, 3>(0, 3 * i) = someGroundTargetConfigurations[i].computeR_SEZ_ECEF();
+        SEZRotations.block<3, 3>(0, 3 * i) = someGroundTargetConfigurations[i].computeR_SEZ_ECEF(earthSPtr);
     }
 
     // create a stacked matrix of ITRF positions for all ground targets
@@ -392,7 +359,7 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
         someGroundTargetConfigurations.end(),
         [](const auto& groundTargetConfiguration)
         {
-            return !groundTargetConfiguration.getAzimuthElevationMask().empty();
+            return groundTargetConfiguration.getConstraint().isMaskBased();
         }
     );
 
@@ -408,15 +375,16 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
         for (Index i = 0; i < targetCount; ++i)
         {
-            aerLowerBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessLowerBound() * degToRad;
-            aerLowerBounds(i, 1) =
-                someGroundTargetConfigurations[i].getElevationInterval().accessLowerBound() * degToRad;
-            aerLowerBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound();
+            const Constraint::IntervalConstraint intervalConstraint =
+                someGroundTargetConfigurations[i].getConstraint().getIntervalConstraint().value();
 
-            aerUpperBounds(i, 0) = someGroundTargetConfigurations[i].getAzimuthInterval().accessUpperBound() * degToRad;
-            aerUpperBounds(i, 1) =
-                someGroundTargetConfigurations[i].getElevationInterval().accessUpperBound() * degToRad;
-            aerUpperBounds(i, 2) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound();
+            aerLowerBounds(i, 0) = intervalConstraint.azimuth.accessLowerBound() * degToRad;
+            aerLowerBounds(i, 1) = intervalConstraint.elevation.accessLowerBound() * degToRad;
+            aerLowerBounds(i, 2) = intervalConstraint.range.accessLowerBound();
+
+            aerUpperBounds(i, 0) = intervalConstraint.azimuth.accessUpperBound() * degToRad;
+            aerUpperBounds(i, 1) = intervalConstraint.elevation.accessUpperBound() * degToRad;
+            aerUpperBounds(i, 2) = intervalConstraint.range.accessUpperBound();
         }
 
         aerFilter = [aerLowerBounds,
@@ -437,8 +405,11 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
         for (Index i = 0; i < targetCount; ++i)
         {
-            rangeLowerBounds(i) = someGroundTargetConfigurations[i].getRangeInterval().accessLowerBound();
-            rangeUpperBounds(i) = someGroundTargetConfigurations[i].getRangeInterval().accessUpperBound();
+            const Constraint::MaskConstraint constraint =
+                someGroundTargetConfigurations[i].getConstraint().getMaskConstraint().value();
+
+            rangeLowerBounds(i) = constraint.range.accessLowerBound();
+            rangeUpperBounds(i) = constraint.range.accessUpperBound();
         }
 
         aerFilter = [&someGroundTargetConfigurations, rangeLowerBounds, rangeUpperBounds](
@@ -450,11 +421,16 @@ Array<Array<Access>> Generator::computeAccessesWithGroundTargets(
 
             for (Index i = 0; i < (Index)mask.rows(); ++i)
             {
-                const GroundTargetConfiguration& groundTargetConfiguration = someGroundTargetConfigurations[i];
+                const Constraint::MaskConstraint constraint =
+                    someGroundTargetConfigurations[i].getConstraint().getMaskConstraint().value();
+
                 const double& azimuth_rad = azimuths_rad(i);
                 const double& elevation_rad = elevations_rad(i);
 
-                mask(i) = mask(i) && groundTargetConfiguration.isAboveMask(azimuth_rad, elevation_rad);
+                const AER aer =
+                    AER(Angle::Radians(azimuth_rad), Angle::Radians(elevation_rad), Length::Meters(ranges_m(i)));
+
+                mask(i) = mask(i) && constraint.isSatisfied(aer);
             }
 
             return mask;
@@ -659,7 +635,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 {
     const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
 
-    const Matrix3d SEZRotation = aGroundTargetConfiguration.computeR_SEZ_ECEF();
+    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+
+    const Matrix3d SEZRotation = aGroundTargetConfiguration.computeR_SEZ_ECEF(earthSPtr);
 
     std::function<bool(const Instant&)> condition;
 
@@ -681,16 +659,19 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    if (aGroundTargetConfiguration.getAzimuthElevationMask().empty())
+    if (aGroundTargetConfiguration.getConstraint().isIntervalBased())
     {
-        condition = [&computeAER, &aGroundTargetConfiguration](const Instant& instant) -> bool
+        const Constraint::IntervalConstraint intervalConstraint =
+            aGroundTargetConfiguration.getConstraint().getIntervalConstraint().value();
+
+        condition = [&computeAER, intervalConstraint](const Instant& instant) -> bool
         {
-            const double& azimuthLowerBound = aGroundTargetConfiguration.getAzimuthInterval().accessLowerBound();
-            const double& azimuthUpperBound = aGroundTargetConfiguration.getAzimuthInterval().accessUpperBound();
-            const double& elevationLowerBound = aGroundTargetConfiguration.getElevationInterval().accessLowerBound();
-            const double& elevationUpperBound = aGroundTargetConfiguration.getElevationInterval().accessUpperBound();
-            const double& rangeLowerBound = aGroundTargetConfiguration.getRangeInterval().accessLowerBound();
-            const double& rangeUpperBound = aGroundTargetConfiguration.getRangeInterval().accessUpperBound();
+            const double& azimuthLowerBound = intervalConstraint.azimuth.accessLowerBound();
+            const double& azimuthUpperBound = intervalConstraint.azimuth.accessUpperBound();
+            const double& elevationLowerBound = intervalConstraint.elevation.accessLowerBound();
+            const double& elevationUpperBound = intervalConstraint.elevation.accessUpperBound();
+            const double& rangeLowerBound = intervalConstraint.range.accessLowerBound();
+            const double& rangeUpperBound = intervalConstraint.range.accessUpperBound();
 
             const auto [azimuth_rad, elevation_rad, range] = computeAER(instant);
 
@@ -701,16 +682,19 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     }
     else
     {
-        condition = [&computeAER, &aGroundTargetConfiguration](const Instant& instant) -> bool
+        const Constraint::MaskConstraint maskConstraint =
+            aGroundTargetConfiguration.getConstraint().getMaskConstraint().value();
+
+        condition = [&computeAER, maskConstraint](const Instant& instant) -> bool
         {
-            const double& rangeLowerBound = aGroundTargetConfiguration.getRangeInterval().accessLowerBound();
-            const double& rangeUpperBound = aGroundTargetConfiguration.getRangeInterval().accessUpperBound();
+            const double& rangeLowerBound = maskConstraint.range.accessLowerBound();
+            const double& rangeUpperBound = maskConstraint.range.accessUpperBound();
 
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            const bool inMask = aGroundTargetConfiguration.isAboveMask(azimuth_rad, elevation_rad);
+            const AER aer = AER(Angle::Radians(azimuth_rad), Angle::Radians(elevation_rad), Length::Meters(range_m));
 
-            return inMask && range_m > rangeLowerBound && range_m < rangeUpperBound;
+            return maskConstraint.isSatisfied(aer) && range_m > rangeLowerBound && range_m < rangeUpperBound;
         };
     }
 
