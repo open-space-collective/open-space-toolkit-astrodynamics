@@ -12,7 +12,10 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
 {
@@ -27,7 +30,10 @@ using ostk::core::type::Real;
 using ostk::mathematics::object::Interval;
 using ostk::mathematics::object::Vector2d;
 
+using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::AER;
+using ostk::physics::Environment;
+using ostk::physics::time::Instant;
 
 class Constraint
 {
@@ -55,30 +61,43 @@ class Constraint
         bool isSatisfied(const AER& anAer) const;
     };
 
+    struct LineOfSightConstraint
+    {
+        mutable Environment environment;
+
+        LineOfSightConstraint(const Environment& anEnvironment);
+
+        bool isSatisfied(const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) const;
+    };
+
     static Constraint FromIntervals(
         const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
     );
 
     static Constraint FromMask(const Map<Real, Real>& azimuthElevationMask, const Interval<Real>& range);
 
-    bool isSatisfied(const AER& aer) const;
+    static Constraint FromLineOfSight(const Environment& environment);
 
     bool isMaskBased() const;
 
     bool isIntervalBased() const;
 
+    bool isLineOfSightBased() const;
+
     std::optional<IntervalConstraint> getIntervalConstraint() const;
 
     std::optional<MaskConstraint> getMaskConstraint() const;
 
-    Interval<Real> getRangeInterval() const;
+    std::optional<LineOfSightConstraint> getLineOfSightConstraint() const;
 
    private:
-    std::variant<IntervalConstraint, MaskConstraint> constraint_;
+    std::variant<IntervalConstraint, MaskConstraint, LineOfSightConstraint> constraint_;
 
     explicit Constraint(const IntervalConstraint& constraint);
 
     explicit Constraint(const MaskConstraint& constraint);
+
+    explicit Constraint(const LineOfSightConstraint& constraint);
 };
 
 }  // namespace access
