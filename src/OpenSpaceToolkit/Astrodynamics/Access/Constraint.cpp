@@ -16,6 +16,8 @@ namespace access
 
 using ostk::core::type::Shared;
 
+using ostk::mathematics::object::Vector2d;
+
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
 
@@ -146,15 +148,15 @@ Constraint::LineOfSightConstraint::LineOfSightConstraint(const Environment& anEn
 }
 
 bool Constraint::LineOfSightConstraint::isSatisfied(
-    const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition
+    const Instant& anInstant, const Vector3d& aFromPositionCoordinates, const Vector3d& aToPositionCoordinates
 ) const
 {
     static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
 
     this->environment.setInstant(anInstant);
 
-    const Point fromPositionCoordinates = Point::Vector(aFromPosition.accessCoordinates());
-    const Point toPositionCoordinates = Point::Vector(aToPosition.accessCoordinates());
+    const Point fromPositionCoordinates = Point::Vector(aFromPositionCoordinates);
+    const Point toPositionCoordinates = Point::Vector(aToPositionCoordinates);
 
     if (fromPositionCoordinates == toPositionCoordinates)
     {
