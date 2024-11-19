@@ -28,9 +28,8 @@ using ostk::core::container::Map;
 using ostk::core::type::Real;
 
 using ostk::mathematics::object::Interval;
-using ostk::mathematics::object::Vector2d;
+using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::AER;
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
@@ -67,7 +66,9 @@ class Constraint
 
         LineOfSightConstraint(const Environment& anEnvironment);
 
-        bool isSatisfied(const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) const;
+        bool isSatisfied(
+            const Instant& anInstant, const Vector3d& aFromPositionCoordinates, const Vector3d& aToPositionCoordinates
+        ) const;
     };
 
     static Constraint FromIntervals(
