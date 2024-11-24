@@ -238,7 +238,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
     const Orbit fromOrbit = generateFirstOrbit();
     const Orbit toOrbit = generateSecondOrbit();
 
-    const Constraint constraint = Constraint::FromIntervals(
+    const Constraint constraint = Constraint::FromAERIntervals(
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
         ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
@@ -319,7 +319,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
     const Orbit fromOrbit = generateFirstOrbit();
     const Orbit toOrbit = generateSecondOrbit();
 
-    const Constraint constraint = Constraint::FromIntervals(
+    const Constraint constraint = Constraint::FromAERIntervals(
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
         ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
@@ -406,7 +406,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
         return orbit;
     };
 
-    const Constraint constraint = Constraint::FromIntervals(
+    const Constraint constraint = Constraint::FromAERIntervals(
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
         ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
@@ -483,7 +483,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
     };
 
     // TBI: Convert to LOS trajectory
-    const Constraint constraint = Constraint::FromIntervals(
+    const Constraint constraint = Constraint::FromAERIntervals(
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
         ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
@@ -572,7 +572,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
     );
 
     const AccessTarget accessTarget = AccessTarget::FromTrajectory(
-        Constraint::FromIntervals(
+        Constraint::FromAERIntervals(
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
             ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
@@ -645,13 +645,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
     // Constructor
     {
         {
-            const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+            const Constraint constraint =
+                Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
 
             EXPECT_NO_THROW(AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_));
         }
 
         {
-            const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+            const Constraint constraint =
+                Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
             {
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
                 EXPECT_NO_THROW(AccessTarget::FromPosition(constraint, position));
@@ -669,7 +671,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
 
             EXPECT_THROW(
                 AccessTarget::FromPosition(
-                    Constraint::FromIntervals(
+                    Constraint::FromAERIntervals(
                         ostk::mathematics::object::Interval<Real>::Undefined(), elevationInterval, rangeInterval
                     ),
                     position
@@ -678,7 +680,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             );
             EXPECT_THROW(
                 AccessTarget::FromPosition(
-                    Constraint::FromIntervals(
+                    Constraint::FromAERIntervals(
                         azimuthInterval, ostk::mathematics::object::Interval<Real>::Undefined(), rangeInterval
                     ),
                     position
@@ -687,7 +689,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             );
             EXPECT_THROW(
                 AccessTarget::FromPosition(
-                    Constraint::FromIntervals(
+                    Constraint::FromAERIntervals(
                         azimuthInterval, elevationInterval, ostk::mathematics::object::Interval<Real>::Undefined()
                     ),
                     position
@@ -696,7 +698,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             );
             EXPECT_THROW(
                 AccessTarget::FromLLA(
-                    Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval),
+                    Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval),
                     LLA::Undefined(),
                     defaultEarthSPtr_
                 ),
@@ -709,7 +711,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             {
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromIntervals(
+                        Constraint::FromAERIntervals(
                             ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0),
                             elevationInterval,
                             rangeInterval
@@ -721,7 +723,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
                 );
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromIntervals(
+                        Constraint::FromAERIntervals(
                             ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1),
                             elevationInterval,
                             rangeInterval
@@ -735,7 +737,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             {
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromIntervals(
+                        Constraint::FromAERIntervals(
                             azimuthInterval,
                             ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0),
                             rangeInterval
@@ -747,7 +749,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
                 );
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromIntervals(
+                        Constraint::FromAERIntervals(
                             azimuthInterval,
                             ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0),
                             rangeInterval
@@ -761,7 +763,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             {
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromIntervals(
+                        Constraint::FromAERIntervals(
                             azimuthInterval,
                             elevationInterval,
                             ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0)
@@ -777,7 +779,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
 
     // Getters
     {
-        const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+        const Constraint constraint = Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
         const AccessTarget accessTarget = AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_);
         // TBI: Fix the checks below
         EXPECT_EQ(accessTarget.getLLA(defaultEarthSPtr_), lla);
@@ -836,7 +838,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         const ostk::mathematics::object::Interval<Real> rangeInterval =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
 
-        const Constraint constraint = Constraint::FromIntervals(azimuthInterval, elevationInterval, rangeInterval);
+        const Constraint constraint = Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
 
         Array<AccessTarget> accessTargets = LLAs.map<AccessTarget>(
             [&constraint, this](const LLA& lla) -> AccessTarget
@@ -955,7 +957,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
         const ostk::mathematics::object::Interval<Real> rangeRange =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
-        const Constraint constraint = Constraint::FromIntervals(azimuthRange, elevationRange, rangeRange);
+        const Constraint constraint = Constraint::FromAERIntervals(azimuthRange, elevationRange, rangeRange);
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC);

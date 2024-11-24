@@ -396,7 +396,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.getConstraint().isIntervalBased();
+            return accessTarget.getConstraint().isAERIntervalBased();
         }
     );
     const bool allAccessTargetsHaveLineOfSight = std::all_of(
@@ -453,8 +453,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
         for (Index i = 0; i < targetCount; ++i)
         {
-            const Constraint::IntervalConstraint intervalConstraint =
-                someAccessTargets[i].getConstraint().getIntervalConstraint().value();
+            const Constraint::AERIntervalConstraint intervalConstraint =
+                someAccessTargets[i].getConstraint().getAERIntervalConstraint().value();
 
             aerLowerBounds(i, 0) = intervalConstraint.azimuth.accessLowerBound() * degToRad;
             aerLowerBounds(i, 1) = intervalConstraint.elevation.accessLowerBound() * degToRad;
@@ -691,10 +691,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    if (anAccessTarget.getConstraint().isIntervalBased())
+    if (anAccessTarget.getConstraint().isAERIntervalBased())
     {
-        const Constraint::IntervalConstraint intervalConstraint =
-            anAccessTarget.getConstraint().getIntervalConstraint().value();
+        const Constraint::AERIntervalConstraint intervalConstraint =
+            anAccessTarget.getConstraint().getAERIntervalConstraint().value();
 
         condition = [&computeAER, intervalConstraint](const Instant& instant) -> bool
         {
@@ -1022,9 +1022,9 @@ bool GeneratorContext::isAccessActive(const Instant& anInstant, const Constraint
         return aConstraint.getMaskConstraint().value().isSatisfied(aer);
     }
 
-    if (aConstraint.isIntervalBased())
+    if (aConstraint.isAERIntervalBased())
     {
-        return aConstraint.getIntervalConstraint().value().isSatisfied(aer);
+        return aConstraint.getAERIntervalConstraint().value().isSatisfied(aer);
     }
 
     return false;
