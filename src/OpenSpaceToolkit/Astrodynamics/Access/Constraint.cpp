@@ -24,7 +24,7 @@ using ostk::mathematics::geometry::d3::object::Segment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::Object;
 
-Constraint::IntervalConstraint::IntervalConstraint(
+Constraint::AERIntervalConstraint::AERIntervalConstraint(
     const Interval<Real>& anAzimuthInterval,
     const Interval<Real>& anElevationInterval,
     const Interval<Real>& aRangeInterval
@@ -64,7 +64,7 @@ Constraint::IntervalConstraint::IntervalConstraint(
     }
 }
 
-bool Constraint::IntervalConstraint::isSatisfied(const AER& anAer) const
+bool Constraint::AERIntervalConstraint::isSatisfied(const AER& anAer) const
 {
     return azimuth.contains(anAer.getAzimuth().inDegrees()) && elevation.contains(anAer.getElevation().inDegrees()) &&
            range.contains(anAer.getRange().inMeters());
@@ -170,11 +170,11 @@ bool Constraint::LineOfSightConstraint::isSatisfied(
     return !this->environment.intersects(fromToSegmentGeometry);
 }
 
-Constraint Constraint::FromIntervals(
+Constraint Constraint::FromAERIntervals(
     const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
 )
 {
-    return Constraint(IntervalConstraint {azimuth, elevation, range});
+    return Constraint(AERIntervalConstraint {azimuth, elevation, range});
 }
 
 Constraint Constraint::FromMask(const Map<Real, Real>& azimuthElevationMask, const Interval<Real>& range)
@@ -192,9 +192,9 @@ bool Constraint::isMaskBased() const
     return std::holds_alternative<MaskConstraint>(constraint_);
 }
 
-bool Constraint::isIntervalBased() const
+bool Constraint::isAERIntervalBased() const
 {
-    return std::holds_alternative<IntervalConstraint>(constraint_);
+    return std::holds_alternative<AERIntervalConstraint>(constraint_);
 }
 
 bool Constraint::isLineOfSightBased() const
@@ -202,9 +202,9 @@ bool Constraint::isLineOfSightBased() const
     return std::holds_alternative<LineOfSightConstraint>(constraint_);
 }
 
-std::optional<Constraint::IntervalConstraint> Constraint::getIntervalConstraint() const
+std::optional<Constraint::AERIntervalConstraint> Constraint::getAERIntervalConstraint() const
 {
-    if (const auto* interval = std::get_if<IntervalConstraint>(&constraint_))
+    if (const auto* interval = std::get_if<AERIntervalConstraint>(&constraint_))
     {
         return *interval;
     }
@@ -232,7 +232,7 @@ std::optional<Constraint::LineOfSightConstraint> Constraint::getLineOfSightConst
     return std::nullopt;
 }
 
-Constraint::Constraint(const IntervalConstraint& constraint)
+Constraint::Constraint(const AERIntervalConstraint& constraint)
     : constraint_(constraint)
 {
 }
