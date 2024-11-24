@@ -284,7 +284,8 @@ Array<Array<Access>> Generator::computeAccesses(
 
         return accessesPerTarget;
     }
-    else if (std::all_of(
+
+    if (std::all_of(
                  someAccessTargets.begin(),
                  someAccessTargets.end(),
                  [](const auto& accessTarget)
@@ -358,20 +359,24 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 ) const
 {
     std::cout << "Computing accesses for fixed targets" << std::endl;
+
     if (stateFilter_)
     {
         throw ostk::core::error::RuntimeError("State filter is not supported for multiple ground targets.");
     }
 
     // create a stacked matrix of SEZ rotations for all ground targets
+
     const Index targetCount = someAccessTargets.getSize();
     Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> SEZRotations(3, 3 * targetCount);
+    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> zenithRotations(3, targetCount);
 
     const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
     for (Index i = 0; i < targetCount; ++i)
     {
         SEZRotations.block<3, 3>(0, 3 * i) = someAccessTargets[i].computeR_SEZ_ECEF(earthSPtr);
+        zenithRotations(i) = SEZRotations<1, 3>(2, 3 * i);
     }
 
     // create a stacked matrix of ITRF positions for all ground targets
@@ -391,7 +396,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
             return accessTarget.getConstraint().isMaskBased();
         }
     );
-    const bool allAccessTargetsHaveIntervals = std::all_of(
+    const bool allAccessTargetsHaveAERIntervals = std::all_of(
         someAccessTargets.begin(),
         someAccessTargets.end(),
         [](const auto& accessTarget)
@@ -441,9 +446,16 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
+    const auto computeElevations = [&zenithRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
+    {
+        const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
+        const MatrxXd dx_Z = zenithRotations * dx;
+        return (dx_Z.transpose().array() / dx.colwise().norm().array()).asin();
+    }
+
     std::function<ArrayXb(const MatrixXd&, const Vector3d&, const Instant&)> constraintFilter;
 
-    if (allAccessTargetsHaveIntervals)
+    if (allAccessTargetsHaveAERIntervals)
     {
         // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
         MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
@@ -549,6 +561,37 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
             }
 
             return mask;
+        };
+    }
+    else if (allAccessTargetsHaveElevationIntervals)
+    {
+        // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
+        VectorXd elevationLowerBounds = VectorXd::Zero(targetCount);
+        VectorXd elevationUpperBounds = VectorXd::Zero(targetCount);
+
+        const Real degToRad = Real::Pi() / 180.0;
+
+        for (Index i = 0; i < targetCount; ++i)
+        {
+            const Constraint::ElevationIntervalConstraint intervalConstraint =
+                someAccessTargets[i].getConstraint().getElevationIntervalConstraint().value();
+
+            elevationLowerBounds(i) = intervalConstraint.elevation.accessLowerBound() * degToRad;
+            elevationUpperBounds(i) = intervalConstraint.elevation.accessUpperBound() * degToRad;
+        }
+
+        constraintFilter = [elevationLowerBounds, elevationUpperBounds, &computeElevations](
+                               const MatrixXd& aFromPositionCoordinates_ITRF,
+                               const Vector3d& aToPositionCoordinates_ITRF,
+                               const Instant& anInstant
+                           )
+        {
+            (void)anInstant;
+            (void)aFromPositionCoordinates_ITRF;
+
+            const VectorXd elevations = computeElevations(aToPositionCoordinates_ITRF);
+
+            return (elevations.array() > elevationLowerBounds.array() && elevations.array() < elevationUpperBounds.array()).eval();
         };
     }
     else
@@ -705,11 +748,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
             const double& rangeLowerBound = intervalConstraint.range.accessLowerBound();
             const double& rangeUpperBound = intervalConstraint.range.accessUpperBound();
 
-            const auto [azimuth_rad, elevation_rad, range] = computeAER(instant);
+            const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            return azimuth_rad > azimuthLowerBound && azimuth_rad < azimuthUpperBound &&
-                   elevation_rad > elevationLowerBound && elevation_rad < elevationUpperBound &&
-                   range > rangeLowerBound && range < rangeUpperBound;
+            return intervalConstraint.isSatisfied(azimuth_rad, elevation_rad, range_m);
         };
     }
     else if (anAccessTarget.getConstraint().isMaskBased())
@@ -723,9 +764,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            const AER aer = AER(Angle::Radians(azimuth_rad), Angle::Radians(elevation_rad), Length::Meters(range_m));
-
-            return maskConstraint.isSatisfied(aer) && range_m > rangeLowerBound && range_m < rangeUpperBound;
+            return maskConstraint.isSatisfied(azimuth_rad, elevation_rad, range_m);
         };
     }
     else if (anAccessTarget.getConstraint().isLineOfSightBased())
@@ -740,6 +779,24 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                 aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
             return lineOfSightConstraint.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
+        };
+    }
+    else (anAccessTarget.getConstraint().isElevationIntervalBased())
+    {
+        const Constraiont::ElevationIntervalConstraint elevationIntervalConstraint = anAccessTarget.getConstraint().getElevationIntervalConstraint().value();
+
+        condition = [&computeAER, &fromPositionCoordinate_ITRF, elevationIntervalConstraint](const Instant& instant) -> bool
+        {
+            const Vector3d toPositionCoordinates_ITRF =
+                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+
+            const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
+
+            const Real dx_Z = SEZRotation.row(3) * dx;
+
+            const double elevation_rad = std::asin(dx_Z / dx.norm());
+
+            return elevationIntervalConstraint.isSatisfied(elevation_rad);
         };
     }
     else

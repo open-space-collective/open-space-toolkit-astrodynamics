@@ -58,7 +58,7 @@ using ostk::astrodynamics::trajectory::State;
 #define DEFAULT_STEP Duration::Minutes(1.0)
 #define DEFAULT_TOLERANCE Duration::Microseconds(1.0)
 
-/// @brief Represents the configuration for a ground target, including azimuth, elevation, and range intervals, as well
+/// @brief Represents the configuration for an Access target, including azimuth, elevation, and range intervals, as well
 /// as position and LLA (Latitude, Longitude, Altitude).
 ///
 /// @details This class provides methods to retrieve the trajectory, position, LLA, and intervals for azimuth,
