@@ -62,12 +62,20 @@ Constraint::AERIntervalConstraint::AERIntervalConstraint(
             "The range interval [{}, {}] must be positive.", range.accessLowerBound(), range.accessUpperBound()
         );
     }
+
+    azimuth = Interval<Real>(anAzimuthInterval.getLowerBound() * M_PI/180.0, anAzimuthInterval.getUpperBound() * M_PI/180.0, anAzimuthInterval.getType());
+    elevation = Interval<Real>(anElevationInterval.getLowerBound() * M_PI/180.0, anElevationInterval.getUpperBound() * M_PI/180.0, anAzimuthInterval.getType());
 }
 
 bool Constraint::AERIntervalConstraint::isSatisfied(const AER& anAer) const
 {
-    return azimuth.contains(anAer.getAzimuth().inDegrees()) && elevation.contains(anAer.getElevation().inDegrees()) &&
-           range.contains(anAer.getRange().inMeters());
+    return isSatisfied(anAer.getAzimuth().inRadians(), anAer.getElevation().inRadians(), anAer.getRange().inMeters());
+}
+
+bool Constraint::AERIntervalConstraint::isSatisfied(const Real& anAzimuthRadians, const Real& anElevationRadians, const Real& aRangeMeters) const
+{
+    return azimuth.contains(anAzimuthRadians) && elevation.contains(anElevationRadians) &&
+           range.contains(aRangeMeters);
 }
 
 Constraint::MaskConstraint::MaskConstraint(
@@ -121,12 +129,14 @@ Constraint::MaskConstraint::MaskConstraint(
 
 bool Constraint::MaskConstraint::isSatisfied(const AER& anAer) const
 {
-    const Real azimuth_rad = anAer.getAzimuth().inRadians(0.0, Real::TwoPi());
-    const Real elevation_rad = anAer.getElevation().inRadians(-Real::Pi(), Real::Pi());
+    return isSatisfied(anAer.getAzimuth().inRadians(0.0, Real::TwoPi()), anAer.getElevation().inRadians(-Real::Pi(), Real::Pi()), anAer.getRange().inMeters());
+}
 
-    auto itLow = this->azimuthElevationMask.lower_bound(azimuth_rad);
+bool Constraint::MaskConstraint::isSatisfied(const Real anAzimuthRadians&, const Real& anElevationRadians, const Real& aRangeMeters) const
+{
+    auto itLow = this->azimuthElevationMask.lower_bound(anAzimuthRadians);
     itLow--;
-    auto itUp = this->azimuthElevationMask.upper_bound(azimuth_rad);
+    auto itUp = this->azimuthElevationMask.upper_bound(anAzimuthRadians);
 
     // Vector between the two successive mask data points with bounding azimuth values
 
@@ -134,12 +144,12 @@ bool Constraint::MaskConstraint::isSatisfied(const AER& anAer) const
 
     // Vector from data point with azimuth lower bound to tested point
 
-    const Vector2d lowToPointVector = {azimuth_rad - itLow->first, elevation_rad - itLow->second};
+    const Vector2d lowToPointVector = {anAzimuthRadians - itLow->first, anElevationRadians - itLow->second};
 
     // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
     // mask
 
-    return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0);
+    return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0) && aRange.contains(aRangeMeters);
 }
 
 Constraint::LineOfSightConstraint::LineOfSightConstraint(const Environment& anEnvironment)
@@ -170,6 +180,26 @@ bool Constraint::LineOfSightConstraint::isSatisfied(
     return !this->environment.intersects(fromToSegmentGeometry);
 }
 
+Constraint::ElevationIntervalConstraint::ElevationIntervalConstraint(const Interval<Real, Real>& anElevationInterval)
+    : elevation(anElevationInterval)
+{
+    if (elevation.getLowerBound() < -90.0 || elevation.getUpperBound() > 90.0)
+    {
+        throw ostk::core::error::RuntimeError(
+            "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
+            elevation.accessLowerBound(),
+            elevation.accessUpperBound()
+        );
+    }
+
+    elevation = Interval<Real>(anElevationInterval.getLowerBound() * M_PI/180.0, anElevationInterval.getUpperBound() * M_PI/180.0, anAzimuthInterval.getType());
+}
+
+bool Constraint::ElevationIntervalConstraint::isSatisfied(const Real& anElevation) const
+{
+    return elevation.contains(anElevation);
+}
+
 Constraint Constraint::FromAERIntervals(
     const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
 )
@@ -187,9 +217,9 @@ Constraint Constraint::FromLineOfSight(const Environment& environment)
     return Constraint(LineOfSightConstraint {environment});
 }
 
-bool Constraint::isMaskBased() const
+Constraint Constraint::FromElevationInterval(const Interval<Real>& anElevationInterval)
 {
-    return std::holds_alternative<MaskConstraint>(constraint_);
+    return Constraint(ElevationIntervalConstraint {anElevationInterval});
 }
 
 bool Constraint::isAERIntervalBased() const
@@ -197,16 +227,26 @@ bool Constraint::isAERIntervalBased() const
     return std::holds_alternative<AERIntervalConstraint>(constraint_);
 }
 
+bool Constraint::isMaskBased() const
+{
+    return std::holds_alternative<MaskConstraint>(constraint_);
+}
+
 bool Constraint::isLineOfSightBased() const
 {
     return std::holds_alternative<LineOfSightConstraint>(constraint_);
 }
 
+bool Constraint::isElevationIntervalBased() const
+{
+    return std::holds_alternative<ElevationIntervalConstraint>(constraint_);
+}
+
 std::optional<Constraint::AERIntervalConstraint> Constraint::getAERIntervalConstraint() const
 {
-    if (const auto* interval = std::get_if<AERIntervalConstraint>(&constraint_))
+    if (const auto* aerInterval = std::get_if<AERIntervalConstraint>(&constraint_))
     {
-        return *interval;
+        return *aerInterval;
     }
 
     return std::nullopt;
@@ -232,17 +272,18 @@ std::optional<Constraint::LineOfSightConstraint> Constraint::getLineOfSightConst
     return std::nullopt;
 }
 
-Constraint::Constraint(const AERIntervalConstraint& constraint)
-    : constraint_(constraint)
+std::optional<Constraint::ElevationIntervalConstraint> Constraint::getElevationIntervalConstraint() const
 {
+    if (const auto* elevationInterval = std::get_if<ElevationIntervalConstraint>(&constraint_))
+    {
+        return *elevationInterval;
+    }
+
+    return std::nullopt;
 }
 
-Constraint::Constraint(const MaskConstraint& constraint)
-    : constraint_(constraint)
-{
-}
-
-Constraint::Constraint(const LineOfSightConstraint& constraint)
+template <typename T>
+Constraint::Constraint(const T& constraint)
     : constraint_(constraint)
 {
 }

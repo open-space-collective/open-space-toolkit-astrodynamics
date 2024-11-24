@@ -39,8 +39,8 @@ class Constraint
    public:
     struct AERIntervalConstraint
     {
-        Interval<Real> azimuth;    // degrees
-        Interval<Real> elevation;  // degrees
+        Interval<Real> azimuth;    // radians
+        Interval<Real> elevation;  // radians
         Interval<Real> range;      // meters
 
         AERIntervalConstraint(
@@ -48,16 +48,20 @@ class Constraint
         );
 
         bool isSatisfied(const AER& anAer) const;
+
+        bool isSatisifed(const Real& anAzimuthRadians, const Real& anElevationRadians, const Real& aRangeMeters) const;
     };
 
     struct MaskConstraint
     {
-        Map<Real, Real> azimuthElevationMask;  // degrees, degrees
+        Map<Real, Real> azimuthElevationMask;  // radians, radians
         Interval<Real> range;                  // meters
 
         MaskConstraint(const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRange);
 
         bool isSatisfied(const AER& anAer) const;
+
+        bool isSatisfied(const Real& anAzimuthRadians, const Real& anElevationRadians, const Real& aRangeMeters) const;
     };
 
     struct LineOfSightConstraint
@@ -71,19 +75,32 @@ class Constraint
         ) const;
     };
 
+    struct ElevationIntervalConstraint
+    {
+        Interval<Real> elevation;  // radians
+        
+        ElevationIntervalConstraint(const Interval<Real>& anElevationInterval);
+
+        bool isSatisfied(const Real& anElevation) const;
+    };
+
     static Constraint FromAERIntervals(
-        const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
+        const Interval<Real>& anAzimuthInterval, const Interval<Real>& anElevationInterval, const Interval<Real>& aRangeInterval
     );
 
-    static Constraint FromMask(const Map<Real, Real>& azimuthElevationMask, const Interval<Real>& range);
+    static Constraint FromMask(const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval);
 
-    static Constraint FromLineOfSight(const Environment& environment);
+    static Constraint FromLineOfSight(const Environment& anEnvironment);
 
-    bool isMaskBased() const;
+    static Constraint FromElevationInterval(const Interval<Real>& anElevationInterval);
 
     bool isAERIntervalBased() const;
 
+    bool isMaskBased() const;
+
     bool isLineOfSightBased() const;
+
+    bool isElevationIntervalBased() const;
 
     std::optional<AERIntervalConstraint> getAERIntervalConstraint() const;
 
@@ -91,14 +108,13 @@ class Constraint
 
     std::optional<LineOfSightConstraint> getLineOfSightConstraint() const;
 
+    std::optional<ElevationIntervalConstraint> getElevationIntervalConstraint() const;
+
    private:
     std::variant<AERIntervalConstraint, MaskConstraint, LineOfSightConstraint> constraint_;
 
-    explicit Constraint(const AERIntervalConstraint& aConstraint);
-
-    explicit Constraint(const MaskConstraint& aConstraint);
-
-    explicit Constraint(const LineOfSightConstraint& aConstraint);
+    template <typename T>
+    explicit Constraint(const T& aConstraint);
 };
 
 }  // namespace access
