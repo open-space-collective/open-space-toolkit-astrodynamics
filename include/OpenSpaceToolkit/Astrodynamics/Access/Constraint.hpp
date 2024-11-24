@@ -37,13 +37,13 @@ using ostk::physics::time::Instant;
 class Constraint
 {
    public:
-    struct IntervalConstraint
+    struct AERIntervalConstraint
     {
         Interval<Real> azimuth;    // degrees
         Interval<Real> elevation;  // degrees
         Interval<Real> range;      // meters
 
-        IntervalConstraint(
+        AERIntervalConstraint(
             const Interval<Real>& anAzimuth, const Interval<Real>& anElevation, const Interval<Real>& aRange
         );
 
@@ -71,7 +71,7 @@ class Constraint
         ) const;
     };
 
-    static Constraint FromIntervals(
+    static Constraint FromAERIntervals(
         const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
     );
 
@@ -81,24 +81,24 @@ class Constraint
 
     bool isMaskBased() const;
 
-    bool isIntervalBased() const;
+    bool isAERIntervalBased() const;
 
     bool isLineOfSightBased() const;
 
-    std::optional<IntervalConstraint> getIntervalConstraint() const;
+    std::optional<AERIntervalConstraint> getAERIntervalConstraint() const;
 
     std::optional<MaskConstraint> getMaskConstraint() const;
 
     std::optional<LineOfSightConstraint> getLineOfSightConstraint() const;
 
    private:
-    std::variant<IntervalConstraint, MaskConstraint, LineOfSightConstraint> constraint_;
+    std::variant<AERIntervalConstraint, MaskConstraint, LineOfSightConstraint> constraint_;
 
-    explicit Constraint(const IntervalConstraint& constraint);
+    explicit Constraint(const AERIntervalConstraint& aConstraint);
 
-    explicit Constraint(const MaskConstraint& constraint);
+    explicit Constraint(const MaskConstraint& aConstraint);
 
-    explicit Constraint(const LineOfSightConstraint& constraint);
+    explicit Constraint(const LineOfSightConstraint& aConstraint);
 };
 
 }  // namespace access
