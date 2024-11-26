@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1730906448031,
+  "lastUpdate": 1732654124494,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 3171369816.1999903,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3171241071.7 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44425077+tapiab@users.noreply.github.com",
+            "name": "Benoit Tapia",
+            "username": "tapiab"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "229ab1cf3dc3866054d7da3d4b6b0c2bb239606d",
+          "message": "fix: fix python 3.9 compatibility (#462)\n\n* fix: fix pytho 3.9 compatibility\r\n\r\n* Update bindings/python/tools/python/ostk/astrodynamics/dataframe.py\r\n\r\n---------\r\n\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2024-11-26T11:49:09-08:00",
+          "tree_id": "98753a9a3fe9b0dcb3718e50e0244882b4d1f0a7",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/229ab1cf3dc3866054d7da3d4b6b0c2bb239606d"
+        },
+        "date": 1732654121415,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 590887568.9000013,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 590854300.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 875939413.5000036,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 875898457.6999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3174586804.899991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3174441909.599998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3171667596.0000086,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3171525578.2999964 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3177076537.300002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3176937544.2 ns\nthreads: 1"
           }
         ]
       }
