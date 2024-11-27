@@ -326,9 +326,9 @@ IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ Physics [10.x.y]
+### Open Space Toolkit ▸ Physics [11.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "10" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "11" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 
