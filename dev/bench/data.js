@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1732654124494,
+  "lastUpdate": 1732708148803,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -324,6 +324,60 @@ window.BENCHMARK_DATA = {
             "value": 3177076537.300002,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3176937544.2 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bd596ecaa7be855df0e5a5838079ad1f22904610",
+          "message": "build: update mathematics to 4.3 and physics to 11.1 (#465)\n\n* build: update mathematics to 4.3 and physics to 11.1\r\n\r\n* Update Dockerfile\r\n\r\n* Update CMakeLists.txt\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\r\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2024-11-27T11:28:17Z",
+          "tree_id": "659e431390e6e5906465126853a0ad3127e773e3",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/bd596ecaa7be855df0e5a5838079ad1f22904610"
+        },
+        "date": 1732708146046,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 583476701.9999958,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 583442679.6999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 877935935.7000033,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 877888665.6000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3183283795.300002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3183123031.1 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3181034058.2000036,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3180879909.999997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3179080147.4999967,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3178898211.3999977 ns\nthreads: 1"
           }
         ]
       }
