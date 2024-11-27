@@ -18,43 +18,58 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import pandas as pd
-
-import plotly.graph_objs as go
-
-from ostk.mathematics.object import RealInterval
-
-from ostk.physics import Environment
-from ostk.physics.unit import Length
-from ostk.physics.unit import Angle
-from ostk.physics.time import Scale
-from ostk.physics.time import Instant
-from ostk.physics.time import Duration
-from ostk.physics.time import Interval
-from ostk.physics.time import DateTime
-from ostk.physics.time import Time
-from ostk.physics.coordinate.spherical import LLA
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Frame
-
-from ostk.astrodynamics import Trajectory
-from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.orbit.model import Kepler
-from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
-from ostk.astrodynamics.trajectory.orbit.model import SGP4
-from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
-from ostk.astrodynamics.access import Generator as AccessGenerator
-from ostk.astrodynamics.utilities import compute_trajectory_geometry
-from ostk.astrodynamics.utilities import compute_time_lla_aer_state
+satellite_orbit_geometry_df = pd.DataFrame(
+    compute_trajectory_geometry(satellite_orbit, interval),
+    columns=["Latitude", "Longitude", "Altitude"],
+)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mImportError[0m                               Traceback (most recent call last)
-Cell [0;32mIn[1], line 28[0m
-[1;32m     26[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01maccess[39;00m [38;5;28;01mimport[39;00m Generator [38;5;28;01mas[39;00m AccessGenerator
-[1;32m     27[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutilities[39;00m [38;5;28;01mimport[39;00m compute_trajectory_geometry
-[0;32m---> 28[0m [38;5;28;01mfrom[39;00m [38;5;21;01mostk[39;00m[38;5;21;01m.[39;00m[38;5;21;01mastrodynamics[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutilities[39;00m [38;5;28;01mimport[39;00m compute_time_lla_aer_state
+[0;31mValueError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[21], line 1[0m
+[0;32m----> 1[0m satellite_orbit_geometry_df [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mDataFrame[49m[43m([49m
+[1;32m      2[0m [43m    [49m[43mcompute_trajectory_geometry[49m[43m([49m[43msatellite_orbit[49m[43m,[49m[43m [49m[43minterval[49m[43m)[49m[43m,[49m
+[1;32m      3[0m [43m    [49m[43mcolumns[49m[38;5;241;43m=[39;49m[43m[[49m[38;5;124;43m"[39;49m[38;5;124;43mLatitude[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mLongitude[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mAltitude[39;49m[38;5;124;43m"[39;49m[43m][49m[43m,[49m
+[1;32m      4[0m [43m)[49m
 
-[0;31mImportError[0m: cannot import name 'compute_time_lla_aer_state' from 'ostk.astrodynamics.utilities' (/usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py)
+File [0;32m/usr/local/lib/python3.11/dist-packages/pandas/core/frame.py:867[0m, in [0;36mDataFrame.__init__[0;34m(self, data, index, columns, dtype, copy)[0m
+[1;32m    859[0m         mgr [38;5;241m=[39m arrays_to_mgr(
+[1;32m    860[0m             arrays,
+[1;32m    861[0m             columns,
+[0;32m   (...)[0m
+[1;32m    864[0m             typ[38;5;241m=[39mmanager,
+[1;32m    865[0m         )
+[1;32m    866[0m     [38;5;28;01melse[39;00m:
+[0;32m--> 867[0m         mgr [38;5;241m=[39m [43mndarray_to_mgr[49m[43m([49m
+[1;32m    868[0m [43m            [49m[43mdata[49m[43m,[49m
+[1;32m    869[0m [43m            [49m[43mindex[49m[43m,[49m
+[1;32m    870[0m [43m            [49m[43mcolumns[49m[43m,[49m
+[1;32m    871[0m [43m            [49m[43mdtype[49m[38;5;241;43m=[39;49m[43mdtype[49m[43m,[49m
+[1;32m    872[0m [43m            [49m[43mcopy[49m[38;5;241;43m=[39;49m[43mcopy[49m[43m,[49m
+[1;32m    873[0m [43m            [49m[43mtyp[49m[38;5;241;43m=[39;49m[43mmanager[49m[43m,[49m
+[1;32m    874[0m [43m        [49m[43m)[49m
+[1;32m    875[0m [38;5;28;01melse[39;00m:
+[1;32m    876[0m     mgr [38;5;241m=[39m dict_to_mgr(
+[1;32m    877[0m         {},
+[1;32m    878[0m         index,
+[0;32m   (...)[0m
+[1;32m    881[0m         typ[38;5;241m=[39mmanager,
+[1;32m    882[0m     )
+
+File [0;32m/usr/local/lib/python3.11/dist-packages/pandas/core/internals/construction.py:336[0m, in [0;36mndarray_to_mgr[0;34m(values, index, columns, dtype, copy, typ)[0m
+[1;32m    331[0m [38;5;66;03m# _prep_ndarraylike ensures that values.ndim == 2 at this point[39;00m
+[1;32m    332[0m index, columns [38;5;241m=[39m _get_axes(
+[1;32m    333[0m     values[38;5;241m.[39mshape[[38;5;241m0[39m], values[38;5;241m.[39mshape[[38;5;241m1[39m], index[38;5;241m=[39mindex, columns[38;5;241m=[39mcolumns
+[1;32m    334[0m )
+[0;32m--> 336[0m [43m_check_values_indices_shape_match[49m[43m([49m[43mvalues[49m[43m,[49m[43m [49m[43mindex[49m[43m,[49m[43m [49m[43mcolumns[49m[43m)[49m
+[1;32m    338[0m [38;5;28;01mif[39;00m typ [38;5;241m==[39m [38;5;124m"[39m[38;5;124marray[39m[38;5;124m"[39m:
+[1;32m    339[0m     [38;5;28;01mif[39;00m [38;5;28missubclass[39m(values[38;5;241m.[39mdtype[38;5;241m.[39mtype, [38;5;28mstr[39m):
+
+File [0;32m/usr/local/lib/python3.11/dist-packages/pandas/core/internals/construction.py:420[0m, in [0;36m_check_values_indices_shape_match[0;34m(values, index, columns)[0m
+[1;32m    418[0m passed [38;5;241m=[39m values[38;5;241m.[39mshape
+[1;32m    419[0m implied [38;5;241m=[39m ([38;5;28mlen[39m(index), [38;5;28mlen[39m(columns))
+[0;32m--> 420[0m [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mShape of passed values is [39m[38;5;132;01m{[39;00mpassed[38;5;132;01m}[39;00m[38;5;124m, indices imply [39m[38;5;132;01m{[39;00mimplied[38;5;132;01m}[39;00m[38;5;124m"[39m)
+
+[0;31mValueError[0m: Shape of passed values is (12961, 1), indices imply (12961, 3)
 

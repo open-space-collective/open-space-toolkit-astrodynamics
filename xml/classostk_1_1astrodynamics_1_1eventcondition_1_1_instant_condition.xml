@@ -142,6 +142,7 @@
     </collaborationgraph>
     <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="22" bodyend="42"/>
     <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>Criterion</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a38e31f897edca3284d517677c3f773ff" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>DurationCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a24ee6af9652bf6ada36705cb390e3607" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>evaluate</name></member>

@@ -25,6 +25,7 @@ ostk.astrodynamics.event\_condition.InstantCondition
       ~InstantCondition.get_target
       ~InstantCondition.is_satisfied
       ~InstantCondition.string_from_criterion
+      ~InstantCondition.update_target
    
    
 

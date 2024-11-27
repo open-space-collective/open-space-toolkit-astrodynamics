@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="34" bodyend="38"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="36" bodyend="40"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-attrib">
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="51" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="51" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="53" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a98a9b8d5172017d1df31587e63ad443e" prot="public" static="no" mutable="no">
         <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a47baa87344e3ab1d92a6108b408e39a8" kindref="member">Type</ref></type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="52" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="52" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="54" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af64a2360a5b7c94b1c8165404bad8380" prot="public" static="no" mutable="yes">
         <type>Real</type>
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="53" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="53" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="55" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="55" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="40" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="13" bodyend="17"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="42" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="13" bodyend="17"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a6a8ca4cb16baa7c1670dfff6ff296df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="41" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="19" bodyend="23"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="43" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="19" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a6ad69f468eca1f1fe9f33ec7965310b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="42" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="25" bodyend="29"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="44" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="25" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a520bad195ecb8d281c5d833efa3008ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="44" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="31" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="46" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="31" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af2d858d4c3cb152211a75eee4d9fb802" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -171,7 +171,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="45" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="41" bodyend="44"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="47" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="41" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a08f2cbfbf46be8d70fe38cdaa4170f35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -184,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="47" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="46" bodyend="49"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="49" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="46" bodyend="49"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -203,7 +203,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="49" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="51" bodyend="62"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="51" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="51" bodyend="62"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -223,7 +223,7 @@
         <label>Real</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="32" bodyend="54"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="34" bodyend="56"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1a08f2cbfbf46be8d70fe38cdaa4170f35" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>isDefined</name></member>
       <member refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target_1af2d858d4c3cb152211a75eee4d9fb802" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition::Target</scope><name>operator!=</name></member>

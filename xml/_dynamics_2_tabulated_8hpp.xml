@@ -19,7 +19,7 @@
       <node id="3">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
-      <node id="30">
+      <node id="31">
         <label>OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</label>
         <link refid="_root_solver_8hpp"/>
         <childnode refid="3" relation="include">
@@ -30,10 +30,10 @@
       <node id="7">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
-      <node id="27">
+      <node id="28">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp</label>
       </node>
-      <node id="26">
+      <node id="27">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
         <link refid="_state_8hpp"/>
         <childnode refid="2" relation="include">
@@ -42,15 +42,15 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
         <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -59,13 +59,13 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="18">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
-      <node id="28">
+      <node id="29">
         <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
       </node>
       <node id="23">
@@ -80,6 +80,8 @@
         <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -116,7 +118,7 @@
       <node id="11">
         <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
       </node>
-      <node id="25">
+      <node id="26">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
       </node>
       <node id="10">
@@ -154,10 +156,13 @@
       <node id="12">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
       </node>
+      <node id="24">
+        <label>OpenSpaceToolkit/Core/Type/Unique.hpp</label>
+      </node>
       <node id="19">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
-      <node id="29">
+      <node id="30">
         <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
       </node>
       <node id="1">
@@ -227,9 +232,9 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="8">

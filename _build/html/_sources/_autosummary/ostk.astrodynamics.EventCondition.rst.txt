@@ -20,6 +20,7 @@ ostk.astrodynamics.EventCondition
       ~EventCondition.get_name
       ~EventCondition.get_target
       ~EventCondition.is_satisfied
+      ~EventCondition.update_target
    
    
 

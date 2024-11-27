@@ -43,6 +43,7 @@
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aefbd4562fc09b0a4962c611a6dbd9f8a" kind="function"><name>getTargetRange</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1acfd7a3522e5940398b716b38cea1b2b7" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a6df7534066d81e3414cb81aeb6cd1cf1" kind="function"><name>isSatisfied</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1afc904e8bcfb6079a5215874d47afe4b6" kind="function"><name>clone</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1afa5b2ea4d9cee4f333540e2535acded1" kind="function"><name>WithinRange</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a134490fba75d997c2e47da86efd33cc2" kind="function"><name>StringFromCriterion</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a44f75f74864b3395fe578260a3584d7b" kind="function"><name>IsPositiveCrossing</name></member>
@@ -396,6 +397,7 @@
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" kind="function"><name>getTarget</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa35b925dc33acbf74a614203c87d8264" kind="function"><name>updateTarget</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a865da9c94335da6dca0e8e8b53107ee1" kind="function"><name>print</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ae15cc3454220baff46ac13a7a40aa9e2" kind="function"><name>clone</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a93f8f89b3eee66fb1493a742254e3a15" kind="function"><name>isSatisfied</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a79479aa52401e558f7a2a8137b9b0359" kind="friend"><name>operator&lt;&lt;</name></member>
   </compound>
@@ -608,6 +610,7 @@
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a33f44a189d26aa36536475c24321467f" kind="function"><name>getEventConditions</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2490e3096cdbb040475737e09822676a" kind="function"><name>isSatisfied</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1ac881121665f25980f45445daafcca4cc" kind="function"><name>print</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1afe7a919462239debba32773dc3152b71" kind="function"><name>clone</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a627d173194b1465ea1aaff302575e007" kind="function"><name>GenerateEvaluator</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kind="class"><name>ostk::astrodynamics::flight::Maneuver</name>
@@ -884,6 +887,7 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a0ca170ebf0f7ba933589a0070fafaa63" kind="function"><name>Profile</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a93fad36aacb9e5ce30c8f017937fbd5d" kind="function"><name>operator=</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ad3ff13d3d8e1141542ba946756f44532" kind="function"><name>isDefined</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a42a00067a392312b34a33b2614ed1032" kind="function"><name>accessModel</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a3d63ca2ade006c23ec450a4f4030fc61" kind="function"><name>getStateAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a024e820df226aa5873725e60f865ca76" kind="function"><name>getStatesAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aeb8721e2f031d5569ea192510f807b16" kind="function"><name>getAxesAt</name></member>
@@ -1026,6 +1030,7 @@
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a5ea2273c656d21f005c616417f50e720" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a24ee6af9652bf6ada36705cb390e3607" kind="function"><name>evaluate</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a64c1b504ab76b56255be7a82ea164a67" kind="function"><name>isSatisfied</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" kind="function"><name>clone</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aa8150c10e958de38abfa88830c59d054" kind="function"><name>StringFromCriterion</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a38e31f897edca3284d517677c3f773ff" kind="function"><name>DurationCondition</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a9d748d14b13a11019597d5cf0fe1e07a" kind="function"><name>GenerateComparator</name></member>
@@ -1177,6 +1182,7 @@
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1af4eccbac027ed155f6c95b522f26418c" kind="function"><name>Solution</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a65111e910c157cc9bafe3eca916d686a" kind="function"><name>accessStartInstant</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a312e082f40475a45d12a271e56dd881b" kind="function"><name>accessEndInstant</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1afae2ab7e89cf46e76a41e721599574b9" kind="function"><name>getInterval</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1ae25414bc6c4b791ff48404afbd343ba4" kind="function"><name>getStates</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a583a988e0cd323a6eab02d2eeaf9af3e" kind="function"><name>getInitialMass</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1aac3b6b27a6a30bb85983351e672cc79f" kind="function"><name>getFinalMass</name></member>
@@ -1196,6 +1202,7 @@
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1ab9ed23a12a8266b5844b7984e4d15ac7" kind="function"><name>Solution</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1adb5acce1e69f0b2a297ee5ed032f5237" kind="function"><name>accessStartInstant</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a5700648baab3f39af2b9118200138011" kind="function"><name>accessEndInstant</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1abd0234d98d3fd2627f13b3fb088a70d5" kind="function"><name>getInterval</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a28557ca1a51717295f3c20a258e4784e" kind="function"><name>getInitialMass</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1ab918dcd116ed629730b1e1ec06c8bbf2" kind="function"><name>getFinalMass</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a0f47b22e310e3420d7ec5c1d04146a2c" kind="function"><name>getPropagationDuration</name></member>
@@ -1567,6 +1574,7 @@
   <compound refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model" kind="namespace"><name>ostk::astrodynamics::flight::profile::model</name>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1aaa0373529fefab449f97fd611e64d420" kind="typedef"><name>DynamicProvider</name></member>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1ab86779e60364bc20eabff522e776190c" kind="function"><name>operator&lt;&lt;</name></member>
+    <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a9d89a7d2993371420d8d24c2ac80d92c" kind="function"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system" kind="namespace"><name>ostk::astrodynamics::flight::system</name>
     <member refid="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a4de3af68f210700e27c711dfe13331d7" kind="function"><name>operator&lt;&lt;</name></member>

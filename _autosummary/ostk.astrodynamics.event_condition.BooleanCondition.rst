@@ -25,6 +25,7 @@ ostk.astrodynamics.event\_condition.BooleanCondition
       ~BooleanCondition.is_inversed
       ~BooleanCondition.is_satisfied
       ~BooleanCondition.string_from_criterion
+      ~BooleanCondition.update_target
    
    
 

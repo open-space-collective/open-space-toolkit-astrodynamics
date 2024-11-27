@@ -24,6 +24,7 @@ ostk.astrodynamics.event\_condition.AngularCondition
       ~AngularCondition.get_target_range
       ~AngularCondition.is_satisfied
       ~AngularCondition.string_from_criterion
+      ~AngularCondition.update_target
       ~AngularCondition.within_range
    
    

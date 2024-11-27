@@ -22,6 +22,7 @@ ostk.astrodynamics.event\_condition.LogicalCondition
       ~LogicalCondition.get_target
       ~LogicalCondition.get_type
       ~LogicalCondition.is_satisfied
+      ~LogicalCondition.update_target
    
    
 

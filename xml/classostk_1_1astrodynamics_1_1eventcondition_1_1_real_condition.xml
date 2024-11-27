@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="124" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" bodystart="124" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="129" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" bodystart="129" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1ac5f3d939ada5c09b3bb526dac17f35ea" prot="private" static="no" mutable="no">
         <type>std::function&lt; bool(const Real &amp;, const Real &amp;)&gt;</type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="125" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" bodystart="125" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="130" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" bodystart="130" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -363,6 +363,24 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="106" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="65" bodyend="68"/>
       </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref> *</type>
+        <definition>RealCondition * ostk::astrodynamics::eventcondition::RealCondition::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_event_condition_1ae15cc3454220baff46ac13a7a40aa9e2">clone</reimplements>
+        <briefdescription>
+<para>clone the Real Condition </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the cloned Real Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="111" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aa8150c10e958de38abfa88830c59d054" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -393,7 +411,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="113" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="70" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="118" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="75" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a38e31f897edca3284d517677c3f773ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
@@ -435,7 +453,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="121" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="96" bodyend="107"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="126" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="101" bodyend="112"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -454,7 +472,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="127" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="109" bodyend="148"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="132" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp" bodystart="114" bodyend="153"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -518,8 +536,9 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" bodystart="29" bodyend="128"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp" bodystart="29" bodyend="133"/>
     <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::RealCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1ac5f3d939ada5c09b3bb526dac17f35ea" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::RealCondition</scope><name>comparator_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::RealCondition</scope><name>Criterion</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a8e55c2fb28c6c6e1efe8402a9933683c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::RealCondition</scope><name>criterion_</name></member>

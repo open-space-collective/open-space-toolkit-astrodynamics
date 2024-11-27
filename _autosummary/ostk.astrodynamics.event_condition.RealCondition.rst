@@ -24,6 +24,7 @@ ostk.astrodynamics.event\_condition.RealCondition
       ~RealCondition.get_target
       ~RealCondition.is_satisfied
       ~RealCondition.string_from_criterion
+      ~RealCondition.update_target
    
    
 

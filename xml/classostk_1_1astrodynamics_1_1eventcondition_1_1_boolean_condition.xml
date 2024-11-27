@@ -226,6 +226,7 @@
     <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="25" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" bodystart="24" bodyend="64"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a3cf86ef0f6ee618099a25fed551580dc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>BooleanCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>Criterion</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a38e31f897edca3284d517677c3f773ff" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>DurationCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a24ee6af9652bf6ada36705cb390e3607" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>evaluate</name></member>
