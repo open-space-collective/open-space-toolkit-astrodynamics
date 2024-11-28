@@ -211,13 +211,17 @@ class Generator
     ) const;
 
     Array<Access> computeAccesses(
-        const physics::time::Interval& anInterval, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
+        const physics::time::Interval& anInterval,
+        const AccessTarget& anAccessTarget,
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
     ) const;
 
     Array<Array<Access>> computeAccesses(
         const physics::time::Interval& anInterval,
         const Array<AccessTarget>& someAccessTargets,
-        const Trajectory& aToTrajectory
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
     ) const;
 
     void setStep(const Duration& aStep);
@@ -289,25 +293,6 @@ class Generator
         const Trajectory& aToTrajectory,
         const Shared<const Celestial> anEarthSPtr
     );
-};
-
-class GeneratorContext
-{
-   public:
-    GeneratorContext(
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory,
-        const Environment& anEnvironment,
-        const Generator& aGenerator
-    );
-
-    bool isAccessActive(const Instant& anInstant, const VisibilityCriteria& aVisibilityCriteria);
-
-    static Pair<State, State> GetStatesAt(
-        const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
-    );
-
-    static Pair<Position, Position> GetPositionsFromStates(const State& aFromState, const State& aToState);
 
     static AER CalculateAer(
         const Instant& anInstant,
@@ -315,14 +300,6 @@ class GeneratorContext
         const Position& aToPosition,
         const Shared<const Celestial> anEarthSPtr
     );
-
-   private:
-    Trajectory fromTrajectory_;
-    Trajectory toTrajectory_;
-    Environment environment_;
-    const Shared<const Celestial> earthSPtr_;
-
-    Generator generator_;
 };
 
 }  // namespace access
