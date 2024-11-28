@@ -56,8 +56,8 @@ using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Access;
 using ostk::astrodynamics::access::AccessTarget;
-using ostk::astrodynamics::access::Constraint;
 using ostk::astrodynamics::access::Generator;
+using ostk::astrodynamics::access::VisibilityCriteria;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
@@ -238,12 +238,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
     const Orbit fromOrbit = generateFirstOrbit();
     const Orbit toOrbit = generateSecondOrbit();
 
-    const Constraint constraint = Constraint::FromAERIntervals(
+    const VisibilityCriteria visibilityCriteria = VisibilityCriteria::FromAERInterval(
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
         ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
         ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
     );
-    const AccessTarget accessTarget = AccessTarget::FromTrajectory(constraint, fromOrbit);
+    const AccessTarget accessTarget = AccessTarget::FromTrajectory(visibilityCriteria, fromOrbit);
 
     {
         const auto conditionFunction = defaultGenerator_.getConditionFunction(accessTarget, toOrbit);
@@ -319,13 +319,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
     const Orbit fromOrbit = generateFirstOrbit();
     const Orbit toOrbit = generateSecondOrbit();
 
-    const Constraint constraint = Constraint::FromAERIntervals(
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
-        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
-    );
+    const VisibilityCriteria visibilityCriteria = VisibilityCriteria::FromLineOfSight(defaultEnvironment_);
 
-    const AccessTarget accessTarget = AccessTarget::FromTrajectory(constraint, fromOrbit);
+    const AccessTarget accessTarget = AccessTarget::FromTrajectory(visibilityCriteria, fromOrbit);
 
     const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, accessTarget, toOrbit);
 
@@ -406,12 +402,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
         return orbit;
     };
 
-    const Constraint constraint = Constraint::FromAERIntervals(
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
-        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
-    );
-    const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
+    const VisibilityCriteria visibilityCriteria = VisibilityCriteria::FromLineOfSight(defaultEnvironment_);
+
+    const AccessTarget groundStationTarget =
+        AccessTarget::FromLLA(visibilityCriteria, groundStationLla, defaultEarthSPtr_);
 
     const Orbit satelliteOrbit = generateSatelliteOrbit();
 
@@ -477,19 +471,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
 
         const SGP4 orbitalModel = {tle};
 
-        const Orbit orbit = {orbitalModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {orbitalModel, defaultEarthSPtr_};
 
         return orbit;
     };
 
-    // TBI: Convert to LOS trajectory
-    const Constraint constraint = Constraint::FromAERIntervals(
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
-        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
-    );
+    const VisibilityCriteria visibilityCriteria = VisibilityCriteria::FromLineOfSight(defaultEnvironment_);
 
-    const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
+    const AccessTarget groundStationTarget =
+        AccessTarget::FromLLA(visibilityCriteria, groundStationLla, defaultEarthSPtr_);
     const Orbit satelliteOrbit = generateSatelliteOrbit();
 
     const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, groundStationTarget, satelliteOrbit);
@@ -571,14 +561,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
         Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF())
     );
 
-    const AccessTarget accessTarget = AccessTarget::FromTrajectory(
-        Constraint::FromAERIntervals(
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
-            ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
-        ),
-        firstTrajectory
-    );
+    const VisibilityCriteria visibilityCriteria = VisibilityCriteria::FromLineOfSight(defaultEnvironment_);
+
+    const AccessTarget accessTarget = AccessTarget::FromTrajectory(visibilityCriteria, firstTrajectory);
 
     const Trajectory secondTrajectory = generateTrajectory(
         Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()), Velocity::MetersPerSecond({0.0, 0.0, 1.0}, Frame::GCRF())
@@ -645,23 +630,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
     // Constructor
     {
         {
-            const Constraint constraint =
-                Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
+            const VisibilityCriteria visibilityCriteria =
+                VisibilityCriteria::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
 
-            EXPECT_NO_THROW(AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_));
+            EXPECT_NO_THROW(AccessTarget::FromLLA(visibilityCriteria, lla, defaultEarthSPtr_));
         }
 
         {
-            const Constraint constraint =
-                Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
+            const VisibilityCriteria visibilityCriteria =
+                VisibilityCriteria::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
             {
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
-                EXPECT_NO_THROW(AccessTarget::FromPosition(constraint, position));
+                EXPECT_NO_THROW(AccessTarget::FromPosition(visibilityCriteria, position));
             }
 
             {
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
-                EXPECT_THROW(AccessTarget::FromPosition(constraint, position), ostk::core::error::RuntimeError);
+                EXPECT_THROW(AccessTarget::FromPosition(visibilityCriteria, position), ostk::core::error::RuntimeError);
             }
         }
 
@@ -671,7 +656,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
 
             EXPECT_THROW(
                 AccessTarget::FromPosition(
-                    Constraint::FromAERIntervals(
+                    VisibilityCriteria::FromAERInterval(
                         ostk::mathematics::object::Interval<Real>::Undefined(), elevationInterval, rangeInterval
                     ),
                     position
@@ -680,7 +665,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             );
             EXPECT_THROW(
                 AccessTarget::FromPosition(
-                    Constraint::FromAERIntervals(
+                    VisibilityCriteria::FromAERInterval(
                         azimuthInterval, ostk::mathematics::object::Interval<Real>::Undefined(), rangeInterval
                     ),
                     position
@@ -689,7 +674,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             );
             EXPECT_THROW(
                 AccessTarget::FromPosition(
-                    Constraint::FromAERIntervals(
+                    VisibilityCriteria::FromAERInterval(
                         azimuthInterval, elevationInterval, ostk::mathematics::object::Interval<Real>::Undefined()
                     ),
                     position
@@ -698,7 +683,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             );
             EXPECT_THROW(
                 AccessTarget::FromLLA(
-                    Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval),
+                    VisibilityCriteria::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval),
                     LLA::Undefined(),
                     defaultEarthSPtr_
                 ),
@@ -711,7 +696,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             {
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromAERIntervals(
+                        VisibilityCriteria::FromAERInterval(
                             ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0),
                             elevationInterval,
                             rangeInterval
@@ -723,7 +708,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
                 );
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromAERIntervals(
+                        VisibilityCriteria::FromAERInterval(
                             ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1),
                             elevationInterval,
                             rangeInterval
@@ -737,7 +722,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             {
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromAERIntervals(
+                        VisibilityCriteria::FromAERInterval(
                             azimuthInterval,
                             ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0),
                             rangeInterval
@@ -749,7 +734,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
                 );
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromAERIntervals(
+                        VisibilityCriteria::FromAERInterval(
                             azimuthInterval,
                             ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0),
                             rangeInterval
@@ -763,7 +748,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
             {
                 EXPECT_THROW(
                     AccessTarget::FromLLA(
-                        Constraint::FromAERIntervals(
+                        VisibilityCriteria::FromAERInterval(
                             azimuthInterval,
                             elevationInterval,
                             ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0)
@@ -779,15 +764,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
 
     // Getters
     {
-        const Constraint constraint = Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
-        const AccessTarget accessTarget = AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_);
-        // TBI: Fix the checks below
-        EXPECT_EQ(accessTarget.getLLA(defaultEarthSPtr_), lla);
-        EXPECT_EQ(
-            accessTarget.getPosition(),
+        const VisibilityCriteria visibilityCriteria =
+            VisibilityCriteria::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
+        const AccessTarget accessTarget = AccessTarget::FromLLA(visibilityCriteria, lla, defaultEarthSPtr_);
+        EXPECT_VECTORS_ALMOST_EQUAL(accessTarget.getLLA(defaultEarthSPtr_).toVector(), lla.toVector(), 1e-15);
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            accessTarget.getPosition().accessCoordinates(),
             Position::Meters(
                 lla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
             )
+                .accessCoordinates(),
+            1e-13
         );
         EXPECT_NO_THROW(accessTarget.getTrajectory());
 
@@ -796,7 +783,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AccessTarget)
         r_SEZ_ECEF.row(1) = Vector3d {0.0, 1.0, 0.0};
         r_SEZ_ECEF.row(2) = Vector3d {1.0, 0.0, 0.0};
 
-        EXPECT_EQ(accessTarget.computeR_SEZ_ECEF(defaultEarthSPtr_), r_SEZ_ECEF);
+        EXPECT_MATRICES_ALMOST_EQUAL(accessTarget.computeR_SEZ_ECEF(defaultEarthSPtr_), r_SEZ_ECEF, 1e-15);
     }
 }
 
@@ -838,12 +825,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         const ostk::mathematics::object::Interval<Real> rangeInterval =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
 
-        const Constraint constraint = Constraint::FromAERIntervals(azimuthInterval, elevationInterval, rangeInterval);
+        const VisibilityCriteria visibilityCriteria =
+            VisibilityCriteria::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
 
         Array<AccessTarget> accessTargets = LLAs.map<AccessTarget>(
-            [&constraint, this](const LLA& lla) -> AccessTarget
+            [&visibilityCriteria, this](const LLA& lla) -> AccessTarget
             {
-                return AccessTarget::FromLLA(constraint, lla, defaultEarthSPtr_);
+                return AccessTarget::FromLLA(visibilityCriteria, lla, defaultEarthSPtr_);
             }
         );
 
@@ -957,7 +945,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
         const ostk::mathematics::object::Interval<Real> rangeRange =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
-        const Constraint constraint = Constraint::FromAERIntervals(azimuthRange, elevationRange, rangeRange);
+        const VisibilityCriteria visibilityCriteria =
+            VisibilityCriteria::FromAERInterval(azimuthRange, elevationRange, rangeRange);
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC);
@@ -992,7 +981,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
             return orbit;
         };
 
-        const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
+        const AccessTarget groundStationTarget =
+            AccessTarget::FromLLA(visibilityCriteria, groundStationLla, defaultEarthSPtr_);
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 
         const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, groundStationTarget, satelliteOrbit);
@@ -1051,7 +1041,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
         const ostk::mathematics::object::Interval<Real> rangeRange =
             ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
 
-        const Constraint constraint = Constraint::FromMask(azimuthElevationMask, rangeRange);
+        const VisibilityCriteria visibilityCriteria = VisibilityCriteria::FromAERMask(azimuthElevationMask, rangeRange);
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 5, 0, 0, 0), Scale::UTC);
@@ -1086,7 +1076,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
             return orbit;
         };
 
-        const AccessTarget groundStationTarget = AccessTarget::FromLLA(constraint, groundStationLla, defaultEarthSPtr_);
+        const AccessTarget groundStationTarget =
+            AccessTarget::FromLLA(visibilityCriteria, groundStationLla, defaultEarthSPtr_);
 
         const Orbit satelliteOrbit = generateSatelliteOrbit();
 

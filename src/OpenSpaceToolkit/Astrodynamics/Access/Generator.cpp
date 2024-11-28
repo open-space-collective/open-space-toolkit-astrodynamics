@@ -49,9 +49,9 @@ AccessTarget::Type AccessTarget::getType() const
     return type_;
 }
 
-Constraint AccessTarget::getConstraint() const
+VisibilityCriteria AccessTarget::getVisibilityCriteria() const
 {
-    return constraint_;
+    return visibilityCriteria_;
 }
 
 Trajectory AccessTarget::getTrajectory() const
@@ -94,33 +94,33 @@ Matrix3d AccessTarget::computeR_SEZ_ECEF(const Shared<const Celestial>& aCelesti
 }
 
 AccessTarget AccessTarget::FromLLA(
-    const Constraint& constraint, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
+    const VisibilityCriteria& aVisibilityCriteria, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
 )
 {
     return AccessTarget(
         AccessTarget::Type::Fixed,
-        constraint,
+        aVisibilityCriteria,
         Trajectory::Position(Position::Meters(
             anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()), Frame::ITRF()
         ))
     );
 }
 
-AccessTarget AccessTarget::FromPosition(const Constraint& constraint, const Position& aPosition)
+AccessTarget AccessTarget::FromPosition(const VisibilityCriteria& aVisibilityCriteria, const Position& aPosition)
 {
-    return AccessTarget(AccessTarget::Type::Fixed, constraint, Trajectory::Position(aPosition));
+    return AccessTarget(AccessTarget::Type::Fixed, aVisibilityCriteria, Trajectory::Position(aPosition));
 }
 
-AccessTarget AccessTarget::FromTrajectory(const Constraint& constraint, const Trajectory& aTrajectory)
+AccessTarget AccessTarget::FromTrajectory(const VisibilityCriteria& aVisibilityCriteria, const Trajectory& aTrajectory)
 {
-    return AccessTarget(AccessTarget::Type::Trajectory, constraint, aTrajectory);
+    return AccessTarget(AccessTarget::Type::Trajectory, aVisibilityCriteria, aTrajectory);
 }
 
 AccessTarget::AccessTarget(
-    const AccessTarget::Type& aType, const Constraint& aConstraint, const Trajectory& aTrajectory
+    const AccessTarget::Type& aType, const VisibilityCriteria& aVisibilityCriteria, const Trajectory& aTrajectory
 )
     : type_(aType),
-      constraint_(aConstraint),
+      visibilityCriteria_(aVisibilityCriteria),
       trajectory_(aTrajectory)
 {
     if (!aTrajectory.isDefined())
@@ -210,13 +210,13 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
-    const Constraint constraint = anAccessTarget.getConstraint();
+    const VisibilityCriteria visibilityCriteria = anAccessTarget.getVisibilityCriteria();
 
     GeneratorContext generatorContext = GeneratorContext(aFromTrajectory, aToTrajectory, environment_, *this);
 
-    return [generatorContext, constraint](const Instant& anInstant) mutable -> bool
+    return [generatorContext, visibilityCriteria](const Instant& anInstant) mutable -> bool
     {
-        return generatorContext.isAccessActive(anInstant, constraint);
+        return generatorContext.isAccessActive(anInstant, visibilityCriteria);
     };
 }
 
@@ -286,13 +286,13 @@ Array<Array<Access>> Generator::computeAccesses(
     }
 
     if (std::all_of(
-                 someAccessTargets.begin(),
-                 someAccessTargets.end(),
-                 [](const auto& accessTarget)
-                 {
-                     return accessTarget.getType() == AccessTarget::Type::Fixed;
-                 }
-             ))
+            someAccessTargets.begin(),
+            someAccessTargets.end(),
+            [](const auto& accessTarget)
+            {
+                return accessTarget.getType() == AccessTarget::Type::Fixed;
+            }
+        ))
     {
         return this->computeAccessesForFixedTargets(anInterval, someAccessTargets, aToTrajectory);
     }
@@ -362,24 +362,24 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     if (stateFilter_)
     {
-        throw ostk::core::error::RuntimeError("State filter is not supported for multiple ground targets.");
+        throw ostk::core::error::RuntimeError("State filter is not supported for multiple access targets.");
     }
 
-    // create a stacked matrix of SEZ rotations for all ground targets
+    // create a stacked matrix of SEZ rotations for all access targets
 
     const Index targetCount = someAccessTargets.getSize();
     Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> SEZRotations(3, 3 * targetCount);
-    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> zenithRotations(3, targetCount);
+    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> zenithRotations(targetCount, 3);
 
     const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
     for (Index i = 0; i < targetCount; ++i)
     {
         SEZRotations.block<3, 3>(0, 3 * i) = someAccessTargets[i].computeR_SEZ_ECEF(earthSPtr);
-        zenithRotations(i) = SEZRotations<1, 3>(2, 3 * i);
+        zenithRotations.row(i) = SEZRotations.block<1, 3>(2, 3 * i);
     }
 
-    // create a stacked matrix of ITRF positions for all ground targets
+    // create a stacked matrix of ITRF positions for all access targets
 
     MatrixXd fromPositionCoordinates_ITRF = MatrixXd::Zero(3, targetCount);
 
@@ -393,7 +393,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.getConstraint().isMaskBased();
+            return accessTarget.getVisibilityCriteria().template is<VisibilityCriteria::AERMask>();
         }
     );
     const bool allAccessTargetsHaveAERIntervals = std::all_of(
@@ -401,7 +401,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.getConstraint().isAERIntervalBased();
+            return accessTarget.getVisibilityCriteria().template is<VisibilityCriteria::AERInterval>();
         }
     );
     const bool allAccessTargetsHaveLineOfSight = std::all_of(
@@ -409,7 +409,15 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.getConstraint().isLineOfSightBased();
+            return accessTarget.getVisibilityCriteria().template is<VisibilityCriteria::LineOfSight>();
+        }
+    );
+    const bool allAccessTargetsHaveElevationIntervals = std::all_of(
+        someAccessTargets.begin(),
+        someAccessTargets.end(),
+        [](const auto& accessTarget)
+        {
+            return accessTarget.getVisibilityCriteria().template is<VisibilityCriteria::ElevationInterval>();
         }
     );
 
@@ -446,42 +454,44 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    const auto computeElevations = [&zenithRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
+    const auto computeElevations =
+        [&zenithRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
-        const MatrxXd dx_Z = zenithRotations * dx;
-        return (dx_Z.transpose().array() / dx.colwise().norm().array()).asin();
-    }
+        const VectorXd dx_Z = zenithRotations.col(0).array() * dx.row(0).transpose().array() +
+                              zenithRotations.col(1).array() * dx.row(1).transpose().array() +
+                              zenithRotations.col(2).array() * dx.row(2).transpose().array();
 
-    std::function<ArrayXb(const MatrixXd&, const Vector3d&, const Instant&)> constraintFilter;
+        return (dx_Z.transpose().array() / dx.colwise().norm().array()).asin();
+    };
+
+    std::function<ArrayXb(const MatrixXd&, const Vector3d&, const Instant&)> visibilityCriteriaFilter;
 
     if (allAccessTargetsHaveAERIntervals)
     {
-        // create a stacked matrix of azimuth, elevation, and range bounds for all ground targets
+        // create a stacked matrix of azimuth, elevation, and range bounds for all access targets
         MatrixXd aerLowerBounds = MatrixXd::Zero(targetCount, 3);
         MatrixXd aerUpperBounds = MatrixXd::Zero(targetCount, 3);
 
-        const Real degToRad = Real::Pi() / 180.0;
-
         for (Index i = 0; i < targetCount; ++i)
         {
-            const Constraint::AERIntervalConstraint intervalConstraint =
-                someAccessTargets[i].getConstraint().getAERIntervalConstraint().value();
+            const VisibilityCriteria::AERInterval visibilityCriteria =
+                someAccessTargets[i].getVisibilityCriteria().as<VisibilityCriteria::AERInterval>().value();
 
-            aerLowerBounds(i, 0) = intervalConstraint.azimuth.accessLowerBound() * degToRad;
-            aerLowerBounds(i, 1) = intervalConstraint.elevation.accessLowerBound() * degToRad;
-            aerLowerBounds(i, 2) = intervalConstraint.range.accessLowerBound();
+            aerLowerBounds(i, 0) = visibilityCriteria.azimuth.accessLowerBound();
+            aerLowerBounds(i, 1) = visibilityCriteria.elevation.accessLowerBound();
+            aerLowerBounds(i, 2) = visibilityCriteria.range.accessLowerBound();
 
-            aerUpperBounds(i, 0) = intervalConstraint.azimuth.accessUpperBound() * degToRad;
-            aerUpperBounds(i, 1) = intervalConstraint.elevation.accessUpperBound() * degToRad;
-            aerUpperBounds(i, 2) = intervalConstraint.range.accessUpperBound();
+            aerUpperBounds(i, 0) = visibilityCriteria.azimuth.accessUpperBound();
+            aerUpperBounds(i, 1) = visibilityCriteria.elevation.accessUpperBound();
+            aerUpperBounds(i, 2) = visibilityCriteria.range.accessUpperBound();
         }
 
-        constraintFilter = [aerLowerBounds, aerUpperBounds, &computeAer](
-                               const MatrixXd& aFromPositionCoordinates_ITRF,
-                               const Vector3d& aToPositionCoordinates_ITRF,
-                               const Instant& anInstant
-                           )
+        visibilityCriteriaFilter = [aerLowerBounds, aerUpperBounds, &computeAer](
+                                       const MatrixXd& aFromPositionCoordinates_ITRF,
+                                       const Vector3d& aToPositionCoordinates_ITRF,
+                                       const Instant& anInstant
+                                   )
         {
             (void)anInstant;
             (void)aFromPositionCoordinates_ITRF;
@@ -498,43 +508,28 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     }
     else if (allAccessTargetsHaveMasks)
     {
-        VectorXd rangeLowerBounds = VectorXd::Zero(targetCount, 1);
-        VectorXd rangeUpperBounds = VectorXd::Zero(targetCount, 1);
-
-        for (Index i = 0; i < targetCount; ++i)
-        {
-            const Constraint::MaskConstraint constraint =
-                someAccessTargets[i].getConstraint().getMaskConstraint().value();
-
-            rangeLowerBounds(i) = constraint.range.accessLowerBound();
-            rangeUpperBounds(i) = constraint.range.accessUpperBound();
-        }
-
-        constraintFilter = [&someAccessTargets, &computeAer, rangeLowerBounds, rangeUpperBounds](
-                               const MatrixXd& aFromPositionCoordinates_ITRF,
-                               const Vector3d& aToPositionCoordinates_ITRF,
-                               const Instant& anInstant
-                           )
+        visibilityCriteriaFilter = [&someAccessTargets, &computeAer](
+                                       const MatrixXd& aFromPositionCoordinates_ITRF,
+                                       const Vector3d& aToPositionCoordinates_ITRF,
+                                       const Instant& anInstant
+                                   )
         {
             (void)anInstant;
             (void)aFromPositionCoordinates_ITRF;
 
             const auto [azimuths_rad, elevations_rad, ranges_m] = computeAer(aToPositionCoordinates_ITRF);
-            ArrayXb mask(azimuths_rad.rows());
-            mask = ranges_m.array() > rangeLowerBounds.array() && ranges_m.array() < rangeUpperBounds.array();
 
+            ArrayXb mask(azimuths_rad.rows());
             for (Eigen::Index i = 0; i < mask.rows(); ++i)
             {
-                const Constraint::MaskConstraint constraint =
-                    someAccessTargets[i].getConstraint().getMaskConstraint().value();
+                const VisibilityCriteria::AERMask visibilityCriteria =
+                    someAccessTargets[i].getVisibilityCriteria().as<VisibilityCriteria::AERMask>().value();
 
                 const double& azimuth_rad = azimuths_rad(i);
                 const double& elevation_rad = elevations_rad(i);
+                const double& range_m = ranges_m(i);
 
-                const AER aer =
-                    AER(Angle::Radians(azimuth_rad), Angle::Radians(elevation_rad), Length::Meters(ranges_m(i)));
-
-                mask(i) = mask(i) && constraint.isSatisfied(aer);
+                mask(i) = visibilityCriteria.isSatisfied(azimuth_rad, elevation_rad, range_m);
             }
 
             return mask;
@@ -542,22 +537,23 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     }
     else if (allAccessTargetsHaveLineOfSight)
     {
-        constraintFilter = [&someAccessTargets](
-                               const MatrixXd& aFromPositionCoordinates_ITRF,
-                               const Vector3d& aToPositionCoordinates_ITRF,
-                               const Instant& anInstant
-                           )
+        visibilityCriteriaFilter = [&someAccessTargets](
+                                       const MatrixXd& aFromPositionCoordinates_ITRF,
+                                       const Vector3d& aToPositionCoordinates_ITRF,
+                                       const Instant& anInstant
+                                   )
         {
             ArrayXb mask(aFromPositionCoordinates_ITRF.cols());
 
             for (Eigen::Index i = 0; i < mask.rows(); ++i)
             {
-                const Constraint::LineOfSightConstraint constraint =
-                    someAccessTargets[i].getConstraint().getLineOfSightConstraint().value();
+                const VisibilityCriteria::LineOfSight visibilityCriteria =
+                    someAccessTargets[i].getVisibilityCriteria().as<VisibilityCriteria::LineOfSight>().value();
 
                 const Vector3d& fromPositionCoordinate_ITRF = aFromPositionCoordinates_ITRF.col(i);
 
-                mask(i) = constraint.isSatisfied(anInstant, fromPositionCoordinate_ITRF, aToPositionCoordinates_ITRF);
+                mask(i) =
+                    visibilityCriteria.isSatisfied(anInstant, fromPositionCoordinate_ITRF, aToPositionCoordinates_ITRF);
             }
 
             return mask;
@@ -569,34 +565,34 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         VectorXd elevationLowerBounds = VectorXd::Zero(targetCount);
         VectorXd elevationUpperBounds = VectorXd::Zero(targetCount);
 
-        const Real degToRad = Real::Pi() / 180.0;
-
         for (Index i = 0; i < targetCount; ++i)
         {
-            const Constraint::ElevationIntervalConstraint intervalConstraint =
-                someAccessTargets[i].getConstraint().getElevationIntervalConstraint().value();
+            const VisibilityCriteria::ElevationInterval visibilityCriteria =
+                someAccessTargets[i].getVisibilityCriteria().as<VisibilityCriteria::ElevationInterval>().value();
 
-            elevationLowerBounds(i) = intervalConstraint.elevation.accessLowerBound() * degToRad;
-            elevationUpperBounds(i) = intervalConstraint.elevation.accessUpperBound() * degToRad;
+            elevationLowerBounds(i) = visibilityCriteria.elevation.accessLowerBound();
+            elevationUpperBounds(i) = visibilityCriteria.elevation.accessUpperBound();
         }
 
-        constraintFilter = [elevationLowerBounds, elevationUpperBounds, &computeElevations](
-                               const MatrixXd& aFromPositionCoordinates_ITRF,
-                               const Vector3d& aToPositionCoordinates_ITRF,
-                               const Instant& anInstant
-                           )
+        visibilityCriteriaFilter = [elevationLowerBounds, elevationUpperBounds, &computeElevations](
+                                       const MatrixXd& aFromPositionCoordinates_ITRF,
+                                       const Vector3d& aToPositionCoordinates_ITRF,
+                                       const Instant& anInstant
+                                   )
         {
             (void)anInstant;
             (void)aFromPositionCoordinates_ITRF;
 
             const VectorXd elevations = computeElevations(aToPositionCoordinates_ITRF);
 
-            return (elevations.array() > elevationLowerBounds.array() && elevations.array() < elevationUpperBounds.array()).eval();
+            return (elevations.array() > elevationLowerBounds.array() &&
+                    elevations.array() < elevationUpperBounds.array())
+                .eval();
         };
     }
     else
     {
-        throw ostk::core::error::RuntimeError("All access targets must have the same type of constraint.");
+        throw ostk::core::error::RuntimeError("All access targets must have the same type of Visibility Criteria.");
     }
 
     const Array<Instant> instants = anInterval.generateGrid(this->step_);
@@ -613,7 +609,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
             aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
         // check if satellite is in access
-        const auto inAccess = constraintFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
+        const auto inAccess =
+            visibilityCriteriaFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
 
         inAccessPerTarget.row(index) = inAccess.cast<int>().transpose();
     }
@@ -734,74 +731,67 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    if (anAccessTarget.getConstraint().isAERIntervalBased())
+    if (anAccessTarget.getVisibilityCriteria().is<VisibilityCriteria::AERInterval>())
     {
-        const Constraint::AERIntervalConstraint intervalConstraint =
-            anAccessTarget.getConstraint().getAERIntervalConstraint().value();
+        const VisibilityCriteria::AERInterval visibilityCriteria =
+            anAccessTarget.getVisibilityCriteria().as<VisibilityCriteria::AERInterval>().value();
 
-        condition = [&computeAER, intervalConstraint](const Instant& instant) -> bool
+        condition = [&computeAER, visibilityCriteria](const Instant& instant) -> bool
         {
-            const double& azimuthLowerBound = intervalConstraint.azimuth.accessLowerBound();
-            const double& azimuthUpperBound = intervalConstraint.azimuth.accessUpperBound();
-            const double& elevationLowerBound = intervalConstraint.elevation.accessLowerBound();
-            const double& elevationUpperBound = intervalConstraint.elevation.accessUpperBound();
-            const double& rangeLowerBound = intervalConstraint.range.accessLowerBound();
-            const double& rangeUpperBound = intervalConstraint.range.accessUpperBound();
-
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            return intervalConstraint.isSatisfied(azimuth_rad, elevation_rad, range_m);
+            return visibilityCriteria.isSatisfied(azimuth_rad, elevation_rad, range_m);
         };
     }
-    else if (anAccessTarget.getConstraint().isMaskBased())
+    else if (anAccessTarget.getVisibilityCriteria().is<VisibilityCriteria::AERMask>())
     {
-        const Constraint::MaskConstraint maskConstraint = anAccessTarget.getConstraint().getMaskConstraint().value();
+        const VisibilityCriteria::AERMask visibilityCriteria =
+            anAccessTarget.getVisibilityCriteria().as<VisibilityCriteria::AERMask>().value();
 
-        condition = [&computeAER, maskConstraint](const Instant& instant) -> bool
+        condition = [&computeAER, visibilityCriteria](const Instant& instant) -> bool
         {
-            const double& rangeLowerBound = maskConstraint.range.accessLowerBound();
-            const double& rangeUpperBound = maskConstraint.range.accessUpperBound();
-
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            return maskConstraint.isSatisfied(azimuth_rad, elevation_rad, range_m);
+            return visibilityCriteria.isSatisfied(azimuth_rad, elevation_rad, range_m);
         };
     }
-    else if (anAccessTarget.getConstraint().isLineOfSightBased())
+    else if (anAccessTarget.getVisibilityCriteria().is<VisibilityCriteria::LineOfSight>())
     {
-        const Constraint::LineOfSightConstraint lineOfSightConstraint =
-            anAccessTarget.getConstraint().getLineOfSightConstraint().value();
+        const VisibilityCriteria::LineOfSight visibilityCriteria =
+            anAccessTarget.getVisibilityCriteria().as<VisibilityCriteria::LineOfSight>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, lineOfSightConstraint](const Instant& instant
-                    ) -> bool
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriteria](const Instant& instant) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
                 aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
-            return lineOfSightConstraint.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
+            return visibilityCriteria.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
         };
     }
-    else (anAccessTarget.getConstraint().isElevationIntervalBased())
+    else if (anAccessTarget.getVisibilityCriteria().is<VisibilityCriteria::ElevationInterval>())
     {
-        const Constraiont::ElevationIntervalConstraint elevationIntervalConstraint = anAccessTarget.getConstraint().getElevationIntervalConstraint().value();
+        const VisibilityCriteria::ElevationInterval visibilityCriteria =
+            anAccessTarget.getVisibilityCriteria().as<VisibilityCriteria::ElevationInterval>().value();
 
-        condition = [&computeAER, &fromPositionCoordinate_ITRF, elevationIntervalConstraint](const Instant& instant) -> bool
+        condition = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, visibilityCriteria](
+                        const Instant& instant
+                    ) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
                 aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
             const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
-            const Real dx_Z = SEZRotation.row(3) * dx;
+            const double dx_Z = SEZRotation.row(2) * dx;
 
             const double elevation_rad = std::asin(dx_Z / dx.norm());
 
-            return elevationIntervalConstraint.isSatisfied(elevation_rad);
+            return visibilityCriteria.isSatisfied(elevation_rad);
         };
     }
     else
     {
-        throw ostk::core::error::RuntimeError("Constraint type not supported.");
+        throw ostk::core::error::RuntimeError("VisibilityCriteria type not supported.");
     }
 
     Array<physics::time::Interval> preciseAccessIntervals = accessIntervals;
@@ -1053,7 +1043,7 @@ GeneratorContext::GeneratorContext(
 {
 }
 
-bool GeneratorContext::isAccessActive(const Instant& anInstant, const Constraint& aConstraint)
+bool GeneratorContext::isAccessActive(const Instant& anInstant, const VisibilityCriteria& aVisibilityCriteria)
 {
     const auto [fromState, toState] =
         GeneratorContext::GetStatesAt(anInstant, this->fromTrajectory_, this->toTrajectory_);
@@ -1065,23 +1055,26 @@ bool GeneratorContext::isAccessActive(const Instant& anInstant, const Constraint
 
     const auto [fromPosition, toPosition] = GeneratorContext::GetPositionsFromStates(fromState, toState);
 
-    if (aConstraint.isLineOfSightBased())
+    const Position fromPosition_ITRF = fromPosition.inFrame(Frame::ITRF(), anInstant);
+    const Position toPosition_ITRF = toPosition.inFrame(Frame::ITRF(), anInstant);
+
+    if (aVisibilityCriteria.is<VisibilityCriteria::LineOfSight>())
     {
-        return aConstraint.getLineOfSightConstraint().value().isSatisfied(
-            anInstant, fromPosition.accessCoordinates(), toPosition.accessCoordinates()
+        return aVisibilityCriteria.as<VisibilityCriteria::LineOfSight>().value().isSatisfied(
+            anInstant, fromPosition_ITRF.accessCoordinates(), toPosition_ITRF.accessCoordinates()
         );
     }
 
     const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, earthSPtr_);
 
-    if (aConstraint.isMaskBased())
+    if (aVisibilityCriteria.is<VisibilityCriteria::AERMask>())
     {
-        return aConstraint.getMaskConstraint().value().isSatisfied(aer);
+        return aVisibilityCriteria.as<VisibilityCriteria::AERMask>().value().isSatisfied(aer);
     }
 
-    if (aConstraint.isAERIntervalBased())
+    if (aVisibilityCriteria.is<VisibilityCriteria::AERInterval>())
     {
-        return aConstraint.getAERIntervalConstraint().value().isSatisfied(aer);
+        return aVisibilityCriteria.as<VisibilityCriteria::AERInterval>().value().isSatisfied(aer);
     }
 
     return false;
