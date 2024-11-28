@@ -25,6 +25,8 @@ OPTION (BUILD_WITH_DEBUG_SYMBOLS "Build with debug symbols" ON)
 OPTION (BUILD_BENCHMARK "Build benchmark" ON)
 OPTION (BUILD_SCRIPT "Build script" OFF)
 OPTION (BUILD_WITH_CXX_17 "Build with C++ 17 support." OFF)
+OPTION (BUILD_WITH_BOOST_STACKTRACE "Build with Boost Stacktrace instead of stacktrace basic" ON)
+OPTION (BUILD_WITH_BOOST_STATIC "Build with Boost Static lib" ON)
 
 ## Setup
 
@@ -34,7 +36,7 @@ CMAKE_MINIMUM_REQUIRED (VERSION "2.8.12" FATAL_ERROR)
 
 ### Paths
 
-SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake")
+LIST (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake")
 
 ### Policies
 
@@ -131,7 +133,7 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
             MESSAGE (FATAL_ERROR "GCC version must be at least 7.0 to build with C++17")
 
         ENDIF ()
-    
+
     ELSE ()
 
         MESSAGE (STATUS "C++20 support enabled")
@@ -143,7 +145,7 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
             MESSAGE (FATAL_ERROR "GCC version must be at least 13.0 to build with C++20")
 
         ENDIF ()
-    
+
     ENDIF ()
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated")
@@ -238,27 +240,34 @@ ENDFOREACH ()
 
 ### Boost [1.82.0]
 
-SET (Boost_USE_STATIC_LIBS ON)
+IF (BUILD_WITH_BOOST_STATIC)
+    SET (Boost_USE_STATIC_LIBS ON)
+ELSE ()
+    SET (Boost_USE_STATIC_LIBS OFF)
+ENDIF ()
+
 SET (Boost_USE_MULTITHREADED ON)
 
 FIND_PACKAGE ("Boost" "1.82" REQUIRED COMPONENTS log log_setup thread)
 
+IF (BUILD_WITH_BOOST_STACKTRACE)
 ## Stacktrace definitions
 # Detect system architecture
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
-    # Architecture-specific include for x86_64
-    set(BACKTRACE_INCLUDE "/usr/lib/gcc/x86_64-linux-gnu/9/include/backtrace.h")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
-    # Example path adjustment for aarch64, adjust the path as needed
-    set(BACKTRACE_INCLUDE "/usr/lib/gcc/aarch64-linux-gnu/9/include/backtrace.h")
-else()
-    message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
-endif()
+        # Architecture-specific include for x86_64
+        set(BACKTRACE_INCLUDE "/usr/lib/gcc/x86_64-linux-gnu/9/include/backtrace.h")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+        # Example path adjustment for aarch64, adjust the path as needed
+        set(BACKTRACE_INCLUDE "/usr/lib/gcc/aarch64-linux-gnu/9/include/backtrace.h")
+    else()
+        message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+    endif()
 
-# Add definitions with architecture-specific path
-ADD_DEFINITIONS(-DBOOST_THREAD_DYN_LINK)
-ADD_DEFINITIONS(-DBOOST_STACKTRACE_USE_BACKTRACE)
-ADD_DEFINITIONS(-DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=<${BACKTRACE_INCLUDE}>)
+    # Add definitions with architecture-specific path
+    ADD_DEFINITIONS(-DBOOST_THREAD_DYN_LINK)
+    ADD_DEFINITIONS(-DBOOST_STACKTRACE_USE_BACKTRACE)
+    ADD_DEFINITIONS(-DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=<${BACKTRACE_INCLUDE}>)
+ENDIF()
 
 IF (NOT Boost_FOUND)
     MESSAGE (SEND_ERROR "[Boost] not found.")
@@ -617,22 +626,22 @@ ENDIF ()
 ### Configuration
 
 CONFIGURE_FILE (
-    "${CMAKE_MODULE_PATH}/${PROJECT_NAME}Config.cmake.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake/${PROJECT_NAME}Config.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     @ONLY)
 
 CONFIGURE_FILE (
-    "${CMAKE_MODULE_PATH}/${PROJECT_NAME}ConfigVersion.cmake.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake/${PROJECT_NAME}ConfigVersion.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
     @ONLY)
 
-INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION "${INSTALL_LIB}/${PROJECT_NAME}" COMPONENT "libraries")
-INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION "${INSTALL_LIB}/${PROJECT_NAME}" COMPONENT "libraries")
+INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION "${INSTALL_LIB}/cmake/${PROJECT_NAME}" COMPONENT "libraries")
+INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION "${INSTALL_LIB}/cmake/${PROJECT_NAME}" COMPONENT "libraries")
 
 ### Uninstall
 
 CONFIGURE_FILE (
-    "${CMAKE_MODULE_PATH}/UninstallTarget.cmake.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake/UninstallTarget.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/UninstallTarget.cmake"
     IMMEDIATE @ONLY)
 
