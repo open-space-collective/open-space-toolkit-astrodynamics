@@ -212,16 +212,52 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
 
     const VisibilityCriteria visibilityCriteria = anAccessTarget.getVisibilityCriteria();
 
-    GeneratorContext generatorContext = GeneratorContext(aFromTrajectory, aToTrajectory, environment_, *this);
-
-    return [generatorContext, visibilityCriteria](const Instant& anInstant) mutable -> bool
+    return [visibilityCriteria, aFromTrajectory, &aToTrajectory, this](const Instant& anInstant) mutable -> bool
     {
-        return generatorContext.isAccessActive(anInstant, visibilityCriteria);
+        const State fromState = aFromTrajectory.getStateAt(anInstant);
+        const State toState = aToTrajectory.getStateAt(anInstant);
+
+        if (this->getStateFilter() && (!this->getStateFilter()(fromState, toState)))
+        {
+            return false;
+        }
+
+        const Position fromPosition = fromState.getPosition();
+        const Position toPosition = toState.getPosition();
+
+        const Position fromPosition_ITRF = fromPosition.inFrame(Frame::ITRF(), anInstant);
+        const Position toPosition_ITRF = toPosition.inFrame(Frame::ITRF(), anInstant);
+
+        if (visibilityCriteria.is<VisibilityCriteria::LineOfSight>())
+        {
+            return visibilityCriteria.as<VisibilityCriteria::LineOfSight>().value().isSatisfied(
+                anInstant, fromPosition_ITRF.accessCoordinates(), toPosition_ITRF.accessCoordinates()
+            );
+        }
+
+        const AER aer = Generator::CalculateAer(
+            anInstant, fromPosition, toPosition, this->environment_.accessCelestialObjectWithName("Earth")
+        );
+
+        if (visibilityCriteria.is<VisibilityCriteria::AERMask>())
+        {
+            return visibilityCriteria.as<VisibilityCriteria::AERMask>().value().isSatisfied(aer);
+        }
+
+        if (visibilityCriteria.is<VisibilityCriteria::AERInterval>())
+        {
+            return visibilityCriteria.as<VisibilityCriteria::AERInterval>().value().isSatisfied(aer);
+        }
+
+        return false;
     };
 }
 
 Array<Access> Generator::computeAccesses(
-    const physics::time::Interval& anInterval, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
+    const physics::time::Interval& anInterval,
+    const AccessTarget& anAccessTarget,
+    const Trajectory& aToTrajectory,
+    const bool& coarse
 ) const
 {
     if (!anInterval.isDefined())
@@ -236,16 +272,24 @@ Array<Access> Generator::computeAccesses(
 
     if (anAccessTarget.getType() == AccessTarget::Type::Trajectory)
     {
+        if (coarse)
+        {
+            throw ostk::core::error::RuntimeError("Coarse mode is not supported for trajectory targets.");
+        }
+
         return this->computeAccessesForTrajectoryTarget(anInterval, anAccessTarget, aToTrajectory);
     }
 
-    return this->computeAccessesForFixedTargets(anInterval, Array<AccessTarget> {anAccessTarget}, aToTrajectory)[0];
+    return this->computeAccessesForFixedTargets(
+        anInterval, Array<AccessTarget> {anAccessTarget}, aToTrajectory, coarse
+    )[0];
 }
 
 Array<Array<Access>> Generator::computeAccesses(
     const physics::time::Interval& anInterval,
     const Array<AccessTarget>& someAccessTargets,
-    const Trajectory& aToTrajectory
+    const Trajectory& aToTrajectory,
+    const bool& coarse
 ) const
 {
     if (!anInterval.isDefined())
@@ -272,6 +316,11 @@ Array<Array<Access>> Generator::computeAccesses(
             }
         ))
     {
+        if (coarse)
+        {
+            throw ostk::core::error::RuntimeError("Coarse mode is not supported for trajectory targets.");
+        }
+
         Array<Array<Access>> accessesPerTarget;
         accessesPerTarget.reserve(someAccessTargets.getSize());
 
@@ -294,7 +343,7 @@ Array<Array<Access>> Generator::computeAccesses(
             }
         ))
     {
-        return this->computeAccessesForFixedTargets(anInterval, someAccessTargets, aToTrajectory);
+        return this->computeAccessesForFixedTargets(anInterval, someAccessTargets, aToTrajectory, coarse);
     }
 
     throw ostk::core::error::RuntimeError("All targets must be of same type.");
@@ -872,6 +921,7 @@ Array<physics::time::Interval> Generator::ComputeIntervals(const VectorXi& inAcc
         if (diff[j] == -1)
         {
             endInstant = instants[j - 1];
+
             accessIntervals.add(physics::time::Interval::Closed(startInstant, endInstant));
         }
     }
@@ -901,11 +951,21 @@ Access Generator::GenerateAccess(
                                 : Access::Type::Partial;
 
     const Instant acquisitionOfSignal = anAccessInterval.getStart();
+
+    ostk::physics::time::Interval accessInterval = anAccessInterval;
+
+    if (anAccessInterval.getDuration() == Duration::Zero())
+    {
+        accessInterval = physics::time::Interval::Closed(
+            anAccessInterval.getStart() - Duration::Seconds(60.0), anAccessInterval.getStart() + Duration::Seconds(60.0)
+        );
+    }
+
     const Instant timeOfClosestApproach =
         Generator::FindTimeOfClosestApproach(anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance);
     const Instant lossOfSignal = anAccessInterval.getEnd();
 
-    if (!timeOfClosestApproach.isDefined())
+    if (!timeOfClosestApproach.isDefined() and type == Access::Type::Complete)
     {
         throw ostk::core::error::RuntimeError(
             "Cannot find TCA (solution did not converge): {} - {}.",
@@ -933,15 +993,12 @@ Instant Generator::FindTimeOfClosestApproach(
     {
         const Instant& startInstant;
         const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
-        const std::function<Pair<Position, Position>(const State& aFromState, const State& aToState)>&
-            getPositionsFromStates;
     };
 
     const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
                                 ) -> double
     {
-        (void)aGradient;
-
+        // iterationCount++;
         if (aDataContext == nullptr)
         {
             throw ostk::core::error::runtime::Wrong("Data context");
@@ -952,25 +1009,36 @@ Instant Generator::FindTimeOfClosestApproach(
         const Instant queryInstant = contextPtr->startInstant + Duration::Seconds(x[0]);
 
         const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
-        const auto [queryFromPosition, queryToPosition] =
-            contextPtr->getPositionsFromStates(queryFromState, queryToState);
+        const auto queryFromPosition = queryFromState.getPosition();
+        const auto queryToPosition = queryToState.getPosition();
 
-        const Real squaredRange_m =
-            (queryToPosition.accessCoordinates() - queryFromPosition.accessCoordinates()).squaredNorm();
+        const Vector3d deltaPosition =
+            queryToState.getPosition().accessCoordinates() - queryFromState.getPosition().accessCoordinates();
+        const Vector3d deltaVelocity =
+            queryToState.getVelocity().accessCoordinates() - queryFromState.getVelocity().accessCoordinates();
 
-        return squaredRange_m;
+        const Real rangeSquared = deltaPosition.squaredNorm();
+
+        if (!aGradient.empty())
+        {
+            aGradient[0] = 2.0 * deltaPosition.dot(deltaVelocity);
+        }
+
+        return rangeSquared;
     };
 
     Context context = {
         anAccessInterval.getStart(),
         [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State>
         {
-            return GeneratorContext::GetStatesAt(anInstant, aFromTrajectory, aToTrajectory);
+            return {
+                aFromTrajectory.getStateAt(anInstant),
+                aToTrajectory.getStateAt(anInstant),
+            };
         },
-        GeneratorContext::GetPositionsFromStates
     };
 
-    nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
+    nlopt::opt optimizer = {nlopt::LD_MMA, 1};
 
     const std::vector<double> lowerBound = {0.0};
     const std::vector<double> upperBound = {anAccessInterval.getDuration().inSeconds()};
@@ -1010,9 +1078,57 @@ Instant Generator::FindTimeOfClosestApproach(
     }
     catch (const std::exception& anException)
     {
+        std::cout << anAccessInterval << std::endl;
         throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what());
     }
 }
+
+// Instant Generator::FindTimeOfClosestApproach(
+//     const physics::time::Interval& anAccessInterval,
+//     const Trajectory& aFromTrajectory,
+//     const Trajectory& aToTrajectory,
+//     const Duration& aTolerance
+// )
+// {
+//     const Instant startInstant = anAccessInterval.getStart();
+//     const double durationSeconds = anAccessInterval.getDuration().inSeconds();
+
+//     // Function representing the derivative of the range between the trajectories
+//     const auto rangeDerivativeFunction = [&aFromTrajectory, &aToTrajectory, &startInstant](const double t) -> double
+//     {
+//         const Instant instant = startInstant + Duration::Seconds(t);
+//         const State fromState = aFromTrajectory.getStateAt(instant);
+//         const State toState = aToTrajectory.getStateAt(instant);
+
+//         const Vector3d deltaPosition =
+//             toState.getPosition().accessCoordinates() - fromState.getPosition().accessCoordinates();
+//         const Vector3d deltaVelocity =
+//             toState.getVelocity().accessCoordinates() - fromState.getVelocity().accessCoordinates();
+
+//         // Derivative of the range with respect to time
+//         return deltaPosition.dot(deltaVelocity) / deltaPosition.norm();
+//     };
+
+//     const RootSolver rootSolver(20, aTolerance.inSeconds());
+
+//     try
+//     {
+//         const auto solution = rootSolver.solve(rangeDerivativeFunction, 0.0, durationSeconds);
+
+//         if (!solution.hasConverged)
+//         {
+//             return Instant::Undefined();
+//         }
+
+//         return startInstant + Duration::Seconds(solution.root);
+//     }
+//     catch (const std::exception& anException)
+//     {
+//         return Instant::Undefined();
+//     }
+
+//     return Instant::Undefined();
+// }
 
 Angle Generator::CalculateElevationAt(
     const Instant& anInstant,
@@ -1021,91 +1137,23 @@ Angle Generator::CalculateElevationAt(
     const Shared<const Celestial> anEarthSPtr
 )
 {
-    const auto [fromState, toState] = GeneratorContext::GetStatesAt(anInstant, aFromTrajectory, aToTrajectory);
-    const auto [fromPosition, toPosition] = GeneratorContext::GetPositionsFromStates(fromState, toState);
+    const Position fromPosition = aFromTrajectory.getStateAt(anInstant).getPosition();
+    const Position toPosition = aToTrajectory.getStateAt(anInstant).getPosition();
 
-    const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, anEarthSPtr);
+    const LLA lla = LLA::Cartesian(
+        fromPosition.accessCoordinates(), anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening()
+    );
 
-    return aer.getElevation();
+    const Vector3d rotationZ = {-std::cos(lla.getLatitude().inRadians()), 0.0, std::sin(lla.getLatitude().inRadians())};
+
+    const Vector3d fromToVector = toPosition.accessCoordinates() - fromPosition.accessCoordinates();
+
+    const double dx_Z = rotationZ.dot(fromToVector);
+
+    return Angle::Radians(std::asin(dx_Z / fromToVector.norm()));
 }
 
-GeneratorContext::GeneratorContext(
-    const Trajectory& aFromTrajectory,
-    const Trajectory& aToTrajectory,
-    const Environment& anEnvironment,
-    const Generator& aGenerator
-)
-    : fromTrajectory_(aFromTrajectory),
-      toTrajectory_(aToTrajectory),
-      environment_(anEnvironment),
-      earthSPtr_(environment_.accessCelestialObjectWithName("Earth")),  // [TBR] This is Earth specific
-      generator_(aGenerator)
-{
-}
-
-bool GeneratorContext::isAccessActive(const Instant& anInstant, const VisibilityCriteria& aVisibilityCriteria)
-{
-    const auto [fromState, toState] =
-        GeneratorContext::GetStatesAt(anInstant, this->fromTrajectory_, this->toTrajectory_);
-
-    if (this->generator_.getStateFilter() && (!this->generator_.getStateFilter()(fromState, toState)))
-    {
-        return false;
-    }
-
-    const auto [fromPosition, toPosition] = GeneratorContext::GetPositionsFromStates(fromState, toState);
-
-    const Position fromPosition_ITRF = fromPosition.inFrame(Frame::ITRF(), anInstant);
-    const Position toPosition_ITRF = toPosition.inFrame(Frame::ITRF(), anInstant);
-
-    if (aVisibilityCriteria.is<VisibilityCriteria::LineOfSight>())
-    {
-        return aVisibilityCriteria.as<VisibilityCriteria::LineOfSight>().value().isSatisfied(
-            anInstant, fromPosition_ITRF.accessCoordinates(), toPosition_ITRF.accessCoordinates()
-        );
-    }
-
-    const AER aer = GeneratorContext::CalculateAer(anInstant, fromPosition, toPosition, earthSPtr_);
-
-    if (aVisibilityCriteria.is<VisibilityCriteria::AERMask>())
-    {
-        return aVisibilityCriteria.as<VisibilityCriteria::AERMask>().value().isSatisfied(aer);
-    }
-
-    if (aVisibilityCriteria.is<VisibilityCriteria::AERInterval>())
-    {
-        return aVisibilityCriteria.as<VisibilityCriteria::AERInterval>().value().isSatisfied(aer);
-    }
-
-    return false;
-}
-
-Pair<State, State> GeneratorContext::GetStatesAt(
-    const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
-)
-{
-    const State fromState = aFromTrajectory.getStateAt(anInstant);
-    const State toState = aToTrajectory.getStateAt(anInstant);
-
-    return {fromState, toState};
-}
-
-Pair<Position, Position> GeneratorContext::GetPositionsFromStates(const State& aFromState, const State& aToState)
-{
-    if (aFromState.accessInstant() != aToState.accessInstant())
-    {
-        throw ostk::core::error::RuntimeError("Cannot get positions from states at different instants.");
-    }
-
-    static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
-
-    const Position fromPosition = aFromState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
-    const Position toPosition = aToState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
-
-    return {fromPosition, toPosition};
-}
-
-AER GeneratorContext::CalculateAer(
+AER Generator::CalculateAer(
     const Instant& anInstant,
     const Position& aFromPosition,
     const Position& aToPosition,
