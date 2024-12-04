@@ -14,6 +14,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
@@ -36,7 +37,9 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::Access;
+using ostk::astrodynamics::access::AccessTarget;
 using ostk::astrodynamics::access::Generator;
+using ostk::astrodynamics::access::VisibilityCriterion;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
@@ -50,13 +53,15 @@ static const Instant REFERENCE_START_INSTANT = Instant::DateTime(DateTime(2023, 
 
 static const Instant REFERENCE_END_INSTANT = Instant::DateTime(DateTime(2023, 1, 8, 0, 0, 0), Scale::UTC);
 
-static void computeAccesses(benchmark::State& state, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory)
+static void computeAccesses(
+    benchmark::State& state, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
+)
 {
     const Generator generator = {REFERENCE_ENVIRONMENT};
     const Interval interval = Interval::Closed(REFERENCE_START_INSTANT, REFERENCE_END_INSTANT);
 
     state.ResumeTiming();
-    benchmark::DoNotOptimize(generator.computeAccesses(interval, aFromTrajectory, aToTrajectory));
+    benchmark::DoNotOptimize(generator.computeAccesses(interval, anAccessTarget, aToTrajectory));
 }
 
 static void benchmark001(benchmark::State& state)
@@ -70,7 +75,9 @@ static void benchmark001(benchmark::State& state)
         const Position groundStationPosition = Position::Meters(
             groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
         );
-        const Trajectory groundStationTrajectory = Trajectory::Position(groundStationPosition);
+        const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromLineOfSight(REFERENCE_ENVIRONMENT);
+        const AccessTarget groundStationAccessTarget =
+            AccessTarget::FromPosition(visibilityCriterion, groundStationPosition);
 
         // Satellite
         const TLE tle = {
@@ -80,7 +87,7 @@ static void benchmark001(benchmark::State& state)
         const SGP4 sgp4 = {tle};
         const Orbit satelliteOrbit = {sgp4, REFERENCE_ENVIRONMENT.accessCelestialObjectWithName("Earth")};
 
-        computeAccesses(state, groundStationTrajectory, satelliteOrbit);
+        computeAccesses(state, groundStationAccessTarget, satelliteOrbit);
     }
 }
 

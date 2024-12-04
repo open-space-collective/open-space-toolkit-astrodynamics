@@ -5,7 +5,7 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriteria.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
 {
@@ -22,12 +22,12 @@ using ostk::mathematics::geometry::d3::object::Segment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::Object;
 
-VisibilityCriteria::LineOfSight::LineOfSight(const Environment& anEnvironment)
+VisibilityCriterion::LineOfSight::LineOfSight(const Environment& anEnvironment)
     : environment(anEnvironment)
 {
 }
 
-bool VisibilityCriteria::LineOfSight::isSatisfied(
+bool VisibilityCriterion::LineOfSight::isSatisfied(
     const Instant& anInstant, const Vector3d& aFromPositionCoordinates_ITRF, const Vector3d& aToPositionCoordinates_ITRF
 ) const
 {
@@ -48,6 +48,16 @@ bool VisibilityCriteria::LineOfSight::isSatisfied(
     const Object::Geometry fromToSegmentGeometry = {fromToSegment, commonFrameSPtr};
 
     return !this->environment.intersects(fromToSegmentGeometry);
+}
+
+bool VisibilityCriterion::LineOfSight::operator==(const VisibilityCriterion::LineOfSight& aLineOfSight) const
+{
+    return this->environment.accessObjects() == aLineOfSight.environment.accessObjects();
+}
+
+bool VisibilityCriterion::LineOfSight::operator!=(const VisibilityCriterion::LineOfSight& aLineOfSight) const
+{
+    return !(*this == aLineOfSight);
 }
 
 }  // namespace access

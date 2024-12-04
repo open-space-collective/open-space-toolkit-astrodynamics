@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriteria.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
 {
@@ -11,7 +11,7 @@ namespace access
 
 using ostk::mathematics::object::Vector2d;
 
-VisibilityCriteria::AERMask::AERMask(
+VisibilityCriterion::AERMask::AERMask(
     const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
 )
     : azimuthElevationMask(anAzimuthElevationMask),
@@ -60,7 +60,7 @@ VisibilityCriteria::AERMask::AERMask(
     this->azimuthElevationMask = anAzimuthElevationMask_rad;
 }
 
-bool VisibilityCriteria::AERMask::isSatisfied(const AER& anAer) const
+bool VisibilityCriterion::AERMask::isSatisfied(const AER& anAer) const
 {
     return isSatisfied(
         anAer.getAzimuth().inRadians(0.0, Real::TwoPi()),
@@ -69,7 +69,7 @@ bool VisibilityCriteria::AERMask::isSatisfied(const AER& anAer) const
     );
 }
 
-bool VisibilityCriteria::AERMask::isSatisfied(
+bool VisibilityCriterion::AERMask::isSatisfied(
     const Real& anAzimuth_Radians, const Real& anElevation_Radians, const Real& aRange_Meters
 ) const
 {
@@ -90,6 +90,16 @@ bool VisibilityCriteria::AERMask::isSatisfied(
 
     return ((lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0]) >= 0.0) &&
            range.contains(aRange_Meters);
+}
+
+bool VisibilityCriterion::AERMask::operator==(const AERMask& anAerMask) const
+{
+    return this->azimuthElevationMask == anAerMask.azimuthElevationMask && this->range == anAerMask.range;
+}
+
+bool VisibilityCriterion::AERMask::operator!=(const AERMask& anAerMask) const
+{
+    return !((*this) == anAerMask);
 }
 
 }  // namespace access
