@@ -19,7 +19,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriteria.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
 namespace ostk
@@ -51,7 +51,7 @@ using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::Access;
-using ostk::astrodynamics::access::VisibilityCriteria;
+using ostk::astrodynamics::access::VisibilityCriterion;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::State;
 
@@ -86,11 +86,11 @@ class AccessTarget
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              VisibilityCriteria visibilityCriteria = accessTarget.getVisibilityCriteria();
+    ///              VisibilityCriterion visibilityCriterion = accessTarget.getVisibilityCriterion();
     /// @endcode
     ///
     /// @return The visibility criteria
-    VisibilityCriteria getVisibilityCriteria() const;
+    VisibilityCriterion getVisibilityCriterion() const;
 
     /// @brief Get the trajectory
     ///
@@ -139,7 +139,7 @@ class AccessTarget
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = AccessTarget::LLA(
-    ///                  visibilityCriteria, lla, celestialSPtr
+    ///                  visibilityCriterion, lla, celestialSPtr
     ///              );
     /// @endcode
     ///
@@ -148,41 +148,41 @@ class AccessTarget
     /// @param aCelestialSPtr
     /// @return Access target
     static AccessTarget FromLLA(
-        const VisibilityCriteria& aVisibilityCriteria, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
+        const VisibilityCriterion& aVisibilityCriterion, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
     );
 
     /// @brief Construct an Access Target from a position
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = AccessTarget::Position(
-    ///                  visibilityCriteria, position
+    ///                  visibilityCriterion, position
     ///              );
     /// @endcode
     ///
     /// @param constraint
     /// @param aPosition
     /// @return Access target
-    static AccessTarget FromPosition(const VisibilityCriteria& aVisibilityCriteria, const Position& aPosition);
+    static AccessTarget FromPosition(const VisibilityCriterion& aVisibilityCriterion, const Position& aPosition);
 
     /// @brief Construct an Access Target from a trajectory
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = AccessTarget::FromTrajectory(
-    ///                  visibilityCriteria, trajectory
+    ///                  visibilityCriterion, trajectory
     ///              );
     /// @endcode
     ///
     /// @param constraint
     /// @param aTrajectory
     /// @return Access target
-    static AccessTarget FromTrajectory(const VisibilityCriteria& aVisibilityCriteria, const Trajectory& aTrajectory);
+    static AccessTarget FromTrajectory(const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory);
 
    private:
     Type type_;
-    VisibilityCriteria visibilityCriteria_;
+    VisibilityCriterion visibilityCriterion_;
     Trajectory trajectory_;
 
-    AccessTarget(const Type& aType, const VisibilityCriteria& constrant, const Trajectory& aTrajectory);
+    AccessTarget(const Type& aType, const VisibilityCriterion& constrant, const Trajectory& aTrajectory);
 };
 
 class Generator

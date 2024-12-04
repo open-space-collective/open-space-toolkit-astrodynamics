@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriteria.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
 {
@@ -9,7 +9,7 @@ namespace astrodynamics
 namespace access
 {
 
-VisibilityCriteria::AERInterval::AERInterval(
+VisibilityCriterion::AERInterval::AERInterval(
     const Interval<Real>& anAzimuthInterval,
     const Interval<Real>& anElevationInterval,
     const Interval<Real>& aRangeInterval
@@ -60,19 +60,30 @@ VisibilityCriteria::AERInterval::AERInterval(
     );
 }
 
-bool VisibilityCriteria::AERInterval::isSatisfied(const AER& anAer) const
+bool VisibilityCriterion::AERInterval::isSatisfied(const AER& anAer) const
 {
     return this->isSatisfied(
         anAer.getAzimuth().inRadians(), anAer.getElevation().inRadians(), anAer.getRange().inMeters()
     );
 }
 
-bool VisibilityCriteria::AERInterval::isSatisfied(
+bool VisibilityCriterion::AERInterval::isSatisfied(
     const Real& anAzimuth_Radians, const Real& anElevation_Radians, const Real& aRange_Meters
 ) const
 {
-    return azimuth.contains(anAzimuth_Radians) && elevation.contains(anElevation_Radians) &&
-           range.contains(aRange_Meters);
+    return this->azimuth.contains(anAzimuth_Radians) && this->elevation.contains(anElevation_Radians) &&
+           this->range.contains(aRange_Meters);
+}
+
+bool VisibilityCriterion::AERInterval::operator==(const AERInterval& anAerInterval) const
+{
+    return this->azimuth == anAerInterval.azimuth && this->elevation == anAerInterval.elevation &&
+           this->range == anAerInterval.range;
+}
+
+bool VisibilityCriterion::AERInterval::operator!=(const AERInterval& anAerInterval) const
+{
+    return !((*this) == anAerInterval);
 }
 
 }  // namespace access
