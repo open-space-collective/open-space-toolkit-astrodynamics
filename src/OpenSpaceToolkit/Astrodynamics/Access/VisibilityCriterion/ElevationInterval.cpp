@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriteria.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
 {
@@ -9,7 +9,7 @@ namespace astrodynamics
 namespace access
 {
 
-VisibilityCriteria::ElevationInterval::ElevationInterval(const Interval<Real>& anElevationInterval)
+VisibilityCriterion::ElevationInterval::ElevationInterval(const Interval<Real>& anElevationInterval)
     : elevation(anElevationInterval)
 {
     if (elevation.getLowerBound() < -90.0 || elevation.getUpperBound() > 90.0)
@@ -21,16 +21,26 @@ VisibilityCriteria::ElevationInterval::ElevationInterval(const Interval<Real>& a
         );
     }
 
-    elevation = Interval<Real>(
+    this->elevation = Interval<Real>(
         anElevationInterval.getLowerBound() * M_PI / 180.0,
         anElevationInterval.getUpperBound() * M_PI / 180.0,
         anElevationInterval.getType()
     );
 }
 
-bool VisibilityCriteria::ElevationInterval::isSatisfied(const Real& anElevation) const
+bool VisibilityCriterion::ElevationInterval::isSatisfied(const Real& anElevation) const
 {
-    return elevation.contains(anElevation);
+    return this->elevation.contains(anElevation);
+}
+
+bool VisibilityCriterion::ElevationInterval::operator==(const ElevationInterval& anElevationInterval) const
+{
+    return this->elevation == anElevationInterval.elevation;
+}
+
+bool VisibilityCriterion::ElevationInterval::operator!=(const ElevationInterval& anElevationInterval) const
+{
+    return !(*this == anElevationInterval);
 }
 
 }  // namespace access

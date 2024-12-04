@@ -3,6 +3,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Access/VisibilityCriterion.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
 {
@@ -199,4 +200,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
 
     // Add elements to "access" module
     OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access);
+    OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(access);
 }
