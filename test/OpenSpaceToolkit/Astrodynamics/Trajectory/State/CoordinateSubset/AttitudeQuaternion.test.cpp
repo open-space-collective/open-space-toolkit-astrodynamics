@@ -87,22 +87,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Attitude
     }
 }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQuaternion, ConversionToAndFromQuaternion
-)
-{
-    {
-        VectorXd coordinates(4);
-        coordinates << 0.0, 0.0, 0.0, 1.0;
-
-        const Quaternion quaternion = AttitudeQuaternion::coordinatesToQuaternion(coordinates);
-
-        const VectorXd roundTripCoordinates = AttitudeQuaternion::quaterionToCoordinates(quaternion);
-
-        EXPECT_EQ(coordinates, roundTripCoordinates);
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQuaternion, Default)
 {
     {

@@ -68,20 +68,6 @@ class AttitudeQuaternion : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief              Return a Quaternion from coordinates.
-    ///
-    /// @param              [in] coordinates coordinates vector
-    ///
-    /// @return
-    static Quaternion coordinatesToQuaternion(const VectorXd& coordinates);
-
-    /// @brief              Return coordinates from a Quaternion.
-    ///
-    /// @param              [in] quaterion quaternion
-    ///
-    /// @return
-    static VectorXd quaterionToCoordinates(const Quaternion& quaternion);
-
     /// @brief              Return the default instance
     ///
     /// @return             The default instance
