@@ -419,8 +419,6 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     const bool& coarse
 ) const
 {
-    std::cout << "Computing accesses for fixed targets" << std::endl;
-
     if (stateFilter_)
     {
         throw ostk::core::error::RuntimeError("State filter is not supported for multiple access targets.");
@@ -661,7 +659,6 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     MatrixXi inAccessPerTarget = MatrixXi::Zero(instants.getSize(), targetCount);
 
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     for (Index index = 0; index < instants.getSize(); ++index)
     {
         const Instant& instant = instants[index];
@@ -677,12 +674,6 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         inAccessPerTarget.row(index) = inAccess.cast<int>().transpose();
     }
 
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-
-    std::cout << "Access checks took " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
-              << "ms" << std::endl;
-
-    start = std::chrono::steady_clock::now();
     Array<Array<physics::time::Interval>> accessIntervalsPerTarget =
         Array<Array<physics::time::Interval>>(targetCount, Array<physics::time::Interval>::Empty());
 
@@ -691,12 +682,6 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         accessIntervalsPerTarget[i] = ComputeIntervals(inAccessPerTarget.col(i), instants);
     }
 
-    end = std::chrono::steady_clock::now();
-
-    std::cout << "Computing intervals took "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
-
-    start = std::chrono::steady_clock::now();
     if (!coarse)
     {
         for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
@@ -710,12 +695,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
             );
         }
     }
-    end = std::chrono::steady_clock::now();
 
-    std::cout << "Computing precise crossings took "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
-
-    start = std::chrono::steady_clock::now();
     Array<Array<Access>> accesses = Array<Array<Access>>(targetCount, Array<Access>::Empty());
     for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
     {
@@ -723,10 +703,6 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         accesses[i] =
             this->generateAccessesFromIntervals(accessIntervalsPerTarget[i], anInterval, fromTrajectory, aToTrajectory);
     }
-    end = std::chrono::steady_clock::now();
-
-    std::cout << "Generating accesses took "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
 
     return accesses;
 }
@@ -1022,13 +998,11 @@ Instant Generator::FindTimeOfClosestApproach(
         const Instant queryInstant = contextPtr->startInstant + Duration::Seconds(x[0]);
 
         const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
-        const auto queryFromPosition = queryFromState.getPosition();
-        const auto queryToPosition = queryToState.getPosition();
 
         const Vector3d deltaPosition =
-            queryToState.getPosition().accessCoordinates() - queryFromState.getPosition().accessCoordinates();
+            queryFromState.getPosition().accessCoordinates() - queryToState.getPosition().accessCoordinates();
         const Vector3d deltaVelocity =
-            queryToState.getVelocity().accessCoordinates() - queryFromState.getVelocity().accessCoordinates();
+            queryFromState.getVelocity().accessCoordinates() - queryToState.getVelocity().accessCoordinates();
 
         const Real rangeSquared = deltaPosition.squaredNorm();
 
@@ -1051,7 +1025,8 @@ Instant Generator::FindTimeOfClosestApproach(
         },
     };
 
-    nlopt::opt optimizer = {nlopt::LD_MMA, 1};
+    // nlopt::opt optimizer = {nlopt::LD_MMA, 1};
+    nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
 
     const std::vector<double> lowerBound = {0.0};
     const std::vector<double> upperBound = {anAccessInterval.getDuration().inSeconds()};
@@ -1091,57 +1066,9 @@ Instant Generator::FindTimeOfClosestApproach(
     }
     catch (const std::exception& anException)
     {
-        std::cout << anAccessInterval << std::endl;
         throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what());
     }
 }
-
-// Instant Generator::FindTimeOfClosestApproach(
-//     const physics::time::Interval& anAccessInterval,
-//     const Trajectory& aFromTrajectory,
-//     const Trajectory& aToTrajectory,
-//     const Duration& aTolerance
-// )
-// {
-//     const Instant startInstant = anAccessInterval.getStart();
-//     const double durationSeconds = anAccessInterval.getDuration().inSeconds();
-
-//     // Function representing the derivative of the range between the trajectories
-//     const auto rangeDerivativeFunction = [&aFromTrajectory, &aToTrajectory, &startInstant](const double t) -> double
-//     {
-//         const Instant instant = startInstant + Duration::Seconds(t);
-//         const State fromState = aFromTrajectory.getStateAt(instant);
-//         const State toState = aToTrajectory.getStateAt(instant);
-
-//         const Vector3d deltaPosition =
-//             toState.getPosition().accessCoordinates() - fromState.getPosition().accessCoordinates();
-//         const Vector3d deltaVelocity =
-//             toState.getVelocity().accessCoordinates() - fromState.getVelocity().accessCoordinates();
-
-//         // Derivative of the range with respect to time
-//         return deltaPosition.dot(deltaVelocity) / deltaPosition.norm();
-//     };
-
-//     const RootSolver rootSolver(20, aTolerance.inSeconds());
-
-//     try
-//     {
-//         const auto solution = rootSolver.solve(rangeDerivativeFunction, 0.0, durationSeconds);
-
-//         if (!solution.hasConverged)
-//         {
-//             return Instant::Undefined();
-//         }
-
-//         return startInstant + Duration::Seconds(solution.root);
-//     }
-//     catch (const std::exception& anException)
-//     {
-//         return Instant::Undefined();
-//     }
-
-//     return Instant::Undefined();
-// }
 
 Angle Generator::CalculateElevationAt(
     const Instant& anInstant,
