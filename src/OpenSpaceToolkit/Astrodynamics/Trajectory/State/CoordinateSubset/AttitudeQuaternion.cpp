@@ -36,26 +36,13 @@ VectorXd AttitudeQuaternion::inFrame(
 {
     const VectorXd coordinates = aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
 
-    const Quaternion quaternion = coordinatesToQuaternion(coordinates);
+    const Quaternion quaternion = Quaternion::XYZS(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
 
     const Transform transform = fromFrame->getTransformTo(toFrame, anInstant);
 
     const Quaternion quaternionInFrame = quaternion * transform.getOrientation().toConjugate();
 
-    return quaterionToCoordinates(quaternionInFrame);
-}
-
-Quaternion AttitudeQuaternion::coordinatesToQuaternion(const VectorXd& coordinates)
-{
-    return {coordinates(0), coordinates(1), coordinates(2), coordinates(3), Quaternion::Format::XYZS};
-}
-
-VectorXd AttitudeQuaternion::quaterionToCoordinates(const Quaternion& quaternion)
-{
-    VectorXd coordinates(4);
-    coordinates << quaternion.x(), quaternion.y(), quaternion.z(), quaternion.s();
-
-    return coordinates;
+    return quaternionInFrame.toVector(Quaternion::Format::XYZS);
 }
 
 Shared<const AttitudeQuaternion> AttitudeQuaternion::Default()

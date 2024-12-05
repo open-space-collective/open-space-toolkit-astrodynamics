@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
@@ -18,6 +20,8 @@ namespace trajectory
 {
 
 using ostk::core::type::Index;
+
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
@@ -135,7 +139,7 @@ State::State(
     VectorXd coordinates(13);
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
-    coordinates.segment(6, 4) = AttitudeQuaternion::quaterionToCoordinates(anAttitude);
+    coordinates.segment(6, 4) = anAttitude.toVector(Quaternion::Format::XYZS);
     coordinates.segment(10, 3) = anAngularVelocity;
 
     static const Shared<CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker(
@@ -403,7 +407,14 @@ Quaternion State::getAttitude() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return AttitudeQuaternion::coordinatesToQuaternion(this->extractCoordinate(AttitudeQuaternion::Default()));
+    const VectorXd attitudeQuaternionCoordinates = this->extractCoordinate(AttitudeQuaternion::Default());
+
+    return Quaternion::XYZS(
+        attitudeQuaternionCoordinates[0],
+        attitudeQuaternionCoordinates[1],
+        attitudeQuaternionCoordinates[2],
+        attitudeQuaternionCoordinates[3]
+    );
 }
 
 Vector3d State::getAngularVelocity() const

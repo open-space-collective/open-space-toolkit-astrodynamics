@@ -23,7 +23,7 @@ RUN pip install --quiet "numpy~=2.0" "pandas" "plotly" "ipywidgets>=7.6" "ipympl
 # Install JupyterLab extensions
 
 RUN jupyter labextension install --no-build \
-        @jupyterlab/shortcuts-extension
+ @jupyterlab/shortcuts-extension
 
 COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
 
@@ -38,6 +38,15 @@ ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="${OSTK_DATA_LOCAL_CACHE}/data"
 RUN git clone --branch v1 --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git ${OSTK_DATA_LOCAL_CACHE} && chmod -R g+w ${OSTK_DATA_LOCAL_CACHE}
 
 RUN chown -R ${NB_UID}:${NB_GID} ${OSTK_DATA_LOCAL_CACHE}
+
+## Install libstdc++ including GLIBCXX_3.4.32 (For OSTk), can be removed when Ubuntu version >= 24.0 or debian >= 13.0
+
+RUN apt-get update \
+ && apt-get install -y software-properties-common \
+ && add-apt-repository ppa:ubuntu-toolchain-r/test \
+ && apt-get update \
+ && apt-get install -y libstdc++6 \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Open Space Toolkit
 
