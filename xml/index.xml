@@ -75,8 +75,6 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a505c17c75d23e946fdec5244ac7ca7ff" kind="function"><name>AttitudeQuaternion</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a19b33f67f53ea4980c04713a37340caf" kind="function"><name>~AttitudeQuaternion</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1ad3d046dcd4c8c0d7dbe3e86a4a35acc5" kind="function"><name>inFrame</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a0ad318d6f0811c9ef462b8999a4ff8e9" kind="function"><name>coordinatesToQuaternion</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a50952ee74a931e62c230b1586e6fe98b" kind="function"><name>quaterionToCoordinates</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1aa3eaddf8948cece47c743e568af26749" kind="function"><name>Default</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition" kind="class"><name>ostk::astrodynamics::eventcondition::BooleanCondition</name>

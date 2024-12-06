@@ -130,66 +130,6 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a0ad318d6f0811c9ef462b8999a4ff8e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>Quaternion</type>
-        <definition>Quaternion ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion::coordinatesToQuaternion</definition>
-        <argsstring>(const VectorXd &amp;coordinates)</argsstring>
-        <name>coordinatesToQuaternion</name>
-        <param>
-          <type>const VectorXd &amp;</type>
-          <declname>coordinates</declname>
-        </param>
-        <briefdescription>
-<para>Return a Quaternion from coordinates. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">coordinates</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>coordinates vector</para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para></para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" line="76" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.cpp" bodystart="48" bodyend="51"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a50952ee74a931e62c230b1586e6fe98b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>VectorXd</type>
-        <definition>VectorXd ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion::quaterionToCoordinates</definition>
-        <argsstring>(const Quaternion &amp;quaternion)</argsstring>
-        <name>quaterionToCoordinates</name>
-        <param>
-          <type>const Quaternion &amp;</type>
-          <declname>quaternion</declname>
-        </param>
-        <briefdescription>
-<para>Return coordinates from a Quaternion. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">quaterion</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>quaternion</para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para></para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" line="83" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.cpp" bodystart="53" bodyend="59"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1aa3eaddf8948cece47c743e568af26749" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion" kindref="compound">AttitudeQuaternion</ref> &gt;</type>
         <definition>Shared&lt; const AttitudeQuaternion &gt; ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion::Default</definition>
@@ -205,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" line="89" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.cpp" bodystart="61" bodyend="66"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" line="75" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.cpp" bodystart="48" bodyend="53"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -237,11 +177,10 @@
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" bodystart="36" bodyend="90"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp" bodystart="36" bodyend="76"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a5f7379a42f85f41254d7ec6193745316" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>add</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a505c17c75d23e946fdec5244ac7ca7ff" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>AttitudeQuaternion</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a0ad318d6f0811c9ef462b8999a4ff8e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>coordinatesToQuaternion</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a48809e11b2ede4897b90f7651fa7590e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>CoordinateSubset</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1aa3eaddf8948cece47c743e568af26749" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>Default</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a2d67fb5500d8c2e299e9a0be68a2de8e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>DragCoefficient</name></member>
@@ -253,7 +192,6 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>Mass</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ae5a53db9c533ab64e430ac4fe1b25322" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a9869d17db540a60446f06aed9ebf6b18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>operator==</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a50952ee74a931e62c230b1586e6fe98b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>quaterionToCoordinates</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a724a764e61a823c0bfb8955d96295d09" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>subtract</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a3b3b8c569ea6fa4ce3d40360265626f3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>SurfaceArea</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a19b33f67f53ea4980c04713a37340caf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</scope><name>~AttitudeQuaternion</name></member>
