@@ -52,6 +52,11 @@ RUN apt-get update \
 
 RUN pip install open-space-toolkit-astrodynamics
 
+# Copy startup script
+
+RUN mkdir -p /usr/local/bin/before-notebook.d
+COPY startup.sh /usr/local/bin/before-notebook.d/
+
 # Restore user
 
 USER ${NB_UID}
