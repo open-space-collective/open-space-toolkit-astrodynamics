@@ -250,6 +250,30 @@ class Orbit : public Trajectory
         const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
+    /// @brief Constructs a Frozen orbit
+    ///
+    /// Model: Kepler (J2 Perturbation)
+    ///
+    /// @param anEpoch An orbit epoch
+    /// @param anAltitude An orbit altitude (wrt. equatorial radius)
+    /// @param anEccentricity An eccentricity
+    /// @param anInclination An inclination
+    /// @param aRaan A raan
+    /// @param anAop An aop
+    /// @param aTrueAnomaly A true anomaly
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @return Frozen orbit
+    static Orbit Frozen(
+        const Instant& anEpoch,
+        const Length& anAltitude,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Real& anEccentricity = Real::Undefined(),
+        const Angle& anInclination = Angle::Undefined(),
+        const Angle& aRaan = Angle::Degrees(0.0),
+        const Angle& anAop = Angle::Undefined(),
+        const Angle& aTrueAnomaly = Angle::Degrees(0.0)
+    );
+
     /// @brief Get the string representation of a frame type
     ///
     /// @param aFrameType Type of the frame to get the string representation of

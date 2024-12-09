@@ -376,6 +376,35 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def_static(
+                "frozen",
+                &Orbit::Frozen,
+                arg("epoch"),
+                arg("altitude"),
+                arg("celestial_object"),
+                arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
+                arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
+                arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
+                arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
+                arg_v("true_anomaly", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
+                R"doc(
+                    Create a frozen `Orbit` object.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        altitude (Length): The altitude.
+                        celestial_object (Celestial): The celestial object.
+                        eccentricity (float): The eccentricity.
+                        inclination (Angle): The inclination.
+                        raan (Angle): The right ascension of the ascending node.
+                        aop (Angle): The argument of periapsis.
+                        true_anomaly (Angle): The true anomaly.
+
+                    Returns:
+                        Orbit: The frozen `Orbit` object.
+                )doc"
+            )
+
+            .def_static(
                 "compute_passes",
                 &Orbit::ComputePasses,
                 arg("states"),
