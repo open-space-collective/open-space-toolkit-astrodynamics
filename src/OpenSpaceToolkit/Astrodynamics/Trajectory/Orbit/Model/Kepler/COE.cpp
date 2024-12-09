@@ -651,6 +651,18 @@ COE COE::FrozenOrbit(
 )
 {
     // TBI: block inclination + eccentricity both defined
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major Axis");
+    }
+    if (!aRaan.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Raan");
+    }
+    if (!aTrueAnomaly.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("True anomaly");
+    }
 
     const Angle critical_inclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
     const Angle critical_aops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
@@ -713,7 +725,7 @@ COE COE::FrozenOrbit(
     const Angle inclination = anInclination.isDefined() ? anInclination : critical_inclinations[0];
     if ((inclination != critical_inclinations[0]) && (inclination != critical_inclinations[1]))
     {
-        throw ostk::core::error::runtime::Wrong(anInclination.toString());  // Raise error if inclination isn't critical
+        throw ostk::core::error::runtime::Wrong("Inclination must be a critical value");
     }
 
     const Real eccentricity = eccentricityFromInclination(inclination);
