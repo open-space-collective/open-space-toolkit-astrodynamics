@@ -252,6 +252,24 @@ class COE
     /// @return COE
     static COE FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType);
 
+    /// @brief Construct a frozen orbit from an incomplete set of COEs
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
+    /// @param anInclination An inclination
+    /// @param aRaan A raan
+    /// @param anAop An aop
+    /// @param aTrueAnomaly A true anomaly
+    /// @return COE
+    static COE FrozenOrbit(
+        const Length& aSemiMajorAxis,
+        const Real& anEccentricity = Real::Undefined(),
+        const Angle& anInclination = Angle::Undefined(),
+        const Angle& aRaan = Angle::Degrees(0.0),
+        const Angle& anAop = Angle::Undefined(),
+        const Angle& aTrueAnomaly = Angle::Degrees(0.0)
+    );
+
     /// @brief Convert True anomaly to Eccentric anomaly
     ///
     /// @param aTrueAnomaly A true anomaly

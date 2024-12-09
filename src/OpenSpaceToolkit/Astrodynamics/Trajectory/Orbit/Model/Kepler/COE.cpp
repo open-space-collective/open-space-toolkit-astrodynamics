@@ -641,6 +641,93 @@ COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyTy
     };
 }
 
+COE COE::FrozenOrbit(
+    const Length& aSemiMajorAxis,
+    const Real& anEccentricity,
+    const Angle& anInclination,
+    const Angle& aRaan,
+    const Angle& anAop,
+    const Angle& aTrueAnomaly
+)
+{
+    // TBI: block inclination + eccentricity both defined
+
+    const Angle critical_inclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
+    const Angle critical_aops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
+
+    const Real re = EarthGravitationalModel::EGM2008.equatorialRadius_.inMeters();
+    const Real j2 = 1.082626925638815E-03;
+    const Real j3 = -0.2532307818191774E-5;
+
+    // ecc =~ ecc_coefficient * sin(incl)
+    const Real ecc_coefficient = -j3 * re / 2.0 / j2 / aSemiMajorAxis.inMeters();
+
+    const auto eccentricityFromInclination = [&](const Angle& inclination) -> Real
+    {
+        return ecc_coefficient * std::sin(inclination.inRadians());
+    };
+
+    const auto inclinationFromEccentricity = [&](const Real& eccentricity) -> Angle
+    {
+        return Angle::Radians(asin(eccentricity / ecc_coefficient));
+    };
+
+    // Use the provided AoP, or default to a critical value
+    const Angle aop = anAop.isDefined() ? anAop : critical_aops[0];
+
+    // If AoP matches a critical value
+    if ((aop == critical_aops[0]) || (aop == critical_aops[1]))
+    {
+        Angle inclination = Angle::Undefined();
+        Real eccentricity = Real::Undefined();
+
+        // If ecc not defined, use the given inclination or default to critical inclination, and calculate ecc
+        if (!anEccentricity.isDefined())
+        {
+            inclination = anInclination.isDefined() ? anInclination : critical_inclinations[0];
+            eccentricity = eccentricityFromInclination(inclination);
+        }
+        // If ecc defined, use it to calculate inc
+        else
+        {
+            // If the eccentricity is larger than this value, the approximation isn't valid
+            if (anEccentricity > ecc_coefficient)
+            {
+                throw ostk::core::error::runtime::Wrong(anEccentricity.toString());
+            }
+            inclination = inclinationFromEccentricity(anEccentricity);
+            eccentricity = anEccentricity;
+        }
+
+        return {
+            aSemiMajorAxis,
+            eccentricity,
+            inclination,
+            aRaan,
+            aop,
+            aTrueAnomaly,
+        };
+    }
+
+    // If AoP is (given) and not a critical angle, then the inclination must be critical
+    const Angle inclination = anInclination.isDefined() ? anInclination : critical_inclinations[0];
+    if ((inclination != critical_inclinations[0]) && (inclination != critical_inclinations[1]))
+    {
+        throw ostk::core::error::runtime::Wrong(anInclination.toString());  // Raise error if inclination isn't critical
+    }
+
+    const Real eccentricity = eccentricityFromInclination(inclination);
+
+    return {
+        aSemiMajorAxis,
+        eccentricity,
+        inclination,
+        aRaan,
+        aop,
+        aTrueAnomaly,
+    };
+}
+
 Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity)
 {
     if (!aTrueAnomaly.isDefined())

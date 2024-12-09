@@ -388,6 +388,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
+            "frozen_orbit",
+            &COE::FrozenOrbit,
+            R"doc(
+                Build a `COE` model of a frozen orbit.
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    eccentricity (float): The eccentricity.
+                    inclination (Angle): The inclination.
+                    raan (Angle): The right ascension of the ascending node.
+                    aop (Angle): The argument of periapsis.
+                    true_anomaly (Angle): The true anomaly.
+
+                Returns:
+                    COE: The `COE` model.
+            )doc",
+            arg("semi_major_axis"),
+            arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
+            arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
+            arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
+            arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
+            arg_v("true_anomaly", Angle::Degrees(0.0), "Angle.degrees(0.0)")
+        )
+
+        .def_static(
             "eccentric_anomaly_from_true_anomaly",
             &COE::EccentricAnomalyFromTrueAnomaly,
             R"doc(
