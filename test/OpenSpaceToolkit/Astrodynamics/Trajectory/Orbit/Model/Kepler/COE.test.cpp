@@ -675,6 +675,60 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FromSIV
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenOrbit)
+{
+    const Length semiMajorAxis = Length::Kilometers(8000);
+
+    // Only provide SMA
+    {
+        const COE coe = COE::FrozenOrbit(semiMajorAxis);
+
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 8.3398135e-4, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 63.4349, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), 0.0, 1e-10);
+    }
+
+    // Provide inclination
+    {
+        const COE coe = COE::FrozenOrbit(semiMajorAxis, Real::Undefined(), Angle::Degrees(45.0));
+
+        EXPECT_NEAR(coe.getEccentricity(), 6.594e-4, 1e-6);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
+    }
+
+    // Provide AoP
+    {
+        const COE coe = COE::FrozenOrbit(
+            semiMajorAxis,
+            Real::Undefined(),
+            Angle::Undefined(),
+            Angle::Degrees(45.0),
+            Angle::Degrees(45.0),
+            Angle::Degrees(0.0)
+        );
+
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 63.4349, 1e-10);
+    }
+
+    // Excessively large eccentricity
+    {
+        EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, 0.1), ostk::core::error::runtime::Wrong);
+    }
+
+    // AoP and inclination both provided and both non-critical
+    {
+        EXPECT_THROW(
+            COE::FrozenOrbit(
+                semiMajorAxis, Real::Undefined(), Angle::Degrees(45.0), Angle::Degrees(0.0), Angle::Degrees(45.0)
+            ),
+            ostk::core::error::runtime::Wrong
+        );
+    }
+}
+
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {
 
