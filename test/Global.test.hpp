@@ -40,6 +40,52 @@
         }                                                                                                       \
     } while (0)
 
+#define EXPECT_MATRICES_ALMOST_EQUAL(m1, m2, tolerance)                                                                \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((m1).rows() != (m2).rows() || (m1).cols() != (m2).cols())                                                  \
+        {                                                                                                              \
+            ADD_FAILURE() << "Matrices have different sizes.";                                                         \
+        }                                                                                                              \
+        else                                                                                                           \
+        {                                                                                                              \
+            for (int i = 0; i < (m1).rows(); ++i)                                                                      \
+            {                                                                                                          \
+                for (int j = 0; j < (m1).cols(); ++j)                                                                  \
+                {                                                                                                      \
+                    if (std::abs((m1)(i, j) - (m2)(i, j)) > (tolerance))                                               \
+                    {                                                                                                  \
+                        ADD_FAILURE() << "Matrices differ at index (" << i << ", " << j << "). Values: " << (m1)(i, j) \
+                                      << " vs. " << (m2)(i, j);                                                        \
+                    }                                                                                                  \
+                }                                                                                                      \
+            }                                                                                                          \
+        }                                                                                                              \
+    } while (0)
+
+#define ASSERT_MATRICES_ALMOST_EQUAL(m1, m2, tolerance)                                                         \
+    do                                                                                                          \
+    {                                                                                                           \
+        if ((m1).rows() != (m2).rows() || (m1).cols() != (m2).cols())                                           \
+        {                                                                                                       \
+            FAIL() << "Matrices have different sizes.";                                                         \
+        }                                                                                                       \
+        else                                                                                                    \
+        {                                                                                                       \
+            for (int i = 0; i < (m1).rows(); ++i)                                                               \
+            {                                                                                                   \
+                for (int j = 0; j < (m1).cols(); ++j)                                                           \
+                {                                                                                               \
+                    if (std::abs((m1)(i, j) - (m2)(i, j)) > (tolerance))                                        \
+                    {                                                                                           \
+                        FAIL() << "Matrices differ at index (" << i << ", " << j << "). Values: " << (m1)(i, j) \
+                               << " vs. " << (m2)(i, j);                                                        \
+                    }                                                                                           \
+                }                                                                                               \
+            }                                                                                                   \
+        }                                                                                                       \
+    } while (0)
+
 namespace ostk
 {
 namespace astrodynamics
