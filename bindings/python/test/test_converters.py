@@ -13,6 +13,7 @@ from ostk.astrodynamics.converters import coerce_to_datetime
 from ostk.astrodynamics.converters import coerce_to_instant
 from ostk.astrodynamics.converters import coerce_to_iso
 from ostk.astrodynamics.converters import coerce_to_interval
+from ostk.astrodynamics.converters import coerce_to_datetime_tuple
 
 
 def test_coerce_to_datetime_success_instant():
@@ -283,8 +284,67 @@ def test_coerce_to_iso_failure():
         ("[2020-01-01T00:00:00Z - 2020-01-02T00:00:00Z] [UTC]"),
     ],
 )
-def test_coerce_to_interval(value):
+def test_coerce_to_interval_success(value):
     assert coerce_to_interval(value) == Interval.closed(
         Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
         Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
     )
+
+
+def test_coerce_to_interval_failure():
+    with pytest.raises(ValueError):
+        coerce_to_interval("[2020-01-01T00:00:00Z 2020-01-02T00:00:00Z] [UTC]")
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        (
+            Interval.closed(
+                Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
+                Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
+            )
+        ),
+        (
+            (
+                Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
+                Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
+            )
+        ),
+        (
+            [
+                Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
+                Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
+            ]
+        ),
+        (
+            (
+                datetime(2020, 1, 1, tzinfo=timezone.utc),
+                datetime(2020, 1, 2, tzinfo=timezone.utc),
+            )
+        ),
+        (
+            [
+                datetime(2020, 1, 1, tzinfo=timezone.utc),
+                datetime(2020, 1, 2, tzinfo=timezone.utc),
+            ]
+        ),
+        (
+            [
+                "2020-01-01T00:00:00Z",
+                "2020-01-02T00:00:00Z",
+            ]
+        ),
+        ("[2020-01-01T00:00:00Z - 2020-01-02T00:00:00Z] [UTC]"),
+    ],
+)
+def test_coerce_to_datetime_tuple_success(value):
+    assert coerce_to_datetime_tuple(value) == (
+        datetime(2020, 1, 1, tzinfo=timezone.utc),
+        datetime(2020, 1, 2, tzinfo=timezone.utc),
+    )
+
+
+def test_coerce_to_datetime_tuple_failure():
+    with pytest.raises(ValueError):
+        coerce_to_datetime_tuple("[2020-01-01T00:00:00Z 2020-01-02T00:00:00Z] [UTC]")

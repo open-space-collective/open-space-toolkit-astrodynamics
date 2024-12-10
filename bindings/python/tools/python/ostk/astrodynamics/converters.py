@@ -103,7 +103,7 @@ def coerce_to_interval(
     Return Interval from value.
 
     Args:
-        value (Interval | tuple[Instant, Instant] | tuple[datetime, datetime] | tuple[str, str]): A value to coerce.
+        value (Interval | tuple[Instant, Instant] | tuple[datetime, datetime] | tuple[str, str] | str): A value to coerce.
 
     Returns:
         Interval: The coerced Interval.
@@ -127,4 +127,47 @@ def coerce_to_interval(
     return Interval.closed(
         start_instant=coerce_to_instant(value[0]),
         end_instant=coerce_to_instant(value[1]),
+    )
+
+
+def coerce_to_datetime_tuple(
+    value: (
+        Interval
+        | tuple[Instant, Instant]
+        | tuple[datetime, datetime]
+        | tuple[str, str]
+        | str
+    ),
+) -> tuple[datetime, datetime]:
+    """
+    Return tuple of datetimes from value.
+
+    Args:
+        value (Interval | tuple[Instant, Instant] | tuple[datetime, datetime] | tuple[str, str] | str): A value to coerce.
+
+    Returns:
+        tuple[datetime, datetime]: The coerced tuple of datetime.
+    """
+
+    if isinstance(value, Interval):
+        return (
+            coerce_to_datetime(value.get_start()),
+            coerce_to_datetime(value.get_end()),
+        )
+
+    if isinstance(value, str):
+        regex = r"\[(.*) - (.*)\] \[UTC\]"
+        matches = re.search(regex, value)
+
+        if matches:
+            return (
+                coerce_to_datetime(matches.group(1)),
+                coerce_to_datetime(matches.group(2)),
+            )
+
+        raise ValueError(f"String [{value}] does not match the expected format.")
+
+    return (
+        coerce_to_datetime(value[0]),
+        coerce_to_datetime(value[1]),
     )
