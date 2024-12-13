@@ -742,6 +742,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             ostk::core::error::runtime::Wrong
         );
     }
+
+    // No J3 provided
+    {
+        {
+            EXPECT_THROW(
+                COE::FrozenOrbit(semiMajorAxis, re, j2, Real::Undefined()), ostk::core::error::runtime::Undefined
+            );
+        }
+
+        {
+            EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, 0.0), ostk::core::error::runtime::Undefined);
+        }
+    }
 }
 
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EccentricAnomalyFromTrueAnomaly)

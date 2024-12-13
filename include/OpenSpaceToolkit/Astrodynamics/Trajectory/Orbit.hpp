@@ -256,12 +256,12 @@ class Orbit : public Trajectory
     ///
     /// @param anEpoch An orbit epoch
     /// @param anAltitude An orbit altitude (wrt. equatorial radius)
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anEccentricity An eccentricity
     /// @param anInclination An inclination
     /// @param aRaan A raan
     /// @param anAop An aop
     /// @param aTrueAnomaly A true anomaly
-    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return Frozen orbit
     static Orbit Frozen(
         const Instant& anEpoch,

@@ -653,7 +653,6 @@ COE COE::FrozenOrbit(
     const Angle& aTrueAnomaly
 )
 {
-    // TBI: block inclination + eccentricity both defined
     if (!aSemiMajorAxis.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Semi-major Axis");
@@ -678,6 +677,8 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("True anomaly");
     }
+
+    // TBI: block inclination + eccentricity both defined
 
     const Angle critical_inclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
     const Angle critical_aops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
