@@ -74,6 +74,18 @@ class TestCOE:
         assert isinstance(coe, COE)
         assert coe.is_defined() is False
 
+        coe: COE = COE.frozen_orbit(
+            a,
+            Earth.EGM2008.equatorial_radius,
+            Earth.EGM2008.J2,
+            Earth.EGM2008.J3,
+            inclination=i,
+        )
+
+        assert coe is not None
+        assert isinstance(coe, COE)
+        assert coe.is_defined()
+
     def test_comparators(
         self,
         coe: COE,
