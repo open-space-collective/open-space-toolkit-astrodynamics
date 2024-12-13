@@ -395,6 +395,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
+                    equatorial_radius (Length): The equatorial radius.
+                    j2 (float): The second zonal harmonic coefficient.
+                    j3 (float): The third zonal harmonic coefficient.
                     eccentricity (float): The eccentricity.
                     inclination (Angle): The inclination.
                     raan (Angle): The right ascension of the ascending node.
@@ -405,6 +408,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     COE: The `COE` model.
             )doc",
             arg("semi_major_axis"),
+            arg("equatorial_radius"),
+            arg("j2"),
+            arg("j3"),
             arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
             arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
             arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),

@@ -643,6 +643,9 @@ COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyTy
 
 COE COE::FrozenOrbit(
     const Length& aSemiMajorAxis,
+    const Length& anEquatorialRadius,
+    const Real& aJ2,
+    const Real& aJ3,
     const Real& anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
@@ -654,6 +657,18 @@ COE COE::FrozenOrbit(
     if (!aSemiMajorAxis.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Semi-major Axis");
+    }
+    if (!anEquatorialRadius.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Equatorial Radius");
+    }
+    if (!aJ2.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("J2");
+    }
+    if (!aJ3.isDefined() || aJ3 == 0.0)
+    {
+        throw ostk::core::error::runtime::Undefined("J3");
     }
     if (!aRaan.isDefined())
     {
@@ -667,9 +682,9 @@ COE COE::FrozenOrbit(
     const Angle critical_inclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
     const Angle critical_aops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
 
-    const Real re = EarthGravitationalModel::EGM2008.equatorialRadius_.inMeters();
-    const Real j2 = 1.082626925638815E-03;
-    const Real j3 = -0.2532307818191774E-5;
+    const Real re = anEquatorialRadius.inMeters();
+    const Real j2 = aJ2;
+    const Real j3 = aJ3;
 
     // ecc =~ ecc_coefficient * sin(incl)
     const Real ecc_coefficient = -j3 * re / 2.0 / j2 / aSemiMajorAxis.inMeters();

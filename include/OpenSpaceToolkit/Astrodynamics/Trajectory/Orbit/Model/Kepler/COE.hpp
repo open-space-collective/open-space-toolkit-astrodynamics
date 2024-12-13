@@ -255,6 +255,9 @@ class COE
     /// @brief Construct a frozen orbit from an incomplete set of COEs
     ///
     /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEquatorialRadius An equatorial radius
+    /// @param aJ2 A J2
+    /// @param aJ3 A J3
     /// @param anEccentricity An eccentricity
     /// @param anInclination An inclination
     /// @param aRaan A raan
@@ -263,6 +266,9 @@ class COE
     /// @return COE
     static COE FrozenOrbit(
         const Length& aSemiMajorAxis,
+        const Length& anEquatorialRadius,
+        const Real& aJ2,
+        const Real& aJ3,
         const Real& anEccentricity = Real::Undefined(),
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
