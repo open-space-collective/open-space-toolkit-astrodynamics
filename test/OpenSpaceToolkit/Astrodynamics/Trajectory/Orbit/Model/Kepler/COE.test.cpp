@@ -721,6 +721,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
         EXPECT_NEAR(coe.getInclination().inDegrees(), 63.4349, 1e-10);
     }
 
+    // Non-exact critical angle supplied
+    {
+        const Angle non_critical_aop = Angle::Degrees(80.0);
+        const COE coe = COE::FrozenOrbit(
+            semiMajorAxis,
+            re,
+            j2,
+            j3,
+            Real::Undefined(),
+            Angle::Degrees(63.43490001),
+            Angle::Degrees(0.0),
+            non_critical_aop
+        );
+
+        EXPECT_NEAR(coe.getAop().inDegrees(), non_critical_aop.inDegrees(), 1e-10);
+    }
+
     // Excessively large eccentricity
     {
         EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.1), ostk::core::error::runtime::Wrong);
