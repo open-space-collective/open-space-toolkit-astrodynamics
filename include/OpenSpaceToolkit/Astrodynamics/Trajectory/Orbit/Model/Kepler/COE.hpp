@@ -269,7 +269,7 @@ class COE
     /// - Inclination (AoP set to critical value, eccentricity derived)
     /// - Eccentricity (AoP set to critical value, inclination derived)
     ///
-    /// Note that inclination and eccentricity cannot both be proivided.
+    /// Note that inclination and eccentricity cannot both be provided.
     ///
     /// RAAN and True Anomaly may be provided alongside any of these arguments, and will be passed through
     /// to the resulting COE as they do not impact the frozen orbit condition.
@@ -308,7 +308,7 @@ class COE
     /// - Inclination (AoP set to critical value, eccentricity derived)
     /// - Eccentricity (AoP set to critical value, inclination derived)
     ///
-    /// Note that inclination and eccentricity cannot both be proivided.
+    /// Note that inclination and eccentricity cannot both be provided.
     ///
     /// RAAN and True Anomaly may be provided alongside any of these arguments, and will be passed through
     /// to the resulting COE as they do not impact the frozen orbit condition.
