@@ -821,7 +821,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
 
         // Excessively large eccentricity
         {
-            EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.1), ostk::core::error::runtime::Wrong);
+            EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.1), ostk::core::error::RuntimeError);
+        }
+
+        // Inclination and eccentricity both provided
+        {
+            EXPECT_THROW(
+                COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.0001, Angle::Degrees(45.0)),
+                ostk::core::error::RuntimeError
+            );
         }
 
         // AoP and inclination both provided and both non-critical
@@ -837,7 +845,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
                     Angle::Degrees(0.0),
                     Angle::Degrees(45.0)
                 ),
-                ostk::core::error::runtime::Wrong
+                ostk::core::error::RuntimeError
             );
         }
     }

@@ -678,8 +678,10 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("True anomaly");
     }
-
-    // TBI: block inclination + eccentricity both defined
+    if (anEccentricity.isDefined() && anInclination.isDefined())
+    {
+        throw ostk::core::error::RuntimeError("Cannot define both eccentricity and inclination");
+    }
 
     const Array<Angle> criticalInclinations = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
     const Array<Angle> criticalAops = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
@@ -731,7 +733,10 @@ COE COE::FrozenOrbit(
             // If the eccentricity is larger than this value, the approximation isn't valid
             if (anEccentricity > eccCoefficient)
             {
-                throw ostk::core::error::runtime::Wrong(anEccentricity.toString());
+                throw ostk::core::error::RuntimeError(
+                    "Provided eccentricity [" + anEccentricity.toString() + "] cannot be greater than " +
+                    eccCoefficient.toString()
+                );
             }
             inclination = inclinationFromEccentricity(anEccentricity);
             eccentricity = anEccentricity;
@@ -751,7 +756,7 @@ COE COE::FrozenOrbit(
     const Angle inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
     if (!isCritical(inclination, criticalInclinations))
     {
-        throw ostk::core::error::runtime::Wrong("Inclination must be a critical value");
+        throw ostk::core::error::RuntimeError("Provided inclination must be a critical value");
     }
 
     const Real eccentricity = eccentricityFromInclination(inclination);
