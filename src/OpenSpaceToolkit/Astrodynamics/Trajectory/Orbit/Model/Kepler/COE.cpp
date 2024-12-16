@@ -683,12 +683,12 @@ COE COE::FrozenOrbit(
     const Angle criticalInclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
     const Angle criticalAops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
 
-    const Real re = anEquatorialRadius.inMeters();
+    const Real equatorialRadius_meters = anEquatorialRadius.inMeters();
     const Real j2 = aJ2;
     const Real j3 = aJ3;
 
     // ecc =~ eccCoefficient * sin(incl)
-    const Real eccCoefficient = -j3 * re / 2.0 / j2 / aSemiMajorAxis.inMeters();
+    const Real eccCoefficient = -j3 * equatorialRadius_meters / 2.0 / j2 / aSemiMajorAxis.inMeters();
 
     const auto eccentricityFromInclination = [&](const Angle& inclination) -> Real
     {
