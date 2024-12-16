@@ -728,7 +728,7 @@ COE COE::FrozenOrbit(
     };
 
     // TBI: this only works because neither set of critical angles are 0/360 degrees
-    const auto isCritical = [](const Angle& angle, const Array<Angle> criticalAngles) -> bool
+    const auto isCritical = [](const Angle& angle, const Array<Angle>& criticalAngles) -> bool
     {
         const Real epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
 
