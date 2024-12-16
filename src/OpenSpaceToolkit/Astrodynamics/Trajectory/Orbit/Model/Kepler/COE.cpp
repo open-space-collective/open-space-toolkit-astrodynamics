@@ -24,6 +24,7 @@ namespace model
 namespace kepler
 {
 
+using ostk::core::type::Array;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -680,8 +681,8 @@ COE COE::FrozenOrbit(
 
     // TBI: block inclination + eccentricity both defined
 
-    const Angle criticalInclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
-    const Angle criticalAops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
+    const Array<Angle> criticalInclinations = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
+    const Array<Angle> criticalAops = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
 
     const Real equatorialRadius_meters = anEquatorialRadius.inMeters();
     const Real j2 = aJ2;
@@ -701,7 +702,7 @@ COE COE::FrozenOrbit(
     };
 
     // TBI: this only works because neither set of critical angles are 0/360 degrees
-    const auto isCritical = [](const Angle& angle, const Angle* criticalAngles) -> bool
+    const auto isCritical = [](const Angle& angle, const Array<Angle> criticalAngles) -> bool
     {
         const Real epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
 
