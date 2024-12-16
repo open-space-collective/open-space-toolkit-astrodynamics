@@ -680,40 +680,40 @@ COE COE::FrozenOrbit(
 
     // TBI: block inclination + eccentricity both defined
 
-    const Angle critical_inclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
-    const Angle critical_aops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
+    const Angle criticalInclinations[] = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
+    const Angle criticalAops[] = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
 
     const Real re = anEquatorialRadius.inMeters();
     const Real j2 = aJ2;
     const Real j3 = aJ3;
 
-    // ecc =~ ecc_coefficient * sin(incl)
-    const Real ecc_coefficient = -j3 * re / 2.0 / j2 / aSemiMajorAxis.inMeters();
+    // ecc =~ eccCoefficient * sin(incl)
+    const Real eccCoefficient = -j3 * re / 2.0 / j2 / aSemiMajorAxis.inMeters();
 
     const auto eccentricityFromInclination = [&](const Angle& inclination) -> Real
     {
-        return ecc_coefficient * std::sin(inclination.inRadians());
+        return eccCoefficient * std::sin(inclination.inRadians());
     };
 
     const auto inclinationFromEccentricity = [&](const Real& eccentricity) -> Angle
     {
-        return Angle::Radians(asin(eccentricity / ecc_coefficient));
+        return Angle::Radians(asin(eccentricity / eccCoefficient));
     };
 
     // TBI: this only works because neither set of critical angles are 0/360 degrees
-    const auto isCritical = [](const Angle& angle, const Angle* critical_angles) -> bool
+    const auto isCritical = [](const Angle& angle, const Angle* criticalAngles) -> bool
     {
         const Real epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
 
-        return (angle.inRadians().isNear(critical_angles[0].inRadians(), epsilon)) ||
-               (angle.inRadians().isNear(critical_angles[1].inRadians(), epsilon));
+        return (angle.inRadians().isNear(criticalAngles[0].inRadians(), epsilon)) ||
+               (angle.inRadians().isNear(criticalAngles[1].inRadians(), epsilon));
     };
 
     // Use the provided AoP, or default to a critical value
-    const Angle aop = anAop.isDefined() ? anAop : critical_aops[0];
+    const Angle aop = anAop.isDefined() ? anAop : criticalAops[0];
 
     // If AoP matches a critical value
-    if (isCritical(aop, critical_aops))
+    if (isCritical(aop, criticalAops))
     {
         Angle inclination = Angle::Undefined();
         Real eccentricity = Real::Undefined();
@@ -721,14 +721,14 @@ COE COE::FrozenOrbit(
         // If ecc not defined, use the given inclination or default to critical inclination, and calculate ecc
         if (!anEccentricity.isDefined())
         {
-            inclination = anInclination.isDefined() ? anInclination : critical_inclinations[0];
+            inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
             eccentricity = eccentricityFromInclination(inclination);
         }
         // If ecc defined, use it to calculate inc
         else
         {
             // If the eccentricity is larger than this value, the approximation isn't valid
-            if (anEccentricity > ecc_coefficient)
+            if (anEccentricity > eccCoefficient)
             {
                 throw ostk::core::error::runtime::Wrong(anEccentricity.toString());
             }
@@ -747,8 +747,8 @@ COE COE::FrozenOrbit(
     }
 
     // If AoP is (given) and not a critical angle, then the inclination must be critical
-    const Angle inclination = anInclination.isDefined() ? anInclination : critical_inclinations[0];
-    if (!isCritical(inclination, critical_inclinations))
+    const Angle inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
+    if (!isCritical(inclination, criticalInclinations))
     {
         throw ostk::core::error::runtime::Wrong("Inclination must be a critical value");
     }
