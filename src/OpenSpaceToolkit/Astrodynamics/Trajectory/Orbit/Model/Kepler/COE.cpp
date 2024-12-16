@@ -690,12 +690,12 @@ COE COE::FrozenOrbit(
     // ecc =~ eccCoefficient * sin(incl)
     const Real eccCoefficient = -j3 * equatorialRadius_meters / 2.0 / j2 / aSemiMajorAxis.inMeters();
 
-    const auto eccentricityFromInclination = [&](const Angle& inclination) -> Real
+    const auto eccentricityFromInclination = [&eccCoefficient](const Angle& inclination) -> Real
     {
         return eccCoefficient * std::sin(inclination.inRadians());
     };
 
-    const auto inclinationFromEccentricity = [&](const Real& eccentricity) -> Angle
+    const auto inclinationFromEccentricity = [&eccCoefficient](const Real& eccentricity) -> Angle
     {
         return Angle::Radians(asin(eccentricity / eccCoefficient));
     };
