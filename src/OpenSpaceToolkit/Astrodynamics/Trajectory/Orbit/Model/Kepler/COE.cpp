@@ -662,7 +662,7 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("Equatorial Radius");
     }
-    if (!aJ2.isDefined())
+    if (!aJ2.isDefined() || aJ2 == 0.0)
     {
         throw ostk::core::error::runtime::Undefined("J2");
     }

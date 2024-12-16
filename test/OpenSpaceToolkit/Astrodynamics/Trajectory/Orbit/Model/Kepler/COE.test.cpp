@@ -704,6 +704,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
         EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
     }
 
+    // Provide critical AoP and eccentricity
+    // @ref: https://www.mathworks.com/matlabcentral/fileexchange/39119-frozen-orbit-design?s_tid=FX_rc3_behav
+    {
+        const COE coe = COE::FrozenOrbit(
+            semiMajorAxis, re, j2, j3, 6.5941377e-4, Angle::Undefined(), Angle::Degrees(0.0), Angle::Degrees(90.0)
+        );
+
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 45.0, 1e-2);
+    }
+
     // Provide AoP
     {
         const COE coe = COE::FrozenOrbit(
@@ -738,38 +748,97 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
         EXPECT_NEAR(coe.getAop().inDegrees(), non_critical_aop.inDegrees(), 1e-10);
     }
 
-    // Excessively large eccentricity
-    {
-        EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.1), ostk::core::error::runtime::Wrong);
-    }
-
-    // AoP and inclination both provided and both non-critical
-    {
-        EXPECT_THROW(
-            COE::FrozenOrbit(
-                semiMajorAxis,
-                re,
-                j2,
-                j3,
-                Real::Undefined(),
-                Angle::Degrees(45.0),
-                Angle::Degrees(0.0),
-                Angle::Degrees(45.0)
-            ),
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    // No J3 provided
     {
         {
-            EXPECT_THROW(
-                COE::FrozenOrbit(semiMajorAxis, re, j2, Real::Undefined()), ostk::core::error::runtime::Undefined
-            );
+            // No SMA provided
+            {
+                EXPECT_THROW(COE::FrozenOrbit(Length::Undefined(), re, j2, j3), ostk::core::error::runtime::Undefined);
+            }
+
+            // No equatorial radius provided
+            {
+                EXPECT_THROW(
+                    COE::FrozenOrbit(semiMajorAxis, Length::Undefined(), j2, j3), ostk::core::error::runtime::Undefined
+                );
+            }
+
+            // No J2 provided
+            {
+                {
+                    EXPECT_THROW(
+                        COE::FrozenOrbit(semiMajorAxis, re, Real::Undefined(), j3),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, 0.0, j3), ostk::core::error::runtime::Undefined);
+                }
+            }
+
+            // No J3 provided
+            {
+                {
+                    EXPECT_THROW(
+                        COE::FrozenOrbit(semiMajorAxis, re, j2, Real::Undefined()),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, 0.0), ostk::core::error::runtime::Undefined);
+                }
+            }
+
+            // No RAAN provided
+            {
+                EXPECT_THROW(
+                    COE::FrozenOrbit(
+                        semiMajorAxis, re, j2, j3, Real::Undefined(), Angle::Undefined(), Angle::Undefined()
+                    ),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
+
+            // No true anomaly provided
+            {
+                EXPECT_THROW(
+                    COE::FrozenOrbit(
+                        semiMajorAxis,
+                        re,
+                        j2,
+                        j3,
+                        Real::Undefined(),
+                        Angle::Undefined(),
+                        Angle::Degrees(0.0),
+                        Angle::Undefined(),
+                        Angle::Undefined()
+                    ),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
         }
 
+        // Excessively large eccentricity
         {
-            EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, 0.0), ostk::core::error::runtime::Undefined);
+            EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.1), ostk::core::error::runtime::Wrong);
+        }
+
+        // AoP and inclination both provided and both non-critical
+        {
+            EXPECT_THROW(
+                COE::FrozenOrbit(
+                    semiMajorAxis,
+                    re,
+                    j2,
+                    j3,
+                    Real::Undefined(),
+                    Angle::Degrees(45.0),
+                    Angle::Degrees(0.0),
+                    Angle::Degrees(45.0)
+                ),
+                ostk::core::error::runtime::Wrong
+            );
         }
     }
 }
