@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
@@ -28,6 +29,7 @@ using ostk::mathematics::object::Vector6d;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::DateTime;
@@ -746,6 +748,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
         );
 
         EXPECT_NEAR(coe.getAop().inDegrees(), non_critical_aop.inDegrees(), 1e-10);
+    }
+
+    // Construct with Celestial
+    {
+        COE coe = COE::FrozenOrbit(semiMajorAxis, Environment::Default().accessCelestialObjectWithName("Earth"));
+
+        EXPECT_TRUE(coe.isDefined());
     }
 
     {
