@@ -644,6 +644,30 @@ COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyTy
 
 COE COE::FrozenOrbit(
     const Length& aSemiMajorAxis,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Real& anEccentricity,
+    const Angle& anInclination,
+    const Angle& aRaan,
+    const Angle& anAop,
+    const Angle& aTrueAnomaly
+)
+{
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    const Length equatorialRadius = aCelestialObjectSPtr->getEquatorialRadius();
+    const Real j2 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J2_;
+    const Real j3 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J3_;
+
+    return COE::FrozenOrbit(
+        aSemiMajorAxis, equatorialRadius, j2, j3, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
+    );
+}
+
+COE COE::FrozenOrbit(
+    const Length& aSemiMajorAxis,
     const Length& anEquatorialRadius,
     const Real& aJ2,
     const Real& aJ3,

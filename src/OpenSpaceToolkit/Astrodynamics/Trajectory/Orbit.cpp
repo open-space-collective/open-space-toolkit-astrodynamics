@@ -1093,12 +1093,10 @@ Orbit Orbit::Frozen(
     {
         throw ostk::core::error::runtime::Undefined("Epoch");
     }
-
     if (!anAltitude.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Altitude");
     }
-
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Celestial object");
@@ -1106,11 +1104,9 @@ Orbit Orbit::Frozen(
 
     const Length equatorialRadius = aCelestialObjectSPtr->getEquatorialRadius();
     const Length semiMajorAxis = equatorialRadius + anAltitude;
-    const Real j2 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J2_;
-    const Real j3 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J3_;
 
     const COE coe = COE::FrozenOrbit(
-        semiMajorAxis, equatorialRadius, j2, j3, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
+        semiMajorAxis, aCelestialObjectSPtr, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
     );
 
     const Kepler orbitalModel = {coe, anEpoch, {*aCelestialObjectSPtr}, Kepler::PerturbationType::J2, false};

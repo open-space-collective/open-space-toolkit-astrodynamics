@@ -42,6 +42,7 @@ using ostk::mathematics::object::Vector6d;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -251,6 +252,45 @@ class COE
     /// @param anAnomalyType An anomaly type
     /// @return COE
     static COE FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType);
+
+    /// @brief Construct a frozen orbit from an incomplete set of COEs
+    ///
+    /// The critical angles for inclination are 63.4349 degrees and 116.5651 degrees.
+    /// The critical angles for AoP are 90.0 degrees and 270.0 degrees.
+    ///
+    /// At a minimum, a semi-major axis and shared pointer to a central celestial body with a defined J2 and J3
+    /// must be provided. In this case, the inclination and AoP are set to critical angles, and the eccentricity
+    /// is derived from inclination. RAAN and true anomaly default to zero degrees.
+    ///
+    /// Additionally, the following combinations of inputs are supported:
+    /// - AoP (inclination set to critical value, eccentricity derived)
+    /// - AoP and eccentricity (inclination derived)
+    /// - AoP and inclination, but at least one of them must be a critical value (eccentricity derived)
+    /// - Inclination (AoP set to critical value, eccentricity derived)
+    /// - Eccentricity (AoP set to critical value, inclination derived)
+    ///
+    /// Note that inclination and eccentricity cannot both be proivided.
+    ///
+    /// RAAN and True Anomaly may be provided alongside any of these arguments, and will be passed through
+    /// to the resulting COE as they do not impact the frozen orbit condition.
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param anEccentricity An eccentricity
+    /// @param anInclination An inclination
+    /// @param aRaan A raan
+    /// @param anAop An aop
+    /// @param aTrueAnomaly A true anomaly
+    /// @return COE
+    static COE FrozenOrbit(
+        const Length& aSemiMajorAxis,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Real& anEccentricity = Real::Undefined(),
+        const Angle& anInclination = Angle::Undefined(),
+        const Angle& aRaan = Angle::Degrees(0.0),
+        const Angle& anAop = Angle::Undefined(),
+        const Angle& aTrueAnomaly = Angle::Degrees(0.0)
+    );
 
     /// @brief Construct a frozen orbit from an incomplete set of COEs
     ///
