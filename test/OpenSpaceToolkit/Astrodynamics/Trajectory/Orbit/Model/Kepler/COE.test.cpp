@@ -31,6 +31,7 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::object::celestial::Celestial;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -825,6 +826,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
                     ),
                     ostk::core::error::runtime::Undefined
                 );
+            }
+
+            // Null Celestial provided
+            {
+                {
+                    EXPECT_THROW(
+                        COE::FrozenOrbit(semiMajorAxis, std::make_shared<const Celestial>(Celestial::Undefined())),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, nullptr), ostk::core::error::runtime::Undefined);
+                }
             }
         }
 
