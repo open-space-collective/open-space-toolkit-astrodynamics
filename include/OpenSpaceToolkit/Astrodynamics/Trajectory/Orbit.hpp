@@ -254,6 +254,25 @@ class Orbit : public Trajectory
     ///
     /// Model: Kepler (J2 Perturbation)
     ///
+    /// The critical angles for inclination are 63.4349 degrees and 116.5651 degrees.
+    /// The critical angles for AoP are 90.0 degrees and 270.0 degrees.
+    ///
+    /// At a minimum, an epoch, altitude, and celestial body with a defined J2 and J3 must be provided.
+    /// In this case, the inclination and AoP are set to critical angles, and the eccentricity is derived
+    /// from inclination. RAAN and true anomaly default to zero degrees.
+    ///
+    /// Additionally, the following combinations of inputs are supported:
+    /// - AoP (inclination set to critical value, eccentricity derived)
+    /// - AoP and eccentricity (inclination derived)
+    /// - AoP and inclination, but at least one of them must be a critical value (eccentricity derived)
+    /// - Inclination (AoP set to critical value, eccentricity derived)
+    /// - Eccentricity (AoP set to critical value, inclination derived)
+    ///
+    /// Note that inclination and eccentricity cannot both be provided.
+    ///
+    /// RAAN and True Anomaly may be provided alongside any of these arguments, and will be passed through
+    /// to the resulting Orbit as they do not impact the frozen orbit condition.
+    ///
     /// @param anEpoch An orbit epoch
     /// @param anAltitude An orbit altitude (wrt. equatorial radius)
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
