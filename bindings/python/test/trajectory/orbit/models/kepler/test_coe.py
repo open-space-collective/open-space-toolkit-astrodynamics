@@ -7,6 +7,7 @@ from ostk.physics.unit import Angle
 from ostk.physics.time import Instant
 from ostk.physics.environment.gravitational import Earth
 from ostk.physics.environment.object.celestial import Sun
+from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 
@@ -73,6 +74,26 @@ class TestCOE:
         assert coe is not None
         assert isinstance(coe, COE)
         assert coe.is_defined() is False
+
+        coe: COE = COE.frozen_orbit(
+            a,
+            Earth.EGM2008.equatorial_radius,
+            Earth.EGM2008.J2,
+            Earth.EGM2008.J3,
+            inclination=i,
+        )
+
+        assert coe is not None
+        assert isinstance(coe, COE)
+        assert coe.is_defined()
+
+        coe: COE = COE.frozen_orbit(
+            a, Environment.default().access_celestial_object_with_name("Earth")
+        )
+
+        assert coe is not None
+        assert isinstance(coe, COE)
+        assert coe.is_defined()
 
     def test_comparators(
         self,

@@ -24,6 +24,7 @@ namespace model
 namespace kepler
 {
 
+using ostk::core::type::Array;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -638,6 +639,159 @@ COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyTy
         Angle::Radians(aCOEVector[3]),
         Angle::Radians(aCOEVector[4]),
         COE::ConvertAnomaly(Angle::Radians(aCOEVector[5]), aCOEVector[1], anAnomalyType, AnomalyType::True, 1e-15),
+    };
+}
+
+COE COE::FrozenOrbit(
+    const Length& aSemiMajorAxis,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Real& anEccentricity,
+    const Angle& anInclination,
+    const Angle& aRaan,
+    const Angle& anAop,
+    const Angle& aTrueAnomaly
+)
+{
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    const Length equatorialRadius = aCelestialObjectSPtr->getEquatorialRadius();
+    const Real j2 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J2_;
+    const Real j3 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J3_;
+
+    return COE::FrozenOrbit(
+        aSemiMajorAxis, equatorialRadius, j2, j3, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
+    );
+}
+
+COE COE::FrozenOrbit(
+    const Length& aSemiMajorAxis,
+    const Length& anEquatorialRadius,
+    const Real& aJ2,
+    const Real& aJ3,
+    const Real& anEccentricity,
+    const Angle& anInclination,
+    const Angle& aRaan,
+    const Angle& anAop,
+    const Angle& aTrueAnomaly
+)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major Axis");
+    }
+    if (!anEquatorialRadius.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Equatorial Radius");
+    }
+    if (!aJ2.isDefined() || aJ2 == 0.0)
+    {
+        throw ostk::core::error::runtime::Undefined("J2");
+    }
+    if (!aJ3.isDefined() || aJ3 == 0.0)
+    {
+        throw ostk::core::error::runtime::Undefined("J3");
+    }
+    if (!aRaan.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Raan");
+    }
+    if (!aTrueAnomaly.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("True anomaly");
+    }
+    if (anEccentricity.isDefined() && anInclination.isDefined())
+    {
+        throw ostk::core::error::RuntimeError("Cannot define both eccentricity and inclination");
+    }
+
+    const Array<Angle> criticalInclinations = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
+    const Array<Angle> criticalAops = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
+
+    const Real equatorialRadius_meters = anEquatorialRadius.inMeters();
+    const Real j2 = aJ2;
+    const Real j3 = aJ3;
+
+    // ecc =~ eccCoefficient * sin(incl)
+    const Real eccCoefficient = -j3 * equatorialRadius_meters / 2.0 / j2 / aSemiMajorAxis.inMeters();
+
+    const auto eccentricityFromInclination = [&eccCoefficient](const Angle& inclination) -> Real
+    {
+        return eccCoefficient * std::sin(inclination.inRadians());
+    };
+
+    const auto inclinationFromEccentricity = [&eccCoefficient](const Real& eccentricity) -> Angle
+    {
+        return Angle::Radians(asin(eccentricity / eccCoefficient));
+    };
+
+    // TBI: this only works because neither set of critical angles are 0/360 degrees
+    const auto isCritical = [](const Angle& angle, const Array<Angle>& criticalAngles) -> bool
+    {
+        const Real epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
+
+        return (angle.inRadians().isNear(criticalAngles[0].inRadians(), epsilon)) ||
+               (angle.inRadians().isNear(criticalAngles[1].inRadians(), epsilon));
+    };
+
+    // Use the provided AoP, or default to a critical value
+    const Angle aop = anAop.isDefined() ? anAop : criticalAops[0];
+
+    // If AoP matches a critical value
+    if (isCritical(aop, criticalAops))
+    {
+        Angle inclination = Angle::Undefined();
+        Real eccentricity = Real::Undefined();
+
+        // If ecc not defined, use the given inclination or default to critical inclination, and calculate ecc
+        if (!anEccentricity.isDefined())
+        {
+            inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
+            eccentricity = eccentricityFromInclination(inclination);
+        }
+        // If ecc defined, use it to calculate inc
+        else
+        {
+            // If the eccentricity is larger than this value, the approximation isn't valid
+            if (anEccentricity > eccCoefficient)
+            {
+                throw ostk::core::error::RuntimeError(
+                    "Provided eccentricity [" + anEccentricity.toString() + "] cannot be greater than " +
+                    eccCoefficient.toString()
+                );
+            }
+            inclination = inclinationFromEccentricity(anEccentricity);
+            eccentricity = anEccentricity;
+        }
+
+        return {
+            aSemiMajorAxis,
+            eccentricity,
+            inclination,
+            aRaan,
+            aop,
+            aTrueAnomaly,
+        };
+    }
+
+    // If AoP is (given) and not a critical angle, then the inclination must be critical
+    const Angle inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
+    if (!isCritical(inclination, criticalInclinations))
+    {
+        throw ostk::core::error::RuntimeError("Provided inclination must be a critical value");
+    }
+
+    const Real eccentricity = eccentricityFromInclination(inclination);
+
+    return {
+        aSemiMajorAxis,
+        eccentricity,
+        inclination,
+        aRaan,
+        aop,
+        aTrueAnomaly,
     };
 }
 

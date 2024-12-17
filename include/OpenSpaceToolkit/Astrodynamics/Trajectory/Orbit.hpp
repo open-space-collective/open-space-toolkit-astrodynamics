@@ -250,6 +250,49 @@ class Orbit : public Trajectory
         const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
+    /// @brief Constructs a Frozen orbit
+    ///
+    /// Model: Kepler (J2 Perturbation)
+    ///
+    /// The critical angles for inclination are 63.4349 degrees and 116.5651 degrees.
+    /// The critical angles for AoP are 90.0 degrees and 270.0 degrees.
+    ///
+    /// At a minimum, an epoch, altitude, and celestial body with a defined J2 and J3 must be provided.
+    /// In this case, the inclination and AoP are set to critical angles, and the eccentricity is derived
+    /// from inclination. RAAN and true anomaly default to zero degrees.
+    ///
+    /// Additionally, the following combinations of inputs are supported:
+    /// - AoP (inclination set to critical value, eccentricity derived)
+    /// - AoP and eccentricity (inclination derived)
+    /// - AoP and inclination, but at least one of them must be a critical value (eccentricity derived)
+    /// - Inclination (AoP set to critical value, eccentricity derived)
+    /// - Eccentricity (AoP set to critical value, inclination derived)
+    ///
+    /// Note that inclination and eccentricity cannot both be provided.
+    ///
+    /// RAAN and True Anomaly may be provided alongside any of these arguments, and will be passed through
+    /// to the resulting Orbit as they do not impact the frozen orbit condition.
+    ///
+    /// @param anEpoch An orbit epoch
+    /// @param anAltitude An orbit altitude (wrt. equatorial radius)
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param anEccentricity An eccentricity
+    /// @param anInclination An inclination
+    /// @param aRaan A raan
+    /// @param anAop An aop
+    /// @param aTrueAnomaly A true anomaly
+    /// @return Frozen orbit
+    static Orbit Frozen(
+        const Instant& anEpoch,
+        const Length& anAltitude,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Real& anEccentricity = Real::Undefined(),
+        const Angle& anInclination = Angle::Undefined(),
+        const Angle& aRaan = Angle::Degrees(0.0),
+        const Angle& anAop = Angle::Undefined(),
+        const Angle& aTrueAnomaly = Angle::Degrees(0.0)
+    );
+
     /// @brief Get the string representation of a frame type
     ///
     /// @param aFrameType Type of the frame to get the string representation of

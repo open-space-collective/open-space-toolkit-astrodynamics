@@ -181,6 +181,15 @@ class TestOrbit:
             argument_of_latitude=Angle.degrees(50.0),
         ).is_defined()
 
+    def test_frozen(self, earth, epoch):
+        altitude = Length.kilometers(500.0)
+
+        orbit: Orbit = Orbit.frozen(epoch, altitude, earth)
+
+        assert orbit is not None
+        assert isinstance(orbit, Orbit)
+        assert orbit.is_defined()
+
     def test_compute_passes(self, states: list[State]):
         passes: list[tuple[int, Pass]] = Orbit.compute_passes(states, 1)
         assert passes is not None

@@ -376,6 +376,54 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def_static(
+                "frozen",
+                &Orbit::Frozen,
+                arg("epoch"),
+                arg("altitude"),
+                arg("celestial_object"),
+                arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
+                arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
+                arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
+                arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
+                arg_v("true_anomaly", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
+                R"doc(
+                    Create a frozen `Orbit` object.
+
+                    The critical angles for inclination are 63.4349 degrees and 116.5651 degrees.
+                    The critical angles for AoP are 90.0 degrees and 270.0 degrees.
+
+                    At a minimum, an epoch, altitude, and celestial body with a defined J2 and J3 must be provided. 
+                    In this case, the inclination and AoP are set to critical angles, and the eccentricity is derived 
+                    from inclination. RAAN and true anomaly default to zero degrees.
+                                    
+                    Additionally, the following combinations of inputs are supported:
+                    - AoP (inclination set to critical value, eccentricity derived)
+                    - AoP and eccentricity (inclination derived)
+                    - AoP and inclination, but at least one of them must be a critical value (eccentricity derived)
+                    - Inclination (AoP set to critical value, eccentricity derived)
+                    - Eccentricity (AoP set to critical value, inclination derived)
+                    
+                    Note that inclination and eccentricity cannot both be provided.
+                    
+                    RAAN and True Anomaly may be provided alongside any of these arguments, and will be passed through
+                    to the resulting Orbit as they do not impact the frozen orbit condition.
+
+                    Args:
+                        epoch (Instant): The epoch.
+                        altitude (Length): The altitude.
+                        celestial_object (Celestial): The celestial object.
+                        eccentricity (float): The eccentricity.
+                        inclination (Angle): The inclination.
+                        raan (Angle): The right ascension of the ascending node.
+                        aop (Angle): The argument of periapsis.
+                        true_anomaly (Angle): The true anomaly.
+
+                    Returns:
+                        Orbit: The frozen `Orbit` object.
+                )doc"
+            )
+
+            .def_static(
                 "compute_passes",
                 &Orbit::ComputePasses,
                 arg("states"),

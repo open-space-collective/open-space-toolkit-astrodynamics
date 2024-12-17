@@ -1078,6 +1078,42 @@ Orbit Orbit::SunSynchronous(
     return {orbitalModel, aCelestialObjectSPtr};
 }
 
+Orbit Orbit::Frozen(
+    const Instant& anEpoch,
+    const Length& anAltitude,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Real& anEccentricity,
+    const Angle& anInclination,
+    const Angle& aRaan,
+    const Angle& anAop,
+    const Angle& aTrueAnomaly
+)
+{
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+    if (!anAltitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Altitude");
+    }
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    const Length equatorialRadius = aCelestialObjectSPtr->getEquatorialRadius();
+    const Length semiMajorAxis = equatorialRadius + anAltitude;
+
+    const COE coe = COE::FrozenOrbit(
+        semiMajorAxis, aCelestialObjectSPtr, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
+    );
+
+    const Kepler orbitalModel = {coe, anEpoch, {*aCelestialObjectSPtr}, Kepler::PerturbationType::J2, false};
+
+    return {orbitalModel, aCelestialObjectSPtr};
+}
+
 String Orbit::StringFromFrameType(const Orbit::FrameType& aFrameType)
 {
     switch (aFrameType)

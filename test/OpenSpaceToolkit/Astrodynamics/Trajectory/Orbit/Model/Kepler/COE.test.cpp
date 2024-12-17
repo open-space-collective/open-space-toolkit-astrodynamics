@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
@@ -28,7 +29,9 @@ using ostk::mathematics::object::Vector6d;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
 using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::object::celestial::Celestial;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -672,6 +675,203 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FromSIV
 
         const COE coeFromVector = COE::FromSIVector(coeVector, COE::AnomalyType::True);
         EXPECT_TRUE(coeFromVector == coe_);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenOrbit)
+{
+    const Length semiMajorAxis = Length::Kilometers(8000);
+
+    const Length re = Earth::EGM2008.equatorialRadius_;
+    const Real j2 = Earth::EGM2008.J2_;
+    const Real j3 = Earth::EGM2008.J3_;
+
+    // Only provide SMA
+    {
+        const COE coe = COE::FrozenOrbit(semiMajorAxis, re, j2, j3);
+
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 8.340085671757e-4, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 63.4349, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), 0.0, 1e-10);
+    }
+
+    // Provide inclination
+    // @ref: https://www.mathworks.com/matlabcentral/fileexchange/39119-frozen-orbit-design?s_tid=FX_rc3_behav
+    {
+        const COE coe = COE::FrozenOrbit(semiMajorAxis, re, j2, j3, Real::Undefined(), Angle::Degrees(45.0));
+
+        EXPECT_NEAR(coe.getEccentricity(), 6.594e-4, 1e-6);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
+    }
+
+    // Provide critical AoP and eccentricity
+    // @ref: https://www.mathworks.com/matlabcentral/fileexchange/39119-frozen-orbit-design?s_tid=FX_rc3_behav
+    {
+        const COE coe = COE::FrozenOrbit(
+            semiMajorAxis, re, j2, j3, 6.5941377e-4, Angle::Undefined(), Angle::Degrees(0.0), Angle::Degrees(90.0)
+        );
+
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 45.0, 1e-2);
+    }
+
+    // Provide AoP
+    {
+        const COE coe = COE::FrozenOrbit(
+            semiMajorAxis,
+            re,
+            j2,
+            j3,
+            Real::Undefined(),
+            Angle::Undefined(),
+            Angle::Degrees(45.0),
+            Angle::Degrees(45.0),
+            Angle::Degrees(0.0)
+        );
+
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 63.4349, 1e-10);
+    }
+
+    // Non-exact critical angle supplied
+    {
+        const Angle non_critical_aop = Angle::Degrees(80.0);
+        const COE coe = COE::FrozenOrbit(
+            semiMajorAxis,
+            re,
+            j2,
+            j3,
+            Real::Undefined(),
+            Angle::Degrees(63.43490001),
+            Angle::Degrees(0.0),
+            non_critical_aop
+        );
+
+        EXPECT_NEAR(coe.getAop().inDegrees(), non_critical_aop.inDegrees(), 1e-10);
+    }
+
+    // Construct with Celestial
+    {
+        COE coe = COE::FrozenOrbit(semiMajorAxis, Environment::Default().accessCelestialObjectWithName("Earth"));
+
+        EXPECT_TRUE(coe.isDefined());
+    }
+
+    {
+        {
+            // No SMA provided
+            {
+                EXPECT_THROW(COE::FrozenOrbit(Length::Undefined(), re, j2, j3), ostk::core::error::runtime::Undefined);
+            }
+
+            // No equatorial radius provided
+            {
+                EXPECT_THROW(
+                    COE::FrozenOrbit(semiMajorAxis, Length::Undefined(), j2, j3), ostk::core::error::runtime::Undefined
+                );
+            }
+
+            // No J2 provided
+            {
+                {
+                    EXPECT_THROW(
+                        COE::FrozenOrbit(semiMajorAxis, re, Real::Undefined(), j3),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, 0.0, j3), ostk::core::error::runtime::Undefined);
+                }
+            }
+
+            // No J3 provided
+            {
+                {
+                    EXPECT_THROW(
+                        COE::FrozenOrbit(semiMajorAxis, re, j2, Real::Undefined()),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, 0.0), ostk::core::error::runtime::Undefined);
+                }
+            }
+
+            // No RAAN provided
+            {
+                EXPECT_THROW(
+                    COE::FrozenOrbit(
+                        semiMajorAxis, re, j2, j3, Real::Undefined(), Angle::Undefined(), Angle::Undefined()
+                    ),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
+
+            // No true anomaly provided
+            {
+                EXPECT_THROW(
+                    COE::FrozenOrbit(
+                        semiMajorAxis,
+                        re,
+                        j2,
+                        j3,
+                        Real::Undefined(),
+                        Angle::Undefined(),
+                        Angle::Degrees(0.0),
+                        Angle::Undefined(),
+                        Angle::Undefined()
+                    ),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
+
+            // Null Celestial provided
+            {
+                {
+                    EXPECT_THROW(
+                        COE::FrozenOrbit(semiMajorAxis, std::make_shared<const Celestial>(Celestial::Undefined())),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, nullptr), ostk::core::error::runtime::Undefined);
+                }
+            }
+        }
+
+        // Excessively large eccentricity
+        {
+            EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.1), ostk::core::error::RuntimeError);
+        }
+
+        // Inclination and eccentricity both provided
+        {
+            EXPECT_THROW(
+                COE::FrozenOrbit(semiMajorAxis, re, j2, j3, 0.0001, Angle::Degrees(45.0)),
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // AoP and inclination both provided and both non-critical
+        {
+            EXPECT_THROW(
+                COE::FrozenOrbit(
+                    semiMajorAxis,
+                    re,
+                    j2,
+                    j3,
+                    Real::Undefined(),
+                    Angle::Degrees(45.0),
+                    Angle::Degrees(0.0),
+                    Angle::Degrees(45.0)
+                ),
+                ostk::core::error::RuntimeError
+            );
+        }
     }
 }
 

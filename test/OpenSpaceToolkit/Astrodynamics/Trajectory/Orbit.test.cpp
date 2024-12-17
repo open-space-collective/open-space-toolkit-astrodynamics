@@ -2127,3 +2127,77 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
     //     }
     // }
 }
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
+{
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
+    const Length altitude = Length::Kilometers(500.0);
+    {
+        {
+            const Orbit orbit =
+                Orbit::Frozen(epoch, altitude, Environment::Default().accessCelestialObjectWithName("Earth"));
+
+            EXPECT_TRUE(orbit.isDefined());
+        }
+
+        // Provide target inclination
+        {
+            const Orbit orbit = Orbit::Frozen(
+                epoch,
+                altitude,
+                Environment::Default().accessCelestialObjectWithName("Earth"),
+                Real::Undefined(),
+                Angle::Degrees(60.0)
+            );
+
+            EXPECT_TRUE(orbit.isDefined());
+            EXPECT_EQ(
+                orbit.accessModel().as<Kepler>().getClassicalOrbitalElements().getInclination(), Angle::Degrees(60.0)
+            );
+        }
+    }
+
+    {
+        // Undefined epoch
+        {
+            EXPECT_THROW(
+                Orbit::Frozen(
+                    Instant::Undefined(), altitude, Environment::Default().accessCelestialObjectWithName("Earth")
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+        }
+
+        // Undefined altitude
+        {
+            EXPECT_THROW(
+                Orbit::Frozen(
+                    epoch, Length::Undefined(), Environment::Default().accessCelestialObjectWithName("Earth")
+                ),
+                ostk::core::error::runtime::Undefined
+            );
+        }
+
+        // Undefined celestial object
+        {
+            {
+                EXPECT_THROW(Orbit::Frozen(epoch, altitude, nullptr), ostk::core::error::runtime::Undefined);
+            }
+
+            {
+                EXPECT_THROW(
+                    Orbit::Frozen(epoch, altitude, std::make_shared<Celestial>(Celestial::Undefined())),
+                    ostk::core::error::runtime::Undefined
+                );
+            }
+        }
+
+        // Celestial object model with no J3 term
+        {
+            EXPECT_THROW(
+                Orbit::Frozen(epoch, altitude, std::make_shared<Celestial>(Earth::WGS84())),
+                ostk::core::error::runtime::Undefined
+            );
+        }
+    }
+}
