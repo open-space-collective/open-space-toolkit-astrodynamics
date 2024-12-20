@@ -26,6 +26,7 @@ ostk.astrodynamics.trajectory.Orbit
       ~Orbit.compute_passes
       ~Orbit.compute_passes_with_model
       ~Orbit.equatorial
+      ~Orbit.frozen
       ~Orbit.geo_synchronous
       ~Orbit.get_orbital_frame
       ~Orbit.get_pass_at

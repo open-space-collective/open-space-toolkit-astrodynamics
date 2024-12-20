@@ -25,6 +25,7 @@ ostk.astrodynamics.trajectory.orbit.model.BrouwerLyddaneMean
       ~BrouwerLyddaneMean.eccentric_anomaly_from_mean_anomaly
       ~BrouwerLyddaneMean.eccentric_anomaly_from_true_anomaly
       ~BrouwerLyddaneMean.from_SI_vector
+      ~BrouwerLyddaneMean.frozen_orbit
       ~BrouwerLyddaneMean.get_SI_vector
       ~BrouwerLyddaneMean.get_angular_momentum
       ~BrouwerLyddaneMean.get_aop

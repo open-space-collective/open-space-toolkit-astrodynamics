@@ -25,6 +25,7 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.eccentric_anomaly_from_mean_anomaly
       ~COE.eccentric_anomaly_from_true_anomaly
       ~COE.from_SI_vector
+      ~COE.frozen_orbit
       ~COE.get_SI_vector
       ~COE.get_angular_momentum
       ~COE.get_aop
