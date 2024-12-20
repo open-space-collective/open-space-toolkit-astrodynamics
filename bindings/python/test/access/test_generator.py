@@ -2,6 +2,8 @@
 
 import pytest
 
+import numpy as np
+
 from ostk.mathematics.object import RealInterval
 
 from ostk.physics.unit import Length
@@ -12,7 +14,11 @@ from ostk.physics.time import Duration
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics import Environment
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.environment.object import Celestial
+from ostk.physics.environment.object.celestial import Earth
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
@@ -20,6 +26,8 @@ from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics import Access
 from ostk.astrodynamics.access import Generator
+from ostk.astrodynamics.access import AccessTarget
+from ostk.astrodynamics.access import VisibilityCriterion
 
 
 @pytest.fixture
@@ -80,6 +88,94 @@ def to_trajectory(earth: Celestial) -> Trajectory:
         ),
         celestial_object=earth,
     )
+
+
+@pytest.fixture
+def visibility_criterion(environment: Environment) -> VisibilityCriterion:
+    return VisibilityCriterion.from_line_of_sight(environment=environment)
+
+
+@pytest.fixture
+def lla() -> LLA:
+    return LLA.vector([0.0, 0.0, 500.0])
+
+
+@pytest.fixture
+def access_target(
+    visibility_criterion: VisibilityCriterion,
+    lla: LLA,
+    earth: Earth,
+) -> AccessTarget:
+    return AccessTarget.from_lla(visibility_criterion, lla, earth)
+
+
+class TestAccessTarget:
+    def test_constructor_success(self, access_target: AccessTarget):
+        assert isinstance(access_target, AccessTarget)
+
+    def test_get_type_success(self, access_target: AccessTarget):
+        assert access_target.get_type() == AccessTarget.Type.Fixed
+
+    def test_get_visibility_criterion_success(self, access_target: AccessTarget):
+        assert access_target.get_visibility_criterion() is not None
+        assert isinstance(access_target.get_visibility_criterion(), VisibilityCriterion)
+
+    def test_get_trajectory_success(self, access_target: AccessTarget):
+        assert access_target.get_trajectory() is not None
+        assert isinstance(access_target.get_trajectory(), Trajectory)
+
+    def test_get_position_success(self, access_target: AccessTarget):
+        assert access_target.get_position() is not None
+        assert isinstance(access_target.get_position(), Position)
+
+    def test_get_lla_success(
+        self,
+        access_target: AccessTarget,
+        earth: Earth,
+    ):
+        assert access_target.get_lla(earth) is not None
+        assert isinstance(access_target.get_lla(earth), LLA)
+
+    def test_compute_r_sez_ecef_success(
+        self,
+        access_target: AccessTarget,
+        earth: Earth,
+    ):
+        assert access_target.compute_r_sez_ecef(earth) is not None
+        assert isinstance(access_target.compute_r_sez_ecef(earth), np.ndarray)
+
+    def test_from_lla_success(
+        self,
+        visibility_criterion: VisibilityCriterion,
+        lla: LLA,
+        earth: Earth,
+    ):
+        access_target = AccessTarget.from_lla(visibility_criterion, lla, earth)
+
+        assert access_target is not None
+        assert isinstance(access_target, AccessTarget)
+
+    def test_from_position_success(
+        self,
+        visibility_criterion: VisibilityCriterion,
+        position: Position,
+    ):
+        access_target = AccessTarget.from_position(
+            visibility_criterion, position.in_frame(Frame.ITRF(), Instant.J2000())
+        )
+
+        assert access_target is not None
+        assert isinstance(access_target, AccessTarget)
+
+    def test_from_trajectory_success(
+        self,
+        visibility_criterion: VisibilityCriterion,
+        trajectory: Trajectory,
+    ):
+        access_target = AccessTarget.from_trajectory(visibility_criterion, trajectory)
+
+        assert access_target is not None
+        assert isinstance(access_target, AccessTarget)
 
 
 class TestGenerator:
