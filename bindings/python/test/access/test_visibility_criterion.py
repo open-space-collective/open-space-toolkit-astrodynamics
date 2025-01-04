@@ -9,7 +9,6 @@ from ostk.physics import Environment
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
-from ostk.physics.coordinate.spherical import AER
 
 from ostk.astrodynamics.access import VisibilityCriterion
 
@@ -136,11 +135,15 @@ class TestVisibilityCriterion:
         aer_interval = VisibilityCriterion.AERInterval(
             azimuth_interval, elevation_interval, range_interval
         )
-        aer = AER(azimuth=np.pi / 4, elevation=np.pi / 8, range=5e6)
-        assert aer_interval.is_satisfied(aer) is True
+        assert (
+            aer_interval.is_satisfied(azimuth=np.pi / 4, elevation=np.pi / 8, range=5e6)
+            is True
+        )
 
-        aer_invalid = AER(azimuth=np.pi, elevation=np.pi / 2, range=1e8)
-        assert aer_interval.is_satisfied(aer_invalid) is False
+        assert (
+            aer_interval.is_satisfied(azimuth=np.pi, elevation=np.pi / 2, range=1e8)
+            is False
+        )
 
     def test_elevation_interval_is_satisfied(
         self,
@@ -159,8 +162,10 @@ class TestVisibilityCriterion:
     ):
         line_of_sight = VisibilityCriterion.LineOfSight(environment)
         instant = Instant.now()
-        from_position = np.array([7000e3, 0.0, 0.0])  # 7000 km altitude
-        to_position = np.array([0.0, 7000e3, 0.0])  # 7000 km altitude
+
+        from_position = np.array([7000e3, 0.0, 0.0])
+        to_position = np.array([7005e3, 0.0, 0.0])
+
         assert line_of_sight.is_satisfied(instant, from_position, to_position) is True
 
     def test_visibility_criterion_type_checks(
