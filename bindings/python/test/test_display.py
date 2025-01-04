@@ -15,12 +15,13 @@ from ostk.physics.time import Scale
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 
-from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics import display
 from ostk.astrodynamics.access import Generator as AccessGenerator
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.model import SGP4
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
+from ostk.astrodynamics.access import AccessTarget
+from ostk.astrodynamics.access import VisibilityCriterion
 
 
 class TestDisplay:
@@ -52,7 +53,12 @@ class TestDisplay:
         environment: Environment = Environment.default()
         earth: Celestial = environment.access_celestial_object_with_name("Earth")
 
-        ground_station_trajectory: Trajectory = Trajectory.position(
+        visibility_criterion: VisibilityCriterion = (
+            VisibilityCriterion.from_line_of_sight(environment)
+        )
+
+        access_target: AccessTarget = AccessTarget.from_position(
+            visibility_criterion,
             Position.meters(
                 ground_station_lla.to_cartesian(
                     earth.get_equatorial_radius(),
@@ -76,7 +82,7 @@ class TestDisplay:
 
         accesses_1 = generator.compute_accesses(
             interval=search_interval,
-            from_trajectory=ground_station_trajectory,
+            access_target=access_target,
             to_trajectory=orbit_1,
         )
 
@@ -84,7 +90,7 @@ class TestDisplay:
 
         accesses_2 = generator.compute_accesses(
             interval=search_interval,
-            from_trajectory=ground_station_trajectory,
+            access_target=access_target,
             to_trajectory=orbit_2,
         )
 

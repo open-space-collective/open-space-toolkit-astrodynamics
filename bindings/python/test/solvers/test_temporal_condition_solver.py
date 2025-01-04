@@ -16,6 +16,8 @@ from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics.access import Generator
 from ostk.astrodynamics.solver import TemporalConditionSolver
+from ostk.astrodynamics.access import AccessTarget
+from ostk.astrodynamics.access import VisibilityCriterion
 
 
 @pytest.fixture
@@ -141,9 +143,15 @@ class TestTemporalConditionSolver:
             celestial_object=earth,
         )
 
+        visibility_criterion: VisibilityCriterion = (
+            VisibilityCriterion.from_line_of_sight(environment)
+        )
+
+        access_target = AccessTarget.from_trajectory(visibility_criterion, trajectory)
+
         solution: list[Interval] = temporal_condition_solver.solve(
             condition=generator.get_condition_function(
-                from_trajectory=trajectory,
+                access_target=access_target,
                 to_trajectory=trajectory,
             ),
             interval=interval,
