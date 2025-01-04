@@ -182,7 +182,7 @@ class AccessTarget
     VisibilityCriterion visibilityCriterion_;
     Trajectory trajectory_;
 
-    AccessTarget(const Type& aType, const VisibilityCriterion& constrant, const Trajectory& aTrajectory);
+    AccessTarget(const Type& aType, const VisibilityCriterion& constraint, const Trajectory& aTrajectory);
 };
 
 class Generator
