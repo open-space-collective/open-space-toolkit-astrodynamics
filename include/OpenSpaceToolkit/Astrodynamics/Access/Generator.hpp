@@ -138,12 +138,12 @@ class AccessTarget
     /// @brief Construct an Access Target from an LLA (Latitude, Longitude, Altitude)
     ///
     /// @code{.cpp}
-    ///              AccessTarget accessTarget = AccessTarget::LLA(
+    ///              AccessTarget accessTarget = AccessTarget::FromLLA(
     ///                  visibilityCriterion, lla, celestialSPtr
     ///              );
     /// @endcode
     ///
-    /// @param constraint
+    /// @param aVisibilityCriterion
     /// @param anLLA
     /// @param aCelestialSPtr
     /// @return Access target
@@ -154,12 +154,12 @@ class AccessTarget
     /// @brief Construct an Access Target from a position
     ///
     /// @code{.cpp}
-    ///              AccessTarget accessTarget = AccessTarget::Position(
+    ///              AccessTarget accessTarget = AccessTarget::FromPosition(
     ///                  visibilityCriterion, position
     ///              );
     /// @endcode
     ///
-    /// @param constraint
+    /// @param aVisibilityCriterion
     /// @param aPosition
     /// @return Access target
     static AccessTarget FromPosition(const VisibilityCriterion& aVisibilityCriterion, const Position& aPosition);
@@ -172,7 +172,7 @@ class AccessTarget
     ///              );
     /// @endcode
     ///
-    /// @param constraint
+    /// @param aVisibilityCriterion
     /// @param aTrajectory
     /// @return Access target
     static AccessTarget FromTrajectory(const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory);
@@ -182,7 +182,7 @@ class AccessTarget
     VisibilityCriterion visibilityCriterion_;
     Trajectory trajectory_;
 
-    AccessTarget(const Type& aType, const VisibilityCriterion& constraint, const Trajectory& aTrajectory);
+    AccessTarget(const Type& aType, const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory);
 };
 
 class Generator
