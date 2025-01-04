@@ -181,13 +181,17 @@ class TestViewer:
         viewer: Viewer,
     ):
         viewer.add_label(
-            position=Position.meters([1.0, 2.0, 3.0], Frame.ITRF()),
+            position=Position.meters([6671000.0, 0.0, 0.0], Frame.ITRF()),
             text="Hello, World!",
-            size=10.0,
+            size=1.0,
             color="red",
         )
 
         rendered_html: str = viewer.render()
+
+        import IPython
+
+        IPython.embed()
 
         assert rendered_html.startswith('<meta charset="utf-8">')
         assert "var widget = new Cesium.Viewer" in rendered_html
