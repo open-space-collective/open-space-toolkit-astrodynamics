@@ -192,7 +192,7 @@ class TestViewer:
         assert rendered_html.startswith('<meta charset="utf-8">')
         assert "var widget = new Cesium.Viewer" in rendered_html
         assert (
-            'widget.entities.add({position: Cesium.Cartesian3.fromDegrees(63.43494882292201, 18.22447811510915, -6376045.535225509), label: {text: "Hello, World!", fillColor: Cesium.Color.RED, scale: 1.0}});'
+            'widget.entities.add({position: Cesium.Cartesian3.fromDegrees(0.0, 0.0, 292863.0000000001), label: {text: "Hello, World!", fillColor: Cesium.Color.RED, scale: 1.0}});'
             in rendered_html
         )
         assert rendered_html.endswith("</script>")
