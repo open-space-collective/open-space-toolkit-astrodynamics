@@ -72,35 +72,35 @@ class AccessTarget
         Trajectory
     };
 
-    /// @brief Get the type
+    /// @brief Access the type
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              AccessTarget::Type type = accessTarget.getType();
+    ///              AccessTarget::Type type = accessTarget.accessType();
     /// @endcode
     ///
     /// @return The type
-    Type getType() const;
+    const Type& accessType() const;
 
-    /// @brief Get the visibility criteria
+    /// @brief Access the visibility criteria
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              VisibilityCriterion visibilityCriterion = accessTarget.getVisibilityCriterion();
+    ///              VisibilityCriterion visibilityCriterion = accessTarget.accessVisibilityCriterion();
     /// @endcode
     ///
     /// @return The visibility criteria
-    VisibilityCriterion getVisibilityCriterion() const;
+    const VisibilityCriterion& accessVisibilityCriterion() const;
 
-    /// @brief Get the trajectory
+    /// @brief Access the trajectory
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              Trajectory trajectory = accessTarget.getTrajectory();
+    ///              const Trajectory& trajectory = accessTarget.accessTrajectory();
     /// @endcode
     ///
     /// @return The trajectory
-    Trajectory getTrajectory() const;
+    const Trajectory& accessTrajectory() const;
 
     /// @brief Get the position
     ///

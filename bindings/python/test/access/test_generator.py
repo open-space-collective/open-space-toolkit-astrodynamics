@@ -44,9 +44,8 @@ def earth(environment: Environment) -> Celestial:
 def generator(environment: Environment) -> Generator:
     return Generator(
         environment=environment,
-        aer_filter=lambda aer: True,
         access_filter=lambda access: True,
-        state_filter=lambda state_1, state_2: True,
+        state_filter=None,
     )
 
 
@@ -107,6 +106,14 @@ def access_target(
     earth: Earth,
 ) -> AccessTarget:
     return AccessTarget.from_lla(visibility_criterion, lla, earth)
+
+
+@pytest.fixture
+def trajectory_target(
+    visibility_criterion: VisibilityCriterion,
+    from_trajectory: Trajectory,
+) -> AccessTarget:
+    return AccessTarget.from_trajectory(visibility_criterion, from_trajectory)
 
 
 class TestAccessTarget:
@@ -187,15 +194,6 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
 
-    def test_constructor_success_environment_aer_filter(self, environment: Environment):
-        generator = Generator(
-            environment=environment,
-            aer_filter=lambda aer: True,
-        )
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-
     def test_constructor_success_environment_access_filter(
         self,
         environment: Environment,
@@ -238,18 +236,17 @@ class TestGenerator:
     def test_getters_success(self, generator: Generator):
         assert generator.get_step() == Duration.minutes(1.0)
         assert generator.get_tolerance() == Duration.microseconds(1.0)
-        assert generator.get_aer_filter() is not None
         assert generator.get_access_filter() is not None
-        assert generator.get_state_filter() is not None
+        assert generator.get_state_filter() is None
 
     def test_get_condition_function_success(
         self,
         generator: Generator,
-        from_trajectory: Trajectory,
+        trajectory_target: AccessTarget,
         to_trajectory: Trajectory,
     ):
         condition_function = generator.get_condition_function(
-            from_trajectory=from_trajectory,
+            access_target=trajectory_target,
             to_trajectory=to_trajectory,
         )
 
@@ -264,7 +261,7 @@ class TestGenerator:
     def test_compute_accesses_success(
         self,
         generator: Generator,
-        from_trajectory: Trajectory,
+        trajectory_target: AccessTarget,
         to_trajectory: Trajectory,
     ):
         accesses = generator.compute_accesses(
@@ -272,7 +269,7 @@ class TestGenerator:
                 Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
                 Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC),
             ),
-            from_trajectory=from_trajectory,
+            access_target=trajectory_target,
             to_trajectory=to_trajectory,
         )
 
@@ -281,14 +278,32 @@ class TestGenerator:
         assert accesses[0] is not None
         assert isinstance(accesses[0], Access)
 
+    def test_compute_accesses_multiple_targets_success(
+        self,
+        generator: Generator,
+        trajectory_target: AccessTarget,
+        to_trajectory: Trajectory,
+    ):
+        accesses = generator.compute_accesses(
+            interval=Interval.closed(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+                Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC),
+            ),
+            access_targets=[trajectory_target],
+            to_trajectory=to_trajectory,
+        )
+
+        assert accesses is not None
+        assert isinstance(accesses, list)
+        assert accesses[0] is not None
+        assert isinstance(accesses[0], list)
+        assert isinstance(accesses[0][0], Access)
+
     def test_set_step_success(self, generator: Generator):
         generator.set_step(Duration.seconds(1.0))
 
     def test_set_tolerance_success(self, generator: Generator):
         generator.set_tolerance(Duration.seconds(1.0))
-
-    def test_set_aer_filter_success(self, generator: Generator):
-        generator.set_aer_filter(aer_filter=lambda aer: True)
 
     def test_set_access_filter_success(self, generator: Generator):
         generator.set_access_filter(access_filter=lambda access: True)
@@ -302,43 +317,3 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
         assert generator.is_defined() is False
-
-    def test_aer_ranges_success(self, environment: Environment):
-        # Construct arbitrary AER ranges
-        azimuth_interval = RealInterval.closed(0.0, 360.0)
-        elevation_interval = RealInterval.closed(0.0, 90.0)
-        range_interval = RealInterval.closed(0.0, 7000e3)
-
-        generator = Generator.aer_ranges(
-            azimuth_range=azimuth_interval,
-            elevation_range=elevation_interval,
-            range_range=range_interval,
-            environment=environment,
-        )
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-        assert generator.is_defined()
-
-    def test_aer_mask_success(self, environment: Environment):
-        # Construct arbitrary anAzimuthElevationMask using python dict
-        an_azimuth_elevation_mask = {
-            0.0: 30.0,
-            90.0: 60.0,
-            180.0: 60.0,
-            270.0: 30.0,
-            359.0: 30.0,
-        }
-
-        # Construct arbitrary aRangerange
-        a_range_range = RealInterval(0.0, 10e4, RealInterval.Type.Closed)
-
-        generator = Generator.aer_mask(
-            azimuth_elevation_mask=an_azimuth_elevation_mask,
-            range_range=a_range_range,
-            environment=environment,
-        )
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-        assert generator.is_defined()
