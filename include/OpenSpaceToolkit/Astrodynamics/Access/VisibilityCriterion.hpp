@@ -242,9 +242,9 @@ class VisibilityCriterion
     template <typename T>
     std::optional<T> as() const
     {
-        if (const auto* constraintPtr = std::get_if<T>(&visibilityCriterion_))
+        if (const auto* visibilityCriterionPtr = std::get_if<T>(&visibilityCriterion_))
         {
-            return *constraintPtr;
+            return *visibilityCriterionPtr;
         }
 
         return std::nullopt;
