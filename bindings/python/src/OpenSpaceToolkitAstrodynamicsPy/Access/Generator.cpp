@@ -43,7 +43,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
     accessTargetClass
         .def(
             "get_type",
-            &AccessTarget::getType,
+            &AccessTarget::accessType,
             R"doc(
                 Get the type of the access target.
 
@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         )
         .def(
             "get_visibility_criterion",
-            &AccessTarget::getVisibilityCriterion,
+            &AccessTarget::accessVisibilityCriterion,
             R"doc(
                 Get the visibility criterion associated with the access target.
 
@@ -63,7 +63,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         )
         .def(
             "get_trajectory",
-            &AccessTarget::getTrajectory,
+            &AccessTarget::accessTrajectory,
             R"doc(
                 Get the trajectory associated with the access target.
 
@@ -258,14 +258,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
                 Get the condition function.
 
                 Args:
-                    from_trajectory (State): The state at the start of the interval.
-                    to_trajectory (State): The state at the end of the interval.
+                    access_target (AccessTarget): The access target from which the condition function is being evaluated against.
+                    to_trajectory (Trajectory): The trajectory to which the condition function is being evaluated against.
 
                 Returns:
                     function: The condition function.
 
             )doc",
-            arg("from_trajectory"),
+            arg("access_target"),
             arg("to_trajectory")
         )
         .def(

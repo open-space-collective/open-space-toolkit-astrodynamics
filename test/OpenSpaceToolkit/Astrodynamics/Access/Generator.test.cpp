@@ -99,147 +99,47 @@ class OpenSpaceToolkit_Astrodynamics_Access_AccessTarget : public ::testing::Tes
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
 {
     // Constructor
-    {
-        {
-            const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromAERInterval(
-                defaultAzimuthInterval_, defaultElevationInterval_, defaultRangeInterval_
-            );
 
-            EXPECT_NO_THROW(AccessTarget::FromLLA(visibilityCriterion, defaultLLA_, defaultEarthSPtr_));
+    {
+        // FromLLA
+
+        {
+            EXPECT_NO_THROW(AccessTarget::FromLLA(defaultVisibilityCriterion_, defaultLLA_, defaultEarthSPtr_));
+
+            EXPECT_THROW(
+                AccessTarget::FromLLA(defaultVisibilityCriterion_, LLA::Undefined(), defaultEarthSPtr_),
+                ostk::core::error::runtime::Undefined
+            );
         }
 
+        // FromPosition
+
         {
-            const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromAERInterval(
-                defaultAzimuthInterval_, defaultElevationInterval_, defaultRangeInterval_
-            );
             {
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
-                EXPECT_NO_THROW(AccessTarget::FromPosition(visibilityCriterion, position));
+                EXPECT_NO_THROW(AccessTarget::FromPosition(defaultVisibilityCriterion_, position));
             }
 
             {
-                const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
                 EXPECT_THROW(
-                    AccessTarget::FromPosition(visibilityCriterion, position), ostk::core::error::RuntimeError
+                    AccessTarget::FromPosition(defaultVisibilityCriterion_, Position::Undefined()),
+                    ostk::core::error::runtime::Undefined
                 );
             }
         }
 
-        // undefined
-        {
-            const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
+        // FromTrajectory
 
-            EXPECT_THROW(
-                AccessTarget::FromPosition(
-                    VisibilityCriterion::FromAERInterval(
-                        ostk::mathematics::object::Interval<Real>::Undefined(),
-                        defaultElevationInterval_,
-                        defaultRangeInterval_
-                    ),
-                    position
-                ),
-                ostk::core::error::runtime::Undefined
-            );
-            EXPECT_THROW(
-                AccessTarget::FromPosition(
-                    VisibilityCriterion::FromAERInterval(
-                        defaultAzimuthInterval_,
-                        ostk::mathematics::object::Interval<Real>::Undefined(),
-                        defaultRangeInterval_
-                    ),
-                    position
-                ),
-                ostk::core::error::runtime::Undefined
-            );
-            EXPECT_THROW(
-                AccessTarget::FromPosition(
-                    VisibilityCriterion::FromAERInterval(
-                        defaultAzimuthInterval_,
-                        defaultElevationInterval_,
-                        ostk::mathematics::object::Interval<Real>::Undefined()
-                    ),
-                    position
-                ),
-                ostk::core::error::runtime::Undefined
-            );
-            EXPECT_THROW(
-                AccessTarget::FromLLA(
-                    VisibilityCriterion::FromAERInterval(
-                        defaultAzimuthInterval_, defaultElevationInterval_, defaultRangeInterval_
-                    ),
-                    LLA::Undefined(),
-                    defaultEarthSPtr_
-                ),
-                ostk::core::error::runtime::Undefined
-            );
-        }
-
-        // incorrect bounds
         {
             {
-                EXPECT_THROW(
-                    AccessTarget::FromLLA(
-                        VisibilityCriterion::FromAERInterval(
-                            ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0),
-                            defaultElevationInterval_,
-                            defaultRangeInterval_
-                        ),
-                        defaultLLA_,
-                        defaultEarthSPtr_
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-                EXPECT_THROW(
-                    AccessTarget::FromLLA(
-                        VisibilityCriterion::FromAERInterval(
-                            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1),
-                            defaultElevationInterval_,
-                            defaultRangeInterval_
-                        ),
-                        defaultLLA_,
-                        defaultEarthSPtr_
-                    ),
-                    ostk::core::error::RuntimeError
-                );
+                const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
+                EXPECT_NO_THROW(AccessTarget::FromTrajectory(defaultVisibilityCriterion_, trajectory));
             }
+
             {
                 EXPECT_THROW(
-                    AccessTarget::FromLLA(
-                        VisibilityCriterion::FromAERInterval(
-                            defaultAzimuthInterval_,
-                            ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0),
-                            defaultRangeInterval_
-                        ),
-                        defaultLLA_,
-                        defaultEarthSPtr_
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-                EXPECT_THROW(
-                    AccessTarget::FromLLA(
-                        VisibilityCriterion::FromAERInterval(
-                            defaultAzimuthInterval_,
-                            ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0),
-                            defaultRangeInterval_
-                        ),
-                        defaultLLA_,
-                        defaultEarthSPtr_
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-            }
-            {
-                EXPECT_THROW(
-                    AccessTarget::FromLLA(
-                        VisibilityCriterion::FromAERInterval(
-                            defaultAzimuthInterval_,
-                            defaultElevationInterval_,
-                            ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0)
-                        ),
-                        defaultLLA_,
-                        defaultEarthSPtr_
-                    ),
-                    ostk::core::error::RuntimeError
+                    AccessTarget::FromTrajectory(defaultVisibilityCriterion_, Trajectory::Undefined()),
+                    ostk::core::error::runtime::Undefined
                 );
             }
         }
@@ -278,22 +178,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, getType)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, AccessType)
 {
-    EXPECT_EQ(defaultAccessTarget_.getType(), AccessTarget::Type::Fixed);
+    EXPECT_EQ(defaultAccessTarget_.accessType(), AccessTarget::Type::Fixed);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, getVisibilityCriterion)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, AccessVisibilityCriterion)
 {
-    EXPECT_EQ(defaultAccessTarget_.getVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(defaultAccessTarget_.accessVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, getTrajectory)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, AccessTrajectory)
 {
-    EXPECT_NO_THROW(defaultAccessTarget_.getTrajectory());
+    EXPECT_NO_THROW(defaultAccessTarget_.accessTrajectory());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, getPosition)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
 {
     {
         EXPECT_VECTORS_ALMOST_EQUAL(
@@ -314,14 +214,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, getPosition)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, getLLA)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetLLA)
 {
     EXPECT_VECTORS_ALMOST_EQUAL(
         defaultAccessTarget_.getLLA(defaultEarthSPtr_).toVector(), defaultLLA_.toVector(), 1e-15
     );
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, computeR_SEZ_ECEF)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, ComputeR_SEZ_ECEF)
 {
     Matrix3d r_SEZ_ECEF;
     r_SEZ_ECEF.row(0) = Vector3d {0.0, 0.0, -1.0};
@@ -336,8 +236,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromLLA)
     const AccessTarget accessTarget =
         AccessTarget::FromLLA(defaultVisibilityCriterion_, defaultLLA_, defaultEarthSPtr_);
 
-    EXPECT_EQ(accessTarget.getType(), AccessTarget::Type::Fixed);
-    EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(accessTarget.accessType(), AccessTarget::Type::Fixed);
+    EXPECT_EQ(accessTarget.accessVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromPosition)
@@ -345,8 +245,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromPosition)
     const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
     const AccessTarget accessTarget = AccessTarget::FromPosition(defaultVisibilityCriterion_, position);
 
-    EXPECT_EQ(accessTarget.getType(), AccessTarget::Type::Fixed);
-    EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(accessTarget.accessType(), AccessTarget::Type::Fixed);
+    EXPECT_EQ(accessTarget.accessVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromTrajectory)
@@ -354,8 +254,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromTrajectory)
     const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
     const AccessTarget accessTarget = AccessTarget::FromTrajectory(defaultVisibilityCriterion_, trajectory);
 
-    EXPECT_EQ(accessTarget.getType(), AccessTarget::Type::Trajectory);
-    EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(accessTarget.accessType(), AccessTarget::Type::Trajectory);
+    EXPECT_EQ(accessTarget.accessVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
@@ -504,6 +404,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
     {
         EXPECT_ANY_THROW(Generator::Undefined().getConditionFunction(accessTarget, toOrbit));
+    }
+
+    {
+        EXPECT_ANY_THROW(defaultGenerator_.getConditionFunction(accessTarget, Trajectory::Undefined()));
     }
 }
 
@@ -870,6 +774,99 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 {
     {
+        const Instant startInstant = Instant::J2000();
+        const Instant endInstant = startInstant + Duration::Days(1.0);
+        const Interval interval = Interval::Closed(startInstant, endInstant);
+
+        const TLE tle = {
+            "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
+            "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
+        };
+
+        const SGP4 sgp4 = SGP4(tle);
+        const Orbit orbit = Orbit(sgp4, defaultEarthSPtr_);
+
+        const ostk::mathematics::object::Interval<Real> azimuthInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<Real> elevationInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+        const ostk::mathematics::object::Interval<Real> rangeInterval =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+
+        const VisibilityCriterion visibilityCriterion =
+            VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
+
+        const AccessTarget accessTarget = AccessTarget::FromLLA(
+            visibilityCriterion,
+            LLA(Angle::Degrees(53.406), Angle::Degrees(-6.225), Length::Meters(50.5)),
+            defaultEarthSPtr_
+        );
+
+        const AccessTarget trajectoryTarget = AccessTarget::FromTrajectory(visibilityCriterion, orbit);
+
+        // array of targets
+
+        {
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(Interval::Undefined(), {accessTarget}, orbit),
+                ostk::core::error::runtime::Undefined
+            );
+
+            EXPECT_THROW(defaultGenerator_.computeAccesses(interval, {}, orbit), ostk::core::error::runtime::Undefined);
+
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(interval, {accessTarget}, Trajectory::Undefined()),
+                ostk::core::error::runtime::Undefined
+            );
+
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(interval, {trajectoryTarget}, orbit, true),
+                ostk::core::error::RuntimeError
+            );
+
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(interval, {trajectoryTarget, accessTarget}, orbit, true),
+                ostk::core::error::RuntimeError
+            );
+
+            {
+                const auto stateFilter = [](const State&, const State&) -> bool
+                {
+                    return true;
+                };
+
+                defaultGenerator_.setStateFilter(stateFilter);
+
+                EXPECT_THROW(
+                    defaultGenerator_.computeAccesses(interval, {accessTarget, accessTarget}, orbit),
+                    ostk::core::error::RuntimeError
+                );
+
+                defaultGenerator_.setStateFilter(nullptr);
+            }
+        }
+
+        // single target
+
+        {
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(Interval::Undefined(), accessTarget, orbit),
+                ostk::core::error::runtime::Undefined
+            );
+
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(interval, accessTarget, Trajectory::Undefined()),
+                ostk::core::error::runtime::Undefined
+            );
+
+            EXPECT_THROW(
+                defaultGenerator_.computeAccesses(interval, trajectoryTarget, orbit, true),
+                ostk::core::error::RuntimeError
+            );
+        }
+    }
+
+    {
         const TLE tle = {
             "1 60504U 24149AN  24293.10070306  .00000000  00000-0  58313-3 0    08",
             "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
@@ -878,7 +875,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         const Orbit aToTrajectory = Orbit(sgp4, defaultEnvironment_.accessCelestialObjectWithName("Earth"));
 
         const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
-        const Instant endInstant = startInstant + Duration::Days(1.0);
+        const Instant endInstant = startInstant + Duration::Hours(6.0);
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
         const Array<LLA> LLAs = {
@@ -898,57 +895,115 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             LLA(Angle::Degrees(-52.9351), Angle::Degrees(-70.8713), Length::Meters(23))
         };
 
-        const ostk::mathematics::object::Interval<Real> azimuthInterval =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
-        const ostk::mathematics::object::Interval<Real> elevationInterval =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
-        const ostk::mathematics::object::Interval<Real> rangeInterval =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+        // AER Interval visibility criterion, multiple targets
 
-        const VisibilityCriterion visibilityCriterion =
-            VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
-
-        Array<AccessTarget> accessTargets = LLAs.map<AccessTarget>(
-            [&visibilityCriterion, this](const LLA& lla) -> AccessTarget
-            {
-                return AccessTarget::FromLLA(visibilityCriterion, lla, defaultEarthSPtr_);
-            }
-        );
-
-        const Array<Array<Access>> accessesPerTarget =
-            defaultGenerator_.computeAccesses(interval, accessTargets, aToTrajectory);
-
-        ASSERT_EQ(accessesPerTarget.getSize(), accessTargets.getSize());
-
-        for (Index i = 0; i < accessesPerTarget.getSize(); ++i)
         {
-            const Array<Access> accesses = accessesPerTarget.at(i);
-            const AccessTarget groundTarget = accessTargets.at(i);
+            const ostk::mathematics::object::Interval<Real> azimuthInterval =
+                ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
+            const ostk::mathematics::object::Interval<Real> elevationInterval =
+                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+            const ostk::mathematics::object::Interval<Real> rangeInterval =
+                ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
 
-            const Array<Access> expectedAccesses =
-                defaultGenerator_.computeAccesses(interval, groundTarget, aToTrajectory);
+            const VisibilityCriterion visibilityCriterion =
+                VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
 
-            ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
+            Array<AccessTarget> accessTargets = LLAs.map<AccessTarget>(
+                [&visibilityCriterion, this](const LLA& lla) -> AccessTarget
+                {
+                    return AccessTarget::FromLLA(visibilityCriterion, lla, defaultEarthSPtr_);
+                }
+            );
 
-            for (Index j = 0; j < accesses.getSize(); ++j)
+            const Array<Array<Access>> accessesPerTarget =
+                defaultGenerator_.computeAccesses(interval, accessTargets, aToTrajectory);
+
+            ASSERT_EQ(accessesPerTarget.getSize(), accessTargets.getSize());
+
+            for (Index i = 0; i < accessesPerTarget.getSize(); ++i)
             {
-                const Access& access = accesses.at(j);
-                const Access& expectedAccess = expectedAccesses.at(j);
+                const Array<Access> accesses = accessesPerTarget.at(i);
+                const AccessTarget groundTarget = accessTargets.at(i);
 
-                EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(
-                    expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
-                )) << access.getAcquisitionOfSignal().toString()
-                   << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
-                EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
-                    expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
-                )) << access.getTimeOfClosestApproach().toString()
-                   << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
-                EXPECT_TRUE(
-                    access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
-                ) << access.getLossOfSignal().toString()
-                  << " ~ " << expectedAccess.getLossOfSignal().toString();
-                EXPECT_TRUE(access.getDuration().isNear(expectedAccess.getDuration(), Duration::Microseconds(1.0)))
-                    << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
+                const Array<Access> expectedAccesses =
+                    defaultGenerator_.computeAccesses(interval, groundTarget, aToTrajectory);
+
+                ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
+
+                for (Index j = 0; j < accesses.getSize(); ++j)
+                {
+                    const Access& access = accesses.at(j);
+                    const Access& expectedAccess = expectedAccesses.at(j);
+
+                    EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(
+                        expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
+                    )) << access.getAcquisitionOfSignal().toString()
+                       << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
+                    EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
+                        expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
+                    )) << access.getTimeOfClosestApproach().toString()
+                       << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                    EXPECT_TRUE(
+                        access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
+                    ) << access.getLossOfSignal().toString()
+                      << " ~ " << expectedAccess.getLossOfSignal().toString();
+                    EXPECT_TRUE(access.getDuration().isNear(expectedAccess.getDuration(), Duration::Microseconds(1.0)))
+                        << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
+                }
+            }
+        }
+
+        // Elevation Interval visibility criterion, multiple targets
+
+        {
+            const ostk::mathematics::object::Interval<Real> elevationInterval =
+                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+
+            const VisibilityCriterion visibilityCriterion =
+                VisibilityCriterion::FromElevationInterval(elevationInterval);
+
+            Array<AccessTarget> accessTargets = LLAs.map<AccessTarget>(
+                [&visibilityCriterion, this](const LLA& lla) -> AccessTarget
+                {
+                    return AccessTarget::FromLLA(visibilityCriterion, lla, defaultEarthSPtr_);
+                }
+            );
+
+            const Array<Array<Access>> accessesPerTarget =
+                defaultGenerator_.computeAccesses(interval, accessTargets, aToTrajectory);
+
+            ASSERT_EQ(accessesPerTarget.getSize(), accessTargets.getSize());
+
+            for (Index i = 0; i < accessesPerTarget.getSize(); ++i)
+            {
+                const Array<Access> accesses = accessesPerTarget.at(i);
+                const AccessTarget groundTarget = accessTargets.at(i);
+
+                const Array<Access> expectedAccesses =
+                    defaultGenerator_.computeAccesses(interval, groundTarget, aToTrajectory);
+
+                ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
+
+                for (Index j = 0; j < accesses.getSize(); ++j)
+                {
+                    const Access& access = accesses.at(j);
+                    const Access& expectedAccess = expectedAccesses.at(j);
+
+                    EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(
+                        expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
+                    )) << access.getAcquisitionOfSignal().toString()
+                       << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
+                    EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
+                        expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
+                    )) << access.getTimeOfClosestApproach().toString()
+                       << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                    EXPECT_TRUE(
+                        access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
+                    ) << access.getLossOfSignal().toString()
+                      << " ~ " << expectedAccess.getLossOfSignal().toString();
+                    EXPECT_TRUE(access.getDuration().isNear(expectedAccess.getDuration(), Duration::Microseconds(1.0)))
+                        << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
+                }
             }
         }
     }
