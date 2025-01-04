@@ -188,6 +188,7 @@ class Viewer:
         position: Position,
         size: int | None = None,
         color: str | None = None,
+        label: str | None = None,
     ) -> None:
         """
         Add target to Viewer.
@@ -196,6 +197,7 @@ class Viewer:
             position (Position): Target position.
             size (int, optional): Target size. Defaults to None.
             color (str, optional): Target color. Defaults to None.
+            label (str, optional): Target label. Defaults to None.
         """
 
         self._viewer.entities.add(
@@ -205,6 +207,9 @@ class Viewer:
                 color=color or cesiumpy.color.YELLOW,
             )
         )
+
+        if label:
+            self.add_label(position, label, size, color)
 
     def add_line(
         self,
@@ -239,6 +244,33 @@ class Viewer:
                 ),
                 width=size or 1,
                 material=color or cesiumpy.color.YELLOW,
+            )
+        )
+
+    def add_label(
+        self,
+        position: Position,
+        text: str,
+        size: int | None = None,
+        color: str | None = None,
+    ) -> None:
+        """
+        Add label to Viewer.
+
+        Args:
+            position (Position): Label position.
+            text (str): Label text.
+            size (int, optional): Label size. Defaults to None.
+            color (str, optional): Label color. Defaults to None.
+
+        """
+
+        self._viewer.entities.add(
+            cesiumpy.Label(
+                position=_cesium_from_ostk_position(position),
+                text=text,
+                scale=size or 10,
+                fill_color=color or cesiumpy.color.WHITE,
             )
         )
 

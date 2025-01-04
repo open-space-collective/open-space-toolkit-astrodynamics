@@ -127,3 +127,72 @@ class TestViewer:
             in rendered_html
         )
         assert rendered_html.endswith("</script>")
+
+    def test_add_target_with_label_success(
+        self,
+        viewer: Viewer,
+    ):
+        viewer.add_target(
+            position=Position.meters([1.0, 2.0, 3.0], Frame.ITRF()),
+            size=123,
+            color="red",
+            label="TEST",
+        )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert (
+            "widget.entities.add({position: Cesium.Cartesian3.fromDegrees(63.43494882292201, 18.22447811510915, -6376045.535225509), point: {pixelSize: 123.0, color: Cesium.Color.RED}});"
+            in rendered_html
+        )
+        assert (
+            'widget.entities.add({position: Cesium.Cartesian3.fromDegrees(63.43494882292201, 18.22447811510915, -6376045.535225509), label: {text: "TEST", fillColor: Cesium.Color.RED, scale: 123.0}});'
+            in rendered_html
+        )
+        assert rendered_html.endswith("</script>")
+
+    def test_add_line_success(
+        self,
+        viewer: Viewer,
+    ):
+        viewer.add_line(
+            positions=[
+                Position.meters([1.0, 2.0, 3.0], Frame.ITRF()),
+                Position.meters([4.0, 5.0, 6.0], Frame.ITRF()),
+            ],
+            size=10.0,
+            color="red",
+        )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert (
+            "widget.entities.add({polyline: {positions: Cesium.Cartesian3.fromDegreesArrayHeights([63.43494882292201, 18.22447811510915, 10.0, 51.34019174590991, 10.165199393640696, 10.0]), width: 10.0, material: Cesium.Color.RED}});"
+            in rendered_html
+        )
+        assert rendered_html.endswith("</script>")
+
+    def test_add_label_success(
+        self,
+        viewer: Viewer,
+    ):
+        viewer.add_label(
+            position=Position.meters([1.0, 2.0, 3.0], Frame.ITRF()),
+            text="Hello, World!",
+            size=10.0,
+            color="red",
+        )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert (
+            'widget.entities.add({position: Cesium.Cartesian3.fromDegrees(63.43494882292201, 18.22447811510915, -6376045.535225509), label: {text: "Hello, World!", fillColor: Cesium.Color.RED, scale: 10.0}});'
+            in rendered_html
+        )
+        assert rendered_html.endswith("</script>")
