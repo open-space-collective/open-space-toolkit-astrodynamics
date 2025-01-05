@@ -659,7 +659,7 @@ Vector5d QLaw::computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double&
 
     const Vector5d jacobian = Eigen::Map<Vector5d>(
         finiteDifferenceSolver_
-            .computeJacobian(stateBuilder_.build(Instant::J2000(), aCOEVector), Instant::J2000(), getQ, 1)
+            .computeStateTransitionMatrix(stateBuilder_.build(Instant::J2000(), aCOEVector), Instant::J2000(), getQ, 1)
             .data(),
         5
     );

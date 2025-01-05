@@ -83,7 +83,7 @@ class FiniteDifferenceSolver
     /// @return The step duration.
     Duration getStepDuration() const;
 
-    /// @brief Compute the Jacobian by perturbing the coordinates
+    /// @brief Compute the State Transition Matrix (STM) by perturbing the coordinates
     ///
     /// @param aState A state.
     /// @param anInstantArray An array of instants.
@@ -92,15 +92,15 @@ class FiniteDifferenceSolver
     /// @param aCoordinatesDimension The dimension of the coordinates produced by
     /// `generateStateCoordinates`.
     ///
-    /// @return The Jacobian
-    MatrixXd computeJacobian(
+    /// @return The State Transition Matrix (STM)
+    MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Array<Instant>& anInstantArray,
         const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
         const Size& aCoordinatesDimension
     ) const;
 
-    /// @brief Compute the Jacobian by perturbing the coordinates
+    /// @brief Compute the State Transition Matrix (STM) by perturbing the coordinates
     ///
     /// @param aState A state.
     /// @param anInstant An instant.
@@ -108,8 +108,8 @@ class FiniteDifferenceSolver
     /// requested Instant.
     /// @param aCoordinatesDimension The dimension of the coordinates produced by
     /// `generateStateCoordinates`.
-    /// @return The Jacobian
-    MatrixXd computeJacobian(
+    /// @return The State Transition Matrix (STM)
+    MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Instant& anInstant,
         const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
@@ -125,6 +125,16 @@ class FiniteDifferenceSolver
     /// @return The gradient.
     VectorXd computeGradient(
         const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
+    ) const;
+
+    /// @brief Compute the Jacobian.
+    ///
+    /// @param aState The state to compute the Jacobian of.
+    /// @param generateStateDerivatives Callable to generate derivatives of the State.
+    ///
+    /// @return The Jacobian.
+    MatrixXd computeJacobian(
+        const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateDerivatives
     ) const;
 
     /// @brief Print the solver.
