@@ -127,8 +127,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
         )
 
         .def_static(
-            "nadir_pointing",
-            &Transform::NadirPointing,
+            "local_orbital_frame",
+            &Transform::LocalOrbitalFrame,
             R"doc(
                 Create a transform for nadir pointing.
 

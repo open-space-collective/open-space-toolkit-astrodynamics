@@ -292,7 +292,7 @@ class Profile
     /// @param anOrbit An orbit
     /// @param anOrbitalFrameType An orbital frame type
     /// @return Flight profile
-    static Profile NadirPointing(
+    static Profile LocalOrbitalFrame(
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );
 

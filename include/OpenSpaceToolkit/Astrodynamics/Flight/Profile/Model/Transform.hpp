@@ -76,7 +76,7 @@ class Transform : public virtual Model
     /// @param anOrbit An orbit
     /// @param anOrbitalFrameType An orbital frame type
     /// @return Flight profile
-    static Transform NadirPointing(
+    static Transform LocalOrbitalFrame(
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );
 

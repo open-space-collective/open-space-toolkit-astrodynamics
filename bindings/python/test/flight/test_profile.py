@@ -192,11 +192,11 @@ class TestProfile:
         assert isinstance(profile, Profile)
         assert profile.is_defined()
 
-    def test_nadir_pointing(
+    def test_local_orbital_frame(
         self,
         orbit: Orbit,
     ):
-        profile: Profile = Profile.nadir_pointing(orbit, Orbit.FrameType.VVLH)
+        profile: Profile = Profile.local_orbital_frame(orbit, Orbit.FrameType.VVLH)
 
         assert profile is not None
         assert isinstance(profile, Profile)

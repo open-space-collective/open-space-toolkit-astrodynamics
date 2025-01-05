@@ -103,7 +103,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 
         this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        this->profile_ = Profile::NadirPointing(this->orbit_, Orbit::FrameType::VVLH);
+        this->profile_ = Profile::LocalOrbitalFrame(this->orbit_, Orbit::FrameType::VVLH);
     }
 
     Orbit orbit_ = Orbit::Undefined();
@@ -410,7 +410,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::NadirPointing(orbit, Orbit::FrameType::VVLH);
+        const Profile profile = Profile::LocalOrbitalFrame(orbit, Orbit::FrameType::VVLH);
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -420,7 +420,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         // Reference data setup
 
         const File referenceDataFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/NadirPointing/VVLH/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFrame/VVLH/"
                                    "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -520,7 +520,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::NadirPointing(orbit, Orbit::FrameType::VVLH);
+        const Profile profile = Profile::LocalOrbitalFrame(orbit, Orbit::FrameType::VVLH);
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -530,7 +530,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         // Reference data setup
 
         const File referenceDataFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/NadirPointing/VVLH/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFrame/VVLH/"
                                    "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -630,7 +630,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::NadirPointing(orbit, Orbit::FrameType::VVLH);
+        const Profile profile = Profile::LocalOrbitalFrame(orbit, Orbit::FrameType::VVLH);
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -640,7 +640,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         // Reference data setup
 
         const File referenceDataFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/NadirPointing/VVLH/"
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFrame/VVLH/"
                                    "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -988,7 +988,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
 
         // Compare against Orbit VNC frame which has been validated
 
-        const Profile expectedProfile = Profile::NadirPointing(orbit, Orbit::FrameType::VNC);
+        const Profile expectedProfile = Profile::LocalOrbitalFrame(orbit, Orbit::FrameType::VNC);
 
         for (const auto instant :
              Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))

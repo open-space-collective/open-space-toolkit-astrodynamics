@@ -321,8 +321,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def_static(
-            "nadir_pointing",
-            &Profile::NadirPointing,
+            "local_orbital_frame",
+            &Profile::LocalOrbitalFrame,
             R"doc(
                 Create a nadir pointing profile.
 
