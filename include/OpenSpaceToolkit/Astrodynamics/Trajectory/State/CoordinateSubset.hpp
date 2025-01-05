@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset__
 
+#include <functional>
+
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -159,5 +161,17 @@ class CoordinateSubset
 }  // namespace trajectory
 }  // namespace astrodynamics
 }  // namespace ostk
+
+namespace std
+{
+template <>
+struct hash<ostk::astrodynamics::trajectory::state::CoordinateSubset>
+{
+    std::size_t operator()(const ostk::astrodynamics::trajectory::state::CoordinateSubset& coordinateSubset) const
+    {
+        return std::hash<std::string>()(coordinateSubset.getId());
+    }
+};
+}  // namespace std
 
 #endif
