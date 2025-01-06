@@ -216,11 +216,11 @@ Profile Profile::InertialPointing(const Trajectory& aTrajectory, const Quaternio
     return {TransformModel::InertialPointing(aTrajectory, aQuaternion)};
 }
 
-Profile Profile::LocalOrbitalFrame(
+Profile Profile::LocalOrbitalFramePointing(
     const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
 )
 {
-    return {TransformModel::LocalOrbitalFrame(anOrbit, anOrbitalFrameType)};
+    return {TransformModel::LocalOrbitalFramePointing(anOrbit, anOrbitalFrameType)};
 }
 
 Profile Profile::CustomPointing(

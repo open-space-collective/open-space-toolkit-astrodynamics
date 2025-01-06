@@ -76,7 +76,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform : public ::
 
         this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        this->transform_ = Transform::LocalOrbitalFrame(this->orbit_, Orbit::FrameType::VVLH);
+        this->transform_ = Transform::LocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
     }
 
     Orbit orbit_ = Orbit::Undefined();
@@ -209,9 +209,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, InertialP
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, LocalOrbitalFrame)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, LocalOrbitalFramePointing)
 {
     {
-        EXPECT_TRUE(Transform::LocalOrbitalFrame(orbit_, Orbit::FrameType::VVLH).isDefined());
+        EXPECT_TRUE(Transform::LocalOrbitalFramePointing(orbit_, Orbit::FrameType::VVLH).isDefined());
     }
 }

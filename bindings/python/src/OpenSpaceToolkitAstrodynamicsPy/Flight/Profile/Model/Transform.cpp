@@ -116,7 +116,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
                 Create a transform for inertial pointing.
 
                 Args:
-                    trajectory (Trajectory): The trajectory to point at.
+                    trajectory (Trajectory): The trajectory of the satellite.
                     quaternion (Quaternion): The quaternion to rotate the axes by.
 
                 Returns:
@@ -127,17 +127,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
         )
 
         .def_static(
-            "local_orbital_frame",
-            &Transform::LocalOrbitalFrame,
+            "local_orbital_frame_pointing",
+            &Transform::LocalOrbitalFramePointing,
             R"doc(
-                Create a transform for nadir pointing.
+                Create a profile aligned with the provided local orbital frame type.
 
                 Args:
-                    orbit (Orbit): The orbit to point at.
+                    orbit (Orbit): The orbit of the satellite.
                     orbital_frame_type (OrbitalFrameType): The type of the orbital frame.
 
                 Returns:
-                    Transform: The transform for nadir pointing.
+                    Transform: The transform for the local orbital frame pointing.
              )doc",
             arg("orbit"),
             arg("orbital_frame_type")
