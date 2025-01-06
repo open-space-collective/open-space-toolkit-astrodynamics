@@ -135,10 +135,6 @@ AccessTarget::AccessTarget(
       visibilityCriterion_(aVisibilityCriterion),
       trajectory_(aTrajectory)
 {
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
 }
 
 Generator::Generator(
