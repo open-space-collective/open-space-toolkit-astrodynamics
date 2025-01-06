@@ -164,7 +164,7 @@ Transform Transform::InertialPointing(const Trajectory& aTrajectory, const Quate
     return {dynamicTransformProvider, Frame::GCRF()};
 }
 
-Transform Transform::NadirPointing(
+Transform Transform::LocalOrbitalFramePointing(
     const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
 )
 {

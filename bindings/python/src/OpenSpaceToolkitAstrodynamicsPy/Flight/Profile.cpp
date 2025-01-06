@@ -321,17 +321,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def_static(
-            "nadir_pointing",
-            &Profile::NadirPointing,
+            "local_orbital_frame_pointing",
+            &Profile::LocalOrbitalFramePointing,
             R"doc(
-                Create a nadir pointing profile.
+                Create a profile aligned with the provided local orbital frame type.
 
                 Args:
                     orbit (Orbit): The orbit.
                     orbital_frame_type (OrbitalFrameType): The type of the orbital frame.
 
                 Returns:
-                    Profile: The nadir pointing profile.
+                    Profile: The profile aligned with the local orbital frame.
             )doc",
             arg("orbit"),
             arg("orbital_frame_type")

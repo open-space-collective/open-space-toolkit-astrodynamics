@@ -38,7 +38,7 @@ def orbit(environment: Environment) -> Orbit:
 
 @pytest.fixture
 def profile(orbit: Orbit) -> Profile:
-    return Profile.nadir_pointing(
+    return Profile.local_orbital_frame_pointing(
         orbit=orbit,
         orbital_frame_type=Orbit.FrameType.VVLH,
     )

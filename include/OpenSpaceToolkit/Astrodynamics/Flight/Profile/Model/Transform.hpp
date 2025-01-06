@@ -71,12 +71,12 @@ class Transform : public virtual Model
     /// @return Flight profile
     static Transform InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion);
 
-    /// @brief Constructs a flight profile with nadir pointing
+    /// @brief Constructs a flight profile with local orbital frame pointing
     ///
     /// @param anOrbit An orbit
     /// @param anOrbitalFrameType An orbital frame type
     /// @return Flight profile
-    static Transform NadirPointing(
+    static Transform LocalOrbitalFramePointing(
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );
 
