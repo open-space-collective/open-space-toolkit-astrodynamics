@@ -56,7 +56,7 @@ VisibilityCriterion::AERInterval::AERInterval(
     elevation = Interval<Real>(
         anElevationInterval.getLowerBound() * M_PI / 180.0,
         anElevationInterval.getUpperBound() * M_PI / 180.0,
-        anAzimuthInterval.getType()
+        anElevationInterval.getType()
     );
 }
 
