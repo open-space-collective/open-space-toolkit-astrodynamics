@@ -21,7 +21,6 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import (
 CANONICAL_FORMAT: str = r"(r|v)_(.*?)_(x|y|z)"
 
 
-@staticmethod
 def custom_class_generator(frame: Frame, coordinate_subsets: list) -> type:
     """
     Emit a custom class type for States. This is meta-programming syntactic sugar on top of the StateBuilder class.
@@ -44,7 +43,6 @@ def custom_class_generator(frame: Frame, coordinate_subsets: list) -> type:
     return StateTemplateType
 
 
-@staticmethod
 def from_dict(data: dict) -> State:
     """
     Create a State from a dictionary.
@@ -247,5 +245,5 @@ def from_dict(data: dict) -> State:
     )
 
 
-State.from_dict = from_dict
-State.template = custom_class_generator
+State.from_dict = staticmethod(from_dict)
+State.template = staticmethod(custom_class_generator)
