@@ -145,7 +145,6 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
         {
             // X axis along position vector
             // Z axis along orbital momentum
-            // Y axis toward velocity vector
             const Vector3d transformPosition = -aPosition;
             const Vector3d transformVelocity = -aVelocity;
             const Vector3d xAxis = aPosition.normalized();
@@ -167,9 +166,8 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
 
         case LocalOrbitalFrameTransformProvider::Type::VVLH:
         {
-            // Z axis along negative position vector
             // Y axis along negative orbital momentum
-            // X axis toward velocity vector
+            // Z axis along negative position vector
             const Vector3d transformPosition = -aPosition;
             const Vector3d transformVelocity = -aVelocity;
             const Vector3d zAxis = -aPosition.normalized();
