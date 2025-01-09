@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1736191513213,
+  "lastUpdate": 1736430282435,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 3195371256.200002,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3195086054.7999964 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9b00c427a21b2513a9bd7f55a66373f7722c8371",
+          "message": "docs: clean-up Local Orbital Frame comments (#487)\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2025-01-09T12:45:50Z",
+          "tree_id": "2c03a3311b11981b739a3dcef2288f02381c4cf9",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/9b00c427a21b2513a9bd7f55a66373f7722c8371"
+        },
+        "date": 1736430280425,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 583764167.4999987,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 583651080.7000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 881111595.0999806,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 881031705.5000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3191928659.2999983,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191400222.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3191130715.099996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3190906682.500001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3191956639,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191794069.3999968 ns\nthreads: 1"
           }
         ]
       }
