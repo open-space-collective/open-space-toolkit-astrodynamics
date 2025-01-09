@@ -42,8 +42,8 @@ class LocalOrbitalFrameTransformProvider : public Provider
         NED,        ///< North-East-Down (NED) frame
         LVLH,    ///< Local Vertical, Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
                  ///< orbital momentum)
-        VVLH,    ///< Vehicle Velocity, Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis
-                 ///< aligned with opposite of orbital momentum)
+        VVLH,    ///< Vehicle Velocity, Local Horizontal (VVLH) frame (Y axis aligned with opposite of orbital momentum,
+                 ///< Z axis aligned with opposite of position)
         LVLHGD,  ///< Local Vertical, Local Horizontal GeoDetic (LVLHGD) frame
         QSW,     ///< QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
         TNW,     ///< Tangent-Normal-Wideband (TNW) frame (X axis aligned with velocity, Z axis aligned with orbital
