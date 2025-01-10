@@ -55,7 +55,7 @@ jobs:
     needs:
       - prepare-environment
       - build-development-image
-    uses: open-space-collective/open-space-toolkit/.github/workflows/test.yml@users/alexliang/test-matrix # TBM: demo purposes only
+    uses: open-space-collective/open-space-toolkit/.github/workflows/test.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}

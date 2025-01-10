@@ -543,7 +543,7 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 
 .PHONY: test-unit-python-standalone
 
-ci-test-python: ## Run Python unit tests. Assumes the dev image has already been built, AND that bindings have been built and are avaliable at `packages/python`
+ci-test-python: ## Run Python unit tests. Assumes the dev image has already been built, AND that bindings have been built and are available at `packages/python`
 
 	@ echo "Running Python unit tests..."
 
