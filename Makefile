@@ -554,7 +554,7 @@ ci-test-python: ## Run Python unit tests. Assumes the dev image has already been
 	--workdir=/app/build \
 	$(docker_development_image_repository):$(docker_image_version) \
 	/bin/bash -c "python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} --find-links packages/python open_space_toolkit_${project_name} \
-	&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} plotly pandas \
+	&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} plotly pandas git+https://github.com/open-space-collective/cesiumpy.git#egg=cesiumpy \
 	&& cd ${test_python_directory}/ostk/$(project_name)/ \
 	&& python${test_python_version} -m pytest -sv ."
 
