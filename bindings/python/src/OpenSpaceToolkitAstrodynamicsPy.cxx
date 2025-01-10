@@ -10,6 +10,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Data.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
@@ -45,4 +46,5 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition(m);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(m);
+    OpenSpaceAstrodynamicsPy_Data(m);
 }
