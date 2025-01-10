@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Physics_Data_Provider_OffNadir__
-#define __OpenSpaceToolkit_Physics_Data_Provider_OffNadir__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Data_Provider_OffNadir__
+#define __OpenSpaceToolkit_Astrodynamics_Data_Provider_OffNadir__
 
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 
