@@ -2,13 +2,15 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Derived/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -22,6 +24,8 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
@@ -29,8 +33,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
-using ostk::physics::unit::Velocity;
 
+using ostk::astrodynamics::data::provider::ComputeOffNadirAngles;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 
@@ -38,26 +42,27 @@ class OpenSpaceToolkit_Astrodynamics_OffNadirAngles : public ::testing::Test
 {
    protected:
     const Environment environment_ = Environment::Default(true);
-    const Position target_ = Position::FromLLA(LLA(Angle::Degrees(40.0), Angle::Degrees(-70.0), Length::Meters(500.0)));
+    const Position targetPosition_ = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
 };
 
-class OpenSpaceToolkit_Astrodynamics_OffNadirAngles
+class OpenSpaceToolkit_Astrodynamics_OffNadirAngles_Parameterized
     : public ::testing::TestWithParam<std::tuple<Instant, Vector3d, Vector3d, double, double, double>>
 {
-   protected:
-    const Environment environment_ = Environment::Default(true);
-    const Position target_ = Position::FromLLA(LLA(Angle::Degrees(40.0), Angle::Degrees(-70.0), Length::Meters(500.0)));
 };
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_OffNadirAngles, ComputeOffNadirAngles)
+TEST_P(OpenSpaceToolkit_Astrodynamics_OffNadirAngles_Parameterized, ComputeOffNadirAngles)
 {
     const auto& [instant, position, velocity, expectedCrossTrackAngle, expectedAlongTrackAngle, expectedTotalOffNadirAngle] =
         GetParam();
 
+    const Position targetPosition = Position::Meters(
+        LLA(Angle::Degrees(40.0), Angle::Degrees(-70.0), Length::Meters(500.0)).toCartesian(), Frame::ITRF()
+    );
+
     const State state =
         State(instant, Position::Meters(position, Frame::GCRF()), Velocity::MetersPerSecond(velocity, Frame::GCRF()));
 
-    const auto [alongTrackAngle, crossTrackAngle, totalOffNadirAngle] = ComputeOffNadirAngles(state, target_);
+    const auto [alongTrackAngle, crossTrackAngle, totalOffNadirAngle] = ComputeOffNadirAngles(state, targetPosition);
 
     EXPECT_NEAR(crossTrackAngle.inDegrees(), expectedCrossTrackAngle, 1e-3);
     EXPECT_NEAR(alongTrackAngle.inDegrees(), expectedAlongTrackAngle, 1e-3);
@@ -66,7 +71,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_OffNadirAngles, ComputeOffNadirAngles)
 
 INSTANTIATE_TEST_SUITE_P(
     OffNadirAngleTests,
-    OpenSpaceToolkit_Astrodynamics_OffNadirAngles,
+    OpenSpaceToolkit_Astrodynamics_OffNadirAngles_Parameterized,
     ::testing::Values(
         std::make_tuple(
             Instant::DateTime(DateTime(2020, 1, 1, 6, 27, 0, 0), Scale::UTC),
@@ -98,11 +103,11 @@ INSTANTIATE_TEST_SUITE_P(
 TEST_F(OpenSpaceToolkit_Astrodynamics_OffNadirAngles, ComputeOffNadirAngles_Undefined)
 {
     {
-        EXPECT_ANY_THROW(ComputeOffNadirAngles(State::Undefined(), target_));
+        EXPECT_ANY_THROW(ComputeOffNadirAngles(State::Undefined(), targetPosition_));
     }
 
     {
-        const State state = State::CartesianState(
+        const State state = State(
             Instant::J2000(),
             Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
             Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::GCRF())

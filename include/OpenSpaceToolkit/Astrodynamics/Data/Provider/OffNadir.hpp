@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Physics_Data_Provider_OffNadir__
 #define __OpenSpaceToolkit_Physics_Data_Provider_OffNadir__
 
-#include <OpenSpaceToolkit/Core/Container/Triple.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
@@ -18,7 +18,7 @@ namespace data
 namespace provider
 {
 
-using ostk::core::container::Triple;
+using ostk::core::container::Tuple;
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::unit::Angle;
@@ -37,7 +37,7 @@ using ostk::astrodynamics::trajectory::State;
 /// @param aState The state of the satellite
 /// @param aTargetPosition The position of the target
 /// @return A tuple containing the along-track, cross-track and total off-nadir angles
-Triple<Angle, Angle, Angle> OffNadirAngles(const State& aState, const Position& aTargetPosition);
+Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Position& aTargetPosition);
 
 }  // namespace provider
 }  // namespace data

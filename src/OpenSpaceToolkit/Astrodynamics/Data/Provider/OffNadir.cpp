@@ -4,11 +4,20 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
+namespace ostk
+{
+namespace astrodynamics
+{
+namespace data
+{
+namespace provider
+{
 
 using ostk::core::type::Shared;
 
@@ -23,9 +32,9 @@ using ostk::physics::unit::Angle;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 
-static const LocalOrbitalFrameFactory VVLH_FRAME_FACTORY = LocalOrbitalFrameFactory::VVLH(Frame::GCRF());
+static const Shared<const LocalOrbitalFrameFactory> VVLHFrameFactory = LocalOrbitalFrameFactory::VVLH(Frame::GCRF());
 
-Triple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Position& aTargetPosition)
+Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Position& aTargetPosition)
 {
     if (!aState.isDefined())
     {
@@ -39,7 +48,7 @@ Triple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Pos
 
     const Instant instant = aState.getInstant();
 
-    const Shared<const Frame> localOrbitalFrameSPtr = VVLH_FRAME_FACTORY.generateFrame(
+    const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory->generateFrame(
         instant, aState.getPosition().getCoordinates(), aState.getVelocity().getCoordinates()
     );
 
@@ -57,9 +66,14 @@ Triple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Pos
     const double y = localDirection.y();
     const double z = localDirection.z();
 
-    return std::make_tuple(
+    return {
         Angle::Radians(std::atan2(x, z)),  // Along-track angle
         Angle::Radians(std::atan2(y, z)),  // Cross-track angle
         Angle::Radians(std::acos(z))       // Total off-nadir angle
-    );
+    };
 }
+
+}  // namespace provider
+}  // namespace data
+}  // namespace astrodynamics
+}  // namespace ostk
