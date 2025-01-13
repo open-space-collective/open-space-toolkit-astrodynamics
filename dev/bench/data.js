@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1736798855457,
+  "lastUpdate": 1736800886542,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -432,6 +432,60 @@ window.BENCHMARK_DATA = {
             "value": 3193288101.499985,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3193099725.9000025 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "35860220+alex-liang3@users.noreply.github.com",
+            "name": "Alex Liang",
+            "username": "alex-liang3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "69895fe9e3c31505438fc11a39378b70c8729454",
+          "message": "build: prepare for test matrix (#490)\n\n* build: test matrix\r\n\r\n* build: include cesiumpy\r\n\r\n* chore: fix typo, reenable main workflow",
+          "timestamp": "2025-01-13T14:24:10-06:00",
+          "tree_id": "08df93a9fb636ad66f79488f0b9dd3139aa8920e",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/69895fe9e3c31505438fc11a39378b70c8729454"
+        },
+        "date": 1736800884735,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 594636394.7999998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 594430705.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 881524327.6000046,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 881449377.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3202940388.999997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3202785773.500001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3199891048.099988,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3199821507.200001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3201291226.299998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3201178170.999998 ns\nthreads: 1"
           }
         ]
       }
