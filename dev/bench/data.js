@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1736795190824,
+  "lastUpdate": 1736798855457,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -378,6 +378,60 @@ window.BENCHMARK_DATA = {
             "value": 3193092235.400002,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3193013323.2000003 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a2143faffe86d7a601784b17ec5309862b115193",
+          "message": "feat!: add correct computeJacobian method (#485)\n\n* feat!: rename computeJacobian to computeStateTransitionMatrix in FiniteDifferenceSolver class and add computeJacobian\r\n\r\n* Apply suggestions from code review\r\n\r\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>\r\n\r\n---------\r\n\r\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>",
+          "timestamp": "2025-01-13T13:50:17-06:00",
+          "tree_id": "52c9f18bb0f222338ad1229aa1f0b82fae471ce6",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a2143faffe86d7a601784b17ec5309862b115193"
+        },
+        "date": 1736798853920,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 588433369.4000077,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 588409784.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 882170388.7000126,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 881994739.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3191209181.4000006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191102828.500001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3191293030.899993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191115235.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3193288101.499985,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3193099725.9000025 ns\nthreads: 1"
           }
         ]
       }
