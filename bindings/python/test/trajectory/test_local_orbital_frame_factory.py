@@ -7,7 +7,10 @@ from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate import Transform
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
 
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameTransformProvider
 
@@ -24,7 +27,7 @@ def local_orbital_transform_provider_type() -> LocalOrbitalFrameTransformProvide
 
 @pytest.fixture
 def transform_generator() -> callable:
-    return lambda instant, position, velocity: Transform.identity(Transform.Type.passive)
+    return lambda state: Transform.identity(Transform.Type.passive)
 
 
 @pytest.fixture
@@ -38,13 +41,24 @@ def instant() -> Instant:
 
 
 @pytest.fixture
-def position_vector() -> list:
-    return [7500000.0, 0.0, 0.0]
+def position() -> list:
+    return Position.meters([7500000.0, 0.0, 0.0], Frame.GCRF())
 
 
 @pytest.fixture
-def velocity_vector() -> list:
-    return [0.0, 5335.865450622126, 5335.865450622126]
+def velocity() -> list:
+    return Velocity.meters_per_second(
+        [0.0, 5335.865450622126, 5335.865450622126], Frame.GCRF()
+    )
+
+
+@pytest.fixture
+def state(
+    instant: Instant,
+    position: Position,
+    velocity: Velocity,
+) -> State:
+    return State(instant, position, velocity)
 
 
 class TestLocalOrbitalFrameFactory:
@@ -66,15 +80,9 @@ class TestLocalOrbitalFrameFactory:
     def test_generate_frame(
         self,
         local_orbital_frame_factory: LocalOrbitalFrameFactory,
-        instant: Instant,
-        position_vector: list,
-        velocity_vector: list,
+        state: State,
     ):
-        frame = local_orbital_frame_factory.generate_frame(
-            instant,
-            position_vector,
-            velocity_vector,
-        )
+        frame = local_orbital_frame_factory.generate_frame(state=state)
 
         assert frame is not None
         assert frame.is_defined()
