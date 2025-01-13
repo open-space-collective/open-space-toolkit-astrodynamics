@@ -50,7 +50,7 @@ Duration FiniteDifferenceSolver::getStepDuration() const
     return stepDuration_;
 }
 
-MatrixXd FiniteDifferenceSolver::computeJacobian(
+MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     const State& aState,
     const Array<Instant>& anInstantArray,
     const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
@@ -138,7 +138,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
                                 ? aState.accessCoordinates()(i) * stepPercentage_
                                 : stepPercentage_;
 
-        MatrixXd differencedCoordinates = computeBlock(stepSize, aState.getCoordinates(), i);
+        MatrixXd differencedCoordinates = computeBlock(stepSize, aState.accessCoordinates(), i);
 
         const VectorXd columnStackedCoordinates =
             Eigen::Map<VectorXd>(differencedCoordinates.data(), differencedCoordinates.size());
@@ -149,7 +149,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
     return A;
 }
 
-MatrixXd FiniteDifferenceSolver::computeJacobian(
+MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     const State& aState,
     const Instant& anInstant,
     const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
@@ -167,7 +167,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
         return coordinatesMatrix;
     };
 
-    return computeJacobian(aState, {anInstant}, generateStatesCoordinates, aCoordinatesDimension);
+    return computeStateTransitionMatrix(aState, {anInstant}, generateStatesCoordinates, aCoordinatesDimension);
 }
 
 VectorXd FiniteDifferenceSolver::computeGradient(
@@ -178,7 +178,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
     {
         case FiniteDifferenceSolver::Type::Forward:
         {
-            const VectorXd coordinates = generateStateCoordinates(aState, aState.accessInstant());
+            const VectorXd& coordinates = aState.accessCoordinates();
 
             const Instant instant = aState.accessInstant() + stepDuration_;
             const VectorXd forwardCoordinates = generateStateCoordinates(aState, instant);
@@ -190,7 +190,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
 
         case FiniteDifferenceSolver::Type::Backward:
         {
-            const VectorXd coordinates = generateStateCoordinates(aState, aState.accessInstant());
+            const VectorXd& coordinates = aState.accessCoordinates();
 
             const Instant instant = aState.accessInstant() - stepDuration_;
             const VectorXd backwardCoordinates = generateStateCoordinates(aState, instant);
@@ -214,6 +214,95 @@ VectorXd FiniteDifferenceSolver::computeGradient(
         default:
             throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
     }
+}
+
+MatrixXd FiniteDifferenceSolver::computeJacobian(
+    const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
+) const
+{
+    const Size stateVectorDimension = aState.getSize();
+    const VectorXd baseCoordinates = generateStateCoordinates(aState, aState.accessInstant());
+    const Size coordinatesDimension = baseCoordinates.size();
+
+    MatrixXd jacobian = MatrixXd::Zero(coordinatesDimension, stateVectorDimension);
+
+    const StateBuilder stateBuilder = {aState};
+
+    std::function<VectorXd(const Real&, const Index&)> computeBlock;
+
+    switch (type_)
+    {
+        case FiniteDifferenceSolver::Type::Forward:
+            computeBlock = [&generateStateCoordinates, &stateBuilder, &aState, this](
+                               const Real& aStepSize, const Index& anIndex
+                           ) -> VectorXd
+            {
+                VectorXd perturbedCoordinates = aState.accessCoordinates();
+
+                perturbedCoordinates(anIndex) += aStepSize;
+                const VectorXd forwardDerivatives = computeGradient(
+                    stateBuilder.build(aState.accessInstant(), perturbedCoordinates), generateStateCoordinates
+                );
+
+                const VectorXd currentDerivatives = computeGradient(aState, generateStateCoordinates);
+
+                return (forwardDerivatives - currentDerivatives) / aStepSize;
+            };
+            break;
+
+        case FiniteDifferenceSolver::Type::Backward:
+            computeBlock = [&generateStateCoordinates, &stateBuilder, &aState, this](
+                               const Real& aStepSize, const Index& anIndex
+                           ) -> VectorXd
+            {
+                VectorXd perturbedCoordinates = aState.accessCoordinates();
+
+                perturbedCoordinates(anIndex) -= aStepSize;
+                const VectorXd backwardDerivatives = computeGradient(
+                    stateBuilder.build(aState.accessInstant(), perturbedCoordinates), generateStateCoordinates
+                );
+
+                const VectorXd currentDerivatives = computeGradient(aState, generateStateCoordinates);
+
+                return (currentDerivatives - backwardDerivatives) / aStepSize;
+            };
+            break;
+
+        case FiniteDifferenceSolver::Type::Central:
+            computeBlock = [&generateStateCoordinates, &stateBuilder, &aState, this](
+                               const Real& aStepSize, const Index& anIndex
+                           ) -> VectorXd
+            {
+                VectorXd perturbedCoordinates = aState.accessCoordinates();
+
+                perturbedCoordinates(anIndex) += aStepSize;
+                const VectorXd forwardDerivatives = computeGradient(
+                    stateBuilder.build(aState.accessInstant(), perturbedCoordinates), generateStateCoordinates
+                );
+
+                perturbedCoordinates(anIndex) -= 2.0 * aStepSize;
+                const VectorXd backwardDerivatives = computeGradient(
+                    stateBuilder.build(aState.accessInstant(), perturbedCoordinates), generateStateCoordinates
+                );
+
+                return (forwardDerivatives - backwardDerivatives) / (2.0 * aStepSize);
+            };
+            break;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
+    }
+
+    for (Index i = 0; i < stateVectorDimension; ++i)
+    {
+        const Real stepSize = (aState.accessCoordinates()(i) * stepPercentage_ != 0.0)
+                                ? aState.accessCoordinates()(i) * stepPercentage_
+                                : stepPercentage_;
+
+        jacobian.col(i) = computeBlock(stepSize, i);
+    }
+
+    return jacobian;
 }
 
 void FiniteDifferenceSolver::print(std::ostream& anOutputStream, bool displayDecorator) const

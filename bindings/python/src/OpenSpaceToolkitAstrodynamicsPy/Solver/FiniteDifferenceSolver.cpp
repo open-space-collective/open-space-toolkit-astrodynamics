@@ -96,26 +96,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
         )
 
         .def(
-            "compute_jacobian",
+            "compute_state_transition_matrix",
             +[](const ostk::astrodynamics::solver::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Array<Instant>& anInstantArray,
                 const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
                 const Size& aCoordinatesDimension) -> MatrixXd
             {
-                return solver.computeJacobian(aState, anInstantArray, generateStateCoordinates, aCoordinatesDimension);
+                return solver.computeStateTransitionMatrix(
+                    aState, anInstantArray, generateStateCoordinates, aCoordinatesDimension
+                );
             },
             R"doc(
-                Compute the jacobian.
+                Compute the state transition matrix (STM).
 
                 Args:
                     state (State): The state.
                     instants (Array(Instant)): The instants at which to calculate the STM.
-                    generate_states_coordinates (function): The function to get the states.
+                    generate_states_coordinates (callable): The function to get the states.
                     coordinates_dimension (int): The dimension of the coordinates produced by `generate_states_coordinates`.
 
                 Returns:
-                    np.array: The jacobian.
+                    np.array: The state transition matrix.
             )doc",
             arg("state"),
             arg("instants"),
@@ -123,22 +125,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
             arg("coordinates_dimension")
         )
         .def(
-            "compute_jacobian",
+            "compute_state_transition_matrix",
             +[](const ostk::astrodynamics::solver::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Instant& anInstant,
                 const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
                 const Size& aCoordinatesDimension) -> MatrixXd
             {
-                return solver.computeJacobian(aState, anInstant, generateStateCoordinates, aCoordinatesDimension);
+                return solver.computeStateTransitionMatrix(
+                    aState, anInstant, generateStateCoordinates, aCoordinatesDimension
+                );
             },
             R"doc(
-                Compute the jacobian.
+                Compute the state transition matrix (STM).
 
                 Args:
                     state (State): The state.
                     instant (Instant): The instant at which to calculate the STM.
-                    generate_state_coordinates (function): The function to get the state.
+                    generate_state_coordinates (callable): The function to get the state.
                     coordinates_dimension (int): The dimension of the coordinates produced by `generate_state_coordinates`
 
                 Returns:
@@ -159,6 +163,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
             },
             R"doc(
                 Compute the gradient.
+
+                Args:
+                    state (State): The state.
+                    generate_state_coordinates (function): The function to generate the state coordinates.
+
+                Returns:
+                    np.array: The gradient.
+            )doc",
+            arg("state"),
+            arg("generate_state_coordinates")
+        )
+        .def(
+            "compute_jacobian",
+            [](const ostk::astrodynamics::solver::FiniteDifferenceSolver& solver,
+               const State& aState,
+               std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates) -> MatrixXd
+            {
+                return solver.computeJacobian(aState, generateStateCoordinates);
+            },
+            R"doc(
+                Compute the jacobian.
 
                 Args:
                     state (State): The state.

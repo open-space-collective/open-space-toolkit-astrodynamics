@@ -126,14 +126,14 @@ class TestFiniteDifferenceSolver:
             == "Forward"
         )
 
-    def test_compute_jacobian_array(
+    def test_compute_state_transition_matrix_array(
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
         instants: list[Instant],
         generate_states_coordinates: callable,
     ):
-        stm = finite_difference_solver.compute_jacobian(
+        stm = finite_difference_solver.compute_state_transition_matrix(
             state=state,
             instants=instants,
             generate_states_coordinates=generate_states_coordinates,
@@ -145,14 +145,14 @@ class TestFiniteDifferenceSolver:
             len(state.get_coordinates()),
         )
 
-    def test_compute_jacobian_single(
+    def test_compute_state_transition_matrix_single(
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
         generate_state_coordinates: callable,
         instant: Instant,
     ):
-        stm = finite_difference_solver.compute_jacobian(
+        stm = finite_difference_solver.compute_state_transition_matrix(
             state=state,
             instant=instant,
             generate_state_coordinates=generate_state_coordinates,
@@ -176,6 +176,19 @@ class TestFiniteDifferenceSolver:
         )
         assert isinstance(gradient, np.ndarray)
         assert all(gradient - np.array([0.0, -1.0]) < 1e-6)
+
+    def test_compute_jacobian(
+        self,
+        finite_difference_solver: FiniteDifferenceSolver,
+        state: State,
+        generate_state_coordinates: callable,
+    ):
+        gradient = finite_difference_solver.compute_jacobian(
+            state=state,
+            generate_state_coordinates=generate_state_coordinates,
+        )
+        assert isinstance(gradient, np.ndarray)
+        assert np.all(gradient - np.array([[0.0, 1.0], [-1.0, 0.0]]) < 1e-6)
 
     def test_default(self):
         assert isinstance(FiniteDifferenceSolver.default(), FiniteDifferenceSolver)
