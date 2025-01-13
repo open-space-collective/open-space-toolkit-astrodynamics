@@ -137,7 +137,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
                 );
             },
             R"doc(
-                Compute the jacobian.
+                Compute the state transition matrix (STM).
 
                 Args:
                     state (State): The state.
