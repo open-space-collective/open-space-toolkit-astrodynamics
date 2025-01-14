@@ -97,7 +97,7 @@ RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark
 ## Open Space Toolkit ▸ Core
 
 ARG TARGETPLATFORM
-ARG OSTK_CORE_MAJOR="4"
+ARG OSTK_CORE_MAJOR="5"
 
 ## Force an image rebuild when new minor or Core patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR} /tmp/open-space-toolkit-core/versions.json
