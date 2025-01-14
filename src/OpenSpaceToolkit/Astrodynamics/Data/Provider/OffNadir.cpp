@@ -47,21 +47,22 @@ Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Posi
     }
 
     const Instant instant = aState.getInstant();
-    const State stateInFrame = aState.inFrame(VVLHFrameFactory->accessParentFrame());
+    const Shared<const Frame> parentFrameSPtr = VVLHFrameFactory->accessParentFrame();
+    const State stateInFrame = aState.inFrame(parentFrameSPtr);
     
     const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory->generateFrame(
         instant, stateInFrame.getPosition().getCoordinates(), stateInFrame.getVelocity().getCoordinates()
     );
 
-    // Calculate satellite to target direction vector in GCRF frame
+    // Calculate satellite to target direction vector in parent frame
     const Vector3d satelliteToTargetDirection =
-        (aTargetPosition.inFrame(Frame::GCRF(), instant).inMeters().getCoordinates() -
-         aState.inFrame(Frame::GCRF()).getPosition().inMeters().getCoordinates())
+        (aTargetPosition.inFrame(parentFrameSPtr, instant).inMeters().getCoordinates() -
+         aState.inFrame(parentFrameSPtr).getPosition().inMeters().getCoordinates())
             .normalized();
 
     // Transform direction vector to local orbital frame
     const Vector3d localDirection =
-        Frame::GCRF()->getTransformTo(localOrbitalFrameSPtr, instant).applyToVector(satelliteToTargetDirection);
+        parentFrameSPtr->getTransformTo(localOrbitalFrameSPtr, instant).applyToVector(satelliteToTargetDirection);
 
     const double x = localDirection.x();
     const double y = localDirection.y();
