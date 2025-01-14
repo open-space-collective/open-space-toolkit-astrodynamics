@@ -41,12 +41,12 @@ def instant() -> Instant:
 
 
 @pytest.fixture
-def position() -> list:
+def position() -> Position:
     return Position.meters([7500000.0, 0.0, 0.0], Frame.GCRF())
 
 
 @pytest.fixture
-def velocity() -> list:
+def velocity() -> Velocity:
     return Velocity.meters_per_second(
         [0.0, 5335.865450622126, 5335.865450622126], Frame.GCRF()
     )
