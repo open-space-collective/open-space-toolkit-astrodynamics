@@ -144,7 +144,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Getters)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrix)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrices)
 {
     {
         const Array<Instant> instants = {
@@ -193,7 +193,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
             EXPECT_TRUE(jacobian.isApprox(expectedStateTransitionMatrix, 1e-12));
         }
     }
+}
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrix)
+{
     {
         const Instant instant = Instant::J2000() + Duration::Seconds(100.0);
 
@@ -357,30 +360,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Print)
-{
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(defaultSolver_.print(std::cout, true));
-        EXPECT_NO_THROW(defaultSolver_.print(std::cout, false));
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, StringFromType)
-{
-    EXPECT_EQ("Central", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Central));
-    EXPECT_EQ("Forward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Forward));
-    EXPECT_EQ("Backward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Backward));
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Default)
-{
-    EXPECT_NO_THROW(FiniteDifferenceSolver::Default());
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJacobian)
 {
     const State state = {
@@ -520,4 +499,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJac
 
         EXPECT_TRUE(jacobian.isApprox(expectedJacobian, 1e-3));
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(defaultSolver_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultSolver_.print(std::cout, false));
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, StringFromType)
+{
+    EXPECT_EQ("Central", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Central));
+    EXPECT_EQ("Forward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Forward));
+    EXPECT_EQ("Backward", FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Backward));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Default)
+{
+    EXPECT_NO_THROW(FiniteDifferenceSolver::Default());
 }
