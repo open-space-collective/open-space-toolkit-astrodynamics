@@ -38,13 +38,6 @@ using ostk::astrodynamics::data::provider::ComputeOffNadirAngles;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 
-class OpenSpaceToolkit_Astrodynamics_OffNadirAngles : public ::testing::Test
-{
-   protected:
-    const Environment environment_ = Environment::Default(true);
-    const Position targetPosition_ = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
-};
-
 class OpenSpaceToolkit_Astrodynamics_OffNadirAngles_Parameterized
     : public ::testing::TestWithParam<std::tuple<Instant, Vector3d, Vector3d, double, double, double>>
 {
@@ -99,6 +92,13 @@ INSTANTIATE_TEST_SUITE_P(
         )
     )
 );
+
+class OpenSpaceToolkit_Astrodynamics_OffNadirAngles : public ::testing::Test
+{
+   protected:
+    const Environment environment_ = Environment::Default(true);
+    const Position targetPosition_ = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
+};
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_OffNadirAngles, ComputeOffNadirAngles_Undefined)
 {
