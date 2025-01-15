@@ -1,9 +1,9 @@
 # Apache License 2.0
 
 [bdist_wheel]
-python-tag=py${EXTENSION}
-bdist-dir=./dist${EXTENSION}
-plat-name=${PLATFORM}
+python_tag=py${EXTENSION}
+bdist_dir=./dist${EXTENSION}
+plat_name=${PLATFORM}
 
 [metadata]
 name = open-space-toolkit-astrodynamics
