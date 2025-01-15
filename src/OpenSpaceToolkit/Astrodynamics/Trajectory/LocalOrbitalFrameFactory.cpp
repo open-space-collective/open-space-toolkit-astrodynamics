@@ -59,7 +59,7 @@ struct SharedFrameEnabler : public Frame
 Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState) const
 {
     const StateBuilder positionVelocityStateBuilder =
-        StateBuilder(state.getFrame(), {CartesianPosition::Default(), CartesianVelocity::Default()});
+        StateBuilder(aState.getFrame(), {CartesianPosition::Default(), CartesianVelocity::Default()});
 
     const State positionVelocityStateInParentFrame =
         positionVelocityStateBuilder.reduce(aState).inFrame(parentFrameSPtr_);
