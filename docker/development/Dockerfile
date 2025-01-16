@@ -72,7 +72,7 @@ RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
 
 ## NLopt
 
-ARG NLOPT_VERSION="2.5.0"
+ARG NLOPT_VERSION="2.9.1"
 
 RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
     && cd /tmp/nlopt \
