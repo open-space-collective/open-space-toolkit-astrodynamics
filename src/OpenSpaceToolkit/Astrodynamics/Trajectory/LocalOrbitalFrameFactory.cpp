@@ -39,8 +39,8 @@ using ostk::physics::coordinate::Velocity;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::state::coordinatesubsets::CartesianPosition;
-using ostk::astrodynamics::trajectory::state::coordinatesubsets::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 struct SharedFrameEnabler : public Frame
