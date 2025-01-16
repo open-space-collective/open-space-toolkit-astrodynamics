@@ -4,7 +4,7 @@ ARG BASE_IMAGE_VERSION="latest"
 
 # General purpose development image (root user)
 
-FROM openspacecollective/open-space-toolkit-base-development:${BASE_IMAGE_VERSION} as root-user
+FROM openspacecollective/open-space-toolkit-base-development:${BASE_IMAGE_VERSION} AS root-user
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -97,7 +97,7 @@ RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark
 ## Open Space Toolkit ▸ Core
 
 ARG TARGETPLATFORM
-ARG OSTK_CORE_MAJOR="4"
+ARG OSTK_CORE_MAJOR="5"
 
 ## Force an image rebuild when new minor or Core patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR} /tmp/open-space-toolkit-core/versions.json
@@ -183,7 +183,7 @@ LABEL VERSION="${VERSION}"
 
 # Development image for humans (non-root user)
 
-FROM root-user as non-root-user
+FROM root-user AS non-root-user
 
 # Install dev utilities
 

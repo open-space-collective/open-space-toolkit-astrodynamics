@@ -238,7 +238,7 @@ ENDFOREACH ()
 
 ## Dependencies
 
-### Boost [1.82.0]
+### Boost [1.87.0]
 
 IF (BUILD_WITH_BOOST_STATIC)
     SET (Boost_USE_STATIC_LIBS ON)
@@ -248,7 +248,7 @@ ENDIF ()
 
 SET (Boost_USE_MULTITHREADED ON)
 
-FIND_PACKAGE ("Boost" "1.82" REQUIRED COMPONENTS log log_setup thread)
+FIND_PACKAGE ("Boost" "1.87" REQUIRED COMPONENTS log log_setup thread)
 
 IF (BUILD_WITH_BOOST_STACKTRACE)
 ## Stacktrace definitions
@@ -305,9 +305,9 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Open Space Toolkit ▸ Core [4.x.y]
+### Open Space Toolkit ▸ Core [5.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitCore" "4" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "5" REQUIRED)
 
 IF (NOT OpenSpaceToolkitCore_FOUND)
 

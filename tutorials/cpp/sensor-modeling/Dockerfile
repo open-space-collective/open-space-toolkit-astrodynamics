@@ -76,7 +76,7 @@ RUN mkdir -p /tmp/open-space-toolkit-astrodynamics \
 
 ARG VERSION
 
-ENV VERSION ${VERSION}
+ENV VERSION="${VERSION}"
 
 LABEL VERSION="${VERSION}"
 
