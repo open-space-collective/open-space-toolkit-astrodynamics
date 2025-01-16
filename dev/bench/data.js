@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1737048628520,
+  "lastUpdate": 1737062714941,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -648,6 +648,60 @@ window.BENCHMARK_DATA = {
             "value": 3200900278.000006,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3200716247.199999 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8bf447490a1f7af8bcdcbb2853a93c22cbce37b5",
+          "message": "refactor!: use state instead of instantposvel (#493)\n\n* refactor!: use State instead of Instant, Position, Velocity\n\n* feat: update bindings\n\n* Apply suggestions from code review\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>\n\n* feat: address remaining feedback\n\n* fix: from suggestions\n\n* feat: fix tests\n\n* feat: fix tests\n\n---------\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>",
+          "timestamp": "2025-01-16T21:07:37Z",
+          "tree_id": "6eaa80a59e0f4dda534daf582d87f5b0d281ec05",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/8bf447490a1f7af8bcdcbb2853a93c22cbce37b5"
+        },
+        "date": 1737062713241,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 612966869.1000006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 612778314.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 928871681.8000069,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 928847730.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3287782757.7000003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3287656232.9000006 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3285022289.999995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3284846875.4000015 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3281535590.200008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3281408686.3999987 ns\nthreads: 1"
           }
         ]
       }
