@@ -56,10 +56,13 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
+    const Shared<const Frame> parentFrameSPtr =
+        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->accessParentFrame();
+
     const State state = {
         anInstant,
-        Position::Meters(aPositionCoordinates, outputFrameSPtr),
-        Velocity::MetersPerSecond(aVelocityCoordinates, outputFrameSPtr),
+        Position::Meters(aPositionCoordinates, parentFrameSPtr),
+        Velocity::MetersPerSecond(aVelocityCoordinates, parentFrameSPtr),
     };
 
     const Shared<const Frame> localOrbitalFrameSPtr =
