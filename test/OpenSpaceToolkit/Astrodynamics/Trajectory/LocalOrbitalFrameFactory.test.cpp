@@ -46,6 +46,7 @@ using ostk::physics::coordinate::Transform;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory : public ::testing::Test
 {
@@ -57,6 +58,12 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory : publi
     const Instant instant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
     const Vector3d position_ = {7000000.0, 0.0, 0.0};
     const Vector3d velocity_ = {0.0, 5335.865450622126, 5335.865450622126};
+
+    const State state_ = {
+        instant_,
+        Position::Meters(position_, Frame::GCRF()),
+        Velocity::MetersPerSecond(velocity_, Frame::GCRF()),
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Construct)
@@ -100,21 +107,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
         }
 
         {
-            const auto aTransformGenerator = [](const Instant& anInstant,
-                                                const Vector3d& aPositionCoordinates,
-                                                const Vector3d& aVelocityCoordinates) -> Transform
+            const auto aTransformGenerator = [](const State& aState) -> Transform
             {
-                const Vector3d transformPosition = -aPositionCoordinates;
-                const Vector3d transformVelocity = -aVelocityCoordinates;
-                const Vector3d xAxis = aVelocityCoordinates.normalized();
-                const Vector3d yAxis = aPositionCoordinates.cross(aVelocityCoordinates).normalized();
+                const Vector3d transformPosition = -aState.getPosition().getCoordinates();
+                const Vector3d transformVelocity = -aState.getVelocity().getCoordinates();
+
+                const Vector3d xAxis = aState.getVelocity().getCoordinates().normalized();
+                const Vector3d yAxis =
+                    aState.getPosition().getCoordinates().cross(aState.getVelocity().getCoordinates()).normalized();
                 const Vector3d zAxis = xAxis.cross(yAxis);
+
                 const Quaternion transformOrientation =
                     Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+
                 const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};
 
                 return {
-                    anInstant,
+                    aState.accessInstant(),
                     transformPosition,
                     transformVelocity,
                     transformOrientation,
@@ -175,7 +184,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Acces
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, GenerateFrame)
 {
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, position_, velocity_);
+        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(state_);
 
         Transform transform = localOrbitalFrame->getTransformTo(gcrfSPtr_, instant_);
 
@@ -183,7 +192,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Gener
     }
 
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, position_, velocity_);
+        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(state_);
 
         EXPECT_ANY_THROW(localOrbitalFrame->getTransformTo(gcrfSPtr_, Instant::J2000()));
     }

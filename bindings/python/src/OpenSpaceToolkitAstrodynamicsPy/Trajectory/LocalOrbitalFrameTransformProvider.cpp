@@ -19,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
             "LocalOrbitalFrameTransformProvider",
             R"doc(
                 Local orbital frame transform provider, frame provider.
-                Generates a specific transform based on instant, position, velocity and a LOF type.
+                Generates a specific transform based on a State (instant, position, velocity) and a LOF type.
 
             )doc"
         );
@@ -94,17 +94,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
 
                 Args:
                     type (LocalOrbitalFrameTransformProvider.Type): The local orbital frame provider type.
-                    instant (Instant): The instant.
-                    position (Vector3d): The position vector.
-                    velocity (Vector3d): The velocity vector.
+                    state (State): The state.
 
                 Returns:
                     LocalOrbitalFrameTransformProvider: The provider.
             )doc",
             arg("type"),
-            arg("instant"),
-            arg("position"),
-            arg("velocity")
+            arg("state")
         )
 
         .def_static(
@@ -117,7 +113,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
                     type (LocalOrbitalFrameTransformProvider.Type): The local orbital frame provider type.
 
                 Returns:
-                    callable[[Instant, np.array, np.array], Transform]: The transform generator function.
+                    callable[[State], Transform]: The transform generator function.
             )doc",
             arg("type")
         )

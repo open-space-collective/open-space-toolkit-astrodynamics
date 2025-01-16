@@ -12,6 +12,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
 namespace ostk
 {
 namespace astrodynamics
@@ -29,6 +31,8 @@ using ostk::physics::coordinate::Transform;
 using ostk::physics::coordinate::Vector3d;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
+
+using ostk::astrodynamics::trajectory::State;
 
 /// @brief Local orbital frame transform provider, frame provider
 ///
@@ -83,16 +87,11 @@ class LocalOrbitalFrameTransformProvider : public Provider
     /// @brief Construct a local orbital frame transform provider shared pointer for the provided type
     ///
     /// @param aType A local orbital frame provider type
-    /// @param anInstant An instant
-    /// @param aPosition A position vector
-    /// @param aVelocity A velocity vector
+    /// @param aState A state
     ///
     /// @return The shared pointer to the local orbital frame transform provider constructed
     static Shared<const LocalOrbitalFrameTransformProvider> Construct(
-        const LocalOrbitalFrameTransformProvider::Type& aType,
-        const Instant& anInstant,
-        const Vector3d& aPosition,
-        const Vector3d& aVelocity
+        const LocalOrbitalFrameTransformProvider::Type& aType, const State& aState
     );
 
     /// @brief Get the transform generator function for a given type
@@ -100,7 +99,7 @@ class LocalOrbitalFrameTransformProvider : public Provider
     /// @param aType A local orbital frame provider type
     ///
     /// @return The transform generator function
-    static std::function<Transform(const Instant&, const Vector3d&, const Vector3d&)> GetTransformGenerator(
+    static std::function<Transform(const State&)> GetTransformGenerator(
         const LocalOrbitalFrameTransformProvider::Type& aType
     );
 
@@ -117,17 +116,10 @@ class LocalOrbitalFrameTransformProvider : public Provider
     /// @brief Generate a transform based on current state and LOF type
     ///
     /// @param aType A local orbital frame provider type
-    /// @param anInstant An instant
-    /// @param aPosition A position vector
-    /// @param aVelocity A velocity vector
+    /// @param aState
     ///
     /// @return The transform generated
-    static Transform generateTransform(
-        const LocalOrbitalFrameTransformProvider::Type& aType,
-        const Instant& anInstant,
-        const Vector3d& aPosition,
-        const Vector3d& aVelocity
-    );
+    static Transform GenerateTransform(const LocalOrbitalFrameTransformProvider::Type& aType, const State& aState);
 };
 
 }  // namespace trajectory

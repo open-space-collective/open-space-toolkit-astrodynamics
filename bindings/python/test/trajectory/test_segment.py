@@ -183,7 +183,6 @@ class TestSegmentSolution:
     ):
         assert segment_solution.compute_delta_mass() is not None
 
-    @pytest.mark.skip(reason="Not implemented yet")
     def test_extract_maneuvers(
         self,
         segment_solution: Segment.Solution,

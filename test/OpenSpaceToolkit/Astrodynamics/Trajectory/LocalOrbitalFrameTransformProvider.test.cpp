@@ -15,13 +15,17 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
 
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Transform;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
+using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider : public ::testing::Test
 {
@@ -32,8 +36,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvid
     const Vector3d position_ = {7000000.0, 0.0, 0.0};
     const Vector3d velocity_ = {0.0, 5335.865450622126, 5335.865450622126};
 
+    const State state_ = {
+        instant_,
+        Position::Meters(position_, Frame::GCRF()),
+        Velocity::MetersPerSecond(velocity_, Frame::GCRF()),
+    };
+
     const Shared<const LocalOrbitalFrameTransformProvider> localOrbitalFrameTransformProvider_ =
-        LocalOrbitalFrameTransformProvider::Construct(type_, instant_, position_, velocity_);
+        LocalOrbitalFrameTransformProvider::Construct(type_, state_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider, Constructer)
@@ -47,52 +57,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
 {
     {
         {
-            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::VNC, instant_, position_, velocity_
-            ));
+            EXPECT_NO_THROW(
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::VNC, state_)
+            );
         }
 
         {
-            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::NED, instant_, position_, velocity_
-            ));
+            EXPECT_NO_THROW(
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::NED, state_)
+            );
         }
 
         {
-            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::LVLH, instant_, position_, velocity_
-            ));
+            EXPECT_NO_THROW(
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::LVLH, state_)
+            );
+        }
+
+        {
+            EXPECT_ANY_THROW(
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::LVLHGD, state_)
+            );  // ToBeImplemented
+        }
+
+        {
+            EXPECT_NO_THROW(
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::QSW, state_)
+            );
+        }
+
+        {
+            EXPECT_NO_THROW(
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::TNW, state_)
+            );
         }
 
         {
             EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::LVLHGD, instant_, position_, velocity_
-            ));  // ToBeImplemented
-        }
-
-        {
-            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::QSW, instant_, position_, velocity_
-            ));
-        }
-
-        {
-            EXPECT_NO_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::TNW, instant_, position_, velocity_
-            ));
-        }
-
-        {
-            EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::Undefined, instant_, position_, velocity_
+                LocalOrbitalFrameTransformProvider::Type::Undefined, state_
             ));
         }
 
         {
             EXPECT_THROW(
-                LocalOrbitalFrameTransformProvider::Construct(
-                    LocalOrbitalFrameTransformProvider::Type::Custom, instant_, position_, velocity_
-                ),
+                LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::Custom, state_),
                 ostk::core::error::RuntimeError
             );
         }
@@ -125,7 +133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::VNC
                 );
 
-            const Transform transform = transformGenerator(instant_, position_, velocity_);
+            const Transform transform = transformGenerator(state_);
 
             EXPECT_TRUE(transform.isDefined());
         }
@@ -135,7 +143,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::NED
                 );
 
-            const Transform transform = transformGenerator(instant_, position_, velocity_);
+            const Transform transform = transformGenerator(state_);
 
             EXPECT_TRUE(transform.isDefined());
         }
@@ -145,7 +153,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::LVLH
                 );
 
-            const Transform transform = transformGenerator(instant_, position_, velocity_);
+            const Transform transform = transformGenerator(state_);
 
             EXPECT_TRUE(transform.isDefined());
         }
@@ -155,7 +163,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::QSW
                 );
 
-            const Transform transform = transformGenerator(instant_, position_, velocity_);
+            const Transform transform = transformGenerator(state_);
 
             EXPECT_TRUE(transform.isDefined());
         }
@@ -165,7 +173,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::TNW
                 );
 
-            const Transform transform = transformGenerator(instant_, position_, velocity_);
+            const Transform transform = transformGenerator(state_);
 
             EXPECT_TRUE(transform.isDefined());
         }

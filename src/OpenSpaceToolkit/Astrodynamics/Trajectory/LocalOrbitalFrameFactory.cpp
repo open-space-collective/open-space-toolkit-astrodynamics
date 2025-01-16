@@ -15,6 +15,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -36,6 +39,9 @@ using ostk::physics::coordinate::Velocity;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 struct SharedFrameEnabler : public Frame
 {
@@ -50,18 +56,22 @@ struct SharedFrameEnabler : public Frame
     }
 };
 
-Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
-    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
-) const
+Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState) const
 {
-    const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
+    const StateBuilder positionVelocityStateBuilder =
+        StateBuilder(aState.getFrame(), {CartesianPosition::Default(), CartesianVelocity::Default()});
+
+    const State positionVelocityStateInParentFrame =
+        positionVelocityStateBuilder.reduce(aState).inFrame(parentFrameSPtr_);
+
+    const String name = this->generateFrameName(positionVelocityStateInParentFrame);
 
     if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
     {
         return frameSPtr;
     }
 
-    const Transform transform = transformGenerator_(anInstant, aPosition, aVelocity);
+    const Transform transform = transformGenerator_(positionVelocityStateInParentFrame);
 
     const Shared<const LocalOrbitalFrameTransformProvider> providerSPtr =
         std::make_shared<const LocalOrbitalFrameTransformProvider>(transform);
@@ -164,12 +174,10 @@ LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
 {
 }
 
-String LocalOrbitalFrameFactory::generateFrameName(
-    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
-) const
+String LocalOrbitalFrameFactory::generateFrameName(const State& aState) const
 {
-    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString() +
-           aPosition.toString() + aVelocity.toString();
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + aState.accessInstant().toString() +
+           aState.getPosition().getCoordinates().toString() + aState.getVelocity().getCoordinates().toString();
 }
 
 }  // namespace trajectory
