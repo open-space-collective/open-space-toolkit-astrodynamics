@@ -50,11 +50,10 @@ Duration FiniteDifferenceSolver::getStepDuration() const
     return stepDuration_;
 }
 
-MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
+Array<MatrixXd> FiniteDifferenceSolver::computeStateTransitionMatrix(
     const State& aState,
     const Array<Instant>& anInstantArray,
-    const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
-    const Size& aCoordinatesDimension
+    const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStatesCoordinates
 ) const
 {
     const StateBuilder stateBuilder = {aState};
@@ -67,62 +66,54 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     switch (type_)
     {
         case FiniteDifferenceSolver::Type::Forward:
-            computeBlock = [&generateStateCoordinates,
-                            &stateBuilder,
-                            anInstant = aState.accessInstant(),
-                            &anInstantArray](const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex)
+            computeBlock =
+                [&generateStatesCoordinates, &stateBuilder, anInstant = aState.accessInstant(), &anInstantArray](
+                    const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex
+                ) -> MatrixXd
             {
                 const MatrixXd coordinates =
-                    generateStateCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
+                    generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
                 aCoordinateVector(anIndex) += aStepSize;
                 const MatrixXd forwardCoordinates =
-                    generateStateCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
+                    generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
-                const MatrixXd differencedCoordinates = (forwardCoordinates - coordinates) / aStepSize;
-
-                return differencedCoordinates;
+                return (forwardCoordinates - coordinates) / aStepSize;
             };
             break;
 
         case FiniteDifferenceSolver::Type::Backward:
-            computeBlock = [&generateStateCoordinates,
-                            &stateBuilder,
-                            anInstant = aState.accessInstant(),
-                            &anInstantArray](const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex)
+            computeBlock =
+                [&generateStatesCoordinates, &stateBuilder, anInstant = aState.accessInstant(), &anInstantArray](
+                    const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex
+                ) -> MatrixXd
             {
                 const MatrixXd coordinates =
-                    generateStateCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
+                    generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
                 aCoordinateVector(anIndex) -= aStepSize;
                 const MatrixXd backwardCoordinates =
-                    generateStateCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
+                    generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
-                const MatrixXd differencedCoordinates = (coordinates - backwardCoordinates) / aStepSize;
-
-                return differencedCoordinates;
+                return (coordinates - backwardCoordinates) / aStepSize;
             };
             break;
 
         case FiniteDifferenceSolver::Type::Central:
-            computeBlock = [&generateStateCoordinates,
-                            &stateBuilder,
-                            anInstant = aState.accessInstant(),
-                            &anInstantArray](const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex)
+            computeBlock =
+                [&generateStatesCoordinates, &stateBuilder, anInstant = aState.accessInstant(), &anInstantArray](
+                    const Real& aStepSize, VectorXd aCoordinateVector, const Index& anIndex
+                ) -> MatrixXd
             {
-                // Perturb state forward
                 aCoordinateVector(anIndex) += aStepSize;
                 const MatrixXd forwardCoordinates =
-                    generateStateCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
+                    generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
-                // Perturb state backward
                 aCoordinateVector(anIndex) -= 2.0 * aStepSize;
                 const MatrixXd backwardCoordinates =
-                    generateStateCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
+                    generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
-                const MatrixXd differencedCoordinates = (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize);
-
-                return differencedCoordinates;
+                return (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize);
             };
             break;
 
@@ -130,7 +121,13 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
             throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
     }
 
-    MatrixXd A = MatrixXd::Zero(aCoordinatesDimension * numberOfInstants, stateVectorDimension);
+    const MatrixXd matrixResult = generateStatesCoordinates(aState, {aState.accessInstant()});
+
+    const Size coordinateDimension = matrixResult.rows();
+
+    Array<MatrixXd> stateTransitionMatrices(
+        numberOfInstants, MatrixXd::Zero(coordinateDimension, stateVectorDimension)
+    );
 
     for (Index i = 0; i < stateVectorDimension; ++i)
     {
@@ -138,23 +135,21 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
                                 ? aState.accessCoordinates()(i) * stepPercentage_
                                 : stepPercentage_;
 
-        MatrixXd differencedCoordinates = computeBlock(stepSize, aState.accessCoordinates(), i);
+        const MatrixXd differencedCoordinates = computeBlock(stepSize, aState.accessCoordinates(), i);
 
-        const VectorXd columnStackedCoordinates =
-            Eigen::Map<VectorXd>(differencedCoordinates.data(), differencedCoordinates.size());
-
-        A.col(i) = columnStackedCoordinates;
+        for (Index k = 0; k < numberOfInstants; ++k)
+        {
+            stateTransitionMatrices[k].col(i) = differencedCoordinates.col(k);
+        }
     }
 
-    return A;
+    return stateTransitionMatrices;
 }
 
 MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     const State& aState,
     const Instant& anInstant,
-    const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
-    const Size& aCoordinatesDimension
-
+    const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
 ) const
 {
     const auto generateStatesCoordinates =
@@ -162,12 +157,12 @@ MatrixXd FiniteDifferenceSolver::computeStateTransitionMatrix(
     {
         const VectorXd coordinates = generateStateCoordinates(anInputState, anInstantArray[0]);
 
-        const MatrixXd coordinatesMatrix = MatrixXd(coordinates);
+        const Eigen::Map<const MatrixXd> coordinatesMatrix(coordinates.data(), coordinates.size(), 1);
 
         return coordinatesMatrix;
     };
 
-    return computeStateTransitionMatrix(aState, {anInstant}, generateStatesCoordinates, aCoordinatesDimension);
+    return computeStateTransitionMatrix(aState, {anInstant}, generateStatesCoordinates)[0];
 }
 
 VectorXd FiniteDifferenceSolver::computeGradient(
@@ -183,9 +178,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
             const Instant instant = aState.accessInstant() + stepDuration_;
             const VectorXd forwardCoordinates = generateStateCoordinates(aState, instant);
 
-            const VectorXd differencedCoordinates = (forwardCoordinates - coordinates) / (stepDuration_.inSeconds());
-
-            return differencedCoordinates;
+            return (forwardCoordinates - coordinates) / (stepDuration_.inSeconds());
         }
 
         case FiniteDifferenceSolver::Type::Backward:
@@ -195,9 +188,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
             const Instant instant = aState.accessInstant() - stepDuration_;
             const VectorXd backwardCoordinates = generateStateCoordinates(aState, instant);
 
-            const VectorXd differencedCoordinates = (coordinates - backwardCoordinates) / (stepDuration_.inSeconds());
-
-            return differencedCoordinates;
+            return (coordinates - backwardCoordinates) / (stepDuration_.inSeconds());
         }
 
         case FiniteDifferenceSolver::Type::Central:

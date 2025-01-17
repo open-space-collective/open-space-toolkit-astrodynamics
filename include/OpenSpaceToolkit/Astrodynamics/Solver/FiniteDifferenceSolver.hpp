@@ -64,9 +64,11 @@ class FiniteDifferenceSolver
     /// @brief Output stream operator.
     ///
     /// @param anOutputStream An output stream.
-    /// @param aFiniteDifference A finite difference solver.
+    /// @param aFiniteDifferenceSolver A finite difference solver.
     /// @return An output stream.
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const FiniteDifferenceSolver& aFiniteDifference);
+    friend std::ostream& operator<<(
+        std::ostream& anOutputStream, const FiniteDifferenceSolver& aFiniteDifferenceSolver
+    );
 
     /// @brief Get the Type.
     ///
@@ -83,21 +85,18 @@ class FiniteDifferenceSolver
     /// @return The step duration.
     Duration getStepDuration() const;
 
-    /// @brief Compute the State Transition Matrix (STM) by perturbing the coordinates
+    /// @brief Compute the State Transition Matrices (STMs) by perturbing the coordinates
     ///
-    /// @param aState A state.
-    /// @param anInstantArray An array of instants.
-    /// @param generateStateCoordinates Callable to generate coordinates of States at the
-    /// requested Instants.
-    /// @param aCoordinatesDimension The dimension of the coordinates produced by
-    /// `generateStateCoordinates`.
+    /// @param aState A state from which to compute the STMs.
+    /// @param anInstantArray An array of instants at which to compute the STMs.
+    /// @param generateStatesCoordinates Callable to generate coordinates of States at the
+    /// requested Instants. The callable should return a MatrixXd where each column is the coordinates at an instant.
     ///
-    /// @return The State Transition Matrix (STM)
-    MatrixXd computeStateTransitionMatrix(
+    /// @return The State Transition Matrices (STMs)
+    Array<MatrixXd> computeStateTransitionMatrix(
         const State& aState,
         const Array<Instant>& anInstantArray,
-        const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
-        const Size& aCoordinatesDimension
+        const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStatesCoordinates
     ) const;
 
     /// @brief Compute the State Transition Matrix (STM) by perturbing the coordinates
@@ -105,15 +104,12 @@ class FiniteDifferenceSolver
     /// @param aState A state.
     /// @param anInstant An instant.
     /// @param generateStateCoordinates Callable to generate coordinates of a State at the
-    /// requested Instant.
-    /// @param aCoordinatesDimension The dimension of the coordinates produced by
-    /// `generateStateCoordinates`.
+    /// requested Instant. Must be a column vector.
     /// @return The State Transition Matrix (STM)
     MatrixXd computeStateTransitionMatrix(
         const State& aState,
         const Instant& anInstant,
-        const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
-        const Size& aCoordinatesDimension
+        const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
     ) const;
 
     /// @brief Compute the gradient.
@@ -130,11 +126,11 @@ class FiniteDifferenceSolver
     /// @brief Compute the Jacobian.
     ///
     /// @param aState The state to compute the Jacobian of.
-    /// @param generateStateDerivatives Callable to generate derivatives of the State.
+    /// @param generateStateCoordinates Callable to generate coordinates of the State.
     ///
     /// @return The Jacobian.
     MatrixXd computeJacobian(
-        const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateDerivatives
+        const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
     ) const;
 
     /// @brief Print the solver.
