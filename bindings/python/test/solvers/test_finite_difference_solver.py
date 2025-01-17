@@ -84,11 +84,11 @@ def generate_states_coordinates() -> callable:
             x: float = x0 * math.cos(omega * t) + v0 / omega * math.sin(omega * t)
             v: float = -x0 * omega * math.sin(omega * t) + v0 * math.cos(omega * t)
 
-            coordinates: list[float] = [x, v]
+            coordinates: list[float] = np.array([x, v])
 
             states_coordinates.append(coordinates)
 
-        return np.array(states_coordinates)
+        return np.array(states_coordinates).transpose()
 
     return state_fn
 
@@ -133,15 +133,16 @@ class TestFiniteDifferenceSolver:
         instants: list[Instant],
         generate_states_coordinates: callable,
     ):
-        stm = finite_difference_solver.compute_state_transition_matrix(
+        stms: list[np.ndarray] = finite_difference_solver.compute_state_transition_matrix(
             state=state,
             instants=instants,
             generate_states_coordinates=generate_states_coordinates,
-            coordinates_dimension=2,
         )
-        assert isinstance(stm, np.ndarray)
-        assert stm.shape == (
-            len(state.get_coordinates()) * len(instants),
+
+        assert len(stms) == len(instants)
+
+        assert stms[0].shape == (
+            len(state.get_coordinates()),
             len(state.get_coordinates()),
         )
 
@@ -152,11 +153,10 @@ class TestFiniteDifferenceSolver:
         generate_state_coordinates: callable,
         instant: Instant,
     ):
-        stm = finite_difference_solver.compute_state_transition_matrix(
+        stm: np.ndarray = finite_difference_solver.compute_state_transition_matrix(
             state=state,
             instant=instant,
             generate_state_coordinates=generate_state_coordinates,
-            coordinates_dimension=2,
         )
         assert isinstance(stm, np.ndarray)
         assert stm.shape == (

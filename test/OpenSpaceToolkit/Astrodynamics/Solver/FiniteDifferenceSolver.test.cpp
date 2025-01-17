@@ -144,7 +144,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, Getters)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrices)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrix_MultipleInstants)
 {
     {
         const Array<Instant> instants = {
@@ -153,11 +153,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
             Instant::J2000() + Duration::Seconds(300.0),
         };
 
-        MatrixXd expectedStateTransitionMatrix(2 * instants.getSize(), 2);
+        Array<MatrixXd> expectedStateTransitionMatrices = Array<MatrixXd>::Empty();
+        for (const auto& instant : instants)
+        {
+            const Real t = (instant - Instant::J2000()).inSeconds();
 
-        expectedStateTransitionMatrix << std::cos(100.0), std::sin(100.0), std::sin(-100.0), std::cos(100.0),
-            std::cos(200.0), std::sin(200.0), std::sin(-200.0), std::cos(200.0), std::cos(300.0), std::sin(300.0),
-            std::sin(-300.0), std::cos(300.0);
+            MatrixXd expectedStateTransitionMatrix(2, 2);
+            expectedStateTransitionMatrix << std::cos(t), std::sin(t), std::sin(-t), std::cos(t);
+
+            expectedStateTransitionMatrices.add(expectedStateTransitionMatrix);
+        }
 
         {
             const FiniteDifferenceSolver solver = {
@@ -165,10 +170,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates_, 2);
+            const Array<MatrixXd> stationTransitionMatrices =
+                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates_);
 
-            EXPECT_TRUE(jacobian.isApprox(expectedStateTransitionMatrix, 1e-12));
+            EXPECT_EQ(stationTransitionMatrices.getSize(), instants.getSize());
+            for (Size i = 0; i < instants.getSize(); ++i)
+            {
+                EXPECT_TRUE(stationTransitionMatrices[i].isApprox(expectedStateTransitionMatrices[i], 1e-12));
+            }
         }
 
         {
@@ -177,9 +186,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates_, 2);
-            EXPECT_TRUE(jacobian.isApprox(expectedStateTransitionMatrix, 1e-12));
+            const Array<MatrixXd> stationTransitionMatrices =
+                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates_);
+
+            EXPECT_EQ(stationTransitionMatrices.getSize(), instants.getSize());
+            for (Size i = 0; i < instants.getSize(); ++i)
+            {
+                EXPECT_TRUE(stationTransitionMatrices[i].isApprox(expectedStateTransitionMatrices[i], 1e-12));
+            }
         }
 
         {
@@ -188,9 +202,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
                 defaultStepPercentage_,
                 defaultStepDuration_,
             };
-            const MatrixXd jacobian =
-                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates_, 2);
-            EXPECT_TRUE(jacobian.isApprox(expectedStateTransitionMatrix, 1e-12));
+            const Array<MatrixXd> stationTransitionMatrices =
+                solver.computeStateTransitionMatrix(initialState_, instants, generateStatesCoordinates_);
+
+            EXPECT_EQ(stationTransitionMatrices.getSize(), instants.getSize());
+            for (Size i = 0; i < instants.getSize(); ++i)
+            {
+                EXPECT_TRUE(stationTransitionMatrices[i].isApprox(expectedStateTransitionMatrices[i], 1e-12));
+            }
         }
     }
 }
@@ -198,10 +217,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrix)
 {
     {
-        const Instant instant = Instant::J2000() + Duration::Seconds(100.0);
+        const Real t = 100.0;
+        const Instant instant = Instant::J2000() + Duration::Seconds(t);
 
         MatrixXd expectedStateTransitionMatrix(2, 2);
-        expectedStateTransitionMatrix << std::cos(100.0), std::sin(100.0), std::sin(-100.0), std::cos(100.0);
+        expectedStateTransitionMatrix << std::cos(t), std::sin(t), std::sin(-t), std::cos(t);
 
         {
             const FiniteDifferenceSolver solver = {
@@ -210,7 +230,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
                 defaultStepDuration_,
             };
             const MatrixXd stateTransitionMatrix =
-                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates_, 2);
+                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates_);
 
             EXPECT_TRUE(stateTransitionMatrix.isApprox(expectedStateTransitionMatrix, 1e-12));
         }
@@ -222,7 +242,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
                 defaultStepDuration_,
             };
             const MatrixXd stateTransitionMatrix =
-                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates_, 2);
+                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates_);
 
             EXPECT_TRUE(stateTransitionMatrix.isApprox(expectedStateTransitionMatrix, 1e-12));
         }
@@ -234,7 +254,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
                 defaultStepDuration_,
             };
             const MatrixXd stateTransitionMatrix =
-                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates_, 2);
+                solver.computeStateTransitionMatrix(initialState_, instant, generateStateCoordinates_);
 
             EXPECT_TRUE(stateTransitionMatrix.isApprox(expectedStateTransitionMatrix, 1e-12));
         }

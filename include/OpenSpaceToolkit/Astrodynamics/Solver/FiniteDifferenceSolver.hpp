@@ -90,10 +90,10 @@ class FiniteDifferenceSolver
     /// @param aState A state from which to compute the STMs.
     /// @param anInstantArray An array of instants at which to compute the STMs.
     /// @param generateStatesCoordinates Callable to generate coordinates of States at the
-    /// requested Instants.
+    /// requested Instants. The callable should return a MatrixXd where each column is the coordinates at an instant.
     ///
     /// @return The State Transition Matrices (STMs)
-    MatrixXd computeStateTransitionMatrices(
+    Array<MatrixXd> computeStateTransitionMatrix(
         const State& aState,
         const Array<Instant>& anInstantArray,
         const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStatesCoordinates
@@ -104,7 +104,7 @@ class FiniteDifferenceSolver
     /// @param aState A state.
     /// @param anInstant An instant.
     /// @param generateStateCoordinates Callable to generate coordinates of a State at the
-    /// requested Instant.
+    /// requested Instant. Must be a column vector.
     /// @return The State Transition Matrix (STM)
     MatrixXd computeStateTransitionMatrix(
         const State& aState,

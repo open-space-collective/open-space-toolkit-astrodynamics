@@ -22,7 +22,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
         aModule,
         "FiniteDifferenceSolver",
         R"doc(
-            A Finite Difference Solver to compute the gradient, and jacobian of a function.
+            A Finite Difference Solver to compute the gradient, state transition matrix, and jacobian of a function.
 
         )doc"
     );
@@ -50,7 +50,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
 
                 Args:
                     type (FiniteDifferenceSolver.Type): Type of finite difference scheme.
-                    step_percentage (float): The step percentage to use for computing the STM.
+                    step_percentage (float): The step percentage to use for computing the STM/Jacobian.
                     step_duration (Duration): The step duration to use for computing the gradient.
 
                 Returns:
@@ -100,41 +100,34 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
             +[](const ostk::astrodynamics::solver::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Array<Instant>& anInstantArray,
-                const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStateCoordinates,
-                const Size& aCoordinatesDimension) -> MatrixXd
+                const std::function<MatrixXd(const State&, const Array<Instant>&)>& generateStatesCoordinates
+             ) -> Array<MatrixXd>
             {
-                return solver.computeStateTransitionMatrix(
-                    aState, anInstantArray, generateStateCoordinates, aCoordinatesDimension
-                );
+                return solver.computeStateTransitionMatrix(aState, anInstantArray, generateStatesCoordinates);
             },
             R"doc(
-                Compute the state transition matrix (STM).
+                Compute a list of state transition matrix (STM) at the provided instants.
 
                 Args:
                     state (State): The state.
                     instants (Array(Instant)): The instants at which to calculate the STM.
-                    generate_states_coordinates (callable): The function to get the states.
-                    coordinates_dimension (int): The dimension of the coordinates produced by `generate_states_coordinates`.
+                    generate_states_coordinates (callable): The function to get the states coordinates as a matrix. Each column is a set of state coordinates.
 
                 Returns:
-                    np.array: The state transition matrix.
+                    np.array: The list of state transition matrices.
             )doc",
             arg("state"),
             arg("instants"),
-            arg("generate_states_coordinates"),
-            arg("coordinates_dimension")
+            arg("generate_states_coordinates")
         )
         .def(
             "compute_state_transition_matrix",
             +[](const ostk::astrodynamics::solver::FiniteDifferenceSolver& solver,
                 const State& aState,
                 const Instant& anInstant,
-                const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates,
-                const Size& aCoordinatesDimension) -> MatrixXd
+                const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates) -> MatrixXd
             {
-                return solver.computeStateTransitionMatrix(
-                    aState, anInstant, generateStateCoordinates, aCoordinatesDimension
-                );
+                return solver.computeStateTransitionMatrix(aState, anInstant, generateStateCoordinates);
             },
             R"doc(
                 Compute the state transition matrix (STM).
@@ -142,16 +135,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
                 Args:
                     state (State): The state.
                     instant (Instant): The instant at which to calculate the STM.
-                    generate_state_coordinates (callable): The function to get the state.
-                    coordinates_dimension (int): The dimension of the coordinates produced by `generate_state_coordinates`
+                    generate_state_coordinates (callable): The function to get the state coordinates. Must be a column vector.
 
                 Returns:
-                    np.array: The jacobian.
+                    np.array: The state transition matrix.
             )doc",
             arg("state"),
             arg("instant"),
-            arg("generate_state_coordinates"),
-            arg("coordinates_dimension")
+            arg("generate_state_coordinates")
         )
         .def(
             "compute_gradient",
