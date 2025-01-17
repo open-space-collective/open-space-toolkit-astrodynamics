@@ -101,7 +101,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Construct
         );
     };
 
-    EXPECT_NO_THROW(Transform transform_(DynamicProvider(dynamicProviderGenerator), Frame::GCRF()));
+    EXPECT_NO_THROW(Transform transform(DynamicProvider(dynamicProviderGenerator), Frame::GCRF()));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, StreamOperator)
