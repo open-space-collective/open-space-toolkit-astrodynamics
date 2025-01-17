@@ -39,7 +39,7 @@ def initial_instant() -> Instant:
 
 
 @pytest.fixture
-def state(initial_instant: Instant, coordinate_subsets: list[CoordinateSubset]) -> State:
+def initial_guess_state(initial_instant: Instant, coordinate_subsets: list[CoordinateSubset]) -> State:
     return State(initial_instant, [1, 0], Frame.GCRF(), coordinate_subsets)
 
 
