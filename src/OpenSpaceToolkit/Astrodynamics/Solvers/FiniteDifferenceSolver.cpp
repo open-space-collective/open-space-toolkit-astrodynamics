@@ -113,11 +113,7 @@ Array<MatrixXd> FiniteDifferenceSolver::computeStateTransitionMatrix(
                 const MatrixXd backwardCoordinates =
                     generateStatesCoordinates(stateBuilder.build(anInstant, aCoordinateVector), anInstantArray);
 
-                // TBR: returning (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize) in the lambda returns a
-                // matrix of zeros
-                const MatrixXd differencedCoordinates = (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize);
-
-                return differencedCoordinates;
+                return (forwardCoordinates - backwardCoordinates) / (2.0 * aStepSize);
             };
             break;
 
@@ -129,8 +125,6 @@ Array<MatrixXd> FiniteDifferenceSolver::computeStateTransitionMatrix(
 
     const Size coordinateDimension = matrixResult.rows();
 
-    MatrixXd A = MatrixXd::Zero(coordinateDimension * numberOfInstants, stateVectorDimension);
-
     Array<MatrixXd> stateTransitionMatrices(
         numberOfInstants, MatrixXd::Zero(coordinateDimension, stateVectorDimension)
     );
@@ -141,15 +135,11 @@ Array<MatrixXd> FiniteDifferenceSolver::computeStateTransitionMatrix(
                                 ? aState.accessCoordinates()(i) * stepPercentage_
                                 : stepPercentage_;
 
-        MatrixXd differencedCoordinates = computeBlock(stepSize, aState.accessCoordinates(), i);
-
-        const VectorXd columnStackedCoordinates =
-            Eigen::Map<VectorXd>(differencedCoordinates.data(), differencedCoordinates.size());
+        const MatrixXd differencedCoordinates = computeBlock(stepSize, aState.accessCoordinates(), i);
 
         for (Index k = 0; k < numberOfInstants; ++k)
         {
-            stateTransitionMatrices[k].col(i) =
-                columnStackedCoordinates.segment(k * coordinateDimension, coordinateDimension);
+            stateTransitionMatrices[k].col(i) = differencedCoordinates.col(k);
         }
     }
 
