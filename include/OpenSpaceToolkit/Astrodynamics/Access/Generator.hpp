@@ -9,6 +9,7 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -18,6 +19,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
 namespace ostk
@@ -34,6 +36,9 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Interval;
+using ostk::mathematics::object::Matrix3d;
+using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXi;
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::AER;
@@ -43,13 +48,142 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::Access;
+using ostk::astrodynamics::access::VisibilityCriterion;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::State;
 
 #define DEFAULT_STEP Duration::Minutes(1.0)
 #define DEFAULT_TOLERANCE Duration::Microseconds(1.0)
+
+/// @brief Represents the configuration for an Access target, including azimuth, elevation, and range intervals, as well
+/// as position and LLA (Latitude, Longitude, Altitude).
+///
+/// @details This class provides methods to retrieve the trajectory, position, LLA, and intervals for azimuth,
+/// elevation, and range. It also includes a method to get the SEZ (South-East-Zenith) rotation matrix.
+class AccessTarget
+{
+   public:
+    enum class Type
+    {
+        Fixed,
+        Trajectory
+    };
+
+    /// @brief Access the type
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              AccessTarget::Type type = accessTarget.accessType();
+    /// @endcode
+    ///
+    /// @return The type
+    const Type& accessType() const;
+
+    /// @brief Access the visibility criteria
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              VisibilityCriterion visibilityCriterion = accessTarget.accessVisibilityCriterion();
+    /// @endcode
+    ///
+    /// @return The visibility criteria
+    const VisibilityCriterion& accessVisibilityCriterion() const;
+
+    /// @brief Access the trajectory
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              const Trajectory& trajectory = accessTarget.accessTrajectory();
+    /// @endcode
+    ///
+    /// @return The trajectory
+    const Trajectory& accessTrajectory() const;
+
+    /// @brief Get the position
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              Position position = accessTarget.getPosition();
+    /// @endcode
+    ///
+    /// @return The position
+    Position getPosition() const;
+
+    /// @brief Get the latitude, longitude, and altitude (LLA)
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              LLA lla = accessTarget.getLLA();
+    /// @endcode
+    ///
+    /// @param aCelestialSPtr A celestial body
+    ///
+    /// @return The latitude, longitude, and altitude (LLA)
+    LLA getLLA(const Shared<const Celestial>& aCelestialSPtr) const;
+
+    /// @brief Get the rotation matrix (Matrix3d) from ECEF (Earth-Centered-Earth-Fixed) to SEZ (South-East-Zenith)
+    /// frame
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              Matrix3d sezRotation = accessTarget.computeR_SEZ_ECEF();
+    /// @endcode
+    ///
+    /// @return The SEZ rotation matrix
+    Matrix3d computeR_SEZ_ECEF(const Shared<const Celestial>& aCelestialSPtr) const;
+
+    /// @brief Construct an Access Target from an LLA (Latitude, Longitude, Altitude)
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = AccessTarget::FromLLA(
+    ///                  visibilityCriterion, lla, celestialSPtr
+    ///              );
+    /// @endcode
+    ///
+    /// @param aVisibilityCriterion
+    /// @param anLLA
+    /// @param aCelestialSPtr
+    /// @return Access target
+    static AccessTarget FromLLA(
+        const VisibilityCriterion& aVisibilityCriterion, const LLA& anLLA, const Shared<const Celestial>& aCelestialSPtr
+    );
+
+    /// @brief Construct an Access Target from a position
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = AccessTarget::FromPosition(
+    ///                  visibilityCriterion, position
+    ///              );
+    /// @endcode
+    ///
+    /// @param aVisibilityCriterion
+    /// @param aPosition
+    /// @return Access target
+    static AccessTarget FromPosition(const VisibilityCriterion& aVisibilityCriterion, const Position& aPosition);
+
+    /// @brief Construct an Access Target from a trajectory
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = AccessTarget::FromTrajectory(
+    ///                  visibilityCriterion, trajectory
+    ///              );
+    /// @endcode
+    ///
+    /// @param aVisibilityCriterion
+    /// @param aTrajectory
+    /// @return Access target
+    static AccessTarget FromTrajectory(const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory);
+
+   private:
+    Type type_;
+    VisibilityCriterion visibilityCriterion_;
+    Trajectory trajectory_;
+
+    AccessTarget(const Type& aType, const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory);
+};
 
 class Generator
 {
@@ -57,16 +191,9 @@ class Generator
     Generator(
         const Environment& anEnvironment,
         const Duration& aStep = DEFAULT_STEP,
-        const Duration& aTolerance = DEFAULT_TOLERANCE
-    );
-
-    Generator(
-        const Environment& anEnvironment,
-        const std::function<bool(const AER&)>& anAerFilter,
+        const Duration& aTolerance = DEFAULT_TOLERANCE,
         const std::function<bool(const Access&)>& anAccessFilter = {},
-        const std::function<bool(const State&, const State&)>& aStateFilter = {},
-        const Duration& aStep = DEFAULT_STEP,
-        const Duration& aTolerance = DEFAULT_TOLERANCE
+        const std::function<bool(const State&, const State&)>& aStateFilter = {}
     );
 
     bool isDefined() const;
@@ -75,25 +202,31 @@ class Generator
 
     Duration getTolerance() const;
 
-    std::function<bool(const AER&)> getAerFilter() const;
-
     std::function<bool(const Access&)> getAccessFilter() const;
 
     std::function<bool(const State&, const State&)> getStateFilter() const;
 
     std::function<bool(const Instant&)> getConditionFunction(
-        const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+        const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
     ) const;
 
     Array<Access> computeAccesses(
-        const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+        const physics::time::Interval& anInterval,
+        const AccessTarget& anAccessTarget,
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
+    ) const;
+
+    Array<Array<Access>> computeAccesses(
+        const physics::time::Interval& anInterval,
+        const Array<AccessTarget>& someAccessTargets,
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
     ) const;
 
     void setStep(const Duration& aStep);
 
     void setTolerance(const Duration& aTolerance);
-
-    void setAerFilter(const std::function<bool(const AER&)>& anAerFilter);
 
     void setAccessFilter(const std::function<bool(const Access&)>& anAccessFilter);
 
@@ -101,41 +234,42 @@ class Generator
 
     static Generator Undefined();
 
-    /// @brief Construct an access generator with defined AER ranges
-    ///
-    /// @param anAzimuthRange An azimuth interval [deg]
-    /// @param anElevationRange An elevation interval [deg]
-    /// @param aRangeRange A range interval [m]
-    /// @param anEnvironment An environment
-    /// @return An access generator
-    static Generator AerRanges(
-        const Interval<Real>& anAzimuthRange,
-        const Interval<Real>& anElevationRange,
-        const Interval<Real>& aRangeRange,
-        const Environment& anEnvironment
-    );
-
-    /// @brief Construct an access generator with a defined AER mask
-    ///
-    /// @param anAzimuthElevationMask An azimuth-elevation mask [deg]
-    /// @param aRangeRange A range interval [m]
-    /// @param anEnvironment An environment
-    /// @return An access generator
-    static Generator AerMask(
-        const Map<Real, Real>& anAzimuthElevationMask,
-        const Interval<Real>& aRangeRange,
-        const Environment& anEnvironment
-    );
-
    private:
     Environment environment_;
 
     Duration step_;
     Duration tolerance_;
 
-    std::function<bool(const AER&)> aerFilter_;
     std::function<bool(const Access&)> accessFilter_;
     std::function<bool(const State&, const State&)> stateFilter_;
+
+    Array<Access> computeAccessesForTrajectoryTarget(
+        const physics::time::Interval& anInterval, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
+    ) const;
+
+    Array<Array<Access>> computeAccessesForFixedTargets(
+        const physics::time::Interval& anInterval,
+        const Array<AccessTarget>& someAccessTargets,
+        const Trajectory& aToTrajectory,
+        const bool& coarse = false
+    ) const;
+
+    Array<Access> generateAccessesFromIntervals(
+        const Array<physics::time::Interval>& someIntervals,
+        const physics::time::Interval& anInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory
+    ) const;
+
+    Array<physics::time::Interval> computePreciseCrossings(
+        const Array<physics::time::Interval>& accessIntervals,
+        const physics::time::Interval& anAnalysisInterval,
+        const Vector3d& fromPositionCoordinate_ITRF,
+        const Trajectory& aToTrajectory,
+        const AccessTarget& anAccessTarget
+    ) const;
+
+    static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);
 
     static Access GenerateAccess(
         const physics::time::Interval& anAccessInterval,
@@ -159,25 +293,6 @@ class Generator
         const Trajectory& aToTrajectory,
         const Shared<const Celestial> anEarthSPtr
     );
-};
-
-class GeneratorContext
-{
-   public:
-    GeneratorContext(
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory,
-        const Environment& anEnvironment,
-        const Generator& aGenerator
-    );
-
-    bool isAccessActive(const Instant& anInstant);
-
-    static Pair<State, State> GetStatesAt(
-        const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
-    );
-
-    static Pair<Position, Position> GetPositionsFromStates(const State& aFromState, const State& aToState);
 
     static AER CalculateAer(
         const Instant& anInstant,
@@ -185,14 +300,6 @@ class GeneratorContext
         const Position& aToPosition,
         const Shared<const Celestial> anEarthSPtr
     );
-
-   private:
-    Trajectory fromTrajectory_;
-    Trajectory toTrajectory_;
-    Environment environment_;
-    const Shared<const Celestial> earthSPtr_;
-
-    Generator generator_;
 };
 
 }  // namespace access
