@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1737079041938,
+  "lastUpdate": 1737503959017,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -810,6 +810,60 @@ window.BENCHMARK_DATA = {
             "value": 3204732167.300006,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3204531477.800002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "158b840fd7695f9eb12f05154b842a47af1ef622",
+          "message": "feat!: vectorize access generation (#461)\n\n* feat: working version with tests\n\n* feat: clean up\n\n* feat: refactor code, add more tests and clean up logic\n\n* feat: add azimuth elevation mask option\n\n* refactor: common private methods\n\n* wip:\n\n* feat: cleaner interface, wip\n\n* wip:\n\n* wip:\n\n* wip\n\n* wip: add elevation only constraint\n\n* feat: clean up the naming\n\n* feat: fix coarse issues\n\n* feat: add bindings and tests\n\n* chore: cleanup\n\n* Apply suggestions from code review\n\n* Apply suggestions from code review\n\n* feat: fix tests\n\n* feat: fix tests\n\n* feat: add more tests\n\n* fix: tests\n\n* chore: fix bug in interval type",
+          "timestamp": "2025-01-21T17:41:33-06:00",
+          "tree_id": "0cd5151b5597701b745e64e581730d29eabf7992",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/158b840fd7695f9eb12f05154b842a47af1ef622"
+        },
+        "date": 1737503956326,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 541632493.8000059,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 541604999.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 877966228.0000025,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 877732767.6999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3194810656.1999965,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3194719247.5000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3195429900.7999907,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3195353476.5999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3195825870.699997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3195724995.0000005 ns\nthreads: 1"
           }
         ]
       }
