@@ -69,7 +69,7 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver(...);
     /// @endcode
     ///
-    /// @param aStateArray An array of states, must be sorted
+    /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity and Acceleration.
     /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per state in m/s^2
     /// @param aFrameSPtr A frame in which the acceleration profile is defined
     /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver (negative numbers expected), one Real per
@@ -205,18 +205,6 @@ class Maneuver
     /// @param anOutputStream An output stream
     /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Create a maneuver from a tabulated dynamics with cols 1-3 being acceleration and col 4 being mass flow
-    /// rate
-    ///
-    /// @code{.cpp}
-    ///                  Maneuver maneuver = Maneuver::TabulatedDynamics(tabulated);
-    /// @endcode
-    ///
-    /// @param aTabulatedDynamics A TabulatedDynamics object
-    ///
-    /// @return A maneuver
-    // static Maneuver TabulatedDynamics(const Tabulated& aTabulatedDynamics);
 
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///

@@ -277,35 +277,6 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-// Maneuver Maneuver::TabulatedDynamics(const Tabulated& aTabulatedDynamics)
-// {
-//     if (!aTabulatedDynamics.isDefined())
-//     {
-//         throw ostk::core::error::runtime::Undefined("Tabulated Dynamics");
-//     }
-
-//     const MatrixXd contributionProfile = aTabulatedDynamics.getContributionProfileFromCoordinateSubsets(
-//         {CartesianVelocity::Default(), CoordinateSubset::Mass()}
-//     );
-//     Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
-//     Array<Real> massFlowRateProfile = Array<Real>::Empty();
-
-//     for (Size i = 0; i < aTabulatedDynamics.accessInstants().getSize(); i++)
-//     {
-//         accelerationProfile.add(
-//             Vector3d(contributionProfile(i, 0), contributionProfile(i, 1), contributionProfile(i, 2))
-//         );
-//         massFlowRateProfile.add(contributionProfile(i, 3));
-//     }
-
-//     return {
-//         aTabulatedDynamics.accessInstants(),
-//         accelerationProfile,
-//         aTabulatedDynamics.accessFrame(),
-//         massFlowRateProfile,
-//     };
-// }
-
 Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, const Real& aMassFlowRate)
 {
     return {

@@ -52,6 +52,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -114,6 +115,7 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -768,244 +770,273 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         propagatorWithTabulated.calculateStatesAt(initialState, instantArray);
 
     // Create maneuver from tabulated and propagator with maneuver
-    // const Maneuver maneuver = Maneuver::TabulatedDynamics(tabulated);
-    // Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
-    // const Array<State> propagatedStateArray_Maneuver = maneuverPropagator.calculateStatesAt(initialState,
-    // instantArray);
+    Array<Real> massFlowRateProfile = Array<Real>::Empty();
+    massFlowRateProfile.reserve(instantArray.getSize());
+    Array<State> maneuverStateArray = Array<State>::Empty();
+    maneuverStateArray.reserve(instantArray.getSize());
+
+    const Array<Shared<const CoordinateSubset>> maneuverCoordinateSubsets = {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CartesianAcceleration::Default(),
+    };
+
+    for (Size i = 0; i < instantArray.getSize(); i++)
+    {
+        const Vector3d accelerationCoordinates = thrusterContributionsGCRF.row(i).head(3);
+        const VectorXd positionVelocityCoordinates = propagatedStateArray_Tabulated[i].extractCoordinates(
+            {maneuverCoordinateSubsets[0], maneuverCoordinateSubsets[1]}
+        );
+        const Real massFlowRate = thrusterContributionsGCRF(i, 3);
+
+        VectorXd coordinates(9);
+        coordinates << positionVelocityCoordinates, accelerationCoordinates;
+
+        maneuverStateArray.add({
+            instantArray[i],
+            coordinates,
+            gcrfSPtr_,
+            maneuverCoordinateSubsets,
+        });
+
+        massFlowRateProfile.add(massFlowRate);
+    }
+
+    const Maneuver maneuver = Maneuver(maneuverStateArray, massFlowRateProfile);
+    Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
+    const Array<State> propagatedStateArray_Maneuver = maneuverPropagator.calculateStatesAt(initialState, instantArray);
 
     // Validation loop
-    // for (size_t i = 0; i < instantArray.getSize() - 1; i++)
-    // {
-    //     // Get GCRF Position
-    //     const Position positionGCRF_Thruster = propagatedStateArray_Thruster[i].inFrame(gcrfSPtr_).getPosition();
-    //     const Position positionGCRF_Tabulated = propagatedStateArray_Tabulated[i].inFrame(gcrfSPtr_).getPosition();
-    //     const Position positionGCRF_Maneuver = propagatedStateArray_Maneuver[i].inFrame(gcrfSPtr_).getPosition();
+    for (size_t i = 0; i < instantArray.getSize() - 1; i++)
+    {
+        // Get GCRF Position
+        const Position positionGCRF_Thruster = propagatedStateArray_Thruster[i].inFrame(gcrfSPtr_).getPosition();
+        const Position positionGCRF_Tabulated = propagatedStateArray_Tabulated[i].inFrame(gcrfSPtr_).getPosition();
+        const Position positionGCRF_Maneuver = propagatedStateArray_Maneuver[i].inFrame(gcrfSPtr_).getPosition();
 
-    //     // Get GCRF Position Error
-    //     const double positionErrorGCRF_Thruster =
-    //         (positionGCRF_Thruster.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-    //     const double positionErrorGCRF_Tabulated =
-    //         (positionGCRF_Tabulated.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-    //     const double positionErrorGCRF_Maneuver =
-    //         (positionGCRF_Maneuver.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+        // Get GCRF Position Error
+        const double positionErrorGCRF_Thruster =
+            (positionGCRF_Thruster.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+        const double positionErrorGCRF_Tabulated =
+            (positionGCRF_Tabulated.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+        const double positionErrorGCRF_Maneuver =
+            (positionGCRF_Maneuver.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
 
-    //     // Get GCRF Velocity
-    //     const Velocity velocityGCRF_Thruster = propagatedStateArray_Thruster[i].inFrame(gcrfSPtr_).getVelocity();
-    //     const Velocity velocityGCRF_Tabulated = propagatedStateArray_Tabulated[i].inFrame(gcrfSPtr_).getVelocity();
-    //     const Velocity velocityGCRF_Maneuver = propagatedStateArray_Maneuver[i].inFrame(gcrfSPtr_).getVelocity();
+        // Get GCRF Velocity
+        const Velocity velocityGCRF_Thruster = propagatedStateArray_Thruster[i].inFrame(gcrfSPtr_).getVelocity();
+        const Velocity velocityGCRF_Tabulated = propagatedStateArray_Tabulated[i].inFrame(gcrfSPtr_).getVelocity();
+        const Velocity velocityGCRF_Maneuver = propagatedStateArray_Maneuver[i].inFrame(gcrfSPtr_).getVelocity();
 
-    //     // Get GCRF Velocity Error
-    //     const double velocityErrorGCRF_Thruster =
-    //         (velocityGCRF_Thruster.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
-    //     const double velocityErrorGCRF_Tabulated =
-    //         (velocityGCRF_Tabulated.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
-    //     const double velocityErrorGCRF_Maneuver =
-    //         (velocityGCRF_Maneuver.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+        // Get GCRF Velocity Error
+        const double velocityErrorGCRF_Thruster =
+            (velocityGCRF_Thruster.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+        const double velocityErrorGCRF_Tabulated =
+            (velocityGCRF_Tabulated.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+        const double velocityErrorGCRF_Maneuver =
+            (velocityGCRF_Maneuver.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-    //     // Get Mass
-    //     const double mass_Thruster = propagatedStateArray_Thruster[i].extractCoordinate(CoordinateSubset::Mass())[0];
-    //     const double mass_Tabulated =
-    //     propagatedStateArray_Tabulated[i].extractCoordinate(CoordinateSubset::Mass())[0]; const double mass_Maneuver
-    //     = propagatedStateArray_Maneuver[i].extractCoordinate(CoordinateSubset::Mass())[0];
+        // Get Mass
+        const double mass_Thruster = propagatedStateArray_Thruster[i].extractCoordinate(CoordinateSubset::Mass())[0];
+        const double mass_Tabulated = propagatedStateArray_Tabulated[i].extractCoordinate(CoordinateSubset::Mass())[0];
+        const double mass_Maneuver = propagatedStateArray_Maneuver[i].extractCoordinate(CoordinateSubset::Mass())[0];
 
-    //     // Get Mass Error
-    //     const double massError_Thruster = std::abs(mass_Thruster - referenceMassArray[i]);
-    //     const double massError_Tabulated = std::abs(mass_Tabulated - referenceMassArray[i]);
-    //     const double massError_Maneuver = std::abs(mass_Maneuver - referenceMassArray[i]);
+        // Get Mass Error
+        const double massError_Thruster = std::abs(mass_Thruster - referenceMassArray[i]);
+        const double massError_Tabulated = std::abs(mass_Tabulated - referenceMassArray[i]);
+        const double massError_Maneuver = std::abs(mass_Maneuver - referenceMassArray[i]);
 
-    //     // Put position, velocity, and mass together into a state
-    //     VectorXd OSTkStateCoordinatesGCRF_Thruster(7);
-    //     OSTkStateCoordinatesGCRF_Thruster << positionGCRF_Thruster.accessCoordinates(),
-    //         velocityGCRF_Thruster.accessCoordinates(), mass_Thruster;
-    //     VectorXd OSTkStateCoordinatesGCRF_Tabulated(7);
-    //     OSTkStateCoordinatesGCRF_Tabulated << positionGCRF_Tabulated.accessCoordinates(),
-    //         velocityGCRF_Tabulated.accessCoordinates(), mass_Tabulated;
-    //     VectorXd OSTkStateCoordinatesGCRF_Maneuver(7);
-    //     OSTkStateCoordinatesGCRF_Maneuver << positionGCRF_Maneuver.accessCoordinates(),
-    //         velocityGCRF_Maneuver.accessCoordinates(), mass_Maneuver;
+        // Put position, velocity, and mass together into a state
+        VectorXd OSTkStateCoordinatesGCRF_Thruster(7);
+        OSTkStateCoordinatesGCRF_Thruster << positionGCRF_Thruster.accessCoordinates(),
+            velocityGCRF_Thruster.accessCoordinates(), mass_Thruster;
+        VectorXd OSTkStateCoordinatesGCRF_Tabulated(7);
+        OSTkStateCoordinatesGCRF_Tabulated << positionGCRF_Tabulated.accessCoordinates(),
+            velocityGCRF_Tabulated.accessCoordinates(), mass_Tabulated;
+        VectorXd OSTkStateCoordinatesGCRF_Maneuver(7);
+        OSTkStateCoordinatesGCRF_Maneuver << positionGCRF_Maneuver.accessCoordinates(),
+            velocityGCRF_Maneuver.accessCoordinates(), mass_Maneuver;
 
-    //     // Get GCRF Acceleration
-    //     const VectorXd maneuverContributionGCRF_Thruster =
-    //         thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, gcrfSPtr_);
-    //     const VectorXd maneuverContributionGCRF_Tabulated =
-    //         tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, gcrfSPtr_);
-    //     const VectorXd maneuverAccelerationGCRF_Maneuver =
-    //     maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
-    //         instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, gcrfSPtr_
-    //     );
+        // Get GCRF Acceleration
+        const VectorXd maneuverContributionGCRF_Thruster =
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, gcrfSPtr_);
+        const VectorXd maneuverContributionGCRF_Tabulated =
+            tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, gcrfSPtr_);
+        const VectorXd maneuverAccelerationGCRF_Maneuver = maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
+            instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, gcrfSPtr_
+        );
 
-    //     // Get GCRF Acceleration Error
-    //     const double maneuverAccelerationErrorGCRF_Thruster =
-    //         (maneuverContributionGCRF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
-    //     const double maneuverAccelerationErrorGCRF_Tabulated =
-    //         (maneuverContributionGCRF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
-    //     const double maneuverAccelerationErrorGCRF_Maneuver =
-    //         (maneuverAccelerationGCRF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
+        // Get GCRF Acceleration Error
+        const double maneuverAccelerationErrorGCRF_Thruster =
+            (maneuverContributionGCRF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
+        const double maneuverAccelerationErrorGCRF_Tabulated =
+            (maneuverContributionGCRF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
+        const double maneuverAccelerationErrorGCRF_Maneuver =
+            (maneuverAccelerationGCRF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
 
-    // // Get LOF
-    // Shared<const Frame> lofSPtr = param_localOrbitalFrameFactory->generateFrame(
-    //     State(instantArray[i], positionGCRF_Thruster, velocityGCRF_Thruster)
-    // );
+        // Get LOF
+        Shared<const Frame> lofSPtr = param_localOrbitalFrameFactory->generateFrame(
+            State(instantArray[i], positionGCRF_Thruster, velocityGCRF_Thruster)
+        );
 
-    //     // Get LOF State
-    //     State lofState_Thruster = propagatedStateArray_Thruster[i].inFrame(lofSPtr);
-    //     State lofState_Tabulated = propagatedStateArray_Tabulated[i].inFrame(lofSPtr);
-    //     State lofState_Maneuver = propagatedStateArray_Maneuver[i].inFrame(lofSPtr);
+        // Get LOF State
+        State lofState_Thruster = propagatedStateArray_Thruster[i].inFrame(lofSPtr);
+        State lofState_Tabulated = propagatedStateArray_Tabulated[i].inFrame(lofSPtr);
+        State lofState_Maneuver = propagatedStateArray_Maneuver[i].inFrame(lofSPtr);
 
-    //     // Get LOF Position Error
-    //     const double positionErrorLOF_Thruster =
-    //         (lofState_Thruster.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
-    //     const double positionErrorLOF_Tabulated =
-    //         (lofState_Tabulated.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
-    //     const double positionErrorLOF_Maneuver =
-    //         (lofState_Maneuver.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        // Get LOF Position Error
+        const double positionErrorLOF_Thruster =
+            (lofState_Thruster.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double positionErrorLOF_Tabulated =
+            (lofState_Tabulated.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double positionErrorLOF_Maneuver =
+            (lofState_Maneuver.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
 
-    //     // Get LOF Velocity Error
-    //     const double velocityErrorLOF_Thruster =
-    //         (lofState_Thruster.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
-    //     const double velocityErrorLOF_Tabulated =
-    //         (lofState_Tabulated.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
-    //     const double velocityErrorLOF_Maneuver =
-    //         (lofState_Maneuver.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        // Get LOF Velocity Error
+        const double velocityErrorLOF_Thruster =
+            (lofState_Thruster.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double velocityErrorLOF_Tabulated =
+            (lofState_Tabulated.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double velocityErrorLOF_Maneuver =
+            (lofState_Maneuver.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
 
-    //     // Get LOF Acceleration
-    //     const VectorXd maneuverContributionLOF_Thruster =
-    //         thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, lofSPtr);
-    //     // TBM: implement TabulatedDynamics frame conversion for computeContributions
-    //     // const VectorXd maneuverContributionLOF_Tabulated =
-    //     //     tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, lofSPtr);
-    //     // const VectorXd maneuverContributionLOF_Maneuver =
-    //     // maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
-    //     //     instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, lofSPtr
-    //     // );
+        // Get LOF Acceleration
+        const VectorXd maneuverContributionLOF_Thruster =
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, lofSPtr);
+        // TBM: implement TabulatedDynamics frame conversion for computeContributions
+        // const VectorXd maneuverContributionLOF_Tabulated =
+        //     tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, lofSPtr);
+        // const VectorXd maneuverContributionLOF_Maneuver =
+        // maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
+        //     instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, lofSPtr
+        // );
 
-    //     // Get LOF Acceleration Error
-    //     const double maneuverAccelerationErrorLOF_Thruster =
-    //         (maneuverContributionLOF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
-    //     // TBM: implement TabulatedDynamics frame conversion for computeContributions
-    //     // const double maneuverAccelerationErrorLOF_Tabulated =
-    //     //     (maneuverContributionLOF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
-    //     // const double maneuverAccelerationErrorLOF_Maneuver =
-    //     //     (maneuverContributionLOF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
+        // Get LOF Acceleration Error
+        const double maneuverAccelerationErrorLOF_Thruster =
+            (maneuverContributionLOF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
+        // TBM: implement TabulatedDynamics frame conversion for computeContributions
+        // const double maneuverAccelerationErrorLOF_Tabulated =
+        //     (maneuverContributionLOF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
+        // const double maneuverAccelerationErrorLOF_Maneuver =
+        //     (maneuverContributionLOF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
 
-    //     // Frames verification with Thruster Dynamics
-    //     ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Thruster.accessFrame());
-    //     ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Thruster.accessFrame());
-    //     ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getPosition()).accessFrame());
-    //     ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getVelocity()).accessFrame());
+        // Frames verification with Thruster Dynamics
+        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Thruster.accessFrame());
+        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Thruster.accessFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getPosition()).accessFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getVelocity()).accessFrame());
 
-    //     // Frames verification with Tabulated Dynamics
-    //     ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Tabulated.accessFrame());
-    //     ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Tabulated.accessFrame());
-    //     ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getPosition()).accessFrame());
-    //     ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getVelocity()).accessFrame());
+        // Frames verification with Tabulated Dynamics
+        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Tabulated.accessFrame());
+        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Tabulated.accessFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getPosition()).accessFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getVelocity()).accessFrame());
 
-    //     // Frames verification with Maneuver
-    //     ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Maneuver.accessFrame());
-    //     ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Maneuver.accessFrame());
-    //     ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getPosition()).accessFrame());
-    //     ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getVelocity()).accessFrame());
+        // Frames verification with Maneuver
+        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Maneuver.accessFrame());
+        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Maneuver.accessFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getPosition()).accessFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getVelocity()).accessFrame());
 
-    //     // GCRF Errors with Thruster Dynamics
-    //     ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Thruster);
-    //     ASSERT_GT(param_velocityErrorGCRFTolerance, velocityErrorGCRF_Thruster);
-    //     ASSERT_GT(param_accelerationErrorGCRFTolerance, maneuverAccelerationErrorGCRF_Thruster);
-    //     ASSERT_GT(param_massErrorTolerance, massError_Thruster);
+        // GCRF Errors with Thruster Dynamics
+        ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Thruster);
+        ASSERT_GT(param_velocityErrorGCRFTolerance, velocityErrorGCRF_Thruster);
+        ASSERT_GT(param_accelerationErrorGCRFTolerance, maneuverAccelerationErrorGCRF_Thruster);
+        ASSERT_GT(param_massErrorTolerance, massError_Thruster);
 
-    //     // GCRF Errors with Tabulated Dynamics
-    //     ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Tabulated);
-    //     ASSERT_GT(param_velocityErrorGCRFTolerance, velocityErrorGCRF_Tabulated);
-    //     ASSERT_GT(param_accelerationErrorGCRFTolerance, maneuverAccelerationErrorGCRF_Tabulated);
-    //     ASSERT_GT(param_massErrorTolerance, massError_Tabulated);
+        // GCRF Errors with Tabulated Dynamics
+        ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Tabulated);
+        ASSERT_GT(param_velocityErrorGCRFTolerance, velocityErrorGCRF_Tabulated);
+        ASSERT_GT(param_accelerationErrorGCRFTolerance, maneuverAccelerationErrorGCRF_Tabulated);
+        ASSERT_GT(param_massErrorTolerance, massError_Tabulated);
 
-    //     // GCRF Errors with Maneuver
-    //     ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Maneuver);
-    //     ASSERT_GT(param_velocityErrorGCRFTolerance, velocityErrorGCRF_Maneuver);
-    //     ASSERT_GT(param_accelerationErrorGCRFTolerance, maneuverAccelerationErrorGCRF_Maneuver);
-    //     ASSERT_GT(param_massErrorTolerance, massError_Maneuver);
+        // GCRF Errors with Maneuver
+        ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Maneuver);
+        ASSERT_GT(param_velocityErrorGCRFTolerance, velocityErrorGCRF_Maneuver);
+        ASSERT_GT(param_accelerationErrorGCRFTolerance, maneuverAccelerationErrorGCRF_Maneuver);
+        ASSERT_GT(param_massErrorTolerance, massError_Maneuver);
 
-    //     // LOF Errors with Thruster Dynamics
-    //     ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Thruster);
-    //     ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Thruster);
-    //     if (!param_withAtmosphere)
-    //     {
-    //         ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Thruster);
-    //     }
+        // LOF Errors with Thruster Dynamics
+        ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Thruster);
+        ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Thruster);
+        if (!param_withAtmosphere)
+        {
+            ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Thruster);
+        }
 
-    //     // LOF Errors with Tabulated Dynamics
-    //     ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Tabulated);
-    //     ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Tabulated);
-    //     // TBM: implement TabulatedDynamics frame conversion for computeContributions
-    //     // if (!param_withAtmosphere)
-    //     // {
-    //     //     ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Tabulated);
-    //     // }
+        // LOF Errors with Tabulated Dynamics
+        ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Tabulated);
+        ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Tabulated);
+        // TBM: implement TabulatedDynamics frame conversion for computeContributions
+        // if (!param_withAtmosphere)
+        // {
+        //     ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Tabulated);
+        // }
 
-    //     // LOF Errors with Maneuver
-    //     ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Maneuver);
-    //     ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Maneuver);
-    //     // TBM: implement TabulatedDynamics frame conversion for computeContributions
-    //     // if (!param_withAtmosphere)
-    //     // {
-    //     //     ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Maneuver);
-    //     // }
+        // LOF Errors with Maneuver
+        ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Maneuver);
+        ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Maneuver);
+        // TBM: implement TabulatedDynamics frame conversion for computeContributions
+        // if (!param_withAtmosphere)
+        // {
+        //     ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Maneuver);
+        // }
 
-    //     // Results console output
-    //     // if (i >= instantArray.getSize() - 2)
-    //     // {
-    //     //     std::cout << "**************************************" << std::endl;
-    //     //     std::cout.setf(std::ios::scientific, std::ios::floatfield);
-    //     //     std::cout << "Instant: " << instantArray[i] << std::endl;
-    //     //     std::cout << "Position Error GCRF for Thruster: " << positionErrorGCRF_Thruster << "m" << std::endl;
-    //     //     std::cout << "Position Error GCRF for Tabulated: " << positionErrorGCRF_Tabulated << "m" << std::endl;
-    //     //     std::cout << "Position Error GCRF for Maneuver: " << positionErrorGCRF_Maneuver << "m" << std::endl;
+        // Results console output
+        // if (i >= instantArray.getSize() - 2)
+        // {
+        //     std::cout << "**************************************" << std::endl;
+        //     std::cout.setf(std::ios::scientific, std::ios::floatfield);
+        //     std::cout << "Instant: " << instantArray[i] << std::endl;
+        //     std::cout << "Position Error GCRF for Thruster: " << positionErrorGCRF_Thruster << "m" << std::endl;
+        //     std::cout << "Position Error GCRF for Tabulated: " << positionErrorGCRF_Tabulated << "m" << std::endl;
+        //     std::cout << "Position Error GCRF for Maneuver: " << positionErrorGCRF_Maneuver << "m" << std::endl;
 
-    //     //     std::cout << "Velocity Error GRCRF for Thruster: " << velocityErrorGCRF_Thruster << "m/s" <<
-    //     std::endl;
-    //     //     std::cout << "Velocity Error GCRF for Tabulated: " << velocityErrorGCRF_Tabulated << "m/s" <<
-    //     std::endl;
-    //     //     std::cout << "Velocity Error GCRF for Maneuver: " << velocityErrorGCRF_Maneuver << "m/s" << std::endl;
+        //     std::cout << "Velocity Error GRCRF for Thruster: " << velocityErrorGCRF_Thruster << "m/s" <<
+        // std::endl;
+        //     std::cout << "Velocity Error GCRF for Tabulated: " << velocityErrorGCRF_Tabulated << "m/s" <<
+        // std::endl;
+        //     std::cout << "Velocity Error GCRF for Maneuver: " << velocityErrorGCRF_Maneuver << "m/s" << std::endl;
 
-    //     //     std::cout << "Acceleration Error GCRF for Thruster: " << maneuverAccelerationErrorGCRF_Thruster <<
-    //     //     "m/s^2"
-    //     //               << std::endl;
-    //     //     std::cout << "Acceleration Error GCRF for Tabulated: " << maneuverAccelerationErrorGCRF_Tabulated <<
-    //     //     "m/s^2"
-    //     //               << std::endl;
-    //     //     std::cout << "Acceleration Error GCRF for Maneuver: " << maneuverAccelerationErrorGCRF_Maneuver <<
-    //     //     "m/s^2"
-    //     //               << std::endl;
+        //     std::cout << "Acceleration Error GCRF for Thruster: " << maneuverAccelerationErrorGCRF_Thruster <<
+        //     "m/s^2"
+        //               << std::endl;
+        //     std::cout << "Acceleration Error GCRF for Tabulated: " << maneuverAccelerationErrorGCRF_Tabulated <<
+        //     "m/s^2"
+        //               << std::endl;
+        //     std::cout << "Acceleration Error GCRF for Maneuver: " << maneuverAccelerationErrorGCRF_Maneuver <<
+        //     "m/s^2"
+        //               << std::endl;
 
-    //     //     std::cout << "Mass Error for Thruster: " << massError_Thruster << "kg" << std::endl;
-    //     //     std::cout << "Mass Error for Tabulated: " << massError_Tabulated << "kg" << std::endl;
-    //     //     std::cout << "Mass Error for Maneuver: " << massError_Maneuver << "kg" << std::endl;
+        //     std::cout << "Mass Error for Thruster: " << massError_Thruster << "kg" << std::endl;
+        //     std::cout << "Mass Error for Tabulated: " << massError_Tabulated << "kg" << std::endl;
+        //     std::cout << "Mass Error for Maneuver: " << massError_Maneuver << "kg" << std::endl;
 
-    //     //     std::cout << "Position Error LOF for Thruster: " << positionErrorLOF_Thruster << "m" << std::endl;
-    //     //     std::cout << "Position Error LOF for Tabulated: " << positionErrorLOF_Tabulated << "m" << std::endl;
-    //     //     std::cout << "Position Error LOF for Maneuver: " << positionErrorLOF_Maneuver << "m" << std::endl;
+        //     std::cout << "Position Error LOF for Thruster: " << positionErrorLOF_Thruster << "m" << std::endl;
+        //     std::cout << "Position Error LOF for Tabulated: " << positionErrorLOF_Tabulated << "m" << std::endl;
+        //     std::cout << "Position Error LOF for Maneuver: " << positionErrorLOF_Maneuver << "m" << std::endl;
 
-    //     //     std::cout << "Velocity Error LOF for Thruster: " << velocityErrorLOF_Thruster << "m/s" << std::endl;
-    //     //     std::cout << "Velocity Error LOF for Tabulated: " << velocityErrorLOF_Tabulated << "m/s" << std::endl;
-    //     //     std::cout << "Velocity Error LOF for Maneuver: " << velocityErrorLOF_Maneuver << "m/s" << std::endl;
+        //     std::cout << "Velocity Error LOF for Thruster: " << velocityErrorLOF_Thruster << "m/s" << std::endl;
+        //     std::cout << "Velocity Error LOF for Tabulated: " << velocityErrorLOF_Tabulated << "m/s" << std::endl;
+        //     std::cout << "Velocity Error LOF for Maneuver: " << velocityErrorLOF_Maneuver << "m/s" << std::endl;
 
-    //     //     if (!param_withAtmosphere)
-    //     //     {
-    //     //         std::cout << "Acceleration Error LOF for Thruster: " << maneuverAccelerationErrorLOF_Thruster <<
-    //     //         "m/s^2"
-    //     //                   << std::endl;
-    //     //         // std::cout << "Acceleration Error LOF for Tabulated: " << maneuverAccelerationErrorLOF_Tabulated
-    //     <<
-    //     //         // "m/s^2"
-    //     //         //           << std::endl;
-    //     //         // std::cout << "Acceleration Error LOF for Maneuver: " << maneuverAccelerationErrorLOF_Maneuver
-    //     <<
-    //     //         // "m/s^2"
-    //     //         //           << std::endl;
-    //     //     }
-    //     //     std::cout.setf(std::ios::fixed, std::ios::floatfield);
-    //     //     std::cout << "**************************************" << std::endl;
-    //     // }
-    // }
+        //     if (!param_withAtmosphere)
+        //     {
+        //         std::cout << "Acceleration Error LOF for Thruster: " << maneuverAccelerationErrorLOF_Thruster <<
+        //         "m/s^2"
+        //                   << std::endl;
+        //         // std::cout << "Acceleration Error LOF for Tabulated: " << maneuverAccelerationErrorLOF_Tabulated
+        // <<
+        //         // "m/s^2"
+        //         //           << std::endl;
+        //         // std::cout << "Acceleration Error LOF for Maneuver: " << maneuverAccelerationErrorLOF_Maneuver
+        // <<
+        //         // "m/s^2"
+        //         //           << std::endl;
+        //     }
+        //     std::cout.setf(std::ios::fixed, std::ios::floatfield);
+        //     std::cout << "**************************************" << std::endl;
+        // }
+    }
 }
 
 // TBI: Agree on a format to version Orekit validation files

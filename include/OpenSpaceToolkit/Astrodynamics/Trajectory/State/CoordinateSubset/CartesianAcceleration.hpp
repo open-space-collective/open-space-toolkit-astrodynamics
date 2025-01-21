@@ -39,10 +39,21 @@ using ostk::physics::time::Instant;
 class CartesianAcceleration : public CoordinateSubset
 {
    public:
+    /// @brief Constructor for CartesianAcceleration
+    /// @param aCartesianPositionSPtr Shared pointer to a CartesianPosition object
+    /// @param aName Name of the coordinate subset
     CartesianAcceleration(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName);
 
+    /// @brief Destructor for CartesianAcceleration
     virtual ~CartesianAcceleration();
 
+    /// @brief Adds two coordinate vectors
+    /// @param anInstant The instant at which the addition is performed
+    /// @param aFullCoordinatesVector The first full coordinates vector
+    /// @param anotherFullCoordinatesVector The second full coordinates vector
+    /// @param aFrameSPtr Shared pointer to the frame of reference
+    /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
+    /// @return The resulting vector after addition
     virtual VectorXd add(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -51,6 +62,13 @@ class CartesianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
+    /// @brief Subtracts one coordinate vector from another
+    /// @param anInstant The instant at which the subtraction is performed
+    /// @param aFullCoordinatesVector The full coordinates vector to be subtracted from
+    /// @param anotherFullCoordinatesVector The full coordinates vector to subtract
+    /// @param aFrameSPtr Shared pointer to the frame of reference
+    /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
+    /// @return The resulting vector after subtraction
     virtual VectorXd subtract(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -59,6 +77,13 @@ class CartesianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
+    /// @brief Transforms the coordinates to a different frame
+    /// @param anInstant The instant at which the transformation is performed
+    /// @param aFullCoordinatesVector The full coordinates vector to be transformed
+    /// @param fromFrame Shared pointer to the initial frame of reference
+    /// @param toFrame Shared pointer to the target frame of reference
+    /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
+    /// @return The transformed coordinates vector
     virtual VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
@@ -67,6 +92,8 @@ class CartesianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
+    /// @brief Returns the default CartesianAcceleration object
+    /// @return Shared pointer to the default CartesianAcceleration object
     static Shared<const CartesianAcceleration> Default();
 
    private:
