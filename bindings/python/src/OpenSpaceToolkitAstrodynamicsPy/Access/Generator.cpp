@@ -8,6 +8,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 {
     using namespace pybind11;
 
+    using ostk::core::container::Array;
     using ostk::core::container::Map;
     using ostk::core::type::Real;
     using ostk::core::type::Shared;
@@ -15,10 +16,149 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
     using ostk::physics::coordinate::spherical::AER;
     using ostk::physics::Environment;
     using ostk::physics::time::Duration;
+    using ostk::physics::time::Interval;
 
     using ostk::astrodynamics::Access;
+    using ostk::astrodynamics::access::AccessTarget;
     using ostk::astrodynamics::access::Generator;
+    using ostk::astrodynamics::Trajectory;
     using ostk::astrodynamics::trajectory::State;
+
+    class_<AccessTarget> accessTargetClass(
+        aModule,
+        "AccessTarget",
+        R"doc(
+            Represents the configuration for an Access target, including azimuth, elevation, and range intervals, as well
+            as position and LLA (Latitude, Longitude, Altitude).
+        )doc"
+    );
+
+    enum_<AccessTarget::Type>(accessTargetClass, "Type", R"doc(
+        Enumeration of Access Target types.
+    )doc")
+        .value("Fixed", AccessTarget::Type::Fixed)
+        .value("Trajectory", AccessTarget::Type::Trajectory)
+        .export_values();
+
+    accessTargetClass
+        .def(
+            "get_type",
+            &AccessTarget::accessType,
+            R"doc(
+                Get the type of the access target.
+
+                Returns:
+                    AccessTarget.Type: The type of the access target.
+            )doc"
+        )
+        .def(
+            "get_visibility_criterion",
+            &AccessTarget::accessVisibilityCriterion,
+            R"doc(
+                Get the visibility criterion associated with the access target.
+
+                Returns:
+                    VisibilityCriterion: The visibility criterion.
+            )doc"
+        )
+        .def(
+            "get_trajectory",
+            &AccessTarget::accessTrajectory,
+            R"doc(
+                Get the trajectory associated with the access target.
+
+                Returns:
+                    Trajectory: The trajectory.
+            )doc"
+        )
+        .def(
+            "get_position",
+            &AccessTarget::getPosition,
+            R"doc(
+                Get the fixed position associated with the access target.
+
+                Returns:
+                    Position: The position.
+            )doc"
+        )
+        .def(
+            "get_lla",
+            &AccessTarget::getLLA,
+            arg("celestial"),
+            R"doc(
+                Get the latitude, longitude, and altitude (LLA) of the access target.
+
+                Args:
+                    celestial (Celestial): The celestial body for the LLA computation.
+
+                Returns:
+                    LLA: The latitude, longitude, and altitude.
+            )doc"
+        )
+        .def(
+            "compute_r_sez_ecef",
+            &AccessTarget::computeR_SEZ_ECEF,
+            arg("celestial"),
+            R"doc(
+                Compute the rotation matrix from ECEF to SEZ frame.
+
+                Args:
+                    celestial (Celestial): The celestial body for the rotation computation.
+
+                Returns:
+                    numpy.ndarray: The rotation matrix (3x3).
+            )doc"
+        )
+        .def_static(
+            "from_lla",
+            &AccessTarget::FromLLA,
+            arg("visibility_criterion"),
+            arg("lla"),
+            arg("celestial"),
+            R"doc(
+                Create an AccessTarget from latitude, longitude, and altitude (LLA).
+
+                Args:
+                    visibility_criterion (VisibilityCriterion): The visibility criterion.
+                    lla (LLA): The latitude, longitude, and altitude.
+                    celestial (Celestial): The celestial body.
+
+                Returns:
+                    AccessTarget: The created AccessTarget instance.
+            )doc"
+        )
+        .def_static(
+            "from_position",
+            &AccessTarget::FromPosition,
+            arg("visibility_criterion"),
+            arg("position"),
+            R"doc(
+                Create an AccessTarget from a fixed position.
+
+                Args:
+                    visibility_criterion (VisibilityCriterion): The visibility criterion.
+                    position (Position): The fixed position.
+
+                Returns:
+                    AccessTarget: The created AccessTarget instance.
+            )doc"
+        )
+        .def_static(
+            "from_trajectory",
+            &AccessTarget::FromTrajectory,
+            arg("visibility_criterion"),
+            arg("trajectory"),
+            R"doc(
+                Create an AccessTarget from a trajectory.
+
+                Args:
+                    visibility_criterion (VisibilityCriterion): The visibility criterion.
+                    trajectory (Trajectory): The trajectory.
+
+                Returns:
+                    AccessTarget: The created AccessTarget instance.
+            )doc"
+        );
 
     class_<Generator, Shared<Generator>>(
         aModule,
@@ -32,29 +172,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         .def(
             init<
                 const Environment&,
-                std::function<bool(const AER&)>&,
-                std::function<bool(const Access&)>&,
-                std::function<bool(const State&, const State&)>&,
                 const Duration&,
-                const Duration&>(),
+                const Duration&,
+                std::function<bool(const Access&)>&,
+                std::function<bool(const State&, const State&)>&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     environment (Environment): The environment.
-                    aer_filter (function): The AER filter.
-                    access_filter (function): The access filter.
-                    state_filter (function): The state filter.
-                    step (Duration): The step.
-                    tolerance (Duration): The tolerance.
+                    step (Duration): The step. Defaults to Duration.minutes(1.0).
+                    tolerance (Duration): The tolerance. Defaults to Duration.microseconds(1.0).
+                    access_filter (function): The access filter. Defaults to None.
+                    state_filter (function): The state filter. Defaults to None.
 
             )doc",
             arg("environment"),
-            arg("aer_filter") = none(),
-            arg("access_filter") = none(),
-            arg("state_filter") = none(),
             arg_v("step", DEFAULT_STEP, "Duration.minutes(1.0)"),
-            arg_v("tolerance", DEFAULT_TOLERANCE, "Duration.microseconds(1.0)")
+            arg_v("tolerance", DEFAULT_TOLERANCE, "Duration.microseconds(1.0)"),
+            arg("access_filter") = none(),
+            arg("state_filter") = none()
         )
 
         .def(
@@ -92,17 +229,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             )doc"
         )
         .def(
-            "get_aer_filter",
-            &Generator::getAerFilter,
-            R"doc(
-                Get the AER filter.
-
-                Returns:
-                    function: The AER filter.
-
-            )doc"
-        )
-        .def(
             "get_access_filter",
             &Generator::getAccessFilter,
             R"doc(
@@ -129,37 +255,64 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             "get_condition_function",
             &Generator::getConditionFunction,
             R"doc(
-            Get the condition function.
+                Get the condition function.
 
-            Args:
-                from_trajectory (State): The state at the start of the interval.
-                to_trajectory (State): The state at the end of the interval.
+                Args:
+                    access_target (AccessTarget): The access target from which the condition function is being evaluated against.
+                    to_trajectory (Trajectory): The trajectory to which the condition function is being evaluated against.
 
-            Returns:
-                function: The condition function.
+                Returns:
+                    function: The condition function.
 
-        )doc",
-            arg("from_trajectory"),
+            )doc",
+            arg("access_target"),
             arg("to_trajectory")
         )
         .def(
             "compute_accesses",
-            &Generator::computeAccesses,
+            overload_cast<const Interval&, const AccessTarget&, const Trajectory&, const bool&>(
+                &Generator::computeAccesses, const_
+            ),
             R"doc(
                 Compute the accesses.
 
                 Args:
-                    interval (Interval): The interval.
-                    from_trajectory (State): The state at the start of the interval.
-                    to_trajectory (State): The state at the end of the interval.
+                    interval (Interval): The time interval over which to compute accesses.
+                    access_target (AccessTarget): The access target to compute the accesses with.
+                    to_trajectory (Trajectory): The trajectory to co compute the accesses with.
+                    coarse (bool): True to use coarse mode. Defaults to False. Only available for fixed targets.
 
                 Returns:
                     Accesses: The accesses.
 
             )doc",
             arg("interval"),
-            arg("from_trajectory"),
-            arg("to_trajectory")
+            arg("access_target"),
+            arg("to_trajectory"),
+            arg("coarse") = false
+        )
+        .def(
+            "compute_accesses",
+            overload_cast<const Interval&, const Array<AccessTarget>&, const Trajectory&, const bool&>(
+                &Generator::computeAccesses, const_
+            ),
+            R"doc(
+                Compute the accesses.
+
+                Args:
+                    interval (Interval): The time interval over which to compute accesses.
+                    access_targets (list[AccessTarget]): The access targets to compute the accesses with.
+                    to_trajectory (Trajectory): The trajectory to co compute the accesses with.
+                    coarse (bool): True to use coarse mode. Defaults to False. Only available for fixed targets.
+
+                Returns:
+                    Accesses: The accesses.
+
+            )doc",
+            arg("interval"),
+            arg("access_targets"),
+            arg("to_trajectory"),
+            arg("coarse") = false
         )
         .def(
             "set_step",
@@ -184,18 +337,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
         )doc",
             arg("tolerance")
-        )
-        .def(
-            "set_aer_filter",
-            &Generator::setAerFilter,
-            R"doc(
-            Set the AER filter.
-
-            Args:
-                aer_filter (function): The AER filter.
-
-        )doc",
-            arg("aer_filter")
         )
         .def(
             "set_access_filter",
@@ -231,44 +372,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
                 Returns:
                     Generator: An undefined generator.
             )doc"
-        )
-        .def_static(
-            "aer_ranges",
-            &Generator::AerRanges,
-            R"doc(
-                Create an access generator with provided Azimuth Elevation Range intervals.
-
-                Args:
-                    azimuth_range (Interval): The azimuth range.
-                    elevation_range (Interval): The elevation range.
-                    range_range (Interval): The range range.
-                    environment (Environment): The environment.
-
-                Returns:
-                    Generator: The access generator.
-            )doc",
-            arg("azimuth_range"),
-            arg("elevation_range"),
-            arg("range_range"),
-            arg("environment")
-        )
-        .def_static(
-            "aer_mask",
-            &Generator::AerMask,
-            R"doc(
-                Create an access generator with a mask.
-
-                Args:
-                    azimuth_elevation_mask (Interval): The azimuth-elevation mask.
-                    range_range (Interval): The range range.
-                    environment (Environment): The environment.
-
-                Returns:
-                    Generator: The AER generator.
-            )doc",
-            arg("azimuth_elevation_mask"),
-            arg("range_range"),
-            arg("environment")
         )
 
         ;

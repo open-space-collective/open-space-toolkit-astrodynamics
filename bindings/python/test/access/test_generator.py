@@ -2,6 +2,8 @@
 
 import pytest
 
+import numpy as np
+
 from ostk.mathematics.object import RealInterval
 
 from ostk.physics.unit import Length
@@ -12,7 +14,11 @@ from ostk.physics.time import Duration
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics import Environment
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.environment.object import Celestial
+from ostk.physics.environment.object.celestial import Earth
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
@@ -20,6 +26,8 @@ from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics import Access
 from ostk.astrodynamics.access import Generator
+from ostk.astrodynamics.access import AccessTarget
+from ostk.astrodynamics.access import VisibilityCriterion
 
 
 @pytest.fixture
@@ -36,9 +44,8 @@ def earth(environment: Environment) -> Celestial:
 def generator(environment: Environment) -> Generator:
     return Generator(
         environment=environment,
-        aer_filter=lambda aer: True,
         access_filter=lambda access: True,
-        state_filter=lambda state_1, state_2: True,
+        state_filter=None,
     )
 
 
@@ -82,19 +89,106 @@ def to_trajectory(earth: Celestial) -> Trajectory:
     )
 
 
+@pytest.fixture
+def visibility_criterion(environment: Environment) -> VisibilityCriterion:
+    return VisibilityCriterion.from_line_of_sight(environment=environment)
+
+
+@pytest.fixture
+def lla() -> LLA:
+    return LLA.vector([0.0, 0.0, 500.0])
+
+
+@pytest.fixture
+def access_target(
+    visibility_criterion: VisibilityCriterion,
+    lla: LLA,
+    earth: Earth,
+) -> AccessTarget:
+    return AccessTarget.from_lla(visibility_criterion, lla, earth)
+
+
+@pytest.fixture
+def trajectory_target(
+    visibility_criterion: VisibilityCriterion,
+    from_trajectory: Trajectory,
+) -> AccessTarget:
+    return AccessTarget.from_trajectory(visibility_criterion, from_trajectory)
+
+
+class TestAccessTarget:
+    def test_constructor_success(self, access_target: AccessTarget):
+        assert isinstance(access_target, AccessTarget)
+
+    def test_get_type_success(self, access_target: AccessTarget):
+        assert access_target.get_type() == AccessTarget.Type.Fixed
+
+    def test_get_visibility_criterion_success(self, access_target: AccessTarget):
+        assert access_target.get_visibility_criterion() is not None
+        assert isinstance(access_target.get_visibility_criterion(), VisibilityCriterion)
+
+    def test_get_trajectory_success(self, access_target: AccessTarget):
+        assert access_target.get_trajectory() is not None
+        assert isinstance(access_target.get_trajectory(), Trajectory)
+
+    def test_get_position_success(self, access_target: AccessTarget):
+        assert access_target.get_position() is not None
+        assert isinstance(access_target.get_position(), Position)
+
+    def test_get_lla_success(
+        self,
+        access_target: AccessTarget,
+        earth: Earth,
+    ):
+        assert access_target.get_lla(earth) is not None
+        assert isinstance(access_target.get_lla(earth), LLA)
+
+    def test_compute_r_sez_ecef_success(
+        self,
+        access_target: AccessTarget,
+        earth: Earth,
+    ):
+        assert access_target.compute_r_sez_ecef(earth) is not None
+        assert isinstance(access_target.compute_r_sez_ecef(earth), np.ndarray)
+
+    def test_from_lla_success(
+        self,
+        visibility_criterion: VisibilityCriterion,
+        lla: LLA,
+        earth: Earth,
+    ):
+        access_target = AccessTarget.from_lla(visibility_criterion, lla, earth)
+
+        assert access_target is not None
+        assert isinstance(access_target, AccessTarget)
+
+    def test_from_position_success(
+        self,
+        visibility_criterion: VisibilityCriterion,
+        position: Position,
+    ):
+        access_target = AccessTarget.from_position(
+            visibility_criterion, position.in_frame(Frame.ITRF(), Instant.J2000())
+        )
+
+        assert access_target is not None
+        assert isinstance(access_target, AccessTarget)
+
+    def test_from_trajectory_success(
+        self,
+        visibility_criterion: VisibilityCriterion,
+        trajectory: Trajectory,
+    ):
+        access_target = AccessTarget.from_trajectory(visibility_criterion, trajectory)
+
+        assert access_target is not None
+        assert isinstance(access_target, AccessTarget)
+
+
 class TestGenerator:
     def test_constructor_success_environment(self, environment: Environment):
         generator = Generator(
             environment=environment,
-        )
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-
-    def test_constructor_success_environment_aer_filter(self, environment: Environment):
-        generator = Generator(
-            environment=environment,
-            aer_filter=lambda aer: True,
         )
 
         assert generator is not None
@@ -142,18 +236,17 @@ class TestGenerator:
     def test_getters_success(self, generator: Generator):
         assert generator.get_step() == Duration.minutes(1.0)
         assert generator.get_tolerance() == Duration.microseconds(1.0)
-        assert generator.get_aer_filter() is not None
         assert generator.get_access_filter() is not None
-        assert generator.get_state_filter() is not None
+        assert generator.get_state_filter() is None
 
     def test_get_condition_function_success(
         self,
         generator: Generator,
-        from_trajectory: Trajectory,
+        trajectory_target: AccessTarget,
         to_trajectory: Trajectory,
     ):
         condition_function = generator.get_condition_function(
-            from_trajectory=from_trajectory,
+            access_target=trajectory_target,
             to_trajectory=to_trajectory,
         )
 
@@ -168,7 +261,7 @@ class TestGenerator:
     def test_compute_accesses_success(
         self,
         generator: Generator,
-        from_trajectory: Trajectory,
+        trajectory_target: AccessTarget,
         to_trajectory: Trajectory,
     ):
         accesses = generator.compute_accesses(
@@ -176,7 +269,7 @@ class TestGenerator:
                 Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
                 Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC),
             ),
-            from_trajectory=from_trajectory,
+            access_target=trajectory_target,
             to_trajectory=to_trajectory,
         )
 
@@ -185,14 +278,32 @@ class TestGenerator:
         assert accesses[0] is not None
         assert isinstance(accesses[0], Access)
 
+    def test_compute_accesses_multiple_targets_success(
+        self,
+        generator: Generator,
+        trajectory_target: AccessTarget,
+        to_trajectory: Trajectory,
+    ):
+        accesses = generator.compute_accesses(
+            interval=Interval.closed(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+                Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC),
+            ),
+            access_targets=[trajectory_target],
+            to_trajectory=to_trajectory,
+        )
+
+        assert accesses is not None
+        assert isinstance(accesses, list)
+        assert accesses[0] is not None
+        assert isinstance(accesses[0], list)
+        assert isinstance(accesses[0][0], Access)
+
     def test_set_step_success(self, generator: Generator):
         generator.set_step(Duration.seconds(1.0))
 
     def test_set_tolerance_success(self, generator: Generator):
         generator.set_tolerance(Duration.seconds(1.0))
-
-    def test_set_aer_filter_success(self, generator: Generator):
-        generator.set_aer_filter(aer_filter=lambda aer: True)
 
     def test_set_access_filter_success(self, generator: Generator):
         generator.set_access_filter(access_filter=lambda access: True)
@@ -206,43 +317,3 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
         assert generator.is_defined() is False
-
-    def test_aer_ranges_success(self, environment: Environment):
-        # Construct arbitrary AER ranges
-        azimuth_interval = RealInterval.closed(0.0, 360.0)
-        elevation_interval = RealInterval.closed(0.0, 90.0)
-        range_interval = RealInterval.closed(0.0, 7000e3)
-
-        generator = Generator.aer_ranges(
-            azimuth_range=azimuth_interval,
-            elevation_range=elevation_interval,
-            range_range=range_interval,
-            environment=environment,
-        )
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-        assert generator.is_defined()
-
-    def test_aer_mask_success(self, environment: Environment):
-        # Construct arbitrary anAzimuthElevationMask using python dict
-        an_azimuth_elevation_mask = {
-            0.0: 30.0,
-            90.0: 60.0,
-            180.0: 60.0,
-            270.0: 30.0,
-            359.0: 30.0,
-        }
-
-        # Construct arbitrary aRangerange
-        a_range_range = RealInterval(0.0, 10e4, RealInterval.Type.Closed)
-
-        generator = Generator.aer_mask(
-            azimuth_elevation_mask=an_azimuth_elevation_mask,
-            range_range=a_range_range,
-            environment=environment,
-        )
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-        assert generator.is_defined()
