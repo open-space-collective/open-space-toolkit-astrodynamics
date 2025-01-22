@@ -121,6 +121,12 @@ Shared<const CoordinateSubset> CoordinateSubset::DragCoefficient()
     return dragCoefficient;
 }
 
+Shared<const CoordinateSubset> CoordinateSubset::MassFlowRate()
+{
+    static const Shared<const CoordinateSubset> massFlowRate = std::make_shared<CoordinateSubset>("MASS_FLOW_RATE", 1);
+    return massFlowRate;
+}
+
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

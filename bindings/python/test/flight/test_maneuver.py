@@ -12,24 +12,21 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Mass
 
 from ostk.astrodynamics.flight import Maneuver
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.dynamics import Tabulated as TabulatedDynamics
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
-
-
-from ..dynamics.test_tabulated import (
-    instants as tabulated_instants,
-    contribution_profile as tabulated_contribution_profile,
-    coordinate_subsets as tabulated_coordinate_subsets,
-)
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import NewtonianAcceleration
 
 
 @pytest.fixture
 def instants() -> list[Instant]:
     return [
         Instant.J2000(),
-        Instant.J2000() + Duration.seconds(1.0),
-        Instant.J2000() + Duration.seconds(5.0),
-        Instant.J2000() + Duration.seconds(7.0),
+        Instant.J2000() + Duration.seconds(30.0),
+        Instant.J2000() + Duration.seconds(35.0),
+        Instant.J2000() + Duration.seconds(37.0),
     ]
 
 
@@ -54,13 +51,43 @@ def mass_flow_rate_profile() -> list[float]:
 
 
 @pytest.fixture
-def maneuver(
+def coordinate_subsets() -> list[CoordinateSubset]:
+    return [
+        CartesianPosition.default(),
+        CartesianVelocity.default(),
+        NewtonianAcceleration.default(),
+        CoordinateSubset.mass_flow_rate(),
+    ]
+
+
+@pytest.fixture
+def states(
     instants: list[Instant],
     acceleration_profile: list[np.ndarray],
-    frame: Frame,
     mass_flow_rate_profile: list[float],
+    frame: Frame,
+    coordinate_subsets: list[CoordinateSubset],
+) -> list[State]:
+    states = []
+    for instant, acceleration, mass_flow_rate in zip(
+        instants, acceleration_profile, mass_flow_rate_profile
+    ):
+        states.append(
+            State(
+                instant,
+                [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, *acceleration, mass_flow_rate],
+                frame,
+                coordinate_subsets,
+            )
+        )
+    return states
+
+
+@pytest.fixture
+def maneuver(
+    states: list[State],
 ) -> Maneuver:
-    return Maneuver(instants, acceleration_profile, frame, mass_flow_rate_profile)
+    return Maneuver(states)
 
 
 @pytest.fixture
@@ -97,35 +124,15 @@ class TestManeuver:
     def test_getters(
         self,
         maneuver: Maneuver,
-        instants: list[Instant],
-        acceleration_profile: list[np.ndarray],
-        mass_flow_rate_profile: list[float],
+        states: list[State],
     ):
         assert maneuver.is_defined()
 
-        assert maneuver.get_instants() == instants
+        assert maneuver.get_states() == states
 
-        computed_acceleration_profile_default_frame = maneuver.get_acceleration_profile()
-        for i in range(len(instants)):
-            assert np.array_equal(
-                computed_acceleration_profile_default_frame[i], acceleration_profile[i]
-            )
-
-        computed_acceleration_profile_non_default_frame = (
-            maneuver.get_acceleration_profile(frame=Frame.ITRF())
+        assert maneuver.get_interval() == Interval.closed(
+            states[0].get_instant(), states[-1].get_instant()
         )
-        for i in range(len(instants)):
-            assert (
-                np.array_equal(
-                    computed_acceleration_profile_non_default_frame[i],
-                    acceleration_profile[i],
-                )
-                == False
-            )
-
-        assert maneuver.get_mass_flow_rate_profile() == mass_flow_rate_profile
-
-        assert maneuver.get_interval() == Interval.closed(instants[0], instants[-1])
 
     def test_calculators(
         self,
@@ -159,7 +166,9 @@ class TestManeuver:
         )
 
         assert tabulated_dynamics.is_defined()
-        assert tabulated_dynamics.access_instants() == maneuver.get_instants()
+        assert tabulated_dynamics.access_instants() == [
+            state.get_instant() for state in maneuver.get_states()
+        ]
 
         contribution_profile: np.ndarray = (
             tabulated_dynamics.access_contribution_profile()
@@ -175,38 +184,14 @@ class TestManeuver:
 
         assert tabulated_dynamics.access_frame() == frame
 
-    def test_from_tabulated_dynamics(
-        self,
-        tabulated_dynamics: TabulatedDynamics,
-    ):
-        maneuver = Maneuver.tabulated_dynamics(tabulated_dynamics)
-
-        assert maneuver.is_defined()
-        assert maneuver.get_instants() == tabulated_dynamics.access_instants()
-        assert (
-            len(maneuver.get_acceleration_profile())
-            == tabulated_dynamics.access_contribution_profile().shape[0]
-        )
-        assert (
-            len(maneuver.get_mass_flow_rate_profile())
-            == tabulated_dynamics.access_contribution_profile().shape[0]
-        )
-
     def test_from_constant_mass_flow_rate(
         self,
-        instants: list[Instant],
-        acceleration_profile: list[np.ndarray],
-        frame: Frame,
+        states: list[State],
     ):
         mass_flow_rate: float = -1.0e-5
         maneuver = Maneuver.constant_mass_flow_rate_profile(
-            instants=instants,
-            acceleration_profile=acceleration_profile,
-            frame=frame,
+            states=states,
             mass_flow_rate=mass_flow_rate,
         )
 
         assert maneuver.is_defined()
-        assert maneuver.get_mass_flow_rate_profile() == [
-            mass_flow_rate for _ in range(len(instants))
-        ]

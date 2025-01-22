@@ -52,9 +52,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -120,24 +120,28 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::NewtonianAcceleration;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public ::testing::Test
 {
    protected:
-    State stateGenerator(const Instant& anInstant, const Vector3d& anAcceleration = {0.0, 0.0, 0.0})
+    State stateGenerator(
+        const Instant& anInstant, const Vector3d& anAcceleration = {0.0, 0.0, 0.0}, const Real& aMassFlowRate = -1e-5
+    )
     {
-        VectorXd coordinates(9);
-        coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2);
+        VectorXd coordinates(10);
+        coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2),
+            aMassFlowRate;
 
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            CartesianAcceleration::Default(),
+            NewtonianAcceleration::Default(),
+            CoordinateSubset::MassFlowRate(),
         };
 
         return State(anInstant, coordinates, Frame::GCRF(), coordinateSubsets);
@@ -209,12 +213,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
 
     // Setup maneuver defaults
     const Array<State> defaultManeuverStates_ = {
-        stateGenerator(Instant::J2000(), {1e-3, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Seconds(60.0), {0.0, 1e-3, 0.0}),
+        stateGenerator(Instant::J2000(), {1e-3, 0.0, 0.0}, -1.1e-5),
+        stateGenerator(Instant::J2000() + Duration::Seconds(60.0), {0.0, 1e-3, 0.0}, -0.9e-5),
     };
-    const Array<Real> defaultManeuverMassFlowRateProfile_ = {-1.1e-5, -0.9e-5};
 
-    const Maneuver defaultManeuver_ = {defaultManeuverStates_, defaultManeuverMassFlowRateProfile_};
+    const Maneuver defaultManeuver_ = {defaultManeuverStates_};
 
     Propagator defaultPropagatorWithManeuvers_ = Propagator::Undefined();
 };
@@ -241,13 +244,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constru
                         defaultNumericalSolver_,
                         defaultDynamics_,
                         {defaultManeuver_,
-                         Maneuver(
-                             {
-                                 stateGenerator(Instant::J2000() + Duration::Seconds(30.0)),
-                                 stateGenerator(Instant::J2000() + Duration::Seconds(90.0)),
-                             },
-                             defaultManeuverMassFlowRateProfile_
-                         )},
+                         Maneuver({
+                             stateGenerator(Instant::J2000() + Duration::Seconds(30.0)),
+                             stateGenerator(Instant::J2000() + Duration::Seconds(90.0)),
+                         })},
                         Interpolator::Type::Linear
                     );
                 }
@@ -531,65 +531,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddDyna
     }
 }
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddManeuvers)
-// {
-//     // Create another maneuver with same accelerations but non-overlapping instants
-//     Array<State> secondManeuverStates = Array<State>::Empty();
-//     for (const State& state : defaultManeuverStates_)
-//     {
-//         secondManeuverStates.add(
-//             state.accessInstant() + defaultManeuver_.getInterval().getDuration() + Duration::Seconds(1.0)
-//         );
-//     }
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddManeuvers)
+{
+    // Create another maneuver with same accelerations but non-overlapping instants
+    Array<State> secondManeuverStates = Array<State>::Empty();
+    for (const State& state : defaultManeuverStates_)
+    {
+        secondManeuverStates.add(stateGenerator(
+            state.accessInstant() + defaultManeuver_.getInterval().getDuration() + Duration::Seconds(1.0)
+        ));
+    }
 
-//     const Maneuver secondManeuver = {
-//         secondManeuverStates,
-//         defaultManeuverAccelerationProfile_,
-//         gcrfSPtr_,
-//         defaultManeuverMassFlowRateProfile_,
-//     };
+    const Maneuver secondManeuver = {secondManeuverStates};
 
-//     // Check adding maneuvers to a propagator that doesn't already have maneuvers
-//     {
-//         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
-//         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
+    // Check adding maneuvers to a propagator that doesn't already have maneuvers
+    {
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
 
-//         defaultPropagator_.addManeuver(defaultManeuver_, Interpolator::Type::Linear);
+        defaultPropagator_.addManeuver(defaultManeuver_, Interpolator::Type::Linear);
 
-//         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
-//         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 3);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 3);
 
-//         defaultPropagator_.addManeuver(secondManeuver, Interpolator::Type::Linear);
+        defaultPropagator_.addManeuver(secondManeuver, Interpolator::Type::Linear);
 
-//         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
-//         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 4);
-//     }
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 4);
+    }
 
-//     // Check adding maneuvers to a propagator that already has maneuvers
-//     {
-//         EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-//         EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
+    // Check adding maneuvers to a propagator that already has maneuvers
+    {
+        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
+        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
 
-//         defaultPropagatorWithManeuvers_.addManeuver(secondManeuver, Interpolator::Type::Linear);
+        defaultPropagatorWithManeuvers_.addManeuver(secondManeuver, Interpolator::Type::Linear);
 
-//         EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-//         EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 4);
-//     }
-
-//     // Create another maneuver with same accelerations but with overlapping instants
-//     Array<Instant> overlappingManeuverInstants = Array<Instant>::Empty();
-//     for (const State& state : defaultManeuverStates_)
-//     {
-//         overlappingManeuverInstants.add(
-//             state.accessInstant() + defaultManeuver_.getInterval().getDuration() - Duration::Seconds(1.0)
-//         );
-//     }
-
-//     const Maneuver overlappingManeuver = {
-//         overlappingManeuverInstants, defaultManeuverAccelerationProfile_, gcrfSPtr_,
-//         defaultManeuverMassFlowRateProfile_
-//     };
-// }
+        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
+        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 4);
+    }
+}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ClearDynamics)
 {
@@ -1157,10 +1138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         }
 
         // Create a maneuver and add it to the propagator
-        const Maneuver maneuver = {
-            maneuverStates,
-            defaultManeuverMassFlowRateProfile_,
-        };
+        const Maneuver maneuver = {maneuverStates};
         defaultPropagatorWithManeuvers_.addManeuver(maneuver, Interpolator::Type::Linear);
 
         // Remove first instant from instant array so that we can check that both propagators do not produce the same

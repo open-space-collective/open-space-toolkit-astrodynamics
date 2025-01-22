@@ -194,3 +194,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, DragCoe
         EXPECT_NO_THROW(CoordinateSubset::DragCoefficient());
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, MassFlowRate)
+{
+    {
+        EXPECT_NO_THROW(CoordinateSubset::MassFlowRate());
+    }
+}

@@ -21,7 +21,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -50,7 +49,6 @@ using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 #define DEFAULT_MANEUVER_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
@@ -62,6 +60,7 @@ class Maneuver
     static const Shared<const CoordinateSubset> DefaultAccelerationCoordinateSubsetSPtr;
     static const Duration MinimumRecommendedDuration;
     static const Duration MaximumRecommendedInterpolationInterval;
+    static const Array<Shared<const CoordinateSubset>> RequiredCoordinateSubsets;
 
     /// @brief Constructor
     ///
@@ -69,12 +68,9 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver(...);
     /// @endcode
     ///
-    /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity and Acceleration.
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per state in m/s^2
-    /// @param aFrameSPtr A frame in which the acceleration profile is defined
-    /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver (negative numbers expected), one Real per
-    /// instant in kg/s
-    Maneuver(const Array<State>& aStateArray, const Array<Real>& aMassFlowRateProfile);
+    /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity, Acceleration and Mass
+    /// Flow Rate coordinate subsets.
+    Maneuver(const Array<State>& aStateArray);
 
     /// @brief Equal to operator
     ///
@@ -113,26 +109,6 @@ class Maneuver
     ///
     /// @return The states
     Array<State> getStates() const;
-
-    /// @brief Get the acceleration profile of the maneuver
-    ///
-    /// @code{.cpp}
-    ///                  Array<Vector3d> accelerationProfile = maneuver.getAccelerationProfile(Frame::GCRF());
-    /// @endcode
-    ///
-    /// @param (optional) aFrameSPtr A frame in which the acceleration profile is to be defined
-    ///
-    /// @return The acceleration profile (m/s^2)
-    Array<Vector3d> getAccelerationProfile(const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr) const;
-
-    /// @brief Get the mass flow rate profile of the maneuver
-    ///
-    /// @code{.cpp}
-    ///                  Array<Real> massFlowRateProfile = maneuver.getMassFlowRateProfile();
-    /// @endcode
-    ///
-    /// @return The mass flow rate profile (kg/s)
-    Array<Real> getMassFlowRateProfile() const;
 
     /// @brief Get the interval of the maneuver
     ///
@@ -212,7 +188,7 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
     /// @endcode
     ///
-    /// @param aStateArray An array of states, must be sorted
+    /// @param aStateArray An array of states, must be sorted, must contain
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     ///
     /// @return A maneuver
@@ -220,7 +196,6 @@ class Maneuver
 
    private:
     Array<State> states_;
-    Array<Real> massFlowRateProfile_;
 };
 
 }  // namespace flight

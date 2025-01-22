@@ -36,16 +36,16 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-class CartesianAcceleration : public CoordinateSubset
+class NewtonianAcceleration : public CoordinateSubset
 {
    public:
-    /// @brief Constructor for CartesianAcceleration
+    /// @brief Constructor for NewtonianAcceleration
     /// @param aCartesianPositionSPtr Shared pointer to a CartesianPosition object
     /// @param aName Name of the coordinate subset
-    CartesianAcceleration(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName);
+    NewtonianAcceleration(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName);
 
-    /// @brief Destructor for CartesianAcceleration
-    virtual ~CartesianAcceleration();
+    /// @brief Destructor for NewtonianAcceleration
+    virtual ~NewtonianAcceleration();
 
     /// @brief Adds two coordinate vectors
     /// @param anInstant The instant at which the addition is performed
@@ -77,7 +77,9 @@ class CartesianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief Transforms the coordinates to a different frame
+    /// @brief Transforms the coordinates to a different frame. Acceleration is transformed similar to position, as like
+    /// position it is a bound vector. Refer to https://elib.dlr.de/142099/1/MA_SpaceEngineering_Huckfeldt_412335.pdf
+    /// (Page 30) for more information.
     /// @param anInstant The instant at which the transformation is performed
     /// @param aFullCoordinatesVector The full coordinates vector to be transformed
     /// @param fromFrame Shared pointer to the initial frame of reference
@@ -92,9 +94,9 @@ class CartesianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief Returns the default CartesianAcceleration object
-    /// @return Shared pointer to the default CartesianAcceleration object
-    static Shared<const CartesianAcceleration> Default();
+    /// @brief Returns the default NewtonianAcceleration object
+    /// @return Shared pointer to the default NewtonianAcceleration object
+    static Shared<const NewtonianAcceleration> Default();
 
    private:
     Shared<const CartesianPosition> cartesianPositionSPtr_;

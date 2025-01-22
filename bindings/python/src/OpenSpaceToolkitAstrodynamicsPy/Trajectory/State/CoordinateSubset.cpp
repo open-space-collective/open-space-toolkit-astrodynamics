@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/AttitudeQuaternion.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianPosition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianVelocity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/NewtonianAcceleration.cpp>
 
 using namespace pybind11;
 
@@ -246,6 +247,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     CoordinateSubset: The drag coefficient coordinate subset.
             )doc"
         )
+        .def_static(
+            "mass_flow_rate",
+            &CoordinateSubset::MassFlowRate,
+            R"doc(
+                Get the mass flow rate coordinate subset.
+
+                Returns:
+                    CoordinateSubset: The mass flow rate coordinate subset.
+            )doc"
+        )
 
         ;
 
@@ -257,4 +268,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_AttitudeQuaternion(coordinate_subset);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianPosition(coordinate_subset);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianVelocity(coordinate_subset);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_NewtonianAcceleration(coordinate_subset);
 }

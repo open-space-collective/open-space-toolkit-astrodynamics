@@ -20,19 +20,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
     )
 
         .def(
-            init<const Array<Instant>&, const Array<Vector3d>&, const Shared<const Frame>&, const Array<Real>&>(),
-            arg("instants"),
-            arg("acceleration_profile"),
-            arg("frame"),
-            arg("mass_flow_rate_profile"),
+            init<const Array<State>&>(),
+            arg("states"),
             R"doc(
                 Constructor.
 
                 Args:
-                    instants (list[Instant]): An array of instants, must be sorted.
-                    acceleration_profile (list[numpy.ndarray]): An acceleration profile of the maneuver, one numpy.ndarray per instant in m/s^2.
-                    frame (Frame): A frame in which the acceleration profile is defined.
-                    mass_flow_rate_profile (list[float]):  A mass flow rate profile of the maneuver (negative numbers expected), one float per instant in kg/s.
+                    states (list[State]): An list of states, must be sorted, must include the CartesianPosition, CartesianVelocity, NewtonianAcceleration and MassFlowRate subsets.
             )doc"
         )
 
@@ -60,30 +54,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
 
                 Returns:
                     list[State]: The states.
-            )doc"
-        )
-        .def(
-            "get_acceleration_profile",
-            &Maneuver::getAccelerationProfile,
-            arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
-            R"doc(
-                Get the acceleration profile.
-
-                Args:
-                    frame (Frame, optional): The frame in which the acceleration profile is defined. Defaults to the default acceleration frame.
-
-                Returns:
-                    list[numpy.ndarray]: The acceleration profile (m/s^2).
-            )doc"
-        )
-        .def(
-            "get_mass_flow_rate_profile",
-            &Maneuver::getMassFlowRateProfile,
-            R"doc(
-                Get the mass flow rate profile.
-
-                Returns:
-                    list[float]: The mass flow rate profile (kg/s).
             )doc"
         )
         .def(
@@ -163,9 +133,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         .def_static(
             "constant_mass_flow_rate_profile",
             &Maneuver::ConstantMassFlowRateProfile,
-            arg("instants"),
-            arg("acceleration_profile"),
-            arg("frame"),
+            arg("states"),
             arg("mass_flow_rate"),
             R"doc(
                 Create a maneuver from a constant mass flow rate profile.

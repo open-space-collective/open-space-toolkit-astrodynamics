@@ -21,9 +21,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 
 #include <Global.test.hpp>
 
@@ -53,22 +53,26 @@ using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::NewtonianAcceleration;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
 {
    protected:
-    State stateGenerator(const Instant& anInstant, const Vector3d& anAcceleration = {0.0, 0.0, 0.0})
+    State stateGenerator(
+        const Instant& anInstant, const Vector3d& anAcceleration = {0.0, 0.0, 0.0}, const Real& aMassFlowRate = -0.5e-5
+    )
     {
-        VectorXd coordinates(9);
-        coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2);
+        VectorXd coordinates(10);
+        coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2),
+            aMassFlowRate;
 
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            CartesianAcceleration::Default(),
+            NewtonianAcceleration::Default(),
+            CoordinateSubset::MassFlowRate(),
         };
 
         return State(anInstant, coordinates, Frame::GCRF(), coordinateSubsets);
@@ -77,52 +81,23 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
     const Shared<const Frame> secondFrameSPtr_ = Frame::ITRF();
 
-    const Array<Real> defaultMassFlowRateProfile_ = {-1.0e-5, -1.1e-5, -0.9e-5, -1.0e-5};
+    // const Array<Real> defaultMassFlowRateProfile_ = {-1.0e-5, -1.1e-5, -0.9e-5, -1.0e-5};
     const Real defaultConstantMassFlowRate_ = -0.5e-5;
 
     const Array<State> defaultStates_ = {
-        stateGenerator(Instant::J2000(), {1e-1, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 1e-1, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Seconds(5.0), {0.0, 0.0, 1e-1}),
-        stateGenerator(Instant::J2000() + Duration::Seconds(7.0), {1e-1, 1e-1, 1e-1}),
+        stateGenerator(Instant::J2000(), {1e-1, 0.0, 0.0}, -1.0e-5),
+        stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 1e-1, 0.0}, -1.1e-5),
+        stateGenerator(Instant::J2000() + Duration::Seconds(5.0), {0.0, 0.0, 1e-1}, -0.9e-5),
+        stateGenerator(Instant::J2000() + Duration::Seconds(7.0), {1e-1, 1e-1, 1e-1}, -1.0e-5),
     };
 
-    const Maneuver defaultManeuver_ = {
-        defaultStates_,
-        defaultMassFlowRateProfile_,
-    };
+    const Maneuver defaultManeuver_ = {defaultStates_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
 {
     {
-        EXPECT_NO_THROW(Maneuver(defaultStates_, defaultMassFlowRateProfile_));
-    }
-
-    {
-        const Array<State> shorterStates = {
-            stateGenerator(Instant::J2000()),
-            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
-            stateGenerator(Instant::J2000() + Duration::Seconds(5.0)),
-        };
-
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Maneuver(shorterStates, defaultMassFlowRateProfile_);
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ(
-                        "Mass flow rate profile must have the same number of elements as the number of states.",
-                        e.getMessage()
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
+        EXPECT_NO_THROW(Maneuver {defaultStates_});
     }
 
     {
@@ -142,11 +117,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
             {
                 try
                 {
-                    Maneuver(statesWithoutAcceleration, defaultMassFlowRateProfile_);
+                    Maneuver {statesWithoutAcceleration};
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("Acceleration coordinate subset not found in states.", e.getMessage());
+                    EXPECT_EQ("CARTESIAN_ACCELERATION not found in states.", e.getMessage());
                     throw;
                 }
             },
@@ -156,13 +131,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
 
     {
         const Array<State> emptyStates = {defaultStates_[0]};
-        const Array<Real> emptyMassFlowRateProfile = {defaultMassFlowRateProfile_[0]};
 
         EXPECT_THROW(
             {
                 try
                 {
-                    Maneuver(emptyStates, emptyMassFlowRateProfile);
+                    Maneuver {emptyStates};
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -179,11 +153,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
             {
                 try
                 {
-                    Maneuver({}, {});
+                    Maneuver {{}};
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("No states or accompanying mass flow rates provided.", e.getMessage());
+                    EXPECT_EQ("No states provided.", e.getMessage());
                     throw;
                 }
             },
@@ -204,7 +178,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
             {
                 try
                 {
-                    Maneuver(unorderedStates, defaultMassFlowRateProfile_);
+                    Maneuver {unorderedStates};
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
@@ -229,7 +203,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
             {
                 try
                 {
-                    Maneuver(duplicateStates_, defaultMassFlowRateProfile_);
+                    Maneuver {duplicateStates_};
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
@@ -251,7 +225,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         };
 
         testing::internal::CaptureStdout();
-        Maneuver(spacedOutStates, defaultMassFlowRateProfile_);
+        Maneuver {spacedOutStates};
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 
@@ -265,19 +239,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         };
 
         testing::internal::CaptureStdout();
-        Maneuver(shortStates, defaultMassFlowRateProfile_);
+        Maneuver {shortStates};
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 
     // Mass flow rate profile with zero or positive mass flow rates
     {
-        const Array<Real> incorrectMassFlowRateProfile = {0.0e-5, -1.1e-5, -0.9e-5, 1.0e-5};
+        Array<State> statesWithIncorrectMassFlowRateProfile = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, 1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, -1.0e-5)
+        };
 
         EXPECT_THROW(
             {
                 try
                 {
-                    Maneuver(defaultStates_, incorrectMassFlowRateProfile);
+                    Maneuver {statesWithIncorrectMassFlowRateProfile};
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -337,29 +316,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
     }
 
     {
-        const Array<Vector3d> accelerationProfile = defaultStates_.map<Vector3d>(
-            [this](const State& aState) -> Vector3d
-            {
-                return Vector3d::Map(
-                    aState.inFrame(defaultFrameSPtr_).extractCoordinate(CartesianAcceleration::Default()).data()
-                );
-            }
-        );
-
-        {
-            EXPECT_EQ(defaultManeuver_.getAccelerationProfile(defaultFrameSPtr_), accelerationProfile);
-        }
-
-        {
-            EXPECT_NE(defaultManeuver_.getAccelerationProfile(secondFrameSPtr_), accelerationProfile);
-        }
-    }
-
-    {
-        EXPECT_EQ(defaultManeuver_.getMassFlowRateProfile(), defaultMassFlowRateProfile_);
-    }
-
-    {
         EXPECT_EQ(
             defaultManeuver_.getInterval(),
             Interval::Closed(
@@ -374,22 +330,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
     // Profile chosen to produce the same dV as equally spaced 1 m/s profiles
 
     const Array<State> evenlySpacedStates = {
-        stateGenerator(Instant::J2000(), {0.5, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Minutes(1.0), {1.25, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Minutes(2.0), {1.25, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Minutes(3.0), {0.5, 0.0, 0.0}),
+        stateGenerator(Instant::J2000(), {0.5, 0.0, 0.0}, -0.5e-1),
+        stateGenerator(Instant::J2000() + Duration::Minutes(1.0), {1.25, 0.0, 0.0}, -1.25e-1),
+        stateGenerator(Instant::J2000() + Duration::Minutes(2.0), {1.25, 0.0, 0.0}, -1.25e-1),
+        stateGenerator(Instant::J2000() + Duration::Minutes(3.0), {0.5, 0.0, 0.0}, -0.5e-1),
     };
 
     const Array<State> unevenlySpacedStates = {
-        stateGenerator(Instant::J2000(), {0.5, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Minutes(0.5), {1.25, 0.0, 0.0}),  // Larger gap in the middle
-        stateGenerator(Instant::J2000() + Duration::Minutes(2.5), {1.25, 0.0, 0.0}),
-        stateGenerator(Instant::J2000() + Duration::Minutes(3.0), {0.5, 0.0, 0.0}),
+        stateGenerator(Instant::J2000(), {0.5, 0.0, 0.0}, -0.5e-1),
+        stateGenerator(
+            Instant::J2000() + Duration::Minutes(0.5), {1.25, 0.0, 0.0}, -1.25e-1
+        ),  // Larger gap in the middle
+        stateGenerator(Instant::J2000() + Duration::Minutes(2.5), {1.25, 0.0, 0.0}, -1.25e-1),
+        stateGenerator(Instant::J2000() + Duration::Minutes(3.0), {0.5, 0.0, 0.0}, -0.5e-1),
     };
 
     // Constant and non-constant mass flow rates chosen to produce the same dM as equally spaced 0.1 kg/s profiles
     const Real constantMassFlowRate = -1.0e-1;
-    const Array<Real> nonConstantMassFlowRateProfile = {-0.5e-1, -1.25e-1, -1.25e-1, -0.5e-1};
 
     const Maneuver evenlySpacedManeuverWithConstantMassFlowRate =
         Maneuver::ConstantMassFlowRateProfile(evenlySpacedStates, constantMassFlowRate);
@@ -397,13 +354,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
     const Maneuver unevenlySpacedManeuverWithConstantMassFlowRate =
         Maneuver::ConstantMassFlowRateProfile(unevenlySpacedStates, constantMassFlowRate);
 
-    const Maneuver evenlySpacedManeuverWithNonConstantMassFlowRate = {
-        evenlySpacedStates, nonConstantMassFlowRateProfile
-    };
+    const Maneuver evenlySpacedManeuverWithNonConstantMassFlowRate = {evenlySpacedStates};
 
-    const Maneuver unevenlySpacedManeuverWithNonConstantMassFlowRate = {
-        unevenlySpacedStates, nonConstantMassFlowRateProfile
-    };
+    const Maneuver unevenlySpacedManeuverWithNonConstantMassFlowRate = {unevenlySpacedStates};
 
     {
         // dV equivalent to 1.0 m/s * 180 s = 180 m/s
@@ -513,8 +466,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             [this](const State& aState) -> Vector3d
             {
                 return Vector3d::Map(
-                    aState.inFrame(defaultFrameSPtr_).extractCoordinate(CartesianAcceleration::Default()).data()
+                    aState.inFrame(defaultFrameSPtr_).extractCoordinate(NewtonianAcceleration::Default()).data()
                 );
+            }
+        );
+        const Array<Real> massFlowRateProfile = defaultStates_.map<Real>(
+            [](const State& aState) -> Real
+            {
+                return aState.extractCoordinate(CoordinateSubset::MassFlowRate())[0];
             }
         );
 
@@ -523,7 +482,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             EXPECT_NEAR(contributionProfile(i, 0), accelerationProfile[i](0), 1.0e-15);
             EXPECT_NEAR(contributionProfile(i, 1), accelerationProfile[i](1), 1.0e-15);
             EXPECT_NEAR(contributionProfile(i, 2), accelerationProfile[i](2), 1.0e-15);
-            EXPECT_NEAR(contributionProfile(i, 3), defaultMassFlowRateProfile_[i], 1.0e-15);
+            EXPECT_NEAR(contributionProfile(i, 3), massFlowRateProfile[i], 1.0e-15);
         }
 
         const Array<Shared<const CoordinateSubset>> writeCoordinateSubsets = {
@@ -539,9 +498,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfi
     {
         const Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(defaultStates_, defaultConstantMassFlowRate_);
 
-        EXPECT_EQ(maneuver.getStates(), defaultStates_);
-        EXPECT_EQ(
-            maneuver.getMassFlowRateProfile(), Array<Real>(defaultStates_.getSize(), defaultConstantMassFlowRate_)
-        );
+        EXPECT_EQ(maneuver.getStates().getSize(), defaultStates_.getSize());
+
+        for (const auto& state : maneuver.getStates())
+        {
+            EXPECT_DOUBLE_EQ(
+                state.extractCoordinate(CoordinateSubset::MassFlowRate())[0], defaultConstantMassFlowRate_
+            );
+        }
     }
 }

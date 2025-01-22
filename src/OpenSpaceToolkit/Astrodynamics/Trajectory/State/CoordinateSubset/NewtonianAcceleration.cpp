@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 
 namespace ostk
 {
@@ -21,7 +21,7 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Transform;
 using ostk::physics::coordinate::Velocity;
 
-CartesianAcceleration::CartesianAcceleration(
+NewtonianAcceleration::NewtonianAcceleration(
     const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName
 )
     : CoordinateSubset(aName, aCartesianPositionSPtr->getSize()),
@@ -29,9 +29,9 @@ CartesianAcceleration::CartesianAcceleration(
 {
 }
 
-CartesianAcceleration::~CartesianAcceleration() {}
+NewtonianAcceleration::~NewtonianAcceleration() {}
 
-VectorXd CartesianAcceleration::add(
+VectorXd NewtonianAcceleration::add(
     [[maybe_unused]] const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,
     const VectorXd& anotherFullCoordinatesVector,
@@ -43,7 +43,7 @@ VectorXd CartesianAcceleration::add(
            aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
 }
 
-VectorXd CartesianAcceleration::subtract(
+VectorXd NewtonianAcceleration::subtract(
     [[maybe_unused]] const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,
     const VectorXd& anotherFullCoordinatesVector,
@@ -55,7 +55,7 @@ VectorXd CartesianAcceleration::subtract(
            aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
 }
 
-VectorXd CartesianAcceleration::inFrame(
+VectorXd NewtonianAcceleration::inFrame(
     const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,
     const Shared<const Frame>& fromFrame,
@@ -74,10 +74,10 @@ VectorXd CartesianAcceleration::inFrame(
     return VectorXd::Map(transform.applyToVector(accelerationCoordinates).data(), Eigen::Index(3));
 }
 
-Shared<const CartesianAcceleration> CartesianAcceleration::Default()
+Shared<const NewtonianAcceleration> NewtonianAcceleration::Default()
 {
-    static const Shared<const CartesianAcceleration> cartesianAcceleration =
-        std::make_shared<CartesianAcceleration>(CartesianPosition::Default(), "CARTESIAN_ACCELERATION");
+    static const Shared<const NewtonianAcceleration> cartesianAcceleration =
+        std::make_shared<NewtonianAcceleration>(CartesianPosition::Default(), "CARTESIAN_ACCELERATION");
 
     return cartesianAcceleration;
 }

@@ -52,9 +52,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -115,9 +115,9 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::NewtonianAcceleration;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 // TBM: All of these validation tests currently do not fit within the OSTk validation framework, but the intention is to
@@ -770,15 +770,14 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         propagatorWithTabulated.calculateStatesAt(initialState, instantArray);
 
     // Create maneuver from tabulated and propagator with maneuver
-    Array<Real> massFlowRateProfile = Array<Real>::Empty();
-    massFlowRateProfile.reserve(instantArray.getSize());
     Array<State> maneuverStateArray = Array<State>::Empty();
     maneuverStateArray.reserve(instantArray.getSize());
 
     const Array<Shared<const CoordinateSubset>> maneuverCoordinateSubsets = {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CartesianAcceleration::Default(),
+        NewtonianAcceleration::Default(),
+        CoordinateSubset::MassFlowRate(),
     };
 
     for (Size i = 0; i < instantArray.getSize(); i++)
@@ -789,8 +788,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         );
         const Real massFlowRate = thrusterContributionsGCRF(i, 3);
 
-        VectorXd coordinates(9);
-        coordinates << positionVelocityCoordinates, accelerationCoordinates;
+        VectorXd coordinates(10);
+        coordinates << positionVelocityCoordinates, accelerationCoordinates, massFlowRate;
 
         maneuverStateArray.add({
             instantArray[i],
@@ -798,11 +797,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
             gcrfSPtr_,
             maneuverCoordinateSubsets,
         });
-
-        massFlowRateProfile.add(massFlowRate);
     }
 
-    const Maneuver maneuver = Maneuver(maneuverStateArray, massFlowRateProfile);
+    const Maneuver maneuver = Maneuver(maneuverStateArray);
     Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
     const Array<State> propagatedStateArray_Maneuver = maneuverPropagator.calculateStatesAt(initialState, instantArray);
 
@@ -991,10 +988,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         //     std::cout << "Position Error GCRF for Tabulated: " << positionErrorGCRF_Tabulated << "m" << std::endl;
         //     std::cout << "Position Error GCRF for Maneuver: " << positionErrorGCRF_Maneuver << "m" << std::endl;
 
-        //     std::cout << "Velocity Error GRCRF for Thruster: " << velocityErrorGCRF_Thruster << "m/s" <<
-        // std::endl;
-        //     std::cout << "Velocity Error GCRF for Tabulated: " << velocityErrorGCRF_Tabulated << "m/s" <<
-        // std::endl;
+        //     std::cout << "Velocity Error GRCRF for Thruster: " << velocityErrorGCRF_Thruster << "m/s" << std::endl;
+        //     std::cout << "Velocity Error GCRF for Tabulated: " << velocityErrorGCRF_Tabulated << "m/s" << std::endl;
         //     std::cout << "Velocity Error GCRF for Maneuver: " << velocityErrorGCRF_Maneuver << "m/s" << std::endl;
 
         //     std::cout << "Acceleration Error GCRF for Thruster: " << maneuverAccelerationErrorGCRF_Thruster <<
@@ -1024,12 +1019,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         //         std::cout << "Acceleration Error LOF for Thruster: " << maneuverAccelerationErrorLOF_Thruster <<
         //         "m/s^2"
         //                   << std::endl;
-        //         // std::cout << "Acceleration Error LOF for Tabulated: " << maneuverAccelerationErrorLOF_Tabulated
-        // <<
+        //         // std::cout << "Acceleration Error LOF for Tabulated: " << maneuverAccelerationErrorLOF_Tabulated <<
         //         // "m/s^2"
         //         //           << std::endl;
-        //         // std::cout << "Acceleration Error LOF for Maneuver: " << maneuverAccelerationErrorLOF_Maneuver
-        // <<
+        //         // std::cout << "Acceleration Error LOF for Maneuver: " << maneuverAccelerationErrorLOF_Maneuver <<
         //         // "m/s^2"
         //         //           << std::endl;
         //     }

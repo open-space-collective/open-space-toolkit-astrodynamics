@@ -9,9 +9,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
@@ -27,9 +27,9 @@ using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::NewtonianAcceleration;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 Segment::Solution::Solution(
@@ -203,7 +203,8 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            CartesianAcceleration::Default(),
+            NewtonianAcceleration::Default(),
+            CoordinateSubset::MassFlowRate(),
         }
     };
 
@@ -222,25 +223,18 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         {
             const State& state = this->states[startStopPair.first + i].inFrame(aFrameSPtr);
 
-            VectorXd coordinates(9);
+            VectorXd coordinates(10);
             coordinates.segment<6>(0) = state.extractCoordinates({
                 CartesianPosition::Default(),
                 CartesianVelocity::Default(),
             });
             coordinates.segment<3>(6) = maneuverContributionBlock.block<1, 3>(i, 0);
+            coordinates(9) = fullSegmentContributions(startStopPair.first + i, 3);
 
             maneuverStatesBlock.add(stateBuilder.build(state.accessInstant(), coordinates));
         }
 
-        // Convert Eigen expressions to Array<Real>
-        Array<Real> massFlowRateProfile = Array<Real>::Empty();
-        massFlowRateProfile.reserve(blockLength);
-        for (Size i = 0; i < blockLength; ++i)
-        {
-            massFlowRateProfile.add(fullSegmentContributions(startStopPair.first + i, 3));
-        }
-
-        extractedManeuvers.add(flightManeuver(maneuverStatesBlock, massFlowRateProfile));
+        extractedManeuvers.add(flightManeuver(maneuverStatesBlock));
     }
 
     return extractedManeuvers;
