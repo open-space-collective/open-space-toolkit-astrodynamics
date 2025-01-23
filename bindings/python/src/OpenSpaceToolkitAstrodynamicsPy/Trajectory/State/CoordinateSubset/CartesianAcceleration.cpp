@@ -79,7 +79,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_Ca
 
         .def_static(
             "thrust_acceleration",
-            &CartesianAcceleration::Default,
+            &CartesianAcceleration::ThrustAcceleration,
             R"doc(
                 Get the Cartesian acceleration subset for thrust acceleration.
 
