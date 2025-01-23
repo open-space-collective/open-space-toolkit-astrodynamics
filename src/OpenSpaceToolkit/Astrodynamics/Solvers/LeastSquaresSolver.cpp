@@ -184,6 +184,14 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const StateBuilder referenceStateBuilder(aReferenceStateArray[0]);
     const Array<Shared<const CoordinateSubset>> referenceStateSubsets = referenceStateBuilder.getCoordinateSubsets();
 
+    for (const auto& state : aReferenceStateArray)
+    {
+        if (state.getCoordinateSubsets() != referenceStateSubsets)
+        {
+            throw ostk::core::error::RuntimeError("Reference states must have the same coordinate subsets.");
+        }
+    }
+
     // Get dimensions
     const Size stateDimension = anInitialGuessState.accessCoordinates().size();
     const Size referenceStateDimension = aReferenceStateArray[0].accessCoordinates().size();
@@ -203,7 +211,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     if (!anInitialGuessSigmas.empty())
     {
-        const VectorXd sigmas = expandSigmas(anInitialGuessSigmas, estimationStateBuilder);
+        const VectorXd sigmas = extractSigmas(anInitialGuessSigmas, estimationStateBuilder);
         PAprioriInv = sigmas.array().square().inverse().matrix().asDiagonal();
     }
     else
@@ -215,7 +223,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     MatrixXd RInv;
     if (!aReferenceStateSigmas.empty())
     {
-        const VectorXd sigmas = expandSigmas(aReferenceStateSigmas, referenceStateBuilder);
+        const VectorXd sigmas = extractSigmas(aReferenceStateSigmas, referenceStateBuilder);
         RInv = sigmas.array().square().inverse().matrix().asDiagonal();
     }
     else
@@ -370,7 +378,7 @@ LeastSquaresSolver LeastSquaresSolver::Default()
     return LeastSquaresSolver(20, 1.0);
 }
 
-VectorXd LeastSquaresSolver::expandSigmas(
+VectorXd LeastSquaresSolver::extractSigmas(
     const std::unordered_map<CoordinateSubset, VectorXd>& aSigmas, const StateBuilder& aStateBuilder
 )
 {

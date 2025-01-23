@@ -39,27 +39,33 @@ def initial_instant() -> Instant:
 
 
 @pytest.fixture
-def initial_guess_state(initial_instant: Instant, coordinate_subsets: list[CoordinateSubset]) -> State:
-    return State(initial_instant, [1, 0], Frame.GCRF(), coordinate_subsets)
+def frame() -> Frame:
+    return Frame.GCRF()
+
+
+@pytest.fixture
+def initial_guess_state(
+    initial_instant: Instant,
+    coordinate_subsets: list[CoordinateSubset],
+    frame: Frame,
+) -> State:
+    return State(initial_instant, [1.0, 0.0], frame, coordinate_subsets)
 
 
 @pytest.fixture
 def reference_states(
-    initial_instant: Instant, coordinate_subsets: list[CoordinateSubset]
+    initial_instant: Instant,
+    coordinate_subsets: list[CoordinateSubset],
+    frame: Frame,
 ) -> list[State]:
     return [
         State(
-            initial_instant + Duration.seconds(100.0),
-            [0.5, 0.5],
-            Frame.GCRF(),
+            initial_instant + Duration.seconds(float(x)),
+            [np.cos(x), -np.sin(x)],
+            frame,
             coordinate_subsets,
-        ),
-        State(
-            initial_instant + Duration.seconds(200.0),
-            [0.25, 0.75],
-            Frame.GCRF(),
-            coordinate_subsets,
-        ),
+        )
+        for x in range(0, 200, 10)
     ]
 
 
@@ -103,12 +109,12 @@ class TestLeastSquaresSolver:
     def test_solve(
         self,
         least_squares_solver: LeastSquaresSolver,
-        state: State,
+        initial_guess_state: State,
         reference_states: list[State],
         generate_states_callback: callable,
     ):
         analysis = least_squares_solver.solve(
-            initial_guess_state=state,
+            initial_guess_state=initial_guess_state,
             reference_states=reference_states,
             generate_states_callback=generate_states_callback,
         )
