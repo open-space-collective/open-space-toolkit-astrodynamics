@@ -8,6 +8,9 @@
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -18,57 +21,62 @@ namespace flight
 
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
 const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
 const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Minutes(2.0);
+const Array<Shared<const CoordinateSubset>> Maneuver::RequiredCoordinateSubsets = {
+    CartesianPosition::Default(),
+    CartesianVelocity::Default(),
+    CartesianAcceleration::ThrustAcceleration(),
+    CoordinateSubset::MassFlowRate(),
+};
+const Shared<const CoordinateSubset> Maneuver::DefaultAccelerationCoordinateSubsetSPtr = RequiredCoordinateSubsets[2];
 
-Maneuver::Maneuver(
-    const Array<Instant>& anInstantArray,
-    const Array<Vector3d>& anAccelerationProfile,
-    const Shared<const Frame>& aFrameSPtr,
-    const Array<Real>& aMassFlowRateProfile
-)
-    : instants_(anInstantArray),
-      accelerationProfileDefaultFrame_(anAccelerationProfile),
-      massFlowRateProfile_(aMassFlowRateProfile)
+Maneuver::Maneuver(const Array<State>& aStateArray)
+    : states_(aStateArray)
 {
     // Sanitize the inputs
-    if (this->instants_.isEmpty() || this->accelerationProfileDefaultFrame_.isEmpty() ||
-        this->massFlowRateProfile_.isEmpty())
+    if (this->states_.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("No instants or accompanying accelerations/mass flow rates provided.");
+        throw ostk::core::error::RuntimeError("No states provided.");
     }
 
-    if (instants_.getSize() < 2)
+    if (states_.getSize() < 2)
     {
-        throw ostk::core::error::RuntimeError("At least two instants are required to define a maneuver.");
+        throw ostk::core::error::RuntimeError("At least two states are required to define a maneuver.");
     }
 
-    if (instants_.getSize() != accelerationProfileDefaultFrame_.getSize())
+    for (const auto& coordinateSubset : RequiredCoordinateSubsets)
     {
-        throw ostk::core::error::RuntimeError(
-            "Acceleration profile must have the same number of elements as the number of instants."
-        );
+        if (!std::all_of(
+                states_.begin(),
+                states_.end(),
+                [&coordinateSubset](const State& aState)
+                {
+                    return aState.hasSubset(coordinateSubset);
+                }
+            ))
+        {
+            throw ostk::core::error::RuntimeError(String::Format("{} not found in states.", coordinateSubset->getName())
+            );
+        }
     }
 
-    if (instants_.getSize() != massFlowRateProfile_.getSize())
-    {
-        throw ostk::core::error::RuntimeError(
-            "Mass flow rate profile must have the same number of elements as the number of instants."
-        );
-    }
-
-    const Duration maneuverDuration = instants_.accessLast() - instants_.accessFirst();
+    const Duration maneuverDuration = states_.accessLast().accessInstant() - states_.accessFirst().accessInstant();
     Duration largestInterval = Duration::Zero();
 
-    for (Size k = 0; k < instants_.getSize() - 1; ++k)
+    for (Size k = 0; k < states_.getSize() - 1; ++k)
     {
-        if (instants_[k] >= instants_[k + 1])
+        if (states_[k].accessInstant() >= states_[k + 1].accessInstant())
         {
-            throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate Instant Array");
+            throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate State Array");
         }
 
-        largestInterval = std::max(largestInterval, instants_[k + 1] - instants_[k]);
+        largestInterval = std::max(largestInterval, states_[k + 1].accessInstant() - states_[k].accessInstant());
     }
 
     if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
@@ -87,41 +95,23 @@ Maneuver::Maneuver(
             << std::endl;
     }
 
-    // Ensure that the accelerations provided have strictly positive magnitudes
-    if (std::any_of(
-            accelerationProfileDefaultFrame_.begin(),
-            accelerationProfileDefaultFrame_.end(),
-            [](const Vector3d& anAcceleration)
-            {
-                return anAcceleration.norm() <= 0.0;
-            }
-        ))
-    {
-        throw ostk::core::error::RuntimeError("Acceleration profile must have strictly positive magnitudes.");
-    }
-
     // Ensure that mass flow rate profile is expressed in strictly negative numbers
     if (std::any_of(
-            massFlowRateProfile_.begin(),
-            massFlowRateProfile_.end(),
-            [](Real aMassFlowRate)
+            states_.begin(),
+            states_.end(),
+            [](const State& aState)
             {
-                return aMassFlowRate >= 0.0;
+                return aState.extractCoordinate(RequiredCoordinateSubsets[3])[0] >= 0.0;
             }
         ))
     {
         throw ostk::core::error::RuntimeError("Mass flow rate profile must have strictly negative values.");
     }
-
-    // Convert to the default frame if necessary
-    accelerationProfileDefaultFrame_ = this->convertAccelerationProfileFrame(aFrameSPtr);
 }
 
 bool Maneuver::operator==(const Maneuver& aManeuver) const
 {
-    return instants_ == aManeuver.instants_ &&
-           accelerationProfileDefaultFrame_ == aManeuver.accelerationProfileDefaultFrame_ &&
-           massFlowRateProfile_ == aManeuver.massFlowRateProfile_;
+    return states_ == aManeuver.states_;
 }
 
 bool Maneuver::operator!=(const Maneuver& aManeuver) const
@@ -141,36 +131,31 @@ bool Maneuver::isDefined() const
     return true;
 }
 
-Array<Instant> Maneuver::getInstants() const
+Array<State> Maneuver::getStates() const
 {
-    return instants_;
-}
-
-Array<Vector3d> Maneuver::getAccelerationProfile(const Shared<const Frame>& aFrameSPtr) const
-{
-    return this->convertAccelerationProfileFrame(aFrameSPtr);
-}
-
-Array<Real> Maneuver::getMassFlowRateProfile() const
-{
-    return massFlowRateProfile_;
+    return states_;
 }
 
 Interval Maneuver::getInterval() const
 {
-    return Interval::Closed(instants_.accessFirst(), instants_.accessLast());
+    return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
 }
 
 Real Maneuver::calculateDeltaV() const
 {
     // Use simple forward trapezoidal rule to calculate the total delta-v
     Real totalDeltaV = 0.0;
-    for (Size i = 0; i < instants_.getSize() - 1; i++)
+    for (Size i = 0; i < states_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i + 1] - instants_[i]).inSeconds();
+        const State& currentState = states_[i];
+        const State& nextState = states_[i + 1];
 
-        const Real currentAccelerationMagnitude = accelerationProfileDefaultFrame_[i].norm();
-        const Real nextAccelerationMagnitude = accelerationProfileDefaultFrame_[i + 1].norm();
+        const Real timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+
+        const Real currentAccelerationMagnitude =
+            currentState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
+        const Real nextAccelerationMagnitude =
+            nextState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
 
         totalDeltaV += ((currentAccelerationMagnitude + nextAccelerationMagnitude) / 2.0) * timeStep;
     }
@@ -182,11 +167,17 @@ Mass Maneuver::calculateDeltaMass() const
 {
     // Use simple forward trapezoidal rule to calculate the total delta-mass
     Real totalDeltaMass = 0.0;
-    for (Size i = 0; i < instants_.getSize() - 1; i++)
+    for (Size i = 0; i < states_.getSize() - 1; i++)
     {
-        const Real timeStep = (instants_[i + 1] - instants_[i]).inSeconds();
+        const State& currentState = states_[i];
+        const State& nextState = states_[i + 1];
 
-        totalDeltaMass += ((-massFlowRateProfile_[i] + -massFlowRateProfile_[i + 1]) / 2.0) * timeStep;
+        const Real currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const Real nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+
+        const Real timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+
+        totalDeltaMass += (-(currentMassFlowRate + nextMassFlowRate) / 2.0) * timeStep;
     }
 
     return Mass::Kilograms(totalDeltaMass);
@@ -197,18 +188,30 @@ Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
     Real currentMass = anInitialSpacecraftMass.inKilograms();
     Real weightedThrustSum = 0.0;
 
-    for (Size i = 0; i < instants_.getSize() - 1; i++)
+    for (Size i = 0; i < states_.getSize() - 1; i++)
     {
-        const Real currentIntervalDuration = (instants_[i + 1] - instants_[i]).inSeconds();
+        const State& currentState = states_[i];
+        const State& nextState = states_[i + 1];
 
-        currentMass += ((massFlowRateProfile_[i] + massFlowRateProfile_[i + 1]) / 2.0) * currentIntervalDuration;
-        const Real currentThrust =
-            (accelerationProfileDefaultFrame_[i].norm() + accelerationProfileDefaultFrame_[i + 1].norm()) / 2 *
-            currentMass;
-        weightedThrustSum += currentThrust * currentIntervalDuration;
+        const Real currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const Real nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+
+        const Real timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+
+        currentMass += ((currentMassFlowRate + nextMassFlowRate) / 2.0) * timeStep;
+
+        const Real currentAccelerationMagnitude =
+            currentState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
+        const Real nextAccelerationMagnitude =
+            nextState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
+
+        const Real currentThrust = (currentAccelerationMagnitude + nextAccelerationMagnitude) / 2.0 * currentMass;
+
+        weightedThrustSum += currentThrust * timeStep;
     }
 
-    return weightedThrustSum / (instants_.accessLast() - instants_.accessFirst()).inSeconds();
+    return weightedThrustSum /
+           (states_.accessLast().accessInstant() - states_.accessFirst().accessInstant()).inSeconds();
 }
 
 Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
@@ -224,23 +227,42 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
     const Shared<const Frame>& aFrameSPtr, const Interpolator::Type& anInterpolationType
 ) const
 {
-    const Array<Vector3d> accelerationProfileCustomFrame = this->convertAccelerationProfileFrame(aFrameSPtr);
+    const Array<Vector3d> accelerationProfileCustomFrame = states_.map<Vector3d>(
+        [this, aFrameSPtr](const State& aState) -> Vector3d
+        {
+            return aState.inFrame(aFrameSPtr).extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr);
+        }
+    );
 
-    MatrixXd contributionProfile(instants_.getSize(), 4);
-    for (Size i = 0; i < instants_.getSize(); i++)
+    const Array<Real> massFlowRateProfile = states_.map<Real>(
+        [this](const State& aState) -> Real
+        {
+            return aState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        }
+    );
+
+    MatrixXd contributionProfile(states_.getSize(), 4);
+    for (Size i = 0; i < states_.getSize(); i++)
     {
         contributionProfile(i, 0) = accelerationProfileCustomFrame[i](0);
         contributionProfile(i, 1) = accelerationProfileCustomFrame[i](1);
         contributionProfile(i, 2) = accelerationProfileCustomFrame[i](2);
-        contributionProfile(i, 3) = massFlowRateProfile_[i];
+        contributionProfile(i, 3) = massFlowRateProfile[i];
     }
 
     const Array<Shared<const CoordinateSubset>> writeCoordinateSubset = {
         CartesianVelocity::Default(), CoordinateSubset::Mass()
     };
 
+    const Array<Instant> instants = states_.map<Instant>(
+        [](const State& aState) -> Instant
+        {
+            return aState.accessInstant();
+        }
+    );
+
     return std::make_shared<Tabulated>(
-        Tabulated(instants_, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
+        Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
     );
 }
 
@@ -257,60 +279,30 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Maneuver Maneuver::TabulatedDynamics(const Tabulated& aTabulatedDynamics)
+Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, const Real& aMassFlowRate)
 {
-    if (!aTabulatedDynamics.isDefined())
+    Array<State> maneuverStates = Array<State>::Empty();
+    maneuverStates.reserve(aStateArray.getSize());
+
+    for (const auto& state : aStateArray)
     {
-        throw ostk::core::error::runtime::Undefined("Tabulated Dynamics");
+        VectorXd coordinates(10);
+        coordinates << state.extractCoordinates(
+            {RequiredCoordinateSubsets[0], RequiredCoordinateSubsets[1], RequiredCoordinateSubsets[2]}
+        ),
+            aMassFlowRate;
+
+        const State maneuverState = {
+            state.accessInstant(),
+            coordinates,
+            state.accessFrame(),
+            RequiredCoordinateSubsets,
+        };
+
+        maneuverStates.add(maneuverState);
     }
 
-    const MatrixXd contributionProfile = aTabulatedDynamics.getContributionProfileFromCoordinateSubsets(
-        {CartesianVelocity::Default(), CoordinateSubset::Mass()}
-    );
-    Array<Vector3d> accelerationProfile = Array<Vector3d>::Empty();
-    Array<Real> massFlowRateProfile = Array<Real>::Empty();
-
-    for (Size i = 0; i < aTabulatedDynamics.accessInstants().getSize(); i++)
-    {
-        accelerationProfile.add(
-            Vector3d(contributionProfile(i, 0), contributionProfile(i, 1), contributionProfile(i, 2))
-        );
-        massFlowRateProfile.add(contributionProfile(i, 3));
-    }
-
-    return {
-        aTabulatedDynamics.accessInstants(),
-        accelerationProfile,
-        aTabulatedDynamics.accessFrame(),
-        massFlowRateProfile,
-    };
-}
-
-Maneuver Maneuver::ConstantMassFlowRateProfile(
-    const Array<Instant>& anInstantArray,
-    const Array<Vector3d>& anAccelerationProfile,
-    const Shared<const Frame>& aFrameSPtr,
-    const Real& aMassFlowRate
-)
-{
-    return {anInstantArray, anAccelerationProfile, aFrameSPtr, Array<Real>(anInstantArray.getSize(), aMassFlowRate)};
-}
-
-Array<Vector3d> Maneuver::convertAccelerationProfileFrame(const Shared<const Frame>& aFrameSPtr) const
-{
-    if (aFrameSPtr == Maneuver::DefaultAccelFrameSPtr)
-    {
-        return accelerationProfileDefaultFrame_;
-    }
-
-    // Convert to the desired frame if necessary
-    Array<Vector3d> accelerationProfileInDefaultFrame = Array<Vector3d>(instants_.getSize(), Vector3d::Zero());
-    for (Size i = 0; i < instants_.getSize(); i++)
-    {
-        accelerationProfileInDefaultFrame[i] = aFrameSPtr->getTransformTo(Maneuver::DefaultAccelFrameSPtr, instants_[i])
-                                                   .applyToVector(accelerationProfileDefaultFrame_[i]);
-    }
-    return accelerationProfileInDefaultFrame;
+    return {maneuverStates};
 }
 
 }  // namespace flight

@@ -36,31 +36,28 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class AttitudeQuaternion : public CoordinateSubset
 {
    public:
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
     /// @code
-    ///                     AttitudeQuaternion attitudeQuaternion = {aName};
+    ///        AttitudeQuaternion attitudeQuaternion = {aName};
     /// @endcode
     ///
-    /// @param              [in] aName a name
-
+    /// @param aName a name
     AttitudeQuaternion(const String& aName);
 
-    /// @brief              Destructor
-
+    /// @brief Destructor
     ~AttitudeQuaternion();
 
-    /// @brief              Transform the coordinate subset from one frame to another
+    /// @brief Transform the coordinate subset from one frame to another
     ///
-    /// @param              [in] anInstant the reference frame associated to the coordinates
-    /// @param              [in] aFullCoordinatesVector all coordinates
-    /// @param              [in] fromFrame the reference frame associated to the coordinates
-    /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinateBrokerSPtr a coordinate broker
+    /// @param anInstant the reference frame associated to the coordinates
+    /// @param aFullCoordinatesVector all coordinates
+    /// @param fromFrame the reference frame associated to the coordinates
+    /// @param toFrame the reference frame in which the coordinates are to be transformed
+    /// @param aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return             The resulting coordinate subset value expressed in the desired reference frame
-
-    VectorXd inFrame(
+    /// @return The resulting coordinate subset value expressed in the desired reference frame
+    virtual VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
@@ -68,10 +65,9 @@ class AttitudeQuaternion : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief              Return the default instance
+    /// @brief Return the default instance
     ///
-    /// @return             The default instance
-
+    /// @return The default instance
     static Shared<const AttitudeQuaternion> Default();
 };
 

@@ -15,8 +15,6 @@ from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.time import Duration
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth, Sun
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
@@ -25,13 +23,12 @@ from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
-
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianAcceleration
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
-
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.dynamics import CentralBodyGravity
@@ -43,20 +40,7 @@ from ostk.astrodynamics.flight import Maneuver
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.state import CoordinateSubset, CoordinateBroker
-from ostk.astrodynamics.trajectory.state.coordinate_subset import (
-    CartesianPosition,
-    CartesianVelocity,
-)
 from ostk.astrodynamics.trajectory import Propagator
-
-
-from ..flight.test_maneuver import (
-    instants as maneuver_instants,
-    acceleration_profile as maneuver_acceleration_profile,
-    frame as maneuver_frame,
-    mass_flow_rate_profile as maneuver_mass_flow_rate_profile,
-)
 
 
 @pytest.fixture
@@ -250,18 +234,28 @@ def event_condition(state: State) -> InstantCondition:
 
 
 @pytest.fixture
+def maneuver_states(frame: Frame) -> list[State]:
+    return [
+        State(
+            Instant.J2000() + Duration.seconds(float(i)),
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1e-3],
+            frame,
+            [
+                CartesianPosition.default(),
+                CartesianVelocity.default(),
+                CartesianAcceleration.thrust_acceleration(),
+                CoordinateSubset.mass_flow_rate(),
+            ],
+        )
+        for i in range(0, 100, 10)
+    ]
+
+
+@pytest.fixture
 def maneuver(
-    maneuver_instants: list[Instant],
-    maneuver_acceleration_profile: list[np.ndarray],
-    maneuver_frame: Frame,
-    maneuver_mass_flow_rate_profile: list[float],
+    maneuver_states: list[State],
 ) -> Maneuver:
-    return Maneuver(
-        maneuver_instants,
-        maneuver_acceleration_profile,
-        maneuver_frame,
-        maneuver_mass_flow_rate_profile,
-    )
+    return Maneuver(states=maneuver_states)
 
 
 @pytest.fixture

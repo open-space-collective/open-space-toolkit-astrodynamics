@@ -44,3 +44,12 @@ class TestCoordinateSubset:
 
     def test_mass(self):
         assert CoordinateSubset.mass() is not None
+
+    def test_surface_area(self):
+        assert CoordinateSubset.surface_area() is not None
+
+    def test_drag_coefficient(self):
+        assert CoordinateSubset.drag_coefficient() is not None
+
+    def test_mass_flow_rate(self):
+        assert CoordinateSubset.mass_flow_rate() is not None

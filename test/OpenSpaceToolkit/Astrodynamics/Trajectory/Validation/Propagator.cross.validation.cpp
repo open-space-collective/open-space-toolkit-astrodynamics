@@ -52,6 +52,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -114,6 +115,7 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -768,7 +770,29 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         propagatorWithTabulated.calculateStatesAt(initialState, instantArray);
 
     // Create maneuver from tabulated and propagator with maneuver
-    const Maneuver maneuver = Maneuver::TabulatedDynamics(tabulated);
+    Array<State> maneuverStateArray = Array<State>::Empty();
+    maneuverStateArray.reserve(instantArray.getSize());
+
+    for (Size i = 0; i < instantArray.getSize(); i++)
+    {
+        const Vector3d accelerationCoordinates = thrusterContributionsGCRF.row(i).head(3);
+        const VectorXd positionVelocityCoordinates = propagatedStateArray_Tabulated[i].extractCoordinates(
+            {Maneuver::RequiredCoordinateSubsets[0], Maneuver::RequiredCoordinateSubsets[1]}
+        );
+        const Real massFlowRate = thrusterContributionsGCRF(i, 3);
+
+        VectorXd coordinates(10);
+        coordinates << positionVelocityCoordinates, accelerationCoordinates, massFlowRate;
+
+        maneuverStateArray.add({
+            instantArray[i],
+            coordinates,
+            gcrfSPtr_,
+            Maneuver::RequiredCoordinateSubsets,
+        });
+    }
+
+    const Maneuver maneuver = Maneuver(maneuverStateArray);
     Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
     const Array<State> propagatedStateArray_Maneuver = maneuverPropagator.calculateStatesAt(initialState, instantArray);
 

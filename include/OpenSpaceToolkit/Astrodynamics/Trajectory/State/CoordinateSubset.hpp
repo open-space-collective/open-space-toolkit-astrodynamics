@@ -144,10 +144,15 @@ class CoordinateSubset
     /// @return The default Surface Area shared pointer instance
     static Shared<const CoordinateSubset> SurfaceArea();
 
-    /// @brief Return a default DragCoefficient instance
+    /// @brief Return a default Drag Coefficient instance
     ///
     /// @return The default DragCoefficient shared pointer instance
     static Shared<const CoordinateSubset> DragCoefficient();
+
+    /// @brief Return a default Mass Flow Rate instance
+    ///
+    /// @return The default Mass Flow Rate shared pointer instance
+    static Shared<const CoordinateSubset> MassFlowRate();
 
    private:
     String name_;

@@ -83,7 +83,7 @@ class CartesianPosition : public CoordinateSubset
     /// @param aCoordinateBrokerSPtr a coordinate broker
     ///
     /// @return The resulting coordinate subset value expressed in the desired reference frame
-    VectorXd inFrame(
+    virtual VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,

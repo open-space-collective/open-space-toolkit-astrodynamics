@@ -21,7 +21,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -50,7 +49,6 @@ using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 #define DEFAULT_MANEUVER_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
@@ -59,8 +57,10 @@ class Maneuver
 {
    public:
     static const Shared<const Frame> DefaultAccelFrameSPtr;
+    static const Shared<const CoordinateSubset> DefaultAccelerationCoordinateSubsetSPtr;
     static const Duration MinimumRecommendedDuration;
     static const Duration MaximumRecommendedInterpolationInterval;
+    static const Array<Shared<const CoordinateSubset>> RequiredCoordinateSubsets;
 
     /// @brief Constructor
     ///
@@ -68,17 +68,9 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver(...);
     /// @endcode
     ///
-    /// @param anInstantArray An array of instants, must be sorted
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
-    /// @param aFrameSPtr A frame in which the acceleration profile is defined
-    /// @param aMassFlowRateProfile A mass flow rate profile of the maneuver (negative numbers expected), one Real per
-    /// instant in kg/s
-    Maneuver(
-        const Array<Instant>& anInstantArray,
-        const Array<Vector3d>& anAccelerationProfile,
-        const Shared<const Frame>& aFrameSPtr,
-        const Array<Real>& aMassFlowRateProfile
-    );
+    /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity, Acceleration and Mass
+    /// Flow Rate coordinate subsets.
+    Maneuver(const Array<State>& aStateArray);
 
     /// @brief Equal to operator
     ///
@@ -109,34 +101,14 @@ class Maneuver
     /// @return True if maneuver is defined (always returns true)
     bool isDefined() const;
 
-    /// @brief Get the instants of the maneuver
+    /// @brief Get the states of the maneuver
     ///
     /// @code{.cpp}
-    ///                  Array<Instant> instants = maneuver.getInstants();
+    ///                  Array<State> states = maneuver.getStates();
     /// @endcode
     ///
-    /// @return The instants
-    Array<Instant> getInstants() const;
-
-    /// @brief Get the acceleration profile of the maneuver
-    ///
-    /// @code{.cpp}
-    ///                  Array<Vector3d> accelerationProfile = maneuver.getAccelerationProfile(Frame::GCRF());
-    /// @endcode
-    ///
-    /// @param (optional) aFrameSPtr A frame in which the acceleration profile is to be defined
-    ///
-    /// @return The acceleration profile (m/s^2)
-    Array<Vector3d> getAccelerationProfile(const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr) const;
-
-    /// @brief Get the mass flow rate profile of the maneuver
-    ///
-    /// @code{.cpp}
-    ///                  Array<Real> massFlowRateProfile = maneuver.getMassFlowRateProfile();
-    /// @endcode
-    ///
-    /// @return The mass flow rate profile (kg/s)
-    Array<Real> getMassFlowRateProfile() const;
+    /// @return The states
+    Array<State> getStates() const;
 
     /// @brief Get the interval of the maneuver
     ///
@@ -210,43 +182,21 @@ class Maneuver
     /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Create a maneuver from a tabulated dynamics with cols 1-3 being acceleration and col 4 being mass flow
-    /// rate
-    ///
-    /// @code{.cpp}
-    ///                  Maneuver maneuver = Maneuver::TabulatedDynamics(tabulated);
-    /// @endcode
-    ///
-    /// @param aTabulatedDynamics A TabulatedDynamics object
-    ///
-    /// @return A maneuver
-    static Maneuver TabulatedDynamics(const Tabulated& aTabulatedDynamics);
-
     /// @brief Create a maneuver from a constant mass flow rate profile
     ///
     /// @code{.cpp}
     ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
     /// @endcode
     ///
-    /// @param anInstantArray An array of instants, must be sorted
-    /// @param anAccelerationProfile An acceleration profile of the maneuver, one Vector3d per instant in m/s^2
-    /// @param aFrameSPtr A frame in which the acceleration profile is defined
+    /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity and Acceleration
+    /// coordinate subsets.
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     ///
     /// @return A maneuver
-    static Maneuver ConstantMassFlowRateProfile(
-        const Array<Instant>& anInstantArray,
-        const Array<Vector3d>& anAccelerationProfile,
-        const Shared<const Frame>& aFrameSPtr,
-        const Real& aMassFlowRate
-    );
+    static Maneuver ConstantMassFlowRateProfile(const Array<State>& aStatearray, const Real& aMassFlowRate);
 
    private:
-    Array<Instant> instants_;
-    Array<Vector3d> accelerationProfileDefaultFrame_;
-    Array<Real> massFlowRateProfile_;
-
-    Array<Vector3d> convertAccelerationProfileFrame(const Shared<const Frame>& aFrameSPtr) const;
+    Array<State> states_;
 };
 
 }  // namespace flight
