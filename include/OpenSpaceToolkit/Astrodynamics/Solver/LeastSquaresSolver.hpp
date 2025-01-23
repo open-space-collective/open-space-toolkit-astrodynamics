@@ -170,8 +170,11 @@ class LeastSquaresSolver
     Size maxIterationCount_;
     Real rmsUpdateThreshold_;
 
-    /// @brief Expand sigmas
-    static VectorXd expandSigmas(
+    /// @brief Extract the sigmas
+    ///
+    /// @param aSigmas Dictionary of sigmas
+    /// @param aStateBuilder State builder
+    static VectorXd extractSigmas(
         const std::unordered_map<CoordinateSubset, VectorXd>& aSigmas, const StateBuilder& aStateBuilder
     );
 };
