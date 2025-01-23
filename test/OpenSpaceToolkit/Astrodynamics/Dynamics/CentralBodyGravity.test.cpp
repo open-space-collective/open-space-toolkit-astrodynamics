@@ -218,7 +218,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity, ComputeContri
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
     const VectorXd contribution =
-        centralBodyGravity.computeContribution(startInstant_, startStateVector_.segment(0, 3), Frame::GCRF());
+        centralBodyGravity.computeContribution(startInstant_, startStateVector_.segment(0, 3));
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_GT(1e-15, -8.134702887755102 - contribution[0]);

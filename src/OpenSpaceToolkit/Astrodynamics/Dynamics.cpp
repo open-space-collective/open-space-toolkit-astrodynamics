@@ -71,7 +71,7 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemOfEquations(
-    const Array<Dynamics::Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
+    const Array<Dynamics::Context>& aContextArray, const Instant& anInstant
 )
 {
     return std::bind(
@@ -80,8 +80,7 @@ NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemOfEquations(
         std::placeholders::_2,
         std::placeholders::_3,
         aContextArray,
-        anInstant,
-        aFrameSPtr
+        anInstant
     );
 }
 
@@ -90,8 +89,7 @@ void Dynamics::DynamicalEquations(
     NumericalSolver::StateVector& dxdt,
     const double& t,
     const Array<Dynamics::Context>& aContextArray,
-    const Instant& anInstant,
-    const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant
 )
 {
     dxdt.setZero();
@@ -101,9 +99,7 @@ void Dynamics::DynamicalEquations(
     for (const Dynamics::Context& dynamicsContext : aContextArray)
     {
         const VectorXd contribution = dynamicsContext.dynamics->computeContribution(
-            nextInstant,
-            Dynamics::extractReadState(x, dynamicsContext.readIndexes, dynamicsContext.readStateSize),
-            aFrameSPtr
+            nextInstant, Dynamics::extractReadState(x, dynamicsContext.readIndexes, dynamicsContext.readStateSize)
         );
 
         Dynamics::applyContribution(dxdt, contribution, dynamicsContext.writeIndexes);

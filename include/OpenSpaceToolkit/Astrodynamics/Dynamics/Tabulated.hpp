@@ -123,9 +123,7 @@ class Tabulated : public Dynamics
     ///
     /// @return The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
-    virtual VectorXd computeContribution(
-        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-    ) const override;
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x) const override;
 
     /// @brief Print Tabulated dynamics
     ///

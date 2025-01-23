@@ -8,6 +8,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Solver/NumericalSolver.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
@@ -25,6 +26,7 @@ namespace state
 
 using ostk::core::container::Array;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::RootSolver;
@@ -36,6 +38,9 @@ using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 class NumericalSolver : public MathNumericalSolver
 {
    public:
+    /// @brief Default integrator frame
+    static const Shared<const Frame> IntegrationFrameSPtr;
+
     /// @brief Structure to hold the condition solution.
     struct ConditionSolution
     {

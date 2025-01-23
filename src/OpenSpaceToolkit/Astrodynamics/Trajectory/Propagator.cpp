@@ -237,11 +237,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
     const State solverOutputState = numericalSolver_.integrateTime(
-        solverInputState,
-        anInstant,
-        Dynamics::GetSystemOfEquations(
-            dynamicsContexts_, solverInputState.accessInstant(), Propagator::IntegrationFrameSPtr
-        )
+        solverInputState, anInstant, Dynamics::GetSystemOfEquations(dynamicsContexts_, solverInputState.accessInstant())
     );
 
     const StateBuilder outputStateBuilder = {aState};
@@ -267,10 +263,7 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
     NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
-        solverInputState,
-        anInstant,
-        Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr),
-        anEventCondition
+        solverInputState, anInstant, Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant), anEventCondition
     );
 
     const StateBuilder outputStateBuilder = {aState};
@@ -337,9 +330,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     if (!forwardInstants.isEmpty())
     {
         forwardPropagatedStates = numericalSolver_.integrateTime(
-            solverInputState,
-            forwardInstants,
-            Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr)
+            solverInputState, forwardInstants, Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant)
         );
     }
 
@@ -350,9 +341,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardInstants.begin(), backwardInstants.end());
 
         backwardPropagatedStates = numericalSolver_.integrateTime(
-            solverInputState,
-            backwardInstants,
-            Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr)
+            solverInputState, backwardInstants, Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant)
         );
 
         std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());

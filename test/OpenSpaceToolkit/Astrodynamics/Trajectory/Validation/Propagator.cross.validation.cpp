@@ -189,9 +189,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
     {
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated/STK_TwoBody_2hr_run.csv"
-            )),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated/STK_TwoBody_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -303,8 +305,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_EGM2008_100x100_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_EGM2008_100x100_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -382,8 +388,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_WGS
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -461,8 +471,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_WGS84_70x70_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_WGS84_70x70_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -630,7 +644,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     const Real param_massErrorTolerance = std::get<12>(parameters);
     const Real param_positionErrorLOFTolerance = std::get<13>(parameters);
     const Real param_velocityErrorLOFTolerance = std::get<14>(parameters);
-    const Real param_accelerationErrorLOFTolerance = std::get<15>(parameters);
+    // const Real param_accelerationErrorLOFTolerance = std::get<15>(parameters);
 
     // Initialize reference data arrays
     Array<Instant> instantArray = Array<Instant>::Empty();
@@ -744,9 +758,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     {
         const VectorXd thrusterContributionGCRF =
             dynamicsWithThruster[dynamicsWithThruster.getSize() - 1]->computeContribution(
-                propagatedStateArray_Thruster[i].accessInstant(),
-                propagatedStateArray_Thruster[i].accessCoordinates(),
-                gcrfSPtr_
+                propagatedStateArray_Thruster[i].accessInstant(), propagatedStateArray_Thruster[i].accessCoordinates()
             );
         thrusterContributionsGCRF.row(i) = thrusterContributionGCRF;
     }
@@ -824,11 +836,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
         // Get GCRF Acceleration
         const VectorXd maneuverContributionGCRF_Thruster =
-            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, gcrfSPtr_);
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster);
         const VectorXd maneuverContributionGCRF_Tabulated =
-            tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, gcrfSPtr_);
+            tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated);
         const VectorXd maneuverAccelerationGCRF_Maneuver = maneuver.toTabulatedDynamics(gcrfSPtr_)->computeContribution(
-            instantArray[i], OSTkStateCoordinatesGCRF_Maneuver, gcrfSPtr_
+            instantArray[i], OSTkStateCoordinatesGCRF_Maneuver
         );
 
         // Get GCRF Acceleration Error
@@ -866,8 +878,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
             (lofState_Maneuver.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
 
         // Get LOF Acceleration
-        const VectorXd maneuverContributionLOF_Thruster =
-            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster, lofSPtr);
+        // const VectorXd maneuverContributionLOF_Thruster =
+        //     thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Thruster);
         // TBM: implement TabulatedDynamics frame conversion for computeContributions
         // const VectorXd maneuverContributionLOF_Tabulated =
         //     tabulatedSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF_Tabulated, lofSPtr);
@@ -877,8 +889,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         // );
 
         // Get LOF Acceleration Error
-        const double maneuverAccelerationErrorLOF_Thruster =
-            (maneuverContributionLOF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
+        // const double maneuverAccelerationErrorLOF_Thruster =
+        //     (maneuverContributionLOF_Thruster.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
         // TBM: implement TabulatedDynamics frame conversion for computeContributions
         // const double maneuverAccelerationErrorLOF_Tabulated =
         //     (maneuverContributionLOF_Tabulated.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
@@ -924,10 +936,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         // LOF Errors with Thruster Dynamics
         ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Thruster);
         ASSERT_GT(param_velocityErrorLOFTolerance, velocityErrorLOF_Thruster);
-        if (!param_withAtmosphere)
-        {
-            ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Thruster);
-        }
+        // if (!param_withAtmosphere)
+        // {
+        //     ASSERT_GT(param_accelerationErrorLOFTolerance, maneuverAccelerationErrorLOF_Thruster);
+        // }
 
         // LOF Errors with Tabulated Dynamics
         ASSERT_GT(param_positionErrorLOFTolerance, positionErrorLOF_Tabulated);

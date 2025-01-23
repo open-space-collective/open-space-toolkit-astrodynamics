@@ -227,8 +227,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, GetWriteCoordin
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, ComputeContribution)
 {
-    const VectorXd contribution =
-        defaultThirdBodyGravity_.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
+    const VectorXd contribution = defaultThirdBodyGravity_.computeContribution(startInstant_, startStateVector_);
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_GT(1e-15, -4.620543790697659e-07 - contribution[0]);

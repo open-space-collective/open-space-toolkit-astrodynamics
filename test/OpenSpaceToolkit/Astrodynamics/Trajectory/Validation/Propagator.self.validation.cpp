@@ -214,7 +214,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     for (Size i = 0; i < statesWithThruster.getSize(); i++)
     {
         const VectorXd contribution = dynamicsWithThruster[dynamicsWithThruster.getSize() - 1]->computeContribution(
-            statesWithThruster[i].accessInstant(), statesWithThruster[i].accessCoordinates(), gcrfSPtr_
+            statesWithThruster[i].accessInstant(), statesWithThruster[i].accessCoordinates()
         );
         contributions.row(i) = contribution;
     }

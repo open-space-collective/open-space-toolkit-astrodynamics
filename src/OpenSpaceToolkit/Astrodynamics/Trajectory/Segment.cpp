@@ -28,6 +28,8 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
+const Shared<const Frame> Segment::IntegrationFrameSPtr = Frame::GCRF();
+
 Segment::Solution::Solution(
     const String& aName,
     const Array<Shared<Dynamics>>& aDynamicsArray,
@@ -156,9 +158,8 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         }
     );
 
-    const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
-        thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
-    );
+    const MatrixXd fullSegmentContributions =
+        this->getDynamicsContribution(thrusterDynamics, {CartesianVelocity::Default(), CoordinateSubset::Mass()});
 
     const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
 
@@ -210,16 +211,18 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         const MatrixXd maneuverContributionBlock =
             fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
 
-        extractedManeuvers.add(flightManeuver::TabulatedDynamics(TabulatedDynamics(
-            maneuverInstantsBlock,
-            maneuverContributionBlock,
-            {CartesianVelocity::Default(), CoordinateSubset::Mass()},
-            aFrameSPtr,
-            Interpolator::Type::Linear  // Don't actually need to interpolate, because we convert straight to a
-                                        // maneuver, but specifying linear interpolation allows us to get away with
-                                        // segments that only have two states, as opposed to needing more than two
-                                        // states present to use the other higher order interpolators
-        )));
+        extractedManeuvers.add(
+            flightManeuver::TabulatedDynamics(TabulatedDynamics(
+                maneuverInstantsBlock,
+                maneuverContributionBlock,
+                {CartesianVelocity::Default(), CoordinateSubset::Mass()},
+                aFrameSPtr,
+                Interpolator::Type::Linear  // Don't actually need to interpolate, because we convert straight to a
+                                            // maneuver, but specifying linear interpolation allows us to get away with
+                                            // segments that only have two states, as opposed to needing more than two
+                                            // states present to use the other higher order interpolators
+            ))
+        );
     }
 
     return extractedManeuvers;
@@ -267,9 +270,7 @@ Array<State> Segment::Solution::calculateStatesAt(
 }
 
 MatrixXd Segment::Solution::getDynamicsContribution(
-    const Shared<Dynamics>& aDynamicsSPtr,
-    const Shared<const Frame>& aFrameSPtr,
-    const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray
+    const Shared<Dynamics>& aDynamicsSPtr, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray
 ) const
 {
     // Check dynamics is part of the segment dynamics
@@ -287,10 +288,12 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     {
         if (!dynamicsWriteCoordinateSubsets.contains(aCoordinateSubsetSPtr))
         {
-            throw ostk::core::error::RuntimeError(String::Format(
-                "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
-                aCoordinateSubsetSPtr->getName()
-            ));
+            throw ostk::core::error::RuntimeError(
+                String::Format(
+                    "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
+                    aCoordinateSubsetSPtr->getName()
+                )
+            );
         }
     }
 
@@ -310,7 +313,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     Array<Shared<const CoordinateSubset>> dynamicsReadCoordinateSubsets = aDynamicsSPtr->getReadCoordinateSubsets();
 
     // Construct state builder
-    const StateBuilder builder = StateBuilder(aFrameSPtr, dynamicsReadCoordinateSubsets);
+    const StateBuilder builder = StateBuilder(IntegrationFrameSPtr, dynamicsReadCoordinateSubsets);
 
     // Compute the size of dynamicsContributionMatrix
     Size dynamicsWriteSize = std::accumulate(
@@ -332,7 +335,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
         const State& state = this->states[stateIndex];
 
         VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
-            state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
+            state.getInstant(), builder.reduce(state.inFrame(IntegrationFrameSPtr)).getCoordinates()
         );
 
         dynamicsContributionMatrix.row(stateIndex) = dynamicsContributionAtState;
@@ -341,15 +344,12 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     return dynamicsContributionMatrix;
 }
 
-MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
-    const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
-) const
+MatrixXd Segment::Solution::getDynamicsAccelerationContribution(const Shared<Dynamics>& aDynamicsSPtr) const
 {
-    return this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
+    return this->getDynamicsContribution(aDynamicsSPtr, {CartesianVelocity::Default()});
 }
 
-Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
-) const
+Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions() const
 {
     // TBI: Use smart caching for multiple calls in the future
 
@@ -358,7 +358,7 @@ Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(c
 
     for (const Shared<Dynamics>& aDynamicsSPtr : this->dynamics)
     {
-        MatrixXd dynamicsContribution = this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr);
+        MatrixXd dynamicsContribution = this->getDynamicsContribution(aDynamicsSPtr);
         dynamicsContributionsMap.emplace(aDynamicsSPtr, dynamicsContribution);
     }
 

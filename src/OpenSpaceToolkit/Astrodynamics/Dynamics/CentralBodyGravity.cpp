@@ -21,6 +21,8 @@ using ostk::physics::coordinate::Position;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
+const Shared<const Frame> CentralBodyGravity::DefaultContributionFrameSPtr = Frame::GCRF();
+
 CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
     : CentralBodyGravity(
           aCelestialObjectSPtr, String::Format("Central Body Gravity [{}]", aCelestialObjectSPtr->getName())
@@ -76,19 +78,16 @@ Array<Shared<const CoordinateSubset>> CentralBodyGravity::getWriteCoordinateSubs
     };
 }
 
-VectorXd CentralBodyGravity::computeContribution(
-    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-) const
+VectorXd CentralBodyGravity::computeContribution(const Instant& anInstant, const VectorXd& x) const
 {
     Vector3d positionCoordinates = {x[0], x[1], x[2]};
 
     // Obtain gravitational acceleration from current object
-    const Vector3d gravitationalAccelerationSI = celestialObjectSPtr_
-                                                     ->getGravitationalFieldAt(
-                                                         Position::Meters(positionCoordinates, aFrameSPtr), anInstant
-                                                     )  // TBI: Assumes x is given in GCRF
-                                                     .inFrame(aFrameSPtr, anInstant)
-                                                     .getValue();
+    const Vector3d gravitationalAccelerationSI =
+        celestialObjectSPtr_
+            ->getGravitationalFieldAt(Position::Meters(positionCoordinates, DefaultContributionFrameSPtr), anInstant)
+            .inFrame(DefaultContributionFrameSPtr, anInstant)
+            .getValue();
 
     // Compute contribution
     VectorXd contribution(3);

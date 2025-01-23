@@ -194,7 +194,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
 
             // Reference data setup
             const Table referenceData = Table::Load(
-                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/" + referenceDataFileName)
+                File::Path(
+                    Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/" + referenceDataFileName)
                 ),
                 Table::Format::CSV,
                 true
@@ -209,9 +210,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
 
             for (const auto& referenceRow : referenceData)
             {
-                instantArray.add(Instant::DateTime(
-                    DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
-                ));
+                instantArray.add(
+                    Instant::DateTime(
+                        DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
+                    )
+                );
                 referencePositionArrayGCRF.add(
                     Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
                 );
@@ -233,7 +236,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
                     referenceMassArray[i];  // Check size input Dynamics
 
                 const VectorXd maneuverContributionFromOrekitStateGCRF =
-                    thrusterDynamicsSPtr->computeContribution(instantArray[i], OrekitStateCoordinates, gcrfSPtr_);
+                    thrusterDynamicsSPtr->computeContribution(instantArray[i], OrekitStateCoordinates);
 
                 const double referenceStepSize = 30.0;
 

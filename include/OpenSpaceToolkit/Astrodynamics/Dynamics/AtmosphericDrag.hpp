@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
@@ -22,6 +23,7 @@ namespace dynamics
 using ostk::core::type::Integer;
 using ostk::core::type::String;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Mass;
@@ -33,6 +35,9 @@ using ostk::astrodynamics::flight::system::SatelliteSystem;
 class AtmosphericDrag : public Dynamics
 {
    public:
+    /// @brief Default integrator frame
+    static const Shared<const Frame> DefaultContributionFrameSPtr;
+
     /// @brief Constructor
     ///
     /// @code{.cpp}
@@ -94,9 +99,7 @@ class AtmosphericDrag : public Dynamics
     ///
     /// @return The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
-    virtual VectorXd computeContribution(
-        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-    ) const override;
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x) const override;
 
     /// @brief Print atmospheric drag dynamics
     ///

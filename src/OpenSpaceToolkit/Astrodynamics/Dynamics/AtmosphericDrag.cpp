@@ -29,6 +29,8 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
+const Shared<const Frame> AtmosphericDrag::DefaultContributionFrameSPtr = Frame::GCRF();
+
 AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr)
     : AtmosphericDrag(aCelestialSPtr, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName()))
 {
@@ -86,9 +88,7 @@ Array<Shared<const CoordinateSubset>> AtmosphericDrag::getWriteCoordinateSubsets
     };
 }
 
-VectorXd AtmosphericDrag::computeContribution(
-    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-) const
+VectorXd AtmosphericDrag::computeContribution(const Instant& anInstant, const VectorXd& x) const
 {
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
     Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
@@ -98,12 +98,13 @@ VectorXd AtmosphericDrag::computeContribution(
 
     // Get atmospheric density
     const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
+        celestialObjectSPtr_
+            ->getAtmosphericDensityAt(Position::Meters(positionCoordinates, DefaultContributionFrameSPtr), anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 
     const Vector3d earthAngularVelocity =
-        aFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
+        DefaultContributionFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 

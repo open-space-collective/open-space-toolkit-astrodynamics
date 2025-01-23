@@ -13,7 +13,6 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -36,7 +35,6 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coordinate::Frame;
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 
@@ -107,28 +105,25 @@ class Dynamics
     /// @return The coordinate subsets that the instance writes to
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const = 0;
 
-    /// @brief Compute the contribution to the state derivative.
+    /// @brief Compute the contribution to the state derivative. All coordinates are expressed in the
+    /// inertial (GCRF) frame, meaning that all computations are carried out in the inertial frame.
     ///
     /// @param anInstant An instant
     /// @param x The reduced state vector (this vector will follow the structure determined by the
     /// 'read' coordinate subsets)
-    /// @param aFrameSPtr The frame in which the state vector is expressed
     ///
     /// @return The reduced derivative state vector (this vector must follow the structure determined by
-    /// the 'write' coordinate subsets) expressed in the given frame
-    virtual VectorXd computeContribution(
-        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-    ) const = 0;
+    /// the 'write' coordinate subsets).
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x) const = 0;
 
     /// @brief Get system of equations wrapper
     ///
     /// @param aContextArray An array of Dynamics Information
     /// @param anInstant An instant
-    /// @param aFrameSPtr The reference frame in which dynamic equations are resolved
     ///
     /// @return std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
     static NumericalSolver::SystemOfEquationsWrapper GetSystemOfEquations(
-        const Array<Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
+        const Array<Context>& aContextArray, const Instant& anInstant
     );
 
     /// @brief Get a list of dynamics from the envrionment
@@ -146,8 +141,7 @@ class Dynamics
         NumericalSolver::StateVector& dxdt,
         const double& t,
         const Array<Context>& aContextArray,
-        const Instant& anInstant,
-        const Shared<const Frame>& aFrameSPtr
+        const Instant& anInstant
     );
 
     static VectorXd extractReadState(

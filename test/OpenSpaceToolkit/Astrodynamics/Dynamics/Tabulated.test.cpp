@@ -372,36 +372,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
             defaultInterpolationType_,
         };
 
-        // Wrong frame
-        {
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        tabulated.computeContribution(defaultInstants_[0], x, Frame::ITRF());
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ("Contribution Frame conversion to non-inertial not yet supported.", e.getMessage());
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
-            );
-        }
-
         // Outside bounds
         {
             EXPECT_EQ(
-                tabulated.computeContribution(defaultInstants_[0] - Duration::Seconds(1.0), x, defaultFrameSPtr_),
-                VectorXd::Zero(3)
+                tabulated.computeContribution(defaultInstants_[0] - Duration::Seconds(1.0), x), VectorXd::Zero(3)
             );
         }
 
         {
             EXPECT_EQ(
                 tabulated.computeContribution(
-                    defaultInstants_[defaultInstants_.getSize() - 1] + Duration::Seconds(1.0), x, defaultFrameSPtr_
+                    defaultInstants_[defaultInstants_.getSize() - 1] + Duration::Seconds(1.0), x
                 ),
                 VectorXd::Zero(3)
             );
@@ -429,8 +410,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, ComputeContribution)
 
         for (Index i = 0; i < expectedInstants.getSize(); ++i)
         {
-            const VectorXd computedContribution =
-                tabulated.computeContribution(expectedInstants[i], x, defaultFrameSPtr_);
+            const VectorXd computedContribution = tabulated.computeContribution(expectedInstants[i], x);
             const VectorXd expectedContribution = expectedProfile.row(i);
 
             for (Index j = 0; j < (Index)computedContribution.size(); ++j)
