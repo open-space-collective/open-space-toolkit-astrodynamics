@@ -69,6 +69,8 @@ class ODLeastSquaresSolver
         LeastSquaresSolver::Analysis solverAnalysis;
     };
 
+    static const Shared<const Frame> EstimationFrameSPtr;
+
     /// @brief Constructor
     ///
     /// @param anEnvironment Environment, Defaults to Environment::Default()
