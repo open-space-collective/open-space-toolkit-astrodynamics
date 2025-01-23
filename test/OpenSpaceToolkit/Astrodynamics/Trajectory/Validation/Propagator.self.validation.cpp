@@ -239,18 +239,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     Array<State> maneuverStateArray = Array<State>::Empty();
     maneuverStateArray.reserve(instants.getSize());
 
-    const Array<Shared<const CoordinateSubset>> maneuverCoordinateSubsets = {
-        CartesianPosition::Default(),
-        CartesianVelocity::Default(),
-        CartesianAcceleration::Default(),
-        CoordinateSubset::MassFlowRate(),
-    };
-
     for (Size i = 0; i < instants.getSize(); i++)
     {
         const Vector3d accelerationCoordinates = contributions.row(i).head(3);
-        const VectorXd positionVelocityCoordinates =
-            statesWithTabulated[i].extractCoordinates({maneuverCoordinateSubsets[0], maneuverCoordinateSubsets[1]});
+        const VectorXd positionVelocityCoordinates = statesWithTabulated[i].extractCoordinates(
+            {Maneuver::RequiredCoordinateSubsets[0], Maneuver::RequiredCoordinateSubsets[1]}
+        );
         const Real massFlowRate = contributions(i, 3);
 
         VectorXd maneuverCoordinates(10);
@@ -260,7 +254,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
             instants[i],
             maneuverCoordinates,
             gcrfSPtr_,
-            maneuverCoordinateSubsets,
+            Maneuver::RequiredCoordinateSubsets,
         });
     }
 

@@ -203,7 +203,7 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            CartesianAcceleration::Default(),
+            CartesianAcceleration::ThrustAcceleration(),
             CoordinateSubset::MassFlowRate(),
         }
     };

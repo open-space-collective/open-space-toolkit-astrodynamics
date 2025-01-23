@@ -68,14 +68,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
         coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2),
             aMassFlowRate;
 
-        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-            CartesianAcceleration::Default(),
-            CoordinateSubset::MassFlowRate(),
-        };
-
-        return State(anInstant, coordinates, Frame::GCRF(), coordinateSubsets);
+        return State(anInstant, coordinates, Frame::GCRF(), Maneuver::RequiredCoordinateSubsets);
     }
 
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
@@ -465,9 +458,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
         const Array<Vector3d> accelerationProfile = defaultStates_.map<Vector3d>(
             [this](const State& aState) -> Vector3d
             {
-                return Vector3d::Map(
-                    aState.inFrame(defaultFrameSPtr_).extractCoordinate(CartesianAcceleration::Default()).data()
-                );
+                return Vector3d::Map(aState.inFrame(defaultFrameSPtr_)
+                                         .extractCoordinate(CartesianAcceleration::ThrustAcceleration())
+                                         .data());
             }
         );
         const Array<Real> massFlowRateProfile = defaultStates_.map<Real>(

@@ -773,18 +773,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     Array<State> maneuverStateArray = Array<State>::Empty();
     maneuverStateArray.reserve(instantArray.getSize());
 
-    const Array<Shared<const CoordinateSubset>> maneuverCoordinateSubsets = {
-        CartesianPosition::Default(),
-        CartesianVelocity::Default(),
-        CartesianAcceleration::Default(),
-        CoordinateSubset::MassFlowRate(),
-    };
-
     for (Size i = 0; i < instantArray.getSize(); i++)
     {
         const Vector3d accelerationCoordinates = thrusterContributionsGCRF.row(i).head(3);
         const VectorXd positionVelocityCoordinates = propagatedStateArray_Tabulated[i].extractCoordinates(
-            {maneuverCoordinateSubsets[0], maneuverCoordinateSubsets[1]}
+            {Maneuver::RequiredCoordinateSubsets[0], Maneuver::RequiredCoordinateSubsets[1]}
         );
         const Real massFlowRate = thrusterContributionsGCRF(i, 3);
 
@@ -795,7 +788,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
             instantArray[i],
             coordinates,
             gcrfSPtr_,
-            maneuverCoordinateSubsets,
+            Maneuver::RequiredCoordinateSubsets,
         });
     }
 

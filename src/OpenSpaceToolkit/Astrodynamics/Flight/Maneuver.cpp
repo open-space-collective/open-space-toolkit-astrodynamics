@@ -31,7 +31,7 @@ const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Min
 const Array<Shared<const CoordinateSubset>> Maneuver::RequiredCoordinateSubsets = {
     CartesianPosition::Default(),
     CartesianVelocity::Default(),
-    CartesianAcceleration::Default(),
+    CartesianAcceleration::ThrustAcceleration(),
     CoordinateSubset::MassFlowRate(),
 };
 const Shared<const CoordinateSubset> Maneuver::DefaultAccelerationCoordinateSubsetSPtr = RequiredCoordinateSubsets[2];
@@ -284,24 +284,19 @@ Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, 
     Array<State> maneuverStates = Array<State>::Empty();
     maneuverStates.reserve(aStateArray.getSize());
 
-    static const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-        CartesianPosition::Default(),
-        CartesianVelocity::Default(),
-        CartesianAcceleration::Default(),
-        CoordinateSubset::MassFlowRate(),
-    };
-
     for (const auto& state : aStateArray)
     {
         VectorXd coordinates(10);
-        coordinates << state.extractCoordinates({coordinateSubsets[0], coordinateSubsets[1], coordinateSubsets[2]}),
+        coordinates << state.extractCoordinates(
+            {RequiredCoordinateSubsets[0], RequiredCoordinateSubsets[1], RequiredCoordinateSubsets[2]}
+        ),
             aMassFlowRate;
 
         const State maneuverState = {
             state.accessInstant(),
             coordinates,
             state.accessFrame(),
-            coordinateSubsets,
+            RequiredCoordinateSubsets,
         };
 
         maneuverStates.add(maneuverState);

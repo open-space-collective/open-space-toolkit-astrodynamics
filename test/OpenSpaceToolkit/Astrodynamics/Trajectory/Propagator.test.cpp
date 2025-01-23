@@ -137,14 +137,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
         coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2),
             aMassFlowRate;
 
-        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-            CartesianAcceleration::Default(),
-            CoordinateSubset::MassFlowRate(),
-        };
-
-        return State(anInstant, coordinates, Frame::GCRF(), coordinateSubsets);
+        return State(anInstant, coordinates, Frame::GCRF(), Maneuver::RequiredCoordinateSubsets);
     }
 
     void SetUp() override
