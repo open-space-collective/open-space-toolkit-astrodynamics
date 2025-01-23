@@ -24,7 +24,6 @@ from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
-from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.trajectory.state.coordinate_subset import NewtonianAcceleration
