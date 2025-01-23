@@ -19,6 +19,8 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
+const Shared<const Frame> ODLeastSquaresSolver::EstimationFrameSPtr = Frame::GCRF();
+
 ODLeastSquaresSolver::Analysis::Analysis(const State& aDeterminedState, const LeastSquaresSolver::Analysis& anAnalysis)
     : determinedState_(aDeterminedState),
       solverAnalysis_(anAnalysis)
@@ -91,18 +93,34 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
     const std::unordered_map<CoordinateSubset, VectorXd>& aReferenceStateSigmas
 ) const
 {
+    // Convert everything to an inertial frame for estimation
+
+    const State initialGuessState = anInitialGuessState.inFrame(EstimationFrameSPtr);
+
+    const Array<State> referenceStates = aReferenceStateArray.map<State>(
+        [](const State& aState) -> State
+        {
+            return aState.inFrame(EstimationFrameSPtr);
+        }
+    );
+
     // Setup state builders
-    const StateBuilder propagationStateBuilder(anInitialGuessState);
+
+    // Propagation state builder: Contains the subsets of the provided initial guess state (all of which are needed to
+    // propagate that state).
+    const StateBuilder propagationStateBuilder(initialGuessState);
+
+    // Estimation state builder: Contains the subsets to be estimated.
     const StateBuilder estimationStateBuilder(
-        anInitialGuessState.accessFrame(),
-        anEstimationCoordinateSubsets.isEmpty() ? anInitialGuessState.getCoordinateSubsets()
+        initialGuessState.accessFrame(),
+        anEstimationCoordinateSubsets.isEmpty() ? initialGuessState.getCoordinateSubsets()
                                                 : anEstimationCoordinateSubsets
     );
 
     // Validate estimator subsets
     for (const auto& subset : estimationStateBuilder.getCoordinateSubsets())
     {
-        if (!anInitialGuessState.hasSubset(subset))
+        if (!initialGuessState.hasSubset(subset))
         {
             throw ostk::core::error::RuntimeError(
                 "Input State must contain at least the coordinate subsets that we want to estimate."
@@ -113,13 +131,13 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
     // Define state generation callback
     auto generateStatesCallback = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        const State propagatorState = propagationStateBuilder.expand(aState, anInitialGuessState);
+        const State propagatorState = propagationStateBuilder.expand(aState, initialGuessState);
         return propagator_.calculateStatesAt(propagatorState, anInstantArray);
     };
 
     // Solve least squares problem
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
-        estimationStateBuilder.reduce(anInitialGuessState),
+        estimationStateBuilder.reduce(initialGuessState),
         aReferenceStateArray,
         generateStatesCallback,
         anInitialGuessSigmas,
@@ -127,7 +145,8 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
     );
 
     // Expand solution state to full state
-    const State determinedState = propagationStateBuilder.expand(analysis.accessSolutionState(), anInitialGuessState);
+    const State determinedState = propagationStateBuilder.expand(analysis.accessSolutionState(), initialGuessState)
+                                      .inFrame(anInitialGuessState.accessFrame());
 
     return Analysis(determinedState, analysis);
 }

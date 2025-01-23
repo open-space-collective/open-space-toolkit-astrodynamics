@@ -93,7 +93,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver : public ::test
             {*CartesianPosition::Default(), positionSigmas_},
             {*CartesianVelocity::Default(), velocitySigmas_},
         };
-        std::unordered_map<CoordinateSubset, VectorXd> initialStateSigmas_ = {
+        initialStateSigmas_ = {
             {*CartesianPosition::Default(), positionSigmas_},
             {*CartesianVelocity::Default(), velocitySigmas_},
         };
