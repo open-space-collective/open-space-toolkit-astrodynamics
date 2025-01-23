@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
@@ -23,6 +25,8 @@ using ostk::core::container::Array;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
+using ostk::physics::coordinate::Frame;
+
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::GuidanceLaw;
@@ -32,6 +36,8 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class Thruster : public Dynamics
 {
    public:
+    /// @brief Default contribution frame shared pointer
+    static const Shared<const Frame> DefaultContributionFrameSPtr;
     /// @brief Constructor
     ///
     /// @param aSatelliteSystem A satellite system
@@ -79,9 +85,7 @@ class Thruster : public Dynamics
     ///
     /// @return The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
-    virtual VectorXd computeContribution(
-        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-    ) const override;
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x) const override;
 
     /// @brief Print thruster
     ///

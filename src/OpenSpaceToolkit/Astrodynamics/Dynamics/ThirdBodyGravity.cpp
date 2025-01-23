@@ -23,6 +23,8 @@ using ostk::physics::coordinate::Position;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
+const Shared<const Frame> ThirdBodyGravity::DefaultContributionFrameSPtr = Frame::GCRF();
+
 ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
     : ThirdBodyGravity(aCelestialObjectSPtr, String::Format("Third Body Gravity [{}]", aCelestialObjectSPtr->getName()))
 {
@@ -82,22 +84,22 @@ Array<Shared<const CoordinateSubset>> ThirdBodyGravity::getWriteCoordinateSubset
     };
 }
 
-VectorXd ThirdBodyGravity::computeContribution(
-    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-) const
+VectorXd ThirdBodyGravity::computeContribution(const Instant& anInstant, const VectorXd& x) const
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
     // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
     Vector3d gravitationalAccelerationSI =
-        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, aFrameSPtr), anInstant)
-             .inFrame(aFrameSPtr, anInstant)
+        -celestialObjectSPtr_
+             ->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, DefaultContributionFrameSPtr), anInstant)
+             .inFrame(DefaultContributionFrameSPtr, anInstant)
              .getValue();
 
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
 
     gravitationalAccelerationSI +=
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
-            .inFrame(aFrameSPtr, anInstant)
+        celestialObjectSPtr_
+            ->getGravitationalFieldAt(Position::Meters(positionCoordinates, DefaultContributionFrameSPtr), anInstant)
+            .inFrame(DefaultContributionFrameSPtr, anInstant)
             .getValue();
 
     // Compute contribution

@@ -176,17 +176,8 @@ Array<Shared<const CoordinateSubset>> Tabulated::getWriteCoordinateSubsets() con
     return writeCoordinateSubsets_;
 }
 
-VectorXd Tabulated::computeContribution(
-    const Instant& anInstant, [[maybe_unused]] const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-) const
+VectorXd Tabulated::computeContribution(const Instant& anInstant, [[maybe_unused]] const VectorXd& x) const
 {
-    // TBM: Allow frame conversion through `CoordinateSubset.inFrame` method, once we have a `CartesianAcceleration`
-    // class
-    if (aFrameSPtr != frameSPtr_)
-    {
-        throw ostk::core::error::RuntimeError("Contribution Frame conversion to non-inertial not yet supported.");
-    }
-
     if (anInstant < instants_.accessFirst() || anInstant > instants_.accessLast())
     {
         return VectorXd::Zero(interpolators_.getSize());

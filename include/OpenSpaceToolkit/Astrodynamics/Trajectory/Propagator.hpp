@@ -9,6 +9,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -33,6 +34,7 @@ using ostk::core::type::Size;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 

@@ -38,12 +38,7 @@ class DynamicsMock : public Dynamics
 
     MOCK_METHOD(Array<Shared<const CoordinateSubset>>, getWriteCoordinateSubsets, (), (const, override));
 
-    MOCK_METHOD(
-        VectorXd,
-        computeContribution,
-        (const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr),
-        (const, override)
-    );
+    MOCK_METHOD(VectorXd, computeContribution, (const Instant& anInstant, const VectorXd& x), (const, override));
 };
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics : public ::testing::Test

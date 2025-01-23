@@ -28,6 +28,8 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
+const Shared<const Frame> Thruster::DefaultContributionFrameSPtr = Frame::GCRF();
+
 Thruster::Thruster(
     const SatelliteSystem& aSatelliteSystem, const Shared<const GuidanceLaw>& aGuidanceLaw, const String& aName
 )
@@ -79,9 +81,7 @@ bool Thruster::isDefined() const
     return satelliteSystem_.isDefined();
 }
 
-VectorXd Thruster::computeContribution(
-    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
-) const
+VectorXd Thruster::computeContribution(const Instant& anInstant, const VectorXd& x) const
 {
     const Vector3d positionCoordinates = {x[0], x[1], x[2]};
     const Vector3d velocityCoordinates = {x[3], x[4], x[5]};
@@ -95,7 +95,7 @@ VectorXd Thruster::computeContribution(
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6]));
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
-        anInstant, positionCoordinates, velocityCoordinates, maximumAccelerationMagnitude, aFrameSPtr
+        anInstant, positionCoordinates, velocityCoordinates, maximumAccelerationMagnitude, DefaultContributionFrameSPtr
     );
 
     const Real effectiveAccelerationFraction = acceleration.norm() / maximumAccelerationMagnitude;

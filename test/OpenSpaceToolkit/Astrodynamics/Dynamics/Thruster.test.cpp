@@ -153,8 +153,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, ComputeContribution)
         VectorXd coordinates(7);
         coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 105.0;
 
-        const VectorXd acceleration =
-            defaultThruster_.computeContribution(Instant::J2000(), coordinates, Frame::GCRF());
+        const VectorXd acceleration = defaultThruster_.computeContribution(Instant::J2000(), coordinates);
 
         VectorXd expectedAcceleration(4);
         expectedAcceleration << 0.0, 0.0, 0.0, 0.0;

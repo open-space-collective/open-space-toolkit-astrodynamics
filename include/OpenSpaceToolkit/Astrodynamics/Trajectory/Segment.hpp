@@ -11,6 +11,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
@@ -38,6 +39,7 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::MatrixXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
@@ -54,6 +56,8 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 class Segment
 {
    public:
+    /// @brief Default integrator frame
+    static const Shared<const Frame> IntegrationFrameSPtr;
     enum class Type
     {
         Coast,    ///< Coast
@@ -125,8 +129,9 @@ class Segment
         /// @param aNumericalSolver a numerical solver to use for the propagation between states
         /// @param anInstantArray an array of instants
         /// @return States at specified instants
-        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
-            const;
+        Array<State> calculateStatesAt(
+            const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
+        ) const;
 
         /// @brief Get dynamics contribution
         ///
@@ -136,7 +141,6 @@ class Segment
         /// @return Dynamics contribution
         MatrixXd getDynamicsContribution(
             const Shared<Dynamics>& aDynamicsSPtr,
-            const Shared<const Frame>& aFrameSPtr,
             const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray =
                 Array<Shared<const CoordinateSubset>>::Empty()
         ) const;
@@ -146,15 +150,13 @@ class Segment
         /// @param aDynamicsSPtr Dynamics
         /// @param aFrameSPtr Frame
         /// @return Dynamics acceleration contribution
-        MatrixXd getDynamicsAccelerationContribution(
-            const Shared<Dynamics>& aDynamicsSPtr, const Shared<const Frame>& aFrameSPtr
-        ) const;
+        MatrixXd getDynamicsAccelerationContribution(const Shared<Dynamics>& aDynamicsSPtr) const;
 
         /// @brief Get all segment dynamics contributions
         ///
         /// @param aFrameSPtr Frame
         /// @return All segment dynamics contributions
-        Map<Shared<Dynamics>, MatrixXd> getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr) const;
+        Map<Shared<Dynamics>, MatrixXd> getAllDynamicsContributions() const;
 
         /// @brief Print the segment solution
         ///

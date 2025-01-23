@@ -5,8 +5,6 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -20,7 +18,6 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::Dynamics;
@@ -101,7 +98,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, GetWriteCoord
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, ComputeContribution)
 {
     const VectorXd contribution =
-        positionDerivative_.computeContribution(startInstant_, startStateVector_.segment(3, 3), Frame::Undefined());
+        positionDerivative_.computeContribution(startInstant_, startStateVector_.segment(3, 3));
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_EQ(startStateVector_[3], contribution[0]);

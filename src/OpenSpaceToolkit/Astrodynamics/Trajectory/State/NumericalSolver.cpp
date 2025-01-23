@@ -28,6 +28,8 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 typedef runge_kutta_dopri5<NumericalSolver::StateVector> dense_stepper_type_5;
 
+const Shared<const Frame> NumericalSolver::IntegrationFrameSPtr = Frame::GCRF();
+
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
     const NumericalSolver::StepperType& aStepperType,
@@ -84,6 +86,8 @@ Array<State> NumericalSolver::integrateTime(
     const Array<NumericalSolver::Solution> solutions =
         MathNumericalSolver::integrateDuration(aState.accessCoordinates(), durationArray, aSystemOfEquations);
 
+    const Shared<const Frame> frameGCRF = Frame::GCRF();
+
     Array<State> states;
     states.reserve(solutions.getSize());
     for (Index i = 0; i < solutions.getSize(); ++i)
@@ -92,7 +96,7 @@ Array<State> NumericalSolver::integrateTime(
         const State state = {
             anInstantArray[i],
             solution.first,
-            aState.accessFrame(),
+            frameGCRF,
             aState.accessCoordinateBroker(),
         };
         states.add(state);
