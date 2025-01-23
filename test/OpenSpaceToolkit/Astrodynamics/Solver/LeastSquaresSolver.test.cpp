@@ -53,7 +53,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
     {
         // Define initial state (position and velocity)
         const Position initialPosition = Position::Meters({1.0, 0.0, 0.0}, Frame::GCRF());
-        const Velocity initialVelocity = Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF());
+        const Velocity initialVelocity = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::GCRF());
         trueState_ = {Instant::J2000(), initialPosition, initialVelocity};
 
         // Define reference states (true states with noise)
@@ -326,6 +326,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Accessors)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
 {
+    // runtime errors
+    {
+        {
+            EXPECT_THROW(
+                solver_.solve(State::Undefined(), referenceStates_, generateStates_),
+                ostk::core::error::runtime::Undefined
+            );
+        }
+
+        {
+            EXPECT_THROW(solver_.solve(initialGuessState_, {}, generateStates_), ostk::core::error::runtime::Undefined);
+        }
+
+        {
+            Array<State> referenceStates = referenceStates_;
+            VectorXd coordinates(3);
+            coordinates << 0.1, 0.0, 0.0;
+            referenceStates.add(State(Instant::J2000(), coordinates, Frame::GCRF(), {CartesianPosition::Default()}));
+
+            EXPECT_THROW(
+                solver_.solve(initialGuessState_, referenceStates, generateStates_), ostk::core::error::RuntimeError
+            );
+        }
+    }
+
     // Test case where a priori is ignored and all reference states weighted the same
     {
         const auto analysis = solver_.solve(initialGuessState_, referenceStates_, generateStates_, {}, {});
