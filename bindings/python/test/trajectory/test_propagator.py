@@ -26,7 +26,7 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.state.coordinate_subset import NewtonianAcceleration
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianAcceleration
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics import Dynamics
@@ -243,7 +243,7 @@ def maneuver_states(frame: Frame) -> list[State]:
             [
                 CartesianPosition.default(),
                 CartesianVelocity.default(),
-                NewtonianAcceleration.default(),
+                CartesianAcceleration.default(),
                 CoordinateSubset.mass_flow_rate(),
             ],
         )

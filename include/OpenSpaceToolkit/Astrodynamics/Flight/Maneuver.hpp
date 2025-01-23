@@ -188,7 +188,8 @@ class Maneuver
     ///                  Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(...);
     /// @endcode
     ///
-    /// @param aStateArray An array of states, must be sorted, must contain
+    /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity and Acceleration
+    /// coordinate subsets.
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
     ///
     /// @return A maneuver

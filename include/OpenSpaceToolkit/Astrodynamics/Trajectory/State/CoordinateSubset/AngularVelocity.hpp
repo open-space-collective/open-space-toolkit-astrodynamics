@@ -32,32 +32,29 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaterni
 class AngularVelocity : public CoordinateSubset
 {
    public:
-    /// @brief              Constructor
+    /// @brief Constructor
     ///
     /// @code
-    ///                     AngularVelocity angularVelocity = {anAttitudeQuaternionSPtr, aName};
+    ///                  AngularVelocity angularVelocity = {anAttitudeQuaternionSPtr, aName};
     /// @endcode
     ///
-    /// @param              [in] anAttitudeQuaternionSPtr the associated Attitude Quaternion
-    /// @param              [in] aName a name
-
+    /// @param anAttitudeQuaternionSPtr the associated Attitude Quaternion
+    /// @param aName a name
     AngularVelocity(const Shared<const AttitudeQuaternion>& anAttitudeQuaternionSPtr, const String& aName);
 
-    /// @brief              Destructor
-
+    /// @brief Destructor
     ~AngularVelocity();
 
-    /// @brief              Transform the coordinate subset from one frame to another
+    /// @brief Transform the coordinate subset from one frame to another
     ///
-    /// @param              [in] anInstant the reference frame associated to the coordinates
-    /// @param              [in] aFullCoordinatesVector all coordinates
-    /// @param              [in] fromFrame the reference frame associated to the coordinates
-    /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinateBrokerSPtr a coordinate broker
+    /// @param anInstant the reference frame associated to the coordinates
+    /// @param aFullCoordinatesVector all coordinates
+    /// @param fromFrame the reference frame associated to the coordinates
+    /// @param toFrame the reference frame in which the coordinates are to be transformed
+    /// @param aCoordinateBrokerSPtr a coordinate broker
     ///
-    /// @return             The resulting coordinate subset value expressed in the desired reference frame
-
-    VectorXd inFrame(
+    /// @return The resulting coordinate subset value expressed in the desired reference frame
+    virtual VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
@@ -65,10 +62,9 @@ class AngularVelocity : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
-    /// @brief              Return the default instance
+    /// @brief Return the default instance
     ///
-    /// @return             The default instance
-
+    /// @return The default instance
     static Shared<const AngularVelocity> Default();
 
    private:

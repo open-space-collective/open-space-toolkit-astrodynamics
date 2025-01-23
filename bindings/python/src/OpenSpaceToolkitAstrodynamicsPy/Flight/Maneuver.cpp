@@ -26,7 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                 Constructor.
 
                 Args:
-                    states (list[State]): An list of states, must be sorted, must include the CartesianPosition, CartesianVelocity, NewtonianAcceleration and MassFlowRate subsets.
+                    states (list[State]): An list of states, must be sorted, must include the CartesianPosition, CartesianVelocity, CartesianAcceleration and MassFlowRate subsets.
             )doc"
         )
 

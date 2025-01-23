@@ -8,9 +8,9 @@
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 
 namespace ostk
 {
@@ -21,9 +21,9 @@ namespace flight
 
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::NewtonianAcceleration;
 
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
 const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
@@ -31,7 +31,7 @@ const Duration Maneuver::MaximumRecommendedInterpolationInterval = Duration::Min
 const Array<Shared<const CoordinateSubset>> Maneuver::RequiredCoordinateSubsets = {
     CartesianPosition::Default(),
     CartesianVelocity::Default(),
-    NewtonianAcceleration::Default(),
+    CartesianAcceleration::Default(),
     CoordinateSubset::MassFlowRate(),
 };
 const Shared<const CoordinateSubset> Maneuver::DefaultAccelerationCoordinateSubsetSPtr = RequiredCoordinateSubsets[2];
@@ -287,7 +287,7 @@ Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, 
     static const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        NewtonianAcceleration::Default(),
+        CartesianAcceleration::Default(),
         CoordinateSubset::MassFlowRate(),
     };
 

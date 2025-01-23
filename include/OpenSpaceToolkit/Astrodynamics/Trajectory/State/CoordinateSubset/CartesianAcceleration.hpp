@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -36,23 +37,34 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 
-class NewtonianAcceleration : public CoordinateSubset
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+
+class CartesianAcceleration : public CoordinateSubset
 {
    public:
-    /// @brief Constructor for NewtonianAcceleration
-    /// @param aCartesianPositionSPtr Shared pointer to a CartesianPosition object
+    /// @brief Constructor for CartesianAcceleration
+    ///
+    /// @param aCartesianPositionSPtr Shared pointer to a CartesianPosition coordinate subset
+    /// @param aCartesianVelocitySPtr Shared pointer to a CartesianVelocity coordinate subset
     /// @param aName Name of the coordinate subset
-    NewtonianAcceleration(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName);
+    CartesianAcceleration(
+        const Shared<const CartesianPosition>& aCartesianPositionSPtr,
+        const Shared<const CartesianVelocity>& aCartesianVelocitySPtr,
+        const String& aName
+    );
 
-    /// @brief Destructor for NewtonianAcceleration
-    virtual ~NewtonianAcceleration();
+    /// @brief Destructor for CartesianAcceleration
+    ~CartesianAcceleration();
 
     /// @brief Adds two coordinate vectors
+    ///
     /// @param anInstant The instant at which the addition is performed
     /// @param aFullCoordinatesVector The first full coordinates vector
     /// @param anotherFullCoordinatesVector The second full coordinates vector
     /// @param aFrameSPtr Shared pointer to the frame of reference
     /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
+    ///
     /// @return The resulting vector after addition
     virtual VectorXd add(
         const Instant& anInstant,
@@ -63,11 +75,13 @@ class NewtonianAcceleration : public CoordinateSubset
     ) const override;
 
     /// @brief Subtracts one coordinate vector from another
+    ///
     /// @param anInstant The instant at which the subtraction is performed
     /// @param aFullCoordinatesVector The full coordinates vector to be subtracted from
     /// @param anotherFullCoordinatesVector The full coordinates vector to subtract
     /// @param aFrameSPtr Shared pointer to the frame of reference
     /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
+    ///
     /// @return The resulting vector after subtraction
     virtual VectorXd subtract(
         const Instant& anInstant,
@@ -77,14 +91,14 @@ class NewtonianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief Transforms the coordinates to a different frame. Acceleration is transformed similar to position, as like
-    /// position it is a bound vector. Refer to https://elib.dlr.de/142099/1/MA_SpaceEngineering_Huckfeldt_412335.pdf
-    /// (Page 30) for more information.
+    /// @brief Transforms the coordinates to a different frame.
+    ///
     /// @param anInstant The instant at which the transformation is performed
     /// @param aFullCoordinatesVector The full coordinates vector to be transformed
     /// @param fromFrame Shared pointer to the initial frame of reference
     /// @param toFrame Shared pointer to the target frame of reference
     /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
+    ///
     /// @return The transformed coordinates vector
     virtual VectorXd inFrame(
         const Instant& anInstant,
@@ -94,12 +108,19 @@ class NewtonianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief Returns the default NewtonianAcceleration object
-    /// @return Shared pointer to the default NewtonianAcceleration object
-    static Shared<const NewtonianAcceleration> Default();
+    /// @brief Returns the default CartesianAcceleration object
+    ///
+    /// @return Shared pointer to the default CartesianAcceleration object
+    static Shared<const CartesianAcceleration> Default();
+
+    /// @brief Returns the thrust acceleration
+    ///
+    /// @return Shared pointer to the thrust acceleration
+    static Shared<const CartesianAcceleration> ThrustAcceleration();
 
    private:
     Shared<const CartesianPosition> cartesianPositionSPtr_;
+    Shared<const CartesianVelocity> cartesianVelocitySPtr_;
 };
 
 }  // namespace coordinatesubset

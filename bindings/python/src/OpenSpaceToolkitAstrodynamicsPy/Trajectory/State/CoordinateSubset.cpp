@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/AngularVelocity.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/AttitudeQuaternion.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianPosition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianVelocity.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/NewtonianAcceleration.cpp>
 
 using namespace pybind11;
 
@@ -268,5 +268,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_AttitudeQuaternion(coordinate_subset);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianPosition(coordinate_subset);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianVelocity(coordinate_subset);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_NewtonianAcceleration(coordinate_subset);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianAcceleration(coordinate_subset);
 }

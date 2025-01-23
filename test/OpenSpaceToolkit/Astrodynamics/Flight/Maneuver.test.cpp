@@ -21,9 +21,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/NewtonianAcceleration.hpp>
 
 #include <Global.test.hpp>
 
@@ -53,9 +53,9 @@ using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
-using ostk::astrodynamics::trajectory::state::coordinatesubset::NewtonianAcceleration;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
 {
@@ -71,7 +71,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
-            NewtonianAcceleration::Default(),
+            CartesianAcceleration::Default(),
             CoordinateSubset::MassFlowRate(),
         };
 
@@ -466,7 +466,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             [this](const State& aState) -> Vector3d
             {
                 return Vector3d::Map(
-                    aState.inFrame(defaultFrameSPtr_).extractCoordinate(NewtonianAcceleration::Default()).data()
+                    aState.inFrame(defaultFrameSPtr_).extractCoordinate(CartesianAcceleration::Default()).data()
                 );
             }
         );

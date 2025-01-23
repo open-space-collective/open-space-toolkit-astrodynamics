@@ -17,7 +17,7 @@ from ostk.astrodynamics.dynamics import Tabulated as TabulatedDynamics
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
-from ostk.astrodynamics.trajectory.state.coordinate_subset import NewtonianAcceleration
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianAcceleration
 
 
 @pytest.fixture
@@ -55,7 +55,7 @@ def coordinate_subsets() -> list[CoordinateSubset]:
     return [
         CartesianPosition.default(),
         CartesianVelocity.default(),
-        NewtonianAcceleration.default(),
+        CartesianAcceleration.default(),
         CoordinateSubset.mass_flow_rate(),
     ]
 
