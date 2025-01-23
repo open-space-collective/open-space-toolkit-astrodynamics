@@ -243,7 +243,7 @@ def maneuver_states(frame: Frame) -> list[State]:
             [
                 CartesianPosition.default(),
                 CartesianVelocity.default(),
-                CartesianAcceleration.default(),
+                CartesianAcceleration.thrust_acceleration(),
                 CoordinateSubset.mass_flow_rate(),
             ],
         )

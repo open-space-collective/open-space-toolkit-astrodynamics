@@ -114,7 +114,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("CARTESIAN_ACCELERATION not found in states.", e.getMessage());
+                    EXPECT_EQ("THRUST_ACCELERATION not found in states.", e.getMessage());
                     throw;
                 }
             },

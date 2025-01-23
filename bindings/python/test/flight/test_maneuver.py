@@ -55,7 +55,7 @@ def coordinate_subsets() -> list[CoordinateSubset]:
     return [
         CartesianPosition.default(),
         CartesianVelocity.default(),
-        CartesianAcceleration.default(),
+        CartesianAcceleration.thrust_acceleration(),
         CoordinateSubset.mass_flow_rate(),
     ]
 
