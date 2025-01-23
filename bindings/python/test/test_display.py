@@ -30,7 +30,7 @@ class TestDisplay:
             DateTime(2023, 1, 3, 0, 0, 0),
             Scale.UTC,
         )
-        duration: Duration = Duration.hours(12.0)
+        duration: Duration = Duration.hours(1.0)
         step: Duration = Duration.seconds(10.0)
         tolerance: Duration = Duration.seconds(1.0)
 

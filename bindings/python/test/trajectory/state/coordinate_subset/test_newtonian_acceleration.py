@@ -7,11 +7,17 @@ from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory.state import CoordinateBroker, CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import NewtonianAcceleration
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 
 
 @pytest.fixture
 def name() -> str:
     return "Newtonian Acceleration"
+
+
+@pytest.fixture
+def cartesian_position() -> CartesianPosition:
+    return CartesianPosition.default()
 
 
 @pytest.fixture
@@ -54,8 +60,12 @@ def another_coordinates() -> list[float]:
 
 
 class TestNewtonianAcceleration:
-    def test_constructor(self, name: str):
-        assert NewtonianAcceleration(name) is not None
+    def test_constructor(
+        self,
+        cartesian_position: CartesianPosition,
+        name: str,
+    ):
+        assert NewtonianAcceleration(cartesian_position, name) is not None
 
     def test_add(
         self,
