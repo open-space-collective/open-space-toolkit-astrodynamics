@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::access::VisibilityCriterion::AERMask</compoundname>
+    <includes refid="_visibility_criterion_8hpp" local="no">VisibilityCriterion.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8a71ef6bd05102f2dd1c3ac09704cb9b" prot="public" static="no" mutable="no">
+        <type>Map&lt; Real, Real &gt;</type>
+        <definition>Map&lt;Real, Real&gt; ostk::astrodynamics::access::VisibilityCriterion::AERMask::azimuthElevationMask</definition>
+        <argsstring></argsstring>
+        <name>azimuthElevationMask</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="85" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1ac1711ce1afd3a7f12b7a67ca53046598" prot="public" static="no" mutable="no">
+        <type>Interval&lt; Real &gt;</type>
+        <definition>Interval&lt;Real&gt; ostk::astrodynamics::access::VisibilityCriterion::AERMask::range</definition>
+        <argsstring></argsstring>
+        <name>range</name>
+        <briefdescription>
+<para>Map of azimuth angles to elevation angles in radians. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="86" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a53a37b94d8e864f78004f1b19f0dd71c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::access::VisibilityCriterion::AERMask::AERMask</definition>
+        <argsstring>(const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRange)</argsstring>
+        <name>AERMask</name>
+        <param>
+          <type>const Map&lt; Real, Real &gt; &amp;</type>
+          <declname>anAzimuthElevationMask</declname>
+        </param>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>aRange</declname>
+        </param>
+        <briefdescription>
+<para>Range interval in meters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs an <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAzimuthElevationMask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The azimuth-elevation mask. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The range interval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="92" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="14" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERMask::isSatisfied</definition>
+        <argsstring>(const AER &amp;anAer) const</argsstring>
+        <name>isSatisfied</name>
+        <param>
+          <type>const AER &amp;</type>
+          <declname>anAer</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given AER satisfies the criterion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AER to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the criterion is satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="98" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="63" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a0a9e2e5e5a4316368f3291a0fe512270" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERMask::isSatisfied</definition>
+        <argsstring>(const Real &amp;anAzimuthRadians, const Real &amp;anElevationRadians, const Real &amp;aRangeMeters) const</argsstring>
+        <name>isSatisfied</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anAzimuthRadians</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anElevationRadians</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aRangeMeters</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given azimuth, elevation, and range values satisfy the criterion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAzimuthRadians</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The azimuth in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anElevationRadians</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The elevation in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRangeMeters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The range in meters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the criterion is satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="106" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="72" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8ab8b08a45597347b567fc1789577255" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERMask::operator==</definition>
+        <argsstring>(const AERMask &amp;anAerMask) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref> &amp;</type>
+          <declname>anAerMask</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAerMask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="112" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a5d4b622efb12b326250fbac5abd338fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERMask::operator!=</definition>
+        <argsstring>(const AERMask &amp;anAerMask) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref> &amp;</type>
+          <declname>anAerMask</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAerMask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="118" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents an AER mask visibility criterion. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::access::VisibilityCriterion::AERMask</label>
+        <link refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>range</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>azimuthElevationMask</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Map&lt; Real, Real &gt;</label>
+      </node>
+      <node id="2">
+        <label>Interval&lt; Real &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="84" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="83" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a53a37b94d8e864f78004f1b19f0dd71c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>AERMask</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8a71ef6bd05102f2dd1c3ac09704cb9b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>azimuthElevationMask</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>isSatisfied</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a0a9e2e5e5a4316368f3291a0fe512270" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>isSatisfied</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a5d4b622efb12b326250fbac5abd338fe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>operator!=</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8ab8b08a45597347b567fc1789577255" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>operator==</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1ac1711ce1afd3a7f12b7a67ca53046598" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERMask</scope><name>range</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

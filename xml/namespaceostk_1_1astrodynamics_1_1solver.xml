@@ -31,7 +31,7 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>aFiniteDifference</parametername>
+<parametername>aFiniteDifferenceSolver</parametername>
 </parameternamelist>
 <parameterdescription>
 <para>A finite difference solver. </para>

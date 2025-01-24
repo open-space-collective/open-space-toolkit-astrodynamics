@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="131" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="131" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="238" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="238" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbef215f83d693acb384956f04ca51e1" prot="private" static="no" mutable="no">
         <type>Duration</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="133" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="133" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="240" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="240" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3ee21269375995ed6e24cdc369149468" prot="private" static="no" mutable="no">
         <type>Duration</type>
@@ -41,20 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="134" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="134" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9f3af5e09a93d7993c9b7bbdec9aba2c" prot="private" static="no" mutable="no">
-        <type>std::function&lt; bool(const AER &amp;)&gt;</type>
-        <definition>std::function&lt;bool(const AER&amp;)&gt; ostk::astrodynamics::access::Generator::aerFilter_</definition>
-        <argsstring></argsstring>
-        <name>aerFilter_</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="136" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="136" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="241" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="241" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a93f6d19a83c46a7d8c00a4b0dcb1faa3" prot="private" static="no" mutable="no">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt;</type>
@@ -67,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="137" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="137" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="243" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="243" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79dd96cb36db13816b88cbc6f291fd75" prot="private" static="no" mutable="no">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -80,14 +67,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="138" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="138" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="244" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="244" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa7140d14264c70dade6a3ec156918adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::access::Generator::Generator</definition>
-        <argsstring>(const Environment &amp;anEnvironment, const Duration &amp;aStep=DEFAULT_STEP, const Duration &amp;aTolerance=DEFAULT_TOLERANCE)</argsstring>
+        <argsstring>(const Environment &amp;anEnvironment, const Duration &amp;aStep=DEFAULT_STEP, const Duration &amp;aTolerance=DEFAULT_TOLERANCE, const std::function&lt; bool(const Access &amp;)&gt; &amp;anAccessFilter={}, const std::function&lt; bool(const State &amp;, const State &amp;)&gt; &amp;aStateFilter={})</argsstring>
         <name>Generator</name>
         <param>
           <type>const Environment &amp;</type>
@@ -102,27 +89,6 @@
           <type>const Duration &amp;</type>
           <declname>aTolerance</declname>
           <defval><ref refid="_generator_8hpp_1a0e355e0dcb761f1b89524e0e77fd14bd" kindref="member">DEFAULT_TOLERANCE</ref></defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="57" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="30" bodyend="38"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a70ac5585ecda4ab40dda61f88f47073d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>ostk::astrodynamics::access::Generator::Generator</definition>
-        <argsstring>(const Environment &amp;anEnvironment, const std::function&lt; bool(const AER &amp;)&gt; &amp;anAerFilter, const std::function&lt; bool(const Access &amp;)&gt; &amp;anAccessFilter={}, const std::function&lt; bool(const State &amp;, const State &amp;)&gt; &amp;aStateFilter={}, const Duration &amp;aStep=DEFAULT_STEP, const Duration &amp;aTolerance=DEFAULT_TOLERANCE)</argsstring>
-        <name>Generator</name>
-        <param>
-          <type>const Environment &amp;</type>
-          <declname>anEnvironment</declname>
-        </param>
-        <param>
-          <type>const std::function&lt; bool(const AER &amp;)&gt; &amp;</type>
-          <declname>anAerFilter</declname>
         </param>
         <param>
           <type>const std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt; &amp;</type>
@@ -134,23 +100,13 @@
           <declname>aStateFilter</declname>
           <defval>{}</defval>
         </param>
-        <param>
-          <type>const Duration &amp;</type>
-          <declname>aStep</declname>
-          <defval><ref refid="_generator_8hpp_1a7ce1d4cc8c33e65c078f721b17b975ea" kindref="member">DEFAULT_STEP</ref></defval>
-        </param>
-        <param>
-          <type>const Duration &amp;</type>
-          <declname>aTolerance</declname>
-          <defval><ref refid="_generator_8hpp_1a0e355e0dcb761f1b89524e0e77fd14bd" kindref="member">DEFAULT_TOLERANCE</ref></defval>
-        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="63" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="40" bodyend="55"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="191" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="140" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1e243fd78e139af1f1cabd1729fc251a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -163,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="72" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="57" bodyend="60"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="199" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="155" bodyend="158"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2adf2bc167b4976cfa0a2a62f5898f11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -176,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="74" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="62" bodyend="70"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="201" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="160" bodyend="168"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae922b298068bb965e0b45f605b5cbb43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -189,20 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="76" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="72" bodyend="80"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1afded49eab47b5227a6c41f3331807155" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>std::function&lt; bool(const AER &amp;)&gt;</type>
-        <definition>std::function&lt; bool(const AER &amp;)&gt; ostk::astrodynamics::access::Generator::getAerFilter</definition>
-        <argsstring>() const</argsstring>
-        <name>getAerFilter</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="78" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="82" bodyend="90"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="203" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="170" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa1ad7dc07137fa64d62992c3cf9f85ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt;</type>
@@ -215,7 +158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="80" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="92" bodyend="100"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="205" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="180" bodyend="188"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad19f8b17276b76b3c80af94fa02c4a41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -228,16 +171,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="82" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="102" bodyend="110"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="207" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="190" bodyend="198"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2dc3c51cdbf7841d953da950c0fc5fd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae2897d02ad4d74f277c6e6cd7fc09b5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; bool(const Instant &amp;)&gt;</type>
         <definition>std::function&lt; bool(const Instant &amp;)&gt; ostk::astrodynamics::access::Generator::getConditionFunction</definition>
-        <argsstring>(const Trajectory &amp;aFromTrajectory, const Trajectory &amp;aToTrajectory) const</argsstring>
+        <argsstring>(const AccessTarget &amp;anAccessTarget, const Trajectory &amp;aToTrajectory) const</argsstring>
         <name>getConditionFunction</name>
         <param>
-          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
-          <declname>aFromTrajectory</declname>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> &amp;</type>
+          <declname>anAccessTarget</declname>
         </param>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
@@ -249,13 +192,217 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="84" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="112" bodyend="137"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="209" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="200" bodyend="255"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae0476e334f0e1e2339eea87f29502150" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a214d29186ea54c3074d81bf9a6603876" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt;</type>
         <definition>Array&lt; Access &gt; ostk::astrodynamics::access::Generator::computeAccesses</definition>
-        <argsstring>(const physics::time::Interval &amp;anInterval, const Trajectory &amp;aFromTrajectory, const Trajectory &amp;aToTrajectory) const</argsstring>
+        <argsstring>(const physics::time::Interval &amp;anInterval, const AccessTarget &amp;anAccessTarget, const Trajectory &amp;aToTrajectory, const bool &amp;coarse=false) const</argsstring>
         <name>computeAccesses</name>
+        <param>
+          <type>const physics::time::Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> &amp;</type>
+          <declname>anAccessTarget</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aToTrajectory</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>coarse</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="213" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="257" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aba3b221a4227e0b06a8b10bb1d2ac248" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt; &gt;</type>
+        <definition>Array&lt; Array&lt; Access &gt; &gt; ostk::astrodynamics::access::Generator::computeAccesses</definition>
+        <argsstring>(const physics::time::Interval &amp;anInterval, const Array&lt; AccessTarget &gt; &amp;someAccessTargets, const Trajectory &amp;aToTrajectory, const bool &amp;coarse=false) const</argsstring>
+        <name>computeAccesses</name>
+        <param>
+          <type>const physics::time::Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> &gt; &amp;</type>
+          <declname>someAccessTargets</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aToTrajectory</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>coarse</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="220" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="289" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a5f3b9a1e35e1fb102c0a8c84e4f6aec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::access::Generator::setStep</definition>
+        <argsstring>(const Duration &amp;aStep)</argsstring>
+        <name>setStep</name>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="227" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="355" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3cf72f1f58dbb09c81965e4b5efc2587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::access::Generator::setTolerance</definition>
+        <argsstring>(const Duration &amp;aTolerance)</argsstring>
+        <name>setTolerance</name>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aTolerance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="229" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="365" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aca6b21db7ceaa2c23d5c59a79ac4eef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::access::Generator::setAccessFilter</definition>
+        <argsstring>(const std::function&lt; bool(const Access &amp;)&gt; &amp;anAccessFilter)</argsstring>
+        <name>setAccessFilter</name>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt; &amp;</type>
+          <declname>anAccessFilter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="231" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="375" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab71661ad9230d54a449e7df756d2d14a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::access::Generator::setStateFilter</definition>
+        <argsstring>(const std::function&lt; bool(const State &amp;, const State &amp;)&gt; &amp;aStateFilter)</argsstring>
+        <name>setStateFilter</name>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>aStateFilter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="233" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="380" bodyend="383"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1d28164d6563e8b92d7f20987d20df51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref></type>
+        <definition>Generator ostk::astrodynamics::access::Generator::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="235" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="385" bodyend="388"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3730059acc84fc8b0fe8eadbd6a7e4c7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt;</type>
+        <definition>Array&lt; Access &gt; ostk::astrodynamics::access::Generator::computeAccessesForTrajectoryTarget</definition>
+        <argsstring>(const physics::time::Interval &amp;anInterval, const AccessTarget &amp;anAccessTarget, const Trajectory &amp;aToTrajectory) const</argsstring>
+        <name>computeAccessesForTrajectoryTarget</name>
+        <param>
+          <type>const physics::time::Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> &amp;</type>
+          <declname>anAccessTarget</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aToTrajectory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="246" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="390" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbdbe36beb8bbf63d1045c220058289d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt; &gt;</type>
+        <definition>Array&lt; Array&lt; Access &gt; &gt; ostk::astrodynamics::access::Generator::computeAccessesForFixedTargets</definition>
+        <argsstring>(const physics::time::Interval &amp;anInterval, const Array&lt; AccessTarget &gt; &amp;someAccessTargets, const Trajectory &amp;aToTrajectory, const bool &amp;coarse=false) const</argsstring>
+        <name>computeAccessesForFixedTargets</name>
+        <param>
+          <type>const physics::time::Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> &gt; &amp;</type>
+          <declname>someAccessTargets</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aToTrajectory</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>coarse</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="250" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="404" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a52230a41412b3ce41b8688a8b0a6785e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt;</type>
+        <definition>Array&lt; Access &gt; ostk::astrodynamics::access::Generator::generateAccessesFromIntervals</definition>
+        <argsstring>(const Array&lt; physics::time::Interval &gt; &amp;someIntervals, const physics::time::Interval &amp;anInterval, const Trajectory &amp;aFromTrajectory, const Trajectory &amp;aToTrajectory) const</argsstring>
+        <name>generateAccessesFromIntervals</name>
+        <param>
+          <type>const Array&lt; physics::time::Interval &gt; &amp;</type>
+          <declname>someIntervals</declname>
+        </param>
         <param>
           <type>const physics::time::Interval &amp;</type>
           <declname>anInterval</declname>
@@ -274,16 +421,32 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="88" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="139" bodyend="172"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="257" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="699" bodyend="725"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a5f3b9a1e35e1fb102c0a8c84e4f6aec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void ostk::astrodynamics::access::Generator::setStep</definition>
-        <argsstring>(const Duration &amp;aStep)</argsstring>
-        <name>setStep</name>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a03c578cbf4f653ef69892b318754a8ea" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; physics::time::Interval &gt;</type>
+        <definition>Array&lt; physics::time::Interval &gt; ostk::astrodynamics::access::Generator::computePreciseCrossings</definition>
+        <argsstring>(const Array&lt; physics::time::Interval &gt; &amp;accessIntervals, const physics::time::Interval &amp;anAnalysisInterval, const Vector3d &amp;fromPositionCoordinate_ITRF, const Trajectory &amp;aToTrajectory, const AccessTarget &amp;anAccessTarget) const</argsstring>
+        <name>computePreciseCrossings</name>
         <param>
-          <type>const Duration &amp;</type>
-          <declname>aStep</declname>
+          <type>const Array&lt; physics::time::Interval &gt; &amp;</type>
+          <declname>accessIntervals</declname>
+        </param>
+        <param>
+          <type>const physics::time::Interval &amp;</type>
+          <declname>anAnalysisInterval</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>fromPositionCoordinate_ITRF</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aToTrajectory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> &amp;</type>
+          <declname>anAccessTarget</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -291,213 +454,31 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="92" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="174" bodyend="182"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3cf72f1f58dbb09c81965e4b5efc2587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void ostk::astrodynamics::access::Generator::setTolerance</definition>
-        <argsstring>(const Duration &amp;aTolerance)</argsstring>
-        <name>setTolerance</name>
-        <param>
-          <type>const Duration &amp;</type>
-          <declname>aTolerance</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="94" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="184" bodyend="192"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ac740d977cf661767fae91b45fc947e77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void ostk::astrodynamics::access::Generator::setAerFilter</definition>
-        <argsstring>(const std::function&lt; bool(const AER &amp;)&gt; &amp;anAerFilter)</argsstring>
-        <name>setAerFilter</name>
-        <param>
-          <type>const std::function&lt; bool(const AER &amp;)&gt; &amp;</type>
-          <declname>anAerFilter</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="96" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="194" bodyend="197"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aca6b21db7ceaa2c23d5c59a79ac4eef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void ostk::astrodynamics::access::Generator::setAccessFilter</definition>
-        <argsstring>(const std::function&lt; bool(const Access &amp;)&gt; &amp;anAccessFilter)</argsstring>
-        <name>setAccessFilter</name>
-        <param>
-          <type>const std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt; &amp;</type>
-          <declname>anAccessFilter</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="98" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="199" bodyend="202"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab71661ad9230d54a449e7df756d2d14a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void ostk::astrodynamics::access::Generator::setStateFilter</definition>
-        <argsstring>(const std::function&lt; bool(const State &amp;, const State &amp;)&gt; &amp;aStateFilter)</argsstring>
-        <name>setStateFilter</name>
-        <param>
-          <type>const std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
-          <declname>aStateFilter</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="100" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="204" bodyend="207"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1d28164d6563e8b92d7f20987d20df51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref></type>
-        <definition>Generator ostk::astrodynamics::access::Generator::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="102" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="209" bodyend="212"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ada929460ad1eeb471788152678c15142" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref></type>
-        <definition>Generator ostk::astrodynamics::access::Generator::AerRanges</definition>
-        <argsstring>(const Interval&lt; Real &gt; &amp;anAzimuthRange, const Interval&lt; Real &gt; &amp;anElevationRange, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</argsstring>
-        <name>AerRanges</name>
-        <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
-          <declname>anAzimuthRange</declname>
-        </param>
-        <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
-          <declname>anElevationRange</declname>
-        </param>
-        <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
-          <declname>aRangeRange</declname>
-        </param>
-        <param>
-          <type>const Environment &amp;</type>
-          <declname>anEnvironment</declname>
-        </param>
-        <briefdescription>
-<para>Construct an access generator with defined AER ranges. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>anAzimuthRange</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An azimuth interval [deg] </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anElevationRange</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An elevation interval [deg] </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aRangeRange</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A range interval [m] </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anEnvironment</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An environment </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>An access generator </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="111" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="214" bodyend="248"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9062dacd7a44c8306e37459a0ca700b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref></type>
-        <definition>Generator ostk::astrodynamics::access::Generator::AerMask</definition>
-        <argsstring>(const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</argsstring>
-        <name>AerMask</name>
-        <param>
-          <type>const Map&lt; Real, Real &gt; &amp;</type>
-          <declname>anAzimuthElevationMask</declname>
-        </param>
-        <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
-          <declname>aRangeRange</declname>
-        </param>
-        <param>
-          <type>const Environment &amp;</type>
-          <declname>anEnvironment</declname>
-        </param>
-        <briefdescription>
-<para>Construct an access generator with a defined AER mask. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>anAzimuthElevationMask</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An azimuth-elevation mask [deg] </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aRangeRange</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A range interval [m] </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anEnvironment</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An environment </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>An access generator </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="124" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="250" bodyend="312"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="264" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="727" bodyend="872"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1af8dc7f2e1d27630a6421a97427c45327" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; physics::time::Interval &gt;</type>
+        <definition>Array&lt; physics::time::Interval &gt; ostk::astrodynamics::access::Generator::ComputeIntervals</definition>
+        <argsstring>(const VectorXi &amp;inAccess, const Array&lt; Instant &gt; &amp;instants)</argsstring>
+        <name>ComputeIntervals</name>
+        <param>
+          <type>const VectorXi &amp;</type>
+          <declname>inAccess</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>instants</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="272" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="874" bodyend="915"/>
+      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a597227bf2aee3a292795967a045ca359" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref></type>
         <definition>Access ostk::astrodynamics::access::Generator::GenerateAccess</definition>
@@ -533,7 +514,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="140" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="314" bodyend="339"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="274" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="917" bodyend="961"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab77bb1d3c4895a42212585640ca610e8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -562,7 +543,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="149" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="341" bodyend="431"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="283" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="963" bodyend="1052"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79d95dcfc19c7c232d8f4abb61a51fa5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -591,35 +572,65 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="156" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="433" bodyend="446"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="290" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="1054" bodyend="1075"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9bc0ec97334962a75ae7eac3d06cd439" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AER</type>
+        <definition>AER ostk::astrodynamics::access::Generator::CalculateAer</definition>
+        <argsstring>(const Instant &amp;anInstant, const Position &amp;aFromPosition, const Position &amp;aToPosition, const Shared&lt; const Celestial &gt; anEarthSPtr)</argsstring>
+        <name>CalculateAer</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Position &amp;</type>
+          <declname>aFromPosition</declname>
+        </param>
+        <param>
+          <type>const Position &amp;</type>
+          <declname>aToPosition</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Celestial &gt;</type>
+          <declname>anEarthSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="297" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="1077" bodyend="1096"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="55" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="54" bodyend="162"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="189" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="188" bodyend="303"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a93f6d19a83c46a7d8c00a4b0dcb1faa3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>accessFilter_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9f3af5e09a93d7993c9b7bbdec9aba2c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>aerFilter_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9062dacd7a44c8306e37459a0ca700b6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>AerMask</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ada929460ad1eeb471788152678c15142" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>AerRanges</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9bc0ec97334962a75ae7eac3d06cd439" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>CalculateAer</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79d95dcfc19c7c232d8f4abb61a51fa5" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>CalculateElevationAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae0476e334f0e1e2339eea87f29502150" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>computeAccesses</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a214d29186ea54c3074d81bf9a6603876" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>computeAccesses</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aba3b221a4227e0b06a8b10bb1d2ac248" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>computeAccesses</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbdbe36beb8bbf63d1045c220058289d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>computeAccessesForFixedTargets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3730059acc84fc8b0fe8eadbd6a7e4c7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>computeAccessesForTrajectoryTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1af8dc7f2e1d27630a6421a97427c45327" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>ComputeIntervals</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a03c578cbf4f653ef69892b318754a8ea" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>computePreciseCrossings</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad018f05018c20eb8fba73c35b4ddf191" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>environment_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab77bb1d3c4895a42212585640ca610e8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>FindTimeOfClosestApproach</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a597227bf2aee3a292795967a045ca359" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>GenerateAccess</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa7140d14264c70dade6a3ec156918adb" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>Generator</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a70ac5585ecda4ab40dda61f88f47073d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>Generator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a52230a41412b3ce41b8688a8b0a6785e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>generateAccessesFromIntervals</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>Generator</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa1ad7dc07137fa64d62992c3cf9f85ab" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getAccessFilter</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afded49eab47b5227a6c41f3331807155" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getAerFilter</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2dc3c51cdbf7841d953da950c0fc5fd2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getConditionFunction</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae2897d02ad4d74f277c6e6cd7fc09b5b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getConditionFunction</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad19f8b17276b76b3c80af94fa02c4a41" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getStateFilter</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2adf2bc167b4976cfa0a2a62f5898f11" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getStep</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae922b298068bb965e0b45f605b5cbb43" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>getTolerance</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1e243fd78e139af1f1cabd1729fc251a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aca6b21db7ceaa2c23d5c59a79ac4eef0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>setAccessFilter</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ac740d977cf661767fae91b45fc947e77" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>setAerFilter</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab71661ad9230d54a449e7df756d2d14a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>setStateFilter</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a5f3b9a1e35e1fb102c0a8c84e4f6aec5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>setStep</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3cf72f1f58dbb09c81965e4b5efc2587" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>setTolerance</name></member>

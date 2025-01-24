@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</compoundname>
+    <includes refid="_visibility_criterion_8hpp" local="no">VisibilityCriterion.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adb064c965b1a8ade4e79f57e08ab6da2" prot="public" static="no" mutable="no">
+        <type>Interval&lt; Real &gt;</type>
+        <definition>Interval&lt;Real&gt; ostk::astrodynamics::access::VisibilityCriterion::AERInterval::azimuth</definition>
+        <argsstring></argsstring>
+        <name>azimuth</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="44" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adc509120b6f3661655b217872b67ac5b" prot="public" static="no" mutable="no">
+        <type>Interval&lt; Real &gt;</type>
+        <definition>Interval&lt;Real&gt; ostk::astrodynamics::access::VisibilityCriterion::AERInterval::elevation</definition>
+        <argsstring></argsstring>
+        <name>elevation</name>
+        <briefdescription>
+<para>Azimuth interval in radians. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="45" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a4c957cbda06263cd804685fcb0339dd2" prot="public" static="no" mutable="no">
+        <type>Interval&lt; Real &gt;</type>
+        <definition>Interval&lt;Real&gt; ostk::astrodynamics::access::VisibilityCriterion::AERInterval::range</definition>
+        <argsstring></argsstring>
+        <name>range</name>
+        <briefdescription>
+<para>Elevation interval in radians. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="46" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a9b50b51de0041eb94223553e221b201a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::access::VisibilityCriterion::AERInterval::AERInterval</definition>
+        <argsstring>(const Interval&lt; Real &gt; &amp;anAzimuth, const Interval&lt; Real &gt; &amp;anElevation, const Interval&lt; Real &gt; &amp;aRange)</argsstring>
+        <name>AERInterval</name>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>anAzimuth</declname>
+        </param>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>anElevation</declname>
+        </param>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>aRange</declname>
+        </param>
+        <briefdescription>
+<para>Range interval in meters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs an <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAzimuth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The azimuth interval. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anElevation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The elevation interval. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The range interval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="53" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERInterval.cpp" bodystart="12" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7e2c5ba9d4ceec7e5e51fc22ed051111" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERInterval::isSatisfied</definition>
+        <argsstring>(const AER &amp;anAer) const</argsstring>
+        <name>isSatisfied</name>
+        <param>
+          <type>const AER &amp;</type>
+          <declname>anAer</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given AER satisfies the criterion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AER to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the criterion is satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="59" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERInterval.cpp" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1ae1b31ed1a13063e536971e849791cd66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERInterval::isSatisfied</definition>
+        <argsstring>(const Real &amp;anAzimuthRadians, const Real &amp;anElevationRadians, const Real &amp;aRangeMeters) const</argsstring>
+        <name>isSatisfied</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anAzimuthRadians</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anElevationRadians</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aRangeMeters</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given azimuth, elevation, and range values satisfy the criterion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAzimuthRadians</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The azimuth in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anElevationRadians</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The elevation in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRangeMeters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The range in meters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the criterion is satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="67" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERInterval.cpp" bodystart="70" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1aa9c1c89ffbccf67f97e597ecd33654f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERInterval::operator==</definition>
+        <argsstring>(const AERInterval &amp;anAerInterval) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref> &amp;</type>
+          <declname>anAerInterval</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAerInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="73" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERInterval.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a3e693c2d2a2fc493c81e3207a7522e80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::AERInterval::operator!=</definition>
+        <argsstring>(const AERInterval &amp;anAerInterval) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref> &amp;</type>
+          <declname>anAerInterval</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAerInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="79" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERInterval.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents an AER interval visibility criterion. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>Interval&lt; Real &gt;</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</label>
+        <link refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>range</edgelabel>
+          <edgelabel>elevation</edgelabel>
+          <edgelabel>azimuth</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="43" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="42" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a9b50b51de0041eb94223553e221b201a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>AERInterval</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adb064c965b1a8ade4e79f57e08ab6da2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>azimuth</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adc509120b6f3661655b217872b67ac5b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>elevation</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7e2c5ba9d4ceec7e5e51fc22ed051111" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>isSatisfied</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1ae1b31ed1a13063e536971e849791cd66" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>isSatisfied</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a3e693c2d2a2fc493c81e3207a7522e80" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>operator!=</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1aa9c1c89ffbccf67f97e597ecd33654f0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>operator==</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a4c957cbda06263cd804685fcb0339dd2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</scope><name>range</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

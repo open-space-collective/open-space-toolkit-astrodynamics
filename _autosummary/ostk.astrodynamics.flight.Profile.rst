@@ -25,7 +25,7 @@ ostk.astrodynamics.flight.Profile
       ~Profile.get_states_at
       ~Profile.inertial_pointing
       ~Profile.is_defined
-      ~Profile.nadir_pointing
+      ~Profile.local_orbital_frame_pointing
       ~Profile.undefined
    
    

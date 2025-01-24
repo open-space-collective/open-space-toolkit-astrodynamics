@@ -22,6 +22,7 @@
    
       AngularVelocity
       AttitudeQuaternion
+      CartesianAcceleration
       CartesianPosition
       CartesianVelocity
    

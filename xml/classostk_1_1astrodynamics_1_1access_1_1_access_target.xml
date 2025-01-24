@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1access_1_1_access_target" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::access::AccessTarget</compoundname>
+    <includes refid="_generator_8hpp" local="no">Generator.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <enumvalue id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297a4457d440870ad6d42bab9082d9bf9b61" prot="public">
+          <name>Fixed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297a2c1f43c429c5e00feaef7ba3327375dc" prot="public">
+          <name>Trajectory</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="70" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="69" bodyend="73"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a65923f57953b027f19d220a89a464d0b" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" kindref="member">Type</ref></type>
+        <definition>Type ostk::astrodynamics::access::AccessTarget::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="181" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1aa2b0ae62f097978076b3a163630ad77d" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
+        <definition>VisibilityCriterion ostk::astrodynamics::access::AccessTarget::visibilityCriterion_</definition>
+        <argsstring></argsstring>
+        <name>visibilityCriterion_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="182" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a056a8202e36ac73d3f1048c5ad44e9a3" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref></type>
+        <definition>Trajectory ostk::astrodynamics::access::AccessTarget::trajectory_</definition>
+        <argsstring></argsstring>
+        <name>trajectory_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="183" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af5f9df6e044f68ed483fcdb8230f2332" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" kindref="member">Type</ref> &amp;</type>
+        <definition>const AccessTarget::Type &amp; ostk::astrodynamics::access::AccessTarget::accessType</definition>
+        <argsstring>() const</argsstring>
+        <name>accessType</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> the type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" kindref="member">AccessTarget::Type</ref><sp/>type<sp/>=<sp/>accessTarget.accessType();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="83" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a4b3e93d4a7bbf2425bdcbb3e6c654f03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+        <definition>const VisibilityCriterion &amp; ostk::astrodynamics::access::AccessTarget::accessVisibilityCriterion</definition>
+        <argsstring>() const</argsstring>
+        <name>accessVisibilityCriterion</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> the visibility criteria. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">VisibilityCriterion<sp/>visibilityCriterion<sp/>=<sp/>accessTarget.accessVisibilityCriterion();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The visibility criteria </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="93" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a1ab0fcd8af1ab98a98c48b5a6df59db5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+        <definition>const Trajectory &amp; ostk::astrodynamics::access::AccessTarget::accessTrajectory</definition>
+        <argsstring>() const</argsstring>
+        <name>accessTrajectory</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> the trajectory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Trajectory&amp;<sp/>trajectory<sp/>=<sp/>accessTarget.accessTrajectory();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The trajectory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="103" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a0369a428baec017b6926aebda9914834" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Position</type>
+        <definition>Position ostk::astrodynamics::access::AccessTarget::getPosition</definition>
+        <argsstring>() const</argsstring>
+        <name>getPosition</name>
+        <briefdescription>
+<para>Get the position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Position<sp/>position<sp/>=<sp/>accessTarget.getPosition();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The position </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="113" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a5fda31a9c8c6c96681475fd8ec9b0e72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>LLA</type>
+        <definition>LLA ostk::astrodynamics::access::AccessTarget::getLLA</definition>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestialSPtr) const</argsstring>
+        <name>getLLA</name>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestialSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Get the latitude, longitude, and altitude (LLA) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">LLA<sp/>lla<sp/>=<sp/>accessTarget.getLLA();</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCelestialSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A celestial body</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The latitude, longitude, and altitude (LLA) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="125" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a2cd98ada41f1276e37dc7e7d3fe3598e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Matrix3d</type>
+        <definition>Matrix3d ostk::astrodynamics::access::AccessTarget::computeR_SEZ_ECEF</definition>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestialSPtr) const</argsstring>
+        <name>computeR_SEZ_ECEF</name>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestialSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Get the rotation matrix (Matrix3d) from ECEF (Earth-Centered-Earth-Fixed) to SEZ (South-East-Zenith) frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Matrix3d<sp/>sezRotation<sp/>=<sp/>accessTarget.computeR_SEZ_ECEF();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The SEZ rotation matrix </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="136" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="79" bodyend="94"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af18ed5cf8155dd3f31595cbda2fa8395" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref></type>
+        <definition>AccessTarget ostk::astrodynamics::access::AccessTarget::FromLLA</definition>
+        <argsstring>(const VisibilityCriterion &amp;aVisibilityCriterion, const LLA &amp;anLLA, const Shared&lt; const Celestial &gt; &amp;aCelestialSPtr)</argsstring>
+        <name>FromLLA</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>anLLA</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Celestial &gt; &amp;</type>
+          <declname>aCelestialSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Construct an <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> Target from an LLA (Latitude, Longitude, Altitude) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af18ed5cf8155dd3f31595cbda2fa8395" kindref="member">AccessTarget::FromLLA</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>visibilityCriterion,<sp/>lla,<sp/>celestialSPtr</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVisibilityCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestialSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> target </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="150" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="96" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ace9ba102163dec08b6e30e86c25ed687" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref></type>
+        <definition>AccessTarget ostk::astrodynamics::access::AccessTarget::FromPosition</definition>
+        <argsstring>(const VisibilityCriterion &amp;aVisibilityCriterion, const Position &amp;aPosition)</argsstring>
+        <name>FromPosition</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <param>
+          <type>const Position &amp;</type>
+          <declname>aPosition</declname>
+        </param>
+        <briefdescription>
+<para>Construct an <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> Target from a position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ace9ba102163dec08b6e30e86c25ed687" kindref="member">AccessTarget::FromPosition</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>visibilityCriterion,<sp/>position</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVisibilityCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> target </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="165" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a92129b253d244fd162f184a29942741d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref></type>
+        <definition>AccessTarget ostk::astrodynamics::access::AccessTarget::FromTrajectory</definition>
+        <argsstring>(const VisibilityCriterion &amp;aVisibilityCriterion, const Trajectory &amp;aTrajectory)</argsstring>
+        <name>FromTrajectory</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <briefdescription>
+<para>Construct an <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> Target from a trajectory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AccessTarget<sp/>accessTarget<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a92129b253d244fd162f184a29942741d" kindref="member">AccessTarget::FromTrajectory</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>visibilityCriterion,<sp/>trajectory</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVisibilityCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> target </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="178" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="119" bodyend="129"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ab27c739b0472b1b9ab4257d1476c5923" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::access::AccessTarget::AccessTarget</definition>
+        <argsstring>(const Type &amp;aType, const VisibilityCriterion &amp;aVisibilityCriterion, const Trajectory &amp;aTrajectory)</argsstring>
+        <name>AccessTarget</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="185" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="131" bodyend="138"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents the configuration for an <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> target, including azimuth, elevation, and range intervals, as well as position and LLA (Latitude, Longitude, Altitude). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class provides methods to retrieve the trajectory, position, LLA, and intervals for azimuth, elevation, and range. It also includes a method to get the SEZ (South-East-Zenith) rotation matrix. </para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="67" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="66" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ab27c739b0472b1b9ab4257d1476c5923" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>AccessTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a1ab0fcd8af1ab98a98c48b5a6df59db5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>accessTrajectory</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af5f9df6e044f68ed483fcdb8230f2332" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>accessType</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a4b3e93d4a7bbf2425bdcbb3e6c654f03" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>accessVisibilityCriterion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a2cd98ada41f1276e37dc7e7d3fe3598e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>computeR_SEZ_ECEF</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af18ed5cf8155dd3f31595cbda2fa8395" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>FromLLA</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ace9ba102163dec08b6e30e86c25ed687" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>FromPosition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a92129b253d244fd162f184a29942741d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>FromTrajectory</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a5fda31a9c8c6c96681475fd8ec9b0e72" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>getLLA</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a0369a428baec017b6926aebda9914834" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>getPosition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a056a8202e36ac73d3f1048c5ad44e9a3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>trajectory_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>Type</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a65923f57953b027f19d220a89a464d0b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>type_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1aa2b0ae62f097978076b3a163630ad77d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>visibilityCriterion_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

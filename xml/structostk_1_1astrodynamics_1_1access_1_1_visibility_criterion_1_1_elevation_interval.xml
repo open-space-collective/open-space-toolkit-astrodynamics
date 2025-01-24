@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</compoundname>
+    <includes refid="_visibility_criterion_8hpp" local="no">VisibilityCriterion.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ac8e77966d5c22091eba1f27fbf4400e5" prot="public" static="no" mutable="no">
+        <type>Interval&lt; Real &gt;</type>
+        <definition>Interval&lt;Real&gt; ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval::elevation</definition>
+        <argsstring></argsstring>
+        <name>elevation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="157" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a2b41e7937d469c97e331d90ab962e08e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval::ElevationInterval</definition>
+        <argsstring>(const Interval&lt; Real &gt; &amp;anElevationInterval)</argsstring>
+        <name>ElevationInterval</name>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>anElevationInterval</declname>
+        </param>
+        <briefdescription>
+<para>Elevation interval in radians. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs an <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anElevationInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The elevation interval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="162" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/ElevationInterval.cpp" bodystart="12" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a5f666578fbdd590ca1c6d5ce52285872" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval::isSatisfied</definition>
+        <argsstring>(const Real &amp;anElevation) const</argsstring>
+        <name>isSatisfied</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anElevation</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given elevation angle satisfies the criterion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anElevation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The elevation in radians. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the criterion is satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="168" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/ElevationInterval.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a63d0d8e26a1a94a6dcc85be35fecff61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval::operator==</definition>
+        <argsstring>(const ElevationInterval &amp;anElevationInterval) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref> &amp;</type>
+          <declname>anElevationInterval</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anElevationInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="174" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/ElevationInterval.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1aa4e78b131ed38988f8d77771a85b79c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval::operator!=</definition>
+        <argsstring>(const ElevationInterval &amp;anElevationInterval) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref> &amp;</type>
+          <declname>anElevationInterval</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anElevationInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="180" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/ElevationInterval.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents an elevation interval visibility criterion. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</label>
+        <link refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>elevation</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Interval&lt; Real &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="156" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="155" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ac8e77966d5c22091eba1f27fbf4400e5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</scope><name>elevation</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a2b41e7937d469c97e331d90ab962e08e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</scope><name>ElevationInterval</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a5f666578fbdd590ca1c6d5ce52285872" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</scope><name>isSatisfied</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1aa4e78b131ed38988f8d77771a85b79c5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</scope><name>operator!=</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a63d0d8e26a1a94a6dcc85be35fecff61" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

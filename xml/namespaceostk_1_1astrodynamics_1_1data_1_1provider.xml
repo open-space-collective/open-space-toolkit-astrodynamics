@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1data_1_1provider" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::data::provider</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1ab4a404ad796944818f31e911f8ea46dd" prot="public" static="yes" mutable="no">
+        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt;</type>
+        <definition>const Shared&lt;const LocalOrbitalFrameFactory&gt; ostk::astrodynamics::data::provider::VVLHFrameFactory</definition>
+        <argsstring></argsstring>
+        <name>VVLHFrameFactory</name>
+        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a2b4b29b76403cfa4aa33c406c05af131" kindref="member">LocalOrbitalFrameFactory::VVLH</ref>(Frame::GCRF())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="35" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1a800916091023edd514eb81e189eed42b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple&lt; Angle, Angle, Angle &gt;</type>
+        <definition>Tuple&lt; Angle, Angle, Angle &gt; ostk::astrodynamics::data::provider::ComputeOffNadirAngles</definition>
+        <argsstring>(const State &amp;aState, const Position &amp;aTargetPosition)</argsstring>
+        <name>ComputeOffNadirAngles</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Position &amp;</type>
+          <declname>aTargetPosition</declname>
+        </param>
+        <briefdescription>
+<para>Compute the along-track, cross-track and total off-nadir angle between the satellite and the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>The along-track angle is the angle between the nadir vector [Z] and the projection of the satellite-&gt;target vector onto the plane defined by the satellite local horizontal (velocity vector in circular orbits) [X] and the nadir vector [Z].</para>
+</listitem><listitem><para>The cross-track angle is the angle between the nadir vector [Z] and the projection of the satellite-&gt;target vector onto the plane defined by the negative orbital momentum vector [Y] and the nadir vector [Z].</para>
+</listitem><listitem><para>The total off-nadir angle is the angle between the nadir vector [Z] and the satellite-&gt;target vector.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state of the satellite </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetPosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position of the target </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the along-track, cross-track and total off-nadir angles </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="37" column="7" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="37" bodyend="72" declfile="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" declline="40" declcolumn="7"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

@@ -16,12 +16,6 @@
       <node id="13">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
-      <node id="45">
-        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</label>
-        <link refid="_cartesian_position_8hpp"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-      </node>
       <node id="39">
         <label>OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</label>
         <link refid="_root_solver_8hpp"/>
@@ -168,22 +162,12 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
       </node>
       <node id="14">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
       <node id="18">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
-      </node>
-      <node id="44">
-        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp</label>
-        <link refid="_cartesian_velocity_8hpp"/>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>OpenSpaceToolkit/Core/Utility.hpp</label>
@@ -283,7 +267,7 @@
       <node id="27">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
-      <node id="46">
+      <node id="44">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
         <link refid="_state_builder_8hpp"/>
         <childnode refid="11" relation="include">
@@ -425,7 +409,7 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="46" relation="include">
+        <childnode refid="44" relation="include">
         </childnode>
       </node>
     </incdepgraph>

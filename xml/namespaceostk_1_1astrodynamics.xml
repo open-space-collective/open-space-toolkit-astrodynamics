@@ -10,6 +10,7 @@
     <innerclass refid="classostk_1_1astrodynamics_1_1_trajectory" prot="public">ostk::astrodynamics::Trajectory</innerclass>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1access">ostk::astrodynamics::access</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction">ostk::astrodynamics::conjunction</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1data">ostk::astrodynamics::data</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1dynamics">ostk::astrodynamics::dynamics</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1eventcondition">ostk::astrodynamics::eventcondition</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight">ostk::astrodynamics::flight</innernamespace>
@@ -256,6 +257,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="26" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="28" column="1"/>
   </compounddef>
 </doxygen>

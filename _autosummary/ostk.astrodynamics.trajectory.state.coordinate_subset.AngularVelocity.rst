@@ -24,6 +24,7 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AngularVelocity
       ~AngularVelocity.get_size
       ~AngularVelocity.in_frame
       ~AngularVelocity.mass
+      ~AngularVelocity.mass_flow_rate
       ~AngularVelocity.subtract
       ~AngularVelocity.surface_area
    

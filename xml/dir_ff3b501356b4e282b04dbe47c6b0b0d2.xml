@@ -4,6 +4,7 @@
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset</compoundname>
     <innerfile refid="_angular_velocity_8hpp">AngularVelocity.hpp</innerfile>
     <innerfile refid="_attitude_quaternion_8hpp">AttitudeQuaternion.hpp</innerfile>
+    <innerfile refid="_cartesian_acceleration_8hpp">CartesianAcceleration.hpp</innerfile>
     <innerfile refid="_cartesian_position_8hpp">CartesianPosition.hpp</innerfile>
     <innerfile refid="_cartesian_velocity_8hpp">CartesianVelocity.hpp</innerfile>
     <briefdescription>

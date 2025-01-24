@@ -28,25 +28,12 @@ body_frame = orbital_profile.get_body_frame("Body")
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mTypeError[0m                                 Traceback (most recent call last)
+[0;31mAttributeError[0m                            Traceback (most recent call last)
 Cell [0;32mIn[19], line 2[0m
 [1;32m      1[0m orbital_frame [38;5;241m=[39m satellite_orbit[38;5;241m.[39mget_orbital_frame(Orbit[38;5;241m.[39mFrameType[38;5;241m.[39mVVLH)
-[0;32m----> 2[0m orbital_profile [38;5;241m=[39m [43mProfile[49m[38;5;241;43m.[39;49m[43mnadir_pointing[49m[43m([49m[43msatellite_orbit[49m[43m,[49m[43m [49m[43morbital_frame[49m[43m)[49m
+[0;32m----> 2[0m orbital_profile [38;5;241m=[39m [43mProfile[49m[38;5;241;43m.[39;49m[43mnadir_pointing[49m(satellite_orbit, orbital_frame)
 [1;32m      3[0m [38;5;28;01mif[39;00m Frame[38;5;241m.[39mexists([38;5;124m"[39m[38;5;124mBody[39m[38;5;124m"[39m):
 [1;32m      4[0m     Frame[38;5;241m.[39mdestruct([38;5;124m"[39m[38;5;124mBody[39m[38;5;124m"[39m)
 
-[0;31mTypeError[0m: nadir_pointing(): incompatible function arguments. The following argument types are supported:
-    1. (orbit: ostk.astrodynamics.trajectory.Orbit, orbital_frame_type: ostk.astrodynamics.trajectory.Orbit.FrameType) -> ostk.astrodynamics.flight.Profile
-
-Invoked with: -- Orbit -------------------------------------------------------------------------------------------
-    Model - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    Epoch:                                   2018-09-17 18:34:54.432.768 [UTC]        
-    Two-Line Elements - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-----------------------------------------------------------------------------------------------------
-, -- Frame -------------------------------------------------------------------------------------------
-    Name:                                    VVLH @ Orbit [0x2806340]                 
-    Quasi-inertial:                          false                                    
-    Parent frame:                            GCRF                                     
-----------------------------------------------------------------------------------------------------
-
+[0;31mAttributeError[0m: type object 'ostk.astrodynamics.flight.Profile' has no attribute 'nadir_pointing'
 

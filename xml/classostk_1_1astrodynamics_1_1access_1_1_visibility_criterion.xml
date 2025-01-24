@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::access::VisibilityCriterion</compoundname>
+    <includes refid="_visibility_criterion_8hpp" local="no">VisibilityCriterion.hpp</includes>
+    <innerclass refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" prot="public">ostk::astrodynamics::access::VisibilityCriterion::AERInterval</innerclass>
+    <innerclass refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" prot="public">ostk::astrodynamics::access::VisibilityCriterion::AERMask</innerclass>
+    <innerclass refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" prot="public">ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</innerclass>
+    <innerclass refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" prot="public">ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1accd417085e25630deb96cb1c4a02def5" prot="private" static="no" mutable="no">
+        <type>std::variant&lt; <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref>, <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref>, <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kindref="compound">LineOfSight</ref>, <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref> &gt;</type>
+        <definition>std::variant&lt;AERInterval, AERMask, LineOfSight, ElevationInterval&gt; ostk::astrodynamics::access::VisibilityCriterion::visibilityCriterion_</definition>
+        <argsstring></argsstring>
+        <name>visibilityCriterion_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="254" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a6986144cfa7814c0b4fc555684b4abba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::operator==</definition>
+        <argsstring>(const VisibilityCriterion &amp;aVisibilityCriterion) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVisibilityCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="187" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1add41f3b5b83c97dc417414b4e03c22d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::operator!=</definition>
+        <argsstring>(const VisibilityCriterion &amp;aVisibilityCriterion) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVisibilityCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="193" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a5a7bfa525cbc48b1d4c212dff94cad4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::is</definition>
+        <argsstring>() const</argsstring>
+        <name>is</name>
+        <briefdescription>
+<para>Checks if the visibility criterion is of type T. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the criterion is of type T. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="233" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19371203e90e5f687e27016d927f991c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt;T&gt; ostk::astrodynamics::access::VisibilityCriterion::as</definition>
+        <argsstring>() const</argsstring>
+        <name>as</name>
+        <briefdescription>
+<para>Casts the visibility criterion to type T if possible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type to cast to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An optional containing the criterion cast to type T, or std::nullopt if the criterion is not of type T. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="243" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="243" bodyend="251"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
+        <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromAERInterval</definition>
+        <argsstring>(const Interval&lt; Real &gt; &amp;anAzimuthInterval, const Interval&lt; Real &gt; &amp;anElevationInterval, const Interval&lt; Real &gt; &amp;aRangeInterval)</argsstring>
+        <name>FromAERInterval</name>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>anAzimuthInterval</declname>
+        </param>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>anElevationInterval</declname>
+        </param>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>aRangeInterval</declname>
+        </param>
+        <briefdescription>
+<para>Creates a visibility criterion from azimuth, elevation, and range intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAzimuthInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Azimuth interval in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anElevationInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elevation interval in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRangeInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range interval in meters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The visibility criterion instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="201" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
+        <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromAERMask</definition>
+        <argsstring>(const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRangeInterval)</argsstring>
+        <name>FromAERMask</name>
+        <param>
+          <type>const Map&lt; Real, Real &gt; &amp;</type>
+          <declname>anAzimuthElevationMask</declname>
+        </param>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>aRangeInterval</declname>
+        </param>
+        <briefdescription>
+<para>Creates a visibility criterion from an azimuth-elevation mask and range interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAzimuthElevationMask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A map of azimuth angles to elevation angles in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRangeInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range interval in meters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The visibility criterion instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="212" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="29" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a98fee7db2cca4c9a0510552b8ee6444e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
+        <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromLineOfSight</definition>
+        <argsstring>(const Environment &amp;anEnvironment)</argsstring>
+        <name>FromLineOfSight</name>
+        <param>
+          <type>const Environment &amp;</type>
+          <declname>anEnvironment</declname>
+        </param>
+        <briefdescription>
+<para>Creates a visibility criterion based on line-of-sight considerations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEnvironment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The environment to consider for line-of-sight calculations. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The visibility criterion instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="220" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
+        <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromElevationInterval</definition>
+        <argsstring>(const Interval&lt; Real &gt; &amp;anElevationInterval)</argsstring>
+        <name>FromElevationInterval</name>
+        <param>
+          <type>const Interval&lt; Real &gt; &amp;</type>
+          <declname>anElevationInterval</declname>
+        </param>
+        <briefdescription>
+<para>Creates a visibility criterion from an elevation interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anElevationInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The elevation interval in radians. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The visibility criterion instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="226" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19701238953eeaa5b2e38d286e5fec19" prot="private" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>ostk::astrodynamics::access::VisibilityCriterion::VisibilityCriterion</definition>
+        <argsstring>(const T &amp;aVisibilityCriterion)</argsstring>
+        <name>VisibilityCriterion</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>aVisibilityCriterion</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> from a specific type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the visibility criterion. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVisibilityCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The visibility criterion. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="261" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="261" bodyend="264"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a visibility criterion for accesses between objects. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="38" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19371203e90e5f687e27016d927f991c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>as</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromAERInterval</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromAERMask</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromElevationInterval</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a98fee7db2cca4c9a0510552b8ee6444e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromLineOfSight</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a5a7bfa525cbc48b1d4c212dff94cad4d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>is</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1add41f3b5b83c97dc417414b4e03c22d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a6986144cfa7814c0b4fc555684b4abba" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19701238953eeaa5b2e38d286e5fec19" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>VisibilityCriterion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1accd417085e25630deb96cb1c4a02def5" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>visibilityCriterion_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

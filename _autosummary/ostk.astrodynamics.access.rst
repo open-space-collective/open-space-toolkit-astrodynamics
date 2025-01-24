@@ -20,7 +20,9 @@
       :template: custom-class-template.rst
       :nosignatures:
    
+      AccessTarget
       Generator
+      VisibilityCriterion
    
    
 

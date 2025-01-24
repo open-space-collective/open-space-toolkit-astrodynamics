@@ -4,6 +4,7 @@
     <compoundname>ostk::astrodynamics::trajectory::state::CoordinateSubset</compoundname>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_angular_velocity" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity</derivedcompoundref>
     <includes refid="_coordinate_subset_8hpp" local="no">CoordinateSubset.hpp</includes>
@@ -19,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="153" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="153" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="158" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="158" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a4528cbbc3da7e43cacfc16db1357ad9e" prot="private" static="no" mutable="no">
         <type>Size</type>
@@ -32,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="154" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="154" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="159" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a283c038a360df0c5c34f996e52b0a7b3" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -45,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="155" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="155" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="160" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="160" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -228,6 +229,7 @@
         <name>add</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1aac5c534d819e430a904245654b66f1f7">add</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a6dfd93a5d1f3216523e8369a18693bb5">add</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a437bbbf56f2b7d34b5368f2bbca16cf6">add</reimplementedby>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -308,6 +310,7 @@
         <name>subtract</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a52152414243f65bbce00fd9b38a73247">subtract</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a454e90269bc9592d25e0e53a05e7e31e">subtract</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ac0041ad2c44cc462132fd11c608264c0">subtract</reimplementedby>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -390,6 +393,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1aafddde8321b75f5ed38aed04675fecaa">inFrame</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1ad3d046dcd4c8c0d7dbe3e86a4a35acc5">inFrame</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a6bb03994b989934f9ec7c27aabb6de8e">inFrame</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a84bb132d3b9e8f79fe3540c99bd3c418">inFrame</reimplementedby>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -505,7 +509,7 @@
         <argsstring>()</argsstring>
         <name>DragCoefficient</name>
         <briefdescription>
-<para>Return a default DragCoefficient instance. </para>
+<para>Return a default Drag Coefficient instance. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>The default DragCoefficient shared pointer instance </para>
@@ -516,6 +520,23 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="150" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="117" bodyend="122"/>
       </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a0fb94fa8af9106b2db67a58faeb5c843" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
+        <definition>Shared&lt; const CoordinateSubset &gt; ostk::astrodynamics::trajectory::state::CoordinateSubset::MassFlowRate</definition>
+        <argsstring>()</argsstring>
+        <name>MassFlowRate</name>
+        <briefdescription>
+<para>Return a default Mass Flow Rate instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The default Mass Flow Rate shared pointer instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="155" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> coordinate subset. It contains information related to a particular group of coordinates. It does not contain the coordinate values. </para>
@@ -523,7 +544,7 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="4">
+      <node id="5">
         <label>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</label>
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position"/>
         <childnode refid="1" relation="public-inheritance">
@@ -535,7 +556,7 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity</label>
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity"/>
         <childnode refid="1" relation="public-inheritance">
@@ -547,12 +568,18 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="4">
+        <label>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="1">
         <label>ostk::astrodynamics::trajectory::state::CoordinateSubset</label>
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset"/>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="38" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="37" bodyend="156"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" line="38" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp" bodystart="37" bodyend="161"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a5f7379a42f85f41254d7ec6193745316" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>add</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a48809e11b2ede4897b90f7651fa7590e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>CoordinateSubset</name></member>
@@ -564,6 +591,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a283c038a360df0c5c34f996e52b0a7b3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>id_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a79d4f756ddb6a6026ec1f859f0caac2c" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>inFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>Mass</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a0fb94fa8af9106b2db67a58faeb5c843" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>MassFlowRate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ad9c5cad7e243318266bf1cf784d41899" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>name_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ae5a53db9c533ab64e430ac4fe1b25322" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a9869d17db540a60446f06aed9ebf6b18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::CoordinateSubset</scope><name>operator==</name></member>

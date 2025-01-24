@@ -26,6 +26,43 @@
     <member refid="classostk_1_1astrodynamics_1_1_access_1a4317f489c22540a9a9aa2e52ecdad275" kind="function"><name>Undefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_access_1a85fd2b7f1ec58fc6662e0eb51b7b8604" kind="function"><name>StringFromType</name></member>
   </compound>
+  <compound refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kind="class"><name>ostk::astrodynamics::access::AccessTarget</name>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" kind="enum"><name>Type</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297a4457d440870ad6d42bab9082d9bf9b61" kind="enumvalue"><name>Fixed</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297a2c1f43c429c5e00feaef7ba3327375dc" kind="enumvalue"><name>Trajectory</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a65923f57953b027f19d220a89a464d0b" kind="variable"><name>type_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1aa2b0ae62f097978076b3a163630ad77d" kind="variable"><name>visibilityCriterion_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a056a8202e36ac73d3f1048c5ad44e9a3" kind="variable"><name>trajectory_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af5f9df6e044f68ed483fcdb8230f2332" kind="function"><name>accessType</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a4b3e93d4a7bbf2425bdcbb3e6c654f03" kind="function"><name>accessVisibilityCriterion</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a1ab0fcd8af1ab98a98c48b5a6df59db5" kind="function"><name>accessTrajectory</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a0369a428baec017b6926aebda9914834" kind="function"><name>getPosition</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a5fda31a9c8c6c96681475fd8ec9b0e72" kind="function"><name>getLLA</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a2cd98ada41f1276e37dc7e7d3fe3598e" kind="function"><name>computeR_SEZ_ECEF</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af18ed5cf8155dd3f31595cbda2fa8395" kind="function"><name>FromLLA</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ace9ba102163dec08b6e30e86c25ed687" kind="function"><name>FromPosition</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a92129b253d244fd162f184a29942741d" kind="function"><name>FromTrajectory</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ab27c739b0472b1b9ab4257d1476c5923" kind="function"><name>AccessTarget</name></member>
+  </compound>
+  <compound refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kind="struct"><name>ostk::astrodynamics::access::VisibilityCriterion::AERInterval</name>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adb064c965b1a8ade4e79f57e08ab6da2" kind="variable"><name>azimuth</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adc509120b6f3661655b217872b67ac5b" kind="variable"><name>elevation</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a4c957cbda06263cd804685fcb0339dd2" kind="variable"><name>range</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a9b50b51de0041eb94223553e221b201a" kind="function"><name>AERInterval</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7e2c5ba9d4ceec7e5e51fc22ed051111" kind="function"><name>isSatisfied</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1ae1b31ed1a13063e536971e849791cd66" kind="function"><name>isSatisfied</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1aa9c1c89ffbccf67f97e597ecd33654f0" kind="function"><name>operator==</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a3e693c2d2a2fc493c81e3207a7522e80" kind="function"><name>operator!=</name></member>
+  </compound>
+  <compound refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kind="struct"><name>ostk::astrodynamics::access::VisibilityCriterion::AERMask</name>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8a71ef6bd05102f2dd1c3ac09704cb9b" kind="variable"><name>azimuthElevationMask</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1ac1711ce1afd3a7f12b7a67ca53046598" kind="variable"><name>range</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a53a37b94d8e864f78004f1b19f0dd71c" kind="function"><name>AERMask</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" kind="function"><name>isSatisfied</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a0a9e2e5e5a4316368f3291a0fe512270" kind="function"><name>isSatisfied</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8ab8b08a45597347b567fc1789577255" kind="function"><name>operator==</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a5d4b622efb12b326250fbac5abd338fe" kind="function"><name>operator!=</name></member>
+  </compound>
   <compound refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kind="class"><name>ostk::astrodynamics::eventcondition::AngularCondition</name>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kind="enum"><name>Criterion</name></member>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaaa87074e622d8fecce2c96877e39ac8e8a" kind="enumvalue"><name>AnyCrossing</name></member>
@@ -108,6 +145,17 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa24e347d1ddc78bb7b562cceccf288b5" kind="function"><name>Cartesian</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a5e46f5cbd1aa68040607fd8a74a0ad29" kind="function"><name>Undefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a524abe59a0d7d88972eef6657e2cafe9" kind="function"><name>FromSIVector</name></member>
+  </compound>
+  <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kind="class"><name>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration</name>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1af213f30851f74eb762b29f498d0407e9" kind="variable"><name>cartesianPositionSPtr_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1aeae1eb0c690361960d20338740f9cb5b" kind="variable"><name>cartesianVelocitySPtr_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a93a4da3d0e6b6bb545a5085c608e1949" kind="function"><name>CartesianAcceleration</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ae2c7054638350746a33d1c749f300b61" kind="function"><name>~CartesianAcceleration</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a437bbbf56f2b7d34b5368f2bbca16cf6" kind="function"><name>add</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ac0041ad2c44cc462132fd11c608264c0" kind="function"><name>subtract</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a84bb132d3b9e8f79fe3540c99bd3c418" kind="function"><name>inFrame</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a40439f65efd2ee28a9b41c9ed227c4c7" kind="function"><name>Default</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ab3c0d5ab671ae733c4c82e153bfbc225" kind="function"><name>ThrustAcceleration</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" kind="class"><name>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1aae775248f715a243c4ada92736a659c0" kind="function"><name>CartesianPosition</name></member>
@@ -325,6 +373,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" kind="function"><name>Mass</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a3b3b8c569ea6fa4ce3d40360265626f3" kind="function"><name>SurfaceArea</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a2d67fb5500d8c2e299e9a0be68a2de8e" kind="function"><name>DragCoefficient</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a0fb94fa8af9106b2db67a58faeb5c843" kind="function"><name>MassFlowRate</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_custom_target" kind="class"><name>ostk::astrodynamics::flight::Profile::CustomTarget</name>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_custom_target_1a24d761f8eea005a26cf84c10985a6a7b" kind="variable"><name>orientationGenerator</name></member>
@@ -385,6 +434,13 @@
     <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a3c075367def5d6263bd93a5b8dd0a8f4" kind="function"><name>extractReadState</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_dynamics_1ac43fe1e6d932d32c08bcf74e305ec7f7" kind="function"><name>applyContribution</name></member>
   </compound>
+  <compound refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kind="struct"><name>ostk::astrodynamics::access::VisibilityCriterion::ElevationInterval</name>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ac8e77966d5c22091eba1f27fbf4400e5" kind="variable"><name>elevation</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a2b41e7937d469c97e331d90ab962e08e" kind="function"><name>ElevationInterval</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a5f666578fbdd590ca1c6d5ce52285872" kind="function"><name>isSatisfied</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a63d0d8e26a1a94a6dcc85be35fecff61" kind="function"><name>operator==</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1aa4e78b131ed38988f8d77771a85b79c5" kind="function"><name>operator!=</name></member>
+  </compound>
   <compound refid="classostk_1_1astrodynamics_1_1_event_condition" kind="class"><name>ostk::astrodynamics::EventCondition</name>
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1af55b4fe880915e5fa993476d205ad3ad" kind="variable"><name>name_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a22fb110e41e196c20dee2d3100ea9e2d" kind="variable"><name>evaluator_</name></member>
@@ -413,11 +469,12 @@
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a4aa4657e2cac5b0f730ace300423f683" kind="function"><name>getType</name></member>
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a54d374df562b34a36ba37528a4da1e3d" kind="function"><name>getStepPercentage</name></member>
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a61dee343133d512dab0d5d0bda94f25f" kind="function"><name>getStepDuration</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1ae69b4bd2231d77d825211ac66b25aaab" kind="function"><name>computeJacobian</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a0725cf9e33d5cd67ad67faf9d995b9e6" kind="function"><name>computeJacobian</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1aaa54594233ce617ac25df7214bd6385f" kind="function"><name>computeStateTransitionMatrix</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1adbf558ba889e84711f4ab6b3c344ac4d" kind="function"><name>computeStateTransitionMatrix</name></member>
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1ac79f73934728c671ad9f2ae077d40058" kind="function"><name>computeGradient</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a49b68627d163e9dd56e249173ee7576b" kind="function"><name>computeJacobian</name></member>
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a1c97e68ecf281842010d0fd3439e5936" kind="function"><name>print</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a6a9bc10e97e6723115f7bb8a1875dc2a" kind="friend"><name>operator&lt;&lt;</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a172c645af8f350ce9709c7882f23a7ab" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1aa3b1cfdc8b2dbbbc0250248ad3dd0eea" kind="function"><name>StringFromType</name></member>
     <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a11aa678b14d855ad98c2aef27720da05" kind="function"><name>Default</name></member>
   </compound>
@@ -425,42 +482,31 @@
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad018f05018c20eb8fba73c35b4ddf191" kind="variable"><name>environment_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbef215f83d693acb384956f04ca51e1" kind="variable"><name>step_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3ee21269375995ed6e24cdc369149468" kind="variable"><name>tolerance_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9f3af5e09a93d7993c9b7bbdec9aba2c" kind="variable"><name>aerFilter_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a93f6d19a83c46a7d8c00a4b0dcb1faa3" kind="variable"><name>accessFilter_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79dd96cb36db13816b88cbc6f291fd75" kind="variable"><name>stateFilter_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa7140d14264c70dade6a3ec156918adb" kind="function"><name>Generator</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a70ac5585ecda4ab40dda61f88f47073d" kind="function"><name>Generator</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kind="function"><name>Generator</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1e243fd78e139af1f1cabd1729fc251a" kind="function"><name>isDefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2adf2bc167b4976cfa0a2a62f5898f11" kind="function"><name>getStep</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae922b298068bb965e0b45f605b5cbb43" kind="function"><name>getTolerance</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afded49eab47b5227a6c41f3331807155" kind="function"><name>getAerFilter</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa1ad7dc07137fa64d62992c3cf9f85ab" kind="function"><name>getAccessFilter</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad19f8b17276b76b3c80af94fa02c4a41" kind="function"><name>getStateFilter</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2dc3c51cdbf7841d953da950c0fc5fd2" kind="function"><name>getConditionFunction</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae0476e334f0e1e2339eea87f29502150" kind="function"><name>computeAccesses</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae2897d02ad4d74f277c6e6cd7fc09b5b" kind="function"><name>getConditionFunction</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a214d29186ea54c3074d81bf9a6603876" kind="function"><name>computeAccesses</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aba3b221a4227e0b06a8b10bb1d2ac248" kind="function"><name>computeAccesses</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a5f3b9a1e35e1fb102c0a8c84e4f6aec5" kind="function"><name>setStep</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3cf72f1f58dbb09c81965e4b5efc2587" kind="function"><name>setTolerance</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ac740d977cf661767fae91b45fc947e77" kind="function"><name>setAerFilter</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1aca6b21db7ceaa2c23d5c59a79ac4eef0" kind="function"><name>setAccessFilter</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab71661ad9230d54a449e7df756d2d14a" kind="function"><name>setStateFilter</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1d28164d6563e8b92d7f20987d20df51" kind="function"><name>Undefined</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ada929460ad1eeb471788152678c15142" kind="function"><name>AerRanges</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9062dacd7a44c8306e37459a0ca700b6" kind="function"><name>AerMask</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3730059acc84fc8b0fe8eadbd6a7e4c7" kind="function"><name>computeAccessesForTrajectoryTarget</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbdbe36beb8bbf63d1045c220058289d" kind="function"><name>computeAccessesForFixedTargets</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a52230a41412b3ce41b8688a8b0a6785e" kind="function"><name>generateAccessesFromIntervals</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a03c578cbf4f653ef69892b318754a8ea" kind="function"><name>computePreciseCrossings</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1af8dc7f2e1d27630a6421a97427c45327" kind="function"><name>ComputeIntervals</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a597227bf2aee3a292795967a045ca359" kind="function"><name>GenerateAccess</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab77bb1d3c4895a42212585640ca610e8" kind="function"><name>FindTimeOfClosestApproach</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79d95dcfc19c7c232d8f4abb61a51fa5" kind="function"><name>CalculateElevationAt</name></member>
-  </compound>
-  <compound refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context" kind="class"><name>ostk::astrodynamics::access::GeneratorContext</name>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a151695c3152546bc65fed68f04b64fec" kind="variable"><name>fromTrajectory_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a8a2e82ebe73c0247f1826b46b51a71a6" kind="variable"><name>toTrajectory_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a2cdbb347d399f16e75370116ec070ce4" kind="variable"><name>environment_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1ae6625f4ae40dbc814b943b8ed344c290" kind="variable"><name>earthSPtr_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a8419039aec269e90cd92086632413d77" kind="variable"><name>generator_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a4e1cbecddde9b6a5817dd5619a10f39b" kind="function"><name>GeneratorContext</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a7c2e66dde38f0c6279c6365181c05406" kind="function"><name>isAccessActive</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1ab871100ff124e1f815cc255ef38cbe56" kind="function"><name>GetStatesAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a3a5406d3ab89c47f9112c32f7570f6e6" kind="function"><name>GetPositionsFromStates</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context_1a0e1303fd4160e653ab308b3367279699" kind="function"><name>CalculateAer</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9bc0ec97334962a75ae7eac3d06cd439" kind="function"><name>CalculateAer</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1_guidance_law" kind="class"><name>ostk::astrodynamics::GuidanceLaw</name>
     <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9ccb9065feabe9baff67daba6759106e" kind="variable"><name>name_</name></member>
@@ -538,6 +584,13 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a56a70d92a556d7415af0c19971c8b92e" kind="function"><name>CalculateJ4StateAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a3d956e9858735daa294fb82cd2126f03" kind="function"><name>CalculateJ4RevolutionNumberAt</name></member>
   </compound>
+  <compound refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kind="struct"><name>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</name>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1acc2f5b5e7dd4dcc67abfeea81c2d4a31" kind="variable"><name>environment</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1aff5257210fc7e694cd0b2e9f4c778a60" kind="function"><name>LineOfSight</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1a4f198f99b95f2ad606e2cc800e462b38" kind="function"><name>isSatisfied</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1af52f28b8dd968735390ca6629fa46549" kind="function"><name>operator==</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1a43c3fa9c787be8df8d76e645363625c2" kind="function"><name>operator!=</name></member>
+  </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction" kind="class"><name>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a7ea93fe28c9fd9536fb0c289381ceee6" kind="variable"><name>value_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a94d74d6c2d310a85e10ebb3a9c091b46" kind="variable"><name>localOrbitalFrameFactorySPtr_</name></member>
@@ -553,11 +606,11 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8c8bf080e8ac6622cc1ae57b33b8afea" kind="function"><name>Undefined</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kind="class"><name>ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory</name>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a2ba128ba5da0fc1624f253dcdb552409" kind="typedef"><name>TransformGenerator</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1aae84669fd8fa0b45f95bb96f96cb1388" kind="typedef"><name>TransformGenerator</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ad0f56139119799cafd78cce61e5188c1" kind="variable"><name>type_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a05088e298cd9b6378054d924ecc704e3" kind="variable"><name>parentFrameSPtr_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a300afd033d12b7c42d023d40ce065d2a" kind="variable"><name>transformGenerator_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a7bf9b0cae50f5eb71de626f76165e4f9" kind="function"><name>generateFrame</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a5261bbb8e50ad5c3cd69d65bd285cfb4" kind="function"><name>generateFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a99d68a33a6dcc2545fcf802ff17163eb" kind="function"><name>isDefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a41cc3f111cc369cb22ea06746e1bfca4" kind="function"><name>accessParentFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a88f477b5bf24e18155f0b7b8baf9faee" kind="function"><name>getProviderType</name></member>
@@ -571,7 +624,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1aa0d92ac47b1ad888d81eed02cd8995e7" kind="function"><name>Construct</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a5af7a950bac3ddfb6053d1d050cd0779" kind="function"><name>Construct</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ae037538f2e1a4e6c1c85c772bebc7c52" kind="function"><name>LocalOrbitalFrameFactory</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ab4c83f4ac824cf204724081f30eb5918" kind="function"><name>generateFrameName</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a01b2f939ac38ee57e7b692f866156339" kind="function"><name>generateFrameName</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider" kind="class"><name>ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kind="enum"><name>Type</name></member>
@@ -590,10 +643,10 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ae7fa1cad697a253c127de94d6fa33125" kind="function"><name>clone</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a040756aae3e5aaaa464974d9a9ad5e6d" kind="function"><name>isDefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a68ef7b053487554b2ec9ff5f3976763f" kind="function"><name>getTransformAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aeb952b90ad4263cabae877fc460a4ed5" kind="function"><name>Construct</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a8f940a7e89454dc39849d90c229a88a5" kind="function"><name>GetTransformGenerator</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1acaef96c21e8d20cc5196df00a365b3bd" kind="function"><name>Construct</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a0fa19b7305a194299476a60b01444aa4" kind="function"><name>GetTransformGenerator</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa5ebee338d01e1dbf336be0d518ccc1b" kind="function"><name>StringFromType</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a33fc4da5476486da0090d52d03b41b6d" kind="function"><name>generateTransform</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ab784ad31dbe0d0830520104320b8b2c1" kind="function"><name>GenerateTransform</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition" kind="class"><name>ostk::astrodynamics::eventcondition::LogicalCondition</name>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6" kind="enum"><name>Type</name></member>
@@ -615,18 +668,16 @@
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kind="class"><name>ostk::astrodynamics::flight::Maneuver</name>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a704dea1ae3c42a73bb9c3d80db565da7" kind="variable"><name>DefaultAccelFrameSPtr</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1af9ec6923f867c6215d77ecbed8440b0f" kind="variable"><name>DefaultAccelerationCoordinateSubsetSPtr</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aca8c34d095f336b4e9650d90aef51abc" kind="variable"><name>MinimumRecommendedDuration</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a4a121a2a6e7448672867b827c296c609" kind="variable"><name>MaximumRecommendedInterpolationInterval</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a92465f079e3f602e54d3d053d11e4555" kind="variable"><name>instants_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a9b8c12c2111a23f2c6da31939d53f8f8" kind="variable"><name>accelerationProfileDefaultFrame_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1afc61bf17108d200551227a8f0bee3285" kind="variable"><name>massFlowRateProfile_</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a0b40d7b0a1a50622af85c9da39a11611" kind="function"><name>Maneuver</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a9ccafe4df0ad58d8d408b0b42541cd08" kind="variable"><name>RequiredCoordinateSubsets</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1af75082806fb422774758897963625c24" kind="variable"><name>states_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a2aa803fa6865ba9220d450b736e4d2f0" kind="function"><name>Maneuver</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae21f118c45b3b84cfc7744da80ea4598" kind="function"><name>operator==</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a2b283b78fef0c52fd9991f01ba2ced97" kind="function"><name>operator!=</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7a50d850d84b4ab55c11995280b6d97f" kind="function"><name>isDefined</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1aa47e38ad94c14d958bb581a15e8a3401" kind="function"><name>getInstants</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1add5d5e077fb72247c6b9ef37ddcaab28" kind="function"><name>getAccelerationProfile</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a303a5f225d64a08edaa4d33fc8133610" kind="function"><name>getMassFlowRateProfile</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae2fd390e1b36281b234a042e61cdf2c3" kind="function"><name>getStates</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a73bebd99cd96958b5c622ce7ab214e03" kind="function"><name>getInterval</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a309afcadbe4bd497278ac0132b5f3154" kind="function"><name>calculateDeltaV</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" kind="function"><name>calculateDeltaMass</name></member>
@@ -635,9 +686,7 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6ce72b13c3d2b21f8914d7c2e4f718d5" kind="function"><name>toTabulatedDynamics</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6d0f41e5308ce7da2d596ce7d7cf3f25" kind="friend"><name>operator&lt;&lt;</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae45130721d5b55b653cda51fe916f586" kind="function"><name>TabulatedDynamics</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a51f52f00eff86bdabcd0c91f71047161" kind="function"><name>ConstantMassFlowRateProfile</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a17ec96d884c28d3026cee8583ad31da0" kind="function"><name>convertAccelerationProfileFrame</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac462d9ccbc6639984d532bd3119cf988" kind="function"><name>ConstantMassFlowRateProfile</name></member>
   </compound>
   <compound refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata" kind="struct"><name>ostk::astrodynamics::conjunction::message::ccsds::CDM::Metadata</name>
     <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1ac30f2e4f320c118e09c0b102650007a1" kind="variable"><name>comment</name></member>
@@ -662,6 +711,20 @@
     <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6bf21e4599d515c327d53d187fc7d7d9" kind="variable"><name>solarRadiationPressure</name></member>
     <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a3aafb1e905542e1a9f012f802cb10cf5" kind="variable"><name>earthTides</name></member>
     <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_metadata_1a6a5eebaab036df74b9ce188bde85dfa3" kind="variable"><name>inTrackThrust</name></member>
+  </compound>
+  <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kind="class"><name>ostk::astrodynamics::trajectory::Model</name>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kind="function"><name>Model</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1adebca9a08d93d81f289670a61c7cac37" kind="function"><name>~Model</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd" kind="function"><name>clone</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a3815cac54f418dcc69a94935de307d89" kind="function"><name>operator==</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d" kind="function"><name>operator!=</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481" kind="function"><name>isDefined</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" kind="function"><name>is</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" kind="function"><name>as</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a6fb011dadcbafb410efd0b02cb8ade57" kind="function"><name>calculateStateAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" kind="function"><name>calculateStatesAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a4c369772dbc81298959e594cbfbc7270" kind="function"><name>print</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a68240493d08f91f6613186eb52823e85" kind="friend"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" kind="class"><name>ostk::astrodynamics::trajectory::orbit::Model</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ae31a2ca84e2ced0ed3ae5b89b240f68d" kind="function"><name>Model</name></member>
@@ -689,20 +752,6 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1acd5f51cf0f3f45ef7267239d2c83778a" kind="function"><name>getBodyFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a3495da149b51ac52a9244145d263e7e9" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a68240493d08f91f6613186eb52823e85" kind="friend"><name>operator&lt;&lt;</name></member>
-  </compound>
-  <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kind="class"><name>ostk::astrodynamics::trajectory::Model</name>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kind="function"><name>Model</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1adebca9a08d93d81f289670a61c7cac37" kind="function"><name>~Model</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd" kind="function"><name>clone</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a3815cac54f418dcc69a94935de307d89" kind="function"><name>operator==</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d" kind="function"><name>operator!=</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481" kind="function"><name>isDefined</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" kind="function"><name>is</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" kind="function"><name>as</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a6fb011dadcbafb410efd0b02cb8ade57" kind="function"><name>calculateStateAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" kind="function"><name>calculateStatesAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a4c369772dbc81298959e594cbfbc7270" kind="function"><name>print</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a68240493d08f91f6613186eb52823e85" kind="friend"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kind="class"><name>ostk::astrodynamics::trajectory::state::NumericalSolver</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1afa44f410fe532afd652f08031a05a778" kind="variable"><name>rootSolver_</name></member>
@@ -897,7 +946,7 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a8747e69fc10f1b068a0dd02d79da3b95" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ab6edc8d4ac9424bb95716d217f258dc3" kind="function"><name>Undefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a65397390f48c3a5564e3a3f8cedd26f3" kind="function"><name>InertialPointing</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a75326e6f109fac90fc58aa2084a52d5a" kind="function"><name>NadirPointing</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a437edce447cf62a16220abc89dc4d41a" kind="function"><name>LocalOrbitalFramePointing</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ad6e3b2007d0fa30b297c2dc092b0f659" kind="function"><name>CustomPointing</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a9c7ae3efcc54586d4cc14847c85f873c" kind="function"><name>CustomPointing</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a26f8188de4d75cc7d3f344836e97f2a5" kind="function"><name>AlignAndConstrain</name></member>
@@ -1177,6 +1226,11 @@
   <compound refid="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler" kind="struct"><name>ostk::astrodynamics::trajectory::SharedFrameEnabler</name>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler_1aad6106ff0103965e8bbdd47dcdbad134" kind="function"><name>SharedFrameEnabler</name></member>
   </compound>
+  <compound refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution" kind="struct"><name>ostk::astrodynamics::RootSolver::Solution</name>
+    <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a952b45165f8dbb31fab78ffe7792070e" kind="variable"><name>root</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" kind="variable"><name>iterationCount</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" kind="variable"><name>hasConverged</name></member>
+  </compound>
   <compound refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution" kind="struct"><name>ostk::astrodynamics::trajectory::Sequence::Solution</name>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a2024e12e9914de4c512e61980f4b6737" kind="variable"><name>segmentSolutions</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a3bb7b646d95875e00eb0691b62107ce3" kind="variable"><name>executionIsComplete</name></member>
@@ -1216,11 +1270,6 @@
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1abbaf0f49adc14877c825616c7c0c53ad" kind="function"><name>getAllDynamicsContributions</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a213868259cc8c1a0a54fea5d5ad1454f" kind="function"><name>print</name></member>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1aca78b91909896a040a271510c450caee" kind="friend"><name>operator&lt;&lt;</name></member>
-  </compound>
-  <compound refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution" kind="struct"><name>ostk::astrodynamics::RootSolver::Solution</name>
-    <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a952b45165f8dbb31fab78ffe7792070e" kind="variable"><name>root</name></member>
-    <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" kind="variable"><name>iterationCount</name></member>
-    <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" kind="variable"><name>hasConverged</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kind="class"><name>ostk::astrodynamics::trajectory::State</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1add2d2e5d18fbdadb99f7a220f840eab6" kind="variable"><name>instant_</name></member>
@@ -1528,8 +1577,20 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a31ed56d1b0b19d8f7363743664717403" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a86c7367c903b90d1c43b37f24671bd2b" kind="function"><name>Undefined</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" kind="function"><name>InertialPointing</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ae02ded346c0d5f5d8b3a0214a665c89e" kind="function"><name>NadirPointing</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a3c68d6a1a134f2d6c500dda0c9884497" kind="function"><name>LocalOrbitalFramePointing</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e" kind="function"><name>operator==</name></member>
+  </compound>
+  <compound refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kind="class"><name>ostk::astrodynamics::access::VisibilityCriterion</name>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1accd417085e25630deb96cb1c4a02def5" kind="variable"><name>visibilityCriterion_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a6986144cfa7814c0b4fc555684b4abba" kind="function"><name>operator==</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1add41f3b5b83c97dc417414b4e03c22d7" kind="function"><name>operator!=</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a5a7bfa525cbc48b1d4c212dff94cad4d" kind="function"><name>is</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19371203e90e5f687e27016d927f991c" kind="function"><name>as</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" kind="function"><name>FromAERInterval</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" kind="function"><name>FromAERMask</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a98fee7db2cca4c9a0510552b8ee6444e" kind="function"><name>FromLineOfSight</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" kind="function"><name>FromElevationInterval</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19701238953eeaa5b2e38d286e5fec19" kind="function"><name>VisibilityCriterion</name></member>
   </compound>
   <compound refid="namespaceboost_1_1numeric_1_1odeint" kind="namespace"><name>boost::numeric::odeint</name>
   </compound>
@@ -1544,6 +1605,7 @@
     <member refid="namespaceostk_1_1astrodynamics_1a89ac4ad3dd01879832f0802b903addce" kind="function"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1access" kind="namespace"><name>ostk::astrodynamics::access</name>
+    <member refid="namespaceostk_1_1astrodynamics_1_1access_1a5ae1fa4aaebcdb6728c8e1a14986fe82" kind="typedef"><name>EarthGravitationalModel</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1conjunction" kind="namespace"><name>ostk::astrodynamics::conjunction</name>
   </compound>
@@ -1551,6 +1613,12 @@
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds" kind="namespace"><name>ostk::astrodynamics::conjunction::message::ccsds</name>
     <member refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1a039e40eca139572c13c9c0f7bea5d8ec" kind="function"><name>operator&lt;&lt;</name></member>
+  </compound>
+  <compound refid="namespaceostk_1_1astrodynamics_1_1data" kind="namespace"><name>ostk::astrodynamics::data</name>
+  </compound>
+  <compound refid="namespaceostk_1_1astrodynamics_1_1data_1_1provider" kind="namespace"><name>ostk::astrodynamics::data::provider</name>
+    <member refid="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1ab4a404ad796944818f31e911f8ea46dd" kind="variable"><name>VVLHFrameFactory</name></member>
+    <member refid="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1a800916091023edd514eb81e189eed42b" kind="function"><name>ComputeOffNadirAngles</name></member>
   </compound>
   <compound refid="namespaceostk_1_1astrodynamics_1_1dynamics" kind="namespace"><name>ostk::astrodynamics::dynamics</name>
     <member refid="namespaceostk_1_1astrodynamics_1_1dynamics_1abe58f399d9fa29b08a1fecdf678f4b0d" kind="function"><name>operator&lt;&lt;</name></member>
@@ -1666,7 +1734,11 @@
     <member refid="_generator_8hpp_1a7ce1d4cc8c33e65c078f721b17b975ea" kind="define"><name>DEFAULT_STEP</name></member>
     <member refid="_generator_8hpp_1a0e355e0dcb761f1b89524e0e77fd14bd" kind="define"><name>DEFAULT_TOLERANCE</name></member>
   </compound>
+  <compound refid="_visibility_criterion_8hpp" kind="file"><name>VisibilityCriterion.hpp</name>
+  </compound>
   <compound refid="_c_d_m_8hpp" kind="file"><name>CDM.hpp</name>
+  </compound>
+  <compound refid="_off_nadir_8hpp" kind="file"><name>OffNadir.hpp</name>
   </compound>
   <compound refid="_dynamics_8hpp" kind="file"><name>Dynamics.hpp</name>
   </compound>
@@ -1790,6 +1862,8 @@
   </compound>
   <compound refid="_attitude_quaternion_8hpp" kind="file"><name>AttitudeQuaternion.hpp</name>
   </compound>
+  <compound refid="_cartesian_acceleration_8hpp" kind="file"><name>CartesianAcceleration.hpp</name>
+  </compound>
   <compound refid="_cartesian_position_8hpp" kind="file"><name>CartesianPosition.hpp</name>
   </compound>
   <compound refid="_cartesian_velocity_8hpp" kind="file"><name>CartesianVelocity.hpp</name>
@@ -1803,8 +1877,21 @@
   <compound refid="_access_8cpp" kind="file"><name>Access.cpp</name>
   </compound>
   <compound refid="_generator_8cpp" kind="file"><name>Generator.cpp</name>
+    <member refid="_generator_8cpp_1a517ce01f1ac3691db3a2b7530c85ceb6" kind="typedef"><name>ArrayXb</name></member>
+  </compound>
+  <compound refid="_visibility_criterion_8cpp" kind="file"><name>VisibilityCriterion.cpp</name>
+  </compound>
+  <compound refid="_a_e_r_interval_8cpp" kind="file"><name>AERInterval.cpp</name>
+  </compound>
+  <compound refid="_a_e_r_mask_8cpp" kind="file"><name>AERMask.cpp</name>
+  </compound>
+  <compound refid="_elevation_interval_8cpp" kind="file"><name>ElevationInterval.cpp</name>
+  </compound>
+  <compound refid="_line_of_sight_8cpp" kind="file"><name>LineOfSight.cpp</name>
   </compound>
   <compound refid="_c_d_m_8cpp" kind="file"><name>CDM.cpp</name>
+  </compound>
+  <compound refid="_off_nadir_8cpp" kind="file"><name>OffNadir.cpp</name>
   </compound>
   <compound refid="_dynamics_8cpp" kind="file"><name>Dynamics.cpp</name>
   </compound>
@@ -1920,6 +2007,8 @@
   </compound>
   <compound refid="_attitude_quaternion_8cpp" kind="file"><name>AttitudeQuaternion.cpp</name>
   </compound>
+  <compound refid="_cartesian_acceleration_8cpp" kind="file"><name>CartesianAcceleration.cpp</name>
+  </compound>
   <compound refid="_cartesian_position_8cpp" kind="file"><name>CartesianPosition.cpp</name>
   </compound>
   <compound refid="_cartesian_velocity_8cpp" kind="file"><name>CartesianVelocity.cpp</name>
@@ -1958,6 +2047,10 @@
   </compound>
   <compound refid="dir_c2f31513633cf0d22aa309a7182e4f7b" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset</name>
   </compound>
+  <compound refid="dir_b8e3bad181d55bad3c8175acd0b67119" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Data</name>
+  </compound>
+  <compound refid="dir_660d6f3c3707a6e5f38da7459a9c7d17" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Data</name>
+  </compound>
   <compound refid="dir_49e56c817e5e54854c35e136979f97ca" kind="dir"><name>docs</name>
   </compound>
   <compound refid="dir_b07397b4142767c4e18ebe4370b96e01" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Dynamics</name>
@@ -1990,29 +2083,33 @@
   </compound>
   <compound refid="dir_5fac6e120990567f74645e21e5a6b2aa" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message</name>
   </compound>
-  <compound refid="dir_c29101113d84e39626584070456aca13" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model</name>
+  <compound refid="dir_582d42463713ff70fa252124d204f1d0" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model</name>
+  </compound>
+  <compound refid="dir_325ca229e2f7e66ff60f817dacaa8c1d" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model</name>
   </compound>
   <compound refid="dir_b4bcbe1cd8f0e7d528ef3b91e5bbcd88" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model</name>
+  </compound>
+  <compound refid="dir_c29101113d84e39626584070456aca13" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model</name>
   </compound>
   <compound refid="dir_00a733e657c8e433ff7f31d364006988" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model</name>
   </compound>
   <compound refid="dir_8c001877639f808ee07384543d60d4fc" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model</name>
   </compound>
-  <compound refid="dir_325ca229e2f7e66ff60f817dacaa8c1d" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model</name>
-  </compound>
-  <compound refid="dir_582d42463713ff70fa252124d204f1d0" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model</name>
+  <compound refid="dir_0135578efc1637a0e0841daccc698f8a" kind="dir"><name>include/OpenSpaceToolkit</name>
   </compound>
   <compound refid="dir_fdc2ce6839bd9a3b87630c53f2ae038b" kind="dir"><name>src/OpenSpaceToolkit</name>
   </compound>
-  <compound refid="dir_0135578efc1637a0e0841daccc698f8a" kind="dir"><name>include/OpenSpaceToolkit</name>
+  <compound refid="dir_2a371e8be23200018a4104f5cc621e27" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit</name>
   </compound>
   <compound refid="dir_cf39368e8cd582dabb9660b0f55c0074" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit</name>
   </compound>
-  <compound refid="dir_2a371e8be23200018a4104f5cc621e27" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit</name>
+  <compound refid="dir_7d590b7d63bda445bfb81b3161a88efa" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile</name>
   </compound>
   <compound refid="dir_2fd16714fe8cb072353c654ecb75fd03" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Flight/Profile</name>
   </compound>
-  <compound refid="dir_7d590b7d63bda445bfb81b3161a88efa" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile</name>
+  <compound refid="dir_b883ffd912b52b8c1fb51750af60f30b" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Data/Provider</name>
+  </compound>
+  <compound refid="dir_fb2f1379024fe03e593b5615f7d2285b" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Data/Provider</name>
   </compound>
   <compound refid="dir_27fb1172ebd0a2868b100e5a1c43e690" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4</name>
   </compound>
@@ -2028,16 +2125,18 @@
   </compound>
   <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
   </compound>
-  <compound refid="dir_a6d61640a8fa2f47d1be301a69ee7bfb" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State</name>
-  </compound>
   <compound refid="dir_bfc1e2f48a5706e313c8de56a97c2c35" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State</name>
+  </compound>
+  <compound refid="dir_a6d61640a8fa2f47d1be301a69ee7bfb" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State</name>
   </compound>
   <compound refid="dir_eee819c86c87366664d9efab74531b31" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Flight/System</name>
   </compound>
   <compound refid="dir_e46a3b889b9a7e624e2ddd331dd8ecce" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Flight/System</name>
   </compound>
+  <compound refid="dir_2297ca1089d47f29cc83c62b59047703" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory</name>
+  </compound>
   <compound refid="dir_487c49ff17ded48b6f4eeef50bd2df5e" kind="dir"><name>include/OpenSpaceToolkit/Astrodynamics/Trajectory</name>
   </compound>
-  <compound refid="dir_2297ca1089d47f29cc83c62b59047703" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Trajectory</name>
+  <compound refid="dir_62bf86b289f00a5c920c5b1564c39468" kind="dir"><name>src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion</name>
   </compound>
 </doxygenindex>

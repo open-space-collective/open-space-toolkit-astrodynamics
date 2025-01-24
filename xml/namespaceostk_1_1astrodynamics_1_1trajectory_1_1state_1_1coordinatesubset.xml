@@ -4,6 +4,7 @@
     <compoundname>ostk::astrodynamics::trajectory::state::coordinatesubset</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_angular_velocity" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" prot="public">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity</innerclass>
     <briefdescription>

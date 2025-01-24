@@ -239,11 +239,11 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="72" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="136" bodyend="165"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ae02ded346c0d5f5d8b3a0214a665c89e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a3c68d6a1a134f2d6c500dda0c9884497" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
-        <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::NadirPointing</definition>
+        <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::LocalOrbitalFramePointing</definition>
         <argsstring>(const trajectory::Orbit &amp;anOrbit, const trajectory::Orbit::FrameType &amp;anOrbitalFrameType)</argsstring>
-        <name>NadirPointing</name>
+        <name>LocalOrbitalFramePointing</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">trajectory::Orbit</ref> &amp;</type>
           <declname>anOrbit</declname>
@@ -253,7 +253,7 @@
           <declname>anOrbitalFrameType</declname>
         </param>
         <briefdescription>
-<para>Constructs a flight profile with nadir pointing. </para>
+<para>Constructs a flight profile with local orbital frame pointing. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -343,8 +343,8 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>InertialPointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>is</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a3c68d6a1a134f2d6c500dda0c9884497" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>LocalOrbitalFramePointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a9f897d6f5779826088fc7aa750c1540e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Model</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ae02ded346c0d5f5d8b3a0214a665c89e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>NadirPointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a84c0583f35c7d396cc3bcd7f193e8b8b" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a31ed56d1b0b19d8f7363743664717403" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e" prot="protected" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator==</name></member>

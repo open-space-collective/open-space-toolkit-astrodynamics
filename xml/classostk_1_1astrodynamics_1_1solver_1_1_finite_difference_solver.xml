@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="149" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="149" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="155" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="155" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a631abdafc3e894a88caa6416cb740f50" prot="private" static="no" mutable="no">
         <type>const Real</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="150" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="150" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="156" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="156" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a0b15c49751cf8e35ad93ef926bec8640" prot="private" static="no" mutable="no">
         <type>const Duration</type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="151" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="151" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="157" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="157" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="74" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="38" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="76" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="38" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a54d374df562b34a36ba37528a4da1e3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -169,7 +169,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="43" bodyend="46"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="81" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="43" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a61dee343133d512dab0d5d0bda94f25f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -186,13 +186,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="84" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="48" bodyend="51"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="86" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="48" bodyend="51"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1ae69b4bd2231d77d825211ac66b25aaab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>MatrixXd</type>
-        <definition>MatrixXd ostk::astrodynamics::solver::FiniteDifferenceSolver::computeJacobian</definition>
-        <argsstring>(const State &amp;aState, const Array&lt; Instant &gt; &amp;anInstantArray, const std::function&lt; MatrixXd(const State &amp;, const Array&lt; Instant &gt; &amp;)&gt; &amp;generateStateCoordinates, const Size &amp;aCoordinatesDimension) const</argsstring>
-        <name>computeJacobian</name>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1aaa54594233ce617ac25df7214bd6385f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; MatrixXd &gt;</type>
+        <definition>Array&lt; MatrixXd &gt; ostk::astrodynamics::solver::FiniteDifferenceSolver::computeStateTransitionMatrix</definition>
+        <argsstring>(const State &amp;aState, const Array&lt; Instant &gt; &amp;anInstantArray, const std::function&lt; MatrixXd(const State &amp;, const Array&lt; Instant &gt; &amp;)&gt; &amp;generateStatesCoordinates) const</argsstring>
+        <name>computeStateTransitionMatrix</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
           <declname>aState</declname>
@@ -203,14 +203,10 @@
         </param>
         <param>
           <type>const std::function&lt; MatrixXd(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const Array&lt; Instant &gt; &amp;)&gt; &amp;</type>
-          <declname>generateStateCoordinates</declname>
-        </param>
-        <param>
-          <type>const Size &amp;</type>
-          <declname>aCoordinatesDimension</declname>
+          <declname>generateStatesCoordinates</declname>
         </param>
         <briefdescription>
-<para>Compute the Jacobian by perturbing the coordinates. </para>
+<para>Compute the State Transition Matrices (STMs) by perturbing the coordinates. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -218,7 +214,7 @@
 <parametername>aState</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A state. </para>
+<para>A state from which to compute the STMs. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -226,39 +222,31 @@
 <parametername>anInstantArray</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An array of instants. </para>
+<para>An array of instants at which to compute the STMs. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>generateStateCoordinates</parametername>
+<parametername>generateStatesCoordinates</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Callable to generate coordinates of States at the requested Instants. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aCoordinatesDimension</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The dimension of the coordinates produced by <computeroutput>generateStateCoordinates</computeroutput>.</para>
+<para>Callable to generate coordinates of States at the requested Instants. The callable should return a MatrixXd where each column is the coordinates at an instant.</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The Jacobian </para>
+<simplesect kind="return"><para>The State Transition Matrices (STMs) </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="96" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="53" bodyend="150"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="96" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="53" bodyend="147"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a0725cf9e33d5cd67ad67faf9d995b9e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1adbf558ba889e84711f4ab6b3c344ac4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>MatrixXd</type>
-        <definition>MatrixXd ostk::astrodynamics::solver::FiniteDifferenceSolver::computeJacobian</definition>
-        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const std::function&lt; VectorXd(const State &amp;, const Instant &amp;)&gt; &amp;generateStateCoordinates, const Size &amp;aCoordinatesDimension) const</argsstring>
-        <name>computeJacobian</name>
+        <definition>MatrixXd ostk::astrodynamics::solver::FiniteDifferenceSolver::computeStateTransitionMatrix</definition>
+        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const std::function&lt; VectorXd(const State &amp;, const Instant &amp;)&gt; &amp;generateStateCoordinates) const</argsstring>
+        <name>computeStateTransitionMatrix</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
           <declname>aState</declname>
@@ -271,12 +259,8 @@
           <type>const std::function&lt; VectorXd(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const Instant &amp;)&gt; &amp;</type>
           <declname>generateStateCoordinates</declname>
         </param>
-        <param>
-          <type>const Size &amp;</type>
-          <declname>aCoordinatesDimension</declname>
-        </param>
         <briefdescription>
-<para>Compute the Jacobian by perturbing the coordinates. </para>
+<para>Compute the State Transition Matrix (STM) by perturbing the coordinates. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -300,25 +284,17 @@
 <parametername>generateStateCoordinates</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Callable to generate coordinates of a State at the requested Instant. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aCoordinatesDimension</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The dimension of the coordinates produced by <computeroutput>generateStateCoordinates</computeroutput>. </para>
+<para>Callable to generate coordinates of a State at the requested Instant. Must be a column vector. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The Jacobian </para>
+<simplesect kind="return"><para>The State Transition Matrix (STM) </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="112" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="152" bodyend="171"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="109" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="149" bodyend="166"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1ac79f73934728c671ad9f2ae077d40058" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>VectorXd</type>
@@ -360,7 +336,49 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="126" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="173" bodyend="217"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="122" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="168" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a49b68627d163e9dd56e249173ee7576b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>MatrixXd</type>
+        <definition>MatrixXd ostk::astrodynamics::solver::FiniteDifferenceSolver::computeJacobian</definition>
+        <argsstring>(const State &amp;aState, const std::function&lt; VectorXd(const State &amp;, const Instant &amp;)&gt; &amp;generateStateCoordinates) const</argsstring>
+        <name>computeJacobian</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; VectorXd(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const Instant &amp;)&gt; &amp;</type>
+          <declname>generateStateCoordinates</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Jacobian. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to compute the Jacobian of. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>generateStateCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable to generate coordinates of the State.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The Jacobian. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="132" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="210" bodyend="297"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a1c97e68ecf281842010d0fd3439e5936" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -401,14 +419,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="134" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="219" bodyend="232"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="140" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="299" bodyend="312"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
-      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a6a9bc10e97e6723115f7bb8a1875dc2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a172c645af8f350ce9709c7882f23a7ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>friend std::ostream &amp;</type>
         <definition>std::ostream&amp; operator&lt;&lt;</definition>
-        <argsstring>(std::ostream &amp;anOutputStream, const FiniteDifferenceSolver &amp;aFiniteDifference)</argsstring>
+        <argsstring>(std::ostream &amp;anOutputStream, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver)</argsstring>
         <name>operator&lt;&lt;</name>
         <param>
           <type>std::ostream &amp;</type>
@@ -416,7 +434,7 @@
         </param>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref> &amp;</type>
-          <declname>aFiniteDifference</declname>
+          <declname>aFiniteDifferenceSolver</declname>
         </param>
         <briefdescription>
 <para>Output stream operator. </para>
@@ -432,7 +450,7 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>aFiniteDifference</parametername>
+<parametername>aFiniteDifferenceSolver</parametername>
 </parameternamelist>
 <parameterdescription>
 <para>A finite difference solver. </para>
@@ -477,7 +495,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="141" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="234" bodyend="247"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="147" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="314" bodyend="327"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a11aa678b14d855ad98c2aef27720da05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref></type>
@@ -494,7 +512,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="146" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="249" bodyend="256"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="152" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="329" bodyend="336"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -502,17 +520,18 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="38" bodyend="152"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp" bodystart="38" bodyend="158"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1ac79f73934728c671ad9f2ae077d40058" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>computeGradient</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1ae69b4bd2231d77d825211ac66b25aaab" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>computeJacobian</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a0725cf9e33d5cd67ad67faf9d995b9e6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>computeJacobian</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a49b68627d163e9dd56e249173ee7576b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>computeJacobian</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1aaa54594233ce617ac25df7214bd6385f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>computeStateTransitionMatrix</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1adbf558ba889e84711f4ab6b3c344ac4d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>computeStateTransitionMatrix</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a11aa678b14d855ad98c2aef27720da05" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>Default</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1aaea3a62f004d8cdf3090bea3bb731567" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>FiniteDifferenceSolver</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a61dee343133d512dab0d5d0bda94f25f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>getStepDuration</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a54d374df562b34a36ba37528a4da1e3d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>getStepPercentage</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a4aa4657e2cac5b0f730ace300423f683" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>getType</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a6a9bc10e97e6723115f7bb8a1875dc2a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a172c645af8f350ce9709c7882f23a7ab" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a1c97e68ecf281842010d0fd3439e5936" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a0b15c49751cf8e35ad93ef926bec8640" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>stepDuration_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a631abdafc3e894a88caa6416cb740f50" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::FiniteDifferenceSolver</scope><name>stepPercentage_</name></member>

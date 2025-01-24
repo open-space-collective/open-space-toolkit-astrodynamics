@@ -2,12 +2,28 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceostk_1_1astrodynamics_1_1access" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::access</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" prot="public">ostk::astrodynamics::access::AccessTarget</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1access_1_1_generator" prot="public">ostk::astrodynamics::access::Generator</innerclass>
-    <innerclass refid="classostk_1_1astrodynamics_1_1access_1_1_generator_context" prot="public">ostk::astrodynamics::access::GeneratorContext</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" prot="public">ostk::astrodynamics::access::VisibilityCriterion</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1access_1a5ae1fa4aaebcdb6728c8e1a14986fe82" prot="public" static="no">
+        <type>ostk::physics::environment::gravitational::Earth</type>
+        <definition>using ostk::astrodynamics::access::EarthGravitationalModel = typedef ostk::physics::environment::gravitational::Earth</definition>
+        <argsstring></argsstring>
+        <name>EarthGravitationalModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="51" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="28" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="30" column="1"/>
   </compounddef>
 </doxygen>

@@ -4,6 +4,7 @@
     <compoundname>include/OpenSpaceToolkit/Astrodynamics</compoundname>
     <innerdir refid="dir_e660970c113be06650bd01f013c1c0f6">include/OpenSpaceToolkit/Astrodynamics/Access</innerdir>
     <innerdir refid="dir_27bf2a9effe12d13a0dd0b2a43415894">include/OpenSpaceToolkit/Astrodynamics/Conjunction</innerdir>
+    <innerdir refid="dir_b8e3bad181d55bad3c8175acd0b67119">include/OpenSpaceToolkit/Astrodynamics/Data</innerdir>
     <innerdir refid="dir_0b6608e3d374155cbf0f51bbaa9dd801">include/OpenSpaceToolkit/Astrodynamics/Dynamics</innerdir>
     <innerdir refid="dir_e41b2cba089ed3ee71bd9bdec1b42eda">include/OpenSpaceToolkit/Astrodynamics/EventCondition</innerdir>
     <innerdir refid="dir_a9475479c97067a34c1b41ad9be87160">include/OpenSpaceToolkit/Astrodynamics/Flight</innerdir>

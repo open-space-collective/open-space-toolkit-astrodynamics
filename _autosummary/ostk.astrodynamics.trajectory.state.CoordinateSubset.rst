@@ -23,6 +23,7 @@ ostk.astrodynamics.trajectory.state.CoordinateSubset
       ~CoordinateSubset.get_size
       ~CoordinateSubset.in_frame
       ~CoordinateSubset.mass
+      ~CoordinateSubset.mass_flow_rate
       ~CoordinateSubset.subtract
       ~CoordinateSubset.surface_area
    

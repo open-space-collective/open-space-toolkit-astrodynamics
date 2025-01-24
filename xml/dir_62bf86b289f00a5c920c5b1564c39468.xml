@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_62bf86b289f00a5c920c5b1564c39468" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion</compoundname>
+    <innerfile refid="_a_e_r_interval_8cpp">AERInterval.cpp</innerfile>
+    <innerfile refid="_a_e_r_mask_8cpp">AERMask.cpp</innerfile>
+    <innerfile refid="_elevation_interval_8cpp">ElevationInterval.cpp</innerfile>
+    <innerfile refid="_line_of_sight_8cpp">LineOfSight.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/"/>
+  </compounddef>
+</doxygen>

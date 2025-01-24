@@ -26,7 +26,7 @@ ostk.astrodynamics.flight.profile.model.Transform
       ~Transform.is_defined
       ~Transform.is_tabulated
       ~Transform.is_transform
-      ~Transform.nadir_pointing
+      ~Transform.local_orbital_frame_pointing
       ~Transform.undefined
    
    

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_fb2f1379024fe03e593b5615f7d2285b" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Data/Provider</compoundname>
+    <innerfile refid="_off_nadir_8cpp">OffNadir.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/"/>
+  </compounddef>
+</doxygen>

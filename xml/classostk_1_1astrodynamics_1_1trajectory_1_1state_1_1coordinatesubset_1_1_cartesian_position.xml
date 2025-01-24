@@ -284,7 +284,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="86" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="53" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="86" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="53" bodyend="69"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -348,6 +348,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ac0319ae3902fade349f10e79a14dc865" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>hash</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a6bb03994b989934f9ec7c27aabb6de8e" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>inFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1abeeff0c878ded50bc6791e94aa1b6928" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>Mass</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a0fb94fa8af9106b2db67a58faeb5c843" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>MassFlowRate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ae5a53db9c533ab64e430ac4fe1b25322" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a9869d17db540a60446f06aed9ebf6b18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a52152414243f65bbce00fd9b38a73247" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>subtract</name></member>

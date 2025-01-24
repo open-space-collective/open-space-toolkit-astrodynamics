@@ -24,6 +24,7 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.CartesianVelocity
       ~CartesianVelocity.get_size
       ~CartesianVelocity.in_frame
       ~CartesianVelocity.mass
+      ~CartesianVelocity.mass_flow_rate
       ~CartesianVelocity.subtract
       ~CartesianVelocity.surface_area
    

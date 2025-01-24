@@ -24,6 +24,7 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AttitudeQuaternion
       ~AttitudeQuaternion.get_size
       ~AttitudeQuaternion.in_frame
       ~AttitudeQuaternion.mass
+      ~AttitudeQuaternion.mass_flow_rate
       ~AttitudeQuaternion.subtract
       ~AttitudeQuaternion.surface_area
    

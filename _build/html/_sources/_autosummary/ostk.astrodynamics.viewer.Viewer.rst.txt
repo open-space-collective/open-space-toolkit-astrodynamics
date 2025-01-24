@@ -16,6 +16,7 @@ ostk.astrodynamics.viewer.Viewer
    .. autosummary::
       :nosignatures:
    
+      ~Viewer.add_label
       ~Viewer.add_line
       ~Viewer.add_profile
       ~Viewer.add_target

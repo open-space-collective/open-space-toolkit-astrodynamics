@@ -18,58 +18,26 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-satellite_orbit_geometry_df = pd.DataFrame(
-    compute_trajectory_geometry(satellite_orbit, interval),
-    columns=["Latitude", "Longitude", "Altitude"],
+azimuth_range = RealInterval.closed(0.0, 360.0)  # [deg]
+elevation_range = RealInterval.closed(20.0, 90.0)  # [deg]
+range_range = RealInterval.closed(0.0, 10000e3)  # [m]
+
+# Access generator with Azimuth-Range-Elevation constraints
+
+access_generator = AccessGenerator.aer_ranges(
+    azimuth_range, elevation_range, range_range, environment
 )
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mValueError[0m                                Traceback (most recent call last)
-Cell [0;32mIn[21], line 1[0m
-[0;32m----> 1[0m satellite_orbit_geometry_df [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mDataFrame[49m[43m([49m
-[1;32m      2[0m [43m    [49m[43mcompute_trajectory_geometry[49m[43m([49m[43msatellite_orbit[49m[43m,[49m[43m [49m[43minterval[49m[43m)[49m[43m,[49m
-[1;32m      3[0m [43m    [49m[43mcolumns[49m[38;5;241;43m=[39;49m[43m[[49m[38;5;124;43m"[39;49m[38;5;124;43mLatitude[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mLongitude[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mAltitude[39;49m[38;5;124;43m"[39;49m[43m][49m[43m,[49m
-[1;32m      4[0m [43m)[49m
+[0;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [0;32mIn[16], line 7[0m
+[1;32m      3[0m range_range [38;5;241m=[39m RealInterval[38;5;241m.[39mclosed([38;5;241m0.0[39m, [38;5;241m10000e3[39m)  [38;5;66;03m# [m][39;00m
+[1;32m      5[0m [38;5;66;03m# Access generator with Azimuth-Range-Elevation constraints[39;00m
+[0;32m----> 7[0m access_generator [38;5;241m=[39m [43mAccessGenerator[49m[38;5;241;43m.[39;49m[43maer_ranges[49m(
+[1;32m      8[0m     azimuth_range, elevation_range, range_range, environment
+[1;32m      9[0m )
 
-File [0;32m/usr/local/lib/python3.11/dist-packages/pandas/core/frame.py:867[0m, in [0;36mDataFrame.__init__[0;34m(self, data, index, columns, dtype, copy)[0m
-[1;32m    859[0m         mgr [38;5;241m=[39m arrays_to_mgr(
-[1;32m    860[0m             arrays,
-[1;32m    861[0m             columns,
-[0;32m   (...)[0m
-[1;32m    864[0m             typ[38;5;241m=[39mmanager,
-[1;32m    865[0m         )
-[1;32m    866[0m     [38;5;28;01melse[39;00m:
-[0;32m--> 867[0m         mgr [38;5;241m=[39m [43mndarray_to_mgr[49m[43m([49m
-[1;32m    868[0m [43m            [49m[43mdata[49m[43m,[49m
-[1;32m    869[0m [43m            [49m[43mindex[49m[43m,[49m
-[1;32m    870[0m [43m            [49m[43mcolumns[49m[43m,[49m
-[1;32m    871[0m [43m            [49m[43mdtype[49m[38;5;241;43m=[39;49m[43mdtype[49m[43m,[49m
-[1;32m    872[0m [43m            [49m[43mcopy[49m[38;5;241;43m=[39;49m[43mcopy[49m[43m,[49m
-[1;32m    873[0m [43m            [49m[43mtyp[49m[38;5;241;43m=[39;49m[43mmanager[49m[43m,[49m
-[1;32m    874[0m [43m        [49m[43m)[49m
-[1;32m    875[0m [38;5;28;01melse[39;00m:
-[1;32m    876[0m     mgr [38;5;241m=[39m dict_to_mgr(
-[1;32m    877[0m         {},
-[1;32m    878[0m         index,
-[0;32m   (...)[0m
-[1;32m    881[0m         typ[38;5;241m=[39mmanager,
-[1;32m    882[0m     )
-
-File [0;32m/usr/local/lib/python3.11/dist-packages/pandas/core/internals/construction.py:336[0m, in [0;36mndarray_to_mgr[0;34m(values, index, columns, dtype, copy, typ)[0m
-[1;32m    331[0m [38;5;66;03m# _prep_ndarraylike ensures that values.ndim == 2 at this point[39;00m
-[1;32m    332[0m index, columns [38;5;241m=[39m _get_axes(
-[1;32m    333[0m     values[38;5;241m.[39mshape[[38;5;241m0[39m], values[38;5;241m.[39mshape[[38;5;241m1[39m], index[38;5;241m=[39mindex, columns[38;5;241m=[39mcolumns
-[1;32m    334[0m )
-[0;32m--> 336[0m [43m_check_values_indices_shape_match[49m[43m([49m[43mvalues[49m[43m,[49m[43m [49m[43mindex[49m[43m,[49m[43m [49m[43mcolumns[49m[43m)[49m
-[1;32m    338[0m [38;5;28;01mif[39;00m typ [38;5;241m==[39m [38;5;124m"[39m[38;5;124marray[39m[38;5;124m"[39m:
-[1;32m    339[0m     [38;5;28;01mif[39;00m [38;5;28missubclass[39m(values[38;5;241m.[39mdtype[38;5;241m.[39mtype, [38;5;28mstr[39m):
-
-File [0;32m/usr/local/lib/python3.11/dist-packages/pandas/core/internals/construction.py:420[0m, in [0;36m_check_values_indices_shape_match[0;34m(values, index, columns)[0m
-[1;32m    418[0m passed [38;5;241m=[39m values[38;5;241m.[39mshape
-[1;32m    419[0m implied [38;5;241m=[39m ([38;5;28mlen[39m(index), [38;5;28mlen[39m(columns))
-[0;32m--> 420[0m [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mShape of passed values is [39m[38;5;132;01m{[39;00mpassed[38;5;132;01m}[39;00m[38;5;124m, indices imply [39m[38;5;132;01m{[39;00mimplied[38;5;132;01m}[39;00m[38;5;124m"[39m)
-
-[0;31mValueError[0m: Shape of passed values is (12961, 1), indices imply (12961, 3)
+[0;31mAttributeError[0m: type object 'ostk.astrodynamics.access.Generator' has no attribute 'aer_ranges'
 

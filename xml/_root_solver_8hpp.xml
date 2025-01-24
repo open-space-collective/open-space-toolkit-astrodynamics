@@ -5,6 +5,7 @@
     <includes local="no">OpenSpaceToolkit/Core/Type/Real.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Core/Type/Size.hpp</includes>
     <includedby refid="_numerical_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</includedby>
+    <includedby refid="_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</includedby>
     <includedby refid="_root_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp</includedby>
     <includedby refid="_temporal_condition_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</includedby>
     <includedby refid="_orbit_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</includedby>
@@ -49,6 +50,8 @@
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
         <childnode refid="29" relation="include">
         </childnode>
       </node>
@@ -66,7 +69,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</label>
         <link refid="_maneuver_8cpp"/>
       </node>
-      <node id="31">
+      <node id="32">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</label>
         <link refid="_temporal_condition_solver_8cpp"/>
       </node>
@@ -88,7 +91,7 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="30">
+      <node id="31">
         <label>src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp</label>
         <link refid="_root_solver_8cpp"/>
       </node>
@@ -113,6 +116,10 @@
       <node id="22">
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.cpp</label>
         <link refid="_dynamics_2_tabulated_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
+        <link refid="_generator_8cpp"/>
       </node>
       <node id="10">
         <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp</label>
@@ -188,7 +195,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="32">
+      <node id="33">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</label>
         <link refid="_orbit_8cpp"/>
       </node>

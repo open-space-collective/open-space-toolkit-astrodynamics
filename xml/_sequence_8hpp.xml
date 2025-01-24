@@ -17,12 +17,6 @@
       <node id="9">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
-      <node id="48">
-        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</label>
-        <link refid="_cartesian_position_8hpp"/>
-        <childnode refid="26" relation="include">
-        </childnode>
-      </node>
       <node id="43">
         <label>OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</label>
         <link refid="_root_solver_8hpp"/>
@@ -93,7 +87,7 @@
         <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="51">
+      <node id="49">
         <label>OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</label>
         <link refid="_guidance_law_8hpp"/>
         <childnode refid="9" relation="include">
@@ -190,8 +184,6 @@
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
       </node>
       <node id="17">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
@@ -219,14 +211,6 @@
       <node id="21">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
       </node>
-      <node id="47">
-        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp</label>
-        <link refid="_cartesian_velocity_8hpp"/>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-      </node>
       <node id="36">
         <label>OpenSpaceToolkit/Core/Utility.hpp</label>
       </node>
@@ -242,7 +226,7 @@
       <node id="6">
         <label>OpenSpaceToolkit/Physics/Time/Interval.hpp</label>
       </node>
-      <node id="50">
+      <node id="48">
         <label>OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</label>
         <link refid="_thruster_8hpp"/>
         <childnode refid="2" relation="include">
@@ -255,7 +239,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="49" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
@@ -311,7 +295,7 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="47" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -429,7 +413,7 @@
       <node id="4">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
-      <node id="49">
+      <node id="47">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
         <link refid="_segment_8hpp"/>
         <childnode refid="2" relation="include">
@@ -454,7 +438,7 @@
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="48" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>

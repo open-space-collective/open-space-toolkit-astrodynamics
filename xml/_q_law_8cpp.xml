@@ -925,7 +925,7 @@
 <codeline lineno="659"><highlight class="normal"></highlight></codeline>
 <codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" kindref="member">Vector5d</ref><sp/>jacobian<sp/>=<sp/>Eigen::Map&lt;Vector5d&gt;(</highlight></codeline>
 <codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finiteDifferenceSolver_</highlight></codeline>
-<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.computeJacobian(stateBuilder_.build(Instant::J2000(),<sp/>aCOEVector),<sp/>Instant::J2000(),<sp/>getQ,<sp/>1)</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.computeStateTransitionMatrix(stateBuilder_.build(Instant::J2000(),<sp/>aCOEVector),<sp/>Instant::J2000(),<sp/>getQ)</highlight></codeline>
 <codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.data(),</highlight></codeline>
 <codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5</highlight></codeline>
 <codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>

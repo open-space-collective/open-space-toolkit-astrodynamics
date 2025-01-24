@@ -3,6 +3,7 @@
   <compounddef id="dir_e660970c113be06650bd01f013c1c0f6" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Access</compoundname>
     <innerfile refid="_generator_8hpp">Generator.hpp</innerfile>
+    <innerfile refid="_visibility_criterion_8hpp">VisibilityCriterion.hpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

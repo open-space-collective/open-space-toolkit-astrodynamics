@@ -18,6 +18,7 @@ ostk.astrodynamics.solver.FiniteDifferenceSolver
    
       ~FiniteDifferenceSolver.compute_gradient
       ~FiniteDifferenceSolver.compute_jacobian
+      ~FiniteDifferenceSolver.compute_state_transition_matrix
       ~FiniteDifferenceSolver.default
       ~FiniteDifferenceSolver.get_step_duration
       ~FiniteDifferenceSolver.get_step_percentage

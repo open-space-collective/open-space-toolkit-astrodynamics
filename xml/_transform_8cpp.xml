@@ -484,7 +484,7 @@
 <codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{dynamicTransformProvider,<sp/>Frame::GCRF()};</highlight></codeline>
 <codeline lineno="165"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal">Transform<sp/>Transform::NadirPointing(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">Transform<sp/>Transform::LocalOrbitalFramePointing(</highlight></codeline>
 <codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>trajectory::Orbit&amp;<sp/>anOrbit,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" kindref="member">trajectory::Orbit::FrameType</ref>&amp;<sp/>anOrbitalFrameType</highlight></codeline>
 <codeline lineno="169"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="170"><highlight class="normal">{</highlight></codeline>

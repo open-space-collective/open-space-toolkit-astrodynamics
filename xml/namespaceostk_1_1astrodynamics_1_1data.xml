@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1data" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::data</compoundname>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1data_1_1provider">ostk::astrodynamics::data::provider</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

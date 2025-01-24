@@ -96,6 +96,8 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
       </node>
       <node id="17">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>

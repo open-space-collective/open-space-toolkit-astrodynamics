@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</compoundname>
+    <includes refid="_visibility_criterion_8hpp" local="no">VisibilityCriterion.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1acc2f5b5e7dd4dcc67abfeea81c2d4a31" prot="public" static="no" mutable="yes">
+        <type>Environment</type>
+        <definition>Environment ostk::astrodynamics::access::VisibilityCriterion::LineOfSight::environment</definition>
+        <argsstring></argsstring>
+        <name>environment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="124" column="29" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1aff5257210fc7e694cd0b2e9f4c778a60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight::LineOfSight</definition>
+        <argsstring>(const Environment &amp;anEnvironment)</argsstring>
+        <name>LineOfSight</name>
+        <param>
+          <type>const Environment &amp;</type>
+          <declname>anEnvironment</declname>
+        </param>
+        <briefdescription>
+<para>The environment for line-of-sight calculations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs a <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kindref="compound">LineOfSight</ref> criterion.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEnvironment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The environment to consider. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="129" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/LineOfSight.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1a4f198f99b95f2ad606e2cc800e462b38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::LineOfSight::isSatisfied</definition>
+        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aFromPositionCoordinates, const Vector3d &amp;aToPositionCoordinates) const</argsstring>
+        <name>isSatisfied</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aFromPositionCoordinates</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aToPositionCoordinates</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the line-of-sight criterion is satisfied between two positions at a given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The time at which to perform the check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFromPositionCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position coordinates (in meters) of the observer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aToPositionCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position coordinates (in meters) of the target. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if there is a clear line of sight. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="137" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/LineOfSight.cpp" bodystart="30" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1af52f28b8dd968735390ca6629fa46549" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::LineOfSight::operator==</definition>
+        <argsstring>(const LineOfSight &amp;aLineOfSight) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kindref="compound">LineOfSight</ref> &amp;</type>
+          <declname>aLineOfSight</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aLineOfSight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kindref="compound">LineOfSight</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="145" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/LineOfSight.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1a43c3fa9c787be8df8d76e645363625c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::access::VisibilityCriterion::LineOfSight::operator!=</definition>
+        <argsstring>(const LineOfSight &amp;aLineOfSight) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kindref="compound">LineOfSight</ref> &amp;</type>
+          <declname>aLineOfSight</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aLineOfSight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another <ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight" kindref="compound">LineOfSight</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="151" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/LineOfSight.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a line-of-sight visibility criterion. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>Environment</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</label>
+        <link refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>environment</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="123" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="122" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1acc2f5b5e7dd4dcc67abfeea81c2d4a31" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</scope><name>environment</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1a4f198f99b95f2ad606e2cc800e462b38" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</scope><name>isSatisfied</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1aff5257210fc7e694cd0b2e9f4c778a60" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</scope><name>LineOfSight</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1a43c3fa9c787be8df8d76e645363625c2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</scope><name>operator!=</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_line_of_sight_1af52f28b8dd968735390ca6629fa46549" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion::LineOfSight</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
