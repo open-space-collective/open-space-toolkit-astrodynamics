@@ -15,6 +15,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
@@ -37,6 +38,7 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::time::Instant;
 
+using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -44,6 +46,7 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 #define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Initial guess sigmas
 #define DEFAULT_REFERENCE_STATE_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Reference state sigmas
+#define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
 
 /// @brief Class to solve non-linear least squares problems
 class LeastSquaresSolver
@@ -103,14 +106,22 @@ class LeastSquaresSolver
     /// @brief Constructor
     ///
     /// @param aMaxIterationCount Maximum number of iterations
-    /// @param aRmsUpdateThreshold Minimum RMS threshold. This is the combined RMS error of the full estimation state vector, not just the position.
-    LeastSquaresSolver(const Size& aMaxIterationCount, const Real& aRmsUpdateThreshold);
+    /// @param aRmsUpdateThreshold Minimum RMS threshold
+    /// @param aFiniteDifferenceSolver Finite difference solver. Defaults to FiniteDifferenceSolver::Default()
+    LeastSquaresSolver(
+        const Size& aMaxIterationCount,
+        const Real& aRmsUpdateThreshold,
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER
+    );
 
     /// @brief Get max iteration count
     Size getMaxIterationCount() const;
 
     /// @brief Get RMS update threshold
     Real getRmsUpdateThreshold() const;
+
+    /// @brief Get finite difference solver
+    FiniteDifferenceSolver getFiniteDifferenceSolver() const;
 
     /// @brief Solve the non-linear least squares problem
     ///
@@ -140,6 +151,7 @@ class LeastSquaresSolver
    private:
     Size maxIterationCount_;
     Real rmsUpdateThreshold_;
+    FiniteDifferenceSolver finiteDifferenceSolver_;
 
     /// @brief Extract the sigmas
     ///

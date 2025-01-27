@@ -24,6 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
     using ostk::physics::time::Instant;
 
+    using ostk::astrodynamics::solver::FiniteDifferenceSolver;
     using ostk::astrodynamics::solver::LeastSquaresSolver;
     using ostk::astrodynamics::trajectory::State;
 
@@ -183,16 +184,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
     leastSquaresSolver
         .def(
-            init<const Size&, const Real&>(),
+            init<const Size&, const Real&, const FiniteDifferenceSolver&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     maximum_iteration_count (int): Maximum number of iterations.
                     rms_update_threshold (float): Minimum RMS threshold.
+                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver. Defaults to FiniteDifferenceSolver.Default().
             )doc",
             arg("maximum_iteration_count"),
-            arg("rms_update_threshold")
+            arg("rms_update_threshold"),
+            arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.Default()")
         )
         .def(
             "get_max_iteration_count",
@@ -212,6 +215,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
                 Returns:
                     float: The RMS update threshold.
+            )doc"
+        )
+        .def(
+            "get_finite_difference_solver",
+            &LeastSquaresSolver::getFiniteDifferenceSolver,
+            R"doc(
+                Get the finite difference solver.
+
+                Returns:
+                    FiniteDifferenceSolver: The finite difference solver.
             )doc"
         )
         .def(

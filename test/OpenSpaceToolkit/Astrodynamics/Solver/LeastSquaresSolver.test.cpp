@@ -38,6 +38,7 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
+using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
@@ -112,7 +113,8 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
     Array<State> referenceStates_;
     const Size maxIterationCount_ = 20;
     const Real rmsUpdateThreshold_ = 1e-2;
-    const LeastSquaresSolver solver_ = {maxIterationCount_, rmsUpdateThreshold_};
+    const FiniteDifferenceSolver finiteDifferenceSolver_ = FiniteDifferenceSolver::Default();
+    const LeastSquaresSolver solver_ = {maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_};
 
     // Define generate states callback for harmonic oscillator
     static constexpr auto generateStates_ = [](const State& state, const Array<Instant>& instants) -> Array<State>
@@ -244,6 +246,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Constructor)
     {
         EXPECT_NO_THROW(LeastSquaresSolver::Default());
         EXPECT_NO_THROW(LeastSquaresSolver(maxIterationCount_, rmsUpdateThreshold_));
+        EXPECT_NO_THROW(LeastSquaresSolver(maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_));
     }
 
     {
@@ -253,11 +256,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Getters)
 {
     {
         EXPECT_EQ(solver_.getMaxIterationCount(), maxIterationCount_);
         EXPECT_EQ(solver_.getRmsUpdateThreshold(), rmsUpdateThreshold_);
+        EXPECT_NO_THROW(solver_.getFiniteDifferenceSolver());
     }
 }
 

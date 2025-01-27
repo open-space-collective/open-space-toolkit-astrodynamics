@@ -9,7 +9,6 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 
 namespace ostk
@@ -90,9 +89,14 @@ void LeastSquaresSolver::Analysis::print(std::ostream& anOutputStream, bool disp
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-LeastSquaresSolver::LeastSquaresSolver(const Size& aMaxIterationCount, const Real& aRmsUpdateThreshold)
+LeastSquaresSolver::LeastSquaresSolver(
+    const Size& aMaxIterationCount,
+    const Real& aRmsUpdateThreshold,
+    const FiniteDifferenceSolver& aFiniteDifferenceSolver
+)
     : maxIterationCount_(aMaxIterationCount),
-      rmsUpdateThreshold_(aRmsUpdateThreshold)
+      rmsUpdateThreshold_(aRmsUpdateThreshold),
+      finiteDifferenceSolver_(aFiniteDifferenceSolver)
 {
     if (aMaxIterationCount == 0)
     {
@@ -113,6 +117,11 @@ Size LeastSquaresSolver::getMaxIterationCount() const
 Real LeastSquaresSolver::getRmsUpdateThreshold() const
 {
     return rmsUpdateThreshold_;
+}
+
+FiniteDifferenceSolver LeastSquaresSolver::getFiniteDifferenceSolver() const
+{
+    return finiteDifferenceSolver_;
 }
 
 LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
@@ -165,40 +174,38 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     }
 
     // Setup a priori and covariance matrices
+    // x̄
     VectorXd xApriori = VectorXd::Zero(stateDimension);
-    MatrixXd PAprioriInv;
 
+    // P̄⁻¹ = diag(1/σ²)
+    MatrixXd PAprioriInverse = MatrixXd::Zero(stateDimension, stateDimension);
     if (!anInitialGuessSigmas.empty())
     {
         const VectorXd sigmas = extractSigmas(anInitialGuessSigmas, estimationStateBuilder);
-        PAprioriInv = sigmas.array().square().inverse().matrix().asDiagonal();
-    }
-    else
-    {
-        PAprioriInv = MatrixXd::Zero(stateDimension, stateDimension);
+        PAprioriInverse = sigmas.array().square().inverse().matrix().asDiagonal();
     }
 
     // Setup measurement covariance matrix
-    MatrixXd RInv;
+    // R⁻¹ = diag(1/σ²)
+    MatrixXd RInv = MatrixXd::Identity(referenceStateDimension, referenceStateDimension);
     if (!aReferenceStateSigmas.empty())
     {
         const VectorXd sigmas = extractSigmas(aReferenceStateSigmas, referenceStateBuilder);
         RInv = sigmas.array().square().inverse().matrix().asDiagonal();
     }
-    else
-    {
-        RInv = MatrixXd::Identity(referenceStateDimension, referenceStateDimension);
-    }
 
     // Initialize state vectors
+    // X∗ (nominal trajectory)
     VectorXd XNom = anInitialGuessState.accessCoordinates();
+    // x̂ = X - X∗
     VectorXd xHat = VectorXd::Zero(stateDimension);
 
     // Get reference state coordinates
-    MatrixXd referenceStatesCoordinates(referenceStateCount, referenceStateDimension);
+    // Y
+    MatrixXd referenceStatesCoordinates(referenceStateDimension, referenceStateCount);
     for (Size i = 0; i < referenceStateCount; ++i)
     {
-        referenceStatesCoordinates.row(i) = aReferenceStateArray[i].inFrame(estimationStateFrame).accessCoordinates();
+        referenceStatesCoordinates.col(i) = aReferenceStateArray[i].inFrame(estimationStateFrame).accessCoordinates();
     }
 
     // Initialize arrays for the iteration
@@ -207,79 +214,91 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     String terminationCriteria = "Maximum Iteration Threshold";
     Array<Step> steps;
 
-    MatrixXd Lambda;
+    MatrixXd Lambda = MatrixXd::Zero(stateDimension, stateDimension);
     MatrixXd frisbeeCovariance = MatrixXd::Zero(stateDimension, stateDimension);
 
-    const FiniteDifferenceSolver finiteDifferenceSolver = FiniteDifferenceSolver::Default();
+    // Generate states at reference instants
+    Array<Instant> referenceInstants = aReferenceStateArray.map<Instant>(
+        [](const auto& state) -> Instant
+        {
+            return state.getInstant();
+        }
+    );
 
     // Main iteration loop
     for (Size iteration = 0; iteration < maxIterationCount_; ++iteration)
     {
         // Initialize matrices that will be accumulated in the loop
-        Lambda = PAprioriInv;                 // Λ = P̄⁻¹
-        VectorXd N = PAprioriInv * xApriori;  // N = P̄⁻¹ x̄
+        Lambda = PAprioriInverse;                 // Λ = P̄⁻¹
+        VectorXd N = PAprioriInverse * xApriori;  // N = P̄⁻¹ x̄
+
+        // Initialize the Pₑ of equation 19 in https://ntrs.nasa.gov/citations/20140011726
         frisbeeCovariance = MatrixXd::Zero(stateDimension, stateDimension);
 
-        // Generate states at reference instants
-        Array<Instant> referenceInstants;
-        for (const auto& state : aReferenceStateArray)
-        {
-            referenceInstants.add(state.getInstant());
-        }
-
         // Build current state for propagation
+        // G(X∗ᵢ) (computed reference state) for all reference instants
         const State currentState = estimationStateBuilder.build(anInitialGuessState.getInstant(), XNom);
-        const Array<State> computedStates = aGenerateStatesCallback(currentState, referenceInstants);
+        const Array<State> esimatedStates = aGenerateStatesCallback(currentState, referenceInstants);
 
         // Convert computed states to matrix form
-        MatrixXd computedStatesCoordinates(referenceStateCount, referenceStateDimension);
+        MatrixXd computedStatesCoordinates(referenceStateDimension, referenceStateCount);
         for (Size i = 0; i < referenceStateCount; ++i)
         {
-            computedStatesCoordinates.row(i) =
-                computedStates[i].inFrame(estimationStateFrame).extractCoordinates(referenceStateSubsets);
+            computedStatesCoordinates.col(i) =
+                esimatedStates[i].inFrame(estimationStateFrame).extractCoordinates(referenceStateSubsets);
         }
 
-        // Compute Jacobian matrix using finite differences
-        const Array<MatrixXd> HFull = finiteDifferenceSolver.computeStateTransitionMatrix(
-            currentState,
-            referenceInstants,
-            [&](const State& state, const Array<Instant>& instants) -> MatrixXd
+        // Compute residuals matrix
+        const MatrixXd residualMatrix = referenceStatesCoordinates - computedStatesCoordinates;
+
+        // H(t,t₀) = ∂G(X∗)/∂X∗₀ (sensitivty matrix for all reference states at tᵢ w.r.t. nominal trajectory at epoch
+        // t₀)
+        const auto computeReferenceStateCoordinates = [&](const State& state,
+                                                          const Array<Instant>& instants) -> MatrixXd
+        {
+            const Array<State> states = aGenerateStatesCallback(state, instants);
+            MatrixXd coordinates(referenceStateDimension, referenceStateCount);
+            for (Size i = 0; i < states.getSize(); ++i)
             {
-                const Array<State> states = aGenerateStatesCallback(state, instants);
-                MatrixXd coordinates(referenceStateDimension, referenceStateCount);
-                for (Size i = 0; i < states.getSize(); ++i)
-                {
-                    coordinates.col(i) =
-                        states[i].inFrame(estimationStateFrame).extractCoordinates(referenceStateSubsets);
-                }
-                return coordinates;
+                coordinates.col(i) = states[i].inFrame(estimationStateFrame).extractCoordinates(referenceStateSubsets);
             }
+            return coordinates;
+        };
+
+        const Array<MatrixXd> HFull = finiteDifferenceSolver_.computeStateTransitionMatrix(
+            currentState, referenceInstants, computeReferenceStateCoordinates
         );
 
         // Loop through each reference state
         for (Size i = 0; i < referenceStateCount; ++i)
         {
             // Compute residual
-            const VectorXd y =
-                referenceStatesCoordinates.row(i).transpose() - computedStatesCoordinates.row(i).transpose();
-            residuals.row(i) = y.transpose();
+            // yᵢ = Yᵢ - G(X∗ᵢ) (observed - computed = residual for current reference state)
+            const VectorXd y = residualMatrix.col(i);
+            residuals.row(i) = y;
 
-            // Extract current H matrix
+            // Hᵢ = H(tᵢ,t₀) (reference state sensitivity matrix for current reference state)
             const MatrixXd H = HFull[i];
 
-            // Accumulate normal equations
+            // Λ = Λ + (Hᵢᵀ R⁻¹ Hᵢ)
             Lambda += H.transpose() * RInv * H;
+
+            // N = N + (Hᵢᵀ R⁻¹ yᵢ)
             N += H.transpose() * RInv * y;
 
-            // Accumulate Frisbee covariance
+            // Pₑ = Pₑ + Hᵢᵀ R⁻¹ yᵢ yᵢᵀ R⁻¹ Hᵢ
             frisbeeCovariance += H.transpose() * RInv * y * y.transpose() * RInv * H;
         }
 
         // Solve normal equations
+        // x̂ = Λ⁻¹ N
         xHat = Lambda.ldlt().solve(N);
 
         // Update state vector and a priori deviation
+        // X∗ = X∗ + x̂
         XNom += xHat;
+
+        // x̄ = x̄ - x̂
         xApriori -= xHat;
 
         // Compute current RMS error
@@ -299,7 +318,10 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     }
 
     // Compute final covariance matrices
+    // P̂ = Λ⁻¹
     const MatrixXd PHat = Lambda.ldlt().solve(MatrixXd::Identity(Lambda.rows(), Lambda.cols()));
+
+    // Pₑ = P̂ Pₑ P̂
     frisbeeCovariance = PHat * frisbeeCovariance * PHat;
 
     return Analysis(
