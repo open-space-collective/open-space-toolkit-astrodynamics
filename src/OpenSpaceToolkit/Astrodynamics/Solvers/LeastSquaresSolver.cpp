@@ -169,7 +169,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     if (referenceStateDimension * referenceStateCount <= stateDimension)
     {
         throw ostk::core::error::RuntimeError(
-            "Reference State count * reference State dimension should be greater than estimated State dimension to yield a full rank H matrix."
+            "Reference State count * reference State dimension should be greater than estimated State dimension to "
+            "yield a full rank H matrix."
         );
     }
 
