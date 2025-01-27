@@ -169,3 +169,4 @@ class TestStateBuilder:
     ):
         assert state_builder.get_frame() == frame
         assert state_builder.get_coordinate_subsets() == coordinate_broker.get_subsets()
+        assert state_builder.get_size() == coordinate_broker.get_number_of_coordinates()

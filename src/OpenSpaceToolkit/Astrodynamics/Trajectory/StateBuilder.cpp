@@ -258,6 +258,16 @@ const Array<Shared<const CoordinateSubset>> StateBuilder::getCoordinateSubsets()
     return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
+Size StateBuilder::getSize() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    return this->coordinatesBrokerSPtr_->getNumberOfCoordinates();
+}
+
 void StateBuilder::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     using ostk::core::type::String;
