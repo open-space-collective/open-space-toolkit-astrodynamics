@@ -611,7 +611,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Getters)
         const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
 
         EXPECT_EQ(stateBuilder.getCoordinateSubsets(), posVelBrokerSPtr->getSubsets());
-        EXPECT_EQ(stateBuilder.getTotalCoordinateSize(), posVelBrokerSPtr->getNumberOfCoordinates());
+        EXPECT_EQ(stateBuilder.getSize(), posVelBrokerSPtr->getNumberOfCoordinates());
         EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
     }
 
