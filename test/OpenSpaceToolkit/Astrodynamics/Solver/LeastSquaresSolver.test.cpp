@@ -209,15 +209,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constructor)
 {
     {
-        EXPECT_NO_THROW(LeastSquaresSolver::Analysis(
-            rmsError_,
-            iterationCount_,
-            terminationCriteria,
-            solutionState_,
-            solutionCovariance_,
-            solutionFrisbeeCovariance_,
-            steps_
-        ));
+        EXPECT_NO_THROW(
+            LeastSquaresSolver::Analysis(
+                rmsError_,
+                iterationCount_,
+                terminationCriteria,
+                solutionState_,
+                solutionCovariance_,
+                solutionFrisbeeCovariance_,
+                steps_
+            )
+        );
     }
 }
 
