@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1737998900692,
+  "lastUpdate": 1738017364485,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 3192592186.1999826,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3192394786.600002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "df8fdb4270e86a77c0b056cc05bff998c85d14f3",
+          "message": "chore: add convenience method for total size of state builder (#504)\n\n* chore: add convenience method for total size of state builder\n\n* Update test/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.test.cpp\n\n* Update StateBuilder.cpp",
+          "timestamp": "2025-01-27T23:18:06+01:00",
+          "tree_id": "749b49753860603c1081367e15a7b8ce36ea6777",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/df8fdb4270e86a77c0b056cc05bff998c85d14f3"
+        },
+        "date": 1738017362809,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 535287271.3000124,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 535257040.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 873403976.7000014,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 873204836.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3190160986.299992,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3190032882.4999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3149401269.2999945,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3149263134.1 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3148211783.499994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3148101303.300001 ns\nthreads: 1"
           }
         ]
       }
