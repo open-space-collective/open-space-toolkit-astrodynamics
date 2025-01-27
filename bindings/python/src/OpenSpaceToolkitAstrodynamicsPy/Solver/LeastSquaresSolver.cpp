@@ -35,9 +35,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )doc"
     );
 
-    class_<LeastSquaresSolver::Step>(leastSquaresSolver, "Step", R"doc(
-        Class representing a step in the least squares solver.
-    )doc")
+    class_<LeastSquaresSolver::Step>(
+        leastSquaresSolver,
+        "Step",
+        R"doc(
+            Class representing a step in the least squares solver.
+        )doc"
+    )
         .def(
             init<const Real&, const VectorXd&>(),
             R"doc(
@@ -52,26 +56,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )
         .def("__str__", &(shiftToString<LeastSquaresSolver::Step>))
         .def("__repr__", &(shiftToString<LeastSquaresSolver::Step>))
-        .def(
-            "get_rms_error",
-            &LeastSquaresSolver::Step::getRmsError,
+        .def_readonly(
+            "rms_error",
+            &LeastSquaresSolver::Step::rmsError,
             R"doc(
-                Get the RMS error.
+                The RMS error.
 
-                Returns:
-                    float: The RMS error.
+                :type: float
             )doc"
         )
-        .def(
-            "get_x_hat",
-            &LeastSquaresSolver::Step::getXHat,
+        .def_readonly(
+            "x_hat",
+            &LeastSquaresSolver::Step::xHat,
             R"doc(
-                Get the X hat vector.
+                The X hat vector.
 
-                Returns:
-                    np.ndarray: The X hat vector.
+                :type: np.ndarray
             )doc"
-        );
+        )
+
+        ;
 
     class_<LeastSquaresSolver::Analysis>(
         leastSquaresSolver,
@@ -111,78 +115,67 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )
         .def("__str__", &(shiftToString<LeastSquaresSolver::Analysis>))
         .def("__repr__", &(shiftToString<LeastSquaresSolver::Analysis>))
-        .def(
-            "get_rms_error",
-            &LeastSquaresSolver::Analysis::getRmsError,
+        .def_readonly(
+            "rms_error",
+            &LeastSquaresSolver::Analysis::rmsError,
             R"doc(
-                Get the RMS error.
+                The RMS error.
 
-                Returns:
-                    float: The RMS error.
+                :type: float
             )doc"
         )
-        .def(
-            "get_iteration_count",
-            &LeastSquaresSolver::Analysis::getIterationCount,
+        .def_readonly(
+            "iteration_count",
+            &LeastSquaresSolver::Analysis::iterationCount,
             R"doc(
-                Get the iteration count.
+                The iteration count.
 
-                Returns:
-                    int: The iteration count.
+                :type: int
             )doc"
         )
-        .def(
-            "get_termination_criteria",
-            &LeastSquaresSolver::Analysis::getTerminationCriteria,
+        .def_readonly(
+            "termination_criteria",
+            &LeastSquaresSolver::Analysis::terminationCriteria,
             R"doc(
-                Get the termination criteria.
+                The termination criteria.
 
-                Returns:
-                    str: The termination criteria.
+                :type: str
             )doc"
         )
-        .def(
-            "access_solution_state",
-            &LeastSquaresSolver::Analysis::accessSolutionState,
-            return_value_policy::reference_internal,
+        .def_readonly(
+            "solution_state",
+            &LeastSquaresSolver::Analysis::solutionState,
             R"doc(
-                Access the solution state.
+                The solution state.
 
-                Returns:
-                    State: The solution state.
+                :type: State
             )doc"
         )
-        .def(
-            "access_solution_covariance",
-            &LeastSquaresSolver::Analysis::accessSolutionCovariance,
-            return_value_policy::reference_internal,
+        .def_readonly(
+            "solution_covariance",
+            &LeastSquaresSolver::Analysis::solutionCovariance,
             R"doc(
-                Access the solution covariance matrix.
+                The solution covariance matrix.
 
-                Returns:
-                    np.ndarray The solution covariance matrix.
+                :type: np.ndarray
             )doc"
         )
-        .def(
-            "access_solution_frisbee_covariance",
-            &LeastSquaresSolver::Analysis::accessSolutionFrisbeeCovariance,
-            return_value_policy::reference_internal,
+        .def_readonly(
+            "solution_frisbee_covariance",
+            &LeastSquaresSolver::Analysis::solutionFrisbeeCovariance,
             R"doc(
-                Access the solution Frisbee covariance matrix.
+                The solution Frisbee covariance matrix.
 
-                Returns:
-                    np.ndarray The solution Frisbee covariance matrix.
+                :type: np.ndarray
             )doc"
         )
-        .def(
-            "access_steps",
-            &LeastSquaresSolver::Analysis::accessSteps,
-            return_value_policy::reference_internal,
+        .def_readonly(
+            "steps",
+            &LeastSquaresSolver::Analysis::steps,
             R"doc(
-                Access the steps.
+                The steps.
 
-                Returns:
-                    list[LeastSquaresSolver.Step]: The steps.
+                :type: list[LeastSquaresSolver.Step]
             )doc"
         )
 
@@ -223,22 +216,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )
         .def(
             "solve",
-            // +[](const LeastSquaresSolver& solver,
-            //     const State& anInitialGuessState,
-            //     const Array<State>& aReferenceStateArray,
-            //     std::function<Array<State>(const State&, const Array<Instant>&)> aGenerateStatesCallback,
-            //     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
-            //     const std::unordered_map<CoordinateSubset, VectorXd>& aReferenceStateSigmas
-            //  ) -> LeastSquaresSolver::Analysis
-            // {
-            //     return solver.solve(
-            //         anInitialGuessState,
-            //         aReferenceStateArray,
-            //         aGenerateStatesCallback,
-            //         anInitialGuessSigmas,
-            //         aReferenceStateSigmas
-            //     );
-            // },
             &LeastSquaresSolver::solve,
             R"doc(
                 Solve the non-linear least squares problem.

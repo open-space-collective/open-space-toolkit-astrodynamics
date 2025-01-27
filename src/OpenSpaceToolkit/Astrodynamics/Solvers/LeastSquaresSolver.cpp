@@ -24,8 +24,8 @@ using ostk::core::type::Shared;
 using ostk::physics::coordinate::Frame;
 
 LeastSquaresSolver::Step::Step(const Real& aRmsError, const VectorXd& anXHat)
-    : rmsError_(aRmsError),
-      xHat_(anXHat)
+    : rmsError(aRmsError),
+      xHat(anXHat)
 {
 }
 
@@ -38,18 +38,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const LeastSquaresSolver:
 
 void LeastSquaresSolver::Step::print(std::ostream& anOutputStream) const
 {
-    ostk::core::utils::Print::Line(anOutputStream) << "RMS Error: " << rmsError_;
-    ostk::core::utils::Print::Line(anOutputStream) << "X Hat: " << xHat_.toString(4);
-}
-
-Real LeastSquaresSolver::Step::getRmsError() const
-{
-    return rmsError_;
-}
-
-VectorXd LeastSquaresSolver::Step::getXHat() const
-{
-    return xHat_;
+    ostk::core::utils::Print::Line(anOutputStream) << "RMS Error: " << rmsError;
+    ostk::core::utils::Print::Line(anOutputStream) << "X Hat: " << xHat.toString(4);
 }
 
 LeastSquaresSolver::Analysis::Analysis(
@@ -61,13 +51,13 @@ LeastSquaresSolver::Analysis::Analysis(
     const MatrixXd& aSolutionFrisbeeCovariance,
     const Array<Step>& aStepArray
 )
-    : rmsError_(aRmsError),
-      iterationCount_(anIterationCount),
-      terminationCriteria_(aTerminationCriteria),
-      solutionState_(aSolutionState),
-      solutionCovariance_(aSolutionCovariance),
-      solutionFrisbeeCovariance_(aSolutionFrisbeeCovariance),
-      steps_(aStepArray)
+    : rmsError(aRmsError),
+      iterationCount(anIterationCount),
+      terminationCriteria(aTerminationCriteria),
+      solutionState(aSolutionState),
+      solutionCovariance(aSolutionCovariance),
+      solutionFrisbeeCovariance(aSolutionFrisbeeCovariance),
+      steps(aStepArray)
 {
 }
 
@@ -82,15 +72,15 @@ void LeastSquaresSolver::Analysis::print(std::ostream& anOutputStream, bool disp
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Least Squares Solver Analysis") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "RMS Error: " << rmsError_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Iteration Count: " << iterationCount_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Termination Criteria: " << terminationCriteria_;
+    ostk::core::utils::Print::Line(anOutputStream) << "RMS Error: " << rmsError;
+    ostk::core::utils::Print::Line(anOutputStream) << "Iteration Count: " << iterationCount;
+    ostk::core::utils::Print::Line(anOutputStream) << "Termination Criteria: " << terminationCriteria;
 
     ostk::core::utils::Print::Separator(anOutputStream, "Solution State");
-    solutionState_.print(anOutputStream, false);
+    solutionState.print(anOutputStream, false);
 
     ostk::core::utils::Print::Separator(anOutputStream, "Steps");
-    for (const auto& step : steps_)
+    for (const auto& step : steps)
     {
         step.print(anOutputStream);
     }
@@ -98,41 +88,6 @@ void LeastSquaresSolver::Analysis::print(std::ostream& anOutputStream, bool disp
     ostk::core::utils::Print::Footer(anOutputStream);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-Real LeastSquaresSolver::Analysis::getRmsError() const
-{
-    return rmsError_;
-}
-
-Size LeastSquaresSolver::Analysis::getIterationCount() const
-{
-    return iterationCount_;
-}
-
-String LeastSquaresSolver::Analysis::getTerminationCriteria() const
-{
-    return terminationCriteria_;
-}
-
-const State& LeastSquaresSolver::Analysis::accessSolutionState() const
-{
-    return solutionState_;
-}
-
-const MatrixXd& LeastSquaresSolver::Analysis::accessSolutionCovariance() const
-{
-    return solutionCovariance_;
-}
-
-const MatrixXd& LeastSquaresSolver::Analysis::accessSolutionFrisbeeCovariance() const
-{
-    return solutionFrisbeeCovariance_;
-}
-
-const Array<LeastSquaresSolver::Step>& LeastSquaresSolver::Analysis::accessSteps() const
-{
-    return steps_;
 }
 
 LeastSquaresSolver::LeastSquaresSolver(const Size& aMaxIterationCount, const Real& aRmsUpdateThreshold)
