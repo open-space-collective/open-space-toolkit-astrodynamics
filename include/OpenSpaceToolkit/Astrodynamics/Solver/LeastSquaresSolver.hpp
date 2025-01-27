@@ -64,15 +64,8 @@ class LeastSquaresSolver
         /// @brief Print step
         void print(std::ostream& anOutputStream) const;
 
-        /// @brief Get RMS error
-        Real getRmsError() const;
-
-        /// @brief Get X hat
-        VectorXd getXHat() const;
-
-       private:
-        Real rmsError_;
-        VectorXd xHat_;
+        Real rmsError;
+        VectorXd xHat;
     };
 
     class Analysis
@@ -98,35 +91,13 @@ class LeastSquaresSolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief Access RMS error
-        Real getRmsError() const;
-
-        /// @brief Access iteration count
-        Size getIterationCount() const;
-
-        /// @brief Access termination criteria
-        String getTerminationCriteria() const;
-
-        /// @brief Access solution state
-        const State& accessSolutionState() const;
-
-        /// @brief Access solution covariance
-        const MatrixXd& accessSolutionCovariance() const;
-
-        /// @brief Access solution Frisbee covariance
-        const MatrixXd& accessSolutionFrisbeeCovariance() const;
-
-        /// @brief Access steps
-        const Array<Step>& accessSteps() const;
-
-       private:
-        Real rmsError_;
-        Size iterationCount_;
-        String terminationCriteria_;
-        State solutionState_;
-        MatrixXd solutionCovariance_;
-        MatrixXd solutionFrisbeeCovariance_;
-        Array<Step> steps_;
+        Real rmsError;
+        Size iterationCount;
+        String terminationCriteria;
+        State solutionState;
+        MatrixXd solutionCovariance;
+        MatrixXd solutionFrisbeeCovariance;
+        Array<Step> steps;
     };
 
     /// @brief Constructor

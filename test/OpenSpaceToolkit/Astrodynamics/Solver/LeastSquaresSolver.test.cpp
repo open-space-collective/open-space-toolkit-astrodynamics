@@ -152,7 +152,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
    protected:
     const Real rmsError_ = 1.0;
     const Size iterationCount_ = 5;
-    const String terminationCriteria_ = "Test Criteria";
+    const String terminationCriteria = "Test Criteria";
     const State solutionState_ = State(
         Instant::J2000(),
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
@@ -167,7 +167,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
     const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
         rmsError_,
         iterationCount_,
-        terminationCriteria_,
+        terminationCriteria,
         solutionState_,
         solutionCovariance_,
         solutionFrisbeeCovariance_,
@@ -179,20 +179,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Constructo
 {
     {
         EXPECT_NO_THROW(LeastSquaresSolver::Step(rmsError_, xHat_));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, GetRmsError)
-{
-    {
-        EXPECT_EQ(step_.getRmsError(), rmsError_);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, GetXHat)
-{
-    {
-        EXPECT_TRUE(step_.getXHat().isApprox(xHat_));
     }
 }
 
@@ -224,61 +210,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constr
         EXPECT_NO_THROW(LeastSquaresSolver::Analysis(
             rmsError_,
             iterationCount_,
-            terminationCriteria_,
+            terminationCriteria,
             solutionState_,
             solutionCovariance_,
             solutionFrisbeeCovariance_,
             steps_
         ));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, GetRmsError)
-{
-    {
-        EXPECT_EQ(analysis_.getRmsError(), rmsError_);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, GetIterationCount)
-{
-    {
-        EXPECT_EQ(analysis_.getIterationCount(), iterationCount_);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, GetTerminationCriteria)
-{
-    {
-        EXPECT_EQ(analysis_.getTerminationCriteria(), terminationCriteria_);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, AccessSolutionState)
-{
-    {
-        EXPECT_TRUE(analysis_.accessSolutionState().getCoordinates().isApprox(solutionState_.getCoordinates()));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, AccessSolutionCovariance)
-{
-    {
-        EXPECT_TRUE(analysis_.accessSolutionCovariance().isApprox(solutionCovariance_));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, AccessSolutionFrisbeeCovariance)
-{
-    {
-        EXPECT_TRUE(analysis_.accessSolutionFrisbeeCovariance().isApprox(solutionFrisbeeCovariance_));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, AccessSteps)
-{
-    {
-        EXPECT_EQ(analysis_.accessSteps().getSize(), steps_.getSize());
     }
 }
 
@@ -356,12 +293,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         const auto analysis = solver_.solve(initialGuessState_, referenceStates_, generateStates_, {}, {});
 
         // Check results
-        EXPECT_EQ(analysis.getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getRmsError(), 0.1);
-        EXPECT_LT(analysis.getIterationCount(), solver_.getMaxIterationCount());
+        EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.rmsError, 0.1);
+        EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
 
-        const VectorXd estimatedPosition = analysis.accessSolutionState().getPosition().getCoordinates();
-        const VectorXd estimatedVelocity = analysis.accessSolutionState().getVelocity().getCoordinates();
+        const VectorXd estimatedPosition = analysis.solutionState.getPosition().getCoordinates();
+        const VectorXd estimatedVelocity = analysis.solutionState.getVelocity().getCoordinates();
 
         const VectorXd truePosition = trueState_.getPosition().getCoordinates();
         const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
@@ -376,12 +313,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
             initialGuessState_, referenceStates_, generateStates_, initialStateSigmas_, referenceStateSigmas_
         );
 
-        EXPECT_EQ(analysis.getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getRmsError(), 20.0);
-        EXPECT_LT(analysis.getIterationCount(), solver_.getMaxIterationCount());
+        EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.rmsError, 20.0);
+        EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
 
-        const VectorXd estimatedPosition = analysis.accessSolutionState().getPosition().getCoordinates();
-        const VectorXd estimatedVelocity = analysis.accessSolutionState().getVelocity().getCoordinates();
+        const VectorXd estimatedPosition = analysis.solutionState.getPosition().getCoordinates();
+        const VectorXd estimatedVelocity = analysis.solutionState.getVelocity().getCoordinates();
         const VectorXd truePosition = trueState_.getPosition().getCoordinates();
         const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
 
@@ -446,7 +383,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiri
     {
         const auto analysis = solver_.solve(initialGuessState_, referenceStates_, generateStates_, {}, {});
 
-        const State solutionState = analysis.accessSolutionState();
+        const State solutionState = analysis.solutionState;
 
         const Array<Instant> referenceInstants = referenceStates_.map<Instant>(
             [](const State& state) -> Instant
