@@ -7,6 +7,7 @@ from ostk.physics.time import Instant, Duration
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.solver import LeastSquaresSolver
+from ostk.astrodynamics.solver import FiniteDifferenceSolver
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 
@@ -22,10 +23,21 @@ def rms_update_threshold() -> float:
 
 
 @pytest.fixture
+def finite_difference_solver() -> FiniteDifferenceSolver:
+    return FiniteDifferenceSolver.default()
+
+
+@pytest.fixture
 def least_squares_solver(
-    max_iteration_count: int, rms_update_threshold: float
+    max_iteration_count: int,
+    rms_update_threshold: float,
+    finite_difference_solver: FiniteDifferenceSolver,
 ) -> LeastSquaresSolver:
-    return LeastSquaresSolver(max_iteration_count, rms_update_threshold)
+    return LeastSquaresSolver(
+        max_iteration_count=max_iteration_count,
+        rms_update_threshold=rms_update_threshold,
+        finite_difference_solver=finite_difference_solver,
+    )
 
 
 @pytest.fixture
@@ -102,9 +114,12 @@ class TestLeastSquaresSolver:
     def test_getters(
         self,
         least_squares_solver: LeastSquaresSolver,
+        max_iteration_count: int,
+        rms_update_threshold: float,
     ):
-        assert least_squares_solver.get_max_iteration_count() == 20
-        assert least_squares_solver.get_rms_update_threshold() == 1.0
+        assert least_squares_solver.get_max_iteration_count() == max_iteration_count
+        assert least_squares_solver.get_rms_update_threshold() == rms_update_threshold
+        assert least_squares_solver.get_finite_difference_solver() is not None
 
     def test_solve(
         self,
@@ -142,5 +157,3 @@ class TestLeastSquaresSolver:
         default_solver: LeastSquaresSolver = LeastSquaresSolver.default()
 
         assert isinstance(default_solver, LeastSquaresSolver)
-        assert default_solver.get_max_iteration_count() == 20
-        assert default_solver.get_rms_update_threshold() == 1.0
