@@ -121,8 +121,10 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
                        previousState.getVelocity().accessFrame()
                    ),
                    Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
-                   Vector3d(previousState.getAngularVelocity() +
-                       ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity())),
+                   Vector3d(
+                       previousState.getAngularVelocity() +
+                       ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity())
+                   ),
                    previousState.getFrame()
         )
             .inFrame(Frame::GCRF());

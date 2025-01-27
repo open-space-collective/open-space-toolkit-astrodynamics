@@ -63,9 +63,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
         referenceStates_.clear();
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated/Satellite Orbit.csv"
-            )),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated/Satellite Orbit.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );

@@ -206,9 +206,11 @@ AngularCondition::AngularCondition(
               return (currentValue >= lowerBound) && (currentValue <= upperBound);
           }
       ),
-      targetRange_(std::make_pair(
-          aTargetRange.first.inRadians(0.0, Real::TwoPi()), aTargetRange.second.inRadians(0.0, Real::TwoPi())
-      ))
+      targetRange_(
+          std::make_pair(
+              aTargetRange.first.inRadians(0.0, Real::TwoPi()), aTargetRange.second.inRadians(0.0, Real::TwoPi())
+          )
+      )
 {
 }
 

@@ -61,7 +61,8 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
                 }
             ))
         {
-            throw ostk::core::error::RuntimeError(String::Format("{} not found in states.", coordinateSubset->getName())
+            throw ostk::core::error::RuntimeError(
+                String::Format("{} not found in states.", coordinateSubset->getName())
             );
         }
     }

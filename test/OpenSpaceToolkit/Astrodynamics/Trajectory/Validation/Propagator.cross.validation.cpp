@@ -191,9 +191,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
     {
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated/STK_TwoBody_2hr_run.csv"
-            )),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated/STK_TwoBody_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -305,8 +307,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_EGM2008_100x100_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_EGM2008_100x100_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -384,8 +390,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_WGS
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -463,8 +473,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_WGS84_70x70_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_WGS84_70x70_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );

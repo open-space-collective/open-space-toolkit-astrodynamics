@@ -991,13 +991,14 @@ Orbit Orbit::SunSynchronous(
 
         // Ecliptic latitude of the Sun
 
-        const Real sunEclipticLatitude_rad =
-            Angle::Degrees(std::fmod(
-                               sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
-                                   0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
-                               360.0
-                           ))
-                .inRadians();
+        const Real sunEclipticLatitude_rad = Angle::Degrees(
+                                                 std::fmod(
+                                                     sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
+                                                         0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
+                                                     360.0
+                                                 )
+        )
+                                                 .inRadians();
 
         // Compute the equation of time
 

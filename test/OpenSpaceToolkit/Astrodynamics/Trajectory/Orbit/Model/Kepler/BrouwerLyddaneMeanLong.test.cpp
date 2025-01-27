@@ -150,10 +150,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
             Angle::Degrees(291.4817543658902),
         };
 
-        EXPECT_ANY_THROW(BrouwerLyddaneMeanLong::Cartesian(
-            coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        ));
+        EXPECT_ANY_THROW(
+            BrouwerLyddaneMeanLong::Cartesian(
+                coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            )
+        );
     }
 
     {
@@ -166,10 +168,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
             Angle::Degrees(291.4817543658902),
         };
 
-        EXPECT_ANY_THROW(BrouwerLyddaneMeanLong::Cartesian(
-            coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        ));
+        EXPECT_ANY_THROW(
+            BrouwerLyddaneMeanLong::Cartesian(
+                coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            )
+        );
     }
 
     {

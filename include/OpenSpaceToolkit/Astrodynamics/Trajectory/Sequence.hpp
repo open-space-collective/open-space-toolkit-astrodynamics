@@ -97,8 +97,9 @@ class Sequence
         /// @param anInstantArray An array of instants.
         /// @param aNumericalSolver A numerical solver to be used for the propagation.
         /// @return Array of states at provided instants.
-        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
-            const;
+        Array<State> calculateStatesAt(
+            const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
+        ) const;
 
         /// @brief Print the sequence solution
         ///
