@@ -141,6 +141,11 @@ class StateBuilder
     /// @return The coordinate subsets
     const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
 
+    /// @brief Get the total size of all coordinates from all subsets.
+    ///
+    /// @return The total size of all coordinates from all subsets
+    Size getSize() const;
+
     /// @brief Print the StateBuilder to an output stream.
     ///
     /// @param anOutputStream The output stream to print to
