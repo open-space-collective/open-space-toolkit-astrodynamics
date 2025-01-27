@@ -302,10 +302,12 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     {
         if (!dynamicsWriteCoordinateSubsets.contains(aCoordinateSubsetSPtr))
         {
-            throw ostk::core::error::RuntimeError(String::Format(
-                "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
-                aCoordinateSubsetSPtr->getName()
-            ));
+            throw ostk::core::error::RuntimeError(
+                String::Format(
+                    "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
+                    aCoordinateSubsetSPtr->getName()
+                )
+            );
         }
     }
 
@@ -363,7 +365,8 @@ MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
     return this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
 }
 
-Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
+Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(
+    const Shared<const Frame>& aFrameSPtr
 ) const
 {
     // TBI: Use smart caching for multiple calls in the future

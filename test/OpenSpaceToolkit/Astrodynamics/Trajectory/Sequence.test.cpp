@@ -339,22 +339,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(
-            defaultSegments_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_
-        ));
+        EXPECT_NO_THROW(
+            Sequence sequence(
+                defaultSegments_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_
+            )
+        );
     }
 
     {
         {
             for (Size verbosity = 0; verbosity <= 5; ++verbosity)
             {
-                EXPECT_NO_THROW(Sequence sequence(
-                    defaultSegments_,
-                    defaultNumericalSolver_,
-                    defaultDynamics_,
-                    defaultMaximumPropagationDuration_,
-                    verbosity
-                ));
+                EXPECT_NO_THROW(
+                    Sequence sequence(
+                        defaultSegments_,
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        defaultMaximumPropagationDuration_,
+                        verbosity
+                    )
+                );
             }
         }
 
@@ -416,12 +420,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddCoastSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
-        defaultSequence_.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing,
-            Frame::GCRF(),
-            Length::Kilometers(6999.5),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        )));
+        defaultSequence_.addCoastSegment(
+            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+                RealCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                Length::Kilometers(6999.5),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ))
+        );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
     }
@@ -626,12 +632,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         defaultMaximumPropagationDuration_,
     };
 
-    sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
-        RealCondition::Criterion::AnyCrossing,
-        Frame::GCRF(),
-        Length::Kilometers(6999.5),
-        EarthGravitationalModel::EGM2008.gravitationalParameter_
-    )));
+    sequence.addCoastSegment(
+        std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            RealCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            Length::Kilometers(6999.5),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ))
+    );
 
     sequence.addManeuverSegment(
         std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
@@ -809,12 +817,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
             defaultMaximumPropagationDuration_,
         };
 
-        sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing,
-            Frame::GCRF(),
-            Length::Kilometers(6999.5),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        )));
+        sequence.addCoastSegment(
+            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+                RealCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                Length::Kilometers(6999.5),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ))
+        );
 
         sequence.addManeuverSegment(
             std::make_shared<RealCondition>(COECondition::SemiMajorAxis(

@@ -224,11 +224,13 @@ Length COE::getRadialDistance() const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return Length::Meters(COE::ComputeRadialDistance(
-        semiMajorAxis_.inMeters(),
-        eccentricity_,
-        COE::ConvertAnomaly(anomaly_, eccentricity_, anomalyType_, AnomalyType::True, 1e-12).inRadians()
-    ));
+    return Length::Meters(
+        COE::ComputeRadialDistance(
+            semiMajorAxis_.inMeters(),
+            eccentricity_,
+            COE::ConvertAnomaly(anomaly_, eccentricity_, anomalyType_, AnomalyType::True, 1e-12).inRadians()
+        )
+    );
 }
 
 Derived COE::getAngularMomentum(const Derived& aGravitationalParameter) const
@@ -1195,13 +1197,14 @@ Angle COE::ComputeEquationOfTime(const Instant& anInstant)
     const Real sunMeanAnomaly_rad = Angle::Degrees(std::fmod(357.5291092 + 35999.05034 * T_UT1, 360.0)).inRadians();
 
     // Ecliptic latitude of the Sun
-    const Real sunEclipticLatitude_rad =
-        Angle::Degrees(std::fmod(
-                           sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
-                               0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
-                           360.0
-                       ))
-            .inRadians();
+    const Real sunEclipticLatitude_rad = Angle::Degrees(
+                                             std::fmod(
+                                                 sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
+                                                     0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
+                                                 360.0
+                                             )
+    )
+                                             .inRadians();
 
     // Compute the equation of time
     const Real equationOfTime_deg =

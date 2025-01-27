@@ -83,18 +83,20 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddan
 INSTANTIATE_TEST_SUITE_P(
     Cartesian,
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort_Parametrized,
-    ::testing::Values(std::make_tuple(
-        Position::Meters({6596065.624114551, 2282234.953292401, -18030.93992064121}, Frame::GCRF()),
-        Velocity::MetersPerSecond({345.4716519563907, -967.0404288726759, 7488.686029827369}, Frame::GCRF()),
-        Vector6d {
-            6973743.736075629,
-            0.001202049190851806,
-            1.7071571281899047,
-            0.3327524364104959,
-            1.568634993642334,
-            4.7143446820819745,
-        }
-    ))
+    ::testing::Values(
+        std::make_tuple(
+            Position::Meters({6596065.624114551, 2282234.953292401, -18030.93992064121}, Frame::GCRF()),
+            Velocity::MetersPerSecond({345.4716519563907, -967.0404288726759, 7488.686029827369}, Frame::GCRF()),
+            Vector6d {
+                6973743.736075629,
+                0.001202049190851806,
+                1.7071571281899047,
+                0.3327524364104959,
+                1.568634993642334,
+                4.7143446820819745,
+            }
+        )
+    )
 );
 
 TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort_Parametrized, Cartesian)

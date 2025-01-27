@@ -254,9 +254,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Load)
     using ostk::core::filesystem::Path;
 
     {
-        const OPM opm = OPM::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM/opm_1.yaml")
-        ));
+        const OPM opm = OPM::Load(
+            File::Path(
+                Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM/opm_1.yaml")
+            )
+        );
 
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 1, 12, 34, 56, 789), Scale::UTC), opm.getHeader().generationDate);
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 2, 12, 34, 56, 789), Scale::UTC), opm.getHeader().launchDate);

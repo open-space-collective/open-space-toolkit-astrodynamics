@@ -1124,9 +1124,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
 
         // Reference data setup
 
-        const File referenceDataFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")
-            );
+        const File referenceDataFile = File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 

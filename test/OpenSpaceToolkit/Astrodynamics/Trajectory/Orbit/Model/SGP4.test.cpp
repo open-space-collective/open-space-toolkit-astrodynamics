@@ -65,9 +65,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
         // Orbital model setup
 
-        const TLE tle = TLE::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
-        ));
+        const TLE tle = TLE::Load(
+            File::Path(
+                Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
+            )
+        );
 
         const SGP4 sgp4Model = {tle};
 
@@ -78,9 +80,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite Orbit.csv"
-            )),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite Orbit.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );

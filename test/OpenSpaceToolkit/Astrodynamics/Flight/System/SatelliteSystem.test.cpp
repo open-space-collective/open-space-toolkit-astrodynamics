@@ -85,14 +85,16 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
 {
     {
-        EXPECT_NO_THROW(SatelliteSystem satelliteSystem(
-            mass_,
-            satelliteGeometry_,
-            satelliteInertiaTensor_,
-            crossSectionalSurfaceArea_,
-            dragCoefficient_,
-            propulsionSystem_
-        ));
+        EXPECT_NO_THROW(
+            SatelliteSystem satelliteSystem(
+                mass_,
+                satelliteGeometry_,
+                satelliteInertiaTensor_,
+                crossSectionalSurfaceArea_,
+                dragCoefficient_,
+                propulsionSystem_
+            )
+        );
     }
 }
 

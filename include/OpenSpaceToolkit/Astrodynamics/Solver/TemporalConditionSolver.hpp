@@ -78,8 +78,9 @@ class TemporalConditionSolver
     /// @param anInterval A time interval within which to perform the search.
     ///
     /// @return An array of time intervals.
-    Array<Interval> solve(const Array<TemporalConditionSolver::Condition>& aConditionArray, const Interval& anInterval)
-        const;
+    Array<Interval> solve(
+        const Array<TemporalConditionSolver::Condition>& aConditionArray, const Interval& anInterval
+    ) const;
 
    private:
     Duration timeStep_;

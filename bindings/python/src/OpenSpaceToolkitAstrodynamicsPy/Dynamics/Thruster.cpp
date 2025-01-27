@@ -52,8 +52,9 @@ class PyThruster : public Thruster
         );
     }
 
-    VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr)
-        const override
+    VectorXd computeContribution(
+        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
+    ) const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
             VectorXd, Thruster, "compute_contribution", computeContribution, anInstant, x, aFrameSPtr

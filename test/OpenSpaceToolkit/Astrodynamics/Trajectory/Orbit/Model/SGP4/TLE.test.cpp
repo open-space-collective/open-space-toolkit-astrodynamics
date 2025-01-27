@@ -772,28 +772,40 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
 
     {
         EXPECT_TRUE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+            )
         );
         EXPECT_TRUE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+            )
         );
         EXPECT_TRUE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\n")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537\n"
+            )
         );
         EXPECT_TRUE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\n\n")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537\n\n"
+            )
         );
         EXPECT_TRUE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n"
+            )
         );
         EXPECT_TRUE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n\r\n")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n\r\n"
+            )
         );
     }
 
@@ -801,32 +813,46 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
         EXPECT_FALSE(TLE::CanParse(""));
         EXPECT_FALSE(TLE::CanParse("abc"));
         EXPECT_FALSE(
-            TLE::CanParse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            TLE::CanParse(
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            )
         );
         EXPECT_FALSE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+            )
         );
         EXPECT_FALSE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2928\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2928\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+            )
         );
         EXPECT_FALSE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563536")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563536"
+            )
         );
         EXPECT_FALSE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+            )
         );
         EXPECT_FALSE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.7212539156353")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.7212539156353"
+            )
         );
         EXPECT_FALSE(
-            TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292a\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.7212539156353b")
+            TLE::CanParse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292a\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.7212539156353b"
+            )
         );
     }
 
@@ -859,9 +885,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
     }
 
     {
-        const File activeTlesFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt"
-            ));
+        const File activeTlesFile = File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt")
+        );
 
         const String allTles = activeTlesFile.getContents();
 
@@ -1009,19 +1035,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
         EXPECT_ANY_THROW(TLE::Parse(""));
         EXPECT_ANY_THROW(TLE::Parse("Hello World!"));
         EXPECT_ANY_THROW(
-            TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2926\n2 25544  51.6416 "
-                       "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+            TLE::Parse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2926\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+            )
         );
         EXPECT_ANY_THROW(
-            TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                       "247.4627 0006703 130.5360 325.0288 15.72125391563538")
+            TLE::Parse(
+                "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
+                "247.4627 0006703 130.5360 325.0288 15.72125391563538"
+            )
         );
     }
 
     {
-        const File activeTlesFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt"
-            ));
+        const File activeTlesFile = File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/active.txt")
+        );
 
         const String allTles = activeTlesFile.getContents();
 

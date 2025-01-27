@@ -640,9 +640,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
     }
 
     {
-        EXPECT_ANY_THROW(COE::Cartesian(
-            COE::CartesianState({Position::Undefined(), Velocity::Undefined()}), Earth::EGM2008.gravitationalParameter_
-        ));
+        EXPECT_ANY_THROW(
+            COE::Cartesian(
+                COE::CartesianState({Position::Undefined(), Velocity::Undefined()}),
+                Earth::EGM2008.gravitationalParameter_
+            )
+        );
     }
 
     {
