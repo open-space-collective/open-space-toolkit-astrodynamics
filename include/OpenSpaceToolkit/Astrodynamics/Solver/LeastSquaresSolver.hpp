@@ -132,7 +132,7 @@ class LeastSquaresSolver
     /// @brief Constructor
     ///
     /// @param aMaxIterationCount Maximum number of iterations
-    /// @param aRmsUpdateThreshold Minimum RMS threshold
+    /// @param aRmsUpdateThreshold Minimum RMS threshold. This is the combined RMS error of the full estimation state vector, not just the position.
     LeastSquaresSolver(const Size& aMaxIterationCount, const Real& aRmsUpdateThreshold);
 
     /// @brief Get max iteration count
@@ -159,7 +159,7 @@ class LeastSquaresSolver
     /// @brief Calculate empirical covariance
     ///
     /// @param aResidualArray Array of residuals
-    static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualArray);
+    static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualStateArray);
 
     /// @brief Default constructor
     ///

@@ -184,11 +184,15 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const StateBuilder referenceStateBuilder(aReferenceStateArray[0]);
     const Array<Shared<const CoordinateSubset>> referenceStateSubsets = referenceStateBuilder.getCoordinateSubsets();
 
-    for (const auto& state : aReferenceStateArray)
+    for (const auto& referenceState : aReferenceStateArray)
     {
-        if (state.getCoordinateSubsets() != referenceStateSubsets)
+        if (referenceState.getCoordinateSubsets() != referenceStateSubsets)
         {
             throw ostk::core::error::RuntimeError("Reference states must have the same coordinate subsets.");
+        }
+        if (referenceState.getFrame() != referenceStateBuilder.getFrame())
+        {
+            throw ostk::core::error::RuntimeError("Reference states must have the same frame.");
         }
     }
 
@@ -201,7 +205,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     if (referenceStateDimension * referenceStateCount <= stateDimension)
     {
         throw ostk::core::error::RuntimeError(
-            "Reference State count * reference State dimension should be greater than estimated State dimension."
+            "Reference State count * reference State dimension should be greater than estimated State dimension to yield a full rank H matrix."
         );
     }
 
@@ -244,7 +248,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Initialize arrays for the iteration
     MatrixXd residuals = MatrixXd::Zero(referenceStateCount, referenceStateDimension);
-    Real previousRmsError = std::numeric_limits<double>::max();
+    Real previousRmsError = 0.0;
     String terminationCriteria = "Maximum Iteration Threshold";
     Array<Step> steps;
 
