@@ -28,8 +28,8 @@ namespace estimator
 
 using ostk::core::container::Array;
 using ostk::core::type::Real;
-using ostk::core::type::Size;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::VectorXd;
@@ -44,10 +44,10 @@ using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-#define DEFAULT_ENVIRONMENT Environment::Default()  // Default environment
-#define DEFAULT_NUMERICAL_SOLVER NumericalSolver::Default()  // Default numerical solver
+#define DEFAULT_ENVIRONMENT Environment::Default()                  // Default environment
+#define DEFAULT_NUMERICAL_SOLVER NumericalSolver::Default()         // Default numerical solver
 #define DEFAULT_LEAST_SQUARES_SOLVER LeastSquaresSolver::Default()  // Default least squares solver
-#define DEFAULT_ESTIMATION_FRAME Frame::GCRF()  // Default estimation frame
+#define DEFAULT_ESTIMATION_FRAME Frame::GCRF()                      // Default estimation frame
 
 /// @brief Orbit Determination solver using least squares
 class ODLeastSquaresSolver
