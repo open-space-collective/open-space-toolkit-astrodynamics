@@ -11,7 +11,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::Environment;
-    using ostk::physics::coordinate::Frame;
 
     using ostk::astrodynamics::estimator::ODLeastSquaresSolver;
     using ostk::astrodynamics::solver::LeastSquaresSolver;
