@@ -4,6 +4,8 @@ import pytest
 
 import pandas as pd
 
+import numpy as np
+
 from ostk.physics import Environment
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
@@ -59,13 +61,13 @@ def coordinate_subsets() -> list[CoordinateSubset]:
 
 @pytest.fixture
 def initial_guess_state(
-    reference_states: list[State],
+    observations: list[State],
 ) -> State:
-    return reference_states[0]
+    return observations[0]
 
 
 @pytest.fixture
-def reference_states() -> list[State]:
+def observations() -> list[State]:
     return generate_states_from_dataframe(
         pd.read_csv("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/gnss_data.csv"),
         reference_frame=Frame.ITRF(),
@@ -199,29 +201,29 @@ class TestODLeastSquaresSolver:
         self,
         od_solver: ODLeastSquaresSolver,
         initial_guess_state: State,
-        reference_states: list[State],
+        observations: list[State],
         coordinate_subsets: list[CoordinateSubset],
     ):
         analysis = od_solver.estimate_state(
             initial_guess_state=initial_guess_state,
-            reference_states=reference_states,
+            observations=observations,
             estimation_coordinate_subsets=coordinate_subsets,
         )
 
         assert isinstance(analysis, ODLeastSquaresSolver.Analysis)
-        assert isinstance(analysis.get_determined_state(), State)
-        assert isinstance(analysis.get_solver_analysis(), LeastSquaresSolver.Analysis)
+        assert isinstance(analysis.determined_state, State)
+        assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
     def test_estimate_orbit(
         self,
         od_solver: ODLeastSquaresSolver,
         initial_guess_state: State,
-        reference_states: list[State],
+        observations: list[State],
         coordinate_subsets: list[CoordinateSubset],
     ):
         orbit = od_solver.estimate_orbit(
             initial_guess_state=initial_guess_state,
-            reference_states=reference_states,
+            observations=observations,
             estimation_coordinate_subsets=coordinate_subsets,
         )
 

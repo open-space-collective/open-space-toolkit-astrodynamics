@@ -23,6 +23,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -127,11 +129,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, Constructor)
     }
 
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver(environment_, numericalSolver_, ));
+        EXPECT_NO_THROW(ODLeastSquaresSolver(environment_, numericalSolver_));
     }
 
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver(environment_));
+        EXPECT_NO_THROW(ODLeastSquaresSolver(this->environment_));
     }
 
     {
@@ -155,50 +157,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState
 {
     // Test basic state estimator
     {
-        const auto analysis = odSolver_.estimateState(referenceStates_[0], referenceStates_);
+        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(referenceStates_[0], referenceStates_);
 
-        EXPECT_EQ(analysis.getSolverAnalysis().getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getSolverAnalysis().getRmsError(), 50.0);
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
     }
 
     // Test with estimator coordinate subsets
     {
         Array<Shared<const CoordinateSubset>> estimationSubsets = {CartesianPosition::Default()};
 
-        const auto analysis = odSolver_.estimateState(referenceStates_[0], referenceStates_, estimationSubsets);
+        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(referenceStates_[0], referenceStates_, estimationSubsets);
 
-        EXPECT_EQ(analysis.getSolverAnalysis().getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getSolverAnalysis().getRmsError(), 50.0);
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
     }
 
     // Test with sigmas
     {
-        const auto analysis = odSolver_.estimateState(
+        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(
             referenceStates_[0], referenceStates_, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
-        EXPECT_EQ(analysis.getSolverAnalysis().getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getSolverAnalysis().getRmsError(), 50.0);
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
     }
 
     // Test with states in different frames
     {
-        const referenceStatesInTEME = referenceStates_.map<State>(
+        const Array<State> referenceStatesInTEME = referenceStates_.map<State>(
             [](const State& aState) -> State
             {
                 return aState.inFrame(Frame::TEME());
             }
         );
 
-        const initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
+        const State initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
 
-        const auto analysis = odSolver_.estimateState(
+        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(
             initialGuessStateInITRF, referenceStatesInTEME, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
-        EXPECT_EQ(analysis.getSolverAnalysis().getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getSolverAnalysis().getRmsError(), 50.0);
-        EXPECT_EQ(analysis.getDeterminedState().accessFrame(), initialGuessStateInITRF.accessFrame());
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_EQ(analysis.determinedState.accessFrame(), initialGuessStateInITRF.accessFrame());
     }
 }
 
@@ -245,7 +247,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateOrbit
 class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Real rmsError_ = 1.0;
+    const Size observationCount_ = 1;
     const Size iterationCount_ = 5;
     const String terminationCriteria_ = "Test Criteria";
     const State solutionState_ = State(
@@ -258,14 +260,15 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : publ
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };
+    const MatrixXd solutionResiduals_ = MatrixXd::Ones(6, 1);
 
     const LeastSquaresSolver::Analysis leastSquaresAnalysis_ = {
-        rmsError_,
-        iterationCount_,
+        observationCount_,
         terminationCriteria_,
         solutionState_,
         solutionCovariance_,
         solutionFrisbeeCovariance_,
+        solutionResiduals_,
         steps_,
     };
 
@@ -275,8 +278,8 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : publ
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Accessors)
 {
     {
-        EXPECT_EQ(analysis_.solutionState, solutionState_);
-        EXPECT_EQ(analysis_.solverAnalysis.getTerminationCriteria(), terminationCriteria_);
+        EXPECT_EQ(analysis_.determinedState, solutionState_);
+        EXPECT_EQ(analysis_.solverAnalysis.terminationCriteria, terminationCriteria_);
     }
 }
 
