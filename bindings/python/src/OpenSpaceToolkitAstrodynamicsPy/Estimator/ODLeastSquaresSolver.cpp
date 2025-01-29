@@ -10,6 +10,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
     using ostk::core::type::Shared;
 
     using ostk::physics::Environment;
+    using ostk::physics::coordinate::Frame;
 
     using ostk::astrodynamics::estimator::ODLeastSquaresSolver;
     using ostk::astrodynamics::solver::LeastSquaresSolver;
@@ -48,22 +49,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
         )
         .def("__str__", &(shiftToString<ODLeastSquaresSolver::Analysis>))
         .def("__repr__", &(shiftToString<ODLeastSquaresSolver::Analysis>))
-        .def(
-            "get_determined_state",
-            &ODLeastSquaresSolver::Analysis::getDeterminedState,
+        .def_readonly(
+            "determined_state",
+            &ODLeastSquaresSolver::Analysis::determinedState,
             R"doc(
-                Get the determined state.
+                The determined state.
 
                 Returns:
                     State: The determined state.
             )doc"
-
         )
-        .def(
-            "get_solver_analysis",
-            &ODLeastSquaresSolver::Analysis::getSolverAnalysis,
+        .def_readonly(
+            "solver_analysis",
+            &ODLeastSquaresSolver::Analysis::solverAnalysis,
             R"doc(
-                Get the solver analysis.
+                The solver analysis.
 
                 Returns:
                     LeastSquaresSolverAnalysis: The solver analysis.
@@ -74,17 +74,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
 
     odLeastSquaresSolver
         .def(
-            init<const Environment&, const NumericalSolver&, const LeastSquaresSolver&>(),
-            arg("environment"),
-            arg("numerical_solver") = NumericalSolver::Default(),
-            arg("solver") = LeastSquaresSolver::Default(),
+            init<const Environment&, const NumericalSolver&, const LeastSquaresSolver&, const Shared<Frame>&>(),
+            arg_v("environment", DEFAULT_ENVIRONMENT, "Environment.default()"),
+            arg_v("numerical_solver", DEFAULT_NUMERICAL_SOLVER, "NumericalSolver.default()"),
+            arg_v("solver", DEFAULT_LEAST_SQUARES_SOLVER, "LeastSquaresSolver.default()"),
+            arg_v("estimation_frame", DEFAULT_ESTIMATION_FRAME, "Frame.GCRF()"),
             R"doc(
                 Construct a new ODLeastSquaresSolver object.
 
                 Args:
-                    environment (Environment): The environment.
+                    environment (Environment, optional): The environment. Defaults to Environment.default().
                     numerical_solver (NumericalSolver, optional): The numerical solver. Defaults to NumericalSolver.default().
                     solver (LeastSquaresSolver, optional): The least squares solver. Defaults to LeastSquaresSolver.default().
+                    estimation_frame (Frame, optional): The estimation frame. Defaults to Frame.GCRF().
             )doc"
         )
         .def(
@@ -124,19 +126,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             "estimate_state",
             &ODLeastSquaresSolver::estimateState,
             arg("initial_guess_state"),
-            arg("reference_states"),
+            arg("observations"),
             arg("estimation_coordinate_subsets") = Array<Shared<const CoordinateSubset>>::Empty(),
             arg("initial_guess_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
-            arg("reference_state_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
+            arg("observation_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
             R"doc(
                 Estimate state using least squares.
 
                 Args:
                     initial_guess_state (State): Initial guess state.
-                    reference_states (list[State]): Reference states to minimize error against.
+                    observations (list[State]): Observations to fit against.
                     estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate.
                     initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas.
-                    reference_state_sigmas (dict[CoordinateSubset, VectorXd], optional): Reference state sigmas.
+                    observation_sigmas (dict[CoordinateSubset, VectorXd], optional): Observation sigmas.
 
                 Returns:
                     ODLeastSquaresSolverAnalysis: The analysis results.
@@ -146,19 +148,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             "estimate_orbit",
             &ODLeastSquaresSolver::estimateOrbit,
             arg("initial_guess_state"),
-            arg("reference_states"),
+            arg("observations"),
             arg("estimation_coordinate_subsets") = Array<Shared<const CoordinateSubset>>::Empty(),
             arg("initial_guess_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
-            arg("reference_state_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
+            arg("observation_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
             R"doc(
                 Estimate orbit using least squares.
 
                 Args:
                     initial_guess_state (State): Initial guess state.
-                    reference_states (list[State]): Reference states to minimize error against.
+                    observations (list[State]): Observations to fit against.
                     estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate.
                     initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas.
-                    reference_state_sigmas (dict[CoordinateSubset, VectorXd], optional): Reference state sigmas.
+                    observation_sigmas (dict[CoordinateSubset, VectorXd], optional): Observation sigmas.
 
                 Returns:
                     Orbit: The estimated orbit.
