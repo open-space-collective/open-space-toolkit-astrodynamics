@@ -73,6 +73,114 @@ def observations() -> list[State]:
         reference_frame=Frame.ITRF(),
     )
 
+@pytest.fixture
+def rms_error() -> float:
+    return 1.0
+
+
+@pytest.fixture
+def x_hat() -> np.ndarray:
+    return np.array([1.0, 0.0])
+
+
+@pytest.fixture
+def step(
+    rms_error: float,
+    x_hat: np.ndarray,
+) -> LeastSquaresSolver.Step:
+    return LeastSquaresSolver.Step(
+        rms_error=rms_error,
+        x_hat=x_hat,
+    )
+
+
+@pytest.fixture
+def observation_count() -> int:
+    return 5
+
+
+@pytest.fixture
+def termination_criteria() -> str:
+    return "RMS Update Threshold"
+
+
+@pytest.fixture
+def solution_state() -> State:
+    return State(
+        Instant.J2000(),
+        [1.0, 0.0],
+        Frame.GCRF(),
+        [CoordinateSubset("Position", 1), CoordinateSubset("Velocity", 1)],
+    )
+
+
+@pytest.fixture
+def solution_covariance() -> np.ndarray:
+    return np.array([[1.0, 0.0], [0.0, 1.0]])
+
+
+@pytest.fixture
+def solution_frisbee_covariance() -> np.ndarray:
+    return np.array([[1.0, 0.0], [0.0, 1.0]])
+
+
+@pytest.fixture
+def solution_residuals(observation_count: int) -> np.ndarray:
+    return np.array([np.array([1.0, 0.0])] * observation_count).transpose()
+
+
+@pytest.fixture
+def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
+    return [step]
+
+
+@pytest.fixture
+def solver_analysis(
+    observation_count: int,
+    termination_criteria: str,
+    solution_state: State,
+    solution_covariance: np.ndarray,
+    solution_frisbee_covariance: np.ndarray,
+    solution_residuals: np.ndarray,
+    steps: list[LeastSquaresSolver.Step],
+) -> LeastSquaresSolver.Analysis:
+    return LeastSquaresSolver.Analysis(
+        observation_count=observation_count,
+        termination_criteria=termination_criteria,
+        solution_state=solution_state,
+        solution_covariance=solution_covariance,
+        solution_frisbee_covariance=solution_frisbee_covariance,
+        solution_residuals=solution_residuals,
+        steps=steps,
+    )
+
+
+@pytest.fixture
+def analysis(
+    initial_guess_state: State,
+    solver_analysis: LeastSquaresSolver.Analysis,
+) -> ODLeastSquaresSolver.Analysis:
+    return ODLeastSquaresSolver.Analysis(
+        determined_state=initial_guess_state,
+        solver_analysis=solver_analysis,
+    )
+
+
+class TestODLeastSquaresSolverAnalysis:
+    def test_constructor(
+        self,
+        analysis: ODLeastSquaresSolver.Analysis,
+    ):
+        assert isinstance(analysis, ODLeastSquaresSolver.Analysis)
+
+    def test_properties(
+        self,
+        analysis: ODLeastSquaresSolver.Analysis,
+        initial_guess_state: State,
+    ):
+        assert isinstance(analysis.determined_state, State)
+        assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
+
 
 @pytest.fixture
 def rms_error() -> float:

@@ -19,8 +19,6 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-const Shared<const Frame> ODLeastSquaresSolver::EstimationFrameSPtr = Frame::GCRF();
-
 ODLeastSquaresSolver::Analysis::Analysis(const State& aDeterminedState, const LeastSquaresSolver::Analysis& anAnalysis)
     : determinedState(aDeterminedState),
       solverAnalysis(anAnalysis)
