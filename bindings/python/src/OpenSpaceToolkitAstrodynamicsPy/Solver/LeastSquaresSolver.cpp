@@ -3,7 +3,6 @@
 
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 
@@ -49,11 +48,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Constructor.
 
                 Args:
-                    aRmsError (float): The RMS error.
-                    anXHat (np.ndarray): The X hat vector.
+                    rms_error (float): The RMS error.
+                    x_hat (np.ndarray): The X hat vector.
             )doc",
-            arg("aRmsError"),
-            arg("anXHat")
+            arg("rms_error"),
+            arg("x_hat")
         )
         .def("__str__", &(shiftToString<LeastSquaresSolver::Step>))
         .def("__repr__", &(shiftToString<LeastSquaresSolver::Step>))
@@ -87,10 +86,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
     )
         .def(
             init<
-                const Real&,
                 const Size&,
                 const String&,
                 const State&,
+                const MatrixXd&,
                 const MatrixXd&,
                 const MatrixXd&,
                 const Array<LeastSquaresSolver::Step>&>(),
@@ -98,20 +97,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Constructor.
 
                 Args:
-                    rms_error (float): The RMS error.
-                    iteration_count (int): The iteration count.
+                    observation_count (int): The observation count.
                     termination_criteria (str): The termination criteria.
                     solution_state (State): The solution state.
                     solution_covariance (np.ndarray): The solution covariance matrix.
                     solution_frisbee_covariance (np.ndarray): The solution Frisbee covariance matrix.
+                    solution_residuals (np.ndarray): The solution residuals.
                     steps (list[LeastSquaresSolver.Step]): The steps.
             )doc",
-            arg("rms_error"),
-            arg("iteration_count"),
+            arg("observation_count"),
             arg("termination_criteria"),
             arg("solution_state"),
             arg("solution_covariance"),
             arg("solution_frisbee_covariance"),
+            arg("solution_residuals"),
             arg("steps")
         )
         .def("__str__", &(shiftToString<LeastSquaresSolver::Analysis>))
@@ -123,6 +122,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 The RMS error.
 
                 :type: float
+            )doc"
+        )
+        .def_readonly(
+            "observation_count",
+            &LeastSquaresSolver::Analysis::observationCount,
+            R"doc(
+                The observation count.
+
+                :type: int
             )doc"
         )
         .def_readonly(
@@ -166,6 +174,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             &LeastSquaresSolver::Analysis::solutionFrisbeeCovariance,
             R"doc(
                 The solution Frisbee covariance matrix.
+
+                :type: np.ndarray
+            )doc"
+        )
+        .def_readonly(
+            "solution_residuals",
+            &LeastSquaresSolver::Analysis::solutionResiduals,
+            R"doc(
+                The solution residuals.
 
                 :type: np.ndarray
             )doc"
@@ -235,19 +252,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
                 Args:
                     initial_guess_state (State): Initial guess state.
-                    reference_states (list[State]): List of reference states.
-                    generate_states_callback (callable[list[State],[State, list[Instant]]]): Function to generate states.
+                    observations (list[State]): List of observations.
+                    state_generator (callable[list[State],[State, list[Instant]]]): Function to generate states.
                     initial_guess_sigmas (dict, optional): Dictionary of sigmas for initial guess.
-                    reference_state_sigmas (dict, optional): Dictionary of sigmas for reference states.
+                    observation_sigmas (dict, optional): Dictionary of sigmas for observations.
 
                 Returns:
                     LeastSquaresSolver::Analysis: The analysis of the solution.
             )doc",
             arg("initial_guess_state"),
-            arg("reference_states"),
-            arg("generate_states_callback"),
+            arg("observations"),
+            arg("state_generator"),
             arg("initial_guess_sigmas") = DEFAULT_INITIAL_GUESS_SIGMAS,
-            arg("reference_state_sigmas") = DEFAULT_REFERENCE_STATE_SIGMAS
+            arg("observation_sigmas") = DEFAULT_OBSERVATION_SIGMAS
         )
         .def_static(
             "calculate_empirical_covariance",
