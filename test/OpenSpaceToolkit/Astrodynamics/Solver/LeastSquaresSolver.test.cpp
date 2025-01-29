@@ -57,11 +57,11 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         const Velocity initialVelocity = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::GCRF());
         trueState_ = {Instant::J2000(), initialPosition, initialVelocity};
 
-        // Define reference states (true states with noise)
-        const Size referenceStateCount = 100;
+        // Define observations (true states with noise)
+        const Size observationCount = 100;
         const Real timeStep = 0.1;  // seconds
 
-        for (Size i = 0; i < referenceStateCount; ++i)
+        for (Size i = 0; i < observationCount; ++i)
         {
             const Real time = timeStep * (Real)i;
             const Real position = std::cos(time);
@@ -81,7 +81,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
             const Velocity combinedVelocity =
                 Velocity::MetersPerSecond(trueVelocity.getCoordinates() + noiseVelocityCoordinates, Frame::GCRF());
 
-            referenceStates_.add(State(Instant::J2000() + Duration::Seconds(time), combinedPosition, combinedVelocity));
+            observations_.add(State(Instant::J2000() + Duration::Seconds(time), combinedPosition, combinedVelocity));
         }
 
         const Position perturbedPosition = Position::Meters({0.1, 0.0, 0.0}, Frame::GCRF());
@@ -91,7 +91,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         positionSigmas_ << 0.1, 0.1, 0.1;
         velocitySigmas_ << 0.1, 0.1, 0.1;
 
-        referenceStateSigmas_ = {
+        observationSigmas_ = {
             {*CartesianPosition::Default(), positionSigmas_}, {*CartesianVelocity::Default(), velocitySigmas_}
         };
 
@@ -106,17 +106,17 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
     VectorXd positionSigmas_ {3};
     VectorXd velocitySigmas_ {3};
 
-    std::unordered_map<CoordinateSubset, VectorXd> referenceStateSigmas_ = {};
+    std::unordered_map<CoordinateSubset, VectorXd> observationSigmas_ = {};
 
     std::unordered_map<CoordinateSubset, VectorXd> initialStateSigmas_ = {};
 
-    Array<State> referenceStates_;
+    Array<State> observations_;
     const Size maxIterationCount_ = 20;
     const Real rmsUpdateThreshold_ = 1e-2;
     const FiniteDifferenceSolver finiteDifferenceSolver_ = FiniteDifferenceSolver::Default();
     const LeastSquaresSolver solver_ = {maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_};
 
-    // Define generate states callback for harmonic oscillator
+    // Define state generator for harmonic oscillator
     static constexpr auto generateStates_ = [](const State& state, const Array<Instant>& instants) -> Array<State>
     {
         Array<State> states;
@@ -152,8 +152,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step : public ::t
 class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Real rmsError_ = 1.0;
-    const Size iterationCount_ = 5;
+    const Size observationCount_ = 10;
     const String terminationCriteria = "Test Criteria";
     const State solutionState_ = State(
         Instant::J2000(),
@@ -162,17 +161,18 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
     );
     const MatrixXd solutionCovariance_ = MatrixXd::Identity(6, 6);
     const MatrixXd solutionFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
+    const MatrixXd solutionResidualMatrix_ = MatrixXd::Ones(6, 6);
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };
 
     const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
-        rmsError_,
-        iterationCount_,
+        observationCount_,
         terminationCriteria,
         solutionState_,
         solutionCovariance_,
         solutionFrisbeeCovariance_,
+        solutionResidualMatrix_,
         steps_
     );
 };
@@ -211,12 +211,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constr
     {
         EXPECT_NO_THROW(
             LeastSquaresSolver::Analysis(
-                rmsError_,
-                iterationCount_,
+                observationCount_,
                 terminationCriteria,
                 solutionState_,
                 solutionCovariance_,
                 solutionFrisbeeCovariance_,
+                solutionResidualMatrix_,
                 steps_
             )
         );
@@ -269,34 +269,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Getters)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
 {
-    // runtime errors
+    // Test case where a priori is ignored and all observations weighted the same
     {
-        {
-            EXPECT_THROW(
-                solver_.solve(State::Undefined(), referenceStates_, generateStates_),
-                ostk::core::error::runtime::Undefined
-            );
-        }
-
-        {
-            EXPECT_THROW(solver_.solve(initialGuessState_, {}, generateStates_), ostk::core::error::runtime::Undefined);
-        }
-
-        {
-            Array<State> referenceStates = referenceStates_;
-            VectorXd coordinates(3);
-            coordinates << 0.1, 0.0, 0.0;
-            referenceStates.add(State(Instant::J2000(), coordinates, Frame::GCRF(), {CartesianPosition::Default()}));
-
-            EXPECT_THROW(
-                solver_.solve(initialGuessState_, referenceStates, generateStates_), ostk::core::error::RuntimeError
-            );
-        }
-    }
-
-    // Test case where a priori is ignored and all reference states weighted the same
-    {
-        const auto analysis = solver_.solve(initialGuessState_, referenceStates_, generateStates_, {}, {});
+        const LeastSquaresSolver::Analysis analysis =
+            solver_.solve(initialGuessState_, observations_, generateStates_, {}, {});
 
         // Check results
         EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
@@ -313,11 +289,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.15);
     }
 
-    // Test case with weighted reference states
+    // Test case with weighted observations
     {
-        const auto analysis = solver_.solve(
-            initialGuessState_, referenceStates_, generateStates_, initialStateSigmas_, referenceStateSigmas_
-        );
+        const LeastSquaresSolver::Analysis analysis =
+            solver_.solve(initialGuessState_, observations_, generateStates_, initialStateSigmas_, observationSigmas_);
 
         EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.rmsError, 20.0);
@@ -335,35 +310,45 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
 {
+    // Test undefined initial guess state
     {
-        // Test undefined initial guess state
         EXPECT_THROW(
-            solver_.solve(State::Undefined(), referenceStates_, generateStates_), ostk::core::error::runtime::Undefined
+            solver_.solve(State::Undefined(), observations_, generateStates_), ostk::core::error::runtime::Undefined
         );
     }
 
+    // Test empty observations
     {
-        // Test empty reference states
         EXPECT_THROW(
             solver_.solve(initialGuessState_, Array<State>::Empty(), generateStates_),
             ostk::core::error::runtime::Undefined
         );
     }
 
+    // Test mismatched observations
     {
-        // Test mismatched initial guess sigmas
+        Array<State> observations = observations_;
+        VectorXd coordinates(3);
+        coordinates << 0.1, 0.0, 0.0;
+        observations.add(State(Instant::J2000(), coordinates, Frame::GCRF(), {CartesianPosition::Default()}));
+
+        EXPECT_THROW(solver_.solve(initialGuessState_, observations, generateStates_), ostk::core::error::RuntimeError);
+    }
+
+    // Test mismatched initial guess sigmas
+    {
         std::unordered_map<CoordinateSubset, VectorXd> invalidSigmas = {
             {*CartesianPosition::Default(), positionSigmas_}  // Missing velocity sigmas
         };
 
         EXPECT_THROW(
-            solver_.solve(initialGuessState_, referenceStates_, generateStates_, invalidSigmas, referenceStateSigmas_),
+            solver_.solve(initialGuessState_, observations_, generateStates_, invalidSigmas, observationSigmas_),
             ostk::core::error::RuntimeError
         );
     }
 
+    // Test invalid sigma values
     {
-        // Test invalid sigma values
         VectorXd invalidSigmaValues(3);
         invalidSigmaValues << -1.0, 1.0, 0.0;
         std::unordered_map<CoordinateSubset, VectorXd> invalidSigmas = {
@@ -371,7 +356,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
         };
 
         EXPECT_THROW(
-            solver_.solve(initialGuessState_, referenceStates_, generateStates_, invalidSigmas, referenceStateSigmas_),
+            solver_.solve(initialGuessState_, observations_, generateStates_, invalidSigmas, observationSigmas_),
             ostk::core::error::RuntimeError
         );
     }
@@ -387,25 +372,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Default)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiricalCovariance)
 {
     {
-        const auto analysis = solver_.solve(initialGuessState_, referenceStates_, generateStates_, {}, {});
+        const LeastSquaresSolver::Analysis analysis =
+            solver_.solve(initialGuessState_, observations_, generateStates_, {}, {});
 
         const State solutionState = analysis.solutionState;
 
-        const Array<Instant> referenceInstants = referenceStates_.map<Instant>(
+        const Array<Instant> observationInstants = observations_.map<Instant>(
             [](const State& state) -> Instant
             {
                 return state.getInstant();
             }
         );
 
-        const Array<State> estimatedStates = generateStates_(solutionState, referenceInstants);
+        const Array<State> estimatedStates = generateStates_(solutionState, observationInstants);
 
         Array<State> residuals = Array<State>::Empty();
         residuals.reserve(estimatedStates.getSize());
 
-        for (Size i = 0; i < referenceStates_.getSize(); ++i)
+        for (Size i = 0; i < observations_.getSize(); ++i)
         {
-            residuals.add(estimatedStates[i] - referenceStates_[i]);
+            residuals.add(estimatedStates[i] - observations_[i]);
         }
 
         const MatrixXd covariance = LeastSquaresSolver::calculateEmpiricalCovariance(residuals);
@@ -414,16 +400,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiri
         EXPECT_EQ(covariance.cols(), 6);
         EXPECT_TRUE(covariance.isApprox(covariance.transpose(), 1e-10));
 
-        // Check that position variances are close to reference sigmas
+        // Check that position variances are close to observation sigmas
         for (Size i = 0; i < 3; ++i)
         {
-            EXPECT_NEAR(std::sqrt(covariance(i, i)), referenceStateSigmas_.at(*CartesianPosition::Default())[0], 1e-1);
+            EXPECT_NEAR(std::sqrt(covariance(i, i)), observationSigmas_.at(*CartesianPosition::Default())[0], 1e-1);
         }
 
-        // Check that velocity variances are close to reference sigmas
+        // Check that velocity variances are close to observation sigmas
         for (Size i = 3; i < 6; ++i)
         {
-            EXPECT_NEAR(std::sqrt(covariance(i, i)), referenceStateSigmas_.at(*CartesianVelocity::Default())[0], 1e-1);
+            EXPECT_NEAR(std::sqrt(covariance(i, i)), observationSigmas_.at(*CartesianVelocity::Default())[0], 1e-1);
         }
     }
 
