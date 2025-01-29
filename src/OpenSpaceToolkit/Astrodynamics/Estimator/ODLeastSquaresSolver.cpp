@@ -46,7 +46,10 @@ void ODLeastSquaresSolver::Analysis::print(std::ostream& anOutputStream) const
 }
 
 ODLeastSquaresSolver::ODLeastSquaresSolver(
-    const Environment& anEnvironment, const NumericalSolver& aNumericalSolver, const LeastSquaresSolver& aSolver, const Shared<const Frame>& anEstimationFrameSPtr
+    const Environment& anEnvironment,
+    const NumericalSolver& aNumericalSolver,
+    const LeastSquaresSolver& aSolver,
+    const Shared<const Frame>& anEstimationFrameSPtr
 )
     : environment_(anEnvironment),
       propagator_(Propagator::FromEnvironment(aNumericalSolver, anEnvironment)),
@@ -91,7 +94,7 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
     const State initialGuessStateInEstimationFrame = anInitialGuessState.inFrame(estimationFrameSPtr_);
 
     const Array<State> observationsInEstimationFrame = anObservationArray.map<State>(
-        [estimationFrameSPtr=estimationFrameSPtr_](const State& aState) -> State
+        [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
         {
             return aState.inFrame(estimationFrameSPtr);
         }
@@ -138,8 +141,9 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
     );
 
     // Expand solution state to full state
-    const State determinedState = propagationStateBuilder.expand(analysis.solutionState, initialGuessStateInEstimationFrame)
-                                      .inFrame(anInitialGuessState.accessFrame());
+    const State determinedState =
+        propagationStateBuilder.expand(analysis.solutionState, initialGuessStateInEstimationFrame)
+            .inFrame(anInitialGuessState.accessFrame());
 
     return Analysis(determinedState, analysis);
 }
@@ -161,8 +165,7 @@ Orbit ODLeastSquaresSolver::estimateOrbit(
     );
 
     return Orbit(
-        Propagated(this->propagator_, {analysis.determinedState}),
-        this->environment_.accessCentralCelestialObject()
+        Propagated(this->propagator_, {analysis.determinedState}), this->environment_.accessCentralCelestialObject()
     );
 }
 
