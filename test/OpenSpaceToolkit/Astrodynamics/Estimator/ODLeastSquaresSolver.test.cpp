@@ -25,6 +25,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -206,22 +208,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState
 
     // Test with states in different frames
     {
-        const referenceStatesInTEME = referenceStates_.map<State>(
+        const Array<State> referenceStatesInTEME = referenceStates_.map<State>(
             [](const State& aState) -> State
             {
                 return aState.inFrame(Frame::TEME());
             }
         );
 
-        const initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
+        const State initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
 
-        const auto analysis = odSolver_.estimateState(
+        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(
             initialGuessStateInITRF, referenceStatesInTEME, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
-        EXPECT_EQ(analysis.getSolverAnalysis().getTerminationCriteria(), "RMS Update Threshold");
-        EXPECT_LT(analysis.getSolverAnalysis().getRmsError(), 50.0);
-        EXPECT_EQ(analysis.getDeterminedState().accessFrame(), initialGuessStateInITRF.accessFrame());
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_EQ(analysis.determinedState.accessFrame(), initialGuessStateInITRF.accessFrame());
     }
 }
 
@@ -268,7 +270,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateOrbit
 class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Real rmsError_ = 1.0;
+    const Size observationCount_ = 1;
     const Size iterationCount_ = 5;
     const String terminationCriteria_ = "Test Criteria";
     const State estimatedState_ = State(
