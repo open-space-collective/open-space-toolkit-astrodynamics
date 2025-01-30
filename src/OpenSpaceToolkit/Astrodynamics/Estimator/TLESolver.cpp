@@ -5,14 +5,14 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimation/TLESolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 
 namespace ostk
 {
 namespace astrodynamics
 {
-namespace estimation
+namespace estimator
 {
 
 using ostk::core::type::Shared;
@@ -29,9 +29,16 @@ using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
 TLESolver::Analysis::Analysis(const TLE& aDeterminedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
-    : determinedTLE_(aDeterminedTLE),
-      solverAnalysis_(anAnalysis)
+    : determinedTLE(aDeterminedTLE),
+      solverAnalysis(anAnalysis)
 {
+}
+
+std::ostream& operator<<(std::ostream& anOutputStream, const TLESolver::Analysis& anAnalysis)
+{
+    anAnalysis.print(anOutputStream);
+
+    return anOutputStream;
 }
 
 void TLESolver::Analysis::print(std::ostream& anOutputStream) const
@@ -39,22 +46,12 @@ void TLESolver::Analysis::print(std::ostream& anOutputStream) const
     ostk::core::utils::Print::Header(anOutputStream, "Analysis");
 
     ostk::core::utils::Print::Separator(anOutputStream, "Determined TLE");
-    ostk::core::utils::Print::Line(anOutputStream) << determinedTLE_;
+    ostk::core::utils::Print::Line(anOutputStream) << determinedTLE;
 
     ostk::core::utils::Print::Separator(anOutputStream, "Analysis");
-    solverAnalysis_.print(anOutputStream);
+    solverAnalysis.print(anOutputStream);
 
     ostk::core::utils::Print::Footer(anOutputStream);
-}
-
-const TLE& TLESolver::Analysis::accessDeterminedTLE() const
-{
-    return determinedTLE_;
-}
-
-const LeastSquaresSolver::Analysis& TLESolver::Analysis::accessAnalysis() const
-{
-    return solverAnalysis_;
 }
 
 TLESolver::TLESolver(
@@ -62,7 +59,8 @@ TLESolver::TLESolver(
     const Integer& aSatelliteNumber,
     const String& anInternationalDesignator,
     const Integer& aRevolutionNumber,
-    const bool aFitWithBStar
+    const bool aFitWithBStar,
+    const Shared<const Frame>& anEstimationFrameSPtr
 )
     : solver_(aSolver),
       satelliteNumber_(aSatelliteNumber),
@@ -74,7 +72,8 @@ TLESolver::TLESolver(
       ephemerisType_(0),
       elementSetNumber_(0),
       fitWithBStar_(aFitWithBStar),
-      tleStateBuilder_(StateBuilder::Undefined())
+      tleStateBuilder_(StateBuilder::Undefined()),
+      estimationFrameSPtr_(anEstimationFrameSPtr)
 {
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
@@ -151,9 +150,9 @@ const StateBuilder& TLESolver::accessTLEStateBuilder() const
 
 TLESolver::Analysis TLESolver::estimateTLE(
     const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
-    const Array<State>& aReferenceStateArray,
-    const std::unordered_map<CoordinateSubset, Real>& anInitialGuessSigmas,
-    const std::unordered_map<CoordinateSubset, Real>& aReferenceStateSigmas
+    const Array<State>& anObservationArray,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
     // Convert initial guess to TLE state
@@ -184,8 +183,16 @@ TLESolver::Analysis TLESolver::estimateTLE(
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
     }
 
-    // Define state generation callback
-    auto generateStates = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
+    // Convert inputs to an inertial frame for estimation
+    const Array<State> observationsInEstimationFrame = anObservationArray.map<State>(
+        [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
+        {
+            return aState.inFrame(estimationFrameSPtr);
+        }
+    );
+
+    // Define state generator
+    const auto generateStates = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
         const SGP4 sgp4(tle);
@@ -195,7 +202,7 @@ TLESolver::Analysis TLESolver::estimateTLE(
 
         for (const auto& instant : anInstantArray)
         {
-            states.add(sgp4.calculateStateAt(instant));
+            states.add(sgp4.calculateStateAt(instant).inFrame(estimationFrameSPtr_));
         }
 
         return states;
@@ -203,11 +210,11 @@ TLESolver::Analysis TLESolver::estimateTLE(
 
     // Solve least squares problem
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
-        initialGuessTLEState, aReferenceStateArray, generateStates, anInitialGuessSigmas, aReferenceStateSigmas
+        initialGuessTLEState, observationsInEstimationFrame, generateStates, anInitialGuessSigmas, anObservationSigmas
     );
 
     // Convert solution state to TLE
-    const TLE determinedTLE = TLEStateToTLE(analysis.accessSolutionState());
+    const TLE determinedTLE = TLEStateToTLE(analysis.solutionState);
 
     return Analysis(determinedTLE, analysis);
 }
@@ -288,6 +295,6 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
     );
 }
 
-}  // namespace estimation
+}  // namespace estimator
 }  // namespace astrodynamics
 }  // namespace ostk
