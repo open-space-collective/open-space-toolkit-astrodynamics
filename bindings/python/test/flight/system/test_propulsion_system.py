@@ -2,17 +2,8 @@
 
 import pytest
 
-import numpy as np
-
-import ostk.mathematics as mathematics
-
-import ostk.physics as physics
-
-import ostk.astrodynamics as astrodynamics
-
-Mass = physics.unit.Mass
-
-PropulsionSystem = astrodynamics.flight.system.PropulsionSystem
+from ostk.physics.unit import Mass
+from ostk.astrodynamics.flight.system import PropulsionSystem
 
 
 @pytest.fixture

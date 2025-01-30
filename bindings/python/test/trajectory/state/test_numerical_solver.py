@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+from typing import Callable
+
 import pytest
 
 import numpy as np
@@ -99,7 +101,7 @@ def absolute_tolerance() -> float:
 
 
 @pytest.fixture
-def state_logger() -> callable:
+def state_logger() -> Callable:
     def log_state(state: State) -> None:
         print(state.get_coordinates())
 
@@ -255,7 +257,7 @@ class TestNumericalSolver:
     def test_integrate_conditional_with_logger(
         self,
         initial_state: State,
-        state_logger: callable,
+        state_logger: Callable,
         custom_condition: RealCondition,
         capsys,
     ):

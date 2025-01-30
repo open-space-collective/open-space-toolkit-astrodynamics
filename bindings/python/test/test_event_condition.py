@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+from typing import Callable
+
 import pytest
 
 from ostk.physics.time import Instant
@@ -15,7 +17,7 @@ def name() -> str:
 
 
 @pytest.fixture
-def evaluator() -> callable:
+def evaluator() -> Callable:
     return lambda state: 5.0
 
 
@@ -31,7 +33,7 @@ def target(target_value: float) -> EventCondition.Target:
 
 @pytest.fixture
 def event_condition(
-    name: str, evaluator: callable, target: EventCondition.Target
+    name: str, evaluator: Callable, target: EventCondition.Target
 ) -> EventCondition:
     class MyEventCondition(EventCondition):
         def is_satisfied(

@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+from typing import Callable
+
 import pytest
 import math
 
@@ -71,7 +73,7 @@ def instants(initial_instant: Instant) -> list[Instant]:
 
 
 @pytest.fixture
-def generate_states_coordinates() -> callable:
+def generate_states_coordinates() -> Callable:
     def state_fn(state, instants) -> np.ndarray:
         x0: float = state.get_coordinates()[0]
         v0: float = state.get_coordinates()[1]
@@ -84,7 +86,7 @@ def generate_states_coordinates() -> callable:
             x: float = x0 * math.cos(omega * t) + v0 / omega * math.sin(omega * t)
             v: float = -x0 * omega * math.sin(omega * t) + v0 * math.cos(omega * t)
 
-            coordinates: list[float] = np.array([x, v])
+            coordinates: list[float] = list(np.array([x, v]).astype(float))
 
             states_coordinates.append(coordinates)
 
@@ -94,7 +96,7 @@ def generate_states_coordinates() -> callable:
 
 
 @pytest.fixture
-def generate_state_coordinates() -> callable:
+def generate_state_coordinates() -> Callable:
     def state_fn(state, instant) -> np.ndarray:
         x0: float = state.get_coordinates()[0]
         v0: float = state.get_coordinates()[1]
@@ -131,7 +133,7 @@ class TestFiniteDifferenceSolver:
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
         instants: list[Instant],
-        generate_states_coordinates: callable,
+        generate_states_coordinates: Callable,
     ):
         stms: list[np.ndarray] = finite_difference_solver.compute_state_transition_matrix(
             state=state,
@@ -150,7 +152,7 @@ class TestFiniteDifferenceSolver:
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
-        generate_state_coordinates: callable,
+        generate_state_coordinates: Callable,
         instant: Instant,
     ):
         stm: np.ndarray = finite_difference_solver.compute_state_transition_matrix(
@@ -168,7 +170,7 @@ class TestFiniteDifferenceSolver:
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
-        generate_state_coordinates: callable,
+        generate_state_coordinates: Callable,
     ):
         gradient = finite_difference_solver.compute_gradient(
             state=state,
@@ -181,7 +183,7 @@ class TestFiniteDifferenceSolver:
         self,
         finite_difference_solver: FiniteDifferenceSolver,
         state: State,
-        generate_state_coordinates: callable,
+        generate_state_coordinates: Callable,
     ):
         gradient = finite_difference_solver.compute_jacobian(
             state=state,
