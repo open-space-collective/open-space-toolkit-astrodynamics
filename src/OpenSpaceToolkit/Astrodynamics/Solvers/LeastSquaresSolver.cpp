@@ -42,6 +42,7 @@ void LeastSquaresSolver::Step::print(std::ostream& anOutputStream) const
 }
 
 LeastSquaresSolver::Analysis::Analysis(
+    const Real& anRmsError,
     const Size& anObservationCount,
     const String& aTerminationCriteria,
     const State& aSolutionState,
@@ -50,7 +51,7 @@ LeastSquaresSolver::Analysis::Analysis(
     const MatrixXd& aSolutionResidualMatrix,
     const Array<Step>& aStepArray
 )
-    : rmsError(std::sqrt(aSolutionResidualMatrix.colwise().norm().array().square().sum() / anObservationCount)),
+    : rmsError(anRmsError),
       observationCount(anObservationCount),
       iterationCount(aStepArray.getSize()),
       terminationCriteria(aTerminationCriteria),
@@ -128,9 +129,9 @@ FiniteDifferenceSolver LeastSquaresSolver::getFiniteDifferenceSolver() const
 
 LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const State& anInitialGuessState,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const std::function<Array<State>(const State&, const Array<Instant>&)>& aStateGenerator,
-    const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anEstimationSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
@@ -141,18 +142,13 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         throw ostk::core::error::runtime::Undefined("Initial guess state");
     }
 
-    if (anObservationArray.isEmpty())
-    {
-        throw ostk::core::error::runtime::Undefined("Observations");
-    }
-
     // Setup state builders
     const StateBuilder estimationStateBuilder(anInitialGuessState);
     const Shared<const Frame>& estimationStateFrame = anInitialGuessState.accessFrame();
-    const StateBuilder observationBuilder(anObservationArray[0]);
+    const StateBuilder observationBuilder(anObservationStateArray[0]);
     const Array<Shared<const CoordinateSubset>> observationSubsets = observationBuilder.getCoordinateSubsets();
 
-    for (const auto& observation : anObservationArray)
+    for (const auto& observation : anObservationStateArray)
     {
         if (observation.getCoordinateSubsets() != observationSubsets)
         {
@@ -166,8 +162,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Get dimensions
     const Size stateDimension = anInitialGuessState.accessCoordinates().size();
-    const Size observationDimension = anObservationArray[0].accessCoordinates().size();
-    const Size observationCount = anObservationArray.size();
+    const Size observationDimension = anObservationStateArray[0].accessCoordinates().size();
+    const Size observationCount = anObservationStateArray.size();
 
     // Validate dimensions
     if (observationDimension * observationCount <= stateDimension)
@@ -183,14 +179,14 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     VectorXd xApriori = VectorXd::Zero(stateDimension);
 
     // P̄⁻¹ = diag(1/σ²)
-    const MatrixXd PAprioriInverse = anInitialGuessSigmas.empty()
+    const MatrixXd PAprioriInverse = anEstimationSigmas.empty()
                                        ? MatrixXd::Zero(stateDimension, stateDimension)
-                                       : extractSigmas(anInitialGuessSigmas, estimationStateBuilder);
+                                       : extractInverseSquaredSigmas(anEstimationSigmas, estimationStateBuilder);
 
     // Setup measurement covariance matrix
     // R⁻¹ = diag(1/σ²)
     const MatrixXd RInv = anObservationSigmas.empty() ? MatrixXd::Identity(observationDimension, observationDimension)
-                                                      : extractSigmas(anObservationSigmas, observationBuilder);
+                                                      : extractInverseSquaredSigmas(anObservationSigmas, observationBuilder);
 
     // Initialize state vectors
     // X∗ (nominal trajectory)
@@ -203,7 +199,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     MatrixXd observationCoordinates(observationDimension, observationCount);
     for (Size i = 0; i < observationCount; ++i)
     {
-        observationCoordinates.col(i) = anObservationArray[i].inFrame(estimationStateFrame).accessCoordinates();
+        observationCoordinates.col(i) = anObservationStateArray[i].inFrame(estimationStateFrame).accessCoordinates();
     }
 
     // Initialize arrays for the iteration
@@ -215,7 +211,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     MatrixXd Lambda = MatrixXd::Zero(stateDimension, stateDimension);
     MatrixXd PHatFrisbee = MatrixXd::Zero(stateDimension, stateDimension);
 
-    const Array<Instant> observationInstants = anObservationArray.map<Instant>(
+    const Array<Instant> observationInstants = anObservationStateArray.map<Instant>(
         [](const auto& state) -> Instant
         {
             return state.getInstant();
@@ -250,12 +246,12 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         currentEstimatedState = estimationStateBuilder.build(anInitialGuessState.getInstant(), XNom);
         
         // G(X∗ᵢ) (computed observations) for all observation instants
-        const MatrixXd computedStatesCoordinates =
+        const MatrixXd computedObservationsCoordinates =
             computeObservationsCoordinates(currentEstimatedState, observationInstants);
 
         // Compute residuals
         // y = Y - G(X∗) (observed - computed = residuals)
-        residuals = observationCoordinates - computedStatesCoordinates;
+        residuals = observationCoordinates - computedObservationsCoordinates;
 
         // H(t,t₀) = ∂G(X∗)/∂X∗₀ (sensitivty matrix for all observations at tᵢ w.r.t. nominal trajectory at epoch
         // t₀)
@@ -342,7 +338,7 @@ LeastSquaresSolver LeastSquaresSolver::Default()
     return LeastSquaresSolver(20, 1.0);
 }
 
-MatrixXd LeastSquaresSolver::extractSigmas(
+MatrixXd LeastSquaresSolver::extractInverseSquaredSigmas(
     const std::unordered_map<CoordinateSubset, VectorXd>& aSigmas, const StateBuilder& aStateBuilder
 )
 {

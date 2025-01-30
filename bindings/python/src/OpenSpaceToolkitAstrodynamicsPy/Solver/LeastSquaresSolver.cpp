@@ -251,20 +251,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Solve the non-linear least squares problem.
 
                 Args:
-                    initial_guess_state (State): Initial guess state.
+                    initial_guess (State): Initial guess state.
                     observations (list[State]): List of observations.
                     state_generator (callable[list[State],[State, list[Instant]]]): Function to generate states.
-                    initial_guess_sigmas (dict, optional): Dictionary of sigmas for initial guess.
-                    observation_sigmas (dict, optional): Dictionary of sigmas for observations.
+                    estimation_sigmas (dict[CoordinateSubset, np.ndarray], optional): Dictionary of sigmas for initial guess.
+                    observation_sigmas (dict[CoordinateSubset, np.ndarray], optional): Dictionary of sigmas for observations.
 
                 Returns:
                     LeastSquaresSolver::Analysis: The analysis of the solution.
             )doc",
-            arg("initial_guess_state"),
+            arg("initial_guess"),
             arg("observations"),
             arg("state_generator"),
-            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}")
-            arg_v("observation_sigmas"), DEFAULT_OBSERVATION_SIGMAS, "{}")
+            arg_v("estimation_sigmas", DEFAULT_ESTIMATION_SIGMAS, "{}"),
+            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}")
         )
         .def_static(
             "calculate_empirical_covariance",

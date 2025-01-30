@@ -44,7 +44,7 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-#define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
+#define DEFAULT_ESTIMATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
 
@@ -73,12 +73,12 @@ class LeastSquaresSolver
        public:
         /// @brief Constructor
         Analysis(
-            const Size& anObservationCount,
+            const Real& anRmsError,
             const String& aTerminationCriteria,
             const State& aSolutionState,
             const MatrixXd& aSolutionCovariance,
             const MatrixXd& aSolutionFrisbeeCovariance,
-            const MatrixXd& aSolutionResidualMatrix,
+            const Array<State>& aComputedObservationsArray,
             const Array<Step>& steps
         );
 
@@ -88,15 +88,18 @@ class LeastSquaresSolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+        /// @brief computeResiduals
+        Array<State> computeResiduals(const Array<State>& anObservationsArray) const;
+
         Real rmsError;
-        Size observationCount;
-        Size iterationCount;
         String terminationCriteria;
         State solutionState;
         MatrixXd solutionCovariance;
         MatrixXd solutionFrisbeeCovariance;
-        MatrixXd solutionResiduals;
+        Array<State> computedObservations;
         Array<Step> steps;
+        Size observationCount;
+        Size iterationCount;
     };
 
     /// @brief Constructor
@@ -128,18 +131,18 @@ class LeastSquaresSolver
     /// @brief Solve the non-linear least squares problem
     /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for algorithm used)
     ///
-    /// @param anInitialGuessState Initial guess state
-    /// @param anObservationArray Array of observations
+    /// @param anInitialGuessState Initial guess states
+    /// @param anObservationStateArray Array of observation states
     /// @param aStateGenerator Function to generate states
-    /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
+    /// @param anEstimationSigmas Dictionary of sigmas for initial guess
     /// @param anObservationSigmas Dictionary of sigmas for observations
     ///
     /// @return Analysis
     Analysis solve(
         const State& anInitialGuessState,
-        const Array<State>& anObservationArray,
+        const Array<State>& anObservationStateArray,
         const std::function<Array<State>(const State&, const Array<Instant>&)>& aStateGenerator,
-        const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
+        const std::unordered_map<CoordinateSubset, VectorXd>& anEstimationSigmas = DEFAULT_ESTIMATION_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
 
@@ -166,7 +169,7 @@ class LeastSquaresSolver
     /// @param aStateBuilder State builder
     ///
     /// @return Diagonal matrix of sigmas
-    static MatrixXd extractSigmas(
+    static MatrixXd extractInverseSquaredSigmas(
         const std::unordered_map<CoordinateSubset, VectorXd>& aSigmas, const StateBuilder& aStateBuilder
     );
 };

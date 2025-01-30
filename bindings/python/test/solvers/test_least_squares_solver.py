@@ -134,7 +134,7 @@ def coordinate_subsets() -> list[CoordinateSubset]:
 @pytest.fixture
 def initial_state_sigmas(
     coordinate_subsets: list[CoordinateSubset],
-) -> dict[CoordinateSubset, np.ndarray]:
+) -> dict[CoordinateSubset, list[float]]:
     return {
         coordinate_subsets[0]: [1e-1],
         coordinate_subsets[1]: [1e-2],
@@ -144,7 +144,7 @@ def initial_state_sigmas(
 @pytest.fixture
 def observation_sigmas(
     coordinate_subsets: list[CoordinateSubset],
-) -> dict[CoordinateSubset, np.ndarray]:
+) -> dict[CoordinateSubset, list[float]]:
     return {
         coordinate_subsets[0]: [1e-1],
         coordinate_subsets[1]: [1e-2],
@@ -162,7 +162,7 @@ def frame() -> Frame:
 
 
 @pytest.fixture
-def initial_guess_state(
+def initial_guess(
     initial_instant: Instant,
     coordinate_subsets: list[CoordinateSubset],
     frame: Frame,
@@ -270,12 +270,12 @@ class TestLeastSquaresSolver:
     def test_solve_defaults(
         self,
         least_squares_solver: LeastSquaresSolver,
-        initial_guess_state: State,
+        initial_guess: State,
         observations: list[State],
         state_generator: callable,
     ):
         analysis = least_squares_solver.solve(
-            initial_guess_state=initial_guess_state,
+            initial_guess=initial_guess,
             observations=observations,
             state_generator=state_generator,
         )
@@ -285,17 +285,17 @@ class TestLeastSquaresSolver:
     def test_solve(
         self,
         least_squares_solver: LeastSquaresSolver,
-        initial_guess_state: State,
+        initial_guess: State,
         observations: list[State],
         state_generator: callable,
-        initial_state_sigmas: dict[CoordinateSubset, np.ndarray],
-        observation_sigmas: dict[CoordinateSubset, np.ndarray],
+        initial_state_sigmas: dict[CoordinateSubset, list[float]],
+        observation_sigmas: dict[CoordinateSubset, list[float]],
     ):
         analysis = least_squares_solver.solve(
-            initial_guess_state=initial_guess_state,
+            initial_guess=initial_guess,
             observations=observations,
             state_generator=state_generator,
-            initial_guess_sigmas=initial_state_sigmas,
+            estimation_sigmas=initial_state_sigmas,
             observation_sigmas=observation_sigmas,
         )
 
