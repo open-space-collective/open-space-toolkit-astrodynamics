@@ -126,12 +126,13 @@ class LeastSquaresSolver
     FiniteDifferenceSolver getFiniteDifferenceSolver() const;
 
     /// @brief Solve the non-linear least squares problem
+    /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for algorithm used)
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationArray Array of observations
+    /// @param aStateGenerator Function to generate states
     /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
     /// @param anObservationSigmas Dictionary of sigmas for observations
-    /// @param aStateGenerator Function to generate states
     ///
     /// @return Analysis
     Analysis solve(

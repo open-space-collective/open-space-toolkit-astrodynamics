@@ -134,6 +134,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
+    // Notation used: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for algorithm used)
+
     if (!anInitialGuessState.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Initial guess state");
@@ -239,19 +241,20 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     for (Size iteration = 0; iteration < maxIterationCount_; ++iteration)
     {
         // Initialize matrices that will be accumulated in the loop
-        Lambda = PAprioriInverse;                 // Λ = P̄⁻¹
-        VectorXd N = PAprioriInverse * xApriori;  // N = P̄⁻¹ x̄
+        Lambda = PAprioriInverse;                 // Λ = P̄⁻¹ (shorthand for Hᵀ R⁻¹ H)
+        VectorXd N = PAprioriInverse * xApriori;  // N = P̄⁻¹ x̄ (shorthand for H^T R^-1 y)
 
         // Initialize the Pₑ of equation 19 in https://ntrs.nasa.gov/citations/20140011726
         PHatFrisbee = MatrixXd::Zero(stateDimension, stateDimension);
 
-        // G(X∗ᵢ) (computed observations) for all observation instants
         currentEstimatedState = estimationStateBuilder.build(anInitialGuessState.getInstant(), XNom);
+        
+        // G(X∗ᵢ) (computed observations) for all observation instants
         const MatrixXd computedStatesCoordinates =
             computeObservationsCoordinates(currentEstimatedState, observationInstants);
 
         // Compute residuals
-        // y = Y - G(X∗) (observed - computed = residual for current observations)
+        // y = Y - G(X∗) (observed - computed = residuals)
         residuals = observationCoordinates - computedStatesCoordinates;
 
         // H(t,t₀) = ∂G(X∗)/∂X∗₀ (sensitivty matrix for all observations at tᵢ w.r.t. nominal trajectory at epoch
@@ -260,7 +263,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             currentEstimatedState, observationInstants, computeObservationsCoordinates
         );
 
-        // Loop through each observations
+        // Loop through each observation
         for (Size i = 0; i < observationCount; ++i)
         {
             // yᵢ = Yᵢ - G(X∗ᵢ)
@@ -350,13 +353,7 @@ MatrixXd LeastSquaresSolver::extractSigmas(
         throw ostk::core::error::RuntimeError("Sigma count does not match State Coordinate Subset count.");
     }
 
-    Size totalSize = 0;
-    for (const auto& subset : stateSubsets)
-    {
-        totalSize += subset->getSize();
-    }
-
-    VectorXd sigmasCoordinates(totalSize);
+    VectorXd sigmasCoordinates(aStateBuilder.getSize());
     Size currentIndex = 0;
 
     for (Size i = 0; i < stateSubsets.getSize(); ++i)

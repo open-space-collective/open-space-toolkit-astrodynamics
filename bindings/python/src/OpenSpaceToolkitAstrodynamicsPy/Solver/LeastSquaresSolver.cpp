@@ -212,7 +212,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             )doc",
             arg("maximum_iteration_count"),
             arg("rms_update_threshold"),
-            arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.Default()")
+            arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.default()")
         )
         .def(
             "get_max_iteration_count",
@@ -263,8 +263,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             arg("initial_guess_state"),
             arg("observations"),
             arg("state_generator"),
-            arg("initial_guess_sigmas") = DEFAULT_INITIAL_GUESS_SIGMAS,
-            arg("observation_sigmas") = DEFAULT_OBSERVATION_SIGMAS
+            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}")
+            arg_v("observation_sigmas"), DEFAULT_OBSERVATION_SIGMAS, "{}")
         )
         .def_static(
             "calculate_empirical_covariance",

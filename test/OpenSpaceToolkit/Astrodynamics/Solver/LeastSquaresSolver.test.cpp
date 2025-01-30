@@ -106,9 +106,9 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
     VectorXd positionSigmas_ {3};
     VectorXd velocitySigmas_ {3};
 
-    std::unordered_map<CoordinateSubset, VectorXd> observationSigmas_ = {};
-
     std::unordered_map<CoordinateSubset, VectorXd> initialStateSigmas_ = {};
+
+    std::unordered_map<CoordinateSubset, VectorXd> observationSigmas_ = {};
 
     Array<State> observations_;
     const Size maxIterationCount_ = 20;
