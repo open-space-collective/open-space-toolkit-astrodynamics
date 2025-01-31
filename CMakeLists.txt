@@ -238,7 +238,7 @@ ENDFOREACH ()
 
 ## Dependencies
 
-### Boost [1.87.0]
+### Boost [1.82.0]
 
 IF (BUILD_WITH_BOOST_STATIC)
     SET (Boost_USE_STATIC_LIBS ON)
@@ -248,7 +248,7 @@ ENDIF ()
 
 SET (Boost_USE_MULTITHREADED ON)
 
-FIND_PACKAGE ("Boost" "1.87" REQUIRED COMPONENTS log log_setup thread)
+FIND_PACKAGE ("Boost" "1.82" REQUIRED COMPONENTS log log_setup thread)
 
 IF (BUILD_WITH_BOOST_STACKTRACE)
 ## Stacktrace definitions
@@ -335,9 +335,9 @@ IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ Physics [11.x.y]
+### Open Space Toolkit ▸ Physics [12.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "11" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "12" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 
