@@ -18,26 +18,68 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-azimuth_range = RealInterval.closed(0.0, 360.0)  # [deg]
-elevation_range = RealInterval.closed(20.0, 90.0)  # [deg]
-range_range = RealInterval.closed(0.0, 10000e3)  # [m]
-
-# Access generator with Azimuth-Range-Elevation constraints
-
-access_generator = AccessGenerator.aer_ranges(
-    azimuth_range, elevation_range, range_range, environment
-)
+access_geometry_dfs = [
+    pd.DataFrame(
+        compute_access_geometry(access),
+        columns=[
+            "Time",
+            "Latitude",
+            "Longitude",
+            "Altitude",
+            "Azimuth",
+            "Elevation",
+            "Range",
+        ],
+    )
+    for access in accesses
+]
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [0;32mIn[16], line 7[0m
-[1;32m      3[0m range_range [38;5;241m=[39m RealInterval[38;5;241m.[39mclosed([38;5;241m0.0[39m, [38;5;241m10000e3[39m)  [38;5;66;03m# [m][39;00m
-[1;32m      5[0m [38;5;66;03m# Access generator with Azimuth-Range-Elevation constraints[39;00m
-[0;32m----> 7[0m access_generator [38;5;241m=[39m [43mAccessGenerator[49m[38;5;241;43m.[39;49m[43maer_ranges[49m(
-[1;32m      8[0m     azimuth_range, elevation_range, range_range, environment
-[1;32m      9[0m )
+Cell [0;32mIn[23], line 1[0m
+[0;32m----> 1[0m access_geometry_dfs [38;5;241m=[39m [43m[[49m
+[1;32m      2[0m [43m    [49m[43mpd[49m[38;5;241;43m.[39;49m[43mDataFrame[49m[43m([49m
+[1;32m      3[0m [43m        [49m[43mcompute_access_geometry[49m[43m([49m[43maccess[49m[43m)[49m[43m,[49m
+[1;32m      4[0m [43m        [49m[43mcolumns[49m[38;5;241;43m=[39;49m[43m[[49m
+[1;32m      5[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mTime[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      6[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mLatitude[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      7[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mLongitude[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      8[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mAltitude[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      9[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mAzimuth[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m     10[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mElevation[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m     11[0m [43m            [49m[38;5;124;43m"[39;49m[38;5;124;43mRange[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m     12[0m [43m        [49m[43m][49m[43m,[49m
+[1;32m     13[0m [43m    [49m[43m)[49m
+[1;32m     14[0m [43m    [49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43maccess[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[43maccesses[49m
+[1;32m     15[0m [43m][49m
 
-[0;31mAttributeError[0m: type object 'ostk.astrodynamics.access.Generator' has no attribute 'aer_ranges'
+Cell [0;32mIn[23], line 3[0m, in [0;36m<listcomp>[0;34m(.0)[0m
+[1;32m      1[0m access_geometry_dfs [38;5;241m=[39m [
+[1;32m      2[0m     pd[38;5;241m.[39mDataFrame(
+[0;32m----> 3[0m         [43mcompute_access_geometry[49m[43m([49m[43maccess[49m[43m)[49m,
+[1;32m      4[0m         columns[38;5;241m=[39m[
+[1;32m      5[0m             [38;5;124m"[39m[38;5;124mTime[39m[38;5;124m"[39m,
+[1;32m      6[0m             [38;5;124m"[39m[38;5;124mLatitude[39m[38;5;124m"[39m,
+[1;32m      7[0m             [38;5;124m"[39m[38;5;124mLongitude[39m[38;5;124m"[39m,
+[1;32m      8[0m             [38;5;124m"[39m[38;5;124mAltitude[39m[38;5;124m"[39m,
+[1;32m      9[0m             [38;5;124m"[39m[38;5;124mAzimuth[39m[38;5;124m"[39m,
+[1;32m     10[0m             [38;5;124m"[39m[38;5;124mElevation[39m[38;5;124m"[39m,
+[1;32m     11[0m             [38;5;124m"[39m[38;5;124mRange[39m[38;5;124m"[39m,
+[1;32m     12[0m         ],
+[1;32m     13[0m     )
+[1;32m     14[0m     [38;5;28;01mfor[39;00m access [38;5;129;01min[39;00m accesses
+[1;32m     15[0m ]
+
+Cell [0;32mIn[20], line 5[0m, in [0;36mcompute_access_geometry[0;34m(access)[0m
+[1;32m      1[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mcompute_access_geometry[39m(access):
+[1;32m      2[0m     [38;5;28;01mreturn[39;00m [
+[1;32m      3[0m         compute_time_lla_aer_coordinates(state, access_target[38;5;241m.[39mget_position(), environment)
+[1;32m      4[0m         [38;5;28;01mfor[39;00m state [38;5;129;01min[39;00m satellite_orbit[38;5;241m.[39mget_states_at(
+[0;32m----> 5[0m             [43maccess[49m[38;5;241;43m.[39;49m[43mget_interval[49m()[38;5;241m.[39mgenerate_grid(Duration[38;5;241m.[39mseconds([38;5;241m1.0[39m))
+[1;32m      6[0m         )
+[1;32m      7[0m     ]
+
+[0;31mAttributeError[0m: 'list' object has no attribute 'get_interval'
 

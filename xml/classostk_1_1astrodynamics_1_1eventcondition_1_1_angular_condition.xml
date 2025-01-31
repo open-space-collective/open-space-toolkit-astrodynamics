@@ -571,7 +571,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="145" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="192" bodyend="213"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="145" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="192" bodyend="215"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

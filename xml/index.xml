@@ -1326,6 +1326,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af821ba6a4551b6bea8ef9ee79c08897a" kind="function"><name>accessCoordinateBroker</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a3e288fd3fe4a9a7be02570d9c3e2e98f" kind="function"><name>getFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1aafda4916416d8361f7419289566f6aaa" kind="function"><name>getCoordinateSubsets</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a65f5f86d7749da7199203509cb361ecd" kind="function"><name>getSize</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a50bf51472cd381ea0163599950c15347" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1abe633a2b6bfac824fbcbe84401ff85cb" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1ad24ce294f662d5e2c7c91b63b12a6a80" kind="function"><name>Undefined</name></member>

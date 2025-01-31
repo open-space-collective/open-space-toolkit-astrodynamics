@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="156" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" bodystart="156" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="161" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1ace1986c87abfe2e82ac6f8da7169079f" prot="private" static="no" mutable="no">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt;</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="157" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" bodystart="157" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="162" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" bodystart="162" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -442,6 +442,23 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="142" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp" bodystart="251" bodyend="259"/>
       </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a65f5f86d7749da7199203509cb361ecd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::trajectory::StateBuilder::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <briefdescription>
+<para>Get the total size of all coordinates from all subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The total size of all coordinates from all subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="147" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp" bodystart="261" bodyend="269"/>
+      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a50bf51472cd381ea0163599950c15347" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void ostk::astrodynamics::trajectory::StateBuilder::print</definition>
@@ -481,7 +498,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="148" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp" bodystart="261" bodyend="284"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="153" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp" bodystart="271" bodyend="294"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -544,7 +561,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="153" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp" bodystart="286" bodyend="289"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="158" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp" bodystart="296" bodyend="299"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -552,7 +569,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" bodystart="43" bodyend="158"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp" bodystart="43" bodyend="163"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af821ba6a4551b6bea8ef9ee79c08897a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>accessCoordinateBroker</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a54417dfbe1f8add47a4a5d4876913067" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>accessFrame</name></member>
@@ -562,6 +579,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a8d5e600fbb04c3a08ea423eb45dd0b26" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>frameSPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1aafda4916416d8361f7419289566f6aaa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>getCoordinateSubsets</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a3e288fd3fe4a9a7be02570d9c3e2e98f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>getFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a65f5f86d7749da7199203509cb361ecd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>getSize</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af847028d562d2286f5b5c6524fbb168f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1afcd299cd50f977e224ba77d814248da8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::StateBuilder</scope><name>operator+</name></member>

@@ -21,6 +21,7 @@ ostk.astrodynamics.trajectory.StateBuilder
       ~StateBuilder.expand
       ~StateBuilder.get_coordinate_subsets
       ~StateBuilder.get_frame
+      ~StateBuilder.get_size
       ~StateBuilder.is_defined
       ~StateBuilder.reduce
       ~StateBuilder.undefined

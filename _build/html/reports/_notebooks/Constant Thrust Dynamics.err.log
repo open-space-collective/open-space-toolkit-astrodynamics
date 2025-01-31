@@ -18,20 +18,28 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-propagator = Propagator(
-    NumericalSolver.default(),
-    [central_body_gravity, thruster_dynamics, PositionDerivative()],
-)
+states = propagator.calculate_states_at(state, instants)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mRuntimeError[0m                              Traceback (most recent call last)
-Cell [0;32mIn[6], line 1[0m
-[0;32m----> 1[0m propagator [38;5;241m=[39m [43mPropagator[49m[43m([49m
-[1;32m      2[0m [43m    [49m[43mNumericalSolver[49m[38;5;241;43m.[39;49m[43mdefault[49m[43m([49m[43m)[49m[43m,[49m
-[1;32m      3[0m [43m    [49m[43m[[49m[43mcentral_body_gravity[49m[43m,[49m[43m [49m[43mthruster_dynamics[49m[43m,[49m[43m [49m[43mPositionDerivative[49m[43m([49m[43m)[49m[43m][49m[43m,[49m
-[1;32m      4[0m [43m)[49m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[9], line 1[0m
+[0;32m----> 1[0m states [38;5;241m=[39m [43mpropagator[49m[38;5;241;43m.[39;49m[43mcalculate_states_at[49m[43m([49m[43mstate[49m[43m,[49m[43m [49m[43minstants[49m[43m)[49m
 
-[0;31mRuntimeError[0m: Tried to call pure virtual function "Dynamics::get_read_coordinate_subsets"
+Cell [0;32mIn[3], line 31[0m, in [0;36mThrusterDynamics.compute_contribution[0;34m(self, instant, x, frame)[0m
+[1;32m     28[0m acceleration_vnc [38;5;241m=[39m np[38;5;241m.[39marray([[38;5;241m1[39m, [38;5;241m0[39m, [38;5;241m0[39m]) [38;5;241m*[39m [38;5;28mself[39m[38;5;241m.[39m_thrust [38;5;241m/[39m mass
+[1;32m     30[0m [38;5;66;03m# convert to GCRF[39;00m
+[0;32m---> 31[0m local_orbital_frame [38;5;241m=[39m [43mLocalOrbitalFrameFactory[49m[38;5;241;43m.[39;49m[43mVNC[49m[43m([49m[43mFrame[49m[38;5;241;43m.[39;49m[43mGCRF[49m[43m([49m[43m)[49m[43m)[49m[38;5;241;43m.[39;49m[43mgenerate_frame[49m[43m([49m
+[1;32m     32[0m [43m    [49m[43minstant[49m[43m,[49m[43m [49m[43mx[49m[43m[[49m[43m:[49m[38;5;241;43m3[39;49m[43m][49m[43m,[49m[43m [49m[43mx[49m[43m[[49m[38;5;241;43m3[39;49m[43m:[49m[38;5;241;43m6[39;49m[43m][49m
+[1;32m     33[0m [43m[49m[43m)[49m
+[1;32m     34[0m q_GCRF_to_VNC [38;5;241m=[39m local_orbital_frame[38;5;241m.[39mget_transform_to(
+[1;32m     35[0m     Frame[38;5;241m.[39mGCRF(), instant
+[1;32m     36[0m )[38;5;241m.[39mget_orientation()
+[1;32m     37[0m q_GCRF_to_VNC[38;5;241m.[39mnormalize()
+
+[0;31mTypeError[0m: generate_frame(): incompatible function arguments. The following argument types are supported:
+    1. (self: ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory, state: ostk::astrodynamics::trajectory::State) -> ostk.physics.coordinate.Frame
+
+Invoked with: <ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory object at 0x7f07b8d86cf0>, 2000-01-01 11:58:55.816 [UTC], array([7000000.,       0.,       0.]), array([   0.        , 5335.86545062, 5335.86545062])
 
