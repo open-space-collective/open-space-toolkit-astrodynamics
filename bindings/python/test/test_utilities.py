@@ -61,7 +61,7 @@ class TestUtility:
         position: Position,
         environment: Environment,
     ):
-        time_lla_aer: float[datetime, float, float, float, float, float, float] = (
+        time_lla_aer: tuple[datetime, float, float, float, float, float, float] = (
             utilities.compute_time_lla_aer_coordinates(state, position, environment)
         )
 

@@ -4,20 +4,12 @@ import pytest
 
 import numpy as np
 
-import ostk.mathematics as mathematics
-
-import ostk.physics as physics
-
-import ostk.astrodynamics as astrodynamics
-
-Cuboid = mathematics.geometry.d3.object.Cuboid
-Composite = mathematics.geometry.d3.object.Composite
-Point = mathematics.geometry.d3.object.Point
-
-Mass = physics.unit.Mass
-
-SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
-PropulsionSystem = astrodynamics.flight.system.PropulsionSystem
+from ostk.mathematics.geometry.d3.object import Cuboid
+from ostk.mathematics.geometry.d3.object import Composite
+from ostk.mathematics.geometry.d3.object import Point
+from ostk.physics.unit import Mass
+from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system import PropulsionSystem
 
 
 @pytest.fixture

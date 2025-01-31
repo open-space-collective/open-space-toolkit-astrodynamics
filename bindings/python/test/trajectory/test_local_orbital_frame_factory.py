@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+from typing import Callable
+
 import pytest
 
 from ostk.physics.time import Instant
@@ -26,7 +28,7 @@ def local_orbital_transform_provider_type() -> LocalOrbitalFrameTransformProvide
 
 
 @pytest.fixture
-def transform_generator() -> callable:
+def transform_generator() -> Callable:
     return lambda state: Transform.identity(Transform.Type.passive)
 
 
@@ -107,7 +109,7 @@ class TestLocalOrbitalFrameFactory:
 
     def test_custom_constructor(
         self,
-        transform_generator: callable,
+        transform_generator: Callable,
         parent_frame: Frame,
     ):
         assert (
