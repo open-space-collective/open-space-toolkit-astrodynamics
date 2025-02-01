@@ -36,6 +36,7 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -1006,6 +1007,57 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                 }
             }
         }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_5)
+{
+    // Regression test for a bug where elevation intervals were not being correctly computed if the trajectory target
+    // was fixed
+
+    {
+        const Instant instant = Instant::J2000();
+        const Position position = Position::Meters({7e6, 0.0, 0.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({0.0, 0.0, 8e3}, Frame::GCRF());
+
+        const Orbit orbit = {
+            Kepler(
+                COE::Cartesian({position, velocity}, defaultEarthSPtr_->getGravitationalParameter()),
+                instant,
+                defaultEarthSPtr_->getGravitationalParameter(),
+                defaultEarthSPtr_->getEquatorialRadius(),
+                Earth::EGM2008.J2_,
+                Earth::EGM2008.J4_,
+                Kepler::PerturbationType::J2
+            ),
+            defaultEarthSPtr_
+        };
+
+        const LLA lla = {
+            Angle::Degrees(90.0),
+            Angle::Degrees(0.0),
+            Length::Meters(0.0),
+        };
+
+        const Trajectory trajectory = Trajectory::Position(
+            Position::Meters(
+                lla.toCartesian(defaultEarthSPtr_->getEquatorialRadius(), defaultEarthSPtr_->getFlattening()),
+                Frame::ITRF()
+            )
+        );
+
+        const VisibilityCriterion visibilityCriterion =
+            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0));
+
+        const AccessTarget accessTarget = AccessTarget::FromTrajectory(visibilityCriterion, trajectory);
+
+        const Generator generator =
+            Generator(defaultEnvironment_, Duration::Minutes(1.0), Duration::Seconds(5.0), {}, {});
+
+        const Array<Access> accesses =
+            generator.computeAccesses(Interval::Closed(instant, instant + Duration::Hours(6.0)), accessTarget, orbit);
+
+        EXPECT_EQ(accesses.getSize(), 3);
     }
 }
 

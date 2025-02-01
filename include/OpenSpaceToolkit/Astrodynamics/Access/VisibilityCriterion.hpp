@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 namespace ostk
 {
@@ -33,6 +34,7 @@ using ostk::mathematics::object::Vector3d;
 using ostk::physics::coordinate::spherical::AER;
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
+using ostk::physics::unit::Angle;
 
 /// @brief Represents a visibility criterion for accesses between objects.
 class VisibilityCriterion
@@ -160,6 +162,12 @@ class VisibilityCriterion
         ///
         /// @param anElevationInterval The elevation interval.
         ElevationInterval(const Interval<Real>& anElevationInterval);
+
+        /// @brief Checks if the given elevation angle satisfies the criterion.
+        ///
+        /// @param anElevationAngle The elevation angle.
+        /// @return True if the criterion is satisfied.
+        bool isSatisfied(const Angle& anElevationAngle) const;
 
         /// @brief Checks if the given elevation angle satisfies the criterion.
         ///

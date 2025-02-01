@@ -252,6 +252,13 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
             return visibilityCriterion.as<VisibilityCriterion::AERInterval>().value().isSatisfied(aer);
         }
 
+        if (visibilityCriterion.is<VisibilityCriterion::ElevationInterval>())
+        {
+            return visibilityCriterion.as<VisibilityCriterion::ElevationInterval>().value().isSatisfied(
+                aer.getElevation()
+            );
+        }
+
         return false;
     };
 }
