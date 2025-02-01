@@ -63,8 +63,16 @@ def estimated_frisbee_covariance() -> np.ndarray:
 
 
 @pytest.fixture
-def computed_observations(observation_count: int) -> np.ndarray:
-    return np.array([np.array([1.0, 0.0])] * observation_count).transpose()
+def observation_count() -> int:
+    return 10
+
+
+@pytest.fixture
+def computed_observations(
+    estimate: State,
+    observation_count: int,
+) -> list[State]:
+    return [estimate] * observation_count
 
 
 @pytest.fixture
@@ -74,16 +82,16 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 
 @pytest.fixture
 def analysis(
-    observation_count: int,
+    rms_error: float,
     termination_criteria: str,
     estimate: State,
     estimated_covariance: np.ndarray,
     estimated_frisbee_covariance: np.ndarray,
-    computed_observations: np.ndarray,
+    computed_observations: list[State],
     steps: list[LeastSquaresSolver.Step],
 ) -> LeastSquaresSolver.Analysis:
     return LeastSquaresSolver.Analysis(
-        observation_count=observation_count,
+        rms_error=rms_error,
         termination_criteria=termination_criteria,
         estimate=estimate,
         estimated_covariance=estimated_covariance,
@@ -241,7 +249,7 @@ class TestLeastSquaresSolverAnalysis:
         assert isinstance(analysis.estimate, State)
         assert isinstance(analysis.estimated_covariance, np.ndarray)
         assert isinstance(analysis.estimated_frisbee_covariance, np.ndarray)
-        assert isinstance(analysis.computed_observations, np.ndarray)
+        assert isinstance(analysis.computed_observations, list)
         assert isinstance(analysis.steps, list)
 
 

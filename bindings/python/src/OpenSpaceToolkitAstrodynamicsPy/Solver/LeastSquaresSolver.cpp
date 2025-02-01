@@ -86,7 +86,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
     )
         .def(
             init<
-                const Size&,
+                const Real&,
                 const String&,
                 const State&,
                 const MatrixXd&,
@@ -105,7 +105,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                     computed_observations (list[State]): The computed observations of the final iteration.
                     steps (list[LeastSquaresSolver.Step]): The steps.
             )doc",
-            arg("observation_count"),
+            arg("rms_error"),
             arg("termination_criteria"),
             arg("estimate"),
             arg("estimated_covariance"),
