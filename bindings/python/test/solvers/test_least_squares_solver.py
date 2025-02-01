@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+from typing import Callable
+
 import pytest
 import numpy as np
 
@@ -43,12 +45,12 @@ def termination_criteria() -> str:
 
 
 @pytest.fixture
-def estimate() -> State:
+def estimate(coordinate_subsets: list[CoordinateSubset]) -> State:
     return State(
         Instant.J2000(),
         [1.0, 0.0],
         Frame.GCRF(),
-        [CoordinateSubset("Position", 1), CoordinateSubset("Velocity", 1)],
+        coordinate_subsets,
     )
 
 
@@ -191,7 +193,7 @@ def observations(
 
 
 @pytest.fixture
-def state_generator() -> callable:
+def state_generator() -> Callable:
     def state_fn(state, instants) -> list[State]:
         x0: float = state.get_coordinates()[0]
         v0: float = state.get_coordinates()[1]
@@ -244,6 +246,7 @@ class TestLeastSquaresSolverAnalysis:
         analysis: LeastSquaresSolver.Analysis,
     ):
         assert isinstance(analysis.rms_error, Real)
+        assert isinstance(analysis.observation_count, int)
         assert isinstance(analysis.iteration_count, int)
         assert isinstance(analysis.termination_criteria, String)
         assert isinstance(analysis.estimate, State)
@@ -251,6 +254,18 @@ class TestLeastSquaresSolverAnalysis:
         assert isinstance(analysis.estimated_frisbee_covariance, np.ndarray)
         assert isinstance(analysis.computed_observations, list)
         assert isinstance(analysis.steps, list)
+
+    def test_compute_residual_states(
+        self,
+        analysis: LeastSquaresSolver.Analysis,
+        observations: list[State],
+    ):
+        residuals: list[State] = analysis.compute_residual_states(
+            observations=observations
+        )
+
+        assert isinstance(residuals, list)
+        assert len(residuals) == len(observations)
 
 
 class TestLeastSquaresSolver:

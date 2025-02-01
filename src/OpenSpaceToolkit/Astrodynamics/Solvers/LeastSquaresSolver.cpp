@@ -93,6 +93,13 @@ void LeastSquaresSolver::Analysis::print(std::ostream& anOutputStream, bool disp
 
 Array<State> LeastSquaresSolver::Analysis::computeResidualStates(const Array<State>& anObservationStateArray) const
 {
+    if (computedObservationStates.getSize() != anObservationStateArray.getSize())
+    {
+        throw ostk::core::error::RuntimeError(
+            "Computed observation states and observation states arrays must have the same length."
+        );
+    }
+
     Array<State> residualStates;
     residualStates.reserve(anObservationStateArray.getSize());
 
@@ -166,7 +173,11 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const StateBuilder observationStateBuilder(anObservationStateArray[0]);
     const Array<Shared<const CoordinateSubset>> observationStateSubsets =
         observationStateBuilder.getCoordinateSubsets();
-    const Shared<const Frame>& observationStateFrame = observationStateBuilder.accessFrame();
+
+    if (estimationStateFrame != observationStateBuilder.getFrame())
+    {
+        throw ostk::core::error::RuntimeError("Initial guess state and observation state must have the same frame.");
+    }
 
     for (const auto& observation : anObservationStateArray)
     {
@@ -222,7 +233,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         }
     );
 
-    // Get observation coordinates in their own frame
+    // Get observation coordinates in their frame (same as estimation frame)
     // Y
     MatrixXd observationCoordinates(observationStateDimension, observationCount);
     for (Size i = 0; i < observationCount; ++i)
@@ -230,6 +241,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         observationCoordinates.col(i) = anObservationStateArray[i].accessCoordinates();
     }
 
+    // Compute observation coordinates in the estimation frame
     const auto computeObservationsCoordinates = [&](const State& state, const Array<Instant>& instants) -> MatrixXd
     {
         const Array<State> states = aStateGenerator(state, instants);
@@ -238,7 +250,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
         for (Size i = 0; i < states.getSize(); ++i)
         {
-            coordinates.col(i) = states[i].inFrame(observationStateFrame).extractCoordinates(observationStateSubsets);
+            coordinates.col(i) = states[i].inFrame(estimationStateFrame).extractCoordinates(observationStateSubsets);
         }
         return coordinates;
     };

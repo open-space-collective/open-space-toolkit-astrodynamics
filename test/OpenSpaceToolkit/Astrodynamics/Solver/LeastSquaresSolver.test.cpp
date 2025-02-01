@@ -151,15 +151,62 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Print)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, computeResidualStates)
+{
+    // Test incorrect size
+    {
+        EXPECT_THROW(analysis_.computeResidualStates({}), ostk::core::error::RuntimeError);
+    }
+
+    {
+        const Array<State> observationStates = {State(
+            Instant::J2000(),
+            Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+            Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
+        )};
+        const Array<State> residualStates = analysis_.computeResidualStates(observationStates);
+
+        EXPECT_EQ(residualStates.getSize(), computedObservationStates_.getSize());
+        EXPECT_EQ(residualStates.getSize(), observationStates.getSize());
+
+        for (Size i = 0; i < residualStates.getSize(); ++i)
+        {
+            EXPECT_EQ(residualStates[i], computedObservationStates_[i] - observationStates[i]);
+        }
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testing::Test
 {
    protected:
     void SetUp() override
     {
-        // Define initial state (position and velocity)
-        const Position initialPosition = Position::Meters({1.0, 0.0, 0.0}, Frame::GCRF());
-        const Velocity initialVelocity = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::GCRF());
-        trueState_ = {Instant::J2000(), initialPosition, initialVelocity};
+        std::mt19937 rng(42);  // Fixed seed for reproducibility
+        // Observations will be perturbed with Gaussian noise with standard deviation 0.01
+        std::normal_distribution<double> distObservations(0.0, 0.01);
+
+        // Define true initial state (position and velocity)
+        const Vector3d trueInitialPositionCoordinates = {1.0, 0.0, 0.0};
+        const Vector3d trueInitialVelocityCoordinates = {0.0, 0.0, 0.0};
+        trueState_ = {
+            Instant::J2000(),
+            Position::Meters(trueInitialPositionCoordinates, Frame::GCRF()),
+            Velocity::MetersPerSecond(trueInitialVelocityCoordinates, Frame::GCRF())
+        };
+
+        // Define very bad initial guess, to make sure the solver still converges (this problem is linear so it will)
+        // converge to very close to the true state
+        const Vector3d noiseInitialGuessPositionCoordinates = {10.0, 0.0, 0.0};
+        const Vector3d noiseInitialGuessVelocityCoordinates = {5.0, 0.0, 0.0};
+        initialGuessState_ =
+            trueState_ +
+            State(
+                trueState_.getInstant(),
+                Position::Meters(trueInitialPositionCoordinates + noiseInitialGuessPositionCoordinates, Frame::GCRF()),
+                Velocity::MetersPerSecond(
+                    trueInitialVelocityCoordinates + noiseInitialGuessVelocityCoordinates, Frame::GCRF()
+                )
+            );
 
         // Define observations (true states with noise)
         const Size observationCount = 100;
@@ -167,54 +214,57 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
 
         for (Size i = 0; i < observationCount; ++i)
         {
-            const Real time = timeStep * (Real)i;
+            const Real time = timeStep * static_cast<Real>(i);
             const Real position = std::cos(time);
             const Real velocity = -std::sin(time);
 
-            const Position truePosition = Position::Meters({position, 0.0, 0.0}, Frame::GCRF());
-            const Velocity trueVelocity = Velocity::MetersPerSecond({velocity, 0.0, 0.0}, Frame::GCRF());
+            const Vector3d truePositionCoordinates = {position, 0.0, 0.0};
+            const Vector3d trueVelocityCoordinates = {velocity, 0.0, 0.0};
 
             // Add noise to the true state
-            std::mt19937 rng(42);  // Fixed seed for reproducibility
-            std::uniform_real_distribution<double> dist(-0.01, 0.01);
-            const Vector3d noisePositionCoordinates = {dist(rng), 0.0, 0.0};
-            const Vector3d noiseVelocityCoordinates = {dist(rng), 0.0, 0.0};
+            const Vector3d noisePositionCoordinates = {distObservations(rng), 0.0, 0.0};
+            const Vector3d noiseVelocityCoordinates = {distObservations(rng), 0.0, 0.0};
 
             const Position combinedPosition =
-                Position::Meters(truePosition.getCoordinates() + noisePositionCoordinates, Frame::GCRF());
+                Position::Meters(truePositionCoordinates + noisePositionCoordinates, Frame::GCRF());
             const Velocity combinedVelocity =
-                Velocity::MetersPerSecond(trueVelocity.getCoordinates() + noiseVelocityCoordinates, Frame::GCRF());
+                Velocity::MetersPerSecond(trueVelocityCoordinates + noiseVelocityCoordinates, Frame::GCRF());
 
-            observations_.add(State(Instant::J2000() + Duration::Seconds(time), combinedPosition, combinedVelocity));
+            observationStates_.add(State(Instant::J2000() + Duration::Seconds(time), combinedPosition, combinedVelocity)
+            );
         }
 
-        const Position perturbedPosition = Position::Meters({0.1, 0.0, 0.0}, Frame::GCRF());
-        const Velocity perturbedVelocity = Velocity::MetersPerSecond({0.1, 0.0, 0.0}, Frame::GCRF());
-        initialGuessState_ = trueState_ + State(trueState_.getInstant(), perturbedPosition, perturbedVelocity);
+        // Initial guess sigmas are set artifically small (much smaller than the actual deviations in the initial guess)
+        // to test the apriori weighting
+        initialGuessPositionSigmas_ << 0.01, 1.0e-5, 1.0e-5;  // Standard deviation of 0.01 m for position
+        initialGuessVelocitySigmas_ << 0.01, 1.0e-5, 1.0e-5;  // Standard deviation of 0.01 m/s for velocity
 
-        positionSigmas_ << 0.1, 0.1, 0.1;
-        velocitySigmas_ << 0.1, 0.1, 0.1;
-
-        observationSigmas_ = {
-            {*CartesianPosition::Default(), positionSigmas_}, {*CartesianVelocity::Default(), velocitySigmas_}
+        initialGuessSigmas_ = {
+            {*CartesianPosition::Default(), initialGuessPositionSigmas_},
+            {*CartesianVelocity::Default(), initialGuessVelocitySigmas_},
         };
 
-        initialStateSigmas_ = {
-            {*CartesianPosition::Default(), positionSigmas_}, {*CartesianVelocity::Default(), velocitySigmas_}
+        // Observation sigmas are set to the standard deviation of the noise added to the true states
+        observationPositionSigmas_ << 0.01, 1.0e-5, 1.0e-5;  // Standard deviation of 0.01 m for position
+        observationVelocitySigmas_ << 0.01, 1.0e-5, 1.0e-5;  // Standard deviation of 0.01 m/s for velocity
+
+        observationSigmas_ = {
+            {*CartesianPosition::Default(), observationPositionSigmas_},
+            {*CartesianVelocity::Default(), observationVelocitySigmas_},
         };
     }
 
     State trueState_ = State::Undefined();
     State initialGuessState_ = State::Undefined();
 
-    VectorXd positionSigmas_ {3};
-    VectorXd velocitySigmas_ {3};
+    VectorXd initialGuessPositionSigmas_ = VectorXd(3);
+    VectorXd initialGuessVelocitySigmas_ = VectorXd(3);
+    VectorXd observationPositionSigmas_ = VectorXd(3);
+    VectorXd observationVelocitySigmas_ = VectorXd(3);
+    std::unordered_map<CoordinateSubset, VectorXd> initialGuessSigmas_;
+    std::unordered_map<CoordinateSubset, VectorXd> observationSigmas_;
 
-    std::unordered_map<CoordinateSubset, VectorXd> initialStateSigmas_ = {};
-
-    std::unordered_map<CoordinateSubset, VectorXd> observationSigmas_ = {};
-
-    Array<State> observations_;
+    Array<State> observationStates_;
     const Size maxIterationCount_ = 20;
     const Real rmsUpdateThreshold_ = 1e-2;
     const FiniteDifferenceSolver finiteDifferenceSolver_ = FiniteDifferenceSolver::Default();
@@ -271,47 +321,80 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Getters)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
 {
-    // Simple test case to check what is plugged into the Analysis object
-
-    // Test case where a priori is ignored and all observations weighted the same
+    // Test case 1: a priori is ignored and all observations weighted the same
     {
         const LeastSquaresSolver::Analysis analysis =
-            solver_.solve(initialGuessState_, observations_, generateStates_, {}, {});
+            solver_.solve(initialGuessState_, observationStates_, generateStates_, {}, {});
 
-        // Check results
-        EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.rmsError, 0.1);
+        EXPECT_EQ(analysis.observationCount, observationStates_.getSize());
         EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
-
-        const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
-        const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
-
-        const VectorXd truePosition = trueState_.getPosition().getCoordinates();
-        const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
-
-        EXPECT_LT((estimatedPosition - truePosition).norm(), 0.15);
-        EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.15);
-    }
-
-    // Test case with weighted observations
-    {
-        const LeastSquaresSolver::Analysis analysis =
-            solver_.solve(initialGuessState_, observations_, generateStates_, initialStateSigmas_, observationSigmas_);
-
         EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.rmsError, 20.0);
-        EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
+        EXPECT_EQ(analysis.computedObservationStates.getSize(), observationStates_.getSize());
+        EXPECT_EQ(analysis.estimatedCovariance.rows(), 6);
+        EXPECT_EQ(analysis.estimatedCovariance.cols(), 6);
+        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.rows(), 6);
+        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.cols(), 6);
 
         const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
         const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
         const VectorXd truePosition = trueState_.getPosition().getCoordinates();
         const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
 
-        EXPECT_LT((estimatedPosition - truePosition).norm(), 0.15);
-        EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.15);
+        EXPECT_LT(analysis.rmsError, 0.014);
+        EXPECT_LT((estimatedPosition - truePosition).norm(), 0.004);
+        EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.002);
     }
 
-    // Add two other test cases to check the weighting
+    // Test case 2:  apriori is ignored and observations are weighted
+    // Should produce almost the exact same answer as test case 2, because observations are weighted equally
+    {
+        const LeastSquaresSolver::Analysis analysis =
+            solver_.solve(initialGuessState_, observationStates_, generateStates_, {}, observationSigmas_);
+
+        EXPECT_EQ(analysis.observationCount, observationStates_.getSize());
+        EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
+        EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_EQ(analysis.computedObservationStates.getSize(), observationStates_.getSize());
+        EXPECT_EQ(analysis.estimatedCovariance.rows(), 6);
+        EXPECT_EQ(analysis.estimatedCovariance.cols(), 6);
+        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.rows(), 6);
+        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.cols(), 6);
+
+        const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
+        const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
+        const VectorXd truePosition = trueState_.getPosition().getCoordinates();
+        const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
+
+        EXPECT_LT(analysis.rmsError, 0.014);
+        EXPECT_LT((estimatedPosition - truePosition).norm(), 0.004);
+        EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.002);
+    }
+
+    // Test case 3: apriori is used and weighted the same as observations
+    // Estimate should be closer to initial guess than observations, due to apriori weighting
+    {
+        const LeastSquaresSolver::Analysis analysis = solver_.solve(
+            initialGuessState_, observationStates_, generateStates_, initialGuessSigmas_, observationSigmas_
+        );
+
+        EXPECT_EQ(analysis.observationCount, observationStates_.getSize());
+        EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
+        EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_EQ(analysis.computedObservationStates.getSize(), observationStates_.getSize());
+        EXPECT_EQ(analysis.estimatedCovariance.rows(), 6);
+        EXPECT_EQ(analysis.estimatedCovariance.cols(), 6);
+        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.rows(), 6);
+        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.cols(), 6);
+
+        const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
+        const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
+        const VectorXd truePosition = trueState_.getPosition().getCoordinates();
+        const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
+
+        EXPECT_LT(analysis.rmsError, 0.13);
+        EXPECT_LT((estimatedPosition - truePosition).norm(), 0.11);
+        EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.05);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
@@ -319,7 +402,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
     // Test undefined initial guess state
     {
         EXPECT_THROW(
-            solver_.solve(State::Undefined(), observations_, generateStates_), ostk::core::error::runtime::Undefined
+            solver_.solve(State::Undefined(), observationStates_, generateStates_),
+            ostk::core::error::runtime::Undefined
         );
     }
 
@@ -331,9 +415,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
         );
     }
 
+    // Test non matching frames
+    {
+        EXPECT_THROW(
+            solver_.solve(initialGuessState_.inFrame(Frame::ITRF()), observationStates_, generateStates_),
+            ostk::core::error::RuntimeError
+        );
+    }
+
     // Test mismatched observations
     {
-        Array<State> observations = observations_;
+        Array<State> observations = observationStates_;
         VectorXd coordinates(3);
         coordinates << 0.1, 0.0, 0.0;
         observations.add(State(Instant::J2000(), coordinates, Frame::GCRF(), {CartesianPosition::Default()}));
@@ -341,14 +433,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
         EXPECT_THROW(solver_.solve(initialGuessState_, observations, generateStates_), ostk::core::error::RuntimeError);
     }
 
+    // Test not enough observations
+    {
+        EXPECT_THROW(
+            solver_.solve(initialGuessState_, {observationStates_[0]}, generateStates_), ostk::core::error::RuntimeError
+        );
+    }
+
     // Test mismatched initial guess sigmas
     {
         std::unordered_map<CoordinateSubset, VectorXd> invalidSigmas = {
-            {*CartesianPosition::Default(), positionSigmas_}  // Missing velocity sigmas
+            {*CartesianPosition::Default(), initialGuessPositionSigmas_}  // Missing velocity sigmas
         };
 
         EXPECT_THROW(
-            solver_.solve(initialGuessState_, observations_, generateStates_, invalidSigmas, observationSigmas_),
+            solver_.solve(initialGuessState_, observationStates_, generateStates_, invalidSigmas, observationSigmas_),
             ostk::core::error::RuntimeError
         );
     }
@@ -358,11 +457,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
         VectorXd invalidSigmaValues(3);
         invalidSigmaValues << -1.0, 1.0, 0.0;
         std::unordered_map<CoordinateSubset, VectorXd> invalidSigmas = {
-            {*CartesianPosition::Default(), invalidSigmaValues}, {*CartesianVelocity::Default(), velocitySigmas_}
+            {*CartesianPosition::Default(), invalidSigmaValues},
+            {*CartesianVelocity::Default(), initialGuessVelocitySigmas_}
         };
 
         EXPECT_THROW(
-            solver_.solve(initialGuessState_, observations_, generateStates_, invalidSigmas, observationSigmas_),
+            solver_.solve(initialGuessState_, observationStates_, generateStates_, invalidSigmas, observationSigmas_),
             ostk::core::error::RuntimeError
         );
     }
@@ -379,11 +479,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiri
 {
     {
         const LeastSquaresSolver::Analysis analysis =
-            solver_.solve(initialGuessState_, observations_, generateStates_, {}, {});
+            solver_.solve(initialGuessState_, observationStates_, generateStates_, {}, {});
 
         const State estimatedState = analysis.estimatedState;
 
-        const Array<Instant> observationInstants = observations_.map<Instant>(
+        const Array<Instant> observationInstants = observationStates_.map<Instant>(
             [](const State& state) -> Instant
             {
                 return state.getInstant();
@@ -395,9 +495,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiri
         Array<State> residuals = Array<State>::Empty();
         residuals.reserve(estimatedStates.getSize());
 
-        for (Size i = 0; i < observations_.getSize(); ++i)
+        for (Size i = 0; i < observationStates_.getSize(); ++i)
         {
-            residuals.add(estimatedStates[i] - observations_[i]);
+            residuals.add(estimatedStates[i] - observationStates_[i]);
         }
 
         const MatrixXd covariance = LeastSquaresSolver::calculateEmpiricalCovariance(residuals);
