@@ -37,6 +37,24 @@ def orbit(environment: Environment) -> Orbit:
 
 
 @pytest.fixture
+def orbits(environment: Environment) -> list[Orbit]:
+    return [
+        Orbit.sun_synchronous(
+            epoch=Instant.date_time(DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+            altitude=Length.kilometers(500.0),
+            local_time_at_descending_node=Time(14, 0, 0),
+            celestial_object=environment.access_celestial_object_with_name("Earth"),
+        ),
+        Orbit.sun_synchronous(
+            epoch=Instant.date_time(DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+            altitude=Length.kilometers(500.0),
+            local_time_at_descending_node=Time(12, 0, 0),
+            celestial_object=environment.access_celestial_object_with_name("Earth"),
+        ),
+    ]
+
+
+@pytest.fixture
 def profile(orbit: Orbit) -> Profile:
     return Profile.local_orbital_frame_pointing(
         orbit=orbit,
@@ -56,6 +74,8 @@ def interval() -> Interval:
 def viewer(interval: Interval) -> Viewer:
     return Viewer(
         interval=interval,
+        zoom_to_entity=False,
+        track_entity=False,
     )
 
 
@@ -72,6 +92,50 @@ class TestViewer:
 
         assert rendered_html.startswith('<meta charset="utf-8">')
         assert "var widget = new Cesium.Viewer" in rendered_html
+        assert rendered_html.endswith("</script>")
+
+    def test_add_orbit_success(
+        self,
+        viewer: Viewer,
+        orbit: Orbit,
+    ):
+        viewer.add_orbit(
+            orbit=orbit,
+            step=Duration.seconds(5.0),
+            show_orbital_track=True,
+        )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert "new Cesium.SampledProperty(Cesium.Cartesian3)" in rendered_html
+        assert " widget.entities.add({position: widget" in rendered_html
+        assert "widget.entities.add({polyline:" in rendered_html
+        assert "billboard: {image:" in rendered_html
+        assert rendered_html.endswith("</script>")
+
+    def test_add_orbit_multiple_success(
+        self,
+        viewer: Viewer,
+        orbits: list[Orbit],
+    ):
+        for i, orbit in enumerate(orbits):
+            viewer.add_orbit(
+                orbit=orbit,
+                step=Duration.seconds(5.0),
+                show_orbital_track=True,
+                name=f"Satellite {i}",
+            )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert "new Cesium.SampledProperty(Cesium.Cartesian3)" in rendered_html
+        assert " widget.entities.add({position: widget" in rendered_html
+        assert "widget.entities.add({polyline:" in rendered_html
+        assert "billboard: {image:" in rendered_html
         assert rendered_html.endswith("</script>")
 
     def test_add_profile_success(

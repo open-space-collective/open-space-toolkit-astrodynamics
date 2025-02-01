@@ -24,10 +24,15 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 
 from ostk.astrodynamics.flight import Profile
+from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
 
 from .converters import coerce_to_datetime
 from .utilities import lla_from_position
+
+DEFAULT_SATELLITE_IMAGE: str = (
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADJSURBVDhPnZHRDcMgEEMZjVEYpaNklIzSEfLfD4qNnXAJSFWfhO7w2Zc0Tf9QG2rXrEzSUeZLOGm47WoH95x3Hl3jEgilvDgsOQUTqsNl68ezEwn1vae6lceSEEYvvWNT/Rxc4CXQNGadho1NXoJ+9iaqc2xi2xbt23PJCDIB6TQjOC6Bho/sDy3fBQT8PrVhibU7yBFcEPaRxOoeTwbwByCOYf9VGp1BYI1BA+EeHhmfzKbBoJEQwn1yzUZtyspIQUha85MpkNIXB7GizqDEECsAAAAASUVORK5CYII="
+)
 
 
 @dataclass
@@ -57,6 +62,8 @@ class Viewer:
         cesium_token: str | None = None,
         width: str = "1500px",
         height: str = "800px",
+        zoom_to_entity: bool = True,
+        track_entity: bool = True,
     ) -> None:
         self._interval: Interval = interval
 
@@ -81,14 +88,81 @@ class Viewer:
             scene_mode_picker=False,
             selection_indicator=False,
             scene3d_only=True,
-            zoom_to_entity=True,
-            track_entity=True,
+            zoom_to_entity=zoom_to_entity,
+            track_entity=track_entity,
             default_access_token=cesium_token,
         )
 
     @property
     def interval(self) -> Interval:
         return self._interval
+
+    def add_orbit(
+        self,
+        orbit: Orbit,
+        step: Duration,
+        name: str = "Satellite",
+        show_orbital_track: bool = False,
+        color: str | None = None,
+        image: str | None = None,
+    ) -> None:
+        """
+        Add Orbit to Viewer.
+
+        Args:
+            orbit (Orbit): Orbit to be added.
+            step (Duration): Step between two consecutive states.
+            name (str, optional): Name of the orbit. Defaults to "Satellite".
+            show_orbital_track (bool, optional): Whether to show the orbital track. Defaults to False.
+            color (str, optional): Color of the orbit. Defaults to None.
+            image (str, optional): Logo to be added. Defaults to None.
+        """
+        instants: list[Instant] = self._interval.generate_grid(step)
+        states: list[State] = orbit.get_states_at(instants)
+        llas: list[LLA] = _generate_llas(states)
+
+        cesium_positions: cesiumpy.SampledPositionProperty = (
+            _generate_sampled_position_from_states(states)
+        )
+
+        self._viewer.entities.add(
+            cesiumpy.Billboard(
+                name=name,
+                position=cesium_positions,
+                image=image or DEFAULT_SATELLITE_IMAGE,
+            )
+        )
+
+        self._viewer.entities.add(
+            cesiumpy.Label(
+                position=cesium_positions,
+                text=name,
+                scale=1.0,
+                fill_color=color or cesiumpy.color.WHITE,
+                pixel_offset=[0.0, 20.0],
+            )
+        )
+
+        if show_orbital_track:
+            self._viewer.entities.add(
+                cesiumpy.Polyline(
+                    positions=cesiumpy.entities.cartesian.Cartesian3Array(
+                        functools.reduce(
+                            operator.iconcat,
+                            [
+                                [
+                                    float(lla.get_longitude().in_degrees()),
+                                    float(lla.get_latitude().in_degrees()),
+                                    float(lla.get_altitude().in_meters()),
+                                ]
+                                for lla in llas
+                            ],
+                            [],
+                        )
+                    ),
+                    width=1,
+                )
+            )
 
     def add_profile(
         self,
@@ -144,7 +218,7 @@ class Viewer:
             )
 
         satellite = cesiumpy.Satellite(
-            position=_generate_sampled_position(instants, llas),
+            position=_generate_sampled_position_from_llas(instants, llas),
             orientation=_generate_sampled_orientation(states),
             availability=cesiumpy.TimeIntervalCollection(
                 intervals=[
@@ -294,7 +368,7 @@ def _generate_llas(states: list[State]) -> list[LLA]:
     ]
 
 
-def _generate_sampled_position(
+def _generate_sampled_position_from_llas(
     instants: list[Instant],
     llas: list[LLA],
 ) -> cesiumpy.SampledPositionProperty:
@@ -337,6 +411,33 @@ def _generate_sampled_orientation(states: list[State]) -> cesiumpy.SampledProper
             (
                 coerce_to_datetime(state.get_instant()),
                 _cesium_from_ostk_quaternion(state.in_frame(Frame.ITRF()).get_attitude()),
+                None,
+            )
+            for state in states
+        ],
+    )
+
+
+def _generate_sampled_position_from_states(
+    states: list[State],
+) -> cesiumpy.SampledPositionProperty:
+    """
+    Generate a sampled position property from a list of OSTk States.
+
+    Args:
+        states (list[State]): A list of OSTk States.
+
+    Returns:
+        cesiumpy.SampledPositionProperty: Sampled position property.
+    """
+
+    return cesiumpy.SampledPositionProperty(
+        samples=[
+            (
+                coerce_to_datetime(state.get_instant()),
+                _cesium_from_ostk_position(
+                    position=state.in_frame(Frame.ITRF()).get_position()
+                ),
                 None,
             )
             for state in states
