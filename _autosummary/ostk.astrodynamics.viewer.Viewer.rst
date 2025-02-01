@@ -18,6 +18,7 @@ ostk.astrodynamics.viewer.Viewer
    
       ~Viewer.add_label
       ~Viewer.add_line
+      ~Viewer.add_orbit
       ~Viewer.add_profile
       ~Viewer.add_target
       ~Viewer.render
