@@ -47,6 +47,110 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPositio
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
+class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step : public ::testing::Test
+{
+   protected:
+    const VectorXd xHat_ = VectorXd::Ones(6);
+    const Real rmsError_ = 1.0;
+    const LeastSquaresSolver::Step step_ = LeastSquaresSolver::Step(rmsError_, xHat_);
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Constructor)
+{
+    {
+        EXPECT_NO_THROW(LeastSquaresSolver::Step(rmsError_, xHat_));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, StreamOperator)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << step_ << std::endl);
+
+        const std::string output = testing::internal::GetCapturedStdout();
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        step_.print(std::cout);
+
+        const std::string output = testing::internal::GetCapturedStdout();
+    }
+}
+
+class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public ::testing::Test
+{
+   protected:
+    const Real rmsError_ = 1.0;
+    const Size observationCount_ = 1;
+    const String terminationCriteria_ = "Test Criteria";
+    const State estimatedState_ = State(
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
+    );
+    const MatrixXd estimatedCovariance_ = MatrixXd::Identity(6, 6);
+    const MatrixXd estimatedFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
+    const Array<State> computedObservationStates_ = {State(
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
+    )};
+    const Array<LeastSquaresSolver::Step> steps_ = {
+        LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
+    };
+
+    const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
+        observationCount_,
+        terminationCriteria_,
+        estimatedState_,
+        estimatedCovariance_,
+        estimatedFrisbeeCovariance_,
+        computedObservationStates_,
+        steps_
+    );
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constructor)
+{
+    {
+        EXPECT_EQ(analysis_.rmsError, rmsError_);
+        EXPECT_EQ(analysis_.observationCount, observationCount_);
+        EXPECT_EQ(analysis_.terminationCriteria, terminationCriteria_);
+        EXPECT_EQ(analysis_.estimatedState, estimatedState_);
+        EXPECT_EQ(analysis_.estimatedCovariance, estimatedCovariance_);
+        EXPECT_EQ(analysis_.estimatedFrisbeeCovariance, estimatedFrisbeeCovariance_);
+        EXPECT_EQ(analysis_.computedObservationStates, computedObservationStates_);
+        EXPECT_EQ(analysis_.steps.getSize(), steps_.getSize());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, StreamOperator)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << analysis_ << std::endl);
+
+        const std::string output = testing::internal::GetCapturedStdout();
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+        analysis_.print(std::cout);
+        const std::string output = testing::internal::GetCapturedStdout();
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testing::Test
 {
    protected:
@@ -141,108 +245,6 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
     };
 };
 
-class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step : public ::testing::Test
-{
-   protected:
-    const VectorXd xHat_ = VectorXd::Ones(6);
-    const Real rmsError_ = 1.0;
-    const LeastSquaresSolver::Step step_ = LeastSquaresSolver::Step(rmsError_, xHat_);
-};
-
-class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public ::testing::Test
-{
-   protected:
-    const Size observationCount_ = 10;
-    const String terminationCriteria = "Test Criteria";
-    const State solutionState_ = State(
-        Instant::J2000(),
-        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
-        Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
-    );
-    const MatrixXd solutionCovariance_ = MatrixXd::Identity(6, 6);
-    const MatrixXd solutionFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
-    const MatrixXd solutionResidualMatrix_ = MatrixXd::Ones(6, 6);
-    const Array<LeastSquaresSolver::Step> steps_ = {
-        LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
-    };
-
-    const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
-        observationCount_,
-        terminationCriteria,
-        solutionState_,
-        solutionCovariance_,
-        solutionFrisbeeCovariance_,
-        solutionResidualMatrix_,
-        steps_
-    );
-};
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Constructor)
-{
-    {
-        EXPECT_NO_THROW(LeastSquaresSolver::Step(rmsError_, xHat_));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, StreamOperator)
-{
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(std::cout << step_ << std::endl);
-
-        const std::string output = testing::internal::GetCapturedStdout();
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Print)
-{
-    {
-        testing::internal::CaptureStdout();
-
-        step_.print(std::cout);
-
-        const std::string output = testing::internal::GetCapturedStdout();
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constructor)
-{
-    {
-        EXPECT_NO_THROW(
-            LeastSquaresSolver::Analysis(
-                observationCount_,
-                terminationCriteria,
-                solutionState_,
-                solutionCovariance_,
-                solutionFrisbeeCovariance_,
-                solutionResidualMatrix_,
-                steps_
-            )
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, StreamOperator)
-{
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(std::cout << analysis_ << std::endl);
-
-        const std::string output = testing::internal::GetCapturedStdout();
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Print)
-{
-    {
-        testing::internal::CaptureStdout();
-        analysis_.print(std::cout);
-        const std::string output = testing::internal::GetCapturedStdout();
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Constructor)
 {
     {
@@ -269,6 +271,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Getters)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
 {
+    // Simple test case to check what is plugged into the Analysis object
+
     // Test case where a priori is ignored and all observations weighted the same
     {
         const LeastSquaresSolver::Analysis analysis =
@@ -279,8 +283,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         EXPECT_LT(analysis.rmsError, 0.1);
         EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
 
-        const VectorXd estimatedPosition = analysis.solutionState.getPosition().getCoordinates();
-        const VectorXd estimatedVelocity = analysis.solutionState.getVelocity().getCoordinates();
+        const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
+        const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
 
         const VectorXd truePosition = trueState_.getPosition().getCoordinates();
         const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
@@ -298,14 +302,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         EXPECT_LT(analysis.rmsError, 20.0);
         EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
 
-        const VectorXd estimatedPosition = analysis.solutionState.getPosition().getCoordinates();
-        const VectorXd estimatedVelocity = analysis.solutionState.getVelocity().getCoordinates();
+        const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
+        const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
         const VectorXd truePosition = trueState_.getPosition().getCoordinates();
         const VectorXd trueVelocity = trueState_.getVelocity().getCoordinates();
 
         EXPECT_LT((estimatedPosition - truePosition).norm(), 0.15);
         EXPECT_LT((estimatedVelocity - trueVelocity).norm(), 0.15);
     }
+
+    // Add two other test cases to check the weighting
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
@@ -375,7 +381,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiri
         const LeastSquaresSolver::Analysis analysis =
             solver_.solve(initialGuessState_, observations_, generateStates_, {}, {});
 
-        const State solutionState = analysis.solutionState;
+        const State estimatedState = analysis.estimatedState;
 
         const Array<Instant> observationInstants = observations_.map<Instant>(
             [](const State& state) -> Instant
@@ -384,7 +390,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, CalculateEmpiri
             }
         );
 
-        const Array<State> estimatedStates = generateStates_(solutionState, observationInstants);
+        const Array<State> estimatedStates = generateStates_(estimatedState, observationInstants);
 
         Array<State> residuals = Array<State>::Empty();
         residuals.reserve(estimatedStates.getSize());

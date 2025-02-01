@@ -38,17 +38,12 @@ def step(
 
 
 @pytest.fixture
-def observation_count() -> int:
-    return 5
-
-
-@pytest.fixture
 def termination_criteria() -> str:
     return "RMS Update Threshold"
 
 
 @pytest.fixture
-def solution_state() -> State:
+def estimate() -> State:
     return State(
         Instant.J2000(),
         [1.0, 0.0],
@@ -58,17 +53,17 @@ def solution_state() -> State:
 
 
 @pytest.fixture
-def solution_covariance() -> np.ndarray:
+def estimated_covariance() -> np.ndarray:
     return np.array([[1.0, 0.0], [0.0, 1.0]])
 
 
 @pytest.fixture
-def solution_frisbee_covariance() -> np.ndarray:
+def estimated_frisbee_covariance() -> np.ndarray:
     return np.array([[1.0, 0.0], [0.0, 1.0]])
 
 
 @pytest.fixture
-def solution_residuals(observation_count: int) -> np.ndarray:
+def computed_observations(observation_count: int) -> np.ndarray:
     return np.array([np.array([1.0, 0.0])] * observation_count).transpose()
 
 
@@ -81,19 +76,19 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 def analysis(
     observation_count: int,
     termination_criteria: str,
-    solution_state: State,
-    solution_covariance: np.ndarray,
-    solution_frisbee_covariance: np.ndarray,
-    solution_residuals: np.ndarray,
+    estimate: State,
+    estimated_covariance: np.ndarray,
+    estimated_frisbee_covariance: np.ndarray,
+    computed_observations: np.ndarray,
     steps: list[LeastSquaresSolver.Step],
 ) -> LeastSquaresSolver.Analysis:
     return LeastSquaresSolver.Analysis(
         observation_count=observation_count,
         termination_criteria=termination_criteria,
-        solution_state=solution_state,
-        solution_covariance=solution_covariance,
-        solution_frisbee_covariance=solution_frisbee_covariance,
-        solution_residuals=solution_residuals,
+        estimate=estimate,
+        estimated_covariance=estimated_covariance,
+        estimated_frisbee_covariance=estimated_frisbee_covariance,
+        computed_observations=computed_observations,
         steps=steps,
     )
 
@@ -132,7 +127,7 @@ def coordinate_subsets() -> list[CoordinateSubset]:
 
 
 @pytest.fixture
-def initial_state_sigmas(
+def initial_guess_sigmas(
     coordinate_subsets: list[CoordinateSubset],
 ) -> dict[CoordinateSubset, list[float]]:
     return {
@@ -243,10 +238,10 @@ class TestLeastSquaresSolverAnalysis:
         assert isinstance(analysis.rms_error, Real)
         assert isinstance(analysis.iteration_count, int)
         assert isinstance(analysis.termination_criteria, String)
-        assert isinstance(analysis.solution_state, State)
-        assert isinstance(analysis.solution_covariance, np.ndarray)
-        assert isinstance(analysis.solution_frisbee_covariance, np.ndarray)
-        assert isinstance(analysis.solution_residuals, np.ndarray)
+        assert isinstance(analysis.estimate, State)
+        assert isinstance(analysis.estimated_covariance, np.ndarray)
+        assert isinstance(analysis.estimated_frisbee_covariance, np.ndarray)
+        assert isinstance(analysis.computed_observations, np.ndarray)
         assert isinstance(analysis.steps, list)
 
 
@@ -288,14 +283,14 @@ class TestLeastSquaresSolver:
         initial_guess: State,
         observations: list[State],
         state_generator: callable,
-        initial_state_sigmas: dict[CoordinateSubset, list[float]],
+        initial_guess_sigmas: dict[CoordinateSubset, list[float]],
         observation_sigmas: dict[CoordinateSubset, list[float]],
     ):
         analysis = least_squares_solver.solve(
             initial_guess=initial_guess,
             observations=observations,
             state_generator=state_generator,
-            estimation_sigmas=initial_state_sigmas,
+            initial_guess_sigmas=initial_guess_sigmas,
             observation_sigmas=observation_sigmas,
         )
 

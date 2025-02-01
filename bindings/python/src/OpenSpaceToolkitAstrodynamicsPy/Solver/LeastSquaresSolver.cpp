@@ -91,30 +91,44 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 const State&,
                 const MatrixXd&,
                 const MatrixXd&,
-                const MatrixXd&,
+                const Array<State>&,
                 const Array<LeastSquaresSolver::Step>&>(),
             R"doc(
                 Constructor.
 
                 Args:
-                    observation_count (int): The observation count.
+                    rms_error (float): The RMS error.
                     termination_criteria (str): The termination criteria.
-                    solution_state (State): The solution state.
-                    solution_covariance (np.ndarray): The solution covariance matrix.
-                    solution_frisbee_covariance (np.ndarray): The solution Frisbee covariance matrix.
-                    solution_residuals (np.ndarray): The solution residuals.
+                    estimate (State): The estimated state.
+                    estimated_covariance (np.ndarray): The estimated covariance matrix.
+                    estimated_frisbee_covariance (np.ndarray): The estimated Frisbee covariance matrix.
+                    computed_observations (list[State]): The computed observations of the final iteration.
                     steps (list[LeastSquaresSolver.Step]): The steps.
             )doc",
             arg("observation_count"),
             arg("termination_criteria"),
-            arg("solution_state"),
-            arg("solution_covariance"),
-            arg("solution_frisbee_covariance"),
-            arg("solution_residuals"),
+            arg("estimate"),
+            arg("estimated_covariance"),
+            arg("estimated_frisbee_covariance"),
+            arg("computed_observations"),
             arg("steps")
         )
         .def("__str__", &(shiftToString<LeastSquaresSolver::Analysis>))
         .def("__repr__", &(shiftToString<LeastSquaresSolver::Analysis>))
+        .def(
+            "compute_residual_states",
+            &LeastSquaresSolver::Analysis::computeResidualStates,
+            R"doc(
+            Compute the residual states.
+
+            Args:
+                observations (list[State]): The observations.
+
+            Returns:
+                list[State]: The residuals.
+        )doc",
+            arg("observations")
+        )
         .def_readonly(
             "rms_error",
             &LeastSquaresSolver::Analysis::rmsError,
@@ -152,37 +166,37 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             )doc"
         )
         .def_readonly(
-            "solution_state",
-            &LeastSquaresSolver::Analysis::solutionState,
+            "estimate",
+            &LeastSquaresSolver::Analysis::estimatedState,
             R"doc(
-                The solution state.
+                The estimated state.
 
                 :type: State
             )doc"
         )
         .def_readonly(
-            "solution_covariance",
-            &LeastSquaresSolver::Analysis::solutionCovariance,
+            "estimated_covariance",
+            &LeastSquaresSolver::Analysis::estimatedCovariance,
             R"doc(
-                The solution covariance matrix.
+                The estimated covariance matrix.
 
                 :type: np.ndarray
             )doc"
         )
         .def_readonly(
-            "solution_frisbee_covariance",
-            &LeastSquaresSolver::Analysis::solutionFrisbeeCovariance,
+            "estimated_frisbee_covariance",
+            &LeastSquaresSolver::Analysis::estimatedFrisbeeCovariance,
             R"doc(
-                The solution Frisbee covariance matrix.
+                The estimated Frisbee covariance matrix.
 
                 :type: np.ndarray
             )doc"
         )
         .def_readonly(
-            "solution_residuals",
-            &LeastSquaresSolver::Analysis::solutionResiduals,
+            "computed_observations",
+            &LeastSquaresSolver::Analysis::computedObservationStates,
             R"doc(
-                The solution residuals.
+                The computed observations of the final iteration.
 
                 :type: np.ndarray
             )doc"
@@ -251,19 +265,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Solve the non-linear least squares problem.
 
                 Args:
-                    initial_guess (State): Initial guess state.
+                    initial_guess (State): Initial guess state (the Estimated State is of the same domain as this state).
                     observations (list[State]): List of observations.
                     state_generator (callable[list[State],[State, list[Instant]]]): Function to generate states.
-                    estimation_sigmas (dict[CoordinateSubset, np.ndarray], optional): Dictionary of sigmas for initial guess.
+                    initial_guess_sigmas (dict[CoordinateSubset, np.ndarray], optional): Dictionary of sigmas for initial guess.
                     observation_sigmas (dict[CoordinateSubset, np.ndarray], optional): Dictionary of sigmas for observations.
 
                 Returns:
-                    LeastSquaresSolver::Analysis: The analysis of the solution.
+                    LeastSquaresSolver::Analysis: The analysis of the estimate.
             )doc",
             arg("initial_guess"),
             arg("observations"),
             arg("state_generator"),
-            arg_v("estimation_sigmas", DEFAULT_ESTIMATION_SIGMAS, "{}"),
+            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
             arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}")
         )
         .def_static(

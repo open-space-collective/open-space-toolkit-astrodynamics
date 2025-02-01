@@ -44,7 +44,7 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-#define DEFAULT_ESTIMATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
+#define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
 
@@ -75,11 +75,11 @@ class LeastSquaresSolver
         Analysis(
             const Real& anRmsError,
             const String& aTerminationCriteria,
-            const State& aSolutionState,
-            const MatrixXd& aSolutionCovariance,
-            const MatrixXd& aSolutionFrisbeeCovariance,
-            const Array<State>& aComputedObservationsArray,
-            const Array<Step>& steps
+            const State& anEstimatedState,
+            const MatrixXd& anEstimatedCovariance,
+            const MatrixXd& anEstimatedFrisbeeCovariance,
+            const Array<State>& aComputedObservationsStateArray,
+            const Array<Step>& aStepArray
         );
 
         /// @brief Stream analysis
@@ -88,18 +88,18 @@ class LeastSquaresSolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief computeResiduals
-        Array<State> computeResiduals(const Array<State>& anObservationsArray) const;
+        /// @brief computeResidualStates
+        Array<State> computeResidualStates(const Array<State>& anObservationStateArray) const;
 
         Real rmsError;
-        String terminationCriteria;
-        State solutionState;
-        MatrixXd solutionCovariance;
-        MatrixXd solutionFrisbeeCovariance;
-        Array<State> computedObservations;
-        Array<Step> steps;
         Size observationCount;
         Size iterationCount;
+        String terminationCriteria;
+        State estimatedState;
+        MatrixXd estimatedCovariance;
+        MatrixXd estimatedFrisbeeCovariance;
+        Array<State> computedObservationStates;
+        Array<Step> steps;
     };
 
     /// @brief Constructor
@@ -129,12 +129,13 @@ class LeastSquaresSolver
     FiniteDifferenceSolver getFiniteDifferenceSolver() const;
 
     /// @brief Solve the non-linear least squares problem
-    /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for algorithm used)
+    /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for
+    /// algorithm used)
     ///
-    /// @param anInitialGuessState Initial guess states
+    /// @param anInitialGuessState Initial guess state (the Estimated State is of the same domain as this state)
     /// @param anObservationStateArray Array of observation states
     /// @param aStateGenerator Function to generate states
-    /// @param anEstimationSigmas Dictionary of sigmas for initial guess
+    /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
     /// @param anObservationSigmas Dictionary of sigmas for observations
     ///
     /// @return Analysis
@@ -142,13 +143,13 @@ class LeastSquaresSolver
         const State& anInitialGuessState,
         const Array<State>& anObservationStateArray,
         const std::function<Array<State>(const State&, const Array<Instant>&)>& aStateGenerator,
-        const std::unordered_map<CoordinateSubset, VectorXd>& anEstimationSigmas = DEFAULT_ESTIMATION_SIGMAS,
+        const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
 
     /// @brief Calculate empirical covariance
     ///
-    /// @param aResidualArray Array of residuals
+    /// @param aResidualStateArray Array of residual states
     ///
     /// @return Empirical covariance
     static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualStateArray);
@@ -163,7 +164,7 @@ class LeastSquaresSolver
     Real rmsUpdateThreshold_;
     FiniteDifferenceSolver finiteDifferenceSolver_;
 
-    /// @brief Extract the sigmas
+    /// @brief Extract the inverse squares of the sigmas
     ///
     /// @param aSigmas Dictionary of sigmas
     /// @param aStateBuilder State builder
