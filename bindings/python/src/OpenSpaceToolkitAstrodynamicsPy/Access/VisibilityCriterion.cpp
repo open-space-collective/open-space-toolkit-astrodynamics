@@ -18,12 +18,16 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
 {
     using namespace pybind11;
 
-    using ostk::astrodynamics::access::VisibilityCriterion;
     using ostk::core::container::Map;
     using ostk::core::type::Real;
+
     using ostk::mathematics::object::Interval;
+
     using ostk::physics::coordinate::spherical::AER;
     using ostk::physics::Environment;
+    using ostk::physics::unit::Angle;
+
+    using ostk::astrodynamics::access::VisibilityCriterion;
 
     class_<VisibilityCriterion> visibilityCriterionClass(
         aModule,
@@ -250,13 +254,27 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )
         .def(
             "is_satisfied",
-            &VisibilityCriterion::ElevationInterval::isSatisfied,
+            overload_cast<const Real&>(&VisibilityCriterion::ElevationInterval::isSatisfied, const_),
             arg("elevation"),
             R"doc(
                 Checks if the given elevation angle satisfies the criterion.
 
                 Args:
                     elevation (float): Elevation angle in radians.
+
+                Returns:
+                    bool: True if the criterion is satisfied, False otherwise.
+            )doc"
+        )
+        .def(
+            "is_satisfied",
+            overload_cast<const Angle&>(&VisibilityCriterion::ElevationInterval::isSatisfied, const_),
+            arg("elevation"),
+            R"doc(
+                Checks if the given elevation angle satisfies the criterion.
+
+                Args:
+                    elevation (Angle): Elevation angle.
 
                 Returns:
                     bool: True if the criterion is satisfied, False otherwise.

@@ -9,6 +9,7 @@ from ostk.physics import Environment
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
+from ostk.physics.unit import Angle
 
 from ostk.astrodynamics.access import VisibilityCriterion
 
@@ -152,9 +153,11 @@ class TestVisibilityCriterion:
         elevation_criterion = VisibilityCriterion.ElevationInterval(elevation_interval)
         elevation_valid = np.pi / 8  # 22.5 degrees
         assert elevation_criterion.is_satisfied(elevation_valid) is True
+        assert elevation_criterion.is_satisfied(Angle.radians(elevation_valid)) is True
 
         elevation_invalid = np.pi / 2  # 90 degrees
         assert elevation_criterion.is_satisfied(elevation_invalid) is False
+        assert elevation_criterion.is_satisfied(Angle.radians(elevation_invalid)) is False
 
     def test_line_of_sight_is_satisfied(
         self,
