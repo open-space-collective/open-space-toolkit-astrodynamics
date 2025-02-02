@@ -248,38 +248,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateOrbit
 class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Size observationCount_ = 1;
+    const Real rmsError_ = 1.0;
     const Size iterationCount_ = 5;
     const String terminationCriteria_ = "Test Criteria";
-    const State solutionState_ = State(
+    const State estimatedState_ = State(
         Instant::J2000(),
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
         Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
     );
-    const MatrixXd solutionCovariance_ = MatrixXd::Identity(6, 6);
-    const MatrixXd solutionFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
+    const MatrixXd estimatedCovariance_ = MatrixXd::Identity(6, 6);
+    const MatrixXd estimatedFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };
-    const MatrixXd solutionResiduals_ = MatrixXd::Ones(6, 1);
+    const Array<State> computedObservationStates_ = {State(
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
+    )};
 
     const LeastSquaresSolver::Analysis leastSquaresAnalysis_ = {
-        observationCount_,
+        rmsError_,
         terminationCriteria_,
-        solutionState_,
-        solutionCovariance_,
-        solutionFrisbeeCovariance_,
-        solutionResiduals_,
+        estimatedState_,
+        estimatedCovariance_,
+        estimatedFrisbeeCovariance_,
+        computedObservationStates_,
         steps_,
     };
 
-    const ODLeastSquaresSolver::Analysis analysis_ = {solutionState_, leastSquaresAnalysis_};
+    const ODLeastSquaresSolver::Analysis analysis_ = {estimatedState_, leastSquaresAnalysis_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Accessors)
 {
     {
-        EXPECT_EQ(analysis_.determinedState, solutionState_);
+        EXPECT_EQ(analysis_.determinedState, estimatedState_);
         EXPECT_EQ(analysis_.solverAnalysis.terminationCriteria, terminationCriteria_);
     }
 }

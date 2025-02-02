@@ -142,7 +142,7 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
 
     // Expand solution state to full state
     const State determinedState =
-        propagationStateBuilder.expand(analysis.solutionState, initialGuessStateInEstimationFrame)
+        propagationStateBuilder.expand(analysis.estimatedState, initialGuessStateInEstimationFrame)
             .inFrame(anInitialGuessState.accessFrame());
 
     return Analysis(determinedState, analysis);

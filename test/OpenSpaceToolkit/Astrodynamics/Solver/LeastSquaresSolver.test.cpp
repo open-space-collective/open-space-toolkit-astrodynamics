@@ -88,7 +88,6 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
 {
    protected:
     const Real rmsError_ = 1.0;
-    const Size observationCount_ = 1;
     const String terminationCriteria_ = "Test Criteria";
     const State estimatedState_ = State(
         Instant::J2000(),
@@ -107,7 +106,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
     };
 
     const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
-        observationCount_,
+        rmsError_,
         terminationCriteria_,
         estimatedState_,
         estimatedCovariance_,
@@ -121,7 +120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constr
 {
     {
         EXPECT_EQ(analysis_.rmsError, rmsError_);
-        EXPECT_EQ(analysis_.observationCount, observationCount_);
+        EXPECT_EQ(analysis_.observationCount, computedObservationStates_.getSize());
         EXPECT_EQ(analysis_.terminationCriteria, terminationCriteria_);
         EXPECT_EQ(analysis_.estimatedState, estimatedState_);
         EXPECT_EQ(analysis_.estimatedCovariance, estimatedCovariance_);
