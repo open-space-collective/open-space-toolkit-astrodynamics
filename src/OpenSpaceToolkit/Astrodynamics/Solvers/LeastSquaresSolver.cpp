@@ -352,9 +352,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             anObservationStateArray[i].getInstant(), computedObservationCoordinates.col(i)
         ));
     }
-    return Analysis(
-        terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps
-    );
+    return Analysis(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
 }
 
 MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aResidualStateArray)

@@ -24,7 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
         aModule,
         "ODLeastSquaresSolver",
         R"doc(
-            Orbit Determination solver using least squares estimation.
+            Orbit Determination solver using Least Squares estimation.
         )doc"
     );
 
@@ -85,7 +85,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
                 Args:
                     environment (Environment, optional): The environment. Defaults to Environment.default().
                     numerical_solver (NumericalSolver, optional): The numerical solver. Defaults to NumericalSolver.default().
-                    solver (LeastSquaresSolver, optional): The least squares solver. Defaults to LeastSquaresSolver.default().
+                    solver (LeastSquaresSolver, optional): The Least Squares solver. Defaults to LeastSquaresSolver.default().
                     estimation_frame (Frame, optional): The estimation frame. Defaults to Frame.GCRF().
             )doc"
         )
@@ -116,10 +116,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             &ODLeastSquaresSolver::accessSolver,
             return_value_policy::reference_internal,
             R"doc(
-                Access the least squares solver.
+                Access the Least Squares solver.
 
                 Returns:
-                    LeastSquaresSolver: The least squares solver.
+                    LeastSquaresSolver: The Least Squares solver.
             )doc"
         )
         .def(
@@ -127,16 +127,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             &ODLeastSquaresSolver::estimateState,
             arg("initial_guess_state"),
             arg("observations"),
-            arg("estimation_coordinate_subsets") = Array<Shared<const CoordinateSubset>>::Empty(),
-            arg("initial_guess_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
-            arg("observation_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
+            arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
+            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
+            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
             R"doc(
-                Estimate state using least squares.
+                Estimate state using Least Squares.
 
                 Args:
                     initial_guess_state (State): Initial guess state.
                     observations (list[State]): Observations to fit against.
-                    estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate.
+                    estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate. Defaults to empty list, in which case all the coordinate subsets from the initial guess state are estimated.
                     initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas.
                     observation_sigmas (dict[CoordinateSubset, VectorXd], optional): Observation sigmas.
 
@@ -149,17 +149,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             &ODLeastSquaresSolver::estimateOrbit,
             arg("initial_guess_state"),
             arg("observations"),
-            arg("estimation_coordinate_subsets") = Array<Shared<const CoordinateSubset>>::Empty(),
-            arg("initial_guess_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
-            arg("observation_sigmas") = std::unordered_map<CoordinateSubset, VectorXd>(),
+            arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
+            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
+            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
             R"doc(
-                Estimate orbit using least squares.
+                Estimate orbit using Least Squares.
 
                 Args:
                     initial_guess_state (State): Initial guess state.
                     observations (list[State]): Observations to fit against.
-                    estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate.
-                    initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas.
+                    estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate. Defaults to empty list, in which case all the coordinate subsets from the initial guess state are estimated.
+                    initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas. Defaults to empty, in which case 
                     observation_sigmas (dict[CoordinateSubset, VectorXd], optional): Observation sigmas.
 
                 Returns:

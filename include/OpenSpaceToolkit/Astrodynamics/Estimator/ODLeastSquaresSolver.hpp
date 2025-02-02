@@ -69,8 +69,6 @@ class ODLeastSquaresSolver
         LeastSquaresSolver::Analysis solverAnalysis;
     };
 
-    static const Shared<const Frame> EstimationFrameSPtr;
-
     /// @brief Constructor
     ///
     /// @param anEnvironment Environment, Defaults to Environment::Default()
@@ -107,9 +105,10 @@ class ODLeastSquaresSolver
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationArray Observations to fit against
+    /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate. Defaults to empty array, in which case all
+    /// the coordinate subsets from the initial guess state are estimated
     /// @param anInitialGuessSigmas Initial guess sigmas
     /// @param anObservationSigmas Observation sigmas
-    /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate
     ///
     /// @return Analysis
     Analysis estimateState(
@@ -125,9 +124,9 @@ class ODLeastSquaresSolver
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationArray Observations to fit against
+    /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate
     /// @param anInitialGuessSigmas Initial guess sigmas
     /// @param anObservationSigmas Observation sigmas
-    /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate
     ///
     /// @return Orbit
     Orbit estimateOrbit(
