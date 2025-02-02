@@ -87,8 +87,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step, Print)
 class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Real rmsError_ = 1.0;
-    const Size observationCount_ = 1;
     const String terminationCriteria_ = "Test Criteria";
     const State estimatedState_ = State(
         Instant::J2000(),
@@ -105,9 +103,9 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };
+    const Real rmsError_ = steps_.accessLast().rmsError;
 
     const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
-        observationCount_,
         terminationCriteria_,
         estimatedState_,
         estimatedCovariance_,
@@ -121,13 +119,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constr
 {
     {
         EXPECT_EQ(analysis_.rmsError, rmsError_);
-        EXPECT_EQ(analysis_.observationCount, observationCount_);
+        EXPECT_EQ(analysis_.observationCount, computedObservationStates_.getSize());
         EXPECT_EQ(analysis_.terminationCriteria, terminationCriteria_);
         EXPECT_EQ(analysis_.estimatedState, estimatedState_);
         EXPECT_EQ(analysis_.estimatedCovariance, estimatedCovariance_);
         EXPECT_EQ(analysis_.estimatedFrisbeeCovariance, estimatedFrisbeeCovariance_);
         EXPECT_EQ(analysis_.computedObservationStates, computedObservationStates_);
         EXPECT_EQ(analysis_.steps.getSize(), steps_.getSize());
+    }
+
+    {
+        EXPECT_THROW(
+            LeastSquaresSolver::Analysis(
+                terminationCriteria_,
+                estimatedState_,
+                estimatedCovariance_,
+                estimatedFrisbeeCovariance_,
+                computedObservationStates_,
+                Array<LeastSquaresSolver::Step>()
+            ),
+            ostk::core::error::RuntimeError
+        );
     }
 }
 

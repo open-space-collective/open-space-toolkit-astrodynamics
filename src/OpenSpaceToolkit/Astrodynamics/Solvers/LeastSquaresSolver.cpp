@@ -42,7 +42,6 @@ void LeastSquaresSolver::Step::print(std::ostream& anOutputStream) const
 }
 
 LeastSquaresSolver::Analysis::Analysis(
-    const Real& anRmsError,
     const String& aTerminationCriteria,
     const State& anEstimatedState,
     const MatrixXd& anEstimatedCovariance,
@@ -50,7 +49,7 @@ LeastSquaresSolver::Analysis::Analysis(
     const Array<State>& aComputedObservationsStateArray,
     const Array<Step>& aStepArray
 )
-    : rmsError(anRmsError),
+    : rmsError(Real::Undefined()),
       observationCount(aComputedObservationsStateArray.getSize()),
       iterationCount(aStepArray.getSize()),
       terminationCriteria(aTerminationCriteria),
@@ -60,6 +59,12 @@ LeastSquaresSolver::Analysis::Analysis(
       computedObservationStates(aComputedObservationsStateArray),
       steps(aStepArray)
 {
+    if (aStepArray.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Step array cannot be empty.");
+    }
+
+    rmsError = aStepArray.accessLast().rmsError;
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const LeastSquaresSolver::Analysis& anAnalysis)
@@ -347,9 +352,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             anObservationStateArray[i].getInstant(), computedObservationCoordinates.col(i)
         ));
     }
-    return Analysis(
-        currentRmsError, terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps
-    );
+    return Analysis(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
 }
 
 MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aResidualStateArray)

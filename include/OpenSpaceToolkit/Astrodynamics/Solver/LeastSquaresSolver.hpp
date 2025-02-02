@@ -73,7 +73,6 @@ class LeastSquaresSolver
        public:
         /// @brief Constructor
         Analysis(
-            const Real& anRmsError,
             const String& aTerminationCriteria,
             const State& anEstimatedState,
             const MatrixXd& anEstimatedCovariance,
