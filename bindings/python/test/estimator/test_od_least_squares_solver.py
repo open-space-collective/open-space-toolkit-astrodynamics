@@ -73,6 +73,7 @@ def observations() -> list[State]:
         reference_frame=Frame.ITRF(),
     )
 
+
 @pytest.fixture
 def rms_error() -> float:
     return 1.0
@@ -105,7 +106,7 @@ def termination_criteria() -> str:
 
 
 @pytest.fixture
-def solution_state() -> State:
+def esimated_state() -> State:
     return State(
         Instant.J2000(),
         [1.0, 0.0],
@@ -115,18 +116,20 @@ def solution_state() -> State:
 
 
 @pytest.fixture
-def solution_covariance() -> np.ndarray:
+def estimated_covariance() -> np.ndarray:
     return np.array([[1.0, 0.0], [0.0, 1.0]])
 
 
 @pytest.fixture
-def solution_frisbee_covariance() -> np.ndarray:
+def estimated_frisbee_covariance() -> np.ndarray:
     return np.array([[1.0, 0.0], [0.0, 1.0]])
 
 
 @pytest.fixture
-def solution_residuals(observation_count: int) -> np.ndarray:
-    return np.array([np.array([1.0, 0.0])] * observation_count).transpose()
+def computed_observations(
+    observations: list[State],
+) -> list[State]:
+    return observations
 
 
 @pytest.fixture
@@ -136,21 +139,19 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 
 @pytest.fixture
 def solver_analysis(
-    observation_count: int,
     termination_criteria: str,
-    solution_state: State,
-    solution_covariance: np.ndarray,
-    solution_frisbee_covariance: np.ndarray,
-    solution_residuals: np.ndarray,
+    esimated_state: State,
+    estimated_covariance: np.ndarray,
+    estimated_frisbee_covariance: np.ndarray,
+    computed_observations: list[State],
     steps: list[LeastSquaresSolver.Step],
 ) -> LeastSquaresSolver.Analysis:
     return LeastSquaresSolver.Analysis(
-        observation_count=observation_count,
         termination_criteria=termination_criteria,
-        solution_state=solution_state,
-        solution_covariance=solution_covariance,
-        solution_frisbee_covariance=solution_frisbee_covariance,
-        solution_residuals=solution_residuals,
+        estimate=esimated_state,
+        estimated_covariance=estimated_covariance,
+        estimated_frisbee_covariance=estimated_frisbee_covariance,
+        computed_observations=computed_observations,
         steps=steps,
     )
 
@@ -176,7 +177,6 @@ class TestODLeastSquaresSolverAnalysis:
     def test_properties(
         self,
         analysis: ODLeastSquaresSolver.Analysis,
-        initial_guess_state: State,
     ):
         assert isinstance(analysis.determined_state, State)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
@@ -204,7 +204,7 @@ class TestODLeastSquaresSolver:
         observations: list[State],
         coordinate_subsets: list[CoordinateSubset],
     ):
-        analysis = od_solver.estimate_state(
+        analysis: ODLeastSquaresSolver.Analysis = od_solver.estimate_state(
             initial_guess_state=initial_guess_state,
             observations=observations,
             estimation_coordinate_subsets=coordinate_subsets,
@@ -221,7 +221,7 @@ class TestODLeastSquaresSolver:
         observations: list[State],
         coordinate_subsets: list[CoordinateSubset],
     ):
-        orbit = od_solver.estimate_orbit(
+        orbit: Orbit = od_solver.estimate_orbit(
             initial_guess_state=initial_guess_state,
             observations=observations,
             estimation_coordinate_subsets=coordinate_subsets,

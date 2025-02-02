@@ -83,7 +83,6 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 
 @pytest.fixture
 def analysis(
-    rms_error: float,
     termination_criteria: str,
     estimate: State,
     estimated_covariance: np.ndarray,
@@ -92,7 +91,6 @@ def analysis(
     steps: list[LeastSquaresSolver.Step],
 ) -> LeastSquaresSolver.Analysis:
     return LeastSquaresSolver.Analysis(
-        rms_error=rms_error,
         termination_criteria=termination_criteria,
         estimate=estimate,
         estimated_covariance=estimated_covariance,

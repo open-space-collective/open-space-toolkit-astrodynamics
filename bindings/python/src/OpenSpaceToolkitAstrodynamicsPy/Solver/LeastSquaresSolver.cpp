@@ -86,7 +86,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
     )
         .def(
             init<
-                const Real&,
                 const String&,
                 const State&,
                 const MatrixXd&,
@@ -97,7 +96,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Constructor.
 
                 Args:
-                    rms_error (float): The RMS error.
                     termination_criteria (str): The termination criteria.
                     estimate (State): The estimated state.
                     estimated_covariance (np.ndarray): The estimated covariance matrix.
@@ -105,7 +103,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                     computed_observations (list[State]): The computed observations of the final iteration.
                     steps (list[LeastSquaresSolver.Step]): The steps.
             )doc",
-            arg("rms_error"),
             arg("termination_criteria"),
             arg("estimate"),
             arg("estimated_covariance"),

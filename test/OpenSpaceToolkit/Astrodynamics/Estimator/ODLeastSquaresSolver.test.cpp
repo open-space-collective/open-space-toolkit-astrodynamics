@@ -268,7 +268,6 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : publ
     )};
 
     const LeastSquaresSolver::Analysis leastSquaresAnalysis_ = {
-        rmsError_,
         terminationCriteria_,
         estimatedState_,
         estimatedCovariance_,
