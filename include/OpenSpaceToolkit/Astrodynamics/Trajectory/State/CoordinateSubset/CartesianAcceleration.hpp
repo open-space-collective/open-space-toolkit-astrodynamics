@@ -57,40 +57,6 @@ class CartesianAcceleration : public CoordinateSubset
     /// @brief Destructor for CartesianAcceleration
     ~CartesianAcceleration();
 
-    /// @brief Adds two coordinate vectors
-    ///
-    /// @param anInstant The instant at which the addition is performed
-    /// @param aFullCoordinatesVector The first full coordinates vector
-    /// @param anotherFullCoordinatesVector The second full coordinates vector
-    /// @param aFrameSPtr Shared pointer to the frame of reference
-    /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
-    ///
-    /// @return The resulting vector after addition
-    virtual VectorXd add(
-        const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
-        const VectorXd& anotherFullCoordinatesVector,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-    ) const override;
-
-    /// @brief Subtracts one coordinate vector from another
-    ///
-    /// @param anInstant The instant at which the subtraction is performed
-    /// @param aFullCoordinatesVector The full coordinates vector to be subtracted from
-    /// @param anotherFullCoordinatesVector The full coordinates vector to subtract
-    /// @param aFrameSPtr Shared pointer to the frame of reference
-    /// @param aCoordinateBrokerSPtr Shared pointer to the coordinate broker
-    ///
-    /// @return The resulting vector after subtraction
-    virtual VectorXd subtract(
-        const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
-        const VectorXd& anotherFullCoordinatesVector,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-    ) const override;
-
     /// @brief Transforms the coordinates to a different frame.
     ///
     /// @param anInstant The instant at which the transformation is performed

@@ -279,7 +279,7 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    if (this->coordinatesBrokerSPtr_ != aState.coordinatesBrokerSPtr_)
+    if (*this->coordinatesBrokerSPtr_ != *aState.coordinatesBrokerSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Coordinate Subsets");
     }

@@ -34,30 +34,6 @@ CartesianAcceleration::CartesianAcceleration(
 
 CartesianAcceleration::~CartesianAcceleration() {}
 
-VectorXd CartesianAcceleration::add(
-    [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinatesVector,
-    const VectorXd& anotherFullCoordinatesVector,
-    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-) const
-{
-    return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) +
-           aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
-}
-
-VectorXd CartesianAcceleration::subtract(
-    [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinatesVector,
-    const VectorXd& anotherFullCoordinatesVector,
-    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-) const
-{
-    return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) -
-           aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
-}
-
 VectorXd CartesianAcceleration::inFrame(
     [[maybe_unused]] const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,

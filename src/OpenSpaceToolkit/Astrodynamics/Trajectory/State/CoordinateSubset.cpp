@@ -68,7 +68,8 @@ VectorXd CoordinateSubset::add(
     [[maybe_unused]] const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
-    throw ostk::core::error::runtime::Wrong("Addition operation");
+    return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) +
+           aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CoordinateSubset::subtract(
@@ -79,7 +80,8 @@ VectorXd CoordinateSubset::subtract(
     [[maybe_unused]] const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
-    throw ostk::core::error::runtime::Wrong("Subtraction operation");
+    return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) -
+           aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CoordinateSubset::inFrame(

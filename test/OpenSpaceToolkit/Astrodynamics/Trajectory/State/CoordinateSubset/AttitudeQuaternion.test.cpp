@@ -42,34 +42,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Attitude
     EXPECT_EQ(4, defaultAttitudeQuaternion_.getSize());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQuaternion, Add)
-{
-    {
-        VectorXd firstCoordinates(4);
-        firstCoordinates << 0.0, 0.0, 0.0, 1.0;
-        VectorXd secondCoordinates(4);
-        secondCoordinates << 0.0, 0.0, 0.0, 1.0;
-
-        EXPECT_ANY_THROW(defaultAttitudeQuaternion_.add(
-            Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinateBroker_
-        ));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQuaternion, Subtract)
-{
-    {
-        VectorXd firstCoordinates(4);
-        firstCoordinates << 0.0, 0.0, 0.0, 1.0;
-        VectorXd secondCoordinates(4);
-        secondCoordinates << 0.0, 0.0, 0.0, 1.0;
-
-        EXPECT_ANY_THROW(defaultAttitudeQuaternion_.subtract(
-            Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinateBroker_
-        ));
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AttitudeQuaternion, InFrame)
 {
     {
