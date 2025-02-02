@@ -268,7 +268,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateOrbit
 class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Size observationCount_ = 1;
+    const Real rmsError_ = 1.0;
     const Size iterationCount_ = 5;
     const String terminationCriteria_ = "Test Criteria";
     const State estimatedState_ = State(
