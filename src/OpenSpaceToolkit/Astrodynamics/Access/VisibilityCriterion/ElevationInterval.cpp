@@ -28,6 +28,11 @@ VisibilityCriterion::ElevationInterval::ElevationInterval(const Interval<Real>& 
     );
 }
 
+bool VisibilityCriterion::ElevationInterval::isSatisfied(const Angle& anElevationAngle) const
+{
+    return this->elevation.contains(anElevationAngle.inRadians());
+}
+
 bool VisibilityCriterion::ElevationInterval::isSatisfied(const Real& anElevation) const
 {
     return this->elevation.contains(anElevation);

@@ -472,20 +472,38 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, LineOfSightIsS
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, ElevationIntervalIsSatisfied)
 {
+    const Interval<Real> elevationInterval = Interval<Real>::Closed(10.0, 80.0);
+
+    const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromElevationInterval(elevationInterval);
+
+    const auto elevationIntervalCriterion = visibilityCriterion.as<VisibilityCriterion::ElevationInterval>();
+    ASSERT_TRUE(elevationIntervalCriterion.has_value());
+
     {
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(10.0, 80.0);
+        {
+            const Real elevation = 45.0 * deg2rad;
 
-        const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromElevationInterval(elevationInterval);
+            EXPECT_TRUE(elevationIntervalCriterion.value().isSatisfied(elevation));
+        }
 
-        const auto elevationIntervalCriterion = visibilityCriterion.as<VisibilityCriterion::ElevationInterval>();
-        ASSERT_TRUE(elevationIntervalCriterion.has_value());
+        {
+            const Real elevationOutside = 5.0 * deg2rad;
 
-        const Real elevation = 45.0 * deg2rad;
+            EXPECT_FALSE(elevationIntervalCriterion.value().isSatisfied(elevationOutside));
+        }
+    }
 
-        EXPECT_TRUE(elevationIntervalCriterion.value().isSatisfied(elevation));
+    {
+        {
+            const Angle elevation = Angle::Degrees(45.0);
 
-        const Real elevationOutside = 5.0 * deg2rad;
+            EXPECT_TRUE(elevationIntervalCriterion.value().isSatisfied(elevation));
+        }
 
-        EXPECT_FALSE(elevationIntervalCriterion.value().isSatisfied(elevationOutside));
+        {
+            const Angle elevationOutside = Angle::Degrees(5.0);
+
+            EXPECT_FALSE(elevationIntervalCriterion.value().isSatisfied(elevationOutside));
+        }
     }
 }
