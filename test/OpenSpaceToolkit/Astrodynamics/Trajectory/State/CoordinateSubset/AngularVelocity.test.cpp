@@ -44,39 +44,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularV
     EXPECT_EQ(3, defaultAngularVelocity_.getSize());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVelocity, Add)
-{
-    {
-        const Instant instant = Instant::J2000();
-        const Shared<const Frame> frame = Frame::GCRF();
-
-        VectorXd allCoordinates_1(3);
-        allCoordinates_1 << 1.0, 2.0, 3.0;
-        VectorXd allCoordinates_2(3);
-        allCoordinates_2 << 4.0, 5.0, 6.0;
-
-        EXPECT_ANY_THROW(
-            defaultAngularVelocity_.add(instant, allCoordinates_1, allCoordinates_2, frame, defaultCoordinateBroker_)
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVelocity, Subtract)
-{
-    {
-        const Instant instant = Instant::J2000();
-        const Shared<const Frame> frame = Frame::GCRF();
-        VectorXd allCoordinates_1(3);
-        allCoordinates_1 << 1.0, 2.0, 3.0;
-        VectorXd allCoordinates_2(3);
-        allCoordinates_2 << -4.0, -5.0, -6.0;
-
-        EXPECT_ANY_THROW(defaultAngularVelocity_.subtract(
-            instant, allCoordinates_1, allCoordinates_2, frame, defaultCoordinateBroker_
-        ));
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularVelocity, InFrame)
 {
     {

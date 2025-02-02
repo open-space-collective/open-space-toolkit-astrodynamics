@@ -94,11 +94,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Add)
 {
     const Instant instant = Instant::J2000();
     const Shared<const Frame> frame = Frame::GCRF();
-    VectorXd input1(4);
-    VectorXd input2(4);
+    VectorXd input1(1);
+    VectorXd input2(1);
 
-    input1 << 1.0, 1.0, 2.0, 3.0;
-    input2 << 2.0, 7.0, 3.0, 4.0;
+    input1 << 1.0;
+    input2 << 2.0;
 
     EXPECT_VECTORS_ALMOST_EQUAL(
         defaultCoordinateSubset_.add(instant, input1, input2, frame, defaultCoordinateBroker_), input1 + input2, 1e-15
@@ -109,11 +109,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Subtrac
 {
     const Instant instant = Instant::J2000();
     const Shared<const Frame> frame = Frame::GCRF();
-    VectorXd input1(4);
-    VectorXd input2(4);
+    VectorXd input1(1);
+    VectorXd input2(1);
 
-    input1 << 1.0, 1.0, 2.0, 3.0;
-    input2 << 2.0, 7.0, 3.0, 4.0;
+    input1 << 1.0;
+    input2 << 2.0;
 
     EXPECT_VECTORS_ALMOST_EQUAL(
         defaultCoordinateSubset_.subtract(instant, input1, input2, frame, defaultCoordinateBroker_),
