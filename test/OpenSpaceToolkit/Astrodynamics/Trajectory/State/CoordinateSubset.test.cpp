@@ -100,9 +100,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Add)
     input1 << 1.0, 1.0, 2.0, 3.0;
     input2 << 2.0, 7.0, 3.0, 4.0;
 
-    {
-        EXPECT_ANY_THROW(defaultCoordinateSubset_.add(instant, input1, input2, frame, defaultCoordinateBroker_));
-    }
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        defaultCoordinateSubset_.add(instant, input1, input2, frame, defaultCoordinateBroker_), input1 + input2, 1e-15
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Subtract)
@@ -115,9 +115,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, Subtrac
     input1 << 1.0, 1.0, 2.0, 3.0;
     input2 << 2.0, 7.0, 3.0, 4.0;
 
-    {
-        EXPECT_ANY_THROW(defaultCoordinateSubset_.subtract(instant, input1, input2, frame, defaultCoordinateBroker_));
-    }
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        defaultCoordinateSubset_.subtract(instant, input1, input2, frame, defaultCoordinateBroker_),
+        input1 - input2,
+        1e-15
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, InFrame)

@@ -28,30 +28,6 @@ CartesianVelocity::CartesianVelocity(const Shared<const CartesianPosition>& aCar
 
 CartesianVelocity::~CartesianVelocity() {}
 
-VectorXd CartesianVelocity::add(
-    [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinatesVector,
-    const VectorXd& anotherFullCoordinatesVector,
-    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-) const
-{
-    return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) +
-           aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
-}
-
-VectorXd CartesianVelocity::subtract(
-    [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinatesVector,
-    const VectorXd& anotherFullCoordinatesVector,
-    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-) const
-{
-    return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this) -
-           aCoordinateBrokerSPtr->extractCoordinate(anotherFullCoordinatesVector, *this);
-}
-
 VectorXd CartesianVelocity::inFrame(
     const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,

@@ -40,40 +40,6 @@ class CartesianPosition : public CoordinateSubset
     /// @brief Destructor
     ~CartesianPosition();
 
-    /// @brief Add two coordinate subsets
-    ///
-    /// @param anInstant the instant associated to the coordinates
-    /// @param aFullCoordinatesVector first set of all coordinates
-    /// @param anotherFullCoordinatesVector second set of all coordinates
-    /// @param aFrameSPtr the reference frame in which the coordinates are resolved
-    /// @param aCoordinateBrokerSPtr a coordinate broker
-    ///
-    /// @return The resulting coordinate subset value (subset_1 + subset_2)
-    virtual VectorXd add(
-        const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
-        const VectorXd& anotherFullCoordinatesVector,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-    ) const override;
-
-    /// @brief Subtract two coordinate subsets
-    ///
-    /// @param anInstant the instant associated to the coordinates
-    /// @param aFullCoordinatesVector first set of all coordinates
-    /// @param anotherFullCoordinatesVector second set of all coordinates
-    /// @param aFrameSPtr the reference frame associated to the coordinates
-    /// @param aCoordinateBrokerSPtr a coordinate broker
-    ///
-    /// @return The resulting coordinate subset value (subset_1 - subset_2)
-    virtual VectorXd subtract(
-        const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
-        const VectorXd& anotherFullCoordinatesVector,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
-    ) const override;
-
     /// @brief Transforms the coordinate subset from one frame to another
     ///
     /// @param anInstant the reference frame associated to the coordinates

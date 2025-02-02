@@ -71,10 +71,9 @@ def observation_count() -> int:
 
 @pytest.fixture
 def computed_observations(
-    estimate: State,
-    observation_count: int,
+    observations: list[State],
 ) -> list[State]:
-    return [estimate] * observation_count
+    return observations
 
 
 @pytest.fixture
@@ -180,6 +179,7 @@ def observations(
     initial_instant: Instant,
     coordinate_subsets: list[CoordinateSubset],
     frame: Frame,
+    observation_count: int,
 ) -> list[State]:
     return [
         State(
@@ -188,7 +188,7 @@ def observations(
             frame,
             coordinate_subsets,
         )
-        for x in range(0, 200, 10)
+        for x in range(0, observation_count)
     ]
 
 
