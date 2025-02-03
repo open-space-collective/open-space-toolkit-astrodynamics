@@ -112,6 +112,16 @@ class TLESolver
     /// @return Revolution number
     const Integer& accessRevolutionNumber() const;
 
+    /// @brief Access whether to fit with B*
+    ///
+    /// @return Whether to fit with B*
+    const bool& accessFitWithBStar() const;
+
+    /// @brief Access estimation frame
+    ///
+    /// @return Estimation frame
+    const Shared<const Frame>& accessEstimationFrame() const;
+
     /// @brief Access default B* value
     ///
     /// @return Default B* value
@@ -136,11 +146,6 @@ class TLESolver
     ///
     /// @return Element set number
     const Integer& accessElementSetNumber() const;
-
-    /// @brief Access whether to fit with B*
-    ///
-    /// @return Whether to fit with B*
-    const bool& accessFitWithBStar() const;
 
     /// @brief Access TLE state builder
     ///

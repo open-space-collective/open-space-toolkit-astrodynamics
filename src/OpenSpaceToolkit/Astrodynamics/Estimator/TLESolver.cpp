@@ -113,6 +113,16 @@ const Integer& TLESolver::accessRevolutionNumber() const
     return revolutionNumber_;
 }
 
+const bool& TLESolver::accessFitWithBStar() const
+{
+    return fitWithBStar_;
+}
+
+const Shared<const Frame>& TLESolver::accessEstimationFrame() const
+{
+    return estimationFrameSPtr_;
+}
+
 const Real& TLESolver::accessDefaultBStar() const
 {
     return defaultBStar_;
@@ -136,11 +146,6 @@ const Integer& TLESolver::accessEphemerisType() const
 const Integer& TLESolver::accessElementSetNumber() const
 {
     return elementSetNumber_;
-}
-
-const bool& TLESolver::accessFitWithBStar() const
-{
-    return fitWithBStar_;
 }
 
 const StateBuilder& TLESolver::accessTLEStateBuilder() const

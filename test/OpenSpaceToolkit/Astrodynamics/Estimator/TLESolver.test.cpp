@@ -190,6 +190,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Constructor)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Accessors)
+{
+    {
+        EXPECT_NO_THROW(tleSolver_.accessSolver());
+        EXPECT_EQ(tleSolver_.accessSatelliteNumber(), 0);
+        EXPECT_EQ(tleSolver_.accessInternationalDesignator(), "00001A");
+        EXPECT_EQ(tleSolver_.accessRevolutionNumber(), 0);
+        EXPECT_EQ(tleSolver_.accessFitWithBStar(), true);
+        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::GCRF());
+        EXPECT_EQ(tleSolver_.accessDefaultBStar(), 1e-4);
+        EXPECT_EQ(tleSolver_.accessFirstDerivativeMeanMotionDividedBy2(), 0.0);
+        EXPECT_EQ(tleSolver_.accessSecondDerivativeMeanMotionDividedBy6(), 0.0);
+        EXPECT_EQ(tleSolver_.accessEphemerisType(), 0);
+        EXPECT_EQ(tleSolver_.accessElementSetNumber(), 0);
+        EXPECT_NO_THROW(tleSolver_.accessTLEStateBuilder());
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_Parameterized
     : public ::testing::TestWithParam<Tuple<Duration, Duration, Real, Real, Real>>
 {
