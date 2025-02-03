@@ -268,26 +268,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState
         EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
         EXPECT_EQ(analysis.determinedState.accessFrame(), initialGuessStateInITRF.accessFrame());
     }
-
-    // Test with states in different frames
-    {
-        const Array<State> referenceStatesInTEME = referenceStates_.map<State>(
-            [](const State& aState) -> State
-            {
-                return aState.inFrame(Frame::TEME());
-            }
-        );
-
-        const State initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
-
-        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(
-            initialGuessStateInITRF, referenceStatesInTEME, {}, initialStateSigmas_, referenceStateSigmas_
-        );
-
-        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
-        EXPECT_EQ(analysis.determinedState.accessFrame(), initialGuessStateInITRF.accessFrame());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState_Failures)

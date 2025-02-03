@@ -45,12 +45,38 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             init<const TLE&, const LeastSquaresSolver::Analysis&>(),
             arg("determined_tle"),
             arg("solver_analysis"),
-            "Construct a new Analysis object."
+            R"doc(
+                Construct a new TLESolver::Analysis object.
+
+                Args:
+                    determined_tle (TLE): The determined TLE.
+                    solver_analysis (LeastSquaresSolver::Analysis): The solver analysis.
+            )doc"
         )
         .def("__str__", &(shiftToString<TLESolver::Analysis>))
         .def("__repr__", &(shiftToString<TLESolver::Analysis>))
-        .def_readonly("determined_tle", &TLESolver::Analysis::determinedTLE)
-        .def_readonly("solver_analysis", &TLESolver::Analysis::solverAnalysis);
+        .def_readonly(
+            "determined_tle",
+            &TLESolver::Analysis::determinedTLE,
+            R"doc(
+                The determined TLE.
+
+                Returns:
+                    TLE: The determined TLE.
+            )doc"
+            )
+        .def_readonly(
+            "solver_analysis",
+            &TLESolver::Analysis::solverAnalysis,
+            R"doc(
+                The solver analysis.
+
+                Returns:
+                    LeastSquaresSolver.Analysis: The solver analysis.
+            )doc"
+        )
+        
+        ;
 
     tleSolver
         .def(
@@ -203,7 +229,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         )
         .def(
             "estimate_tle",
-            // &TLESolver::estimateTLE,
             [](const TLESolver& self,
                const object& anInitialGuess,
                const Array<State>& observations,
@@ -244,7 +269,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.
 
                 Returns:
-                    TLESolverAnalysis: Analysis results containing the determined TLE and solver analysis.
+                    TLESolver.Analysis: Analysis results containing the determined TLE and solver analysis.
             )doc"
-        );
+        )
+        
+        ;
 }
