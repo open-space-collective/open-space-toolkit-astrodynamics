@@ -126,7 +126,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Prin
     }
 }
 
-
 class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver : public ::testing::Test
 {
    protected:

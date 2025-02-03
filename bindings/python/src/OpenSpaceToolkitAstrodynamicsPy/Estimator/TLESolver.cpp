@@ -1,9 +1,10 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
 #include <pybind11/stl.h>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module& aModule) 
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
+
+inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -11,8 +12,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
     using ostk::core::container::Pair;
     using ostk::core::type::Integer;
     using ostk::core::type::Real;
-    using ostk::core::type::String;
     using ostk::core::type::Shared;
+    using ostk::core::type::String;
 
     using ostk::mathematics::object::VectorXd;
 
@@ -20,8 +21,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
     using ostk::astrodynamics::estimator::TLESolver;
     using ostk::astrodynamics::solver::LeastSquaresSolver;
-    using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     class_<TLESolver> tleSolver(
@@ -32,7 +33,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         )doc"
     )
 
-    ;
+        ;
 
     class_<TLESolver::Analysis>(
         tleSolver,
@@ -64,7 +65,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 Returns:
                     TLE: The determined TLE.
             )doc"
-            )
+        )
         .def_readonly(
             "solver_analysis",
             &TLESolver::Analysis::solverAnalysis,
@@ -75,7 +76,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     LeastSquaresSolver.Analysis: The solver analysis.
             )doc"
         )
-        
+
         ;
 
     tleSolver
@@ -86,8 +87,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 const String&,
                 const Integer&,
                 const bool,
-                const Shared<const Frame>&
-            >(),
+                const Shared<const Frame>&>(),
             arg("solver") = LeastSquaresSolver::Default(),
             arg("satellite_number") = 0,
             arg("international_designator") = "00001A",
@@ -233,23 +233,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                const object& anInitialGuess,
                const Array<State>& observations,
                const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
-               const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas) {
+               const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
+            {
                 std::variant<TLE, Pair<State, Real>, State> cppInitialGuess = State::Undefined();
 
-                if (isinstance<TLE>(anInitialGuess)) {
+                if (isinstance<TLE>(anInitialGuess))
+                {
                     cppInitialGuess = anInitialGuess.cast<TLE>();
                 }
-                else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2) {
+                else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
+                {
                     auto t = anInitialGuess.cast<tuple>();
-                    cppInitialGuess = Pair<State, Real>(
-                        t[0].cast<State>(),
-                        t[1].cast<Real>()
-                    );
+                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
                 }
-                else if (isinstance<State>(anInitialGuess)) {
+                else if (isinstance<State>(anInitialGuess))
+                {
                     cppInitialGuess = anInitialGuess.cast<State>();
                 }
-                else {
+                else
+                {
                     throw std::runtime_error("Initial guess must be a TLE, (State, float) tuple, or State.");
                 }
 
@@ -272,6 +274,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     TLESolver.Analysis: Analysis results containing the determined TLE and solver analysis.
             )doc"
         )
-        
+
         ;
 }

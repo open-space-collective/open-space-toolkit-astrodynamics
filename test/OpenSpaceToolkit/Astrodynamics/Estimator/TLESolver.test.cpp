@@ -87,15 +87,24 @@ Array<State> loadData(const String& aFileName)
 Array<State> truncateObservations(const Array<State>& anObservations, const Duration& aDuration)
 {
     const Instant observationsCutoffInstant = anObservations.accessLast().getInstant() - aDuration;
-    return anObservations.getWhere([&observationsCutoffInstant](const auto& observation) { return observation.getInstant() >= observationsCutoffInstant; });
+    return anObservations.getWhere(
+        [&observationsCutoffInstant](const auto& observation)
+        {
+            return observation.getInstant() >= observationsCutoffInstant;
+        }
+    );
 }
 
 Array<State> truncatePredictions(const Array<State>& aPredictions, const Duration& aDuration)
 {
     const Instant predictsCutoffInstant = aPredictions.accessFirst().getInstant() + aDuration;
-    return aPredictions.getWhere([&predictsCutoffInstant](const auto& prediction) { return prediction.getInstant() <= predictsCutoffInstant; });
+    return aPredictions.getWhere(
+        [&predictsCutoffInstant](const auto& prediction)
+        {
+            return prediction.getInstant() <= predictsCutoffInstant;
+        }
+    );
 }
-
 
 class OpenSpaceToolkit_Astrodynamics_Solver_TLESolver_Analysis : public ::testing::Test
 {
@@ -166,7 +175,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_TLESolver_Analysis, Print)
     }
 }
 
-
 class OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver : public ::testing::Test
 {
    protected:
@@ -210,7 +218,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_
         const Array<State> observations = truncateObservations(loadData("observations"), fitSpanDuration);
         const Array<State> predictions = truncatePredictions(loadData("predictions"), predictionDuration);
 
-        const TLESolver::Analysis analysis = tleSolver_.estimateTLE(std::make_pair(observations[0], testBStar_), observations);
+        const TLESolver::Analysis analysis =
+            tleSolver_.estimateTLE(std::make_pair(observations[0], testBStar_), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
@@ -317,7 +326,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateTLE_InitialT
     {
         const Array<State> observations = truncateObservations(loadData("observations"), Duration::Hours(12.0));
 
-        const TLESolver::Analysis analysis = tleSolver_.estimateTLE(std::make_pair(observations[0], 3.5e-4), observations);
+        const TLESolver::Analysis analysis =
+            tleSolver_.estimateTLE(std::make_pair(observations[0], 3.5e-4), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
@@ -328,7 +338,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateTLE_InitialT
 
         EXPECT_TRUE(secondAnalysis.solverAnalysis.iterationCount == 2);
     }
-    
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateTLE_Failures)

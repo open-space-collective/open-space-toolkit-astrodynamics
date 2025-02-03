@@ -175,7 +175,6 @@ class TLESolver
     Integer elementSetNumber_;
     StateBuilder tleStateBuilder_;
 
-
     /// @brief Convert TLE to TLE state
     ///
     /// @param aTLE TLE
