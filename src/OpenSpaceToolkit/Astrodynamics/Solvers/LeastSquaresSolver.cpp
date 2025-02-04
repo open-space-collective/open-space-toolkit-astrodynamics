@@ -110,7 +110,7 @@ Array<State> LeastSquaresSolver::Analysis::computeResidualStates(const Array<Sta
 
     for (Size i = 0; i < anObservationStateArray.getSize(); ++i)
     {
-        residualStates.add(anObservationStateArray[i] - computedObservationStates[i]);
+        residualStates.add(anObservationStateArray[i] - computedObservationStates[i].inFrame(anObservationStateArray[i].accessFrame()));
     }
 
     return residualStates;
