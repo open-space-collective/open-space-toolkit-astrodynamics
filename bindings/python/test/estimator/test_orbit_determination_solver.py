@@ -198,7 +198,7 @@ class TestOrbitDeterminationSolverAnalysis:
         self,
         analysis: OrbitDeterminationSolver.Analysis,
     ):
-        assert isinstance(analysis.estimate, State)
+        assert isinstance(analysis.estimated_state, State)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
 
@@ -236,7 +236,7 @@ class TestOrbitDeterminationSolver:
         )
 
         assert isinstance(analysis, OrbitDeterminationSolver.Analysis)
-        assert isinstance(analysis.estimate, State)
+        assert isinstance(analysis.estimate_state, State)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
     def test_estimate_orbit(

@@ -125,7 +125,7 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
         }
     }
 
-    const auto aStateGenerator = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
+    const auto stateGenerator = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const State propagatorState = propagationStateBuilder.expand(aState, initialGuessStateInEstimationFrame);
         return propagator_.calculateStatesAt(propagatorState, anInstantArray);
@@ -134,7 +134,7 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     LeastSquaresSolver::Analysis analysis = solver_.solve(
         estimationStateBuilder.reduce(initialGuessStateInEstimationFrame),
         observationStatesInEstimationFrame,
-        aStateGenerator,
+        stateGenerator,
         anInitialGuessSigmas,
         anObservationSigmas
     );
@@ -142,7 +142,6 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     const State estimatedState =
         propagationStateBuilder.expand(analysis.estimatedState, initialGuessStateInEstimationFrame)
             .inFrame(estimationFrameSPtr_);
-    analysis.estimatedState = estimatedState;
 
     return Analysis(estimatedState, analysis);
 }

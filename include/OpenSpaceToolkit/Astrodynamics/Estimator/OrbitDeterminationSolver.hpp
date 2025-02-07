@@ -102,14 +102,14 @@ class OrbitDeterminationSolver
     /// @return Estimation frame
     const Shared<const Frame>& accessEstimationFrame() const;
 
-    /// @brief Estimate state using least squares
+    /// @brief Estimate state using provided solver
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationStateArray Observations to fit against
     /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate. Defaults to empty array, in which case all
     /// the coordinate subsets from the initial guess state are estimated
-    /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
-    /// @param anObservationSigmas Dictionary of sigmas for observations
+    /// @param anInitialGuessSigmas Map of sigmas for initial guess
+    /// @param anObservationSigmas Map of sigmas for observations
     ///
     /// @return Analysis
     Analysis estimate(
@@ -126,8 +126,8 @@ class OrbitDeterminationSolver
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationStateArray Observations to fit against
     /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate
-    /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
-    /// @param anObservationSigmas Dictionary of sigmas for observations
+    /// @param anInitialGuessSigmas Map of sigmas for initial guess
+    /// @param anObservationSigmas Map of sigmas for observations
     ///
     /// @return Orbit
     Orbit estimateOrbit(

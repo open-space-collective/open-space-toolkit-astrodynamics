@@ -37,20 +37,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
     )
         .def(
             init<const State&, const LeastSquaresSolver::Analysis&>(),
-            arg("estimate"),
+            arg("estimated_state"),
             arg("solver_analysis"),
             R"doc(
                 Construct a new Analysis object.
 
                 Args:
-                    estimate (State): The estimated state.
+                    estimated_state (State): The estimated state.
                     solver_analysis (LeastSquaresSolverAnalysis): The solver analysis.
             )doc"
         )
         .def("__str__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
         .def("__repr__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
         .def_readonly(
-            "estimate",
+            "estimated_state",
             &OrbitDeterminationSolver::Analysis::estimatedState,
             R"doc(
                 The estimated state.
