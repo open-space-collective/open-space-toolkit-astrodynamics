@@ -105,16 +105,16 @@ class OrbitDeterminationSolver
     /// @brief Estimate state using least squares
     ///
     /// @param anInitialGuessState Initial guess state
-    /// @param anObservationArray Observations to fit against
+    /// @param anObservationStateArray Observations to fit against
     /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate. Defaults to empty array, in which case all
     /// the coordinate subsets from the initial guess state are estimated
-    /// @param anInitialGuessSigmas Initial guess sigmas
-    /// @param anObservationSigmas Observation sigmas
+    /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
+    /// @param anObservationSigmas Dictionary of sigmas for observations
     ///
     /// @return Analysis
     Analysis estimate(
         const State& anInitialGuessState,
-        const Array<State>& anObservationArray,
+        const Array<State>& anObservationStateArray,
         const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets =
             Array<Shared<const CoordinateSubset>>::Empty(),
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
@@ -124,15 +124,15 @@ class OrbitDeterminationSolver
     /// @brief Estimate orbit
     ///
     /// @param anInitialGuessState Initial guess state
-    /// @param anObservationArray Observations to fit against
+    /// @param anObservationStateArray Observations to fit against
     /// @param anEstimationCoordinateSubsets Coordinate subsets to estimate
-    /// @param anInitialGuessSigmas Initial guess sigmas
-    /// @param anObservationSigmas Observation sigmas
+    /// @param anInitialGuessSigmas Dictionary of sigmas for initial guess
+    /// @param anObservationSigmas Dictionary of sigmas for observations
     ///
     /// @return Orbit
     Orbit estimateOrbit(
         const State& anInitialGuessState,
-        const Array<State>& anObservationArray,
+        const Array<State>& anObservationStateArray,
         const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets =
             Array<Shared<const CoordinateSubset>>::Empty(),
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,

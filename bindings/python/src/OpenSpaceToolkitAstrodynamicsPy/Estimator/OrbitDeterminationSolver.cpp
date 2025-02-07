@@ -37,26 +37,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
     )
         .def(
             init<const State&, const LeastSquaresSolver::Analysis&>(),
-            arg("estimated_state"),
+            arg("estimate"),
             arg("solver_analysis"),
             R"doc(
                 Construct a new Analysis object.
 
                 Args:
-                    estimated_state (State): The estimated state.
+                    estimate (State): The estimated state.
                     solver_analysis (LeastSquaresSolverAnalysis): The solver analysis.
             )doc"
         )
         .def("__str__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
         .def("__repr__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
         .def_readonly(
-            "estimated_state",
+            "estimate",
             &OrbitDeterminationSolver::Analysis::estimatedState,
             R"doc(
                 The estimated state.
 
-                Returns:
-                    State: The estimated state.
+                :type: State
             )doc"
         )
         .def_readonly(
@@ -65,8 +64,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             R"doc(
                 The solver analysis.
 
-                Returns:
-                    LeastSquaresSolverAnalysis: The solver analysis.
+                :type: LeastSquaresSolverAnalysis
             )doc"
         )
 
@@ -125,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         .def(
             "estimate",
             &OrbitDeterminationSolver::estimate,
-            arg("initial_guess_state"),
+            arg("initial_guess"),
             arg("observations"),
             arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
             arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
@@ -134,7 +132,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
                 Estimate state using Least Squares.
 
                 Args:
-                    initial_guess_state (State): Initial guess state.
+                    initial_guess (State): Initial guess state.
                     observations (list[State]): Observations to fit against.
                     estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate. Defaults to empty list, in which case all the coordinate subsets from the initial guess state are estimated.
                     initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas.
@@ -147,7 +145,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         .def(
             "estimate_orbit",
             &OrbitDeterminationSolver::estimateOrbit,
-            arg("initial_guess_state"),
+            arg("initial_guess"),
             arg("observations"),
             arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
             arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
@@ -156,10 +154,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
                 Estimate orbit using Least Squares.
 
                 Args:
-                    initial_guess_state (State): Initial guess state.
+                    initial_guess (State): Initial guess state.
                     observations (list[State]): Observations to fit against.
                     estimation_coordinate_subsets (list[CoordinateSubset], optional): Coordinate subsets to estimate. Defaults to empty list, in which case all the coordinate subsets from the initial guess state are estimated.
-                    initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas. Defaults to empty, in which case 
+                    initial_guess_sigmas (dict[CoordinateSubset, VectorXd], optional): Initial guess sigmas. Defaults to empty, in which case
                     observation_sigmas (dict[CoordinateSubset, VectorXd], optional): Observation sigmas.
 
                 Returns:

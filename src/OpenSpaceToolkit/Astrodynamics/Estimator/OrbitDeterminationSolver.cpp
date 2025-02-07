@@ -86,16 +86,15 @@ const Shared<const Frame>& OrbitDeterminationSolver::accessEstimationFrame() con
 
 OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     const State& anInitialGuessState,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
-    // Convert inputs to an inertial frame for estimation
     const State initialGuessStateInEstimationFrame = anInitialGuessState.inFrame(estimationFrameSPtr_);
 
-    const Array<State> observationsInEstimationFrame = anObservationArray.map<State>(
+    const Array<State> observationStatesInEstimationFrame = anObservationStateArray.map<State>(
         [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
         {
             return aState.inFrame(estimationFrameSPtr);
@@ -115,44 +114,42 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
                                                 : anEstimationCoordinateSubsets
     );
 
-    // Validate estimator subsets
+    // Validate subsets
     for (const auto& subset : estimationStateBuilder.getCoordinateSubsets())
     {
         if (!initialGuessStateInEstimationFrame.hasSubset(subset))
         {
             throw ostk::core::error::RuntimeError(
-                "Input State must contain at least the coordinate subsets that we want to estimate."
+                "InitialGuessState must contain at least all of the EstimationCoordinateSubsets."
             );
         }
     }
 
-    // Define state generation callback
-    auto generateStatesCallback = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
+    const auto aStateGenerator = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const State propagatorState = propagationStateBuilder.expand(aState, initialGuessStateInEstimationFrame);
         return propagator_.calculateStatesAt(propagatorState, anInstantArray);
     };
 
-    // Solve least squares problem
-    const LeastSquaresSolver::Analysis analysis = solver_.solve(
+    LeastSquaresSolver::Analysis analysis = solver_.solve(
         estimationStateBuilder.reduce(initialGuessStateInEstimationFrame),
-        observationsInEstimationFrame,
-        generateStatesCallback,
+        observationStatesInEstimationFrame,
+        aStateGenerator,
         anInitialGuessSigmas,
         anObservationSigmas
     );
 
-    // Expand solution state to full state
     const State estimatedState =
         propagationStateBuilder.expand(analysis.estimatedState, initialGuessStateInEstimationFrame)
-            .inFrame(anInitialGuessState.accessFrame());
+            .inFrame(estimationFrameSPtr_);
+    analysis.estimatedState = estimatedState;
 
     return Analysis(estimatedState, analysis);
 }
 
 Orbit OrbitDeterminationSolver::estimateOrbit(
     const State& anInitialGuessState,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
@@ -160,7 +157,7 @@ Orbit OrbitDeterminationSolver::estimateOrbit(
 {
     const Analysis analysis = estimate(
         anInitialGuessState,
-        anObservationArray,
+        anObservationStateArray,
         anEstimationCoordinateSubsets,
         anInitialGuessSigmas,
         anObservationSigmas

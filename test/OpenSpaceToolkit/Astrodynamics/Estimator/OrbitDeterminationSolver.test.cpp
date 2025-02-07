@@ -131,35 +131,35 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::
    protected:
     void SetUp() override
     {
-        const Table referenceData = Table::Load(
+        const Table observationData = Table::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/gnss_data.csv")),
             Table::Format::CSV,
             true
         );
 
-        for (const auto& referenceRow : referenceData)
+        for (const auto& observationRow : observationData)
         {
-            const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].accessString()), Scale::UTC);
             const Position position = Position::Meters(
-                {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()},
+                {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()},
                 Frame::ITRF()
             );
             const Velocity velocity = Velocity::MetersPerSecond(
-                {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()},
+                {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()},
                 Frame::ITRF()
             );
 
-            referenceStates_.add(State(instant, position, velocity));
+            observationStates_.add(State(instant, position, velocity));
         }
 
         positionSigmas_ << 1.0e1, 1.0e1, 1.0e1;
         velocitySigmas_ << 1.0e-2, 1.0e-2, 1.0e-2;
 
-        referenceStateSigmas_ = {
+        initialGuessSigmas_ = {
             {*CartesianPosition::Default(), positionSigmas_},
             {*CartesianVelocity::Default(), velocitySigmas_},
         };
-        initialStateSigmas_ = {
+        observationSigmas_ = {
             {*CartesianPosition::Default(), positionSigmas_},
             {*CartesianVelocity::Default(), velocitySigmas_},
         };
@@ -173,13 +173,13 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::
     const Shared<const Frame> estimationFrame_ = Frame::GCRF();
     const OrbitDeterminationSolver odSolver_ = {environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_};
 
-    Array<State> referenceStates_ = Array<State>::Empty();
+    Array<State> observationStates_ = Array<State>::Empty();
 
     VectorXd positionSigmas_ {3};
     VectorXd velocitySigmas_ {3};
 
-    std::unordered_map<CoordinateSubset, VectorXd> referenceStateSigmas_ = {};
-    std::unordered_map<CoordinateSubset, VectorXd> initialStateSigmas_ = {};
+    std::unordered_map<CoordinateSubset, VectorXd> initialGuessSigmas_ = {};
+    std::unordered_map<CoordinateSubset, VectorXd> observationSigmas_ = {};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Constructor)
@@ -198,7 +198,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Construct
     }
 
     {
-        EXPECT_NO_THROW(OrbitDeterminationSolver(this->environment_));
+        OrbitDeterminationSolver odSolver(environment_);  // Remove shadowed declaration warning
     }
 
     {
@@ -209,88 +209,105 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Construct
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Accessors)
 {
     {
-        const OrbitDeterminationSolver solver(environment_, numericalSolver_);
+        const OrbitDeterminationSolver odSolver(environment_, numericalSolver_);
 
-        EXPECT_EQ(solver.accessEnvironment().accessCentralCelestialObject()->getName(), "Earth");
-        EXPECT_TRUE(solver.accessPropagator().isDefined());
-        EXPECT_NO_THROW(solver.accessSolver());
-        EXPECT_EQ(solver.accessEstimationFrame()->getName(), "GCRF");
+        EXPECT_EQ(odSolver.accessEnvironment().accessCentralCelestialObject()->getName(), "Earth");
+        EXPECT_TRUE(odSolver.accessPropagator().isDefined());
+        EXPECT_NO_THROW(odSolver.accessSolver());
+        EXPECT_EQ(odSolver.accessEstimationFrame()->getName(), "GCRF");
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateState)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
 {
     // Test basic state estimator
     {
-        const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(referenceStates_[0], referenceStates_);
+        const OrbitDeterminationSolver::Analysis analysis =
+            odSolver_.estimate(observationStates_[0], observationStates_);
+
+        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 2.0);
     }
 
     // Test with estimator coordinate subsets
     {
         Array<Shared<const CoordinateSubset>> estimationSubsets = {CartesianPosition::Default()};
 
+        const State initialGuessState = observationStates_[0];
         const OrbitDeterminationSolver::Analysis analysis =
-            odSolver_.estimate(referenceStates_[0], referenceStates_, estimationSubsets);
+            odSolver_.estimate(initialGuessState, observationStates_, estimationSubsets);
 
+        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_LT(
+            analysis.solverAnalysis.rmsError, 18.0
+        );  // Extra error because only position is estimated in this case
     }
 
     // Test with sigmas
     {
         const OrbitDeterminationSolver::Analysis analysis =
-            odSolver_.estimate(referenceStates_[0], referenceStates_, {}, initialStateSigmas_, referenceStateSigmas_);
+            odSolver_.estimate(observationStates_[0], observationStates_, {}, initialGuessSigmas_, observationSigmas_);
 
+        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 5.0);
     }
 
     // Test with states in different frames
     {
-        const Array<State> referenceStatesInTEME = referenceStates_.map<State>(
+        const Shared<const Frame> estimationFrame = Frame::ITRF();
+        const OrbitDeterminationSolver odSolver = {
+            environment_, numericalSolver_, leastSquaresSolver_, estimationFrame
+        };
+
+        const Array<State> observationStatesInTEME = observationStates_.map<State>(
             [](const State& aState) -> State
             {
                 return aState.inFrame(Frame::TEME());
             }
         );
 
-        const State initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
+        const State initialGuessStateInGCRF = observationStates_[0].inFrame(Frame::GCRF());
 
-        const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(
-            initialGuessStateInITRF, referenceStatesInTEME, {}, initialStateSigmas_, referenceStateSigmas_
-        );
+        const OrbitDeterminationSolver::Analysis analysis =
+            odSolver.estimate(initialGuessStateInGCRF, observationStatesInTEME);
 
+        EXPECT_EQ(*estimationFrame, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
-        EXPECT_EQ(analysis.estimatedState.accessFrame(), initialGuessStateInITRF.accessFrame());
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 2.0);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateState_Failures)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate_Failures)
 {
     // Test invalid estimator subsets
     {
         Array<Shared<const CoordinateSubset>> invalidSubsets = {CoordinateSubset::Mass()};
 
         EXPECT_THROW(
-            odSolver_.estimate(referenceStates_[0], referenceStates_, invalidSubsets), ostk::core::error::RuntimeError
+            odSolver_.estimate(observationStates_[0], observationStates_, invalidSubsets),
+            ostk::core::error::RuntimeError
         );
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateOrbit)
 {
     {
         // Test basic orbit estimator
-        const auto orbit = odSolver_.estimateOrbit(referenceStates_[0], referenceStates_);
+        const Orbit orbit = odSolver_.estimateOrbit(observationStates_[0], observationStates_);
 
         EXPECT_TRUE(orbit.isDefined());
 
         // Check propagated state matches initial condition
-        const State orbitState = orbit.getStateAt(referenceStates_[0].getInstant());
+        const State orbitState = orbit.getStateAt(observationStates_[0].getInstant());
         EXPECT_TRUE(orbitState.isDefined());
     }
 
@@ -300,8 +317,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
             CartesianPosition::Default(), CartesianVelocity::Default()
         };
 
-        const auto orbit = odSolver_.estimateOrbit(
-            referenceStates_[0], referenceStates_, estimationSubsets, referenceStateSigmas_, referenceStateSigmas_
+        const Orbit orbit = odSolver_.estimateOrbit(
+            observationStates_[0], observationStates_, estimationSubsets, initialGuessSigmas_, observationSigmas_
         );
 
         EXPECT_TRUE(orbit.isDefined());
