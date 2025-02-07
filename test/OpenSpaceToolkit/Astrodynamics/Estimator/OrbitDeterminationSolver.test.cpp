@@ -19,7 +19,7 @@
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/ODLeastSquaresSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
@@ -53,7 +53,7 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
-using ostk::astrodynamics::estimator::ODLeastSquaresSolver;
+using ostk::astrodynamics::estimator::OrbitDeterminationSolver;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::State;
@@ -62,7 +62,7 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPositio
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
-class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis : public ::testing::Test
 {
    protected:
     const Real rmsError_ = 1.0;
@@ -93,18 +93,18 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis : publ
         steps_,
     };
 
-    const ODLeastSquaresSolver::Analysis analysis_ = {estimatedState_, leastSquaresAnalysis_};
+    const OrbitDeterminationSolver::Analysis analysis_ = {estimatedState_, leastSquaresAnalysis_};
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, Accessors)
 {
     {
-        EXPECT_EQ(analysis_.determinedState, estimatedState_);
+        EXPECT_EQ(analysis_.estimatedState, estimatedState_);
         EXPECT_EQ(analysis_.solverAnalysis.terminationCriteria, terminationCriteria_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, StreamOperator)
 {
     {
         testing::internal::CaptureStdout();
@@ -115,7 +115,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Stre
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, Print)
 {
     {
         testing::internal::CaptureStdout();
@@ -126,7 +126,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver_Analysis, Prin
     }
 }
 
-class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -171,7 +171,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver : public ::test
     NumericalSolver numericalSolver_ = NumericalSolver::Default();
     LeastSquaresSolver leastSquaresSolver_ = LeastSquaresSolver::Default();
     const Shared<const Frame> estimationFrame_ = Frame::GCRF();
-    const ODLeastSquaresSolver odSolver_ = {environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_};
+    const OrbitDeterminationSolver odSolver_ = {environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_};
 
     Array<State> referenceStates_ = Array<State>::Empty();
 
@@ -182,33 +182,33 @@ class OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver : public ::test
     std::unordered_map<CoordinateSubset, VectorXd> initialStateSigmas_ = {};
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Constructor)
 {
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver(environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_));
+        EXPECT_NO_THROW(OrbitDeterminationSolver(environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_));
     }
 
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver(environment_, numericalSolver_, leastSquaresSolver_));
+        EXPECT_NO_THROW(OrbitDeterminationSolver(environment_, numericalSolver_, leastSquaresSolver_));
     }
 
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver(environment_, numericalSolver_));
+        EXPECT_NO_THROW(OrbitDeterminationSolver(environment_, numericalSolver_));
     }
 
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver(this->environment_));
+        EXPECT_NO_THROW(OrbitDeterminationSolver(this->environment_));
     }
 
     {
-        EXPECT_NO_THROW(ODLeastSquaresSolver());
+        EXPECT_NO_THROW(OrbitDeterminationSolver());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Accessors)
 {
     {
-        const ODLeastSquaresSolver solver(environment_, numericalSolver_);
+        const OrbitDeterminationSolver solver(environment_, numericalSolver_);
 
         EXPECT_EQ(solver.accessEnvironment().accessCentralCelestialObject()->getName(), "Earth");
         EXPECT_TRUE(solver.accessPropagator().isDefined());
@@ -217,11 +217,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, Accessors)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateState)
 {
     // Test basic state estimator
     {
-        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(referenceStates_[0], referenceStates_);
+        const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(referenceStates_[0], referenceStates_);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
@@ -231,8 +231,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState
     {
         Array<Shared<const CoordinateSubset>> estimationSubsets = {CartesianPosition::Default()};
 
-        const ODLeastSquaresSolver::Analysis analysis =
-            odSolver_.estimateState(referenceStates_[0], referenceStates_, estimationSubsets);
+        const OrbitDeterminationSolver::Analysis analysis =
+            odSolver_.estimate(referenceStates_[0], referenceStates_, estimationSubsets);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
@@ -240,7 +240,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState
 
     // Test with sigmas
     {
-        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(
+        const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(
             referenceStates_[0], referenceStates_, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
@@ -259,30 +259,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState
 
         const State initialGuessStateInITRF = referenceStates_[0].inFrame(Frame::ITRF());
 
-        const ODLeastSquaresSolver::Analysis analysis = odSolver_.estimateState(
+        const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(
             initialGuessStateInITRF, referenceStatesInTEME, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
-        EXPECT_EQ(analysis.determinedState.accessFrame(), initialGuessStateInITRF.accessFrame());
+        EXPECT_EQ(analysis.estimatedState.accessFrame(), initialGuessStateInITRF.accessFrame());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateState_Failures)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateState_Failures)
 {
     // Test invalid estimator subsets
     {
         Array<Shared<const CoordinateSubset>> invalidSubsets = {CoordinateSubset::Mass()};
 
         EXPECT_THROW(
-            odSolver_.estimateState(referenceStates_[0], referenceStates_, invalidSubsets),
+            odSolver_.estimate(referenceStates_[0], referenceStates_, invalidSubsets),
             ostk::core::error::RuntimeError
         );
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_ODLeastSquaresSolver, EstimateOrbit)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
 {
     {
         // Test basic orbit estimator

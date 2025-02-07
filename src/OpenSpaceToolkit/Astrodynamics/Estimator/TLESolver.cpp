@@ -28,8 +28,8 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
-TLESolver::Analysis::Analysis(const TLE& aDeterminedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
-    : determinedTLE(aDeterminedTLE),
+TLESolver::Analysis::Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
+    : estimatedTLE(aEstimatedTLE),
       solverAnalysis(anAnalysis)
 {
 }
@@ -45,8 +45,8 @@ void TLESolver::Analysis::print(std::ostream& anOutputStream) const
 {
     ostk::core::utils::Print::Header(anOutputStream, "Analysis");
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Determined TLE");
-    ostk::core::utils::Print::Line(anOutputStream) << determinedTLE;
+    ostk::core::utils::Print::Separator(anOutputStream, "Estimated TLE");
+    ostk::core::utils::Print::Line(anOutputStream) << estimatedTLE;
 
     ostk::core::utils::Print::Separator(anOutputStream, "Analysis");
     solverAnalysis.print(anOutputStream);
@@ -153,7 +153,7 @@ const StateBuilder& TLESolver::accessTLEStateBuilder() const
     return tleStateBuilder_;
 }
 
-TLESolver::Analysis TLESolver::estimateTLE(
+TLESolver::Analysis TLESolver::estimate(
     const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
     const Array<State>& anObservationArray,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
@@ -221,9 +221,24 @@ TLESolver::Analysis TLESolver::estimateTLE(
     );
 
     // Convert solution state to TLE
-    const TLE determinedTLE = TLEStateToTLE(analysis.estimatedState);
+    const TLE estimatedTLE = TLEStateToTLE(analysis.estimatedState);
 
-    return Analysis(determinedTLE, analysis);
+    return Analysis(estimatedTLE, analysis);
+}
+
+Orbit TLESolver::estimateOrbit(
+    const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+    const Array<State>& anObservationArray,
+    const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
+) const
+{
+    const Analysis analysis = estimate(
+        anInitialGuess, anObservationArray, anInitialGuessSigmas, anObservationSigmas
+    );
+
+    return Orbit(SGP4(analysis.estimatedTLE), Earth::Spherical());
 }
 
 State TLESolver::TLEToTLEState(const TLE& aTLE) const

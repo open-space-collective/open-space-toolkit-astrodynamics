@@ -136,12 +136,12 @@ class OpenSpaceToolkit_Astrodynamics_Solver_TLESolver_Analysis : public ::testin
         steps_
     );
 
-    const TLE determinedTLE_ = {
+    const TLE estimatedTLE_ = {
         "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
         "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537"
     };
     const TLESolver::Analysis analysis_ = {
-        determinedTLE_,
+        estimatedTLE_,
         solverAnalysis_,
     };
 };
@@ -149,7 +149,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_TLESolver_Analysis : public ::testin
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_TLESolver_Analysis, Analysis)
 {
     {
-        EXPECT_NO_THROW(TLESolver::Analysis(determinedTLE_, solverAnalysis_));
+        EXPECT_NO_THROW(TLESolver::Analysis(estimatedTLE_, solverAnalysis_));
     }
 }
 
@@ -237,14 +237,14 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_
         const Array<State> predictions = truncatePredictions(loadData("predictions"), predictionDuration);
 
         const TLESolver::Analysis analysis =
-            tleSolver_.estimateTLE(std::make_pair(observations[0], testBStar_), observations);
+            tleSolver_.estimate(std::make_pair(observations[0], testBStar_), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
         EXPECT_LT(analysis.solverAnalysis.rmsError, maximumRmsError);
 
         // Verify estimated TLE accuracy
-        const TLE estimatedTLE = analysis.determinedTLE;
+        const TLE estimatedTLE = analysis.estimatedTLE;
         const SGP4 sgp4(estimatedTLE);
 
         for (const auto& observation : observations)
@@ -292,7 +292,7 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBStar_Parameterized, EstimateTLE)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBStar_Parameterized, Estimate)
 {
     {
         const auto& [fitSpanDuration, predictionDuration, maximumRmsError, maximumPositionError, maximumVelocityError] =
@@ -301,14 +301,14 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBSt
         const Array<State> observations = truncateObservations(loadData("observations"), fitSpanDuration);
         const Array<State> predictions = truncatePredictions(loadData("predictions"), predictionDuration);
 
-        const TLESolver::Analysis analysis = tleSolver_.estimateTLE(observations[0], observations);
+        const TLESolver::Analysis analysis = tleSolver_.estimate(observations[0], observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
         EXPECT_LT(analysis.solverAnalysis.rmsError, maximumRmsError);
 
         // Verify estimated TLE accuracy
-        const TLE estimatedTLE = analysis.determinedTLE;
+        const TLE estimatedTLE = analysis.estimatedTLE;
         const SGP4 sgp4(estimatedTLE);
 
         for (const auto& observation : observations)
@@ -328,6 +328,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBSt
         for (const auto& prediction : predictions)
         {
             const State propagatedState = sgp4.calculateStateAt(prediction.getInstant());
+
             const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -
                                            prediction.inFrame(Frame::GCRF()).getPosition().getCoordinates();
             const Vector3d velocityDelta = propagatedState.getVelocity().getCoordinates() -
@@ -339,26 +340,26 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBSt
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateTLE_InitialTLE)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_InitialTLE)
 {
     {
         const Array<State> observations = truncateObservations(loadData("observations"), Duration::Hours(12.0));
 
         const TLESolver::Analysis analysis =
-            tleSolver_.estimateTLE(std::make_pair(observations[0], 3.5e-4), observations);
+            tleSolver_.estimate(std::make_pair(observations[0], 3.5e-4), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
         EXPECT_LT(analysis.solverAnalysis.rmsError, 510.0);
 
         // Verify re-running with same TLE as initial guess
-        const TLESolver::Analysis secondAnalysis = tleSolver_.estimateTLE(analysis.determinedTLE, observations);
+        const TLESolver::Analysis secondAnalysis = tleSolver_.estimate(analysis.estimatedTLE, observations);
 
         EXPECT_TRUE(secondAnalysis.solverAnalysis.iterationCount == 2);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateTLE_Failures)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Failures)
 {
     // Test invalid input type when fitting with BStar
     {
@@ -367,6 +368,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateTLE_Failures
             Position::Meters({6514453.7323, 2256044.8405, -457775.3075}, Frame::GCRF()),
             Velocity::MetersPerSecond({798.3880, -779.1942, 7514.8828}, Frame::GCRF())
         );
-        EXPECT_THROW(tleSolver_.estimateTLE(cartesianState, Array<State>::Empty()), ostk::core::error::RuntimeError);
+        EXPECT_THROW(tleSolver_.estimate(cartesianState, Array<State>::Empty()), ostk::core::error::RuntimeError);
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)
+{
+    {
+        const Duration fitSpanDuration = Duration::Hours(40.0);
+        const Duration predictionDuration = Duration::Hours(30.0);
+        const Real maximumRmsError = 100.0;
+        const Real maximumVelocityError = 0.5;
+
+        const Array<State> observations = truncateObservations(loadData("observations"), fitSpanDuration);
+        const Array<State> predictions = truncatePredictions(loadData("predictions"), predictionDuration);
+
+        const Orbit orbit = tleSolver_.estimateOrbit(observations[0], observations);
+
+        // Verify estimated TLE accuracy
+        for (const auto& observation : observations)
+        {
+            const State propagatedState = orbit.getStateAt(observation.getInstant());
+
+            const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -
+                                           observation.inFrame(Frame::GCRF()).getPosition().getCoordinates();
+            const Vector3d velocityDelta = propagatedState.getVelocity().getCoordinates() -
+                                           observation.inFrame(Frame::GCRF()).getVelocity().getCoordinates();
+
+            EXPECT_LT(positionDelta.norm(), maximumPositionError);
+            EXPECT_LT(velocityDelta.norm(), maximumVelocityError);
+        }
+
+        // Verify prediction accuracy
+        for (const auto& prediction : predictions)
+        {
+            const State propagatedState = orbit.getStateAt(prediction.getInstant());
+
+            const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -
+                                           prediction.inFrame(Frame::GCRF()).getPosition().getCoordinates();
+            const Vector3d velocityDelta = propagatedState.getVelocity().getCoordinates() -
+                                           prediction.inFrame(Frame::GCRF()).getVelocity().getCoordinates();
+
+            EXPECT_LT(positionDelta.norm(), 10000.0);
+            EXPECT_LT(velocityDelta.norm(), 12.0);
+        }
+    }
+
 }
