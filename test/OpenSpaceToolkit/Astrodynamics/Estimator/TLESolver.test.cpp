@@ -50,12 +50,12 @@ using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::estimator::TLESolver;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
+using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
-using ostk::astrodynamics::trajectory::Orbit;
 
 Array<State> loadData(const String& aFileName)
 {
@@ -346,8 +346,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_InitialTLE)
     {
         const Array<State> observations = truncateObservations(loadData("observations"), Duration::Hours(12.0));
 
-        const TLESolver::Analysis analysis =
-            tleSolver_.estimate(std::make_pair(observations[0], 3.5e-4), observations);
+        const TLESolver::Analysis analysis = tleSolver_.estimate(std::make_pair(observations[0], 3.5e-4), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
@@ -414,5 +413,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)
             EXPECT_LT(velocityDelta.norm(), 12.0);
         }
     }
-
 }

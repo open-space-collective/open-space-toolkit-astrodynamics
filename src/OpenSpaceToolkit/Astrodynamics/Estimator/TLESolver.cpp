@@ -235,9 +235,7 @@ Orbit TLESolver::estimateOrbit(
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
-    const Analysis analysis = estimate(
-        anInitialGuess, anObservationArray, anInitialGuessSigmas, anObservationSigmas
-    );
+    const Analysis analysis = estimate(anInitialGuess, anObservationArray, anInitialGuessSigmas, anObservationSigmas);
 
     return Orbit(SGP4(analysis.estimatedTLE), std::make_shared<Earth>(Earth::Spherical()));
 }
@@ -291,7 +289,8 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
 
     // Convert to Brouwer-Lyddane mean elements
     const BrouwerLyddaneMeanLong coe = BrouwerLyddaneMeanLong::Cartesian(
-        {cartesianStateTEME.getPosition(), cartesianStateTEME.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_
+        {cartesianStateTEME.getPosition(), cartesianStateTEME.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
     );
 
     Array<double> coordinates = {
@@ -300,7 +299,8 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
         coe.getEccentricity(),
         coe.getAop().inRadians(),
         coe.getMeanAnomaly().inRadians(),
-        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_).in(Derived::Unit::RevolutionPerDay())
+        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_)
+            .in(Derived::Unit::RevolutionPerDay())
     };
 
     if (fitWithBStar_)

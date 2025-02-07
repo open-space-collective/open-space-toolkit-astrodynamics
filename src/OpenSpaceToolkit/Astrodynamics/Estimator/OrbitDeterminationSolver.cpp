@@ -19,7 +19,9 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-OrbitDeterminationSolver::Analysis::Analysis(const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis)
+OrbitDeterminationSolver::Analysis::Analysis(
+    const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis
+)
     : estimatedState(anEstimatedState),
       solverAnalysis(anAnalysis)
 {
