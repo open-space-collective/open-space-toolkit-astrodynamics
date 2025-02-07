@@ -12,6 +12,7 @@ from ostk.physics.coordinate import Frame
 from ostk.astrodynamics.solver import LeastSquaresSolver
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import StateBuilder
+from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 from ostk.astrodynamics.estimator import TLESolver
 from ostk.astrodynamics.dataframe import generate_states_from_dataframe
@@ -162,9 +163,7 @@ class TestTLESolver:
         observations: list[State],
     ):
         with pytest.raises(RuntimeError) as e:
-            tle_solver.estimate(
-                initial_guess=initial_state, observations=observations
-            )
+            tle_solver.estimate(initial_guess=initial_state, observations=observations)
         assert "Initial guess must be a TLE or (State, B*) when fitting with B*." in str(
             e.value
         )
@@ -176,6 +175,24 @@ class TestTLESolver:
     ):
         with pytest.raises(Exception):
             tle_solver.estimate(initial_guess=initial_state, observations=[])
+
+    def test_estimate_orbit(
+        self,
+        initial_state: State,
+        observations: list[State],
+    ):
+        tle_solver_no_bstar = TLESolver(
+            satellite_number=25544,
+            international_designator="98067A",
+            revolution_number=12345,
+            fit_with_bstar=False,
+        )
+        orbit: Orbit = tle_solver_no_bstar.estimate_orbit(
+            initial_guess=initial_state,
+            observations=observations,
+        )
+
+        assert isinstance(orbit, Orbit)
 
     def test_fit_with_different_frames(
         self,
