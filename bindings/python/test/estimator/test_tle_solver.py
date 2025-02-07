@@ -90,40 +90,40 @@ class TestTLESolver:
         assert isinstance(tle_solver.access_element_set_number(), Integer)
         assert isinstance(tle_solver.access_tle_state_builder(), StateBuilder)
 
-    def test_estimate_tle_from_tle(
+    def test_estimate_from_tle(
         self,
         tle_solver: TLESolver,
         initial_tle: TLE,
         observations: list[State],
     ):
-        analysis: TLESolver.Analysis = tle_solver.estimate_tle(
+        analysis: TLESolver.Analysis = tle_solver.estimate(
             initial_guess=initial_tle,
             observations=observations,
         )
 
         assert isinstance(analysis, TLESolver.Analysis)
-        assert isinstance(analysis.determined_tle, TLE)
+        assert isinstance(analysis.estimated_tle, TLE)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
         assert analysis.solver_analysis.termination_criteria == "RMS Update Threshold"
 
-    def test_estimate_tle_from_state_bstar(
+    def test_estimate_from_state_bstar(
         self,
         tle_solver: TLESolver,
         initial_state: State,
         observations: list[State],
     ):
-        analysis: TLESolver.Analysis = tle_solver.estimate_tle(
+        analysis: TLESolver.Analysis = tle_solver.estimate(
             initial_guess=(initial_state, 1e-4),
             observations=observations,
         )
         assert isinstance(analysis, TLESolver.Analysis)
-        assert isinstance(analysis.determined_tle, TLE)
+        assert isinstance(analysis.estimated_tle, TLE)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
         assert analysis.solver_analysis.termination_criteria == "RMS Update Threshold"
 
-    def test_estimate_tle_from_state(
+    def test_estimate_from_state(
         self,
         initial_state: State,
         observations: list[State],
@@ -134,48 +134,48 @@ class TestTLESolver:
             revolution_number=12345,
             fit_with_bstar=False,
         )
-        analysis: TLESolver.Analysis = tle_solver_no_bstar.estimate_tle(
+        analysis: TLESolver.Analysis = tle_solver_no_bstar.estimate(
             initial_guess=initial_state,
             observations=observations,
         )
         assert isinstance(analysis, TLESolver.Analysis)
-        assert isinstance(analysis.determined_tle, TLE)
+        assert isinstance(analysis.estimated_tle, TLE)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
         assert analysis.solver_analysis.termination_criteria == "RMS Update Threshold"
 
-    def test_estimate_tle_invalid_initial_guess(
+    def test_estimate_invalid_initial_guess(
         self,
         tle_solver: TLESolver,
         observations: list[State],
     ):
         with pytest.raises(RuntimeError) as e:
-            tle_solver.estimate_tle(initial_guess="invalid", observations=observations)
+            tle_solver.estimate(initial_guess="invalid", observations=observations)
         assert "Initial guess must be a TLE, (State, float) tuple, or State." in str(
             e.value
         )
 
-    def test_estimate_tle_invalid_state_only(
+    def test_estimate_invalid_state_only(
         self,
         tle_solver: TLESolver,
         initial_state: State,
         observations: list[State],
     ):
         with pytest.raises(RuntimeError) as e:
-            tle_solver.estimate_tle(
+            tle_solver.estimate(
                 initial_guess=initial_state, observations=observations
             )
         assert "Initial guess must be a TLE or (State, B*) when fitting with B*." in str(
             e.value
         )
 
-    def test_estimate_tle_no_observations(
+    def test_estimate_no_observations(
         self,
         tle_solver: TLESolver,
         initial_state: State,
     ):
         with pytest.raises(Exception):
-            tle_solver.estimate_tle(initial_guess=initial_state, observations=[])
+            tle_solver.estimate(initial_guess=initial_state, observations=[])
 
     def test_fit_with_different_frames(
         self,
@@ -186,10 +186,10 @@ class TestTLESolver:
         # Convert observations to TEME frame
         teme_observations = [obs.in_frame(Frame.TEME()) for obs in observations]
 
-        analysis: TLESolver.Analysis = tle_solver.estimate_tle(
+        analysis: TLESolver.Analysis = tle_solver.estimate(
             initial_guess=initial_state_with_bstar, observations=teme_observations
         )
         assert isinstance(analysis, TLESolver.Analysis)
-        assert isinstance(analysis.determined_tle, TLE)
+        assert isinstance(analysis.estimated_tle, TLE)
 
         assert analysis.solver_analysis.termination_criteria == "RMS Update Threshold"

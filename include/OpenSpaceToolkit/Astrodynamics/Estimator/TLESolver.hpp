@@ -24,6 +24,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 namespace ostk
 {
@@ -52,6 +53,7 @@ using ostk::physics::unit::Time;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
@@ -63,7 +65,7 @@ class TLESolver
     {
        public:
         /// @brief Constructor
-        Analysis(const TLE& aDeterminedTLE, const LeastSquaresSolver::Analysis& anAnalysis);
+        Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis);
 
         /// @brief Stream Operator
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Analysis& anAnalysis);
@@ -71,7 +73,7 @@ class TLESolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        TLE determinedTLE;
+        TLE estimatedTLE;
         LeastSquaresSolver::Analysis solverAnalysis;
     };
 
@@ -158,7 +160,20 @@ class TLESolver
     /// @param anObservationArray Observations
     /// @param anInitialGuessSigmas Initial guess sigmas
     /// @param anObservationSigmas Reference state sigmas
-    Analysis estimateTLE(
+    Analysis estimate(
+        const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+        const Array<State>& anObservationArray,
+        const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
+        const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
+    ) const;
+
+    /// @brief Estimate Orbit from observations
+    ///
+    /// @param anInitialGuess Initial guess (TLE, State+BStar pair, or State)
+    /// @param anObservationArray Observations
+    /// @param anInitialGuessSigmas Initial guess sigmas
+    /// @param anObservationSigmas Reference state sigmas
+    Orbit estimateOrbit(
         const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
         const Array<State>& anObservationArray,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
