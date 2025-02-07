@@ -235,7 +235,8 @@ Orbit TLESolver::estimateOrbit(
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
-    const Analysis analysis = estimate(anInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas);
+    const Analysis analysis =
+        estimate(anInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas);
 
     return Orbit(SGP4(analysis.estimatedTLE), std::make_shared<Earth>(Earth::Spherical()));
 }
