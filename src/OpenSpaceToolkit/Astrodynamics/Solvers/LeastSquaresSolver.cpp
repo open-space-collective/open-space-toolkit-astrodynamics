@@ -49,22 +49,12 @@ LeastSquaresSolver::Analysis::Analysis(
     const Array<State>& aComputedObservationsStateArray,
     const Array<Step>& aStepArray
 )
-    : rmsError(Real::Undefined()),
-      observationCount(aComputedObservationsStateArray.getSize()),
+    : Estimator::Analysis(aStepArray.accessLast().rmsError, {anEstimatedState}, anEstimatedCovariance, aComputedObservationsStateArray),
       iterationCount(aStepArray.getSize()),
       terminationCriteria(aTerminationCriteria),
-      estimatedState(anEstimatedState),
-      estimatedCovariance(anEstimatedCovariance),
       estimatedFrisbeeCovariance(anEstimatedFrisbeeCovariance),
-      computedObservationStates(aComputedObservationsStateArray),
       steps(aStepArray)
 {
-    if (aStepArray.isEmpty())
-    {
-        throw ostk::core::error::RuntimeError("Step array cannot be empty.");
-    }
-
-    rmsError = aStepArray.accessLast().rmsError;
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const LeastSquaresSolver::Analysis& anAnalysis)
@@ -94,28 +84,6 @@ void LeastSquaresSolver::Analysis::print(std::ostream& anOutputStream, bool disp
     ostk::core::utils::Print::Footer(anOutputStream);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-Array<State> LeastSquaresSolver::Analysis::computeResidualStates(const Array<State>& anObservationStateArray) const
-{
-    if (computedObservationStates.getSize() != anObservationStateArray.getSize())
-    {
-        throw ostk::core::error::RuntimeError(
-            "Computed observation states and observation states arrays must have the same length."
-        );
-    }
-
-    Array<State> residualStates;
-    residualStates.reserve(anObservationStateArray.getSize());
-
-    for (Size i = 0; i < anObservationStateArray.getSize(); ++i)
-    {
-        residualStates.add(
-            anObservationStateArray[i] - computedObservationStates[i].inFrame(anObservationStateArray[i].accessFrame())
-        );
-    }
-
-    return residualStates;
 }
 
 LeastSquaresSolver::LeastSquaresSolver(

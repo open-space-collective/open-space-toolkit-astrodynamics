@@ -68,7 +68,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         )
         .def_readonly(
             "solver_analysis",
-            &TLESolver::Analysis::solverAnalysis,
+            &TLESolver::Analysis::estimatorAnalysis,
             R"doc(
                 The solver analysis.
 

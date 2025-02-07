@@ -13,7 +13,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/Estimator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -37,19 +37,19 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 
 using ostk::astrodynamics::solver::LeastSquaresSolver;
-using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::NumericalSolver;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::solver::Estimator;
 
 #define DEFAULT_ENVIRONMENT Environment::Default()                  // Default environment
 #define DEFAULT_NUMERICAL_SOLVER NumericalSolver::Default()         // Default numerical solver
-#define DEFAULT_LEAST_SQUARES_SOLVER LeastSquaresSolver::Default()  // Default least squares solver
+#define DEFAULT_LEAST_SQUARES_SOLVER std::make_shared<Estimator>(LeastSquaresSolver::Default())  // Default least squares solver
 #define DEFAULT_ESTIMATION_FRAME Frame::GCRF()                      // Default estimation frame
 
-/// @brief Orbit Determination solver using least squares
+/// @brief Orbit Determination solver
 class OrbitDeterminationSolver
 {
    public:
@@ -57,7 +57,7 @@ class OrbitDeterminationSolver
     {
        public:
         /// @brief Constructor
-        Analysis(const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis);
+        Analysis(const State& anEstimatedState, const Shared<const Estimator::Analysis>& anAnalysis);
 
         /// @brief Print analysis
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Analysis& anAnalysis);
@@ -66,19 +66,19 @@ class OrbitDeterminationSolver
         void print(std::ostream& anOutputStream) const;
 
         State estimatedState;
-        LeastSquaresSolver::Analysis solverAnalysis;
+        Shared<const Estimator::Analysis> estimatorAnalysis;
     };
 
     /// @brief Constructor
     ///
     /// @param anEnvironment Environment, Defaults to Environment::Default()
+    /// @param anEstimator Estimator, Defaults to LeastSquaresSolver::Default()
     /// @param aNumericalSolver Numerical solver, Defaults to NumericalSolver::Default()
-    /// @param aSolver Least squares solver, Defaults to LeastSquaresSolver::Default()
     /// @param anEstimationFrameSPtr Estimation frame, Defaults to Frame::GCRF()
     OrbitDeterminationSolver(
         const Environment& anEnvironment = DEFAULT_ENVIRONMENT,
+        const Shared<const Estimator>& anEstimator = DEFAULT_LEAST_SQUARES_SOLVER,
         const NumericalSolver& aNumericalSolver = DEFAULT_NUMERICAL_SOLVER,
-        const LeastSquaresSolver& aSolver = DEFAULT_LEAST_SQUARES_SOLVER,
         const Shared<const Frame>& anEstimationFrameSPtr = DEFAULT_ESTIMATION_FRAME
     );
 
@@ -95,7 +95,7 @@ class OrbitDeterminationSolver
     /// @brief Access solver
     ///
     /// @return Solver
-    const LeastSquaresSolver& accessSolver() const;
+    const Shared<const Estimator>& accessSolver() const;
 
     /// @brief Access estimation frame
     ///
@@ -142,7 +142,7 @@ class OrbitDeterminationSolver
    private:
     Environment environment_;
     Propagator propagator_;
-    LeastSquaresSolver solver_;
+    Shared<const Estimator> estimator_;
     Shared<const Frame> estimationFrameSPtr_;
 };
 

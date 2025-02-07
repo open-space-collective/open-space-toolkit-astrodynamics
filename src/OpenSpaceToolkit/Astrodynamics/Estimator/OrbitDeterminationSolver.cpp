@@ -21,7 +21,7 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 OrbitDeterminationSolver::Analysis::Analysis(const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis)
     : estimatedState(anEstimatedState),
-      solverAnalysis(anAnalysis)
+      estimatorAnalysis(anAnalysis)
 {
 }
 
@@ -40,20 +40,20 @@ void OrbitDeterminationSolver::Analysis::print(std::ostream& anOutputStream) con
     estimatedState.print(anOutputStream, false);
 
     ostk::core::utils::Print::Separator(anOutputStream, "Analysis");
-    solverAnalysis.print(anOutputStream);
+    estimatorAnalysis.print(anOutputStream);
 
     ostk::core::utils::Print::Footer(anOutputStream);
 }
 
 OrbitDeterminationSolver::OrbitDeterminationSolver(
     const Environment& anEnvironment,
+    const Shared<const Estimator>& anEstimator,
     const NumericalSolver& aNumericalSolver,
-    const LeastSquaresSolver& aSolver,
     const Shared<const Frame>& anEstimationFrameSPtr
 )
     : environment_(anEnvironment),
       propagator_(Propagator::FromEnvironment(aNumericalSolver, anEnvironment)),
-      solver_(aSolver),
+      estimator_(anEstimator),
       estimationFrameSPtr_(anEstimationFrameSPtr)
 {
     if (!environment_.hasCentralCelestialObject())
@@ -72,9 +72,9 @@ const Propagator& OrbitDeterminationSolver::accessPropagator() const
     return propagator_;
 }
 
-const LeastSquaresSolver& OrbitDeterminationSolver::accessSolver() const
+const Shared<const Estimator>& OrbitDeterminationSolver::accessSolver() const
 {
-    return solver_;
+    return estimator_;
 }
 
 const Shared<const Frame>& OrbitDeterminationSolver::accessEstimationFrame() const
@@ -132,7 +132,7 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     };
 
     // Solve least squares problem
-    const LeastSquaresSolver::Analysis analysis = solver_.solve(
+    const LeastSquaresSolver::Analysis analysis = estimator_.solve(
         estimationStateBuilder.reduce(initialGuessStateInEstimationFrame),
         observationsInEstimationFrame,
         generateStatesCallback,

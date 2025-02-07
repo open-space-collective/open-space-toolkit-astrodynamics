@@ -61,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         )
         .def_readonly(
             "solver_analysis",
-            &OrbitDeterminationSolver::Analysis::solverAnalysis,
+            &OrbitDeterminationSolver::Analysis::estimatorAnalysis,
             R"doc(
                 The solver analysis.
 

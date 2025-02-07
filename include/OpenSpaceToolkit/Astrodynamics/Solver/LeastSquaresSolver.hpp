@@ -19,6 +19,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/Estimator.hpp>
 
 namespace ostk
 {
@@ -43,13 +44,14 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::estimator::Estimator;
 
 #define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
 
 /// @brief Class to solve non-linear least squares problems
-class LeastSquaresSolver
+class LeastSquaresSolver : public Estimator
 {
    public:
     class Step
@@ -68,7 +70,7 @@ class LeastSquaresSolver
         VectorXd xHat;
     };
 
-    class Analysis
+    class Analysis : public Estimator::Analysis
     {
        public:
         /// @brief Constructor
@@ -87,17 +89,9 @@ class LeastSquaresSolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief computeResidualStates
-        Array<State> computeResidualStates(const Array<State>& anObservationStateArray) const;
-
-        Real rmsError;
-        Size observationCount;
         Size iterationCount;
         String terminationCriteria;
-        State estimatedState;
-        MatrixXd estimatedCovariance;
         MatrixXd estimatedFrisbeeCovariance;
-        Array<State> computedObservationStates;
         Array<Step> steps;
     };
 
@@ -138,13 +132,13 @@ class LeastSquaresSolver
     /// @param anObservationSigmas Dictionary of sigmas for observations
     ///
     /// @return Analysis
-    Analysis solve(
+    virtual Analysis solve(
         const State& anInitialGuessState,
         const Array<State>& anObservationStateArray,
         const std::function<Array<State>(const State&, const Array<Instant>&)>& aStateGenerator,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
-    ) const;
+    ) const override;
 
     /// @brief Calculate empirical covariance
     ///

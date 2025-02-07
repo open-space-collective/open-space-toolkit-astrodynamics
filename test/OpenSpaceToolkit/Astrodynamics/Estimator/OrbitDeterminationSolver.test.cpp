@@ -100,7 +100,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, 
 {
     {
         EXPECT_EQ(analysis_.estimatedState, estimatedState_);
-        EXPECT_EQ(analysis_.solverAnalysis.terminationCriteria, terminationCriteria_);
+        EXPECT_EQ(analysis_.estimatorAnalysis.terminationCriteria, terminationCriteria_);
     }
 }
 
@@ -223,8 +223,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateS
     {
         const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(referenceStates_[0], referenceStates_);
 
-        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_EQ(analysis.estimatorAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.estimatorAnalysis.rmsError, 50.0);
     }
 
     // Test with estimator coordinate subsets
@@ -234,8 +234,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateS
         const OrbitDeterminationSolver::Analysis analysis =
             odSolver_.estimate(referenceStates_[0], referenceStates_, estimationSubsets);
 
-        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_EQ(analysis.estimatorAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.estimatorAnalysis.rmsError, 50.0);
     }
 
     // Test with sigmas
@@ -244,8 +244,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateS
             referenceStates_[0], referenceStates_, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
-        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_EQ(analysis.estimatorAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.estimatorAnalysis.rmsError, 50.0);
     }
 
     // Test with states in different frames
@@ -263,8 +263,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateS
             initialGuessStateInITRF, referenceStatesInTEME, {}, initialStateSigmas_, referenceStateSigmas_
         );
 
-        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
+        EXPECT_EQ(analysis.estimatorAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.estimatorAnalysis.rmsError, 50.0);
         EXPECT_EQ(analysis.estimatedState.accessFrame(), initialGuessStateInITRF.accessFrame());
     }
 }
