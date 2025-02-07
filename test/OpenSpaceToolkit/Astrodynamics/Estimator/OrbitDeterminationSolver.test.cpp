@@ -185,7 +185,8 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Constructor)
 {
     {
-        EXPECT_NO_THROW(OrbitDeterminationSolver(environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_));
+        EXPECT_NO_THROW(OrbitDeterminationSolver(environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_)
+        );
     }
 
     {
@@ -240,9 +241,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateS
 
     // Test with sigmas
     {
-        const OrbitDeterminationSolver::Analysis analysis = odSolver_.estimate(
-            referenceStates_[0], referenceStates_, {}, initialStateSigmas_, referenceStateSigmas_
-        );
+        const OrbitDeterminationSolver::Analysis analysis =
+            odSolver_.estimate(referenceStates_[0], referenceStates_, {}, initialStateSigmas_, referenceStateSigmas_);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 50.0);
@@ -276,8 +276,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateS
         Array<Shared<const CoordinateSubset>> invalidSubsets = {CoordinateSubset::Mass()};
 
         EXPECT_THROW(
-            odSolver_.estimate(referenceStates_[0], referenceStates_, invalidSubsets),
-            ostk::core::error::RuntimeError
+            odSolver_.estimate(referenceStates_[0], referenceStates_, invalidSubsets), ostk::core::error::RuntimeError
         );
     }
 }
