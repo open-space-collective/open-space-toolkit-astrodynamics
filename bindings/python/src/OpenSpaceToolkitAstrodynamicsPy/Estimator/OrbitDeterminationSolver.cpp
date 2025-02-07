@@ -24,7 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         aModule,
         "OrbitDeterminationSolver",
         R"doc(
-            Orbit Determination solver using Least Squares estimation.
+            Orbit Determination solver.
         )doc"
     );
 
@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         orbitDeterminationSolver,
         "Analysis",
         R"doc(
-            Analysis results from the Orbit Determination Least Squares Solver.
+            Analysis results from the Orbit Determination.
         )doc"
     )
         .def(
@@ -118,6 +118,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
 
                 Returns:
                     LeastSquaresSolver: The Least Squares solver.
+            )doc"
+        )
+        .def(
+            "access_estimation_frame",
+            &OrbitDeterminationSolver::accessEstimationFrame,
+            return_value_policy::reference_internal,
+            R"doc(
+                Access the estimation frame.
+
+                Returns:
+                    Frame: The estimation frame.
             )doc"
         )
         .def(

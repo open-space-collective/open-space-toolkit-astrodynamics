@@ -73,13 +73,14 @@ def observations() -> list[State]:
         reference_frame=Frame.ITRF(),
     )
 
+
 @pytest.fixture
 def initial_guess_sigmas(
     coordinate_subsets: list[CoordinateSubset],
 ) -> dict[CoordinateSubset, list[float]]:
     return {
-        coordinate_subsets[0]: [1e-1],
-        coordinate_subsets[1]: [1e-2],
+        coordinate_subsets[0]: [1e-1, 1e-1, 1e-1],
+        coordinate_subsets[1]: [1e-2, 1e-2, 1e-2],
     }
 
 
@@ -88,9 +89,10 @@ def observation_sigmas(
     coordinate_subsets: list[CoordinateSubset],
 ) -> dict[CoordinateSubset, list[float]]:
     return {
-        coordinate_subsets[0]: [1e-1],
-        coordinate_subsets[1]: [1e-2],
+        coordinate_subsets[0]: [1e-1, 1e-1, 1e-1],
+        coordinate_subsets[1]: [1e-2, 1e-2, 1e-2],
     }
+
 
 @pytest.fixture
 def rms_error() -> float:
@@ -214,7 +216,7 @@ class TestOrbitDeterminationSolver:
         assert isinstance(orbit_determination_solver.access_environment(), Environment)
         assert isinstance(orbit_determination_solver.access_propagator(), Propagator)
         assert isinstance(orbit_determination_solver.access_solver(), LeastSquaresSolver)
-        # assert isinstance(orbit_determination_solver.access_estimation_frame(), Frame)
+        assert isinstance(orbit_determination_solver.access_estimation_frame(), Frame)
 
     def test_estimate(
         self,
