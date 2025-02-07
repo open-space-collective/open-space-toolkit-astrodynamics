@@ -274,6 +274,53 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     TLESolver.Analysis: Analysis results containing the estimated TLE and solver analysis.
             )doc"
         )
+        .def(
+            "estimate_orbit",
+            [](const TLESolver& self,
+               const object& anInitialGuess,
+               const Array<State>& observations,
+               const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
+               const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
+            {
+                std::variant<TLE, Pair<State, Real>, State> cppInitialGuess = State::Undefined();
+
+                if (isinstance<TLE>(anInitialGuess))
+                {
+                    cppInitialGuess = anInitialGuess.cast<TLE>();
+                }
+                else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
+                {
+                    auto t = anInitialGuess.cast<tuple>();
+                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
+                }
+                else if (isinstance<State>(anInitialGuess))
+                {
+                    cppInitialGuess = anInitialGuess.cast<State>();
+                }
+                else
+                {
+                    throw std::runtime_error("Initial guess must be a TLE, (State, float) tuple, or State.");
+                }
+
+                return self.estimateOrbit(cppInitialGuess, observations, anInitialGuessSigmas, anObservationSigmas);
+            },
+            arg("initial_guess"),
+            arg("observations"),
+            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
+            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
+            R"doc(
+                Estimate an SGP4-based orbit from observations.
+
+                Args:
+                    initial_guess (TLE | Tuple[State, float] | State): Initial guess - can be a TLE, (State, B*) tuple, or State.
+                    observations (list[State]): State observations to fit against.
+                    initial_guess_sigmas (dict[CoordinateSubset, ndarray], optional): Initial guess sigmas.
+                    observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.
+
+                Returns:
+                    Orbit: The estimated SGP4 orbit.
+            )doc"
+        )
 
         ;
 }
