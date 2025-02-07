@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/ODLeastSquaresSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
     using ostk::physics::coordinate::Frame;
     using ostk::physics::Environment;
 
-    using ostk::astrodynamics::estimator::ODLeastSquaresSolver;
+    using ostk::astrodynamics::estimator::OrbitDeterminationSolver;
     using ostk::astrodynamics::solver::LeastSquaresSolver;
     using ostk::astrodynamics::trajectory::NumericalSolver;
     using ostk::astrodynamics::trajectory::Orbit;
@@ -20,16 +20,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
     using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-    class_<ODLeastSquaresSolver> odLeastSquaresSolver(
+    class_<OrbitDeterminationSolver> orbitDeterminationSolver(
         aModule,
-        "ODLeastSquaresSolver",
+        "OrbitDeterminationSolver",
         R"doc(
             Orbit Determination solver using Least Squares estimation.
         )doc"
     );
 
-    class_<ODLeastSquaresSolver::Analysis>(
-        odLeastSquaresSolver,
+    class_<OrbitDeterminationSolver::Analysis>(
+        orbitDeterminationSolver,
         "Analysis",
         R"doc(
             Analysis results from the Orbit Determination Least Squares Solver.
@@ -37,31 +37,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
     )
         .def(
             init<const State&, const LeastSquaresSolver::Analysis&>(),
-            arg("determined_state"),
+            arg("estimated_state"),
             arg("solver_analysis"),
             R"doc(
                 Construct a new Analysis object.
 
                 Args:
-                    determined_state (State): The determined state.
+                    estimated_state (State): The estimated state.
                     solver_analysis (LeastSquaresSolverAnalysis): The solver analysis.
             )doc"
         )
-        .def("__str__", &(shiftToString<ODLeastSquaresSolver::Analysis>))
-        .def("__repr__", &(shiftToString<ODLeastSquaresSolver::Analysis>))
+        .def("__str__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
+        .def("__repr__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
         .def_readonly(
-            "determined_state",
-            &ODLeastSquaresSolver::Analysis::determinedState,
+            "estimated_state",
+            &OrbitDeterminationSolver::Analysis::estimatedState,
             R"doc(
-                The determined state.
+                The estimated state.
 
                 Returns:
-                    State: The determined state.
+                    State: The estimated state.
             )doc"
         )
         .def_readonly(
             "solver_analysis",
-            &ODLeastSquaresSolver::Analysis::solverAnalysis,
+            &OrbitDeterminationSolver::Analysis::solverAnalysis,
             R"doc(
                 The solver analysis.
 
@@ -72,7 +72,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
 
         ;
 
-    odLeastSquaresSolver
+    orbitDeterminationSolver
         .def(
             init<const Environment&, const NumericalSolver&, const LeastSquaresSolver&, const Shared<Frame>&>(),
             arg_v("environment", DEFAULT_ENVIRONMENT, "Environment.default()"),
@@ -80,7 +80,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             arg_v("solver", DEFAULT_LEAST_SQUARES_SOLVER, "LeastSquaresSolver.default()"),
             arg_v("estimation_frame", DEFAULT_ESTIMATION_FRAME, "Frame.GCRF()"),
             R"doc(
-                Construct a new ODLeastSquaresSolver object.
+                Construct a new OrbitDeterminationSolver object.
 
                 Args:
                     environment (Environment, optional): The environment. Defaults to Environment.default().
@@ -91,7 +91,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
         )
         .def(
             "access_environment",
-            &ODLeastSquaresSolver::accessEnvironment,
+            &OrbitDeterminationSolver::accessEnvironment,
             return_value_policy::reference_internal,
             R"doc(
                 Access the environment.
@@ -102,7 +102,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
         )
         .def(
             "access_propagator",
-            &ODLeastSquaresSolver::accessPropagator,
+            &OrbitDeterminationSolver::accessPropagator,
             return_value_policy::reference_internal,
             R"doc(
                 Access the propagator.
@@ -113,7 +113,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
         )
         .def(
             "access_solver",
-            &ODLeastSquaresSolver::accessSolver,
+            &OrbitDeterminationSolver::accessSolver,
             return_value_policy::reference_internal,
             R"doc(
                 Access the Least Squares solver.
@@ -123,8 +123,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
             )doc"
         )
         .def(
-            "estimate_state",
-            &ODLeastSquaresSolver::estimateState,
+            "estimate",
+            &OrbitDeterminationSolver::estimate,
             arg("initial_guess_state"),
             arg("observations"),
             arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
@@ -141,12 +141,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_ODLeastSquaresSolver(pybin
                     observation_sigmas (dict[CoordinateSubset, VectorXd], optional): Observation sigmas.
 
                 Returns:
-                    ODLeastSquaresSolverAnalysis: The analysis results.
+                    OrbitDeterminationSolverAnalysis: The analysis results.
             )doc"
         )
         .def(
             "estimate_orbit",
-            &ODLeastSquaresSolver::estimateOrbit,
+            &OrbitDeterminationSolver::estimateOrbit,
             arg("initial_guess_state"),
             arg("observations"),
             arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),

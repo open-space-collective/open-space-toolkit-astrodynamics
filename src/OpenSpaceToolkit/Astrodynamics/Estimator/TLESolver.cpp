@@ -4,6 +4,7 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
@@ -22,14 +23,15 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::environment::gravitational::Earth;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
-TLESolver::Analysis::Analysis(const TLE& aDeterminedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
-    : determinedTLE(aDeterminedTLE),
+TLESolver::Analysis::Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
+    : estimatedTLE(aEstimatedTLE),
       solverAnalysis(anAnalysis)
 {
 }
@@ -45,8 +47,8 @@ void TLESolver::Analysis::print(std::ostream& anOutputStream) const
 {
     ostk::core::utils::Print::Header(anOutputStream, "Analysis");
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Determined TLE");
-    ostk::core::utils::Print::Line(anOutputStream) << determinedTLE;
+    ostk::core::utils::Print::Separator(anOutputStream, "Estimated TLE");
+    ostk::core::utils::Print::Line(anOutputStream) << estimatedTLE;
 
     ostk::core::utils::Print::Separator(anOutputStream, "Analysis");
     solverAnalysis.print(anOutputStream);
@@ -153,7 +155,7 @@ const StateBuilder& TLESolver::accessTLEStateBuilder() const
     return tleStateBuilder_;
 }
 
-TLESolver::Analysis TLESolver::estimateTLE(
+TLESolver::Analysis TLESolver::estimate(
     const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
     const Array<State>& anObservationArray,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
@@ -221,9 +223,23 @@ TLESolver::Analysis TLESolver::estimateTLE(
     );
 
     // Convert solution state to TLE
-    const TLE determinedTLE = TLEStateToTLE(analysis.estimatedState);
+    const TLE estimatedTLE = TLEStateToTLE(analysis.estimatedState);
 
-    return Analysis(determinedTLE, analysis);
+    return Analysis(estimatedTLE, analysis);
+}
+
+Orbit TLESolver::estimateOrbit(
+    const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+    const Array<State>& anObservationArray,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
+    const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
+) const
+{
+    const Analysis analysis = estimate(
+        anInitialGuess, anObservationArray, anInitialGuessSigmas, anObservationSigmas
+    );
+
+    return Orbit(SGP4(analysis.estimatedTLE), std::make_shared<Earth>(Earth::Spherical()));
 }
 
 State TLESolver::TLEToTLEState(const TLE& aTLE) const
@@ -275,7 +291,7 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
 
     // Convert to Brouwer-Lyddane mean elements
     const BrouwerLyddaneMeanLong coe = BrouwerLyddaneMeanLong::Cartesian(
-        {cartesianStateTEME.getPosition(), cartesianStateTEME.getVelocity()}, Earth::EGM2008.gravitationalParameter_
+        {cartesianStateTEME.getPosition(), cartesianStateTEME.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_
     );
 
     Array<double> coordinates = {
@@ -284,7 +300,7 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
         coe.getEccentricity(),
         coe.getAop().inRadians(),
         coe.getMeanAnomaly().inRadians(),
-        coe.getMeanMotion(Earth::EGM2008.gravitationalParameter_).in(Derived::Unit::RevolutionPerDay())
+        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_).in(Derived::Unit::RevolutionPerDay())
     };
 
     if (fitWithBStar_)

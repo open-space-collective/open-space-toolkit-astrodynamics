@@ -44,26 +44,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
     )
         .def(
             init<const TLE&, const LeastSquaresSolver::Analysis&>(),
-            arg("determined_tle"),
+            arg("estimated_tle"),
             arg("solver_analysis"),
             R"doc(
                 Construct a new TLESolver::Analysis object.
 
                 Args:
-                    determined_tle (TLE): The determined TLE.
+                    estimated_tle (TLE): The estimated TLE.
                     solver_analysis (LeastSquaresSolver::Analysis): The solver analysis.
             )doc"
         )
         .def("__str__", &(shiftToString<TLESolver::Analysis>))
         .def("__repr__", &(shiftToString<TLESolver::Analysis>))
         .def_readonly(
-            "determined_tle",
-            &TLESolver::Analysis::determinedTLE,
+            "estimated_tle",
+            &TLESolver::Analysis::estimatedTLE,
             R"doc(
-                The determined TLE.
+                The estimated TLE.
 
                 Returns:
-                    TLE: The determined TLE.
+                    TLE: The estimated TLE.
             )doc"
         )
         .def_readonly(
@@ -228,7 +228,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             )doc"
         )
         .def(
-            "estimate_tle",
+            "estimate",
             [](const TLESolver& self,
                const object& anInitialGuess,
                const Array<State>& observations,
@@ -255,7 +255,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     throw std::runtime_error("Initial guess must be a TLE, (State, float) tuple, or State.");
                 }
 
-                return self.estimateTLE(cppInitialGuess, observations, anInitialGuessSigmas, anObservationSigmas);
+                return self.estimate(cppInitialGuess, observations, anInitialGuessSigmas, anObservationSigmas);
             },
             arg("initial_guess"),
             arg("observations"),
@@ -271,7 +271,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.
 
                 Returns:
-                    TLESolver.Analysis: Analysis results containing the determined TLE and solver analysis.
+                    TLESolver.Analysis: Analysis results containing the estimated TLE and solver analysis.
             )doc"
         )
 
