@@ -65,7 +65,7 @@ class OrbitDeterminationSolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        State estimatedState;
+        State estimatedState;  // Matching the frame and expanded coordinates of the provided initial guess state.
         LeastSquaresSolver::Analysis solverAnalysis;
     };
 

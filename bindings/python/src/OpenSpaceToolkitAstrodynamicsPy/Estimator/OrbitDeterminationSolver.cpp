@@ -43,7 +43,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
                 Construct a new Analysis object.
 
                 Args:
-                    estimated_state (State): The estimated state.
+                    estimated_state (State): The estimated state. Matching the frame and expanded coordinates of the provided initial guess state.
                     solver_analysis (LeastSquaresSolverAnalysis): The solver analysis.
             )doc"
         )

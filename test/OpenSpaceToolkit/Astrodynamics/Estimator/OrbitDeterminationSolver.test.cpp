@@ -226,7 +226,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
             odSolver_.estimate(observationStates_[0], observationStates_);
 
         EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
-        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 2.0);
@@ -241,7 +240,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
             odSolver_.estimate(initialGuessState, observationStates_, estimationSubsets);
 
         EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
-        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(
             analysis.solverAnalysis.rmsError, 18.0
@@ -254,7 +252,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
             odSolver_.estimate(observationStates_[0], observationStates_, {}, initialGuessSigmas_, observationSigmas_);
 
         EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
-        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 5.0);
     }
@@ -279,7 +276,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
             odSolver.estimate(initialGuessStateInGCRF, observationStatesInTEME);
 
         EXPECT_EQ(*estimationFrame, *analysis.estimatedState.accessFrame());
-        EXPECT_EQ(analysis.estimatedState, analysis.solverAnalysis.estimatedState);
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 2.0);
     }
