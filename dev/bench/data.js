@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1739187689201,
+  "lastUpdate": 1739228024514,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 3190743240.1999927,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3190639133.400002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a6075a4babe28f73a2eded1057f6badae74c0d11",
+          "message": "feat: improve OD solver and TLE solver interfaces (#512)\n\n* feat: address remaining feedback\n\n* chore: style\n\n* feat: add pythin bindings\n\n* fix: OD solver suggestions (#513)\n\n* fix: OD solver suggestions\n\n* fix: tests\n\n* fix: align naming to be consistent with TLESolver <-> ODSolver\n\n* chore: style\n\n* fix: tests\n\n* Apply suggestions from code review\n\n---------\n\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>\n\n* fix: tests and docs\n\n* feat: improve TLE Solver interface (#515)\n\n* feat: improve tle solver interface\n\n* Update src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp\n\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\n\n---------\n\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\n\n* chore: style\n\n---------\n\nCo-authored-by: Vishwa <vishwa@Vishwas-MacBook-Air.local>\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\nCo-authored-by: Antoine Paletta <antoine.paletta@loftorbital.com>",
+          "timestamp": "2025-02-10T23:34:08+01:00",
+          "tree_id": "77ac163d9d398824845414f6581718b29e146a4b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a6075a4babe28f73a2eded1057f6badae74c0d11"
+        },
+        "date": 1739228022623,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 540835647.7999803,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 540693214.4000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 875060136.799999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 875008031.5999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3188086366.499999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3187911405.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3191864794.199995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191785203.4000015 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3187594036.000007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3187440159.800002 ns\nthreads: 1"
           }
         ]
       }
