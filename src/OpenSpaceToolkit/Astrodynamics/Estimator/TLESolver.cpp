@@ -91,7 +91,12 @@ TLESolver::TLESolver(
 {
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-        InclinationSubset, RaanSubset, EccentricitySubset, AopSubset, MeanAnomalySubset, MeanMotionSubset,
+        InclinationSubset,
+        RaanSubset,
+        EccentricitySubset,
+        AopSubset,
+        MeanAnomalySubset,
+        MeanMotionSubset,
     };
 
     if (estimateBStar_)
