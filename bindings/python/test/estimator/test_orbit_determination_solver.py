@@ -126,7 +126,7 @@ def termination_criteria() -> str:
 
 
 @pytest.fixture
-def estimate() -> State:
+def estimated_state() -> State:
     return State(
         Instant.J2000(),
         [1.0, 0.0],
@@ -160,7 +160,7 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 @pytest.fixture
 def solver_analysis(
     termination_criteria: str,
-    estimate: State,
+    estimated_state: State,
     estimated_covariance: np.ndarray,
     estimated_frisbee_covariance: np.ndarray,
     computed_observations: list[State],
@@ -168,7 +168,7 @@ def solver_analysis(
 ) -> LeastSquaresSolver.Analysis:
     return LeastSquaresSolver.Analysis(
         termination_criteria=termination_criteria,
-        estimate=estimate,
+        estimated_state=estimated_state,
         estimated_covariance=estimated_covariance,
         estimated_frisbee_covariance=estimated_frisbee_covariance,
         computed_observations=computed_observations,
@@ -182,7 +182,7 @@ def analysis(
     solver_analysis: LeastSquaresSolver.Analysis,
 ) -> OrbitDeterminationSolver.Analysis:
     return OrbitDeterminationSolver.Analysis(
-        estimate=initial_guess,
+        estimated_state=initial_guess,
         solver_analysis=solver_analysis,
     )
 

@@ -253,7 +253,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
 
         EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 5.0);
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 5.0);  // Extra error because sigmas are weighting apriori in this case
     }
 
     // Test with states in different frames
