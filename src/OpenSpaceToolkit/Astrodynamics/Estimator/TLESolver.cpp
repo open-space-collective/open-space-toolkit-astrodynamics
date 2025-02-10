@@ -8,6 +8,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
 namespace ostk
 {
@@ -29,6 +30,17 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+
+const Shared<const CoordinateSubset> TLESolver::InclinationSubset =
+    std::make_shared<CoordinateSubset>("INCLINATION", 1);
+const Shared<const CoordinateSubset> TLESolver::RaanSubset = std::make_shared<CoordinateSubset>("RAAN", 1);
+const Shared<const CoordinateSubset> TLESolver::EccentricitySubset =
+    std::make_shared<CoordinateSubset>("ECCENTRICITY", 1);
+const Shared<const CoordinateSubset> TLESolver::AopSubset = std::make_shared<CoordinateSubset>("AOP", 1);
+const Shared<const CoordinateSubset> TLESolver::MeanAnomalySubset =
+    std::make_shared<CoordinateSubset>("MEAN_ANOMALY", 1);
+const Shared<const CoordinateSubset> TLESolver::MeanMotionSubset = std::make_shared<CoordinateSubset>("MEAN_MOTION", 1);
+const Shared<const CoordinateSubset> TLESolver::BStarSubset = std::make_shared<CoordinateSubset>("B_STAR", 1);
 
 TLESolver::Analysis::Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
     : estimatedTLE(aEstimatedTLE),
@@ -61,16 +73,16 @@ TLESolver::TLESolver(
     const Integer& aSatelliteNumber,
     const String& anInternationalDesignator,
     const Integer& aRevolutionNumber,
-    const bool aFitWithBStar,
+    const bool anEstimateBStar,
     const Shared<const Frame>& anEstimationFrameSPtr
 )
     : solver_(aSolver),
       satelliteNumber_(aSatelliteNumber),
       internationalDesignator_(anInternationalDesignator),
       revolutionNumber_(aRevolutionNumber),
-      fitWithBStar_(aFitWithBStar),
+      estimateBStar_(anEstimateBStar),
       estimationFrameSPtr_(anEstimationFrameSPtr),
-      defaultBStar_(1e-4),
+      defaultBStar_(0.0),
       firstDerivativeMeanMotionDividedBy2_(0.0),
       secondDerivativeMeanMotionDividedBy6_(0.0),
       ephemerisType_(0),
@@ -79,17 +91,12 @@ TLESolver::TLESolver(
 {
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-        std::make_shared<CoordinateSubset>("INCLINATION", 1),
-        std::make_shared<CoordinateSubset>("RAAN", 1),
-        std::make_shared<CoordinateSubset>("ECCENTRICITY", 1),
-        std::make_shared<CoordinateSubset>("AOP", 1),
-        std::make_shared<CoordinateSubset>("MEAN_ANOMALY", 1),
-        std::make_shared<CoordinateSubset>("MEAN_MOTION", 1)
+        InclinationSubset, RaanSubset, EccentricitySubset, AopSubset, MeanAnomalySubset, MeanMotionSubset
     };
 
-    if (fitWithBStar_)
+    if (estimateBStar_)
     {
-        coordinateSubsets.add(std::make_shared<CoordinateSubset>("B_STAR", 1));
+        coordinateSubsets.add(BStarSubset);
     }
 
     tleStateBuilder_ = StateBuilder(Frame::TEME(), coordinateSubsets);
@@ -115,9 +122,9 @@ const Integer& TLESolver::accessRevolutionNumber() const
     return revolutionNumber_;
 }
 
-const bool& TLESolver::accessFitWithBStar() const
+const bool& TLESolver::accessEstimateBStar() const
 {
-    return fitWithBStar_;
+    return estimateBStar_;
 }
 
 const Shared<const Frame>& TLESolver::accessEstimationFrame() const
@@ -171,21 +178,23 @@ TLESolver::Analysis TLESolver::estimate(
     }
     else if (const auto* pair = std::get_if<Pair<State, Real>>(&anInitialGuess))
     {
-        if (fitWithBStar_)
+        if (estimateBStar_)
         {
             initialGuessTLEState = CartesianStateAndBStarToTLEState(pair->first, pair->second);
         }
         else
         {
-            defaultBStar_ = pair->second;
             initialGuessTLEState = CartesianStateAndBStarToTLEState(pair->first);
+            defaultBStar_ = pair->second;
         }
     }
     else if (const auto* state = std::get_if<State>(&anInitialGuess))
     {
-        if (fitWithBStar_)
+        if (estimateBStar_)
         {
-            throw ostk::core::error::RuntimeError("Initial guess must be a TLE or (State, B*) when fitting with B*.");
+            throw ostk::core::error::RuntimeError(
+                "Initial guess must be a TLE or (State, B*) when also estimating B*."
+            );
         }
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
     }
@@ -194,13 +203,12 @@ TLESolver::Analysis TLESolver::estimate(
     initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
 
     const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
-        [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
+        [this](const State& aState) -> State
         {
-            return aState.inFrame(estimationFrameSPtr);
+            return aState.inFrame(estimationFrameSPtr_);
         }
     );
 
-    // Define state generator
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
@@ -209,7 +217,7 @@ TLESolver::Analysis TLESolver::estimate(
         Array<State> states;
         states.reserve(anInstantArray.getSize());
 
-        for (const auto& instant : anInstantArray)
+        for (const Instant& instant : anInstantArray)
         {
             states.add(sgp4.calculateStateAt(instant).inFrame(estimationFrameSPtr_));
         }
@@ -217,7 +225,6 @@ TLESolver::Analysis TLESolver::estimate(
         return states;
     };
 
-    // Solve least squares problem
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
         initialGuessTLEState, observationsInEstimationFrame, stateGenerator, anInitialGuessSigmas, anObservationSigmas
     );
@@ -252,7 +259,7 @@ State TLESolver::TLEToTLEState(const TLE& aTLE) const
         aTLE.getMeanMotion().in(Derived::Unit::RevolutionPerDay())
     };
 
-    if (fitWithBStar_)
+    if (estimateBStar_)
     {
         coordinates.add(aTLE.getBStarDragTerm());
     }
@@ -262,8 +269,6 @@ State TLESolver::TLEToTLEState(const TLE& aTLE) const
 
 TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
 {
-    const VectorXd coordinates = aTLEState.getCoordinates();
-
     return TLE::Construct(
         satelliteNumber_,
         "U",
@@ -271,15 +276,15 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
         aTLEState.getInstant(),
         firstDerivativeMeanMotionDividedBy2_,
         secondDerivativeMeanMotionDividedBy6_,
-        fitWithBStar_ ? Real(coordinates[6]) : defaultBStar_,
+        estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
         ephemerisType_,
         elementSetNumber_,
-        Angle::Radians(coordinates[0]),                              // inclination
-        Angle::Radians(coordinates[1]),                              // RAAN
-        coordinates[2],                                              // eccentricity
-        Angle::Radians(coordinates[3]),                              // AOP
-        Angle::Radians(coordinates[4]),                              // mean anomaly
-        Derived(coordinates[5], Derived::Unit::RevolutionPerDay()),  // mean motion
+        Angle::Radians(aTLEState.extractCoordinate(InclinationSubset)[0]),
+        Angle::Radians(aTLEState.extractCoordinate(RaanSubset)[0]),
+        aTLEState.extractCoordinate(EccentricitySubset)[0],
+        Angle::Radians(aTLEState.extractCoordinate(AopSubset)[0]),
+        Angle::Radians(aTLEState.extractCoordinate(MeanAnomalySubset)[0]),
+        Derived(aTLEState.extractCoordinate(MeanMotionSubset)[0], Derived::Unit::RevolutionPerDay()),
         revolutionNumber_
     );
 }
@@ -304,13 +309,8 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
             .in(Derived::Unit::RevolutionPerDay())
     };
 
-    if (fitWithBStar_)
+    if (estimateBStar_)
     {
-        if (!aBStar.isDefined())
-        {
-            throw ostk::core::error::RuntimeError("B* must be provided when fitting with B*.");
-        }
-
         coordinates.add(aBStar);
     }
 

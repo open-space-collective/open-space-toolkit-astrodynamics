@@ -22,7 +22,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -61,6 +60,14 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class TLESolver
 {
    public:
+    static const Shared<const CoordinateSubset> InclinationSubset;
+    static const Shared<const CoordinateSubset> RaanSubset;
+    static const Shared<const CoordinateSubset> EccentricitySubset;
+    static const Shared<const CoordinateSubset> AopSubset;
+    static const Shared<const CoordinateSubset> MeanAnomalySubset;
+    static const Shared<const CoordinateSubset> MeanMotionSubset;
+    static const Shared<const CoordinateSubset> BStarSubset;
+
     class Analysis
     {
        public:
@@ -83,14 +90,14 @@ class TLESolver
     /// @param aSatelliteNumber Satellite number for TLE, defaults to 0
     /// @param anInternationalDesignator International designator for TLE, defaults to "00001A"
     /// @param aRevolutionNumber Revolution number, defaults to 0
-    /// @param aFitWithBStar Whether to also estimate the B* parameter, defaults to true
+    /// @param anEstimateBStar Whether to also estimate the B* parameter, defaults to true
     /// @param anEstimationFrameSPtr Estimation frame, defaults to GCRF
     TLESolver(
         const LeastSquaresSolver& aSolver = LeastSquaresSolver::Default(),
         const Integer& aSatelliteNumber = 0,
         const String& anInternationalDesignator = "00001A",
         const Integer& aRevolutionNumber = 0,
-        const bool aFitWithBStar = true,
+        const bool anEstimateBStar = true,
         const Shared<const Frame>& anEstimationFrameSPtr = Frame::GCRF()
     );
 
@@ -114,10 +121,10 @@ class TLESolver
     /// @return Revolution number
     const Integer& accessRevolutionNumber() const;
 
-    /// @brief Access whether to fit with B*
+    /// @brief Access whether to also estimate B*
     ///
-    /// @return Whether to fit with B*
-    const bool& accessFitWithBStar() const;
+    /// @return Whether to also estiamte B*
+    const bool& accessEstimateBStar() const;
 
     /// @brief Access estimation frame
     ///
@@ -156,7 +163,7 @@ class TLESolver
 
     /// @brief Estimate TLE from observations
     ///
-    /// @param anInitialGuessState Initial guess (TLE, State+BStar pair, or State)
+    /// @param anInitialGuessState Initial guess (TLE, Cartesian State+BStar pair, or Cartesian State)
     /// @param anObservationStateArray Observations to fit against
     /// @param anInitialGuessSigmas Map of sigmas for initial guess
     /// @param anObservationSigmas Map of sigmas for observations
@@ -169,7 +176,7 @@ class TLESolver
 
     /// @brief Estimate SGP4 Orbit from observations
     ///
-    /// @param anInitialGuess Initial guess (TLE, State+BStar pair, or State)
+    /// @param anInitialGuess Initial guess (TLE, Cartesian State+BStar pair, or Cartesian State)
     /// @param anObservationStateArray Observations to fit against
     /// @param anInitialGuessSigmas Map of sigmas for initial guess
     /// @param anObservationSigmas Map of sigmas for observations
@@ -185,7 +192,7 @@ class TLESolver
     Integer satelliteNumber_;
     String internationalDesignator_;
     Integer revolutionNumber_;
-    bool fitWithBStar_;
+    bool estimateBStar_;
     Shared<const Frame> estimationFrameSPtr_;
 
     mutable Real defaultBStar_;
