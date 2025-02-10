@@ -132,7 +132,11 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::
     void SetUp() override
     {
         const Table observationData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/gnss_data.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -253,7 +257,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
 
         EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.rmsError, 5.0);  // Extra error because sigmas are weighting apriori in this case
+        EXPECT_LT(
+            analysis.solverAnalysis.rmsError, 5.0
+        );  // Extra error because sigmas are weighting apriori in this case
     }
 
     // Test with states in different frames

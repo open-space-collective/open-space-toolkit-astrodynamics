@@ -95,9 +95,9 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     const State initialGuessStateInEstimationFrame = anInitialGuessState.inFrame(estimationFrameSPtr_);
 
     const Array<State> observationStatesInEstimationFrame = anObservationStateArray.map<State>(
-        [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
+        [this](const State& aState) -> State
         {
-            return aState.inFrame(estimationFrameSPtr);
+            return aState.inFrame(estimationFrameSPtr_);
         }
     );
 

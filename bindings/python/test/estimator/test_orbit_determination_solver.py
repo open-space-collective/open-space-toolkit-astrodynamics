@@ -69,7 +69,9 @@ def initial_guess(
 @pytest.fixture
 def observations() -> list[State]:
     return generate_states_from_dataframe(
-        pd.read_csv("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/gnss_data.csv"),
+        pd.read_csv(
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
+        ),
         reference_frame=Frame.ITRF(),
     )
 

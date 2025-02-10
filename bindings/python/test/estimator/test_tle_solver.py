@@ -30,7 +30,7 @@ def tle_solver(least_squares_solver: LeastSquaresSolver) -> TLESolver:
         satellite_number=25544,  # ISS NORAD ID
         international_designator="98067A",  # ISS Int'l Designator
         revolution_number=12345,
-        fit_with_bstar=True,
+        estimate_b_star=True,
     )
 
 
@@ -48,14 +48,16 @@ def initial_state(observations: list[State]) -> State:
 
 
 @pytest.fixture
-def initial_state_with_bstar(observations: list[State]) -> tuple[State, float]:
+def initial_state_with_b_star(observations: list[State]) -> tuple[State, float]:
     return observations[0], 1e-4
 
 
 @pytest.fixture
 def observations() -> list[State]:
     return generate_states_from_dataframe(
-        pd.read_csv("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/gnss_data.csv"),
+        pd.read_csv(
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
+        ),
         reference_frame=Frame.ITRF(),
     )
 
@@ -69,18 +71,18 @@ class TestTLESolver:
         assert tle_solver.access_satellite_number() == 25544
         assert tle_solver.access_international_designator() == "98067A"
         assert tle_solver.access_revolution_number() == 12345
-        assert tle_solver.access_fit_with_bstar() is True
+        assert tle_solver.access_estimate_b_star() is True
 
     def test_constructor_defaults(self):
         solver = TLESolver()
         assert solver.access_satellite_number() == 0
         assert solver.access_international_designator() == "00001A"
         assert solver.access_revolution_number() == 0
-        assert solver.access_fit_with_bstar() is True
+        assert solver.access_estimate_b_star() is True
 
     def test_access_methods(self, tle_solver: TLESolver):
         assert isinstance(tle_solver.access_solver(), LeastSquaresSolver)
-        assert isinstance(tle_solver.access_default_bstar(), Real)
+        assert isinstance(tle_solver.access_default_b_star(), Real)
         assert isinstance(
             tle_solver.access_first_derivative_mean_motion_divided_by_2(), Real
         )
@@ -108,7 +110,7 @@ class TestTLESolver:
 
         assert analysis.solver_analysis.termination_criteria == "RMS Update Threshold"
 
-    def test_estimate_from_state_bstar(
+    def test_estimate_from_state_b_star(
         self,
         tle_solver: TLESolver,
         initial_state: State,
@@ -129,13 +131,13 @@ class TestTLESolver:
         initial_state: State,
         observations: list[State],
     ):
-        tle_solver_no_bstar = TLESolver(
+        tle_solver_no_b_star = TLESolver(
             satellite_number=25544,
             international_designator="98067A",
             revolution_number=12345,
-            fit_with_bstar=False,
+            estimate_b_star=False,
         )
-        analysis: TLESolver.Analysis = tle_solver_no_bstar.estimate(
+        analysis: TLESolver.Analysis = tle_solver_no_b_star.estimate(
             initial_guess=initial_state,
             observations=observations,
         )
@@ -152,7 +154,7 @@ class TestTLESolver:
     ):
         with pytest.raises(RuntimeError) as e:
             tle_solver.estimate(initial_guess="invalid", observations=observations)
-        assert "Initial guess must be a TLE, (State, float) tuple, or State." in str(
+        assert "Initial guess must be a TLE, tuple[State, float], or State." in str(
             e.value
         )
 
@@ -164,8 +166,9 @@ class TestTLESolver:
     ):
         with pytest.raises(RuntimeError) as e:
             tle_solver.estimate(initial_guess=initial_state, observations=observations)
-        assert "Initial guess must be a TLE or (State, B*) when fitting with B*." in str(
-            e.value
+        assert (
+            "Initial guess must be a TLE or (State, B*) when also estimating B*."
+            in str(e.value)
         )
 
     def test_estimate_no_observations(
@@ -181,13 +184,13 @@ class TestTLESolver:
         initial_state: State,
         observations: list[State],
     ):
-        tle_solver_no_bstar = TLESolver(
+        tle_solver_no_b_star = TLESolver(
             satellite_number=25544,
             international_designator="98067A",
             revolution_number=12345,
-            fit_with_bstar=False,
+            estimate_b_star=False,
         )
-        orbit: Orbit = tle_solver_no_bstar.estimate_orbit(
+        orbit: Orbit = tle_solver_no_b_star.estimate_orbit(
             initial_guess=initial_state,
             observations=observations,
         )
@@ -197,14 +200,14 @@ class TestTLESolver:
     def test_fit_with_different_frames(
         self,
         tle_solver: TLESolver,
-        initial_state_with_bstar: tuple[State, float],
+        initial_state_with_b_star: tuple[State, float],
         observations: list[State],
     ):
         # Convert observations to TEME frame
         teme_observations = [obs.in_frame(Frame.TEME()) for obs in observations]
 
         analysis: TLESolver.Analysis = tle_solver.estimate(
-            initial_guess=initial_state_with_bstar, observations=teme_observations
+            initial_guess=initial_state_with_b_star, observations=teme_observations
         )
         assert isinstance(analysis, TLESolver.Analysis)
         assert isinstance(analysis.estimated_tle, TLE)
