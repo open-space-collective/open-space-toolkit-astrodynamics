@@ -154,15 +154,15 @@ class TLESolver
     /// @return TLE state builder
     const StateBuilder& accessTLEStateBuilder() const;
 
-    /// @brief Estimate TLE from observations
+    /// @brief Estimate TLE using provided solver
     ///
-    /// @param anInitialGuess Initial guess (TLE, State+BStar pair, or State)
-    /// @param anObservationArray Observations
-    /// @param anInitialGuessSigmas Initial guess sigmas
-    /// @param anObservationSigmas Reference state sigmas
+    /// @param anInitialGuessState Initial guess (TLE, State+BStar pair, or State)
+    /// @param anObservationStateArray Observations to fit against
+    /// @param anInitialGuessSigmas Map of sigmas for initial guess
+    /// @param anObservationSigmas Map of sigmas for observations
     Analysis estimate(
         const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
-        const Array<State>& anObservationArray,
+        const Array<State>& anObservationStateArray,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
@@ -170,12 +170,12 @@ class TLESolver
     /// @brief Estimate Orbit from observations
     ///
     /// @param anInitialGuess Initial guess (TLE, State+BStar pair, or State)
-    /// @param anObservationArray Observations
-    /// @param anInitialGuessSigmas Initial guess sigmas
-    /// @param anObservationSigmas Reference state sigmas
+    /// @param anObservationStateArray Observations to fit against
+    /// @param anInitialGuessSigmas Map of sigmas for initial guess
+    /// @param anObservationSigmas Map of sigmas for observations
     Orbit estimateOrbit(
         const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
-        const Array<State>& anObservationArray,
+        const Array<State>& anObservationStateArray,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
