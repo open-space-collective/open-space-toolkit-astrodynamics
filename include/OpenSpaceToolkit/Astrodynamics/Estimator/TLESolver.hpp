@@ -57,7 +57,7 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-/// @brief Class for solving TLE elements using least squares
+/// @brief Class for estimating TLE mean elements.
 class TLESolver
 {
    public:
@@ -79,11 +79,11 @@ class TLESolver
 
     /// @brief Constructor
     ///
-    /// @param aSolver Least squares solver, defaults to default Least Squares Solver
+    /// @param aSolver Solver to use, defaults to default Least Squares Solver
     /// @param aSatelliteNumber Satellite number for TLE, defaults to 0
     /// @param anInternationalDesignator International designator for TLE, defaults to "00001A"
     /// @param aRevolutionNumber Revolution number, defaults to 0
-    /// @param aFitWithBStar Whether to fit B* parameter, defaults to true
+    /// @param aFitWithBStar Whether to also estimate the B* parameter, defaults to true
     /// @param anEstimationFrameSPtr Estimation frame, defaults to GCRF
     TLESolver(
         const LeastSquaresSolver& aSolver = LeastSquaresSolver::Default(),
@@ -154,7 +154,7 @@ class TLESolver
     /// @return TLE state builder
     const StateBuilder& accessTLEStateBuilder() const;
 
-    /// @brief Estimate TLE using provided solver
+    /// @brief Estimate TLE from observations
     ///
     /// @param anInitialGuessState Initial guess (TLE, State+BStar pair, or State)
     /// @param anObservationStateArray Observations to fit against
@@ -167,7 +167,7 @@ class TLESolver
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
 
-    /// @brief Estimate Orbit from observations
+    /// @brief Estimate SGP4 Orbit from observations
     ///
     /// @param anInitialGuess Initial guess (TLE, State+BStar pair, or State)
     /// @param anObservationStateArray Observations to fit against

@@ -44,7 +44,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
 
                 Args:
                     estimated_state (State): The estimated state. Matching the frame and expanded coordinates of the provided initial guess state.
-                    solver_analysis (LeastSquaresSolverAnalysis): The solver analysis.
+                    solver_analysis (LeastSquaresSolver.Analysis): The solver analysis.
             )doc"
         )
         .def("__str__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
@@ -64,7 +64,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             R"doc(
                 The solver analysis.
 
-                :type: LeastSquaresSolverAnalysis
+                :type: LeastSquaresSolver.Analysis
             )doc"
         )
 
@@ -114,7 +114,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             &OrbitDeterminationSolver::accessSolver,
             return_value_policy::reference_internal,
             R"doc(
-                Access the Least Squares solver.
+                Access the solver.
 
                 Returns:
                     LeastSquaresSolver: The Least Squares solver.
@@ -140,7 +140,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
             arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
             R"doc(
-                Estimate state using Least Squares.
+                Estimate state from observations.
 
                 Args:
                     initial_guess (State): Initial guess state.
@@ -162,7 +162,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
             arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
             R"doc(
-                Estimate orbit using Least Squares.
+                Estimate Propagated Orbit from observations.
 
                 Args:
                     initial_guess (State): Initial guess state.

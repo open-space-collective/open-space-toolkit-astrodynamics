@@ -29,7 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         aModule,
         "TLESolver",
         R"doc(
-            Solver for estimating TLE elements using Least Squares.
+            Solver for estimating TLE elements.
         )doc"
     )
 
@@ -51,7 +51,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
                 Args:
                     estimated_tle (TLE): The estimated TLE.
-                    solver_analysis (LeastSquaresSolver::Analysis): The solver analysis.
+                    solver_analysis (LeastSquaresSolver.Analysis): The solver analysis.
             )doc"
         )
         .def("__str__", &(shiftToString<TLESolver::Analysis>))
@@ -62,8 +62,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             R"doc(
                 The estimated TLE.
 
-                Returns:
-                    TLE: The estimated TLE.
+                :type: TLE
             )doc"
         )
         .def_readonly(
@@ -72,8 +71,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             R"doc(
                 The solver analysis.
 
-                Returns:
-                    LeastSquaresSolver.Analysis: The solver analysis.
+                :type: LeastSquaresSolver.Analysis
             )doc"
         )
 
@@ -98,11 +96,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 Construct a new TLESolver object.
 
                 Args:
-                    solver (LeastSquaresSolver, optional): The Least Squares solver. Defaults to LeastSquaresSolver.default().
+                    solver (LeastSquaresSolver, optional): The solver to use. Defaults to LeastSquaresSolver.default().
                     satellite_number (int, optional): Satellite number for TLE. Defaults to 0.
                     international_designator (str, optional): International designator for TLE. Defaults to "00001A".
                     revolution_number (int, optional): Revolution number. Defaults to 0.
-                    fit_with_bstar (bool, optional): Whether to fit B* parameter. Defaults to True.
+                    fit_with_bstar (bool, optional): Whether to also estimate the B* parameter. Defaults to True.
                     estimation_frame (Frame, optional): Frame for estimation. Defaults to GCRF.
             )doc"
         )
@@ -111,7 +109,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             &TLESolver::accessSolver,
             return_value_policy::reference_internal,
             R"doc(
-                Access the Least Squares solver.
+                Access the solver.
 
                 Returns:
                     LeastSquaresSolver: The Least Squares solver.
@@ -265,7 +263,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 Estimate TLE from observations.
 
                 Args:
-                    initial_guess (TLE | Tuple[State, float] | State): Initial guess - can be a TLE, (State, B*) tuple, or State.
+                    initial_guess (TLE | tuple[State, float] | State): Initial guess - can be a TLE, (State, B*) tuple, or State.
                     observations (list[State]): State observations to fit against.
                     initial_guess_sigmas (dict[CoordinateSubset, ndarray], optional): Initial guess sigmas.
                     observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.
@@ -312,7 +310,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 Estimate an SGP4-based orbit from observations.
 
                 Args:
-                    initial_guess (TLE | Tuple[State, float] | State): Initial guess - can be a TLE, (State, B*) tuple, or State.
+                    initial_guess (TLE | tuple[State, float] | State): Initial guess - can be a TLE, (State, B*) tuple, or State.
                     observations (list[State]): State observations to fit against.
                     initial_guess_sigmas (dict[CoordinateSubset, ndarray], optional): Initial guess sigmas.
                     observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.

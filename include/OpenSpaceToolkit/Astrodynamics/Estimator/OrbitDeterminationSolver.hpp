@@ -102,7 +102,7 @@ class OrbitDeterminationSolver
     /// @return Estimation frame
     const Shared<const Frame>& accessEstimationFrame() const;
 
-    /// @brief Estimate state using provided solver
+    /// @brief Estimate state from observations
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationStateArray Observations to fit against
@@ -121,7 +121,7 @@ class OrbitDeterminationSolver
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
 
-    /// @brief Estimate orbit
+    /// @brief Estimate a Propagated Orbit orbit from observations
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationStateArray Observations to fit against
