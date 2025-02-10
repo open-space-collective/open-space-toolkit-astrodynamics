@@ -157,7 +157,7 @@ const StateBuilder& TLESolver::accessTLEStateBuilder() const
 
 TLESolver::Analysis TLESolver::estimate(
     const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
@@ -193,7 +193,7 @@ TLESolver::Analysis TLESolver::estimate(
     // Convert inputs to an inertial frame for estimation
     initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
 
-    const Array<State> observationsInEstimationFrame = anObservationArray.map<State>(
+    const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
         [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
         {
             return aState.inFrame(estimationFrameSPtr);
@@ -201,7 +201,7 @@ TLESolver::Analysis TLESolver::estimate(
     );
 
     // Define state generator
-    const auto generateStates = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
+    const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
         const SGP4 sgp4(tle);
@@ -219,7 +219,7 @@ TLESolver::Analysis TLESolver::estimate(
 
     // Solve least squares problem
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
-        initialGuessTLEState, observationsInEstimationFrame, generateStates, anInitialGuessSigmas, anObservationSigmas
+        initialGuessTLEState, observationsInEstimationFrame, stateGenerator, anInitialGuessSigmas, anObservationSigmas
     );
 
     // Convert solution state to TLE
@@ -230,12 +230,13 @@ TLESolver::Analysis TLESolver::estimate(
 
 Orbit TLESolver::estimateOrbit(
     const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
-    const Analysis analysis = estimate(anInitialGuess, anObservationArray, anInitialGuessSigmas, anObservationSigmas);
+    const Analysis analysis =
+        estimate(anInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas);
 
     return Orbit(SGP4(analysis.estimatedTLE), std::make_shared<Earth>(Earth::Spherical()));
 }
