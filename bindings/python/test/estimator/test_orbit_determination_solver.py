@@ -19,7 +19,7 @@ from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
-from ostk.astrodynamics.estimator import ODLeastSquaresSolver
+from ostk.astrodynamics.estimator import OrbitDeterminationSolver
 from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 
 
@@ -39,12 +39,12 @@ def least_squares_solver() -> LeastSquaresSolver:
 
 
 @pytest.fixture
-def od_solver(
+def orbit_determination_solver(
     environment: Environment,
     numerical_solver: NumericalSolver,
     least_squares_solver: LeastSquaresSolver,
-) -> ODLeastSquaresSolver:
-    return ODLeastSquaresSolver(
+) -> OrbitDeterminationSolver:
+    return OrbitDeterminationSolver(
         environment=environment,
         numerical_solver=numerical_solver,
         solver=least_squares_solver,
@@ -60,7 +60,7 @@ def coordinate_subsets() -> list[CoordinateSubset]:
 
 
 @pytest.fixture
-def initial_guess_state(
+def initial_guess(
     observations: list[State],
 ) -> State:
     return observations[0]
@@ -69,9 +69,31 @@ def initial_guess_state(
 @pytest.fixture
 def observations() -> list[State]:
     return generate_states_from_dataframe(
-        pd.read_csv("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/gnss_data.csv"),
+        pd.read_csv(
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
+        ),
         reference_frame=Frame.ITRF(),
     )
+
+
+@pytest.fixture
+def initial_guess_sigmas(
+    coordinate_subsets: list[CoordinateSubset],
+) -> dict[CoordinateSubset, list[float]]:
+    return {
+        coordinate_subsets[0]: [1e-1, 1e-1, 1e-1],
+        coordinate_subsets[1]: [1e-2, 1e-2, 1e-2],
+    }
+
+
+@pytest.fixture
+def observation_sigmas(
+    coordinate_subsets: list[CoordinateSubset],
+) -> dict[CoordinateSubset, list[float]]:
+    return {
+        coordinate_subsets[0]: [1e-1, 1e-1, 1e-1],
+        coordinate_subsets[1]: [1e-2, 1e-2, 1e-2],
+    }
 
 
 @pytest.fixture
@@ -148,7 +170,7 @@ def solver_analysis(
 ) -> LeastSquaresSolver.Analysis:
     return LeastSquaresSolver.Analysis(
         termination_criteria=termination_criteria,
-        estimate=estimated_state,
+        estimated_state=estimated_state,
         estimated_covariance=estimated_covariance,
         estimated_frisbee_covariance=estimated_frisbee_covariance,
         computed_observations=computed_observations,
@@ -158,73 +180,82 @@ def solver_analysis(
 
 @pytest.fixture
 def analysis(
-    initial_guess_state: State,
+    initial_guess: State,
     solver_analysis: LeastSquaresSolver.Analysis,
-) -> ODLeastSquaresSolver.Analysis:
-    return ODLeastSquaresSolver.Analysis(
-        determined_state=initial_guess_state,
+) -> OrbitDeterminationSolver.Analysis:
+    return OrbitDeterminationSolver.Analysis(
+        estimated_state=initial_guess,
         solver_analysis=solver_analysis,
     )
 
 
-class TestODLeastSquaresSolverAnalysis:
+class TestOrbitDeterminationSolverAnalysis:
     def test_constructor(
         self,
-        analysis: ODLeastSquaresSolver.Analysis,
+        analysis: OrbitDeterminationSolver.Analysis,
     ):
-        assert isinstance(analysis, ODLeastSquaresSolver.Analysis)
+        assert isinstance(analysis, OrbitDeterminationSolver.Analysis)
 
     def test_properties(
         self,
-        analysis: ODLeastSquaresSolver.Analysis,
+        analysis: OrbitDeterminationSolver.Analysis,
     ):
-        assert isinstance(analysis.determined_state, State)
+        assert isinstance(analysis.estimated_state, State)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
 
-class TestODLeastSquaresSolver:
+class TestOrbitDeterminationSolver:
     def test_constructor(
         self,
-        od_solver: ODLeastSquaresSolver,
+        orbit_determination_solver: OrbitDeterminationSolver,
     ):
-        assert isinstance(od_solver, ODLeastSquaresSolver)
+        assert isinstance(orbit_determination_solver, OrbitDeterminationSolver)
 
     def test_access_methods(
         self,
-        od_solver: ODLeastSquaresSolver,
+        orbit_determination_solver: OrbitDeterminationSolver,
     ):
-        assert isinstance(od_solver.access_environment(), Environment)
-        assert isinstance(od_solver.access_propagator(), Propagator)
-        assert isinstance(od_solver.access_solver(), LeastSquaresSolver)
+        assert isinstance(orbit_determination_solver.access_environment(), Environment)
+        assert isinstance(orbit_determination_solver.access_propagator(), Propagator)
+        assert isinstance(orbit_determination_solver.access_solver(), LeastSquaresSolver)
+        assert isinstance(orbit_determination_solver.access_estimation_frame(), Frame)
 
-    def test_estimate_state(
+    def test_estimate(
         self,
-        od_solver: ODLeastSquaresSolver,
-        initial_guess_state: State,
+        orbit_determination_solver: OrbitDeterminationSolver,
+        initial_guess: State,
         observations: list[State],
         coordinate_subsets: list[CoordinateSubset],
+        initial_guess_sigmas: dict[CoordinateSubset, list[float]],
+        observation_sigmas: dict[CoordinateSubset, list[float]],
     ):
-        analysis: ODLeastSquaresSolver.Analysis = od_solver.estimate_state(
-            initial_guess_state=initial_guess_state,
+        analysis: OrbitDeterminationSolver.Analysis = orbit_determination_solver.estimate(
+            initial_guess=initial_guess,
             observations=observations,
             estimation_coordinate_subsets=coordinate_subsets,
+            initial_guess_sigmas=initial_guess_sigmas,
+            observation_sigmas=observation_sigmas,
         )
 
-        assert isinstance(analysis, ODLeastSquaresSolver.Analysis)
-        assert isinstance(analysis.determined_state, State)
+        assert isinstance(analysis, OrbitDeterminationSolver.Analysis)
+        assert isinstance(analysis.estimated_state, State)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
 
     def test_estimate_orbit(
         self,
-        od_solver: ODLeastSquaresSolver,
-        initial_guess_state: State,
+        orbit_determination_solver: OrbitDeterminationSolver,
+        initial_guess: State,
         observations: list[State],
         coordinate_subsets: list[CoordinateSubset],
+        initial_guess_sigmas: dict[CoordinateSubset, list[float]],
+        observation_sigmas: dict[CoordinateSubset, list[float]],
     ):
-        orbit: Orbit = od_solver.estimate_orbit(
-            initial_guess_state=initial_guess_state,
+        orbit: Orbit = orbit_determination_solver.estimate_orbit(
+            initial_guess=initial_guess,
             observations=observations,
             estimation_coordinate_subsets=coordinate_subsets,
+            initial_guess_sigmas=initial_guess_sigmas,
+            observation_sigmas=observation_sigmas,
         )
 
         assert isinstance(orbit, Orbit)

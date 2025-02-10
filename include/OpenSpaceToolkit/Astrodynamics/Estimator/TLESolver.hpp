@@ -21,7 +21,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -50,20 +50,29 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Time;
 
 using ostk::astrodynamics::solver::LeastSquaresSolver;
+using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-/// @brief Class for solving TLE elements using least squares
+/// @brief Class for estimating TLE mean elements.
 class TLESolver
 {
    public:
+    static const Shared<const CoordinateSubset> InclinationSubset;
+    static const Shared<const CoordinateSubset> RaanSubset;
+    static const Shared<const CoordinateSubset> EccentricitySubset;
+    static const Shared<const CoordinateSubset> AopSubset;
+    static const Shared<const CoordinateSubset> MeanAnomalySubset;
+    static const Shared<const CoordinateSubset> MeanMotionSubset;
+    static const Shared<const CoordinateSubset> BStarSubset;
+
     class Analysis
     {
        public:
         /// @brief Constructor
-        Analysis(const TLE& aDeterminedTLE, const LeastSquaresSolver::Analysis& anAnalysis);
+        Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis);
 
         /// @brief Stream Operator
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Analysis& anAnalysis);
@@ -71,24 +80,24 @@ class TLESolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        TLE determinedTLE;
+        TLE estimatedTLE;
         LeastSquaresSolver::Analysis solverAnalysis;
     };
 
     /// @brief Constructor
     ///
-    /// @param aSolver Least squares solver, defaults to default Least Squares Solver
+    /// @param aSolver Solver to use, defaults to default Least Squares Solver
     /// @param aSatelliteNumber Satellite number for TLE, defaults to 0
     /// @param anInternationalDesignator International designator for TLE, defaults to "00001A"
     /// @param aRevolutionNumber Revolution number, defaults to 0
-    /// @param aFitWithBStar Whether to fit B* parameter, defaults to true
+    /// @param anEstimateBStar Whether to also estimate the B* parameter, defaults to true
     /// @param anEstimationFrameSPtr Estimation frame, defaults to GCRF
     TLESolver(
         const LeastSquaresSolver& aSolver = LeastSquaresSolver::Default(),
         const Integer& aSatelliteNumber = 0,
         const String& anInternationalDesignator = "00001A",
         const Integer& aRevolutionNumber = 0,
-        const bool aFitWithBStar = true,
+        const bool anEstimateBStar = true,
         const Shared<const Frame>& anEstimationFrameSPtr = Frame::GCRF()
     );
 
@@ -112,10 +121,10 @@ class TLESolver
     /// @return Revolution number
     const Integer& accessRevolutionNumber() const;
 
-    /// @brief Access whether to fit with B*
+    /// @brief Access whether to also estimate B*
     ///
-    /// @return Whether to fit with B*
-    const bool& accessFitWithBStar() const;
+    /// @return Whether to also estiamte B*
+    const bool& accessEstimateBStar() const;
 
     /// @brief Access estimation frame
     ///
@@ -154,13 +163,26 @@ class TLESolver
 
     /// @brief Estimate TLE from observations
     ///
-    /// @param anInitialGuess Initial guess (TLE, State+BStar pair, or State)
-    /// @param anObservationArray Observations
-    /// @param anInitialGuessSigmas Initial guess sigmas
-    /// @param anObservationSigmas Reference state sigmas
-    Analysis estimateTLE(
+    /// @param anInitialGuessState Initial guess (TLE, Cartesian State+BStar pair, or Cartesian State)
+    /// @param anObservationStateArray Observations to fit against
+    /// @param anInitialGuessSigmas Map of sigmas for initial guess
+    /// @param anObservationSigmas Map of sigmas for observations
+    Analysis estimate(
         const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
-        const Array<State>& anObservationArray,
+        const Array<State>& anObservationStateArray,
+        const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
+        const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
+    ) const;
+
+    /// @brief Estimate SGP4 Orbit from observations
+    ///
+    /// @param anInitialGuess Initial guess (TLE, Cartesian State+BStar pair, or Cartesian State)
+    /// @param anObservationStateArray Observations to fit against
+    /// @param anInitialGuessSigmas Map of sigmas for initial guess
+    /// @param anObservationSigmas Map of sigmas for observations
+    Orbit estimateOrbit(
+        const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+        const Array<State>& anObservationStateArray,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
     ) const;
@@ -170,7 +192,7 @@ class TLESolver
     Integer satelliteNumber_;
     String internationalDesignator_;
     Integer revolutionNumber_;
-    bool fitWithBStar_;
+    bool estimateBStar_;
     Shared<const Frame> estimationFrameSPtr_;
 
     mutable Real defaultBStar_;

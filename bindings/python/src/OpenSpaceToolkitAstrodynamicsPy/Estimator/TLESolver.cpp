@@ -29,7 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         aModule,
         "TLESolver",
         R"doc(
-            Solver for estimating TLE elements using Least Squares.
+            Solver for estimating TLE elements.
         )doc"
     )
 
@@ -44,26 +44,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
     )
         .def(
             init<const TLE&, const LeastSquaresSolver::Analysis&>(),
-            arg("determined_tle"),
+            arg("estimated_tle"),
             arg("solver_analysis"),
             R"doc(
                 Construct a new TLESolver::Analysis object.
 
                 Args:
-                    determined_tle (TLE): The determined TLE.
-                    solver_analysis (LeastSquaresSolver::Analysis): The solver analysis.
+                    estimated_tle (TLE): The estimated TLE.
+                    solver_analysis (LeastSquaresSolver.Analysis): The solver analysis.
             )doc"
         )
         .def("__str__", &(shiftToString<TLESolver::Analysis>))
         .def("__repr__", &(shiftToString<TLESolver::Analysis>))
         .def_readonly(
-            "determined_tle",
-            &TLESolver::Analysis::determinedTLE,
+            "estimated_tle",
+            &TLESolver::Analysis::estimatedTLE,
             R"doc(
-                The determined TLE.
+                The estimated TLE.
 
-                Returns:
-                    TLE: The determined TLE.
+                :type: TLE
             )doc"
         )
         .def_readonly(
@@ -72,8 +71,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             R"doc(
                 The solver analysis.
 
-                Returns:
-                    LeastSquaresSolver.Analysis: The solver analysis.
+                :type: LeastSquaresSolver.Analysis
             )doc"
         )
 
@@ -92,17 +90,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             arg("satellite_number") = 0,
             arg("international_designator") = "00001A",
             arg("revolution_number") = 0,
-            arg("fit_with_bstar") = true,
+            arg("estimate_b_star") = true,
             arg("estimation_frame") = Frame::GCRF(),
             R"doc(
                 Construct a new TLESolver object.
 
                 Args:
-                    solver (LeastSquaresSolver, optional): The Least Squares solver. Defaults to LeastSquaresSolver.default().
+                    solver (LeastSquaresSolver, optional): The solver to use. Defaults to LeastSquaresSolver.default().
                     satellite_number (int, optional): Satellite number for TLE. Defaults to 0.
                     international_designator (str, optional): International designator for TLE. Defaults to "00001A".
                     revolution_number (int, optional): Revolution number. Defaults to 0.
-                    fit_with_bstar (bool, optional): Whether to fit B* parameter. Defaults to True.
+                    estimate_b_star (bool, optional): Whether to also estimate the B* parameter. Defaults to True.
                     estimation_frame (Frame, optional): Frame for estimation. Defaults to GCRF.
             )doc"
         )
@@ -111,7 +109,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             &TLESolver::accessSolver,
             return_value_policy::reference_internal,
             R"doc(
-                Access the Least Squares solver.
+                Access the solver.
 
                 Returns:
                     LeastSquaresSolver: The Least Squares solver.
@@ -151,7 +149,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             )doc"
         )
         .def(
-            "access_default_bstar",
+            "access_default_b_star",
             &TLESolver::accessDefaultBStar,
             return_value_policy::reference_internal,
             R"doc(
@@ -206,14 +204,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             )doc"
         )
         .def(
-            "access_fit_with_bstar",
-            &TLESolver::accessFitWithBStar,
+            "access_estimate_b_star",
+            &TLESolver::accessEstimateBStar,
             return_value_policy::reference_internal,
             R"doc(
-                Access whether to fit with B*.
+                Access whether to estimate B*.
 
                 Returns:
-                    bool: whether to fit with B*.
+                    bool: whether to estimate B*.
             )doc"
         )
         .def(
@@ -228,10 +226,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             )doc"
         )
         .def(
-            "estimate_tle",
+            "estimate",
             [](const TLESolver& self,
                const object& anInitialGuess,
-               const Array<State>& observations,
+               const Array<State>& anObservationStateArray,
                const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
                const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
             {
@@ -252,10 +250,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 }
                 else
                 {
-                    throw std::runtime_error("Initial guess must be a TLE, (State, float) tuple, or State.");
+                    throw std::runtime_error("Initial guess must be a TLE, tuple[State, float], or State.");
                 }
 
-                return self.estimateTLE(cppInitialGuess, observations, anInitialGuessSigmas, anObservationSigmas);
+                return self.estimate(
+                    cppInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas
+                );
             },
             arg("initial_guess"),
             arg("observations"),
@@ -265,13 +265,62 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 Estimate TLE from observations.
 
                 Args:
-                    initial_guess (TLE | Tuple[State, float] | State): Initial guess - can be a TLE, (State, B*) tuple, or State.
+                    initial_guess (TLE | tuple[State, float] | State): Initial guess - can be a TLE, (cartesian State, B*) tuple, or cartesian State.
                     observations (list[State]): State observations to fit against.
                     initial_guess_sigmas (dict[CoordinateSubset, ndarray], optional): Initial guess sigmas.
                     observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.
 
                 Returns:
-                    TLESolver.Analysis: Analysis results containing the determined TLE and solver analysis.
+                    TLESolver.Analysis: Analysis results containing the estimated TLE and solver analysis.
+            )doc"
+        )
+        .def(
+            "estimate_orbit",
+            [](const TLESolver& self,
+               const object& anInitialGuess,
+               const Array<State>& anObservationStateArray,
+               const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
+               const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
+            {
+                std::variant<TLE, Pair<State, Real>, State> cppInitialGuess = State::Undefined();
+
+                if (isinstance<TLE>(anInitialGuess))
+                {
+                    cppInitialGuess = anInitialGuess.cast<TLE>();
+                }
+                else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
+                {
+                    auto t = anInitialGuess.cast<tuple>();
+                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
+                }
+                else if (isinstance<State>(anInitialGuess))
+                {
+                    cppInitialGuess = anInitialGuess.cast<State>();
+                }
+                else
+                {
+                    throw std::runtime_error("Initial guess must be a TLE, tuple[State, float], or State.");
+                }
+
+                return self.estimateOrbit(
+                    cppInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas
+                );
+            },
+            arg("initial_guess"),
+            arg("observations"),
+            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
+            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
+            R"doc(
+                Estimate an SGP4-based orbit from observations.
+
+                Args:
+                    initial_guess (TLE | tuple[State, float] | State): Initial guess - can be a TLE, (cartesian State, B*) tuple, or cartesian State.
+                    observations (list[State]): State observations to fit against.
+                    initial_guess_sigmas (dict[CoordinateSubset, ndarray], optional): Initial guess sigmas.
+                    observation_sigmas (dict[CoordinateSubset, ndarray], optional): Observation sigmas.
+
+                Returns:
+                    Orbit: The estimated SGP4 orbit.
             )doc"
         )
 

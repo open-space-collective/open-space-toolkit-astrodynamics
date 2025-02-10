@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/ODLeastSquaresSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
@@ -19,25 +19,27 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-ODLeastSquaresSolver::Analysis::Analysis(const State& aDeterminedState, const LeastSquaresSolver::Analysis& anAnalysis)
-    : determinedState(aDeterminedState),
+OrbitDeterminationSolver::Analysis::Analysis(
+    const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis
+)
+    : estimatedState(anEstimatedState),
       solverAnalysis(anAnalysis)
 {
 }
 
-std::ostream& operator<<(std::ostream& anOutputStream, const ODLeastSquaresSolver::Analysis& anAnalysis)
+std::ostream& operator<<(std::ostream& anOutputStream, const OrbitDeterminationSolver::Analysis& anAnalysis)
 {
     anAnalysis.print(anOutputStream);
 
     return anOutputStream;
 }
 
-void ODLeastSquaresSolver::Analysis::print(std::ostream& anOutputStream) const
+void OrbitDeterminationSolver::Analysis::print(std::ostream& anOutputStream) const
 {
     ostk::core::utils::Print::Header(anOutputStream, "Orbit Determination Solver Analysis");
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Determined State");
-    determinedState.print(anOutputStream, false);
+    ostk::core::utils::Print::Separator(anOutputStream, "Estimated State");
+    estimatedState.print(anOutputStream, false);
 
     ostk::core::utils::Print::Separator(anOutputStream, "Analysis");
     solverAnalysis.print(anOutputStream);
@@ -45,7 +47,7 @@ void ODLeastSquaresSolver::Analysis::print(std::ostream& anOutputStream) const
     ostk::core::utils::Print::Footer(anOutputStream);
 }
 
-ODLeastSquaresSolver::ODLeastSquaresSolver(
+OrbitDeterminationSolver::OrbitDeterminationSolver(
     const Environment& anEnvironment,
     const NumericalSolver& aNumericalSolver,
     const LeastSquaresSolver& aSolver,
@@ -62,41 +64,40 @@ ODLeastSquaresSolver::ODLeastSquaresSolver(
     }
 }
 
-const Environment& ODLeastSquaresSolver::accessEnvironment() const
+const Environment& OrbitDeterminationSolver::accessEnvironment() const
 {
     return environment_;
 }
 
-const Propagator& ODLeastSquaresSolver::accessPropagator() const
+const Propagator& OrbitDeterminationSolver::accessPropagator() const
 {
     return propagator_;
 }
 
-const LeastSquaresSolver& ODLeastSquaresSolver::accessSolver() const
+const LeastSquaresSolver& OrbitDeterminationSolver::accessSolver() const
 {
     return solver_;
 }
 
-const Shared<const Frame>& ODLeastSquaresSolver::accessEstimationFrame() const
+const Shared<const Frame>& OrbitDeterminationSolver::accessEstimationFrame() const
 {
     return estimationFrameSPtr_;
 }
 
-ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
+OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     const State& anInitialGuessState,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
-    // Convert inputs to an inertial frame for estimation
     const State initialGuessStateInEstimationFrame = anInitialGuessState.inFrame(estimationFrameSPtr_);
 
-    const Array<State> observationsInEstimationFrame = anObservationArray.map<State>(
-        [estimationFrameSPtr = estimationFrameSPtr_](const State& aState) -> State
+    const Array<State> observationStatesInEstimationFrame = anObservationStateArray.map<State>(
+        [this](const State& aState) -> State
         {
-            return aState.inFrame(estimationFrameSPtr);
+            return aState.inFrame(estimationFrameSPtr_);
         }
     );
 
@@ -113,59 +114,56 @@ ODLeastSquaresSolver::Analysis ODLeastSquaresSolver::estimateState(
                                                 : anEstimationCoordinateSubsets
     );
 
-    // Validate estimator subsets
+    // Validate subsets
     for (const auto& subset : estimationStateBuilder.getCoordinateSubsets())
     {
         if (!initialGuessStateInEstimationFrame.hasSubset(subset))
         {
             throw ostk::core::error::RuntimeError(
-                "Input State must contain at least the coordinate subsets that we want to estimate."
+                "InitialGuessState must contain at least all of the EstimationCoordinateSubsets."
             );
         }
     }
 
-    // Define state generation callback
-    auto generateStatesCallback = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
+    const auto stateGenerator = [&](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const State propagatorState = propagationStateBuilder.expand(aState, initialGuessStateInEstimationFrame);
         return propagator_.calculateStatesAt(propagatorState, anInstantArray);
     };
 
-    // Solve least squares problem
-    const LeastSquaresSolver::Analysis analysis = solver_.solve(
+    LeastSquaresSolver::Analysis analysis = solver_.solve(
         estimationStateBuilder.reduce(initialGuessStateInEstimationFrame),
-        observationsInEstimationFrame,
-        generateStatesCallback,
+        observationStatesInEstimationFrame,
+        stateGenerator,
         anInitialGuessSigmas,
         anObservationSigmas
     );
 
-    // Expand solution state to full state
-    const State determinedState =
+    const State estimatedState =
         propagationStateBuilder.expand(analysis.estimatedState, initialGuessStateInEstimationFrame)
-            .inFrame(anInitialGuessState.accessFrame());
+            .inFrame(estimationFrameSPtr_);
 
-    return Analysis(determinedState, analysis);
+    return Analysis(estimatedState, analysis);
 }
 
-Orbit ODLeastSquaresSolver::estimateOrbit(
+Orbit OrbitDeterminationSolver::estimateOrbit(
     const State& anInitialGuessState,
-    const Array<State>& anObservationArray,
+    const Array<State>& anObservationStateArray,
     const Array<Shared<const CoordinateSubset>>& anEstimationCoordinateSubsets,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
 ) const
 {
-    const Analysis analysis = estimateState(
+    const Analysis analysis = estimate(
         anInitialGuessState,
-        anObservationArray,
+        anObservationStateArray,
         anEstimationCoordinateSubsets,
         anInitialGuessSigmas,
         anObservationSigmas
     );
 
     return Orbit(
-        Propagated(this->propagator_, {analysis.determinedState}), this->environment_.accessCentralCelestialObject()
+        Propagated(this->propagator_, {analysis.estimatedState}), this->environment_.accessCentralCelestialObject()
     );
 }
 

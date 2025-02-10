@@ -97,14 +97,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
                 Args:
                     termination_criteria (str): The termination criteria.
-                    estimate (State): The estimated state.
+                    estimated_state (State): The estimated state.
                     estimated_covariance (np.ndarray): The estimated covariance matrix.
                     estimated_frisbee_covariance (np.ndarray): The estimated Frisbee covariance matrix.
                     computed_observations (list[State]): The computed observations of the final iteration.
                     steps (list[LeastSquaresSolver.Step]): The steps.
             )doc",
             arg("termination_criteria"),
-            arg("estimate"),
+            arg("estimated_state"),
             arg("estimated_covariance"),
             arg("estimated_frisbee_covariance"),
             arg("computed_observations"),
@@ -163,7 +163,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             )doc"
         )
         .def_readonly(
-            "estimate",
+            "estimated_state",
             &LeastSquaresSolver::Analysis::estimatedState,
             R"doc(
                 The estimated state.
