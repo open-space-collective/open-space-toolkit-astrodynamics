@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Estimator/OrbitDeterminationSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Estimator/TLESolver.cpp>
 
-inline void OpenSpaceAstrodynamicsPy_Estimator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Estimator(pybind11::module& aModule)
 {
     using namespace pybind11;
 

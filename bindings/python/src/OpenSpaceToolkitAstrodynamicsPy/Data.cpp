@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Data/Provider.cpp>
 
-inline void OpenSpaceAstrodynamicsPy_Data(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Data(pybind11::module& aModule)
 {
     using namespace pybind11;
 
