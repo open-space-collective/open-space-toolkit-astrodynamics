@@ -46,15 +46,18 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
         <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
       </node>
       <node id="13">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
+      </node>
+      <node id="36">
+        <label>functional</label>
       </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp</label>
@@ -71,9 +74,9 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
         <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -111,7 +114,7 @@
         <childnode refid="35" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="37">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp</label>
         <link refid="_trajectory_2_orbit_2_model_8hpp"/>
         <childnode refid="12" relation="include">
@@ -147,7 +150,7 @@
       <node id="30">
         <label>OpenSpaceToolkit/Core/Type/Size.hpp</label>
       </node>
-      <node id="37">
+      <node id="38">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp</label>
         <link refid="_pass_8hpp"/>
         <childnode refid="12" relation="include">
@@ -167,6 +170,8 @@
       <node id="35">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="36" relation="include">
+        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="30" relation="include">

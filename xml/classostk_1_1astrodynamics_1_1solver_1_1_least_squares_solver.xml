@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::solver::LeastSquaresSolver</compoundname>
+    <includes refid="_least_squares_solver_8hpp" local="no">LeastSquaresSolver.hpp</includes>
+    <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" prot="public">ostk::astrodynamics::solver::LeastSquaresSolver::Analysis</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step" prot="public">ostk::astrodynamics::solver::LeastSquaresSolver::Step</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a583372e22d1bd3506c619948c633897b" prot="private" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::solver::LeastSquaresSolver::maxIterationCount_</definition>
+        <argsstring></argsstring>
+        <name>maxIterationCount_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="162" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a9acdc988c450357637d904e06fbf317b" prot="private" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::solver::LeastSquaresSolver::rmsUpdateThreshold_</definition>
+        <argsstring></argsstring>
+        <name>rmsUpdateThreshold_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="163" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1acc76c85ab0f86484a9e178214d206251" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref></type>
+        <definition>FiniteDifferenceSolver ostk::astrodynamics::solver::LeastSquaresSolver::finiteDifferenceSolver_</definition>
+        <argsstring></argsstring>
+        <name>finiteDifferenceSolver_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="164" column="28" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::solver::LeastSquaresSolver::LeastSquaresSolver</definition>
+        <argsstring>(const Size &amp;aMaxIterationCount, const Real &amp;aRmsUpdateThreshold, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver=DEFAULT_FINITE_DIFFERENCE_SOLVER)</argsstring>
+        <name>LeastSquaresSolver</name>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>aMaxIterationCount</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aRmsUpdateThreshold</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref> &amp;</type>
+          <declname>aFiniteDifferenceSolver</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1a938c47ed6c55baa736db836b9b3567a7" kindref="member">DEFAULT_FINITE_DIFFERENCE_SOLVER</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMaxIterationCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of iterations </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRmsUpdateThreshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum RMS threshold </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFiniteDifferenceSolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Finite difference solver. Defaults to <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver_1a11aa678b14d855ad98c2aef27720da05" kindref="member">FiniteDifferenceSolver::Default()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="109" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="121" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1adec65a8dbb5431b62ebac805e077d24d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::solver::LeastSquaresSolver::getMaxIterationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxIterationCount</name>
+        <briefdescription>
+<para>Get max iteration count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Max iteration count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="118" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1aaf122bfcb45c503bc34943e3c4688e54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::solver::LeastSquaresSolver::getRmsUpdateThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>getRmsUpdateThreshold</name>
+        <briefdescription>
+<para>Get RMS update threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>RMS update threshold </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="123" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7c54722433ac22b130541a461509881c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref></type>
+        <definition>FiniteDifferenceSolver ostk::astrodynamics::solver::LeastSquaresSolver::getFiniteDifferenceSolver</definition>
+        <argsstring>() const</argsstring>
+        <name>getFiniteDifferenceSolver</name>
+        <briefdescription>
+<para>Get finite difference solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Finite difference solver </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="128" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a821b8434cab09c15726177848803ac2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">Analysis</ref></type>
+        <definition>LeastSquaresSolver::Analysis ostk::astrodynamics::solver::LeastSquaresSolver::solve</definition>
+        <argsstring>(const State &amp;anInitialGuessState, const Array&lt; State &gt; &amp;anObservationStateArray, const std::function&lt; Array&lt; State &gt;(const State &amp;, const Array&lt; Instant &gt; &amp;)&gt; &amp;aStateGenerator, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
+        <name>solve</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anInitialGuessState</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>anObservationStateArray</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const Array&lt; Instant &gt; &amp;)&gt; &amp;</type>
+          <declname>aStateGenerator</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>anInitialGuessSigmas</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1a0fcbf608e23804609fbb956c0cbddc08" kindref="member">DEFAULT_INITIAL_GUESS_SIGMAS</ref></defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>anObservationSigmas</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1ad9835af7201210bd13ac83f68fd26f9c" kindref="member">DEFAULT_OBSERVATION_SIGMAS</ref></defval>
+        </param>
+        <briefdescription>
+<para>Solve the non-linear least squares problem Ref: <ulink url="https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination">https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination</ulink> (Chapter 4, pg 196 for algorithm used) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInitialGuessState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial guess state (the Estimated State is of the same domain as this state) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObservationStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of observation states </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStateGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to generate states </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialGuessSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dictionary of sigmas for initial guess </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObservationSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dictionary of sigmas for observations</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">Analysis</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="141" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="156" bodyend="358"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7154b50847f3a90e4763865ec4f02b37" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>MatrixXd</type>
+        <definition>MatrixXd ostk::astrodynamics::solver::LeastSquaresSolver::calculateEmpiricalCovariance</definition>
+        <argsstring>(const Array&lt; State &gt; &amp;aResidualStateArray)</argsstring>
+        <name>calculateEmpiricalCovariance</name>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>aResidualStateArray</declname>
+        </param>
+        <briefdescription>
+<para>Calculate empirical covariance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aResidualStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of residual states</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Empirical covariance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="154" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="360" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref></type>
+        <definition>LeastSquaresSolver ostk::astrodynamics::solver::LeastSquaresSolver::Default</definition>
+        <argsstring>()</argsstring>
+        <name>Default</name>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A default instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="159" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="379" bodyend="382"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a2f0cddeba2b11803cf849f7dab864a49" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>MatrixXd</type>
+        <definition>MatrixXd ostk::astrodynamics::solver::LeastSquaresSolver::extractInverseSquaredSigmas</definition>
+        <argsstring>(const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;aSigmas, const StateBuilder &amp;aStateBuilder)</argsstring>
+        <name>extractInverseSquaredSigmas</name>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>aSigmas</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref> &amp;</type>
+          <declname>aStateBuilder</declname>
+        </param>
+        <briefdescription>
+<para>Extract the inverse squares of the sigmas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dictionary of sigmas </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStateBuilder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>State builder</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Diagonal matrix of sigmas </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="172" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="384" bodyend="421"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Class to solve non-linear least squares problems. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="53" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="52" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7154b50847f3a90e4763865ec4f02b37" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>calculateEmpiricalCovariance</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>Default</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a2f0cddeba2b11803cf849f7dab864a49" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>extractInverseSquaredSigmas</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1acc76c85ab0f86484a9e178214d206251" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>finiteDifferenceSolver_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7c54722433ac22b130541a461509881c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getFiniteDifferenceSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1adec65a8dbb5431b62ebac805e077d24d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getMaxIterationCount</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1aaf122bfcb45c503bc34943e3c4688e54" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getRmsUpdateThreshold</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>LeastSquaresSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a583372e22d1bd3506c619948c633897b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>maxIterationCount_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a9acdc988c450357637d904e06fbf317b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>rmsUpdateThreshold_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a821b8434cab09c15726177848803ac2b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>solve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

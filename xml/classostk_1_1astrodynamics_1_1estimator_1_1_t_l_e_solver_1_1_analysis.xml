@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::estimator::TLESolver::Analysis</compoundname>
+    <includes refid="_t_l_e_solver_8hpp" local="no">TLESolver.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a6783d6ddc6a76054d6c81b5d58599e76" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
+        <definition>TLE ostk::astrodynamics::estimator::TLESolver::Analysis::estimatedTLE</definition>
+        <argsstring></argsstring>
+        <name>estimatedTLE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="83" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a596fb1d70a85dcd4134268ce459f04b2" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">LeastSquaresSolver::Analysis</ref></type>
+        <definition>LeastSquaresSolver::Analysis ostk::astrodynamics::estimator::TLESolver::Analysis::solverAnalysis</definition>
+        <argsstring></argsstring>
+        <name>solverAnalysis</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="84" column="38" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1ad6d9a5c8e1b81a10abdf635522a43837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::estimator::TLESolver::Analysis::Analysis</definition>
+        <argsstring>(const TLE &amp;aEstimatedTLE, const LeastSquaresSolver::Analysis &amp;anAnalysis)</argsstring>
+        <name>Analysis</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> &amp;</type>
+          <declname>aEstimatedTLE</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">LeastSquaresSolver::Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="75" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a6df47478ffe2995f69689aae653c62c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::estimator::TLESolver::Analysis::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <briefdescription>
+<para>Print analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="81" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="58" bodyend="69"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1aaacb89611a50c33699ba51570769a8f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Analysis &amp;anAnalysis)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis" kindref="compound">Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+<para>Stream Operator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="78" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="8">
+        <label>String</label>
+      </node>
+      <node id="7">
+        <label>Real</label>
+      </node>
+      <node id="5">
+        <label>Array&lt; ostk::astrodynamics::trajectory::State &gt;</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::estimator::TLESolver::Analysis</label>
+        <link refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>solverAnalysis</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>estimatedTLE</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e"/>
+      </node>
+      <node id="4">
+        <label>Array&lt; ostk::astrodynamics::solver::LeastSquaresSolver::Step &gt;</label>
+      </node>
+      <node id="3">
+        <label>Size</label>
+      </node>
+      <node id="9">
+        <label>ostk::astrodynamics::trajectory::State</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state"/>
+      </node>
+      <node id="6">
+        <label>MatrixXd</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::solver::LeastSquaresSolver::Analysis</label>
+        <link refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>observationCount</edgelabel>
+          <edgelabel>iterationCount</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>steps</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>computedObservationStates</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>estimatedFrisbeeCovariance</edgelabel>
+          <edgelabel>estimatedCovariance</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>rmsError</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>terminationCriteria</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>estimatedState</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="72" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="71" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1ad6d9a5c8e1b81a10abdf635522a43837" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver::Analysis</scope><name>Analysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a6783d6ddc6a76054d6c81b5d58599e76" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver::Analysis</scope><name>estimatedTLE</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1aaacb89611a50c33699ba51570769a8f5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver::Analysis</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a6df47478ffe2995f69689aae653c62c1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver::Analysis</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a596fb1d70a85dcd4134268ce459f04b2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver::Analysis</scope><name>solverAnalysis</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

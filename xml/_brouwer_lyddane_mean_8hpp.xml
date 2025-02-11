@@ -120,21 +120,27 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="5">
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp</label>
         <link refid="_brouwer_lyddane_mean_short_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp</label>
         <link refid="_brouwer_lyddane_mean_long_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
+        <link refid="_t_l_e_solver_8cpp"/>
       </node>
       <node id="2">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp</label>
         <link refid="_brouwer_lyddane_mean_long_8hpp"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.cpp</label>
         <link refid="_brouwer_lyddane_mean_8cpp"/>
       </node>
@@ -143,15 +149,15 @@
         <link refid="_brouwer_lyddane_mean_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</label>
         <link refid="_brouwer_lyddane_mean_short_8hpp"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

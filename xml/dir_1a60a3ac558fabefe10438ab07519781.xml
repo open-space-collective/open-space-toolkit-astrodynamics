@@ -3,6 +3,7 @@
   <compounddef id="dir_1a60a3ac558fabefe10438ab07519781" kind="dir">
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/Solvers</compoundname>
     <innerfile refid="_finite_difference_solver_8cpp">FiniteDifferenceSolver.cpp</innerfile>
+    <innerfile refid="_least_squares_solver_8cpp">LeastSquaresSolver.cpp</innerfile>
     <innerfile refid="_temporal_condition_solver_8cpp">TemporalConditionSolver.cpp</innerfile>
     <briefdescription>
     </briefdescription>

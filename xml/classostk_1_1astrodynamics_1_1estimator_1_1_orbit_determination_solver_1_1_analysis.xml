@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</compoundname>
+    <includes refid="_orbit_determination_solver_8hpp" local="no">OrbitDeterminationSolver.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1ad93d12469bef2690223e4d8232486e8a" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis::estimatedState</definition>
+        <argsstring></argsstring>
+        <name>estimatedState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="68" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1aee63c5fa2f3b31db3ff2a417d406ac09" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">LeastSquaresSolver::Analysis</ref></type>
+        <definition>LeastSquaresSolver::Analysis ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis::solverAnalysis</definition>
+        <argsstring></argsstring>
+        <name>solverAnalysis</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="69" column="38" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1ade6b33e6b3fd662a8e1a7456b8156817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis::Analysis</definition>
+        <argsstring>(const State &amp;anEstimatedState, const LeastSquaresSolver::Analysis &amp;anAnalysis)</argsstring>
+        <name>Analysis</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anEstimatedState</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">LeastSquaresSolver::Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="60" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="22" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1ad3437aec5a91b737c84272ccc6470e8f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <briefdescription>
+<para>Print analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="66" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="37" bodyend="48"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1aaacb89611a50c33699ba51570769a8f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Analysis &amp;anAnalysis)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis" kindref="compound">Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+<para>Print analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="63" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="8">
+        <label>String</label>
+      </node>
+      <node id="7">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</label>
+        <link refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>solverAnalysis</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>estimatedState</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Array&lt; ostk::astrodynamics::trajectory::State &gt;</label>
+      </node>
+      <node id="4">
+        <label>Array&lt; ostk::astrodynamics::solver::LeastSquaresSolver::Step &gt;</label>
+      </node>
+      <node id="3">
+        <label>Size</label>
+      </node>
+      <node id="9">
+        <label>ostk::astrodynamics::trajectory::State</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state"/>
+      </node>
+      <node id="6">
+        <label>MatrixXd</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::solver::LeastSquaresSolver::Analysis</label>
+        <link refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>observationCount</edgelabel>
+          <edgelabel>iterationCount</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>steps</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>computedObservationStates</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>estimatedFrisbeeCovariance</edgelabel>
+          <edgelabel>estimatedCovariance</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>rmsError</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>terminationCriteria</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>estimatedState</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="56" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1ade6b33e6b3fd662a8e1a7456b8156817" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</scope><name>Analysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1ad93d12469bef2690223e4d8232486e8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</scope><name>estimatedState</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1aaacb89611a50c33699ba51570769a8f5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1ad3437aec5a91b737c84272ccc6470e8f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis_1aee63c5fa2f3b31db3ff2a417d406ac09" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</scope><name>solverAnalysis</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

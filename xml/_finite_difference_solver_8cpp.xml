@@ -9,6 +9,9 @@
       <node id="5">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
+      <node id="20">
+        <label>functional</label>
+      </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp</label>
         <link refid="_finite_difference_solver_8cpp"/>
@@ -16,7 +19,7 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="12">
@@ -69,6 +72,8 @@
       <node id="19">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
@@ -85,12 +90,12 @@
       <node id="18">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
-      <node id="20">
+      <node id="21">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
         <link refid="_state_builder_8hpp"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -109,7 +114,7 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>OpenSpaceToolkit/Core/Type/Integer.hpp</label>
       </node>
       <node id="14">

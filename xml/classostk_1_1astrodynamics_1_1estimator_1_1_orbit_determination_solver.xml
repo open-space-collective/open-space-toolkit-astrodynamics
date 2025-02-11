@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::estimator::OrbitDeterminationSolver</compoundname>
+    <includes refid="_orbit_determination_solver_8hpp" local="no">OrbitDeterminationSolver.hpp</includes>
+    <innerclass refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis" prot="public">ostk::astrodynamics::estimator::OrbitDeterminationSolver::Analysis</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a3a2e10cec60b25d20323486cff1a7ed6" prot="private" static="no" mutable="no">
+        <type>Environment</type>
+        <definition>Environment ostk::astrodynamics::estimator::OrbitDeterminationSolver::environment_</definition>
+        <argsstring></argsstring>
+        <name>environment_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="143" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a1c2065351f39ae86b9d4705734cd3034" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref></type>
+        <definition>Propagator ostk::astrodynamics::estimator::OrbitDeterminationSolver::propagator_</definition>
+        <argsstring></argsstring>
+        <name>propagator_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="144" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a93550d4aaba02c337ada50a08258962e" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref></type>
+        <definition>LeastSquaresSolver ostk::astrodynamics::estimator::OrbitDeterminationSolver::solver_</definition>
+        <argsstring></argsstring>
+        <name>solver_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="145" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1aef16749483dde3b1678b8191c754d753" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::estimator::OrbitDeterminationSolver::estimationFrameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>estimationFrameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="146" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a573e3f8c395a7fc9be386a397a3cda7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::estimator::OrbitDeterminationSolver::OrbitDeterminationSolver</definition>
+        <argsstring>(const Environment &amp;anEnvironment=DEFAULT_ENVIRONMENT, const NumericalSolver &amp;aNumericalSolver=DEFAULT_NUMERICAL_SOLVER, const LeastSquaresSolver &amp;aSolver=DEFAULT_LEAST_SQUARES_SOLVER, const Shared&lt; const Frame &gt; &amp;anEstimationFrameSPtr=DEFAULT_ESTIMATION_FRAME)</argsstring>
+        <name>OrbitDeterminationSolver</name>
+        <param>
+          <type>const Environment &amp;</type>
+          <declname>anEnvironment</declname>
+          <defval><ref refid="_orbit_determination_solver_8hpp_1a9299ea20efe7c53c139276fea1f73fd1" kindref="member">DEFAULT_ENVIRONMENT</ref></defval>
+        </param>
+        <param>
+          <type>const NumericalSolver &amp;</type>
+          <declname>aNumericalSolver</declname>
+          <defval><ref refid="_orbit_determination_solver_8hpp_1a96d6399dc856e77ec8668264c292f128" kindref="member">DEFAULT_NUMERICAL_SOLVER</ref></defval>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref> &amp;</type>
+          <declname>aSolver</declname>
+          <defval><ref refid="_orbit_determination_solver_8hpp_1ab3e9f06c6bee5aa47a606f85e270afe8" kindref="member">DEFAULT_LEAST_SQUARES_SOLVER</ref></defval>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>anEstimationFrameSPtr</declname>
+          <defval><ref refid="_orbit_determination_solver_8hpp_1a7aa1727f24487aac3c93aa2d9ea9a9cf" kindref="member">DEFAULT_ESTIMATION_FRAME</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEnvironment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Environment, Defaults to Environment::Default() </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aNumericalSolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Numerical solver, Defaults to <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" kindref="member">NumericalSolver::Default()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Least squares solver, Defaults to <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" kindref="member">LeastSquaresSolver::Default()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEstimationFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimation frame, Defaults to Frame::GCRF() </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="78" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="50" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a31054d070c6a218a1193946241d79ce3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Environment &amp;</type>
+        <definition>const Environment &amp; ostk::astrodynamics::estimator::OrbitDeterminationSolver::accessEnvironment</definition>
+        <argsstring>() const</argsstring>
+        <name>accessEnvironment</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> environment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Environment </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="88" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a2cd9215c4e1f875ea4ddd69b29bbdd89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
+        <definition>const Propagator &amp; ostk::astrodynamics::estimator::OrbitDeterminationSolver::accessPropagator</definition>
+        <argsstring>() const</argsstring>
+        <name>accessPropagator</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> propagator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Propagator </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="93" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a953437ef90d760af8dee3dfd0f79ecd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref> &amp;</type>
+        <definition>const LeastSquaresSolver &amp; ostk::astrodynamics::estimator::OrbitDeterminationSolver::accessSolver</definition>
+        <argsstring>() const</argsstring>
+        <name>accessSolver</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Solver </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="98" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1aa1002bcad9343b0a7f9415152ab1c30f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const Frame &gt; &amp;</type>
+        <definition>const Shared&lt; const Frame &gt; &amp; ostk::astrodynamics::estimator::OrbitDeterminationSolver::accessEstimationFrame</definition>
+        <argsstring>() const</argsstring>
+        <name>accessEstimationFrame</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> estimation frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Estimation frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="103" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a743b3044cb29de4193880193ddcbe199" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis" kindref="compound">Analysis</ref></type>
+        <definition>OrbitDeterminationSolver::Analysis ostk::astrodynamics::estimator::OrbitDeterminationSolver::estimate</definition>
+        <argsstring>(const State &amp;anInitialGuessState, const Array&lt; State &gt; &amp;anObservationStateArray, const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;anEstimationCoordinateSubsets=Array&lt; Shared&lt; const CoordinateSubset &gt;&gt;::Empty(), const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
+        <name>estimate</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anInitialGuessState</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>anObservationStateArray</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>anEstimationCoordinateSubsets</declname>
+          <defval>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt;::Empty()</defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>anInitialGuessSigmas</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1a0fcbf608e23804609fbb956c0cbddc08" kindref="member">DEFAULT_INITIAL_GUESS_SIGMAS</ref></defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>anObservationSigmas</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1ad9835af7201210bd13ac83f68fd26f9c" kindref="member">DEFAULT_OBSERVATION_SIGMAS</ref></defval>
+        </param>
+        <briefdescription>
+<para>Estimate state from observations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInitialGuessState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial guess state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObservationStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observations to fit against </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEstimationCoordinateSubsets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Coordinate subsets to estimate. Defaults to empty array, in which case all the coordinate subsets from the initial guess state are estimated </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialGuessSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of sigmas for initial guess </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObservationSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of sigmas for observations</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis" kindref="compound">Analysis</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="115" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="87" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a3a59b26adea8a18b85ae0a9aeae059c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
+        <definition>Orbit ostk::astrodynamics::estimator::OrbitDeterminationSolver::estimateOrbit</definition>
+        <argsstring>(const State &amp;anInitialGuessState, const Array&lt; State &gt; &amp;anObservationStateArray, const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;anEstimationCoordinateSubsets=Array&lt; Shared&lt; const CoordinateSubset &gt;&gt;::Empty(), const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
+        <name>estimateOrbit</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anInitialGuessState</declname>
+        </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>anObservationStateArray</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>anEstimationCoordinateSubsets</declname>
+          <defval>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt;::Empty()</defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>anInitialGuessSigmas</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1a0fcbf608e23804609fbb956c0cbddc08" kindref="member">DEFAULT_INITIAL_GUESS_SIGMAS</ref></defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref>, VectorXd &gt; &amp;</type>
+          <declname>anObservationSigmas</declname>
+          <defval><ref refid="_least_squares_solver_8hpp_1ad9835af7201210bd13ac83f68fd26f9c" kindref="member">DEFAULT_OBSERVATION_SIGMAS</ref></defval>
+        </param>
+        <briefdescription>
+<para>Estimate a Propagated Orbit orbit from observations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInitialGuessState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial guess state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObservationStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observations to fit against </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEstimationCoordinateSubsets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Coordinate subsets to estimate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInitialGuessSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of sigmas for initial guess </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObservationSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of sigmas for observations</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Orbit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="133" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="149" bodyend="168"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Orbit Determination solver using least squares. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="54" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" bodystart="53" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a31054d070c6a218a1193946241d79ce3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>accessEnvironment</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1aa1002bcad9343b0a7f9415152ab1c30f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>accessEstimationFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a2cd9215c4e1f875ea4ddd69b29bbdd89" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>accessPropagator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a953437ef90d760af8dee3dfd0f79ecd8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>accessSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a3a2e10cec60b25d20323486cff1a7ed6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>environment_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a743b3044cb29de4193880193ddcbe199" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>estimate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a3a59b26adea8a18b85ae0a9aeae059c6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>estimateOrbit</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1aef16749483dde3b1678b8191c754d753" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>estimationFrameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a573e3f8c395a7fc9be386a397a3cda7c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>OrbitDeterminationSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a1c2065351f39ae86b9d4705734cd3034" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>propagator_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1a93550d4aaba02c337ada50a08258962e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::OrbitDeterminationSolver</scope><name>solver_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

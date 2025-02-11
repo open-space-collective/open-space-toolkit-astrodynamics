@@ -21,6 +21,7 @@
       :nosignatures:
    
       FiniteDifferenceSolver
+      LeastSquaresSolver
       TemporalConditionSolver
    
    

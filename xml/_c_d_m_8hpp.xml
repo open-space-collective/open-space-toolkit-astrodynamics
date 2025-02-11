@@ -28,6 +28,9 @@
       <node id="8">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
+      <node id="24">
+        <label>functional</label>
+      </node>
       <node id="12">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
@@ -87,6 +90,8 @@
       <node id="23">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="24" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="20" relation="include">

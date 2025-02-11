@@ -9,6 +9,7 @@
     <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Derived.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</includes>
+    <includedby refid="_t_l_e_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp</includedby>
     <includedby refid="_s_g_p4_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp</includedby>
     <includedby refid="_t_l_e_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp</includedby>
     <incdepgraph>
@@ -53,9 +54,13 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="4">
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp</label>
         <link refid="_t_l_e_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
+        <link refid="_t_l_e_solver_8cpp"/>
       </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp</label>
@@ -64,15 +69,25 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="3">
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp</label>
+        <link refid="_t_l_e_solver_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp</label>
         <link refid="_s_g_p4_8cpp"/>
       </node>
-      <node id="2">
+      <node id="4">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp</label>
         <link refid="_s_g_p4_8hpp"/>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

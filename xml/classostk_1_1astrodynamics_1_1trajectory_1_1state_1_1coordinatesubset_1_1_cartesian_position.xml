@@ -49,164 +49,6 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="41" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="27" bodyend="27"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1aac5c534d819e430a904245654b66f1f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>VectorXd</type>
-        <definition>VectorXd ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition::add</definition>
-        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const CoordinateBroker &gt; &amp;aCoordinateBrokerSPtr) const override</argsstring>
-        <name>add</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a5f7379a42f85f41254d7ec6193745316">add</reimplements>
-        <param>
-          <type>const Instant &amp;</type>
-          <declname>anInstant</declname>
-        </param>
-        <param>
-          <type>const VectorXd &amp;</type>
-          <declname>aFullCoordinatesVector</declname>
-        </param>
-        <param>
-          <type>const VectorXd &amp;</type>
-          <declname>anotherFullCoordinatesVector</declname>
-        </param>
-        <param>
-          <type>const Shared&lt; const Frame &gt; &amp;</type>
-          <declname>aFrameSPtr</declname>
-        </param>
-        <param>
-          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt; &amp;</type>
-          <declname>aCoordinateBrokerSPtr</declname>
-        </param>
-        <briefdescription>
-<para>Add two coordinate subsets. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>anInstant</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>the instant associated to the coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aFullCoordinatesVector</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>first set of all coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anotherFullCoordinatesVector</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>second set of all coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aFrameSPtr</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>the reference frame in which the coordinates are resolved </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aCoordinateBrokerSPtr</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>a coordinate broker</para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The resulting coordinate subset value (subset_1 + subset_2) </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="52" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="29" bodyend="39"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a52152414243f65bbce00fd9b38a73247" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>VectorXd</type>
-        <definition>VectorXd ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition::subtract</definition>
-        <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const CoordinateBroker &gt; &amp;aCoordinateBrokerSPtr) const override</argsstring>
-        <name>subtract</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a724a764e61a823c0bfb8955d96295d09">subtract</reimplements>
-        <param>
-          <type>const Instant &amp;</type>
-          <declname>anInstant</declname>
-        </param>
-        <param>
-          <type>const VectorXd &amp;</type>
-          <declname>aFullCoordinatesVector</declname>
-        </param>
-        <param>
-          <type>const VectorXd &amp;</type>
-          <declname>anotherFullCoordinatesVector</declname>
-        </param>
-        <param>
-          <type>const Shared&lt; const Frame &gt; &amp;</type>
-          <declname>aFrameSPtr</declname>
-        </param>
-        <param>
-          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt; &amp;</type>
-          <declname>aCoordinateBrokerSPtr</declname>
-        </param>
-        <briefdescription>
-<para>Subtract two coordinate subsets. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>anInstant</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>the instant associated to the coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aFullCoordinatesVector</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>first set of all coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anotherFullCoordinatesVector</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>second set of all coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aFrameSPtr</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>the reference frame associated to the coordinates </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aCoordinateBrokerSPtr</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>a coordinate broker</para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The resulting coordinate subset value (subset_1 - subset_2) </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="69" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="41" bodyend="51"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a6bb03994b989934f9ec7c27aabb6de8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
         <definition>VectorXd ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition::inFrame</definition>
@@ -284,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="86" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="53" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="52" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="29" bodyend="45"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -303,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="97" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="71" bodyend="76"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="63" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.cpp" bodystart="47" bodyend="52"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -335,9 +177,9 @@
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="29" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" bodystart="28" bodyend="98"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" line="29" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp" bodystart="28" bodyend="64"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1aac5c534d819e430a904245654b66f1f7" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>add</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a5f7379a42f85f41254d7ec6193745316" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>add</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1aae775248f715a243c4ada92736a659c0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>CartesianPosition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a48809e11b2ede4897b90f7651fa7590e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>CoordinateSubset</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>Default</name></member>
@@ -351,7 +193,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a0fb94fa8af9106b2db67a58faeb5c843" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>MassFlowRate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ae5a53db9c533ab64e430ac4fe1b25322" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a9869d17db540a60446f06aed9ebf6b18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>operator==</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a52152414243f65bbce00fd9b38a73247" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>subtract</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a724a764e61a823c0bfb8955d96295d09" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>subtract</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a3b3b8c569ea6fa4ce3d40360265626f3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>SurfaceArea</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a47dcf1b56f3ddeb46e54e39c6e2d103b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition</scope><name>~CartesianPosition</name></member>
     </listofallmembers>

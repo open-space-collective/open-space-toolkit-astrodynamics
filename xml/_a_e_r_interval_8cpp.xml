@@ -30,9 +30,14 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>variant</label>
+      </node>
+      <node id="13">
+        <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERInterval.cpp</label>

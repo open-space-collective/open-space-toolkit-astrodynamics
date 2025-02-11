@@ -10,6 +10,9 @@
       <node id="7">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
+      <node id="28">
+        <label>functional</label>
+      </node>
       <node id="21">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
@@ -66,7 +69,7 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="32">
+      <node id="33">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="25">
@@ -90,6 +93,8 @@
       <node id="27">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="28" relation="include">
+        </childnode>
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
@@ -103,10 +108,10 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="30">
+      <node id="31">
         <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
       </node>
-      <node id="29">
+      <node id="30">
         <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
       </node>
       <node id="12">
@@ -118,10 +123,10 @@
       <node id="8">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
-      <node id="28">
+      <node id="29">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</label>
         <link refid="_c_o_e_8hpp"/>
-        <childnode refid="29" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -137,13 +142,13 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
         <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -180,7 +185,7 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -224,7 +229,7 @@
       <node id="11">
         <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
       </node>
-      <node id="31">
+      <node id="32">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
       </node>
     </incdepgraph>

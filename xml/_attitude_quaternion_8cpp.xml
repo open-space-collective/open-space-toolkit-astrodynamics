@@ -5,7 +5,10 @@
     <includes local="no">OpenSpaceToolkit/Core/Error.hpp</includes>
     <includes refid="_attitude_quaternion_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp</includes>
     <incdepgraph>
-      <node id="15">
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="16">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
       <node id="4">
@@ -14,7 +17,7 @@
       <node id="8">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
-      <node id="16">
+      <node id="17">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
       <node id="10">
@@ -36,17 +39,19 @@
       <node id="13">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -66,7 +71,7 @@
       <node id="9">
         <label>OpenSpaceToolkit/Core/Type/Index.hpp</label>
       </node>
-      <node id="14">
+      <node id="15">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
       <node id="7">

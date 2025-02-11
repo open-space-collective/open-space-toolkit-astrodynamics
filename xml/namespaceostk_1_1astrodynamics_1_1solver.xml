@@ -3,6 +3,7 @@
   <compounddef id="namespaceostk_1_1astrodynamics_1_1solver" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::solver</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" prot="public">ostk::astrodynamics::solver::FiniteDifferenceSolver</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" prot="public">ostk::astrodynamics::solver::LeastSquaresSolver</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" prot="public">ostk::astrodynamics::solver::TemporalConditionSolver</innerclass>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1solver_1a8d9138c94ec178388df7ec7e5e09cd93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -45,6 +46,48 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" line="31" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1solver_1ae57e5bf980483b4ce6138aba0362874e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::solver::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const LeastSquaresSolver::Step &amp;aStep)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step" kindref="compound">LeastSquaresSolver::Step</ref> &amp;</type>
+          <declname>aStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" line="31" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1solver_1aab4330f5a1fe06d35d19390d9efde382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::solver::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const LeastSquaresSolver::Analysis &amp;anAnalysis)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">LeastSquaresSolver::Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" line="70" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="70" bodyend="75"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

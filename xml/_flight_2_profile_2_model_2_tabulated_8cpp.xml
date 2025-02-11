@@ -8,6 +8,9 @@
     <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp</includes>
     <includes refid="_flight_2_profile_2_model_2_tabulated_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp</includes>
     <incdepgraph>
+      <node id="25">
+        <label>functional</label>
+      </node>
       <node id="18">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
@@ -104,6 +107,8 @@
       <node id="24">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="25" relation="include">
+        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="16" relation="include">

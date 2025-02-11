@@ -12,6 +12,9 @@
     <includes local="no">OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp</includes>
     <includes refid="_local_orbital_frame_transform_provider_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp</includes>
     <incdepgraph>
+      <node id="26">
+        <label>functional</label>
+      </node>
       <node id="6">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp</label>
       </node>
@@ -94,6 +97,8 @@
       <node id="25">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="26" relation="include">
+        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="19" relation="include">

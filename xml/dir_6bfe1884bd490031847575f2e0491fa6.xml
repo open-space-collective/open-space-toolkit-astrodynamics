@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_6bfe1884bd490031847575f2e0491fa6" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Estimator</compoundname>
+    <innerfile refid="_orbit_determination_solver_8cpp">OrbitDeterminationSolver.cpp</innerfile>
+    <innerfile refid="_t_l_e_solver_8cpp">TLESolver.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Estimator/"/>
+  </compounddef>
+</doxygen>

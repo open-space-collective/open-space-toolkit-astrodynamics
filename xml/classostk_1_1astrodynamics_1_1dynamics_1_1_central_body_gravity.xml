@@ -233,7 +233,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="93" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="79" bodyend="98"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="93" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="79" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1ae8af2f11463701b68bd63510efd9e29f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -275,7 +275,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="101" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="100" bodyend="109"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="101" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="98" bodyend="107"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">

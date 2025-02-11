@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1estimator" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::estimator</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver" prot="public">ostk::astrodynamics::estimator::OrbitDeterminationSolver</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver" prot="public">ostk::astrodynamics::estimator::TLESolver</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1estimator_1afd16f820bdf80e0617099c5ae7463cd2" prot="public" static="no">
+        <type>ostk::physics::environment::gravitational::Earth</type>
+        <definition>using ostk::astrodynamics::estimator::EarthGravitationalModel = typedef ostk::physics::environment::gravitational::Earth</definition>
+        <argsstring></argsstring>
+        <name>EarthGravitationalModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" line="27" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1estimator_1a34621cf267da5824921fca72fd5b1273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::estimator::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const OrbitDeterminationSolver::Analysis &amp;anAnalysis)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_orbit_determination_solver_1_1_analysis" kindref="compound">OrbitDeterminationSolver::Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" line="30" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1estimator_1a746d372e7d687e76493fb5ba138c67a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::estimator::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const TLESolver::Analysis &amp;anAnalysis)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis" kindref="compound">TLESolver::Analysis</ref> &amp;</type>
+          <declname>anAnalysis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" line="51" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

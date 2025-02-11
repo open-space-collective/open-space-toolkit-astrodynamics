@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::solver::LeastSquaresSolver::Step</compoundname>
+    <includes refid="_least_squares_solver_8hpp" local="no">LeastSquaresSolver.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1addc7a1b71478d264a81a7e958f5031c8" prot="public" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::solver::LeastSquaresSolver::Step::rmsError</definition>
+        <argsstring></argsstring>
+        <name>rmsError</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="67" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a6fdf5da8d5f96e04a3c253e37fae54ba" prot="public" static="no" mutable="no">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astrodynamics::solver::LeastSquaresSolver::Step::xHat</definition>
+        <argsstring></argsstring>
+        <name>xHat</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="68" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1abb9675601806f1bad48e1806693186b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::solver::LeastSquaresSolver::Step::Step</definition>
+        <argsstring>(const Real &amp;aRmsError, const VectorXd &amp;anXHat)</argsstring>
+        <name>Step</name>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aRmsError</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>anXHat</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="59" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a51de94a46b08ac3e43b41002ac214416" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::solver::LeastSquaresSolver::Step::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <briefdescription>
+<para>Print step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="65" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="38" bodyend="42"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a3943b1dc75598d99301f0f34baf273f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Step &amp;aStep)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step" kindref="compound">Step</ref> &amp;</type>
+          <declname>aStep</declname>
+        </param>
+        <briefdescription>
+<para>Stream step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="62" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>Real</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::solver::LeastSquaresSolver::Step</label>
+        <link refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>xHat</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>rmsError</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>VectorXd</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="56" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="55" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a3943b1dc75598d99301f0f34baf273f6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a51de94a46b08ac3e43b41002ac214416" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1addc7a1b71478d264a81a7e958f5031c8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>rmsError</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1abb9675601806f1bad48e1806693186b6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>Step</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a6fdf5da8d5f96e04a3c253e37fae54ba" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>xHat</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
