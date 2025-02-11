@@ -5,8 +5,6 @@ from __future__ import annotations
 from datetime import datetime
 from datetime import timezone
 
-from .OpenSpaceToolkitAstrodynamicsPy import *
-
 from ostk.physics import Environment
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
@@ -20,13 +18,16 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 
+from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.trajectory import State
 
-def lla_from_state(state: trajectory.State) -> LLA:
+
+def lla_from_state(state: State) -> LLA:
     """
     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.
 
     Args:
-        state (trajectory.State): A state.
+        state (State): A state.
 
     Returns:
         LLA: The LLA.
@@ -115,7 +116,7 @@ def compute_aer(
 
 
 def compute_time_lla_aer_coordinates(
-    state: trajectory.State,
+    state: State,
     from_position: Position,
     environment: Environment,
 ) -> tuple[datetime, float, float, float, float, float, float]:
@@ -123,7 +124,7 @@ def compute_time_lla_aer_coordinates(
     Return [datetime, latitude, longitude, altitude, azimuth, elevation, range] from State and observer Position.
 
     Args:
-        state (trajectory.State): A state.
+        state (State): A state.
         from_position (Position): An observer position.
         environment (Environment): An environment.
 
@@ -209,7 +210,7 @@ def compute_ground_track(
 
 
 def convert_state(
-    state: trajectory.State,
+    state: State,
 ) -> tuple[str, float, float, float, float, float, float, float, float, float]:
     """
     Convert a State into dataframe-ready values.
@@ -226,7 +227,7 @@ def convert_state(
     - Altitude [meters] (float)
 
     Args:
-        state (trajectory.State): A state.
+        state (State): A state.
 
     Returns:
         tuple[str, float, float, float, float, float, float, float, float, float]: The dataframe-ready values.

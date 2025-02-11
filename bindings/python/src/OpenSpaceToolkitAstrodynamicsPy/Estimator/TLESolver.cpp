@@ -86,12 +86,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 const Integer&,
                 const bool,
                 const Shared<const Frame>&>(),
-            arg("solver") = LeastSquaresSolver::Default(),
+            arg_v("solver", LeastSquaresSolver::Default(), "LeastSquaresSolver.default()"),
             arg("satellite_number") = 0,
             arg("international_designator") = "00001A",
             arg("revolution_number") = 0,
             arg("estimate_b_star") = true,
-            arg("estimation_frame") = Frame::GCRF(),
+            arg_v("estimation_frame", Frame::GCRF(), "Frame.GCRF()"),
             R"doc(
                 Construct a new TLESolver object.
 

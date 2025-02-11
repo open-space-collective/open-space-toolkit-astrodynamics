@@ -47,6 +47,6 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition(m);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(m);
-    OpenSpaceAstrodynamicsPy_Estimator(m);
-    OpenSpaceAstrodynamicsPy_Data(m);
+    OpenSpaceToolkitAstrodynamicsPy_Estimator(m);
+    OpenSpaceToolkitAstrodynamicsPy_Data(m);
 }
