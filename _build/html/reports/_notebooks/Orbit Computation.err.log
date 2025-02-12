@@ -30,34 +30,34 @@ Cell [0;32mIn[13], line 1[0m
 Cell [0;32mIn[13], line 1[0m, in [0;36m<listcomp>[0;34m(.0)[0m
 [0;32m----> 1[0m orbit_data [38;5;241m=[39m [[43mconvert_state[49m[43m([49m[43mstate[49m[43m)[49m [38;5;28;01mfor[39;00m state [38;5;129;01min[39;00m states]
 
-File [0;32m/usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:235[0m, in [0;36mconvert_state[0;34m(state)[0m
-[1;32m    211[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mconvert_state[39m(
-[1;32m    212[0m     state: trajectory[38;5;241m.[39mState,
-[1;32m    213[0m ) [38;5;241m-[39m[38;5;241m>[39m [38;5;28mtuple[39m[[38;5;28mstr[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m]:
-[1;32m    214[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
-[1;32m    215[0m [38;5;124;03m    Convert a State into dataframe-ready values.[39;00m
-[1;32m    216[0m [38;5;124;03m    - Instant (str)[39;00m
+File [0;32m/usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:236[0m, in [0;36mconvert_state[0;34m(state)[0m
+[1;32m    212[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mconvert_state[39m(
+[1;32m    213[0m     state: State,
+[1;32m    214[0m ) [38;5;241m-[39m[38;5;241m>[39m [38;5;28mtuple[39m[[38;5;28mstr[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m, [38;5;28mfloat[39m]:
+[1;32m    215[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m    216[0m [38;5;124;03m    Convert a State into dataframe-ready values.[39;00m
+[1;32m    217[0m [38;5;124;03m    - Instant (str)[39;00m
 [0;32m   (...)[0m
-[1;32m    232[0m [38;5;124;03m        tuple[str, float, float, float, float, float, float, float, float, float]: The dataframe-ready values.[39;00m
-[1;32m    233[0m [38;5;124;03m    """[39;00m
-[0;32m--> 235[0m     lla: LLA [38;5;241m=[39m [43mlla_from_state[49m[43m([49m[43mstate[49m[43m)[49m
-[1;32m    237[0m     instant: Instant [38;5;241m=[39m state[38;5;241m.[39mget_instant()
-[1;32m    239[0m     [38;5;28;01mreturn[39;00m (
-[1;32m    240[0m         [38;5;28mstr[39m(instant[38;5;241m.[39mto_string()),
-[1;32m    241[0m         [38;5;28mfloat[39m(instant[38;5;241m.[39mget_modified_julian_date(Scale[38;5;241m.[39mUTC)),
+[1;32m    233[0m [38;5;124;03m        tuple[str, float, float, float, float, float, float, float, float, float]: The dataframe-ready values.[39;00m
+[1;32m    234[0m [38;5;124;03m    """[39;00m
+[0;32m--> 236[0m     lla: LLA [38;5;241m=[39m [43mlla_from_state[49m[43m([49m[43mstate[49m[43m)[49m
+[1;32m    238[0m     instant: Instant [38;5;241m=[39m state[38;5;241m.[39mget_instant()
+[1;32m    240[0m     [38;5;28;01mreturn[39;00m (
+[1;32m    241[0m         [38;5;28mstr[39m(instant[38;5;241m.[39mto_string()),
+[1;32m    242[0m         [38;5;28mfloat[39m(instant[38;5;241m.[39mget_modified_julian_date(Scale[38;5;241m.[39mUTC)),
 [0;32m   (...)[0m
-[1;32m    246[0m         [38;5;28mfloat[39m(lla[38;5;241m.[39mget_altitude()[38;5;241m.[39min_meters()),
-[1;32m    247[0m     )
+[1;32m    247[0m         [38;5;28mfloat[39m(lla[38;5;241m.[39mget_altitude()[38;5;241m.[39min_meters()),
+[1;32m    248[0m     )
 
-File [0;32m/usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:35[0m, in [0;36mlla_from_state[0;34m(state)[0m
-[1;32m     24[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mlla_from_state[39m(state: trajectory[38;5;241m.[39mState) [38;5;241m-[39m[38;5;241m>[39m LLA:
-[1;32m     25[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
-[1;32m     26[0m [38;5;124;03m    Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.[39;00m
-[1;32m     27[0m 
+File [0;32m/usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:36[0m, in [0;36mlla_from_state[0;34m(state)[0m
+[1;32m     25[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mlla_from_state[39m(state: State) [38;5;241m-[39m[38;5;241m>[39m LLA:
+[1;32m     26[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m     27[0m [38;5;124;03m    Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.[39;00m
+[1;32m     28[0m 
 [0;32m   (...)[0m
-[1;32m     32[0m [38;5;124;03m        LLA: The LLA.[39;00m
-[1;32m     33[0m [38;5;124;03m    """[39;00m
-[0;32m---> 35[0m     [38;5;28;01mreturn[39;00m lla_from_position([43mstate[49m[38;5;241;43m.[39;49m[43mget_position[49m(), state[38;5;241m.[39mget_instant())
+[1;32m     33[0m [38;5;124;03m        LLA: The LLA.[39;00m
+[1;32m     34[0m [38;5;124;03m    """[39;00m
+[0;32m---> 36[0m     [38;5;28;01mreturn[39;00m lla_from_position([43mstate[49m[38;5;241;43m.[39;49m[43mget_position[49m(), state[38;5;241m.[39mget_instant())
 
 [0;31mAttributeError[0m: 'list' object has no attribute 'get_position'
 
