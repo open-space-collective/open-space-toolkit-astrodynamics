@@ -51,6 +51,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         )
 
         .def(
+            "get_provider_type",
+            &LocalOrbitalFrameFactory::getProviderType,
+            R"doc(
+                Get the provider type.
+
+                Returns:
+                    LocalOrbitalFrameTransformProvider.Type: The provider type.
+            )doc"
+        )
+
+        .def(
             "generate_frame",
             &LocalOrbitalFrameFactory::generateFrame,
             arg("state"),
