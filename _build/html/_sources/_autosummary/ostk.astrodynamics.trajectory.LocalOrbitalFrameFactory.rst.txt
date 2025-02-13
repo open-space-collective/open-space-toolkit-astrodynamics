@@ -25,6 +25,7 @@ ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory
       ~LocalOrbitalFrameFactory.access_parent_frame
       ~LocalOrbitalFrameFactory.construct
       ~LocalOrbitalFrameFactory.generate_frame
+      ~LocalOrbitalFrameFactory.get_provider_type
       ~LocalOrbitalFrameFactory.is_defined
       ~LocalOrbitalFrameFactory.undefined
    
