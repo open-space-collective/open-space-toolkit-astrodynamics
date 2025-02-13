@@ -216,21 +216,23 @@ def from_dict(data: dict) -> State:
             ],
         )
 
-    if "drag_coefficient" in data or "cd" in data:
+    if (data.get("drag_coefficient") is not None) or (data.get("cd") is not None):
         coordinate_subsets.append(CoordinateSubset.drag_coefficient())
         coordinates = np.append(
             coordinates,
             data.get("drag_coefficient", data.get("cd")),
         )
 
-    if "cross_sectional_area" in data or "surface_area" in data:
+    if (data.get("cross_sectional_area") is not None) or (
+        data.get("surface_area") is not None
+    ):
         coordinate_subsets.append(CoordinateSubset.surface_area())
         coordinates = np.append(
             coordinates,
             data.get("cross_sectional_area", data.get("surface_area")),
         )
 
-    if "mass" in data:
+    if data.get("mass") is not None:
         coordinate_subsets.append(CoordinateSubset.mass())
         coordinates = np.append(
             coordinates,
