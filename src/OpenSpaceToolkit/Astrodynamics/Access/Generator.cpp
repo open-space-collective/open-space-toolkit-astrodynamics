@@ -426,14 +426,12 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     const Index targetCount = someAccessTargets.getSize();
     Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> SEZRotations(3, 3 * targetCount);
-    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> zenithRotations(targetCount, 3);
 
     const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
 
     for (Index i = 0; i < targetCount; ++i)
     {
         SEZRotations.block<3, 3>(0, 3 * i) = someAccessTargets[i].computeR_SEZ_ECEF(earthSPtr);
-        zenithRotations.row(i) = SEZRotations.block<1, 3>(2, 3 * i);
     }
 
     // create a stacked matrix of ITRF positions for all access targets
@@ -513,14 +511,14 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     };
 
     const auto computeElevations =
-        [&zenithRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
+        [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
-        const VectorXd dx_Z = zenithRotations.col(0).array() * dx.row(0).transpose().array() +
-                              zenithRotations.col(1).array() * dx.row(1).transpose().array() +
-                              zenithRotations.col(2).array() * dx.row(2).transpose().array();
+        const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
 
-        return (dx_Z.transpose().array() / dx.colwise().norm().array()).asin();
+        const VectorXd dx_Z = (dx.cwiseProduct(fromPositionDirection_ITRF)).colwise().sum().array() / dx.colwise().norm().array();
+
+        return dx_Z.array().asin();
     };
 
     std::function<ArrayXb(const MatrixXd&, const Vector3d&, const Instant&)> visibilityCriterionFilter;
@@ -722,7 +720,7 @@ Array<Access> Generator::generateAccessesFromIntervals(
             ) -> Access
             {
                 return Generator::GenerateAccess(
-                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, earthSPtr, this->tolerance_
+                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, this->tolerance_
                 );
             }
         )
@@ -810,7 +808,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::ElevationInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, visibilityCriterion](
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](
                         const Instant& instant
                     ) -> bool
         {
@@ -819,9 +817,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
             const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
-            const double dx_Z = SEZRotation.row(2) * dx;
-
-            const double elevation_rad = std::asin(dx_Z / dx.norm());
+            const double elevation_rad = std::asin(dx.dot(fromPositionCoordinate_ITRF.normalized()) / dx.norm());
 
             return visibilityCriterion.isSatisfied(elevation_rad);
         };
@@ -929,7 +925,6 @@ Access Generator::GenerateAccess(
     const physics::time::Interval& aGlobalInterval,
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
-    const Shared<const Celestial> anEarthSPtr,
     const Duration& aTolerance
 )
 {
@@ -964,7 +959,7 @@ Access Generator::GenerateAccess(
 
     const Angle maxElevation =
         timeOfClosestApproach.isDefined()
-            ? Generator::CalculateElevationAt(timeOfClosestApproach, aFromTrajectory, aToTrajectory, anEarthSPtr)
+            ? Generator::CalculateElevationAt(timeOfClosestApproach, aFromTrajectory, aToTrajectory)
             : Angle::Undefined();
 
     return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
@@ -1064,24 +1059,15 @@ Instant Generator::FindTimeOfClosestApproach(
 Angle Generator::CalculateElevationAt(
     const Instant& anInstant,
     const Trajectory& aFromTrajectory,
-    const Trajectory& aToTrajectory,
-    const Shared<const Celestial> anEarthSPtr
+    const Trajectory& aToTrajectory
 )
 {
-    const Position fromPosition = aFromTrajectory.getStateAt(anInstant).getPosition();
-    const Position toPosition = aToTrajectory.getStateAt(anInstant).getPosition();
+    const Vector3d fromPositionCoordinates_ITRF = aFromTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+    const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
-    const LLA lla = LLA::Cartesian(
-        fromPosition.accessCoordinates(), anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening()
-    );
+    const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinates_ITRF;
 
-    const Vector3d rotationZ = {-std::cos(lla.getLatitude().inRadians()), 0.0, std::sin(lla.getLatitude().inRadians())};
-
-    const Vector3d fromToVector = toPosition.accessCoordinates() - fromPosition.accessCoordinates();
-
-    const double dx_Z = rotationZ.dot(fromToVector);
-
-    return Angle::Radians(std::asin(dx_Z / fromToVector.norm()));
+    return Angle::Radians(std::asin(dx.dot(fromPositionCoordinates_ITRF.normalized()) / dx.norm()));
 }
 
 AER Generator::CalculateAer(

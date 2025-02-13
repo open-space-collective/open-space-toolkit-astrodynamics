@@ -276,7 +276,6 @@ class Generator
         const physics::time::Interval& aGlobalInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
-        const Shared<const Celestial> anEarthSPtr,
         const Duration& aTolerance
     );
 
@@ -290,8 +289,7 @@ class Generator
     static Angle CalculateElevationAt(
         const Instant& anInstant,
         const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory,
-        const Shared<const Celestial> anEarthSPtr
+        const Trajectory& aToTrajectory
     );
 
     static AER CalculateAer(
