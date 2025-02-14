@@ -516,7 +516,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
         const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
 
-        const VectorXd dx_Z = (dx.cwiseProduct(fromPositionDirection_ITRF)).colwise().sum().array() / dx.colwise().norm().array();
+        const VectorXd dx_Z =
+            (dx.cwiseProduct(fromPositionDirection_ITRF)).colwise().sum().array() / dx.colwise().norm().array();
 
         return dx_Z.array().asin();
     };
@@ -808,9 +809,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::ElevationInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](
-                        const Instant& instant
-                    ) -> bool
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
                 aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
@@ -1057,13 +1056,13 @@ Instant Generator::FindTimeOfClosestApproach(
 }
 
 Angle Generator::CalculateElevationAt(
-    const Instant& anInstant,
-    const Trajectory& aFromTrajectory,
-    const Trajectory& aToTrajectory
+    const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
 )
 {
-    const Vector3d fromPositionCoordinates_ITRF = aFromTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
-    const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+    const Vector3d fromPositionCoordinates_ITRF =
+        aFromTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+    const Vector3d toPositionCoordinates_ITRF =
+        aToTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
     const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinates_ITRF;
 

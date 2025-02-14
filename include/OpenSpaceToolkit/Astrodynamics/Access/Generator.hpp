@@ -287,9 +287,7 @@ class Generator
     );
 
     static Angle CalculateElevationAt(
-        const Instant& anInstant,
-        const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory
+        const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
     );
 
     static AER CalculateAer(

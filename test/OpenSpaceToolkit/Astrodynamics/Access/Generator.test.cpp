@@ -201,7 +201,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
         EXPECT_VECTORS_ALMOST_EQUAL(
             defaultAccessTarget_.getPosition().accessCoordinates(),
             Position::Meters(
-                defaultLLA_.toCartesian(EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_), Frame::ITRF()
+                defaultLLA_.toCartesian(
+                    EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
+                ),
+                Frame::ITRF()
             )
                 .accessCoordinates(),
             1e-13
@@ -562,7 +565,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
 
     const AccessTarget groundStationTarget =
         AccessTarget::FromLLA(visibilityCriterion, groundStationLla, defaultEarthSPtr_);
-    
+
     const Trajectory groundTrajectory = groundStationTarget.accessTrajectory();
 
     const Orbit satelliteOrbit = generateSatelliteOrbit();
@@ -579,7 +582,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
 
     const Duration toleranceDuration = Duration::Seconds(0.1);
 
-    const auto calculateAer = [](const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition, const Shared<const Celestial>& anEarthSPtr) -> AER
+    const auto calculateAer = [](const Instant& anInstant,
+                                 const Position& aFromPosition,
+                                 const Position& aToPosition,
+                                 const Shared<const Celestial>& anEarthSPtr) -> AER
     {
         const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();
 
@@ -623,10 +629,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
         EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
             << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString());
-        
+
         const State groundState = groundTrajectory.getStateAt(access.getTimeOfClosestApproach());
         const State satelliteState = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach());
-        const AER aer = calculateAer(access.getTimeOfClosestApproach(), groundState.getPosition(), satelliteState.getPosition(), defaultEarthSPtr_);
+        const AER aer = calculateAer(
+            access.getTimeOfClosestApproach(),
+            groundState.getPosition(),
+            satelliteState.getPosition(),
+            defaultEarthSPtr_
+        );
 
         EXPECT_LT(access.getMaxElevation().inDegrees() - aer.getElevation().inDegrees(), 1e-6);
     }
@@ -1028,7 +1039,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                       << " ~ " << expectedAccess.getLossOfSignal().toString();
                     EXPECT_TRUE(access.getDuration().isNear(expectedAccess.getDuration(), Duration::Microseconds(1.0)))
                         << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
-                    
                 }
             }
         }
