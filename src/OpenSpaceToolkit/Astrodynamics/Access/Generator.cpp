@@ -1077,7 +1077,6 @@ AER Generator::CalculateAer(
     const Shared<const Celestial> anEarthSPtr
 )
 {
-    // [TBM] This logic is Earth-specific
     const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();
 
     const LLA referencePoint_LLA =

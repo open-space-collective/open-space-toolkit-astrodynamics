@@ -44,7 +44,8 @@ using ostk::physics::coordinate::spherical::AER;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
-using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::object::celestial::Earth;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -200,7 +201,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
         EXPECT_VECTORS_ALMOST_EQUAL(
             defaultAccessTarget_.getPosition().accessCoordinates(),
             Position::Meters(
-                defaultLLA_.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
+                defaultLLA_.toCartesian(EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_), Frame::ITRF()
             )
                 .accessCoordinates(),
             1e-13
@@ -347,10 +348,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -372,10 +373,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -431,10 +432,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = startInstant;
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -457,10 +458,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = startInstant;
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -543,10 +544,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = startInstant;
-        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -561,6 +562,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
 
     const AccessTarget groundStationTarget =
         AccessTarget::FromLLA(visibilityCriterion, groundStationLla, defaultEarthSPtr_);
+    
+    const Trajectory groundTrajectory = groundStationTarget.accessTrajectory();
 
     const Orbit satelliteOrbit = generateSatelliteOrbit();
 
@@ -575,6 +578,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
     const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
     const Duration toleranceDuration = Duration::Seconds(0.1);
+
+    const auto calculateAer = [](const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition, const Shared<const Celestial>& anEarthSPtr) -> AER
+    {
+        const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();
+
+        const LLA referencePoint_LLA =
+            LLA::Cartesian(referenceCoordinates_ITRF, anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening());
+
+        const Shared<const Frame> nedFrameSPtr = anEarthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED);
+
+        const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant);
+        const Position toPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant);
+
+        return AER::FromPositionToPosition(fromPosition_NED, toPosition_NED, true);
+    };
 
     // Test
 
@@ -605,6 +623,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
         EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
             << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString());
+        
+        const State groundState = groundTrajectory.getStateAt(access.getTimeOfClosestApproach());
+        const State satelliteState = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach());
+        const AER aer = calculateAer(access.getTimeOfClosestApproach(), groundState.getPosition(), satelliteState.getPosition(), defaultEarthSPtr_);
+
+        EXPECT_LT(access.getMaxElevation().inDegrees() - aer.getElevation().inDegrees(), 1e-6);
     }
 }
 
@@ -873,7 +897,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
         };
         const SGP4 sgp4 = SGP4(tle);
-        const Orbit aToTrajectory = Orbit(sgp4, defaultEnvironment_.accessCelestialObjectWithName("Earth"));
+        const Orbit toTrajectory = Orbit(sgp4, defaultEnvironment_.accessCelestialObjectWithName("Earth"));
 
         const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
         const Instant endInstant = startInstant + Duration::Hours(6.0);
@@ -917,7 +941,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             );
 
             const Array<Array<Access>> accessesPerTarget =
-                defaultGenerator_.computeAccesses(interval, accessTargets, aToTrajectory);
+                defaultGenerator_.computeAccesses(interval, accessTargets, toTrajectory);
 
             ASSERT_EQ(accessesPerTarget.getSize(), accessTargets.getSize());
 
@@ -927,7 +951,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                 const AccessTarget groundTarget = accessTargets.at(i);
 
                 const Array<Access> expectedAccesses =
-                    defaultGenerator_.computeAccesses(interval, groundTarget, aToTrajectory);
+                    defaultGenerator_.computeAccesses(interval, groundTarget, toTrajectory);
 
                 ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
 
@@ -971,7 +995,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             );
 
             const Array<Array<Access>> accessesPerTarget =
-                defaultGenerator_.computeAccesses(interval, accessTargets, aToTrajectory);
+                defaultGenerator_.computeAccesses(interval, accessTargets, toTrajectory);
 
             ASSERT_EQ(accessesPerTarget.getSize(), accessTargets.getSize());
 
@@ -981,7 +1005,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                 const AccessTarget groundTarget = accessTargets.at(i);
 
                 const Array<Access> expectedAccesses =
-                    defaultGenerator_.computeAccesses(interval, groundTarget, aToTrajectory);
+                    defaultGenerator_.computeAccesses(interval, groundTarget, toTrajectory);
 
                 ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
 
@@ -1004,6 +1028,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                       << " ~ " << expectedAccess.getLossOfSignal().toString();
                     EXPECT_TRUE(access.getDuration().isNear(expectedAccess.getDuration(), Duration::Microseconds(1.0)))
                         << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
+                    
                 }
             }
         }
@@ -1026,8 +1051,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_5)
                 instant,
                 defaultEarthSPtr_->getGravitationalParameter(),
                 defaultEarthSPtr_->getEquatorialRadius(),
-                Earth::EGM2008.J2_,
-                Earth::EGM2008.J4_,
+                EarthGravitationalModel::EGM2008.J2_,
+                EarthGravitationalModel::EGM2008.J4_,
                 Kepler::PerturbationType::J2
             ),
             defaultEarthSPtr_
@@ -1154,10 +1179,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-            const Real J2 = Earth::EGM2008.J2_;
-            const Real J4 = Earth::EGM2008.J4_;
+            const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+            const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+            const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
@@ -1250,10 +1275,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
-            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-            const Real J2 = Earth::EGM2008.J2_;
-            const Real J4 = Earth::EGM2008.J4_;
+            const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+            const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+            const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
