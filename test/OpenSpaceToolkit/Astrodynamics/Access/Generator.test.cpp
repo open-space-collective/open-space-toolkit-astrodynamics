@@ -630,16 +630,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
         EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
             << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString());
 
-        const State groundState = groundTrajectory.getStateAt(access.getTimeOfClosestApproach());
-        const State satelliteState = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach());
-        const AER aer = calculateAer(
+        const State groundStateAtTCA = groundTrajectory.getStateAt(access.getTimeOfClosestApproach());
+        const State satelliteStateAtTCA = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach());
+        const AER aerAtTCA = calculateAer(
             access.getTimeOfClosestApproach(),
-            groundState.getPosition(),
-            satelliteState.getPosition(),
+            groundStateAtTCA.getPosition(),
+            satelliteStateAtTCA.getPosition(),
             defaultEarthSPtr_
         );
 
-        EXPECT_LT(access.getMaxElevation().inDegrees() - aer.getElevation().inDegrees(), 1e-6);
+        EXPECT_LT(access.getMaxElevation().inDegrees() - aerAtTCA.getElevation().inDegrees(), 1e-6);
     }
 }
 
