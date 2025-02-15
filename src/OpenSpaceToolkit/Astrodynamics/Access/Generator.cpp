@@ -516,6 +516,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
         const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
 
+        // columnwise dot product of dx and fromPositionDirection_ITRF
         const VectorXd dx_Z =
             (dx.cwiseProduct(fromPositionDirection_ITRF)).colwise().sum().array() / dx.colwise().norm().array();
 
@@ -1073,7 +1074,7 @@ AER Generator::CalculateAer(
     const Instant& anInstant,
     const Position& aFromPosition,
     const Position& aToPosition,
-    const Shared<const Celestial> anEarthSPtr
+    const Shared<const Celestial>& anEarthSPtr
 )
 {
     const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();

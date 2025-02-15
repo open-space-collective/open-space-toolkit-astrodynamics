@@ -294,7 +294,7 @@ class Generator
         const Instant& anInstant,
         const Position& aFromPosition,
         const Position& aToPosition,
-        const Shared<const Celestial> anEarthSPtr
+        const Shared<const Celestial>& anEarthSPtr
     );
 };
 
