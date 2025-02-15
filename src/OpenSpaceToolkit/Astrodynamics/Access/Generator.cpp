@@ -943,8 +943,8 @@ Access Generator::GenerateAccess(
     }
 
     const Instant timeOfClosestApproach =
-        Generator::FindTimeOfClosestApproach(anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance);
-    const Instant lossOfSignal = anAccessInterval.getEnd();
+        Generator::FindTimeOfClosestApproach(accessInterval, aFromTrajectory, aToTrajectory, aTolerance);
+    const Instant lossOfSignal = accessInterval.getEnd();
 
     if (!timeOfClosestApproach.isDefined() and type == Access::Type::Complete)
     {
