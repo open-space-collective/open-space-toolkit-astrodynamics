@@ -403,9 +403,9 @@ Array<Access> Generator::computeAccessesForTrajectoryTarget(
     const Array<physics::time::Interval> accessIntervals =
         temporalConditionSolver.solve(this->getConditionFunction(anAccessTarget, aToTrajectory), anInterval);
 
-    const Trajectory& aFromTrajectory = anAccessTarget.accessTrajectory();
+    const Trajectory& fromTrajectory = anAccessTarget.accessTrajectory();
 
-    return generateAccessesFromIntervals(accessIntervals, anInterval, aFromTrajectory, aToTrajectory);
+    return generateAccessesFromIntervals(accessIntervals, anInterval, fromTrajectory, aToTrajectory);
 }
 
 Array<Array<Access>> Generator::computeAccessesForFixedTargets(
@@ -933,18 +933,10 @@ Access Generator::GenerateAccess(
 
     const Instant acquisitionOfSignal = anAccessInterval.getStart();
 
-    ostk::physics::time::Interval accessInterval = anAccessInterval;
-
-    if (anAccessInterval.getDuration() == Duration::Zero())
-    {
-        accessInterval = physics::time::Interval::Closed(
-            anAccessInterval.getStart() - Duration::Seconds(60.0), anAccessInterval.getStart() + Duration::Seconds(60.0)
-        );
-    }
-
     const Instant timeOfClosestApproach =
-        Generator::FindTimeOfClosestApproach(accessInterval, aFromTrajectory, aToTrajectory, aTolerance);
-    const Instant lossOfSignal = accessInterval.getEnd();
+        Generator::FindTimeOfClosestApproach(anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance);
+
+    const Instant lossOfSignal = anAccessInterval.getEnd();
 
     if (!timeOfClosestApproach.isDefined() and type == Access::Type::Complete)
     {
