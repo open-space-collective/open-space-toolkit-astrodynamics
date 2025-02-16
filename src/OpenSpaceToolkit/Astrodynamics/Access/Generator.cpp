@@ -336,9 +336,7 @@ Array<Array<Access>> Generator::computeAccesses(
 
         for (const auto& accessTarget : someAccessTargets)
         {
-            accessesPerTarget.add(
-                this->computeAccessesForTrajectoryTarget(anInterval, accessTarget, aToTrajectory)
-            );
+            accessesPerTarget.add(this->computeAccessesForTrajectoryTarget(anInterval, accessTarget, aToTrajectory));
         }
 
         return accessesPerTarget;
