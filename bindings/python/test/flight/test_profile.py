@@ -2,6 +2,8 @@
 
 from datetime import datetime
 
+import numpy as np
+
 import pytest
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
@@ -41,7 +43,10 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def orbit(instant: Instant, environment: Environment) -> Orbit:
+def orbit(
+    instant: Instant,
+    environment: Environment,
+) -> Orbit:
     return Orbit.sun_synchronous(
         epoch=instant,
         altitude=Length.kilometers(500.0),
@@ -110,17 +115,32 @@ def profile(request) -> Profile:
             Profile.Axis.X,
         ),
         Profile.OrientationProfileTarget(
-            [
-                (Instant.J2000(), [1.0, 0.0, 0.0]),
-                (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
-                (Instant.J2000() + Duration.minutes(2.0), [1.0, 0.0, 0.0]),
-                (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
+            orientation_profile=[
+                (
+                    Instant.date_time(DateTime(2020, 1, 1, 0, 0, 30), Scale.UTC),
+                    np.array([1.0, 0.0, 0.0]),
+                ),
+                (
+                    Instant.date_time(DateTime(2020, 1, 1, 0, 0, 30), Scale.UTC)
+                    + Duration.minutes(1.0),
+                    np.array([1.0, 0.0, 0.0]),
+                ),
+                (
+                    Instant.date_time(DateTime(2020, 1, 1, 0, 0, 30), Scale.UTC)
+                    + Duration.minutes(2.0),
+                    np.array([1.0, 0.0, 0.0]),
+                ),
+                (
+                    Instant.date_time(DateTime(2020, 1, 1, 0, 0, 30), Scale.UTC)
+                    + Duration.minutes(3.0),
+                    np.array([1.0, 0.0, 0.0]),
+                ),
             ],
-            Profile.Axis.X,
+            axis=Profile.Axis.X,
         ),
         Profile.CustomTarget(
-            lambda state: [1.0, 0.0, 0.0],
-            Profile.Axis.X,
+            orientation_generator=lambda state: np.array([1.0, 0.0, 0.0]),
+            axis=Profile.Axis.X,
         ),
         # Vector3d-based constructors
         Profile.Target(Profile.TargetType.GeocentricNadir, [1.0, 0.0, 0.0]),
@@ -151,13 +171,16 @@ def profile(request) -> Profile:
         ),
     ]
 )
-def alignment_target() -> Profile.Target:
-    return Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X)
+def alignment_target(request) -> Profile.Target:
+    return request.param
 
 
 @pytest.fixture
 def clocking_target() -> Profile.Target:
-    return Profile.Target(Profile.TargetType.VelocityECI, Profile.Axis.Y)
+    return Profile.Target(
+        type=Profile.TargetType.VelocityECI,
+        axis=Profile.Axis.Y,
+    )
 
 
 class TestProfile:
@@ -165,11 +188,17 @@ class TestProfile:
         assert profile is not None
         assert isinstance(profile, Profile)
 
-    def test_profile_target(self, alignment_target: Profile.Target):
+    def test_profile_target(
+        self,
+        alignment_target: Profile.Target,
+    ):
         assert alignment_target is not None
         assert isinstance(alignment_target, Profile.Target)
 
-    def test_access_model(self, profile: Profile):
+    def test_access_model(
+        self,
+        profile: Profile,
+    ):
         model = profile.access_model()
 
         assert model is not None
@@ -180,19 +209,31 @@ class TestProfile:
         if model.is_tabulated():
             assert model.as_tabulated() is not None
 
-    def test_get_state_at(self, profile: Profile, instant: Instant):
+    def test_get_state_at(
+        self,
+        profile: Profile,
+        instant: Instant,
+    ):
         state: State = profile.get_state_at(instant)
 
         assert state is not None
         assert isinstance(state, State)
         state.is_defined()
 
-    def test_get_states_at(self, profile: Profile, instant: Instant):
+    def test_get_states_at(
+        self,
+        profile: Profile,
+        instant: Instant,
+    ):
         states = profile.get_states_at([instant, instant])
 
         assert states is not None
 
-    def test_get_axes_at(self, profile: Profile, instant: Instant):
+    def test_get_axes_at(
+        self,
+        profile: Profile,
+        instant: Instant,
+    ):
         axes = profile.get_axes_at(instant)
 
         assert axes is not None
@@ -224,7 +265,10 @@ class TestProfile:
             Position.meters((0.0, 0.0, 0.0), Frame.ITRF())
         )
 
-        profile: Profile = Profile.inertial_pointing(trajectory, quaternion)
+        profile: Profile = Profile.inertial_pointing(
+            trajectory=trajectory,
+            quaternion=quaternion,
+        )
 
         assert profile is not None
         assert isinstance(profile, Profile)
@@ -235,7 +279,8 @@ class TestProfile:
         orbit: Orbit,
     ):
         profile: Profile = Profile.local_orbital_frame_pointing(
-            orbit, Orbit.FrameType.VVLH
+            orbit=orbit,
+            orbital_frame_type=Orbit.FrameType.VVLH,
         )
 
         assert profile is not None
