@@ -962,7 +962,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                 const AccessTarget accessTarget = accessTargets.at(i);
 
                 const Array<Access> expectedAccesses =
-                    defaultGenerator_.computeAccesses(interval, accessTarget, aToTrajectory);
+                    defaultGenerator_.computeAccesses(interval, accessTarget, toTrajectory);
 
                 ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
 
@@ -1016,7 +1016,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                 const AccessTarget accessTarget = accessTargets.at(i);
 
                 const Array<Access> expectedAccesses =
-                    defaultGenerator_.computeAccesses(interval, accessTarget, aToTrajectory);
+                    defaultGenerator_.computeAccesses(interval, accessTarget, toTrajectory);
 
                 ASSERT_EQ(accesses.getSize(), expectedAccesses.getSize());
 
