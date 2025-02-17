@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1739796055719,
+  "lastUpdate": 1739822661319,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 3184968141.9000034,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3184875454.200002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c9cc2ac49079696dd82b8c6930bc5c5bfe5d91e3",
+          "message": "fix: remove zero duration access interval padding (#524)\n\n* fix: zero duration access interval bug\n\n* refactor: remove unnecessary null interval check\n\n---------\n\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>",
+          "timestamp": "2025-02-17T19:44:38Z",
+          "tree_id": "bb7a7b4635b21e5e498bf275640fd5db467fab1c",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/c9cc2ac49079696dd82b8c6930bc5c5bfe5d91e3"
+        },
+        "date": 1739822659963,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 539874563.1999929,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 539696450.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 876133236.3000122,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 876029967.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3188586438.0999975,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3188416469.5 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3189348122.4999957,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3189197487.4999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3191876811.3,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3191703847.1000013 ns\nthreads: 1"
           }
         ]
       }
