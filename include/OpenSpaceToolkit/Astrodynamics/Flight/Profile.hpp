@@ -72,16 +72,6 @@ using ostk::astrodynamics::trajectory::State;
 class Profile
 {
    public:
-    enum class PointingMode
-    {
-
-        Undefined,  ///< Undefined pointing mode
-        Inertial,   ///< Inertial pointing mode (the spacecraft points to a celestial object)
-        Nadir,      ///< Nadir pointing mode (the spacecraft points points "directly down")
-        Target,     ///< Target pointing mode (the spacecraft points to a given target position)
-        Custom      ///< Custom pointing mode
-    };
-
     enum class Axis
     {
         X,
