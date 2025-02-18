@@ -527,10 +527,10 @@
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a52230a41412b3ce41b8688a8b0a6785e" kind="function"><name>generateAccessesFromIntervals</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a03c578cbf4f653ef69892b318754a8ea" kind="function"><name>computePreciseCrossings</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1af8dc7f2e1d27630a6421a97427c45327" kind="function"><name>ComputeIntervals</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a597227bf2aee3a292795967a045ca359" kind="function"><name>GenerateAccess</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a6da150a5ee57db4e9175d0c63c97fecc" kind="function"><name>GenerateAccess</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab77bb1d3c4895a42212585640ca610e8" kind="function"><name>FindTimeOfClosestApproach</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79d95dcfc19c7c232d8f4abb61a51fa5" kind="function"><name>CalculateElevationAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a9bc0ec97334962a75ae7eac3d06cd439" kind="function"><name>CalculateAer</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a606262101c72820e55493026dc611f14" kind="function"><name>CalculateElevationAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae1a56ca0b66c094eb9c29ae495edb9b1" kind="function"><name>CalculateAer</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1_guidance_law" kind="class"><name>ostk::astrodynamics::GuidanceLaw</name>
     <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9ccb9065feabe9baff67daba6759106e" kind="variable"><name>name_</name></member>
