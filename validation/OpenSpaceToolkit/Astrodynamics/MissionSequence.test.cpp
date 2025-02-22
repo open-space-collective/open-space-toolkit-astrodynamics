@@ -41,9 +41,8 @@ class OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence : public ::testi
    protected:
     const Dictionary defaultTree_ =
         CntrObject::Load(
-            File::Path(
-                Path::Parse("/app/validation/OpenSpaceToolkit/Astrodynamics/data/test/test_mission_sequence.yaml")
-            ),
+            File::Path(Path::Parse("/app/validation/OpenSpaceToolkit/Astrodynamics/data/test/test_mission_sequence.yaml"
+            )),
             CntrObject::Format::YAML
         )
             .accessDictionary();

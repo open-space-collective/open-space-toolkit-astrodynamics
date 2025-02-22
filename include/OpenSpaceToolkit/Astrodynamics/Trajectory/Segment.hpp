@@ -125,9 +125,8 @@ class Segment
         /// @param aNumericalSolver a numerical solver to use for the propagation between states
         /// @param anInstantArray an array of instants
         /// @return States at specified instants
-        Array<State> calculateStatesAt(
-            const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver
-        ) const;
+        Array<State> calculateStatesAt(const Array<Instant>& anInstantArray, const NumericalSolver& aNumericalSolver)
+            const;
 
         /// @brief Get dynamics contribution
         ///

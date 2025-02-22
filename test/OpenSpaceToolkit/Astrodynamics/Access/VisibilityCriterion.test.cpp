@@ -41,10 +41,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
         const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
         const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
-        EXPECT_NO_THROW(
-            VisibilityCriterion visibilityCriterion =
-                VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
-        );
+        EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
+                            VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval););
 
         // Undefined
 
@@ -110,10 +108,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
             const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
             const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
-            EXPECT_NO_THROW(
-                VisibilityCriterion visibilityCriterion =
-                    VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
-            );
+            EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
+                                VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval););
         }
 
         // Incorrect bounds
@@ -168,24 +164,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
     // FromLineOfSight
     {
-        EXPECT_NO_THROW(
-            VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromLineOfSight(defaultEnvironment_);
-        );
+        EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
+                            VisibilityCriterion::FromLineOfSight(defaultEnvironment_););
     }
 
     // FromElevationInterval
     {
         const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
 
-        EXPECT_NO_THROW(
-            VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromElevationInterval(elevationInterval);
-        );
+        EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
+                            VisibilityCriterion::FromElevationInterval(elevationInterval););
 
         // Incorrect bounds
         {
             EXPECT_THROW(
-                VisibilityCriterion::FromElevationInterval(
-                    ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0)
+                VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0)
                 ),
                 ostk::core::error::RuntimeError
             );

@@ -100,11 +100,9 @@ AccessTarget AccessTarget::FromLLA(
     return AccessTarget(
         AccessTarget::Type::Fixed,
         aVisibilityCriterion,
-        Trajectory::Position(
-            Position::Meters(
-                anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()), Frame::ITRF()
-            )
-        )
+        Trajectory::Position(Position::Meters(
+            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()), Frame::ITRF()
+        ))
     );
 }
 
@@ -474,8 +472,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         }
     );
 
-    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](
-                                const Vector3d& aToPositionCoordinates_ITRF
+    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
                             ) -> Triple<VectorXd, VectorXd, VectorXd>
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
@@ -508,8 +505,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    const auto computeElevations =
-        [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
+    const auto computeElevations = [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
+                                   ) -> VectorXd
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
         const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
@@ -748,8 +745,8 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
     std::function<bool(const Instant&)> condition;
 
-    const auto computeAER =
-        [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory](const Instant& instant) -> Triple<Real, Real, Real>
+    const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory](const Instant& instant
+                            ) -> Triple<Real, Real, Real>
     {
         const Vector3d toPositionCoordinates_ITRF =
             aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();

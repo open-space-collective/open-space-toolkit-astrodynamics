@@ -132,11 +132,9 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::
     void SetUp() override
     {
         const Table observationData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
+            )),
             Table::Format::CSV,
             true
         );

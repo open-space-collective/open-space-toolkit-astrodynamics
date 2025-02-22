@@ -1074,12 +1074,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_5)
             Length::Meters(0.0),
         };
 
-        const Trajectory trajectory = Trajectory::Position(
-            Position::Meters(
-                lla.toCartesian(defaultEarthSPtr_->getEquatorialRadius(), defaultEarthSPtr_->getFlattening()),
-                Frame::ITRF()
-            )
-        );
+        const Trajectory trajectory = Trajectory::Position(Position::Meters(
+            lla.toCartesian(defaultEarthSPtr_->getEquatorialRadius(), defaultEarthSPtr_->getFlattening()), Frame::ITRF()
+        ));
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0));
@@ -1211,9 +1208,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")
-        );
+        const File referenceDataFile =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")
+            );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 

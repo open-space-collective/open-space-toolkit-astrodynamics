@@ -181,11 +181,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -294,11 +292,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_2/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_2/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -414,11 +410,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_3)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_3/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_3/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -523,11 +517,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_4)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_4/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_4/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -632,11 +624,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_5)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_5/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_5/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -741,11 +731,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_6/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_6/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
