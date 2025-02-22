@@ -62,11 +62,9 @@ Array<State> loadData(const String& aFileName)
     Array<State> observations;
 
     const Table observationData = Table::Load(
-        File::Path(
-            Path::Parse(
-                String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
-            )
-        ),
+        File::Path(Path::Parse(
+            String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
+        )),
         Table::Format::CSV,
         true
     );

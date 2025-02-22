@@ -270,11 +270,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Passes.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -330,11 +328,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/Satellite Passes.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -482,12 +478,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
-                    "Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -674,12 +666,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
             // Reference data setup
 
             const Table referenceData = Table::Load(
-                File::Path(
-                    Path::Parse(
-                        "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
-                        "Satellite Passes.csv"
-                    )
-                ),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
+                                       "Satellite Passes.csv")),
                 Table::Format::CSV,
                 true
             );
@@ -878,12 +866,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
-                    "Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -946,12 +930,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_2/"
-                    "Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_2/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -1014,12 +994,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_4/"
-                    "Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_4/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
@@ -1225,35 +1201,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
-                    "Satellite Passes.csv"
-                )
-            ),
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/Test_1/"
+                                   "Satellite Passes.csv")),
             Table::Format::CSV,
             true
         );
 
         // Pass test
 
-        const Array<Pass> passes = orbit.getPassesWithinInterval(
-            Interval::Closed(
-                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-                Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
-            )
-        );
+        const Array<Pass> passes = orbit.getPassesWithinInterval(Interval::Closed(
+            Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+            Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
+        ));
 
         EXPECT_TRUE(passes.getSize() > 0);
         EXPECT_EQ(passes.getSize() - 1, referenceData.getRowCount());
 
         // Test regenerating with cached passes
-        EXPECT_NO_THROW(orbit.getPassesWithinInterval(
-            Interval::Closed(
-                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-                Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
-            )
-        ));
+        EXPECT_NO_THROW(orbit.getPassesWithinInterval(Interval::Closed(
+            Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+            Instant::DateTime(DateTime::Parse("2018-01-01 23:00:00"), Scale::UTC)
+        )));
 
         for (const auto &referenceRow : referenceData)
         {
@@ -1444,14 +1412,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             const Angle angularTolerance = std::get<1>(testCase);
             const Angle angularVelocityTolerance = std::get<2>(testCase);
 
-            const File referenceDataFile = File::Path(
-                Path::Parse(
-                    String::Format(
-                        "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/{}_GCRF.csv",
-                        Orbit::StringFromFrameType(frameType)
-                    )
-                )
-            );
+            const File referenceDataFile = File::Path(Path::Parse(String::Format(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/{}_GCRF.csv",
+                Orbit::StringFromFrameType(frameType)
+            )));
 
             const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -1588,8 +1552,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
              Angle::Degrees(0.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")
              ),
              1e-3,
              1e-6,
@@ -1599,8 +1562,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
              Angle::Degrees(45.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")
              ),
              1e-3,
              1e-6,
@@ -1610,8 +1572,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
              Angle::Degrees(90.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")
              ),
              1e-3,
              1e-6,
@@ -1621,8 +1582,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
              Angle::Degrees(135.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")
              ),
              1e-3,
              1e-6,
@@ -1632,8 +1592,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
              Angle::Degrees(180.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")
              ),
              1e-3,
              1e-6,
@@ -1643,8 +1602,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(5000.0),
              Angle::Degrees(0.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")
              ),
              1e-3,
              1e-6,
@@ -1654,8 +1612,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(5000.0),
              Angle::Degrees(45.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")
              ),
              1e-3,
              1e-6,
@@ -1665,8 +1622,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(5000.0),
              Angle::Degrees(90.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")
              ),
              1e-3,
              1e-6,
@@ -1676,8 +1632,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(5000.0),
              Angle::Degrees(135.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")
              ),
              1e-3,
              1e-6,
@@ -1687,9 +1642,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(5000.0),
              Angle::Degrees(180.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv")
-             ),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv"
+             )),
              1e-3,
              1e-6,
              1e-1,
@@ -1882,11 +1836,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
             {"Scenario 1",
              Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
-             File::Path(
-                 Path::Parse(
-                     "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv"
-                 )
-             ),
+             File::Path(Path::Parse(
+                 "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv"
+             )),
              1e-3,
              1e-6,
              1e-1,

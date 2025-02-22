@@ -317,9 +317,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
     }
 
     {
-        EXPECT_ANY_THROW(
-            Trajectory::Undefined().getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC))
-        );
+        EXPECT_ANY_THROW(Trajectory::Undefined().getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC)
+        ));
     }
 }
 
@@ -422,12 +421,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(
-            Trajectory::Undefined().getStatesAt(
-                {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-            )
-        );
+        EXPECT_ANY_THROW(Trajectory::Undefined().getStatesAt(
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+        ));
     }
 }
 
@@ -553,13 +550,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 
                 EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-12));
 
-                EXPECT_TRUE(
-                    LLA::Cartesian(
-                        state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                    )
-                        .toVector()
-                        .isNear(startLLA.toVector(), 1e-12)
-                );
+                EXPECT_TRUE(LLA::Cartesian(
+                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
+                )
+                                .toVector()
+                                .isNear(startLLA.toVector(), 1e-12));
             }
 
             {
@@ -567,13 +562,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 
                 EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-12));
 
-                EXPECT_TRUE(
-                    LLA::Cartesian(
-                        state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                    )
-                        .toVector()
-                        .isNear(endLLA.toVector(), 1e-12)
-                );
+                EXPECT_TRUE(LLA::Cartesian(
+                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
+                )
+                                .toVector()
+                                .isNear(endLLA.toVector(), 1e-12));
             }
         }
     }
@@ -656,13 +649,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 
                 EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-13));
 
-                EXPECT_TRUE(
-                    LLA::Cartesian(
-                        state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                    )
-                        .toVector()
-                        .isNear(startLLA.toVector(), 1e-12)
-                );
+                EXPECT_TRUE(LLA::Cartesian(
+                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
+                )
+                                .toVector()
+                                .isNear(startLLA.toVector(), 1e-12));
             }
 
             {
@@ -674,13 +665,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 
                 EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-13));
 
-                EXPECT_TRUE(
-                    LLA::Cartesian(
-                        state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                    )
-                        .toVector()
-                        .isNear(endLLA.toVector(), 1e-8)
-                );
+                EXPECT_TRUE(LLA::Cartesian(
+                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
+                )
+                                .toVector()
+                                .isNear(endLLA.toVector(), 1e-8));
             }
         }
     }

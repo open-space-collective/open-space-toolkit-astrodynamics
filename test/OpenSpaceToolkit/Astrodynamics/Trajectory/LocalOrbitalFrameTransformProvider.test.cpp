@@ -93,11 +93,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         }
 
         {
-            EXPECT_ANY_THROW(
-                LocalOrbitalFrameTransformProvider::Construct(
-                    LocalOrbitalFrameTransformProvider::Type::Undefined, state_
-                )
-            );
+            EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
+                LocalOrbitalFrameTransformProvider::Type::Undefined, state_
+            ));
         }
 
         {
@@ -131,9 +129,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
 {
     {
         {
-            const auto transformGenerator = LocalOrbitalFrameTransformProvider::GetTransformGenerator(
-                LocalOrbitalFrameTransformProvider::Type::VNC
-            );
+            const auto transformGenerator =
+                LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::VNC
+                );
 
             const Transform transform = transformGenerator(state_);
 
@@ -141,9 +139,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         }
 
         {
-            const auto transformGenerator = LocalOrbitalFrameTransformProvider::GetTransformGenerator(
-                LocalOrbitalFrameTransformProvider::Type::NED
-            );
+            const auto transformGenerator =
+                LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::NED
+                );
 
             const Transform transform = transformGenerator(state_);
 
@@ -151,9 +149,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         }
 
         {
-            const auto transformGenerator = LocalOrbitalFrameTransformProvider::GetTransformGenerator(
-                LocalOrbitalFrameTransformProvider::Type::LVLH
-            );
+            const auto transformGenerator =
+                LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::LVLH
+                );
 
             const Transform transform = transformGenerator(state_);
 
@@ -161,9 +159,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         }
 
         {
-            const auto transformGenerator = LocalOrbitalFrameTransformProvider::GetTransformGenerator(
-                LocalOrbitalFrameTransformProvider::Type::QSW
-            );
+            const auto transformGenerator =
+                LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::QSW
+                );
 
             const Transform transform = transformGenerator(state_);
 
@@ -171,9 +169,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         }
 
         {
-            const auto transformGenerator = LocalOrbitalFrameTransformProvider::GetTransformGenerator(
-                LocalOrbitalFrameTransformProvider::Type::TNW
-            );
+            const auto transformGenerator =
+                LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::TNW
+                );
 
             const Transform transform = transformGenerator(state_);
 

@@ -177,18 +177,16 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
         }
     }
 
-    celestials.add(
-        std::make_shared<const Earth>(Earth::FromModels(
-            std::make_shared<EarthGravitationalModel>(
-                earthGravitationalModelType,
-                Directory::Undefined(),
-                earthGravitationalModelDegree,
-                earthGravitationalModelOrder
-            ),
-            std::make_shared<EarthMagneticModel>(earthMagneticModelType),
-            std::make_shared<EarthAtmosphericModel>(earthAtmosphericModelType)
-        ))
-    );
+    celestials.add(std::make_shared<const Earth>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(
+            earthGravitationalModelType,
+            Directory::Undefined(),
+            earthGravitationalModelDegree,
+            earthGravitationalModelOrder
+        ),
+        std::make_shared<EarthMagneticModel>(earthMagneticModelType),
+        std::make_shared<EarthAtmosphericModel>(earthAtmosphericModelType)
+    )));
 
     return Environment(Instant::J2000(), celestials);
 }

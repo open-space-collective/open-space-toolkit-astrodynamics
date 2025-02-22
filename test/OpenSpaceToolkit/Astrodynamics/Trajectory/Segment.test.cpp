@@ -872,15 +872,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Coast)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
 {
     {
-        EXPECT_NO_THROW(
-            Segment::Maneuver(
-                defaultName_,
-                defaultInstantCondition_,
-                defaultThrusterDynamicsSPtr_,
-                defaultDynamics_,
-                defaultNumericalSolver_
-            )
-        );
+        EXPECT_NO_THROW(Segment::Maneuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        ));
     }
 }
 

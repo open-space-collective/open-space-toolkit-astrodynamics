@@ -245,12 +245,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(
-            Profile::Undefined().getStatesAt(
-                {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-            )
-        );
+        EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+        ));
     }
 }
 
@@ -307,12 +305,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
-                "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
-        );
+        const File referenceDataFile =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
+                                   "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -425,10 +420,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                        "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -538,10 +531,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                        "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -651,10 +642,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                        "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);

@@ -318,12 +318,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
 {
     // Reference data setup
     const Table referenceData = Table::Load(
-        File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                "Propagated/CalculateStatesAt_StateValidation.csv"
-            )
-        ),
+        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                               "Propagated/CalculateStatesAt_StateValidation.csv")),
         Table::Format::CSV,
         true
     );
@@ -348,8 +344,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         });
     }
 
-    const auto getState =
-        [&instantArray, &referencePositionArray, &referenceVelocityArray, this](const Size& index) -> State
+    const auto getState = [&instantArray, &referencePositionArray, &referenceVelocityArray, this](const Size& index
+                          ) -> State
     {
         const Instant startInstant = instantArray[index];
         return {

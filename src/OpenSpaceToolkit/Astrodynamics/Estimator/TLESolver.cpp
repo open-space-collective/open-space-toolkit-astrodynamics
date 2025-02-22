@@ -197,8 +197,7 @@ TLESolver::Analysis TLESolver::estimate(
     {
         if (estimateBStar_)
         {
-            throw ostk::core::error::RuntimeError(
-                "Initial guess must be a TLE or (State, B*) when also estimating B*."
+            throw ostk::core::error::RuntimeError("Initial guess must be a TLE or (State, B*) when also estimating B*."
             );
         }
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
