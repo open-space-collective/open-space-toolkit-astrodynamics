@@ -240,8 +240,8 @@ Profile Profile::CustomPointing(
     const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
 )
 {
-    // Copy the orientation generator to avoid dangling references.
-    auto dynamicProviderGenerator = [&anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
+    // Copy the orbit and orientation generator to avoid dangling references.
+    auto dynamicProviderGenerator = [anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
     {
         const State state = anOrbit.getStateAt(anInstant);
 
