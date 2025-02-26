@@ -1037,8 +1037,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
     {
         Profile profile = Profile::Undefined();
         {
-            const Orbit anotherOrbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
-            
+            const Orbit anotherOrbit =
+                Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+
             profile = Profile::CustomPointing(anotherOrbit, alignmentTargetSPtr, clockingTargetSPtr);
         }
 
