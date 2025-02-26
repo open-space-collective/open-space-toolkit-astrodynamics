@@ -1032,6 +1032,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
             EXPECT_TRUE(calculatedState.getAttitude().isNear(expectedState.getAttitude(), Angle::Arcseconds(1e-15)));
         }
     }
+
+    // Regression test for dangling orbit reference when a custom pointing profile
+    {
+        Profile profile = Profile::Undefined();
+        {
+            const Orbit anotherOrbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+            
+            profile = Profile::CustomPointing(anotherOrbit, alignmentTargetSPtr, clockingTargetSPtr);
+        }
+
+        EXPECT_NO_THROW(profile.getStateAt(epoch));
+    }
 }
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
