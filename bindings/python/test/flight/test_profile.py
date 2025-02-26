@@ -125,6 +125,28 @@ def clocking_target() -> Profile.Target:
     return Profile.Target(Profile.TargetType.VelocityECI, Profile.Axis.Y)
 
 
+# This profile is defined with an orbit that is instantiated within the method
+# Regression test for issue where CustomPointing method was passing the orbit as a reference
+# causing the orbit to be deallocated before the profile was used
+@pytest.fixture
+def dangling_profile(
+    instant: Instant,
+    environment: Environment,
+    alignment_target: Profile.Target,
+    clocking_target: Profile.Target,
+) -> Profile:
+    return Profile.custom_pointing(
+        orbit=Orbit.sun_synchronous(
+            epoch=instant,
+            altitude=Length.kilometers(500.0),
+            local_time_at_descending_node=Time(14, 0, 0),
+            celestial_object=environment.access_celestial_object_with_name("Earth"),
+        ),
+        alignment_target=alignment_target,
+        clocking_target=clocking_target,
+    )
+
+
 class TestProfile:
     def test_constructors(self, profile: Profile):
         assert profile is not None
@@ -253,3 +275,11 @@ class TestProfile:
 
         assert profile is not None
         assert profile.is_defined()
+
+    # Regression test for issue where CustomPointing method was passing the orbit as a reference
+    # causing the orbit to be deallocated before the profile was used
+    def test_custom_pointing_dangling_orbit(
+        self,
+        dangling_profile: Profile,
+    ):
+        assert dangling_profile.get_state_at(Instant.J2000()) is not None
