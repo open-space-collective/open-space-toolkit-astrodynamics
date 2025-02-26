@@ -628,7 +628,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="170" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="170" bodyend="241"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="170" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="170" bodyend="240"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1abc9881ac10e5c03b868dfe723382bfbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -694,7 +694,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="183" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="243" bodyend="254"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="183" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="242" bodyend="253"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -726,7 +726,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="210" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="256" bodyend="273"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="210" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="255" bodyend="272"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1afe0f108c0e5c26f76145ac98e113ebb8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
@@ -756,7 +756,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="217" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="275" bodyend="295"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="217" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="274" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae713082b605ebcb46517068c766abfac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -799,7 +799,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="225" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="297" bodyend="325"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="225" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="296" bodyend="324"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

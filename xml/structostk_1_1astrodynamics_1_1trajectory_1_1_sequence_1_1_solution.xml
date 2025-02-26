@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="117" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" bodystart="117" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="116" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a3bb7b646d95875e00eb0691b62107ce3" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="118" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" bodystart="118" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="117" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" bodystart="117" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -321,7 +321,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp" bodystart="131" bodyend="173"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="107" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp" bodystart="131" bodyend="173"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -365,7 +365,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="115" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp" bodystart="175" bodyend="180"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="114" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp" bodystart="175" bodyend="180"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -385,7 +385,7 @@
         <label>Array&lt; ostk::astrodynamics::trajectory::Segment::Solution &gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" bodystart="47" bodyend="119"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp" bodystart="47" bodyend="118"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a312e082f40475a45d12a271e56dd881b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence::Solution</scope><name>accessEndInstant</name></member>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1_1_solution_1a65111e910c157cc9bafe3eca916d686a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence::Solution</scope><name>accessStartInstant</name></member>

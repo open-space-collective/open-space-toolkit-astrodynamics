@@ -810,136 +810,135 @@
 <codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(estimateBStar_)</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight></codeline>
-<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Initial<sp/>guess<sp/>must<sp/>be<sp/>a<sp/>TLE<sp/>or<sp/>(State,<sp/>B*)<sp/>when<sp/>also<sp/>estimating<sp/>B*.&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialGuessTLEState<sp/>=<sp/>CartesianStateAndBStarToTLEState(*state);</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"></highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>inputs<sp/>to<sp/>an<sp/>inertial<sp/>frame<sp/>for<sp/>estimation</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>initialGuessTLEState<sp/>=<sp/>initialGuessTLEState.inFrame(estimationFrameSPtr_);</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"></highlight></codeline>
-<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>observationsInEstimationFrame<sp/>=<sp/>anObservationStateArray.map&lt;State&gt;(</highlight></codeline>
-<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)<sp/>-&gt;<sp/>State</highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aState.inFrame(estimationFrameSPtr_);</highlight></codeline>
-<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="216"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stateGenerator<sp/>=<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Instant&gt;&amp;<sp/>anInstantArray)<sp/>-&gt;<sp/>Array&lt;State&gt;</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TLE<sp/>tle<sp/>=<sp/>TLEStateToTLE(aState);</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SGP4<sp/>sgp4(tle);</highlight></codeline>
-<codeline lineno="221"><highlight class="normal"></highlight></codeline>
-<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states;</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.reserve(anInstantArray.getSize());</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"></highlight></codeline>
-<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>instant<sp/>:<sp/>anInstantArray)</highlight></codeline>
-<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(sgp4.calculateStateAt(instant).inFrame(estimationFrameSPtr_));</highlight></codeline>
-<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="229"><highlight class="normal"></highlight></codeline>
-<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>states;</highlight></codeline>
-<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="232"><highlight class="normal"></highlight></codeline>
-<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LeastSquaresSolver::Analysis<sp/>analysis<sp/>=<sp/>solver_.solve(</highlight></codeline>
-<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialGuessTLEState,<sp/>observationsInEstimationFrame,<sp/>stateGenerator,<sp/>anInitialGuessSigmas,<sp/>anObservationSigmas</highlight></codeline>
-<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="236"><highlight class="normal"></highlight></codeline>
-<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>solution<sp/>state<sp/>to<sp/>TLE</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TLE<sp/>estimatedTLE<sp/>=<sp/>TLEStateToTLE(analysis.estimatedState);</highlight></codeline>
-<codeline lineno="239"><highlight class="normal"></highlight></codeline>
-<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Analysis(estimatedTLE,<sp/>analysis);</highlight></codeline>
-<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="242"><highlight class="normal"></highlight></codeline>
-<codeline lineno="243"><highlight class="normal">Orbit<sp/>TLESolver::estimateOrbit(</highlight></codeline>
-<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::variant&lt;TLE,<sp/>Pair&lt;State,<sp/>Real&gt;,<sp/>State&gt;&amp;<sp/>anInitialGuess,</highlight></codeline>
-<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>anObservationStateArray,</highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;CoordinateSubset,<sp/>VectorXd&gt;&amp;<sp/>anInitialGuessSigmas,</highlight></codeline>
-<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;CoordinateSubset,<sp/>VectorXd&gt;&amp;<sp/>anObservationSigmas</highlight></codeline>
-<codeline lineno="248"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="249"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Analysis<sp/>analysis<sp/>=</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimate(anInitialGuess,<sp/>anObservationStateArray,<sp/>anInitialGuessSigmas,<sp/>anObservationSigmas);</highlight></codeline>
-<codeline lineno="252"><highlight class="normal"></highlight></codeline>
-<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Orbit(SGP4(analysis.estimatedTLE),<sp/>std::make_shared&lt;Earth&gt;(Earth::Spherical()));</highlight></codeline>
-<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"></highlight></codeline>
-<codeline lineno="256"><highlight class="normal">State<sp/>TLESolver::TLEToTLEState(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TLE&amp;<sp/>aTLE)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="257"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;double&gt;<sp/>coordinates<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getInclination().inRadians(),</highlight></codeline>
-<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getRaan().inRadians(),</highlight></codeline>
-<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getEccentricity(),</highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getAop().inRadians(),</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getMeanAnomaly().inRadians(),</highlight></codeline>
-<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getMeanMotion().in(Derived::Unit::RevolutionPerDay())</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"></highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(estimateBStar_)</highlight></codeline>
-<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinates.add(aTLE.getBStarDragTerm());</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="271"><highlight class="normal"></highlight></codeline>
-<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tleStateBuilder_.build(aTLE.getEpoch(),<sp/>Eigen::Map&lt;VectorXd&gt;(coordinates.data(),<sp/>coordinates.size()));</highlight></codeline>
-<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="274"><highlight class="normal"></highlight></codeline>
-<codeline lineno="275"><highlight class="normal">TLE<sp/>TLESolver::TLEStateToTLE(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aTLEState)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="276"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TLE::Construct(</highlight></codeline>
-<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>satelliteNumber_,</highlight></codeline>
-<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;U&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>internationalDesignator_,</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLEState.getInstant(),</highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>firstDerivativeMeanMotionDividedBy2_,</highlight></codeline>
-<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>secondDerivativeMeanMotionDividedBy6_,</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimateBStar_<sp/>?<sp/>Real(aTLEState.extractCoordinate(BStarSubset)[0])<sp/>:<sp/>defaultBStar_,</highlight></codeline>
-<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ephemerisType_,</highlight></codeline>
-<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elementSetNumber_,</highlight></codeline>
-<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(InclinationSubset)[0]),</highlight></codeline>
-<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(RaanSubset)[0]),</highlight></codeline>
-<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLEState.extractCoordinate(EccentricitySubset)[0],</highlight></codeline>
-<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(AopSubset)[0]),</highlight></codeline>
-<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(MeanAnomalySubset)[0]),</highlight></codeline>
-<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Derived(aTLEState.extractCoordinate(MeanMotionSubset)[0],<sp/>Derived::Unit::RevolutionPerDay()),</highlight></codeline>
-<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revolutionNumber_</highlight></codeline>
-<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="296"><highlight class="normal"></highlight></codeline>
-<codeline lineno="297"><highlight class="normal">State<sp/>TLESolver::CartesianStateAndBStarToTLEState(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aCartesianState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aBStar)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="298"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>cartesianStateTEME<sp/>=<sp/>aCartesianState.inFrame(Frame::TEME());</highlight></codeline>
-<codeline lineno="300"><highlight class="normal"></highlight></codeline>
-<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>to<sp/>Brouwer-Lyddane<sp/>mean<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BrouwerLyddaneMeanLong<sp/>coe<sp/>=<sp/>BrouwerLyddaneMeanLong::Cartesian(</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{cartesianStateTEME.getPosition(),<sp/>cartesianStateTEME.getVelocity()},</highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EarthGravitationalModel::EGM2008.gravitationalParameter_</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="306"><highlight class="normal"></highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;double&gt;<sp/>coordinates<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getInclination().inRadians(),</highlight></codeline>
-<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getRaan().inRadians(),</highlight></codeline>
-<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getEccentricity(),</highlight></codeline>
-<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getAop().inRadians(),</highlight></codeline>
-<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getMeanAnomaly().inRadians(),</highlight></codeline>
-<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_)</highlight></codeline>
-<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.in(Derived::Unit::RevolutionPerDay())</highlight></codeline>
-<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="316"><highlight class="normal"></highlight></codeline>
-<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(estimateBStar_)</highlight></codeline>
-<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinates.add(aBStar);</highlight></codeline>
-<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="321"><highlight class="normal"></highlight></codeline>
-<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tleStateBuilder_.build(</highlight></codeline>
-<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cartesianStateTEME.getInstant(),<sp/>Eigen::Map&lt;VectorXd&gt;(coordinates.data(),<sp/>coordinates.size())</highlight></codeline>
-<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="326"><highlight class="normal"></highlight></codeline>
-<codeline lineno="327"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>estimator</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="328"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="329"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Initial<sp/>guess<sp/>must<sp/>be<sp/>a<sp/>TLE<sp/>or<sp/>(State,<sp/>B*)<sp/>when<sp/>also<sp/>estimating<sp/>B*.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialGuessTLEState<sp/>=<sp/>CartesianStateAndBStarToTLEState(*state);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>inputs<sp/>to<sp/>an<sp/>inertial<sp/>frame<sp/>for<sp/>estimation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>initialGuessTLEState<sp/>=<sp/>initialGuessTLEState.inFrame(estimationFrameSPtr_);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>observationsInEstimationFrame<sp/>=<sp/>anObservationStateArray.map&lt;State&gt;(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)<sp/>-&gt;<sp/>State</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aState.inFrame(estimationFrameSPtr_);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stateGenerator<sp/>=<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Instant&gt;&amp;<sp/>anInstantArray)<sp/>-&gt;<sp/>Array&lt;State&gt;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TLE<sp/>tle<sp/>=<sp/>TLEStateToTLE(aState);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SGP4<sp/>sgp4(tle);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.reserve(anInstantArray.getSize());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>instant<sp/>:<sp/>anInstantArray)</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(sgp4.calculateStateAt(instant).inFrame(estimationFrameSPtr_));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>states;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LeastSquaresSolver::Analysis<sp/>analysis<sp/>=<sp/>solver_.solve(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialGuessTLEState,<sp/>observationsInEstimationFrame,<sp/>stateGenerator,<sp/>anInitialGuessSigmas,<sp/>anObservationSigmas</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>solution<sp/>state<sp/>to<sp/>TLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TLE<sp/>estimatedTLE<sp/>=<sp/>TLEStateToTLE(analysis.estimatedState);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Analysis(estimatedTLE,<sp/>analysis);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">Orbit<sp/>TLESolver::estimateOrbit(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::variant&lt;TLE,<sp/>Pair&lt;State,<sp/>Real&gt;,<sp/>State&gt;&amp;<sp/>anInitialGuess,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>anObservationStateArray,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;CoordinateSubset,<sp/>VectorXd&gt;&amp;<sp/>anInitialGuessSigmas,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;CoordinateSubset,<sp/>VectorXd&gt;&amp;<sp/>anObservationSigmas</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="248"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Analysis<sp/>analysis<sp/>=</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimate(anInitialGuess,<sp/>anObservationStateArray,<sp/>anInitialGuessSigmas,<sp/>anObservationSigmas);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Orbit(SGP4(analysis.estimatedTLE),<sp/>std::make_shared&lt;Earth&gt;(Earth::Spherical()));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal">State<sp/>TLESolver::TLEToTLEState(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TLE&amp;<sp/>aTLE)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="256"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;double&gt;<sp/>coordinates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getInclination().inRadians(),</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getRaan().inRadians(),</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getEccentricity(),</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getAop().inRadians(),</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getMeanAnomaly().inRadians(),</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLE.getMeanMotion().in(Derived::Unit::RevolutionPerDay())</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(estimateBStar_)</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinates.add(aTLE.getBStarDragTerm());</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tleStateBuilder_.build(aTLE.getEpoch(),<sp/>Eigen::Map&lt;VectorXd&gt;(coordinates.data(),<sp/>coordinates.size()));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal">TLE<sp/>TLESolver::TLEStateToTLE(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aTLEState)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="275"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TLE::Construct(</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>satelliteNumber_,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;U&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>internationalDesignator_,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLEState.getInstant(),</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>firstDerivativeMeanMotionDividedBy2_,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>secondDerivativeMeanMotionDividedBy6_,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimateBStar_<sp/>?<sp/>Real(aTLEState.extractCoordinate(BStarSubset)[0])<sp/>:<sp/>defaultBStar_,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ephemerisType_,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elementSetNumber_,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(InclinationSubset)[0]),</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(RaanSubset)[0]),</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTLEState.extractCoordinate(EccentricitySubset)[0],</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(AopSubset)[0]),</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Radians(aTLEState.extractCoordinate(MeanAnomalySubset)[0]),</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Derived(aTLEState.extractCoordinate(MeanMotionSubset)[0],<sp/>Derived::Unit::RevolutionPerDay()),</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revolutionNumber_</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal">State<sp/>TLESolver::CartesianStateAndBStarToTLEState(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aCartesianState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aBStar)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="297"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>cartesianStateTEME<sp/>=<sp/>aCartesianState.inFrame(Frame::TEME());</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>to<sp/>Brouwer-Lyddane<sp/>mean<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BrouwerLyddaneMeanLong<sp/>coe<sp/>=<sp/>BrouwerLyddaneMeanLong::Cartesian(</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{cartesianStateTEME.getPosition(),<sp/>cartesianStateTEME.getVelocity()},</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EarthGravitationalModel::EGM2008.gravitationalParameter_</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;double&gt;<sp/>coordinates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getInclination().inRadians(),</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getRaan().inRadians(),</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getEccentricity(),</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getAop().inRadians(),</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getMeanAnomaly().inRadians(),</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_)</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.in(Derived::Unit::RevolutionPerDay())</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(estimateBStar_)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinates.add(aBStar);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tleStateBuilder_.build(</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cartesianStateTEME.getInstant(),<sp/>Eigen::Map&lt;VectorXd&gt;(coordinates.data(),<sp/>coordinates.size())</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>estimator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp"/>
   </compounddef>

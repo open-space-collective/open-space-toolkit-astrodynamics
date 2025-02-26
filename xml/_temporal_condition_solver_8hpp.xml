@@ -126,31 +126,30 @@
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a2375139500504e596af4cf369386cbfc" kindref="member">solve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a4bad6785f908ff551d34918c90fb88d8" kindref="member">TemporalConditionSolver::Condition</ref>&amp;<sp/>aCondition,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a2375139500504e596af4cf369386cbfc" kindref="member">solve</ref>(</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>timeStep_;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>tolerance_;</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>maximumIterationCount_;</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>findSwitchingInstant(</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>aPreviousInstant,</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>aNextInstant,</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>EvaluateConditionAt(</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>solver</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a2375139500504e596af4cf369386cbfc" kindref="member">solve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>timeStep_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>tolerance_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>maximumIterationCount_;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>findSwitchingInstant(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>aPreviousInstant,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>aNextInstant,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>EvaluateConditionAt(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TemporalConditionSolver::Condition&gt;&amp;<sp/>aConditionArray</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>solver</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp"/>
   </compounddef>

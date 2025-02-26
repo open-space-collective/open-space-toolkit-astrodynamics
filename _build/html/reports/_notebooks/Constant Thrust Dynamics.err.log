@@ -41,5 +41,5 @@ Cell [0;32mIn[3], line 31[0m, in [0;36mThrusterDynamics.compute_contribution
 [0;31mTypeError[0m: generate_frame(): incompatible function arguments. The following argument types are supported:
     1. (self: ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory, state: ostk::astrodynamics::trajectory::State) -> ostk.physics.coordinate.Frame
 
-Invoked with: <ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory object at 0x7fe68046c0f0>, 2000-01-01 11:58:55.816 [UTC], array([7000000.,       0.,       0.]), array([   0.        , 5335.86545062, 5335.86545062])
+Invoked with: <ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory object at 0x7f22286bc030>, 2000-01-01 11:58:55.816 [UTC], array([7000000.,       0.,       0.]), array([   0.        , 5335.86545062, 5335.86545062])
 

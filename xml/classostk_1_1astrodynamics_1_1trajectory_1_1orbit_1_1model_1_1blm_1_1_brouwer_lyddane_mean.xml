@@ -208,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="105" column="17"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="104" column="17"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-static-func">
@@ -262,7 +262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="113" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.cpp" bodystart="75" bodyend="267"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="112" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.cpp" bodystart="75" bodyend="267"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -328,7 +328,7 @@
         <label>Length</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="59" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" bodystart="58" bodyend="118"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="59" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" bodystart="58" bodyend="117"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean</scope><name>anomaly_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean</scope><name>AnomalyType</name></member>

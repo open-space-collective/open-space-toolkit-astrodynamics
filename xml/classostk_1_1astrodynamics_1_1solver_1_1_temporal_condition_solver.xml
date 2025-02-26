@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="86" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="86" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="85" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a0acef4f2eb78b0b5733aa1d1fe39ee4a" prot="private" static="no" mutable="no">
         <type>Duration</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="87" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="87" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="86" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a597107edcbb428280720f3d113ca6efb" prot="private" static="no" mutable="no">
         <type>Size</type>
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="88" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="88" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="87" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="87" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -276,7 +276,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="90" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="116" bodyend="138"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="89" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="116" bodyend="138"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -299,7 +299,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="96" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="140" bodyend="152"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="95" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="140" bodyend="152"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -307,7 +307,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="31" bodyend="99"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="31" bodyend="98"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a4bad6785f908ff551d34918c90fb88d8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::TemporalConditionSolver</scope><name>Condition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a7706968c3edeab64567d2855ac6e8c1b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::TemporalConditionSolver</scope><name>EvaluateConditionAt</name></member>

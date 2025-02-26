@@ -1478,468 +1478,467 @@
 <codeline lineno="991"><highlight class="normal"></highlight></codeline>
 <codeline lineno="992"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ecliptic<sp/>latitude<sp/>of<sp/>the<sp/>Sun</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="993"><highlight class="normal"></highlight></codeline>
-<codeline lineno="994"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>sunEclipticLatitude_rad<sp/>=<sp/>Angle::Degrees(</highlight></codeline>
-<codeline lineno="995"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::fmod(</highlight></codeline>
-<codeline lineno="996"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sunMeanLongitude_deg<sp/>+<sp/>1.914666471<sp/>*<sp/>std::sin(sunMeanAnomaly_rad)<sp/>+</highlight></codeline>
-<codeline lineno="997"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.019994643<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>sunMeanAnomaly_rad),</highlight></codeline>
-<codeline lineno="998"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>360.0</highlight></codeline>
-<codeline lineno="999"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
-<codeline lineno="1000"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
-<codeline lineno="1001"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.inRadians();</highlight></codeline>
-<codeline lineno="1002"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1003"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>the<sp/>equation<sp/>of<sp/>time</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1004"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1005"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>equationOfTime_deg<sp/>=</highlight></codeline>
-<codeline lineno="1006"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1.914666471<sp/>*<sp/>std::sin(sunMeanAnomaly_rad)<sp/>-<sp/>0.019994643<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>sunMeanAnomaly_rad)<sp/>+</highlight></codeline>
-<codeline lineno="1007"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.466<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>sunEclipticLatitude_rad)<sp/>-<sp/>0.0053<sp/>*<sp/>std::sin(4.0<sp/>*<sp/>sunEclipticLatitude_rad);</highlight></codeline>
-<codeline lineno="1008"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1009"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Angle::Degrees(equationOfTime_deg);</highlight></codeline>
-<codeline lineno="1010"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1011"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1012"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>calculateRaan<sp/>=<sp/>[calculateEquationOfTime,<sp/>&amp;anEpoch](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Time&amp;<sp/>aLocalTimeAtAscendingNode)<sp/>-&gt;<sp/>Angle</highlight></codeline>
-<codeline lineno="1013"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1014"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>localTime<sp/>=<sp/>(aLocalTimeAtAscendingNode.getHour()<sp/>/<sp/>1.0)<sp/>+</highlight></codeline>
-<codeline lineno="1015"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getMinute()<sp/>/<sp/>60.0)<sp/>+</highlight></codeline>
-<codeline lineno="1016"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getSecond()<sp/>/<sp/>3600.0)<sp/>+</highlight></codeline>
-<codeline lineno="1017"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getMillisecond()<sp/>/<sp/>(3600.0<sp/>*<sp/>1e3))<sp/>+</highlight></codeline>
-<codeline lineno="1018"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getMicrosecond()<sp/>/<sp/>(3600.0<sp/>*<sp/>1e6))<sp/>+</highlight></codeline>
-<codeline lineno="1019"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getNanosecond()<sp/>/<sp/>(3600.0<sp/>*<sp/>1e9));</highlight></codeline>
-<codeline lineno="1020"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1021"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Sun<sp/>sun<sp/>=<sp/>Sun::Default();<sp/><sp/></highlight><highlight class="comment">//<sp/>[TBM]<sp/>This<sp/>is<sp/>a<sp/>temporary<sp/>solution</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1022"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1023"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sun<sp/>direction<sp/>in<sp/>GCRF</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1024"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1025"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>sunDirection_GCRF<sp/>=<sp/>sun.getPositionIn(Frame::GCRF(),<sp/>anEpoch).getCoordinates().normalized();</highlight></codeline>
-<codeline lineno="1026"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1027"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Desired<sp/>angle<sp/>between<sp/>the<sp/>Sun<sp/>and<sp/>the<sp/>ascending<sp/>node</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1028"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1029"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>alpha<sp/>=<sp/>Angle::Degrees((localTime<sp/>-<sp/>12.0)<sp/>/<sp/>12.0<sp/>*<sp/>180.0);</highlight></codeline>
-<codeline lineno="1030"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1031"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sun<sp/>Apparent<sp/>Local<sp/>Time<sp/>(right<sp/>ascension<sp/>of<sp/>the<sp/>Sun<sp/>in<sp/>GCRF)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1032"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1033"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1034"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>apparentSolarTime<sp/>=<sp/>Angle::Radians(std::atan2(sunDirection_GCRF.y(),<sp/>sunDirection_GCRF.x()));</highlight></codeline>
-<codeline lineno="1035"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1036"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Equation<sp/>of<sp/>Time</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1037"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://en.wikipedia.org/wiki/Equation_of_time</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1038"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1039"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>equationOfTime<sp/>=<sp/>calculateEquationOfTime(anEpoch);</highlight></codeline>
-<codeline lineno="1040"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1041"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sun<sp/>Mean<sp/>Local<sp/>Time</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1042"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://en.wikipedia.org/wiki/Solar_time#Mean_solar_time</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1043"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1044"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>meanSolarTime<sp/>=<sp/>apparentSolarTime<sp/>+<sp/>equationOfTime;</highlight></codeline>
-<codeline lineno="1045"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1046"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Right<sp/>Ascension<sp/>of<sp/>the<sp/>Ascending<sp/>Node</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1047"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1048"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>raan<sp/>=<sp/>Angle::Radians(std::fmod(meanSolarTime.inRadians()<sp/>+<sp/>alpha.inRadians(),<sp/>Real::TwoPi()));</highlight></codeline>
-<codeline lineno="1049"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1050"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>raan;</highlight></codeline>
-<codeline lineno="1051"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1052"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1053"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>calculateLocalTimeAtAscendingNode<sp/>=<sp/>[&amp;aLocalTimeAtDescendingNode]()<sp/>-&gt;<sp/>Time</highlight></codeline>
-<codeline lineno="1054"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1055"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="1056"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Uint8((aLocalTimeAtDescendingNode.getHour()<sp/>+<sp/>12)<sp/>%<sp/>24),</highlight></codeline>
-<codeline lineno="1057"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getMinute(),</highlight></codeline>
-<codeline lineno="1058"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getSecond(),</highlight></codeline>
-<codeline lineno="1059"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getMillisecond(),</highlight></codeline>
-<codeline lineno="1060"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getMicrosecond(),</highlight></codeline>
-<codeline lineno="1061"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getNanosecond()</highlight></codeline>
-<codeline lineno="1062"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1063"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1064"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1065"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length<sp/>semiMajorAxis<sp/>=<sp/>aCelestialObjectSPtr-&gt;getEquatorialRadius()<sp/>+<sp/>anAltitude;</highlight></codeline>
-<codeline lineno="1066"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>eccentricity<sp/>=<sp/>0.0;</highlight></codeline>
-<codeline lineno="1067"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>inclination<sp/>=<sp/>calculateSunSynchronousInclination(semiMajorAxis);</highlight></codeline>
-<codeline lineno="1068"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>raan<sp/>=<sp/>calculateRaan(calculateLocalTimeAtAscendingNode());</highlight></codeline>
-<codeline lineno="1069"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>aop<sp/>=<sp/>Angle::Zero();</highlight></codeline>
-<codeline lineno="1070"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>trueAnomaly<sp/>=<sp/>anArgumentOfLatitude<sp/>-<sp/>aop;</highlight></codeline>
-<codeline lineno="1071"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1072"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>COE<sp/>coe<sp/>=<sp/>{semiMajorAxis,<sp/>eccentricity,<sp/>inclination,<sp/>raan,<sp/>aop,<sp/>trueAnomaly};</highlight></codeline>
-<codeline lineno="1073"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1074"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Kepler<sp/>orbitalModel<sp/>=<sp/>{coe,<sp/>anEpoch,<sp/>(*aCelestialObjectSPtr),<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
-<codeline lineno="1075"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1076"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[TBM]<sp/>STK<sp/>propagates<sp/>SSOs<sp/>in<sp/>the<sp/>TrueOfOrbitEpoch<sp/>(true<sp/>equator<sp/>and<sp/>true<sp/>equinox<sp/>of<sp/>the<sp/>Earth<sp/>at<sp/>the<sp/>orbit<sp/>epoch)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1077"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>frame,<sp/>most<sp/>likely<sp/>to<sp/>preserve<sp/>the<sp/>J2<sp/>symmetry<sp/>around<sp/>the<sp/>true<sp/>Z-axis<sp/>(true<sp/>equator<sp/>normal).</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1078"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1079"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{orbitalModel,<sp/>aCelestialObjectSPtr};</highlight></codeline>
-<codeline lineno="1080"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1081"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1082"><highlight class="normal">Orbit<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1abfe96c2c860e18c24672daff8e9b9062" kindref="member">Orbit::Frozen</ref>(</highlight></codeline>
-<codeline lineno="1083"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEpoch,</highlight></codeline>
-<codeline lineno="1084"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length&amp;<sp/>anAltitude,</highlight></codeline>
-<codeline lineno="1085"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Celestial&gt;&amp;<sp/>aCelestialObjectSPtr,</highlight></codeline>
-<codeline lineno="1086"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anEccentricity,</highlight></codeline>
-<codeline lineno="1087"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>anInclination,</highlight></codeline>
-<codeline lineno="1088"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>aRaan,</highlight></codeline>
-<codeline lineno="1089"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>anAop,</highlight></codeline>
-<codeline lineno="1090"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>aTrueAnomaly</highlight></codeline>
-<codeline lineno="1091"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="1092"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1093"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anEpoch.isDefined())</highlight></codeline>
-<codeline lineno="1094"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1095"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Epoch&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1096"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1097"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anAltitude.isDefined())</highlight></codeline>
-<codeline lineno="1098"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1099"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Altitude&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((aCelestialObjectSPtr<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>||<sp/>(!aCelestialObjectSPtr-&gt;isDefined()))</highlight></codeline>
-<codeline lineno="1102"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Celestial<sp/>object&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length<sp/>equatorialRadius<sp/>=<sp/>aCelestialObjectSPtr-&gt;getEquatorialRadius();</highlight></codeline>
-<codeline lineno="1107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length<sp/>semiMajorAxis<sp/>=<sp/>equatorialRadius<sp/>+<sp/>anAltitude;</highlight></codeline>
-<codeline lineno="1108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>COE<sp/>coe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa250ad7c9959fe6469970027742b3de8" kindref="member">COE::FrozenOrbit</ref>(</highlight></codeline>
-<codeline lineno="1110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>semiMajorAxis,<sp/>aCelestialObjectSPtr,<sp/>anEccentricity,<sp/>anInclination,<sp/>aRaan,<sp/>anAop,<sp/>aTrueAnomaly</highlight></codeline>
-<codeline lineno="1111"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Kepler<sp/>orbitalModel<sp/>=<sp/>{coe,<sp/>anEpoch,<sp/>{*aCelestialObjectSPtr},<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
-<codeline lineno="1114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{orbitalModel,<sp/>aCelestialObjectSPtr};</highlight></codeline>
-<codeline lineno="1116"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1118"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" kindref="member">Orbit::StringFromFrameType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" kindref="member">Orbit::FrameType</ref>&amp;<sp/>aFrameType)</highlight></codeline>
-<codeline lineno="1119"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aFrameType)</highlight></codeline>
-<codeline lineno="1121"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23aec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Orbit::FrameType::Undefined</ref>:</highlight></codeline>
-<codeline lineno="1123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23acd3459b28418fa8fa75ffaba4f3e7c74" kindref="member">Orbit::FrameType::NED</ref>:</highlight></codeline>
-<codeline lineno="1126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NED&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1127"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23acdfe4a5ed313c123b78c17d455cfa94f" kindref="member">Orbit::FrameType::LVLH</ref>:</highlight></codeline>
-<codeline lineno="1129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LVLH&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23ae01a717c5a8a11cf57f7fdcb96aedc9c" kindref="member">Orbit::FrameType::VVLH</ref>:</highlight></codeline>
-<codeline lineno="1132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;VVLH&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a9f24a174bf2de776f4f87caef847746f" kindref="member">Orbit::FrameType::LVLHGD</ref>:</highlight></codeline>
-<codeline lineno="1135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LVLHGD&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1136"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a4dd0e4042dbace42a872f422b740e185" kindref="member">Orbit::FrameType::LVLHGDGT</ref>:</highlight></codeline>
-<codeline lineno="1138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LVLHGDGT&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1139"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a4f190ed692b3a94eb49da59c497c7f55" kindref="member">Orbit::FrameType::QSW</ref>:</highlight></codeline>
-<codeline lineno="1141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;QSW&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a6d951949ba8af28fa54a8629ec0f8f17" kindref="member">Orbit::FrameType::TNW</ref>:</highlight></codeline>
-<codeline lineno="1144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TNW&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23ac6a33911cc53df9bdb84aac8d86a0565" kindref="member">Orbit::FrameType::VNC</ref>:</highlight></codeline>
-<codeline lineno="1147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;VNC&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1148"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="1150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Frame<sp/>type&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1153"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Empty();</highlight></codeline>
-<codeline lineno="1155"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1157"><highlight class="normal">String<sp/>Orbit::generateFrameName(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" kindref="member">Orbit::FrameType</ref>&amp;<sp/>aFrameType)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1158"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>stringStream;</highlight></codeline>
-<codeline lineno="1160"><highlight class="normal"><sp/><sp/><sp/><sp/>stringStream<sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1161"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Format(</highlight><highlight class="stringliteral">&quot;{}<sp/>@<sp/>Orbit<sp/>[{}]&quot;</highlight><highlight class="normal">,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" kindref="member">Orbit::StringFromFrameType</ref>(aFrameType),<sp/>stringStream.str());</highlight></codeline>
-<codeline lineno="1163"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1164"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1165"><highlight class="normal">Array&lt;Pair&lt;Index,<sp/>Pass&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a970789fecee44d1fb733b9ada798f0d8" kindref="member">Orbit::ComputePasses</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Integer&amp;<sp/>anInitialRevolutionNumber)</highlight></codeline>
-<codeline lineno="1166"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anInitialRevolutionNumber.isDefined())</highlight></codeline>
-<codeline lineno="1168"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Initial<sp/>revolution<sp/>number&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1171"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>&lt;<sp/>2)</highlight></codeline>
-<codeline lineno="1173"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight></codeline>
-<codeline lineno="1175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Greater<sp/>than<sp/>2<sp/>states<sp/>required<sp/>to<sp/>compute<sp/>passes:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>aStateArray.getSize()</highlight></codeline>
-<codeline lineno="1176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Index<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>aStateArray.getSize();<sp/>++i)</highlight></codeline>
-<codeline lineno="1180"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray[i<sp/>-<sp/>1].accessInstant()<sp/>&gt;<sp/>aStateArray[i].accessInstant())</highlight></codeline>
-<codeline lineno="1182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;States<sp/>are<sp/>not<sp/>in<sp/>chronological<sp/>order.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1186"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>orbit::model::Tabulated<sp/>tabulated<sp/>=</highlight></codeline>
-<codeline lineno="1188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orbit::model::Tabulated(aStateArray,<sp/>anInitialRevolutionNumber,<sp/>Interpolator::Type::BarycentricRational);</highlight></codeline>
-<codeline lineno="1189"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Pass&gt;<sp/>passes<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" kindref="member">Orbit::ComputePassesWithModel</ref>(</highlight></codeline>
-<codeline lineno="1191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tabulated,</highlight></codeline>
-<codeline lineno="1192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aStateArray.accessFirst().accessInstant(),</highlight></codeline>
-<codeline lineno="1193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aStateArray.accessLast().accessInstant(),</highlight></codeline>
-<codeline lineno="1194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInitialRevolutionNumber</highlight></codeline>
-<codeline lineno="1195"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1196"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1197"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Index,<sp/>Pass&gt;&gt;<sp/>passMap;</highlight></codeline>
-<codeline lineno="1198"><highlight class="normal"><sp/><sp/><sp/><sp/>passMap.reserve(passes.getSize());</highlight></codeline>
-<codeline lineno="1199"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1200"><highlight class="normal"><sp/><sp/><sp/><sp/>Index<sp/>stateIndex<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="1201"><highlight class="normal"><sp/><sp/><sp/><sp/>Index<sp/>passIndex<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="1202"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stateIndex<sp/>&lt;<sp/>aStateArray.getSize())</highlight></codeline>
-<codeline lineno="1204"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>stateInstant<sp/>=<sp/>aStateArray[stateIndex].accessInstant();</highlight></codeline>
-<codeline lineno="1206"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(passes[passIndex].accessInstantAtPassBreak().<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1b164ea936fb2a37e0243dc2f2721aa9" kindref="member">isDefined</ref>()<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="1208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stateInstant<sp/>&gt;=<sp/>passes[passIndex].accessInstantAtPassBreak())</highlight></codeline>
-<codeline lineno="1209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passMap.add({stateIndex,<sp/>passes[passIndex]});</highlight></codeline>
-<codeline lineno="1211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++passIndex;</highlight></codeline>
-<codeline lineno="1212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1213"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stateIndex++;</highlight></codeline>
-<codeline lineno="1215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1216"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1217"><highlight class="normal"><sp/><sp/><sp/><sp/>passMap.add({stateIndex,<sp/>passes.accessLast()});</highlight></codeline>
-<codeline lineno="1218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>passMap;</highlight></codeline>
-<codeline lineno="1220"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1221"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1222"><highlight class="normal">Array&lt;Pass&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" kindref="member">Orbit::ComputePassesWithModel</ref>(</highlight></codeline>
-<codeline lineno="1223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>orbit::Model&amp;<sp/>aModel,</highlight></codeline>
-<codeline lineno="1224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>aStartInstant,</highlight></codeline>
-<codeline lineno="1225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,</highlight></codeline>
-<codeline lineno="1226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Integer&amp;<sp/>aRevolutionNumber</highlight></codeline>
-<codeline lineno="1227"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="1228"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[TBI]<sp/>Deal<sp/>w/<sp/>z_ECI<sp/>always<sp/>equal<sp/>to<sp/>0.0<sp/>case<sp/>(equatorial<sp/>orbit)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1230"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!aModel.isDefined())</highlight></codeline>
-<codeline lineno="1232"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Model&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1235"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!aRevolutionNumber.isDefined())</highlight></codeline>
-<codeline lineno="1237"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Revolution<sp/>number&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1240"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1241"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pass&gt;<sp/>passes<sp/>=<sp/>Array&lt;Pass&gt;::Empty();</highlight></codeline>
-<codeline lineno="1242"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1243"><highlight class="normal"><sp/><sp/><sp/><sp/>Integer<sp/>revolutionNumber<sp/>=<sp/>aRevolutionNumber;</highlight></codeline>
-<codeline lineno="1244"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>previousInstant<sp/>=<sp/>aStartInstant;</highlight></codeline>
-<codeline lineno="1245"><highlight class="normal"><sp/><sp/><sp/><sp/>State<sp/>previousState<sp/>=<sp/>aModel.calculateStateAt(previousInstant);</highlight></codeline>
-<codeline lineno="1246"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1247"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>previousPassEndInstant<sp/>=<sp/>(Real(previousState.getPosition().accessCoordinates().z()).isNear(0.0,<sp/>epsilon))</highlight></codeline>
-<codeline lineno="1248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>previousState.accessInstant()</highlight></codeline>
-<codeline lineno="1249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1250"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1251"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>northPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1252"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>descendingNodeCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1253"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>southPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1254"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>passBreakCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1255"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isForwardPropagated<sp/>=<sp/>aStartInstant<sp/>&lt;<sp/>anEndInstant;</highlight></codeline>
-<codeline lineno="1257"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>stepDuration<sp/>=<sp/>Duration::Minutes(5.0);</highlight></codeline>
-<codeline lineno="1258"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
-<codeline lineno="1260"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&gt;=<sp/>anEndInstant))<sp/>||</highlight></codeline>
-<codeline lineno="1262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&lt;=<sp/>anEndInstant)))</highlight></codeline>
-<codeline lineno="1263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1266"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tie(northPointCrossing,<sp/>descendingNodeCrossing,<sp/>southPointCrossing,<sp/>passBreakCrossing)<sp/>=</highlight></codeline>
-<codeline lineno="1268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Orbit::ComputeCrossings(aModel,<sp/>previousInstant,<sp/>stepDuration,<sp/>isForwardPropagated,<sp/>anEndInstant);</highlight></codeline>
-<codeline lineno="1269"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Pass<sp/>pass<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="1271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revolutionNumber,</highlight></codeline>
-<codeline lineno="1272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isForwardPropagated<sp/>?<sp/>previousPassEndInstant<sp/>:<sp/>passBreakCrossing,</highlight></codeline>
-<codeline lineno="1273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>northPointCrossing,</highlight></codeline>
-<codeline lineno="1274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing,</highlight></codeline>
-<codeline lineno="1275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>southPointCrossing,</highlight></codeline>
-<codeline lineno="1276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isForwardPropagated<sp/>?<sp/>passBreakCrossing<sp/>:<sp/>previousPassEndInstant,</highlight></codeline>
-<codeline lineno="1277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1278"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passes.add(pass);</highlight></codeline>
-<codeline lineno="1280"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>forward<sp/>propagating<sp/>and<sp/>the<sp/>pass<sp/>has<sp/>an<sp/>undefined<sp/>PassBreak,<sp/>then<sp/>we<sp/>have<sp/>crossed<sp/>the<sp/>end<sp/>of<sp/>the<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>backward<sp/>propagating<sp/>and<sp/>the<sp/>pass<sp/>has<sp/>an<sp/>undefined<sp/>AscendingNode,<sp/>then<sp/>we<sp/>have<sp/>crossed<sp/>the<sp/>end<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>!pass.accessInstantAtPassBreak().isDefined())<sp/>||</highlight></codeline>
-<codeline lineno="1285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>!pass.accessInstantAtAscendingNode().isDefined()))</highlight></codeline>
-<codeline lineno="1286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1289"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revolutionNumber<sp/>+=<sp/>isForwardPropagated<sp/>?<sp/>1<sp/>:<sp/>-1;</highlight></codeline>
-<codeline lineno="1291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousPassEndInstant<sp/>=<sp/>passBreakCrossing;</highlight></codeline>
-<codeline lineno="1292"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pass.isComplete())</highlight></codeline>
-<codeline lineno="1294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Duration&gt;<sp/>durations<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="1296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtNorthPoint()<sp/>-<sp/>pass.accessInstantAtAscendingNode()),</highlight></codeline>
-<codeline lineno="1297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtDescendingNode()<sp/>-<sp/>pass.accessInstantAtNorthPoint()),</highlight></codeline>
-<codeline lineno="1298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtSouthPoint()<sp/>-<sp/>pass.accessInstantAtDescendingNode()),</highlight></codeline>
-<codeline lineno="1299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtPassBreak()<sp/>-<sp/>pass.accessInstantAtSouthPoint()),</highlight></codeline>
-<codeline lineno="1300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stepDuration<sp/>=<sp/>*std::min_element(durations.begin(),<sp/>durations.end())<sp/>/<sp/>2.0;</highlight></codeline>
-<codeline lineno="1302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1303"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousInstant<sp/>=<sp/>isForwardPropagated<sp/>?<sp/>pass.accessInstantAtPassBreak()<sp/>+<sp/>Duration::Microseconds(1.0)</highlight></codeline>
-<codeline lineno="1305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>pass.accessInstantAtAscendingNode()<sp/>-<sp/>Duration::Microseconds(1.0);</highlight></codeline>
-<codeline lineno="1306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1307"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>passes;</highlight></codeline>
-<codeline lineno="1309"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1310"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1311"><highlight class="normal">Instant<sp/>Orbit::GetCrossingInstant(</highlight></codeline>
-<codeline lineno="1312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEpoch,</highlight></codeline>
-<codeline lineno="1313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>previousInstant,</highlight></codeline>
-<codeline lineno="1314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>currentInstant,</highlight></codeline>
-<codeline lineno="1315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)&gt;&amp;<sp/>getValue</highlight></codeline>
-<codeline lineno="1316"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="1317"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RootSolver::Solution<sp/>solution<sp/>=</highlight></codeline>
-<codeline lineno="1319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rootSolver.<ref refid="classostk_1_1astrodynamics_1_1_root_solver_1a269d952e1d23201ec771af0097eb4c8e" kindref="member">bisection</ref>(getValue,<sp/>(previousInstant<sp/>-<sp/>anEpoch).inSeconds(),<sp/>(currentInstant<sp/>-<sp/>anEpoch).inSeconds());</highlight></codeline>
-<codeline lineno="1320"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!solution.hasConverged)</highlight></codeline>
-<codeline lineno="1322"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Root<sp/>solver<sp/>did<sp/>not<sp/>converge.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1325"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anEpoch<sp/>+<sp/>Duration::Seconds(solution.root);</highlight></codeline>
-<codeline lineno="1327"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1328"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1329"><highlight class="normal">Tuple&lt;Instant,<sp/>Instant,<sp/>Instant,<sp/>Instant&gt;<sp/>Orbit::ComputeCrossings(</highlight></codeline>
-<codeline lineno="1330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>orbit::Model&amp;<sp/>aModel,</highlight></codeline>
-<codeline lineno="1331"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>previousInstant,</highlight></codeline>
-<codeline lineno="1332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aStepDuration,</highlight></codeline>
-<codeline lineno="1333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>isForwardPropagated,</highlight></codeline>
-<codeline lineno="1334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant</highlight></codeline>
-<codeline lineno="1335"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="1336"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1337"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>northPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1338"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>southPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1339"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>descendingNodeCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1340"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>passBreakCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
-<codeline lineno="1341"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(anEndInstant.isDefined())</highlight></codeline>
-<codeline lineno="1343"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&gt;=<sp/>anEndInstant))<sp/>||</highlight></codeline>
-<codeline lineno="1345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&lt;=<sp/>anEndInstant)))</highlight></codeline>
-<codeline lineno="1346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{northPointCrossing,<sp/>descendingNodeCrossing,<sp/>southPointCrossing,<sp/>passBreakCrossing};</highlight></codeline>
-<codeline lineno="1348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1350"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant<sp/>epoch<sp/>=<sp/>aModel.getEpoch();</highlight></codeline>
-<codeline lineno="1352"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>previousState<sp/>=<sp/>aModel.calculateStateAt(previousInstant);</highlight></codeline>
-<codeline lineno="1354"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>previousStateCoordinates_ECI_z<sp/>=<sp/>previousState.getPosition().accessCoordinates().z();</highlight></codeline>
-<codeline lineno="1355"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>previousStateCoordinates_ECI_zdot<sp/>=<sp/>previousState.getVelocity().accessCoordinates().z();</highlight></codeline>
-<codeline lineno="1356"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>getZ<sp/>=<sp/>[&amp;aModel,<sp/>&amp;epoch](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aDurationInSeconds)<sp/>-&gt;<sp/>Real</highlight></codeline>
-<codeline lineno="1358"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aModel.calculateStateAt(epoch<sp/>+<sp/>Duration::Seconds(aDurationInSeconds))</highlight></codeline>
-<codeline lineno="1360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getPosition()</highlight></codeline>
-<codeline lineno="1361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.accessCoordinates()</highlight></codeline>
-<codeline lineno="1362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.z();</highlight></codeline>
-<codeline lineno="1363"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1364"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>getZDot<sp/>=<sp/>[&amp;aModel,<sp/>&amp;epoch](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aDurationInSeconds)<sp/>-&gt;<sp/>Real</highlight></codeline>
-<codeline lineno="1366"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aModel.calculateStateAt(epoch<sp/>+<sp/>Duration::Seconds(aDurationInSeconds))</highlight></codeline>
-<codeline lineno="1368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getVelocity()</highlight></codeline>
-<codeline lineno="1369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.accessCoordinates()</highlight></codeline>
-<codeline lineno="1370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.z();</highlight></codeline>
-<codeline lineno="1371"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1372"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration<sp/>stepDuration<sp/>=<sp/>isForwardPropagated<sp/>?<sp/>aStepDuration<sp/>:<sp/>-aStepDuration;</highlight></codeline>
-<codeline lineno="1374"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>lastStep<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1376"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!passBreakCrossing.isDefined()<sp/>&amp;&amp;<sp/>!lastStep)</highlight></codeline>
-<codeline lineno="1378"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/>currentInstant<sp/>=<sp/>previousInstant<sp/>+<sp/>stepDuration;</highlight></codeline>
-<codeline lineno="1380"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(anEndInstant.isDefined())</highlight></codeline>
-<codeline lineno="1382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>(currentInstant<sp/>&gt;=<sp/>anEndInstant))<sp/>||</highlight></codeline>
-<codeline lineno="1384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>(currentInstant<sp/>&lt;=<sp/>anEndInstant)))</highlight></codeline>
-<codeline lineno="1385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>currentInstant<sp/>=<sp/>anEndInstant;</highlight></codeline>
-<codeline lineno="1387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastStep<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1390"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>currentState<sp/>=<sp/>aModel.calculateStateAt(currentInstant);</highlight></codeline>
-<codeline lineno="1392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>currentStateCoordinates_ECI_z<sp/>=<sp/>currentState.getPosition().accessCoordinates().z();</highlight></codeline>
-<codeline lineno="1393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>currentStateCoordinates_ECI_zdot<sp/>=<sp/>currentState.getVelocity().accessCoordinates().z();</highlight></codeline>
-<codeline lineno="1394"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((previousStateCoordinates_ECI_z<sp/>==<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_z<sp/>==<sp/>0.0))</highlight></codeline>
-<codeline lineno="1396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::ToBeImplemented(</highlight><highlight class="stringliteral">&quot;Equatorial<sp/>orbit<sp/>support.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1399"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(((previousStateCoordinates_ECI_zdot<sp/>&gt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_zdot<sp/>&lt;=<sp/>0.0))<sp/>||</highlight></codeline>
-<codeline lineno="1401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((previousStateCoordinates_ECI_zdot<sp/>&lt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_zdot<sp/>&gt;=<sp/>0.0)))</highlight></codeline>
-<codeline lineno="1402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(currentStateCoordinates_ECI_z<sp/>&gt;<sp/>0.0)</highlight></codeline>
-<codeline lineno="1404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>northPointCrossing<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZDot);</highlight></codeline>
-<codeline lineno="1406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>southPointCrossing<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZDot);</highlight></codeline>
-<codeline lineno="1410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1412"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((previousStateCoordinates_ECI_z<sp/>&gt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_z<sp/>&lt;=<sp/>0.0))</highlight></codeline>
-<codeline lineno="1414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant<sp/>crossingInstant<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZ);</highlight></codeline>
-<codeline lineno="1416"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isForwardPropagated)</highlight></codeline>
-<codeline lineno="1418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
-<codeline lineno="1420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passBreakCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
-<codeline lineno="1424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1426"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((previousStateCoordinates_ECI_z<sp/>&lt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_z<sp/>&gt;=<sp/>0.0))</highlight></codeline>
-<codeline lineno="1428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant<sp/>crossingInstant<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZ);</highlight></codeline>
-<codeline lineno="1430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isForwardPropagated)</highlight></codeline>
-<codeline lineno="1431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passBreakCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
-<codeline lineno="1433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
-<codeline lineno="1437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1439"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousStateCoordinates_ECI_z<sp/>=<sp/>currentStateCoordinates_ECI_z;</highlight></codeline>
-<codeline lineno="1441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousStateCoordinates_ECI_zdot<sp/>=<sp/>currentStateCoordinates_ECI_zdot;</highlight></codeline>
-<codeline lineno="1442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousInstant<sp/>=<sp/>currentInstant;</highlight></codeline>
-<codeline lineno="1443"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1444"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="1446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>northPointCrossing,</highlight></codeline>
-<codeline lineno="1447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing,</highlight></codeline>
-<codeline lineno="1448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>southPointCrossing,</highlight></codeline>
-<codeline lineno="1449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passBreakCrossing,</highlight></codeline>
-<codeline lineno="1450"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1451"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1452"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1453"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1454"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1455"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="994"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>sunEclipticLatitude_rad<sp/>=</highlight></codeline>
+<codeline lineno="995"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle::Degrees(std::fmod(</highlight></codeline>
+<codeline lineno="996"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sunMeanLongitude_deg<sp/>+<sp/>1.914666471<sp/>*<sp/>std::sin(sunMeanAnomaly_rad)<sp/>+</highlight></codeline>
+<codeline lineno="997"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.019994643<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>sunMeanAnomaly_rad),</highlight></codeline>
+<codeline lineno="998"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>360.0</highlight></codeline>
+<codeline lineno="999"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>))</highlight></codeline>
+<codeline lineno="1000"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.inRadians();</highlight></codeline>
+<codeline lineno="1001"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1002"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>the<sp/>equation<sp/>of<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1003"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1004"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>equationOfTime_deg<sp/>=</highlight></codeline>
+<codeline lineno="1005"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1.914666471<sp/>*<sp/>std::sin(sunMeanAnomaly_rad)<sp/>-<sp/>0.019994643<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>sunMeanAnomaly_rad)<sp/>+</highlight></codeline>
+<codeline lineno="1006"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.466<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>sunEclipticLatitude_rad)<sp/>-<sp/>0.0053<sp/>*<sp/>std::sin(4.0<sp/>*<sp/>sunEclipticLatitude_rad);</highlight></codeline>
+<codeline lineno="1007"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1008"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Angle::Degrees(equationOfTime_deg);</highlight></codeline>
+<codeline lineno="1009"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1010"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1011"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>calculateRaan<sp/>=<sp/>[calculateEquationOfTime,<sp/>&amp;anEpoch](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Time&amp;<sp/>aLocalTimeAtAscendingNode)<sp/>-&gt;<sp/>Angle</highlight></codeline>
+<codeline lineno="1012"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1013"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>localTime<sp/>=<sp/>(aLocalTimeAtAscendingNode.getHour()<sp/>/<sp/>1.0)<sp/>+</highlight></codeline>
+<codeline lineno="1014"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getMinute()<sp/>/<sp/>60.0)<sp/>+</highlight></codeline>
+<codeline lineno="1015"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getSecond()<sp/>/<sp/>3600.0)<sp/>+</highlight></codeline>
+<codeline lineno="1016"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getMillisecond()<sp/>/<sp/>(3600.0<sp/>*<sp/>1e3))<sp/>+</highlight></codeline>
+<codeline lineno="1017"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getMicrosecond()<sp/>/<sp/>(3600.0<sp/>*<sp/>1e6))<sp/>+</highlight></codeline>
+<codeline lineno="1018"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(aLocalTimeAtAscendingNode.getNanosecond()<sp/>/<sp/>(3600.0<sp/>*<sp/>1e9));</highlight></codeline>
+<codeline lineno="1019"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1020"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Sun<sp/>sun<sp/>=<sp/>Sun::Default();<sp/><sp/></highlight><highlight class="comment">//<sp/>[TBM]<sp/>This<sp/>is<sp/>a<sp/>temporary<sp/>solution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1021"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1022"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sun<sp/>direction<sp/>in<sp/>GCRF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1023"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1024"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>sunDirection_GCRF<sp/>=<sp/>sun.getPositionIn(Frame::GCRF(),<sp/>anEpoch).getCoordinates().normalized();</highlight></codeline>
+<codeline lineno="1025"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1026"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Desired<sp/>angle<sp/>between<sp/>the<sp/>Sun<sp/>and<sp/>the<sp/>ascending<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1027"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1028"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>alpha<sp/>=<sp/>Angle::Degrees((localTime<sp/>-<sp/>12.0)<sp/>/<sp/>12.0<sp/>*<sp/>180.0);</highlight></codeline>
+<codeline lineno="1029"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1030"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sun<sp/>Apparent<sp/>Local<sp/>Time<sp/>(right<sp/>ascension<sp/>of<sp/>the<sp/>Sun<sp/>in<sp/>GCRF)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1031"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1032"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1033"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>apparentSolarTime<sp/>=<sp/>Angle::Radians(std::atan2(sunDirection_GCRF.y(),<sp/>sunDirection_GCRF.x()));</highlight></codeline>
+<codeline lineno="1034"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1035"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Equation<sp/>of<sp/>Time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1036"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://en.wikipedia.org/wiki/Equation_of_time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1037"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1038"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>equationOfTime<sp/>=<sp/>calculateEquationOfTime(anEpoch);</highlight></codeline>
+<codeline lineno="1039"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1040"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sun<sp/>Mean<sp/>Local<sp/>Time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1041"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://en.wikipedia.org/wiki/Solar_time#Mean_solar_time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1042"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1043"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>meanSolarTime<sp/>=<sp/>apparentSolarTime<sp/>+<sp/>equationOfTime;</highlight></codeline>
+<codeline lineno="1044"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1045"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Right<sp/>Ascension<sp/>of<sp/>the<sp/>Ascending<sp/>Node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1046"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1047"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>raan<sp/>=<sp/>Angle::Radians(std::fmod(meanSolarTime.inRadians()<sp/>+<sp/>alpha.inRadians(),<sp/>Real::TwoPi()));</highlight></codeline>
+<codeline lineno="1048"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1049"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>raan;</highlight></codeline>
+<codeline lineno="1050"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1051"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1052"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>calculateLocalTimeAtAscendingNode<sp/>=<sp/>[&amp;aLocalTimeAtDescendingNode]()<sp/>-&gt;<sp/>Time</highlight></codeline>
+<codeline lineno="1053"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1054"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="1055"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Uint8((aLocalTimeAtDescendingNode.getHour()<sp/>+<sp/>12)<sp/>%<sp/>24),</highlight></codeline>
+<codeline lineno="1056"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getMinute(),</highlight></codeline>
+<codeline lineno="1057"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getSecond(),</highlight></codeline>
+<codeline lineno="1058"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getMillisecond(),</highlight></codeline>
+<codeline lineno="1059"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getMicrosecond(),</highlight></codeline>
+<codeline lineno="1060"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aLocalTimeAtDescendingNode.getNanosecond()</highlight></codeline>
+<codeline lineno="1061"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1062"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1063"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1064"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length<sp/>semiMajorAxis<sp/>=<sp/>aCelestialObjectSPtr-&gt;getEquatorialRadius()<sp/>+<sp/>anAltitude;</highlight></codeline>
+<codeline lineno="1065"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>eccentricity<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="1066"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>inclination<sp/>=<sp/>calculateSunSynchronousInclination(semiMajorAxis);</highlight></codeline>
+<codeline lineno="1067"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>raan<sp/>=<sp/>calculateRaan(calculateLocalTimeAtAscendingNode());</highlight></codeline>
+<codeline lineno="1068"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>aop<sp/>=<sp/>Angle::Zero();</highlight></codeline>
+<codeline lineno="1069"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle<sp/>trueAnomaly<sp/>=<sp/>anArgumentOfLatitude<sp/>-<sp/>aop;</highlight></codeline>
+<codeline lineno="1070"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1071"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>COE<sp/>coe<sp/>=<sp/>{semiMajorAxis,<sp/>eccentricity,<sp/>inclination,<sp/>raan,<sp/>aop,<sp/>trueAnomaly};</highlight></codeline>
+<codeline lineno="1072"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1073"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Kepler<sp/>orbitalModel<sp/>=<sp/>{coe,<sp/>anEpoch,<sp/>(*aCelestialObjectSPtr),<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="1074"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1075"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[TBM]<sp/>STK<sp/>propagates<sp/>SSOs<sp/>in<sp/>the<sp/>TrueOfOrbitEpoch<sp/>(true<sp/>equator<sp/>and<sp/>true<sp/>equinox<sp/>of<sp/>the<sp/>Earth<sp/>at<sp/>the<sp/>orbit<sp/>epoch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1076"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>frame,<sp/>most<sp/>likely<sp/>to<sp/>preserve<sp/>the<sp/>J2<sp/>symmetry<sp/>around<sp/>the<sp/>true<sp/>Z-axis<sp/>(true<sp/>equator<sp/>normal).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1077"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1078"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{orbitalModel,<sp/>aCelestialObjectSPtr};</highlight></codeline>
+<codeline lineno="1079"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1080"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1081"><highlight class="normal">Orbit<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1abfe96c2c860e18c24672daff8e9b9062" kindref="member">Orbit::Frozen</ref>(</highlight></codeline>
+<codeline lineno="1082"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEpoch,</highlight></codeline>
+<codeline lineno="1083"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length&amp;<sp/>anAltitude,</highlight></codeline>
+<codeline lineno="1084"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Celestial&gt;&amp;<sp/>aCelestialObjectSPtr,</highlight></codeline>
+<codeline lineno="1085"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anEccentricity,</highlight></codeline>
+<codeline lineno="1086"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>anInclination,</highlight></codeline>
+<codeline lineno="1087"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>aRaan,</highlight></codeline>
+<codeline lineno="1088"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>anAop,</highlight></codeline>
+<codeline lineno="1089"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>aTrueAnomaly</highlight></codeline>
+<codeline lineno="1090"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="1091"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1092"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anEpoch.isDefined())</highlight></codeline>
+<codeline lineno="1093"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1094"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Epoch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1095"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1096"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anAltitude.isDefined())</highlight></codeline>
+<codeline lineno="1097"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1098"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Altitude&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1099"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((aCelestialObjectSPtr<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>||<sp/>(!aCelestialObjectSPtr-&gt;isDefined()))</highlight></codeline>
+<codeline lineno="1101"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Celestial<sp/>object&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length<sp/>equatorialRadius<sp/>=<sp/>aCelestialObjectSPtr-&gt;getEquatorialRadius();</highlight></codeline>
+<codeline lineno="1106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Length<sp/>semiMajorAxis<sp/>=<sp/>equatorialRadius<sp/>+<sp/>anAltitude;</highlight></codeline>
+<codeline lineno="1107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>COE<sp/>coe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa250ad7c9959fe6469970027742b3de8" kindref="member">COE::FrozenOrbit</ref>(</highlight></codeline>
+<codeline lineno="1109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>semiMajorAxis,<sp/>aCelestialObjectSPtr,<sp/>anEccentricity,<sp/>anInclination,<sp/>aRaan,<sp/>anAop,<sp/>aTrueAnomaly</highlight></codeline>
+<codeline lineno="1110"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Kepler<sp/>orbitalModel<sp/>=<sp/>{coe,<sp/>anEpoch,<sp/>{*aCelestialObjectSPtr},<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="1113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{orbitalModel,<sp/>aCelestialObjectSPtr};</highlight></codeline>
+<codeline lineno="1115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1117"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" kindref="member">Orbit::StringFromFrameType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" kindref="member">Orbit::FrameType</ref>&amp;<sp/>aFrameType)</highlight></codeline>
+<codeline lineno="1118"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(aFrameType)</highlight></codeline>
+<codeline lineno="1120"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23aec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Orbit::FrameType::Undefined</ref>:</highlight></codeline>
+<codeline lineno="1122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23acd3459b28418fa8fa75ffaba4f3e7c74" kindref="member">Orbit::FrameType::NED</ref>:</highlight></codeline>
+<codeline lineno="1125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23acdfe4a5ed313c123b78c17d455cfa94f" kindref="member">Orbit::FrameType::LVLH</ref>:</highlight></codeline>
+<codeline lineno="1128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LVLH&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23ae01a717c5a8a11cf57f7fdcb96aedc9c" kindref="member">Orbit::FrameType::VVLH</ref>:</highlight></codeline>
+<codeline lineno="1131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;VVLH&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a9f24a174bf2de776f4f87caef847746f" kindref="member">Orbit::FrameType::LVLHGD</ref>:</highlight></codeline>
+<codeline lineno="1134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LVLHGD&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a4dd0e4042dbace42a872f422b740e185" kindref="member">Orbit::FrameType::LVLHGDGT</ref>:</highlight></codeline>
+<codeline lineno="1137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LVLHGDGT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a4f190ed692b3a94eb49da59c497c7f55" kindref="member">Orbit::FrameType::QSW</ref>:</highlight></codeline>
+<codeline lineno="1140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;QSW&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23a6d951949ba8af28fa54a8629ec0f8f17" kindref="member">Orbit::FrameType::TNW</ref>:</highlight></codeline>
+<codeline lineno="1143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TNW&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23ac6a33911cc53df9bdb84aac8d86a0565" kindref="member">Orbit::FrameType::VNC</ref>:</highlight></codeline>
+<codeline lineno="1146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;VNC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="1149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Wrong(</highlight><highlight class="stringliteral">&quot;Frame<sp/>type&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Empty();</highlight></codeline>
+<codeline lineno="1154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1156"><highlight class="normal">String<sp/>Orbit::generateFrameName(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ada07446a77b5ceb5ba20d092de1e2e23" kindref="member">Orbit::FrameType</ref>&amp;<sp/>aFrameType)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1157"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>stringStream;</highlight></codeline>
+<codeline lineno="1159"><highlight class="normal"><sp/><sp/><sp/><sp/>stringStream<sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>String::Format(</highlight><highlight class="stringliteral">&quot;{}<sp/>@<sp/>Orbit<sp/>[{}]&quot;</highlight><highlight class="normal">,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" kindref="member">Orbit::StringFromFrameType</ref>(aFrameType),<sp/>stringStream.str());</highlight></codeline>
+<codeline lineno="1162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1164"><highlight class="normal">Array&lt;Pair&lt;Index,<sp/>Pass&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a970789fecee44d1fb733b9ada798f0d8" kindref="member">Orbit::ComputePasses</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Integer&amp;<sp/>anInitialRevolutionNumber)</highlight></codeline>
+<codeline lineno="1165"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anInitialRevolutionNumber.isDefined())</highlight></codeline>
+<codeline lineno="1167"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Initial<sp/>revolution<sp/>number&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>&lt;<sp/>2)</highlight></codeline>
+<codeline lineno="1172"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight></codeline>
+<codeline lineno="1174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Greater<sp/>than<sp/>2<sp/>states<sp/>required<sp/>to<sp/>compute<sp/>passes:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>aStateArray.getSize()</highlight></codeline>
+<codeline lineno="1175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Index<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>aStateArray.getSize();<sp/>++i)</highlight></codeline>
+<codeline lineno="1179"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray[i<sp/>-<sp/>1].accessInstant()<sp/>&gt;<sp/>aStateArray[i].accessInstant())</highlight></codeline>
+<codeline lineno="1181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;States<sp/>are<sp/>not<sp/>in<sp/>chronological<sp/>order.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>orbit::model::Tabulated<sp/>tabulated<sp/>=</highlight></codeline>
+<codeline lineno="1187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orbit::model::Tabulated(aStateArray,<sp/>anInitialRevolutionNumber,<sp/>Interpolator::Type::BarycentricRational);</highlight></codeline>
+<codeline lineno="1188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Pass&gt;<sp/>passes<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" kindref="member">Orbit::ComputePassesWithModel</ref>(</highlight></codeline>
+<codeline lineno="1190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tabulated,</highlight></codeline>
+<codeline lineno="1191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aStateArray.accessFirst().accessInstant(),</highlight></codeline>
+<codeline lineno="1192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aStateArray.accessLast().accessInstant(),</highlight></codeline>
+<codeline lineno="1193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInitialRevolutionNumber</highlight></codeline>
+<codeline lineno="1194"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1196"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Index,<sp/>Pass&gt;&gt;<sp/>passMap;</highlight></codeline>
+<codeline lineno="1197"><highlight class="normal"><sp/><sp/><sp/><sp/>passMap.reserve(passes.getSize());</highlight></codeline>
+<codeline lineno="1198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1199"><highlight class="normal"><sp/><sp/><sp/><sp/>Index<sp/>stateIndex<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="1200"><highlight class="normal"><sp/><sp/><sp/><sp/>Index<sp/>passIndex<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="1201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stateIndex<sp/>&lt;<sp/>aStateArray.getSize())</highlight></codeline>
+<codeline lineno="1203"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>stateInstant<sp/>=<sp/>aStateArray[stateIndex].accessInstant();</highlight></codeline>
+<codeline lineno="1205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(passes[passIndex].accessInstantAtPassBreak().<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1b164ea936fb2a37e0243dc2f2721aa9" kindref="member">isDefined</ref>()<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="1207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stateInstant<sp/>&gt;=<sp/>passes[passIndex].accessInstantAtPassBreak())</highlight></codeline>
+<codeline lineno="1208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passMap.add({stateIndex,<sp/>passes[passIndex]});</highlight></codeline>
+<codeline lineno="1210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++passIndex;</highlight></codeline>
+<codeline lineno="1211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stateIndex++;</highlight></codeline>
+<codeline lineno="1214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1216"><highlight class="normal"><sp/><sp/><sp/><sp/>passMap.add({stateIndex,<sp/>passes.accessLast()});</highlight></codeline>
+<codeline lineno="1217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>passMap;</highlight></codeline>
+<codeline lineno="1219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1221"><highlight class="normal">Array&lt;Pass&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" kindref="member">Orbit::ComputePassesWithModel</ref>(</highlight></codeline>
+<codeline lineno="1222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>orbit::Model&amp;<sp/>aModel,</highlight></codeline>
+<codeline lineno="1223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>aStartInstant,</highlight></codeline>
+<codeline lineno="1224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,</highlight></codeline>
+<codeline lineno="1225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Integer&amp;<sp/>aRevolutionNumber</highlight></codeline>
+<codeline lineno="1226"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="1227"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[TBI]<sp/>Deal<sp/>w/<sp/>z_ECI<sp/>always<sp/>equal<sp/>to<sp/>0.0<sp/>case<sp/>(equatorial<sp/>orbit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!aModel.isDefined())</highlight></codeline>
+<codeline lineno="1231"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!aRevolutionNumber.isDefined())</highlight></codeline>
+<codeline lineno="1236"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Revolution<sp/>number&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1238"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1240"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pass&gt;<sp/>passes<sp/>=<sp/>Array&lt;Pass&gt;::Empty();</highlight></codeline>
+<codeline lineno="1241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1242"><highlight class="normal"><sp/><sp/><sp/><sp/>Integer<sp/>revolutionNumber<sp/>=<sp/>aRevolutionNumber;</highlight></codeline>
+<codeline lineno="1243"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>previousInstant<sp/>=<sp/>aStartInstant;</highlight></codeline>
+<codeline lineno="1244"><highlight class="normal"><sp/><sp/><sp/><sp/>State<sp/>previousState<sp/>=<sp/>aModel.calculateStateAt(previousInstant);</highlight></codeline>
+<codeline lineno="1245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1246"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>previousPassEndInstant<sp/>=<sp/>(Real(previousState.getPosition().accessCoordinates().z()).isNear(0.0,<sp/>epsilon))</highlight></codeline>
+<codeline lineno="1247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>previousState.accessInstant()</highlight></codeline>
+<codeline lineno="1248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1250"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>northPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1251"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>descendingNodeCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1252"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>southPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1253"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>passBreakCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isForwardPropagated<sp/>=<sp/>aStartInstant<sp/>&lt;<sp/>anEndInstant;</highlight></codeline>
+<codeline lineno="1256"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>stepDuration<sp/>=<sp/>Duration::Minutes(5.0);</highlight></codeline>
+<codeline lineno="1257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="1259"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&gt;=<sp/>anEndInstant))<sp/>||</highlight></codeline>
+<codeline lineno="1261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&lt;=<sp/>anEndInstant)))</highlight></codeline>
+<codeline lineno="1262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tie(northPointCrossing,<sp/>descendingNodeCrossing,<sp/>southPointCrossing,<sp/>passBreakCrossing)<sp/>=</highlight></codeline>
+<codeline lineno="1267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Orbit::ComputeCrossings(aModel,<sp/>previousInstant,<sp/>stepDuration,<sp/>isForwardPropagated,<sp/>anEndInstant);</highlight></codeline>
+<codeline lineno="1268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Pass<sp/>pass<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="1270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revolutionNumber,</highlight></codeline>
+<codeline lineno="1271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isForwardPropagated<sp/>?<sp/>previousPassEndInstant<sp/>:<sp/>passBreakCrossing,</highlight></codeline>
+<codeline lineno="1272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>northPointCrossing,</highlight></codeline>
+<codeline lineno="1273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing,</highlight></codeline>
+<codeline lineno="1274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>southPointCrossing,</highlight></codeline>
+<codeline lineno="1275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isForwardPropagated<sp/>?<sp/>passBreakCrossing<sp/>:<sp/>previousPassEndInstant,</highlight></codeline>
+<codeline lineno="1276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passes.add(pass);</highlight></codeline>
+<codeline lineno="1279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>forward<sp/>propagating<sp/>and<sp/>the<sp/>pass<sp/>has<sp/>an<sp/>undefined<sp/>PassBreak,<sp/>then<sp/>we<sp/>have<sp/>crossed<sp/>the<sp/>end<sp/>of<sp/>the<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>backward<sp/>propagating<sp/>and<sp/>the<sp/>pass<sp/>has<sp/>an<sp/>undefined<sp/>AscendingNode,<sp/>then<sp/>we<sp/>have<sp/>crossed<sp/>the<sp/>end<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>!pass.accessInstantAtPassBreak().isDefined())<sp/>||</highlight></codeline>
+<codeline lineno="1284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>!pass.accessInstantAtAscendingNode().isDefined()))</highlight></codeline>
+<codeline lineno="1285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revolutionNumber<sp/>+=<sp/>isForwardPropagated<sp/>?<sp/>1<sp/>:<sp/>-1;</highlight></codeline>
+<codeline lineno="1290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousPassEndInstant<sp/>=<sp/>passBreakCrossing;</highlight></codeline>
+<codeline lineno="1291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pass.isComplete())</highlight></codeline>
+<codeline lineno="1293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Duration&gt;<sp/>durations<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="1295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtNorthPoint()<sp/>-<sp/>pass.accessInstantAtAscendingNode()),</highlight></codeline>
+<codeline lineno="1296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtDescendingNode()<sp/>-<sp/>pass.accessInstantAtNorthPoint()),</highlight></codeline>
+<codeline lineno="1297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtSouthPoint()<sp/>-<sp/>pass.accessInstantAtDescendingNode()),</highlight></codeline>
+<codeline lineno="1298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(pass.accessInstantAtPassBreak()<sp/>-<sp/>pass.accessInstantAtSouthPoint()),</highlight></codeline>
+<codeline lineno="1299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stepDuration<sp/>=<sp/>*std::min_element(durations.begin(),<sp/>durations.end())<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="1301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousInstant<sp/>=<sp/>isForwardPropagated<sp/>?<sp/>pass.accessInstantAtPassBreak()<sp/>+<sp/>Duration::Microseconds(1.0)</highlight></codeline>
+<codeline lineno="1304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>pass.accessInstantAtAscendingNode()<sp/>-<sp/>Duration::Microseconds(1.0);</highlight></codeline>
+<codeline lineno="1305"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>passes;</highlight></codeline>
+<codeline lineno="1308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1310"><highlight class="normal">Instant<sp/>Orbit::GetCrossingInstant(</highlight></codeline>
+<codeline lineno="1311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEpoch,</highlight></codeline>
+<codeline lineno="1312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>previousInstant,</highlight></codeline>
+<codeline lineno="1313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>currentInstant,</highlight></codeline>
+<codeline lineno="1314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)&gt;&amp;<sp/>getValue</highlight></codeline>
+<codeline lineno="1315"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="1316"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RootSolver::Solution<sp/>solution<sp/>=</highlight></codeline>
+<codeline lineno="1318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rootSolver.<ref refid="classostk_1_1astrodynamics_1_1_root_solver_1a269d952e1d23201ec771af0097eb4c8e" kindref="member">bisection</ref>(getValue,<sp/>(previousInstant<sp/>-<sp/>anEpoch).inSeconds(),<sp/>(currentInstant<sp/>-<sp/>anEpoch).inSeconds());</highlight></codeline>
+<codeline lineno="1319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!solution.hasConverged)</highlight></codeline>
+<codeline lineno="1321"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Root<sp/>solver<sp/>did<sp/>not<sp/>converge.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1323"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anEpoch<sp/>+<sp/>Duration::Seconds(solution.root);</highlight></codeline>
+<codeline lineno="1326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1328"><highlight class="normal">Tuple&lt;Instant,<sp/>Instant,<sp/>Instant,<sp/>Instant&gt;<sp/>Orbit::ComputeCrossings(</highlight></codeline>
+<codeline lineno="1329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>orbit::Model&amp;<sp/>aModel,</highlight></codeline>
+<codeline lineno="1330"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>previousInstant,</highlight></codeline>
+<codeline lineno="1331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aStepDuration,</highlight></codeline>
+<codeline lineno="1332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>isForwardPropagated,</highlight></codeline>
+<codeline lineno="1333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant</highlight></codeline>
+<codeline lineno="1334"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="1335"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1336"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>northPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1337"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>southPointCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1338"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>descendingNodeCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1339"><highlight class="normal"><sp/><sp/><sp/><sp/>Instant<sp/>passBreakCrossing<sp/>=<sp/>Instant::Undefined();</highlight></codeline>
+<codeline lineno="1340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(anEndInstant.isDefined())</highlight></codeline>
+<codeline lineno="1342"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&gt;=<sp/>anEndInstant))<sp/>||</highlight></codeline>
+<codeline lineno="1344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>(previousInstant<sp/>&lt;=<sp/>anEndInstant)))</highlight></codeline>
+<codeline lineno="1345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{northPointCrossing,<sp/>descendingNodeCrossing,<sp/>southPointCrossing,<sp/>passBreakCrossing};</highlight></codeline>
+<codeline lineno="1347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1348"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant<sp/>epoch<sp/>=<sp/>aModel.getEpoch();</highlight></codeline>
+<codeline lineno="1351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>previousState<sp/>=<sp/>aModel.calculateStateAt(previousInstant);</highlight></codeline>
+<codeline lineno="1353"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>previousStateCoordinates_ECI_z<sp/>=<sp/>previousState.getPosition().accessCoordinates().z();</highlight></codeline>
+<codeline lineno="1354"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>previousStateCoordinates_ECI_zdot<sp/>=<sp/>previousState.getVelocity().accessCoordinates().z();</highlight></codeline>
+<codeline lineno="1355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>getZ<sp/>=<sp/>[&amp;aModel,<sp/>&amp;epoch](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aDurationInSeconds)<sp/>-&gt;<sp/>Real</highlight></codeline>
+<codeline lineno="1357"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aModel.calculateStateAt(epoch<sp/>+<sp/>Duration::Seconds(aDurationInSeconds))</highlight></codeline>
+<codeline lineno="1359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getPosition()</highlight></codeline>
+<codeline lineno="1360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.accessCoordinates()</highlight></codeline>
+<codeline lineno="1361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.z();</highlight></codeline>
+<codeline lineno="1362"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>getZDot<sp/>=<sp/>[&amp;aModel,<sp/>&amp;epoch](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>aDurationInSeconds)<sp/>-&gt;<sp/>Real</highlight></codeline>
+<codeline lineno="1365"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aModel.calculateStateAt(epoch<sp/>+<sp/>Duration::Seconds(aDurationInSeconds))</highlight></codeline>
+<codeline lineno="1367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getVelocity()</highlight></codeline>
+<codeline lineno="1368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.accessCoordinates()</highlight></codeline>
+<codeline lineno="1369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.z();</highlight></codeline>
+<codeline lineno="1370"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration<sp/>stepDuration<sp/>=<sp/>isForwardPropagated<sp/>?<sp/>aStepDuration<sp/>:<sp/>-aStepDuration;</highlight></codeline>
+<codeline lineno="1373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>lastStep<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!passBreakCrossing.isDefined()<sp/>&amp;&amp;<sp/>!lastStep)</highlight></codeline>
+<codeline lineno="1377"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant<sp/>currentInstant<sp/>=<sp/>previousInstant<sp/>+<sp/>stepDuration;</highlight></codeline>
+<codeline lineno="1379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(anEndInstant.isDefined())</highlight></codeline>
+<codeline lineno="1381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((isForwardPropagated<sp/>&amp;&amp;<sp/>(currentInstant<sp/>&gt;=<sp/>anEndInstant))<sp/>||</highlight></codeline>
+<codeline lineno="1383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!isForwardPropagated<sp/>&amp;&amp;<sp/>(currentInstant<sp/>&lt;=<sp/>anEndInstant)))</highlight></codeline>
+<codeline lineno="1384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>currentInstant<sp/>=<sp/>anEndInstant;</highlight></codeline>
+<codeline lineno="1386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastStep<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>currentState<sp/>=<sp/>aModel.calculateStateAt(currentInstant);</highlight></codeline>
+<codeline lineno="1391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>currentStateCoordinates_ECI_z<sp/>=<sp/>currentState.getPosition().accessCoordinates().z();</highlight></codeline>
+<codeline lineno="1392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>currentStateCoordinates_ECI_zdot<sp/>=<sp/>currentState.getVelocity().accessCoordinates().z();</highlight></codeline>
+<codeline lineno="1393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((previousStateCoordinates_ECI_z<sp/>==<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_z<sp/>==<sp/>0.0))</highlight></codeline>
+<codeline lineno="1395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::ToBeImplemented(</highlight><highlight class="stringliteral">&quot;Equatorial<sp/>orbit<sp/>support.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(((previousStateCoordinates_ECI_zdot<sp/>&gt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_zdot<sp/>&lt;=<sp/>0.0))<sp/>||</highlight></codeline>
+<codeline lineno="1400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((previousStateCoordinates_ECI_zdot<sp/>&lt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_zdot<sp/>&gt;=<sp/>0.0)))</highlight></codeline>
+<codeline lineno="1401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(currentStateCoordinates_ECI_z<sp/>&gt;<sp/>0.0)</highlight></codeline>
+<codeline lineno="1403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>northPointCrossing<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZDot);</highlight></codeline>
+<codeline lineno="1405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>southPointCrossing<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZDot);</highlight></codeline>
+<codeline lineno="1409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((previousStateCoordinates_ECI_z<sp/>&gt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_z<sp/>&lt;=<sp/>0.0))</highlight></codeline>
+<codeline lineno="1413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant<sp/>crossingInstant<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZ);</highlight></codeline>
+<codeline lineno="1415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isForwardPropagated)</highlight></codeline>
+<codeline lineno="1417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
+<codeline lineno="1419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passBreakCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
+<codeline lineno="1423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((previousStateCoordinates_ECI_z<sp/>&lt;<sp/>0.0)<sp/>&amp;&amp;<sp/>(currentStateCoordinates_ECI_z<sp/>&gt;=<sp/>0.0))</highlight></codeline>
+<codeline lineno="1427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant<sp/>crossingInstant<sp/>=<sp/>Orbit::GetCrossingInstant(epoch,<sp/>previousInstant,<sp/>currentInstant,<sp/>getZ);</highlight></codeline>
+<codeline lineno="1429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isForwardPropagated)</highlight></codeline>
+<codeline lineno="1430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passBreakCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
+<codeline lineno="1432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing<sp/>=<sp/>crossingInstant;</highlight></codeline>
+<codeline lineno="1436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousStateCoordinates_ECI_z<sp/>=<sp/>currentStateCoordinates_ECI_z;</highlight></codeline>
+<codeline lineno="1440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousStateCoordinates_ECI_zdot<sp/>=<sp/>currentStateCoordinates_ECI_zdot;</highlight></codeline>
+<codeline lineno="1441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousInstant<sp/>=<sp/>currentInstant;</highlight></codeline>
+<codeline lineno="1442"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="1445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>northPointCrossing,</highlight></codeline>
+<codeline lineno="1446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>descendingNodeCrossing,</highlight></codeline>
+<codeline lineno="1447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>southPointCrossing,</highlight></codeline>
+<codeline lineno="1448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>passBreakCrossing,</highlight></codeline>
+<codeline lineno="1449"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1450"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1451"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1452"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1453"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1454"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp"/>
   </compounddef>

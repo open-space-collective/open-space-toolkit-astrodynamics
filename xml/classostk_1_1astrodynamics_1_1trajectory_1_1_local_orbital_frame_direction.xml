@@ -190,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="75" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="59" bodyend="74"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="75" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="59" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt; &amp;</type>
@@ -207,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="80" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="76" bodyend="84"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="80" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="75" bodyend="83"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3f81553b3d3bf23b009f3b15617e7990" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Vector3d</type>
@@ -224,7 +224,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="85" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="86" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="85" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="85" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1aa3bed347d0db109ccb6edecd299ab8e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt;</type>
@@ -241,7 +241,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="90" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="96" bodyend="99"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="90" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="95" bodyend="98"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -304,7 +304,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="95" column="39" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="101" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="95" column="39" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="100" bodyend="103"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

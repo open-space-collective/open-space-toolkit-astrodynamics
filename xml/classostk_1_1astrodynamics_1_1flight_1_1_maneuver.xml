@@ -124,7 +124,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="73" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="39" bodyend="111"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="73" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="39" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae21f118c45b3b84cfc7744da80ea4598" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="113" bodyend="116"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="112" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a2b283b78fef0c52fd9991f01ba2ced97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -184,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="118" bodyend="121"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="117" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7a50d850d84b4ab55c11995280b6d97f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -201,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="102" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="130" bodyend="133"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="102" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="129" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ae2fd390e1b36281b234a042e61cdf2c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -220,7 +220,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="111" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="135" bodyend="138"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="111" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="134" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a73bebd99cd96958b5c622ce7ab214e03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interval</type>
@@ -239,7 +239,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="120" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="140" bodyend="143"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="120" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="139" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a309afcadbe4bd497278ac0132b5f3154" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -258,7 +258,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="129" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="145" bodyend="165"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="129" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="144" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a7400a03dc6eb3e5a5d1776c960b29db7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Mass</type>
@@ -277,7 +277,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="138" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="167" bodyend="185"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="138" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="166" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a806b20bcdc02ad2267151aa6039b179a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -309,7 +309,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="149" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="187" bodyend="216"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="149" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="186" bodyend="215"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ac418c97491c18a1c9ee0e7085cd25071" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -342,7 +342,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="218" bodyend="225"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="217" bodyend="224"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1a6ce72b13c3d2b21f8914d7c2e4f718d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" kindref="compound">Tabulated</ref> &gt;</type>
@@ -389,7 +389,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="174" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="227" bodyend="268"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="174" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="226" bodyend="267"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1ab0eeb893171ab26fda14eef978166c04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -430,7 +430,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="183" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="270" bodyend="281"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="183" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="269" bodyend="280"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -476,7 +476,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="97" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="123" bodyend="128"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="97" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="122" bodyend="127"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -522,7 +522,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="196" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="283" bodyend="307"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp" line="196" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp" bodystart="282" bodyend="306"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

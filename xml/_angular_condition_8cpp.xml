@@ -390,17 +390,15 @@
 <codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(currentValue<sp/>&gt;=<sp/>lowerBound)<sp/>&amp;&amp;<sp/>(currentValue<sp/>&lt;=<sp/>upperBound);</highlight></codeline>
 <codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>targetRange_(</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_pair(</highlight></codeline>
-<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTargetRange.first.inRadians(0.0,<sp/>Real::TwoPi()),<sp/>aTargetRange.second.inRadians(0.0,<sp/>Real::TwoPi())</highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
-<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
-<codeline lineno="214"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="216"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>eventcondition</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="218"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="219"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>targetRange_(std::make_pair(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aTargetRange.first.inRadians(0.0,<sp/>Real::TwoPi()),<sp/>aTargetRange.second.inRadians(0.0,<sp/>Real::TwoPi())</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>))</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>eventcondition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp"/>
   </compounddef>
