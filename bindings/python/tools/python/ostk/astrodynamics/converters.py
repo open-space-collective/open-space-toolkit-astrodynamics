@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import re
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
+from ostk.physics.time import Duration
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics.time import Scale
@@ -127,4 +128,29 @@ def coerce_to_interval(
     return Interval.closed(
         start_instant=coerce_to_instant(value[0]),
         end_instant=coerce_to_instant(value[1]),
+    )
+
+
+def coerce_to_duration(value: Duration | timedelta | float) -> Duration:
+    """
+    Return duration from value.
+
+    Args:
+        value (Duration | timedelta | float): A value to coerce. If float, it is assumed to be in seconds.
+
+    Returns:
+        Duration: The coerced duration.
+    """
+
+    if isinstance(value, timedelta):
+        return Duration(value)
+
+    if isinstance(value, Duration):
+        return value
+
+    if isinstance(value, float):
+        return Duration.seconds(value)
+
+    raise TypeError(
+        f"Argument is of type [{type(value)}]. Must be a Duration, a timedelta, or a float."
     )
