@@ -8,11 +8,13 @@ from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
+from ostk.physics.time import Duration
 
 from ostk.astrodynamics.converters import coerce_to_datetime
 from ostk.astrodynamics.converters import coerce_to_instant
 from ostk.astrodynamics.converters import coerce_to_iso
 from ostk.astrodynamics.converters import coerce_to_interval
+from ostk.astrodynamics.converters import coerce_to_duration
 
 
 def test_coerce_to_datetime_success_instant():
@@ -288,3 +290,19 @@ def test_coerce_to_interval(value):
         Instant.date_time(DateTime(2020, 1, 1), Scale.UTC),
         Instant.date_time(DateTime(2020, 1, 2), Scale.UTC),
     )
+
+
+@pytest.mark.parametrize(
+    "value, expected_output",
+    [
+        (Duration.seconds(0.0), Duration.seconds(0.0)),
+        (Duration.seconds(123.45), Duration.seconds(123.45)),
+        (timedelta(seconds=123.45), Duration.seconds(123.45)),
+        (123.45, Duration.seconds(123.45)),
+    ],
+)
+def test_coerce_to_duration(
+    value,
+    expected_output: Duration,
+) -> None:
+    assert coerce_to_duration(value) == expected_output
