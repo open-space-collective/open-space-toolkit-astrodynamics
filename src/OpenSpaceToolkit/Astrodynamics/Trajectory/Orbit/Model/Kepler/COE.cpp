@@ -167,6 +167,16 @@ Angle COE::getTrueAnomaly() const
     return anomaly_;
 }
 
+Angle COE::getArgumentOfLatitude() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return aop_ + anomaly_;
+}
+
 Angle COE::getMeanAnomaly() const
 {
     if (!this->isDefined())
@@ -1094,16 +1104,6 @@ String COE::StringFromElement(const COE::Element& anElement)
     }
 
     throw ostk::core::error::runtime::Wrong("Element");
-}
-
-Angle COE::getArgumentOfLatitude() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("COE");
-    }
-
-    return aop_ + getTrueAnomaly();
 }
 
 COE::COE(
