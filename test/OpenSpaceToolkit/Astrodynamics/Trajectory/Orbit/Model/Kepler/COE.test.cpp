@@ -418,6 +418,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 
 // }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetArgumentOfLatitude)
+{
+    {
+        EXPECT_EQ(defaultAop_ + defaultTrueAnomaly_, coe_.getArgumentOfLatitude());
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getArgumentOfLatitude());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetNodalPrecessionRate)
 {
     {

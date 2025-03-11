@@ -118,6 +118,7 @@ class TestCOE:
         assert coe.get_raan() == raan
         assert coe.get_aop() == aop
         assert coe.get_true_anomaly() == true_anomaly
+        assert coe.get_argument_of_latitude() == aop + true_anomaly
         assert coe.get_mean_anomaly() is not None
         assert coe.get_eccentric_anomaly() is not None
         assert coe.get_mean_motion(Earth.EGM2008.gravitational_parameter) is not None

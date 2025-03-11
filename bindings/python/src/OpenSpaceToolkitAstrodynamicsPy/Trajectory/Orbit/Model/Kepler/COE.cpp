@@ -714,5 +714,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("element")
         )
 
+        .def(
+            "get_argument_of_latitude",
+            &COE::getArgumentOfLatitude,
+            R"doc(
+                Get the argument of latitude of the COE.
+
+                Returns:
+                    Angle: The argument of latitude (sum of argument of periapsis and true anomaly).
+            )doc"
+        )
+
         ;
 }
