@@ -285,7 +285,7 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
         elementSetNumber_,
         Angle::Radians(aTLEState.extractCoordinate(InclinationSubset)[0]),
         Angle::Radians(aTLEState.extractCoordinate(RaanSubset)[0]),
-        aTLEState.extractCoordinate(EccentricitySubset)[0],
+        std::max(0.0, aTLEState.extractCoordinate(EccentricitySubset)[0]),
         Angle::Radians(aTLEState.extractCoordinate(AopSubset)[0]),
         Angle::Radians(aTLEState.extractCoordinate(MeanAnomalySubset)[0]),
         Derived(aTLEState.extractCoordinate(MeanMotionSubset)[0], Derived::Unit::RevolutionPerDay()),
