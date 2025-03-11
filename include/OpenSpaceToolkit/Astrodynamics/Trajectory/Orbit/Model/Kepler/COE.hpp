@@ -147,6 +147,11 @@ class COE
     /// @return Argument of periapsis
     Angle getAop() const;
 
+    /// @brief Get Argument of latitude
+    ///
+    /// @return Argument of latitude
+    Angle getArgumentOfLatitude() const;
+
     /// @brief Get True anomaly
     ///
     /// @return True anomaly

@@ -1096,6 +1096,16 @@ String COE::StringFromElement(const COE::Element& anElement)
     throw ostk::core::error::runtime::Wrong("Element");
 }
 
+Angle COE::getArgumentOfLatitude() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return aop_ + getTrueAnomaly();
+}
+
 COE::COE(
     const Length& aSemiMajorAxis,
     const Real& anEccentricity,
