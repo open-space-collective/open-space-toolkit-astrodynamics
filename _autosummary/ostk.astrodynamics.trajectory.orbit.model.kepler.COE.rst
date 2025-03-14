@@ -30,6 +30,7 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.get_angular_momentum
       ~COE.get_aop
       ~COE.get_apoapsis_radius
+      ~COE.get_argument_of_latitude
       ~COE.get_cartesian_state
       ~COE.get_eccentric_anomaly
       ~COE.get_eccentricity

@@ -30,6 +30,7 @@ ostk.astrodynamics.trajectory.orbit.model.BrouwerLyddaneMean
       ~BrouwerLyddaneMean.get_angular_momentum
       ~BrouwerLyddaneMean.get_aop
       ~BrouwerLyddaneMean.get_apoapsis_radius
+      ~BrouwerLyddaneMean.get_argument_of_latitude
       ~BrouwerLyddaneMean.get_cartesian_state
       ~BrouwerLyddaneMean.get_eccentric_anomaly
       ~BrouwerLyddaneMean.get_eccentricity
