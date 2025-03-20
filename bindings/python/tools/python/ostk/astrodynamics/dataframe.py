@@ -54,6 +54,7 @@ DEFAULT_ANGULAR_VELOCITY_COLUMNS_FORMAT: list[str] = [
 DEFAULT_MASS_COLUMN: str = "mass"
 DEFAULT_DRAG_COEFFICIENT_COLUMN: str = "drag_coefficient"
 DEFAULT_SURFACE_AREA_COLUMN: str = "surface_area"
+
 CARTESIAN_POSITION_SUBSET: CartesianPosition = CartesianPosition.default()
 CARTESIAN_VELOCITY_SUBSET: CartesianVelocity = CartesianVelocity.default()
 ATTITUDE_QUATERNION_SUBSET: AttitudeQuaternion = AttitudeQuaternion.default()
@@ -86,9 +87,9 @@ def generate_column_names(
         velocity_columns (list[str] | None): List of column names containing the velocity data in [m/s].
         attitude_columns (list[str] | None): List of column names containing the attitude data in [x, y, z, s] form.
         angular_velocity_columns (list[str] | None): List of column names containing the angular velocity data in [rad/s].
-        mass_column (str | None): Name of the column containing the mass data in [kg
+        mass_column (str | None): Name of the column containing the mass data in [kg]
         drag_coefficient_column (str | None): Name of the column containing the drag coefficient data.
-        surface_area_column (str | None): Name of the column containing the surface area data.
+        surface_area_column (str | None): Name of the column containing the surface area data in [m^2].
 
     Returns:
         tuple[str, list[str], list[str], list[str], list[str]: Tuple containing the column names.
@@ -149,7 +150,7 @@ def generate_states_from_dataframe(
         angular_velocity_columns (list[str] | None, optional): List of column names containing the angular velocity data in [rad/s].
         mass_column (str | None, optional): Name of the column containing the mass data in [kg].
         drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
-        surface_area_column (str | None, optional): Name of the column containing the surface area data.
+        surface_area_column (str | None, optional): Name of the column containing the surface area data in m^2].
         output_frame (Frame | None, optional): Output frame for the states.
 
     Returns:
@@ -291,7 +292,7 @@ def generate_dataframe_from_states(
         angular_velocity_columns (list[str] | None, optional): List of column names containing the angular velocity data in [rad/s].
         mass_column (str | None, optional): Name of the column containing the mass data in [kg].
         drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
-        surface_area_column (str | None, optional): Name of the column containing the surface area data.
+        surface_area_column (str | None, optional): Name of the column containing the surface area data in [m^2].
         set_time_index (bool, optional): Whether to set the time column as the index. Defaults to True.
 
     Returns:
@@ -388,9 +389,9 @@ def generate_orbit_from_dataframe(
     time_column: str | None = None,
     position_columns: list[str] | None = None,
     velocity_columns: list[str] | None = None,
-    mass_columns: list[str] | None = None,
-    drag_coefficient_columns: list[str] | None = None,
-    surface_area_columns: list[str] | None = None,
+    mass_column: str | None = None,
+    drag_coefficient_column: str | None = None,
+    surface_area_column: str | None = None,
     initial_revolution_number: int = 1,
     interpolation_type: Interpolator.Type | None = None,
     output_frame: Frame | None = None,
@@ -405,9 +406,9 @@ def generate_orbit_from_dataframe(
         time_column (str | None, optional): Name of the column containing the time data in [UTC].
         position_columns (list[str] | None, optional): List of column names containing the position data in [m].
         velocity_columns (list[str] | None, optional): List of column names containing the velocity data in [m/s].
-        mass_columns (list[str] | None, optional): List of column names containing the mass data in [kg
-        drag_coefficient_columns (list[str] | None, optional): List of column names containing the drag coefficient data.
-        surface_area_columns (list[str] | None, optional): List of column names containing the surface area data.
+        mass_column (str | None, optional): Name of the column containing the mass data in [kg].
+        drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
+        surface_area_column (str | None, optional): Name of the column containing the surface area data  in [m^2].
         initial_revolution_number (int, optional): Initial revolution number. Defaults to 1.
         interpolation_type (Interpolator.Type | None, optional): Interpolation type.
         output_frame (Frame | None, optional): Output frame for the states.
@@ -423,9 +424,9 @@ def generate_orbit_from_dataframe(
                 time_column=time_column,
                 position_columns=position_columns,
                 velocity_columns=velocity_columns,
-                mass_column=mass_columns,
-                drag_coefficient_column=drag_coefficient_columns,
-                surface_area_column=surface_area_columns,
+                mass_column=mass_column,
+                drag_coefficient_column=drag_coefficient_column,
+                surface_area_column=surface_area_column,
                 reference_frame=reference_frame,
                 output_frame=output_frame,
             ),
@@ -443,9 +444,9 @@ def generate_dataframe_from_orbit(
     time_column: str | None = None,
     position_columns: list[str] | None = None,
     velocity_columns: list[str] | None = None,
-    mass_columns: list[str] | None = None,
-    drag_coefficient_columns: list[str] | None = None,
-    surface_area_columns: list[str] | None = None,
+    mass_column: str | None = None,
+    drag_coefficient_column: str | None = None,
+    surface_area_column: str | None = None,
     set_time_index: bool = True,
 ) -> pd.DataFrame:
     """
@@ -458,9 +459,9 @@ def generate_dataframe_from_orbit(
         time_column (str | None, optional): Name of the column containing the time data in [UTC].
         position_columns (list[str] | None, optional): List of column names containing the position data in [m].
         velocity_columns (list[str] | None, optional): List of column names containing the velocity data in [m/s].
-        mass_columns (list[str] | None, optional): List of column names containing the mass data in [kg
-        drag_coefficient_columns (list[str] | None, optional): List of column names containing the drag coefficient data.
-        surface_area_columns (list[str] | None, optional): List of column names containing the surface area data.
+        mass_column (str | None, optional): Name of the column containing the mass data in [kg].
+        drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
+        surface_area_column (str | None, optional): Name of the column containing the surface area data  in [m^2].
         set_time_index (bool, optional): Whether to set the time column as the DataFrame index. Defaults to True.
 
     Returns:
@@ -475,9 +476,9 @@ def generate_dataframe_from_orbit(
         time_column=time_column,
         position_columns=position_columns,
         velocity_columns=velocity_columns,
-        mass_column=mass_columns,
-        drag_coefficient_column=drag_coefficient_columns,
-        surface_area_column=surface_area_columns,
+        mass_column=mass_column,
+        drag_coefficient_column=drag_coefficient_column,
+        surface_area_column=surface_area_column,
         set_time_index=set_time_index,
     )
 
@@ -508,7 +509,7 @@ def generate_profile_from_dataframe(
         angular_velocity_columns (list[str] | None, optional): List of column names containing the angular velocity data in [rad/s].
         mass_column (str | None, optional): Name of the column containing the mass data in [kg].
         drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
-        surface_area_column (str | None, optional): Name of the column containing the surface area data.
+        surface_area_column (str | None, optional): Name of the column containing the surface area data [m^2].
         output_frame (Frame | None, optional): Output frame for the states.
 
     Returns:
@@ -562,7 +563,7 @@ def generate_dataframe_from_profile(
         angular_velocity_columns (list[str] | None, optional): List of column names containing the angular velocity data in [rad/s].
         mass_column (str | None, optional): Name of the column containing the mass data in [kg].
         drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
-        surface_area_column (str | None, optional): Name of the column containing the surface area data.
+        surface_area_column (str | None, optional): Name of the column containing the surface area data [m^2].
         set_time_index (bool, optional): Whether to set the time column as the DataFrame index. Defaults to True.
 
     Returns:
