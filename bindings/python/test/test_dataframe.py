@@ -20,9 +20,10 @@ from ostk.physics.coordinate.frame.provider.iau import Theory
 
 from ostk.astrodynamics.converters import coerce_to_datetime
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory import StateBuilder
 from ostk.astrodynamics.flight import Profile
 
 from ostk.astrodynamics.dataframe import generate_states_from_dataframe
@@ -193,6 +194,76 @@ class TestOrbitDataframe:
     ) -> pd.DataFrame:
         orbit_dataframe.set_index("Timestamp", inplace=True)
         return orbit_dataframe
+
+    @pytest.fixture
+    def orbit_state_with_properties(
+        self,
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+    ) -> State:
+        state_builder = StateBuilder(
+            frame=Frame.GCRF(),
+            coordinate_subsets=[
+                CartesianPosition.default(),
+                CartesianVelocity.default(),
+                CoordinateSubset.mass(),
+                CoordinateSubset.drag_coefficient(),
+                CoordinateSubset.surface_area(),
+            ],
+        )
+
+        return state_builder.build(
+            instant=instant,
+            coordinates=[
+                *position.get_coordinates(),
+                *velocity.get_coordinates(),
+                100.0,  # mass in kg
+                2.2,  # drag coefficient
+                10.5,  # surface area in m²
+            ],
+        )
+
+    @pytest.fixture
+    def orbit_states_with_properties(
+        self, orbit_state_with_properties: State
+    ) -> list[State]:
+        return [
+            orbit_state_with_properties,
+            orbit_state_with_properties,
+            orbit_state_with_properties,
+        ]
+
+    @pytest.fixture
+    def orbit_dataframe_with_properties(self, instant: Instant) -> pd.DataFrame:
+        return pd.DataFrame(
+            [
+                {
+                    "Timestamp": coerce_to_datetime(instant),
+                    "r_GCRF_x": 1.0,
+                    "r_GCRF_y": 2.0,
+                    "r_GCRF_z": 3.0,
+                    "v_GCRF_x": 4.0,
+                    "v_GCRF_y": 5.0,
+                    "v_GCRF_z": 6.0,
+                    "mass": 100.0,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(1.0)),
+                    "r_GCRF_x": 11.0,
+                    "r_GCRF_y": 12.0,
+                    "r_GCRF_z": 13.0,
+                    "v_GCRF_x": 14.0,
+                    "v_GCRF_y": 15.0,
+                    "v_GCRF_z": 16.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+            ]
+        )
 
     def test_generate_orbit_states_from_dataframe_defaults_success(
         self,
@@ -416,6 +487,63 @@ class TestOrbitDataframe:
             "w_3",
         ]
 
+    def test_generate_states_from_dataframe_with_properties_success(
+        self,
+        orbit_dataframe_with_properties: pd.DataFrame,
+    ):
+        states: list[State] = generate_states_from_dataframe(
+            dataframe=orbit_dataframe_with_properties,
+            reference_frame=Frame.GCRF(),
+        )
+
+        for state in states:
+            assert (
+                len(state.get_coordinates()) == 9
+            )  # 3 position + 3 velocity + mass + drag_coefficient + surface_area
+            assert state.has_subset(CoordinateSubset.mass())
+            assert state.has_subset(CoordinateSubset.drag_coefficient())
+            assert state.has_subset(CoordinateSubset.surface_area())
+
+    def test_generate_dataframe_from_states_with_properties_success(
+        self,
+        orbit_states_with_properties: list[State],
+    ):
+        generated_dataframe: pd.DataFrame = generate_dataframe_from_states(
+            states=orbit_states_with_properties,
+        )
+
+        assert "mass" in generated_dataframe.columns
+        assert "drag_coefficient" in generated_dataframe.columns
+        assert "surface_area" in generated_dataframe.columns
+
+        # Verify the values are correct
+        assert generated_dataframe["mass"].iloc[0] == 100.0
+        assert generated_dataframe["drag_coefficient"].iloc[0] == 2.2
+        assert generated_dataframe["surface_area"].iloc[0] == 10.5
+
+    def test_generate_dataframe_from_states_with_custom_property_columns(
+        self,
+        orbit_states_with_properties: list[State],
+    ):
+        generated_dataframe: pd.DataFrame = generate_dataframe_from_states(
+            states=orbit_states_with_properties,
+            time_column="t",
+            position_columns=["r_1", "r_2", "r_3"],
+            velocity_columns=["v_1", "v_2", "v_3"],
+            mass_column="spacecraft_mass",
+            drag_coefficient_column="cd",
+            surface_area_column="area",
+        )
+
+        assert "spacecraft_mass" in generated_dataframe.columns
+        assert "cd" in generated_dataframe.columns
+        assert "area" in generated_dataframe.columns
+
+        # Verify the values are correct
+        assert generated_dataframe["spacecraft_mass"].iloc[0] == 100.0
+        assert generated_dataframe["cd"].iloc[0] == 2.2
+        assert generated_dataframe["area"].iloc[0] == 10.5
+
 
 class TestProfileDataframe:
     @pytest.fixture
@@ -427,7 +555,10 @@ class TestProfileDataframe:
         return Instant.date_time(DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC)
 
     @pytest.fixture
-    def dataframe(self, epoch: Instant) -> pd.DataFrame:
+    def dataframe(
+        self,
+        epoch: Instant,
+    ) -> pd.DataFrame:
         return pd.DataFrame(
             [
                 {
@@ -466,15 +597,77 @@ class TestProfileDataframe:
         )
 
     @pytest.fixture
-    def profile(self, dataframe: pd.DataFrame) -> Profile:
+    def profile(
+        self,
+        dataframe: pd.DataFrame,
+    ) -> Profile:
         return generate_profile_from_dataframe(
             dataframe=dataframe,
         )
 
     @pytest.fixture
-    def dataframe_indexed_timestamp(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+    def dataframe_indexed_timestamp(
+        self,
+        dataframe: pd.DataFrame,
+    ) -> pd.DataFrame:
         dataframe.set_index("Timestamp", inplace=True)
         return dataframe
+
+    @pytest.fixture
+    def dataframe_with_properties(
+        self,
+        epoch: Instant,
+    ) -> pd.DataFrame:
+        return pd.DataFrame(
+            [
+                {
+                    "Timestamp": coerce_to_datetime(epoch),
+                    "r_GCRF_x": 1.0,
+                    "r_GCRF_y": 2.0,
+                    "r_GCRF_z": 3.0,
+                    "v_GCRF_x": 4.0,
+                    "v_GCRF_y": 5.0,
+                    "v_GCRF_z": 6.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 0.0,
+                    "q_B_GCRF_s": 1.0,
+                    "w_B_GCRF_in_B_x": 0.0,
+                    "w_B_GCRF_in_B_y": 0.0,
+                    "w_B_GCRF_in_B_z": 0.0,
+                    "mass": 100.0,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(1.0)),
+                    "r_GCRF_x": 11.0,
+                    "r_GCRF_y": 12.0,
+                    "r_GCRF_z": 13.0,
+                    "v_GCRF_x": 14.0,
+                    "v_GCRF_y": 15.0,
+                    "v_GCRF_z": 16.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+            ]
+        )
+
+    @pytest.fixture
+    def dataframe_with_properties_indexed_timestamp(
+        self,
+        dataframe_with_properties: pd.DataFrame,
+    ) -> pd.DataFrame:
+        dataframe_with_properties.set_index("Timestamp", inplace=True)
+        return dataframe_with_properties
 
     def test_generate_profile_from_dataframe_success(
         self,
@@ -873,3 +1066,87 @@ class TestProfileDataframe:
             "w_2",
             "w_3",
         ]
+
+    def test_generate_profile_from_dataframe_with_properties_success(
+        self,
+        epoch: Instant,
+        dataframe_with_properties: pd.DataFrame,
+    ):
+        profile: Profile = generate_profile_from_dataframe(
+            dataframe=dataframe_with_properties,
+        )
+
+        assert profile is not None
+        state = profile.get_state_at(epoch)
+
+        assert state.has_subset(CoordinateSubset.mass())
+        assert state.has_subset(CoordinateSubset.drag_coefficient())
+        assert state.has_subset(CoordinateSubset.surface_area())
+
+        # Verify extracted coordinates are correct
+        assert state.extract_coordinate(CoordinateSubset.mass())[0] == 100.0
+        assert state.extract_coordinate(CoordinateSubset.drag_coefficient())[0] == 2.2
+        assert state.extract_coordinate(CoordinateSubset.surface_area())[0] == 10.5
+
+    def test_generate_dataframe_from_profile_with_properties_success(
+        self,
+        epoch: Instant,
+        dataframe_with_properties_indexed_timestamp: pd.DataFrame,
+    ):
+        # Create a profile with properties
+        profile_with_props = generate_profile_from_dataframe(
+            dataframe=dataframe_with_properties_indexed_timestamp,
+        )
+
+        generated_dataframe: pd.DataFrame = generate_dataframe_from_profile(
+            profile=profile_with_props,
+            instants=[
+                epoch,
+                epoch + Duration.minutes(1.0),
+            ],
+        )
+
+        assert "mass" in generated_dataframe.columns
+        assert "drag_coefficient" in generated_dataframe.columns
+        assert "surface_area" in generated_dataframe.columns
+
+        # Verify the values
+        assert generated_dataframe["mass"].iloc[0] == 100.0
+        assert generated_dataframe["drag_coefficient"].iloc[0] == 2.2
+        assert generated_dataframe["surface_area"].iloc[0] == 10.5
+
+    def test_generate_dataframe_from_profile_with_custom_property_columns(
+        self,
+        epoch: Instant,
+        dataframe_with_properties_indexed_timestamp: pd.DataFrame,
+    ):
+        # Create a profile with properties
+        profile_with_props = generate_profile_from_dataframe(
+            dataframe=dataframe_with_properties_indexed_timestamp,
+        )
+
+        generated_dataframe: pd.DataFrame = generate_dataframe_from_profile(
+            profile=profile_with_props,
+            instants=[
+                epoch,
+                epoch + Duration.minutes(1.0),
+            ],
+            time_column="t",
+            position_columns=["r_1", "r_2", "r_3"],
+            velocity_columns=["v_1", "v_2", "v_3"],
+            attitude_columns=["q_1", "q_2", "q_3", "q_4"],
+            angular_velocity_columns=["w_1", "w_2", "w_3"],
+            mass_column="spacecraft_mass",
+            drag_coefficient_column="cd",
+            surface_area_column="area",
+            set_time_index=False,
+        )
+
+        assert "spacecraft_mass" in generated_dataframe.columns
+        assert "cd" in generated_dataframe.columns
+        assert "area" in generated_dataframe.columns
+
+        # Verify the values
+        assert generated_dataframe["spacecraft_mass"].iloc[0] == 100.0
+        assert generated_dataframe["cd"].iloc[0] == 2.2
+        assert generated_dataframe["area"].iloc[0] == 10.5
