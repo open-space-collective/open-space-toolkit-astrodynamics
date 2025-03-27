@@ -205,14 +205,14 @@ class Viewer:
                         direction=(0.0, +1.0, 0.0),
                         half_angle=Angle.degrees(1.0),
                         length=Length.meters(2.0),
-                        color="blue",
+                        color="green",
                     ),
                     ConicSensor(
                         name="z_axis",
                         direction=(0.0, 0.0, +1.0),
                         half_angle=Angle.degrees(1.0),
                         length=Length.meters(2.0),
-                        color="green",
+                        color="blue",
                     ),
                 ]
             )
