@@ -129,6 +129,12 @@ Shared<const CoordinateSubset> CoordinateSubset::MassFlowRate()
     return massFlowRate;
 }
 
+Shared<const CoordinateSubset> CoordinateSubset::BallisticCoefficient()
+{
+    static const Shared<const CoordinateSubset> ballisticCoefficient = std::make_shared<CoordinateSubset>("BALLISTIC_COEFFICIENT", 1);
+    return ballisticCoefficient;
+}
+
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astrodynamics

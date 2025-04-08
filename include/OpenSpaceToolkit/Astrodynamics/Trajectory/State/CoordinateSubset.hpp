@@ -156,6 +156,11 @@ class CoordinateSubset
     /// @return The default Mass Flow Rate shared pointer instance
     static Shared<const CoordinateSubset> MassFlowRate();
 
+    /// @brief Return a default Ballistic Coefficient instance
+    ///
+    /// @return The default Ballistic Coefficient shared pointer instance
+    static Shared<const CoordinateSubset> BallisticCoefficient();
+
    private:
     String name_;
     Size size_;

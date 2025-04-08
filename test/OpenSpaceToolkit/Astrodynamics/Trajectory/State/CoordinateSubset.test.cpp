@@ -203,3 +203,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, MassFlo
         EXPECT_NO_THROW(CoordinateSubset::MassFlowRate());
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset, BallisticCoefficient)
+{
+    {
+        EXPECT_NO_THROW(CoordinateSubset::BallisticCoefficient());
+    }
+}

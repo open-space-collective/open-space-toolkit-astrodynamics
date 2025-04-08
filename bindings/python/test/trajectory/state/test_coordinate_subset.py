@@ -53,3 +53,6 @@ class TestCoordinateSubset:
 
     def test_mass_flow_rate(self):
         assert CoordinateSubset.mass_flow_rate() is not None
+
+    def test_ballistic_coefficient(self):
+        assert CoordinateSubset.ballistic_coefficient() is not None
