@@ -257,6 +257,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(py
                     CoordinateSubset: The mass flow rate coordinate subset.
             )doc"
         )
+        .def_static(
+            "ballistic_coefficient",
+            &CoordinateSubset::BallisticCoefficient,
+            R"doc(
+                Get the ballistic coefficient coordinate subset.
+
+                Returns:
+                    CoordinateSubset: The ballistic coefficient coordinate subset.
+            )doc"
+        )
 
         ;
 
