@@ -131,7 +131,8 @@ Shared<const CoordinateSubset> CoordinateSubset::MassFlowRate()
 
 Shared<const CoordinateSubset> CoordinateSubset::BallisticCoefficient()
 {
-    static const Shared<const CoordinateSubset> ballisticCoefficient = std::make_shared<CoordinateSubset>("BALLISTIC_COEFFICIENT", 1);
+    static const Shared<const CoordinateSubset> ballisticCoefficient =
+        std::make_shared<CoordinateSubset>("BALLISTIC_COEFFICIENT", 1);
     return ballisticCoefficient;
 }
 
