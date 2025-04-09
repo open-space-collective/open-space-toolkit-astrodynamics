@@ -17,6 +17,7 @@ ostk.astrodynamics.trajectory.state.CoordinateSubset
       :nosignatures:
    
       ~CoordinateSubset.add
+      ~CoordinateSubset.ballistic_coefficient
       ~CoordinateSubset.drag_coefficient
       ~CoordinateSubset.get_id
       ~CoordinateSubset.get_name

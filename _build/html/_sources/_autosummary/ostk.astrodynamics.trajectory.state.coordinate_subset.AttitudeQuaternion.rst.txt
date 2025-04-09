@@ -17,6 +17,7 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AttitudeQuaternion
       :nosignatures:
    
       ~AttitudeQuaternion.add
+      ~AttitudeQuaternion.ballistic_coefficient
       ~AttitudeQuaternion.default
       ~AttitudeQuaternion.drag_coefficient
       ~AttitudeQuaternion.get_id

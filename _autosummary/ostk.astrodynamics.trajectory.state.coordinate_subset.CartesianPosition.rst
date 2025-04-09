@@ -17,6 +17,7 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.CartesianPosition
       :nosignatures:
    
       ~CartesianPosition.add
+      ~CartesianPosition.ballistic_coefficient
       ~CartesianPosition.default
       ~CartesianPosition.drag_coefficient
       ~CartesianPosition.get_id

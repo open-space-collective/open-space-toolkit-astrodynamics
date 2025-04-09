@@ -17,6 +17,7 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AngularVelocity
       :nosignatures:
    
       ~AngularVelocity.add
+      ~AngularVelocity.ballistic_coefficient
       ~AngularVelocity.default
       ~AngularVelocity.drag_coefficient
       ~AngularVelocity.get_id
