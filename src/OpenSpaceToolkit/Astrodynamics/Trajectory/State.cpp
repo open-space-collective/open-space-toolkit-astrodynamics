@@ -499,6 +499,31 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
     };
 }
 
+bool State::isNear(const State& aState, const std::unordered_map<CoordinateSubset, Real>& aToleranceMap) const
+{
+    if (aToleranceMap.size() != coordinatesBrokerSPtr_->accessSubsets()->getSize())
+    {
+        throw ostk::core::error::runtime::Wrong("Tolerance Map");
+    }
+
+    const State deltaState = aState - *this;
+
+    bool isNear = true;
+    for (const auto& [subset, tolerance] : aToleranceMap) {
+        if (!coordinatesBrokerSPtr_->hasSubset(subset)) {
+            throw ostk::core::error::runtime::Wrong("Tolerance Map Coordinate Subset");
+        }
+
+        const VectorXd deltaCoordinates = deltaState.extractCoordinate(subset);
+
+        if (deltaCoordinates.norm() > tolerance) {
+            isNear = false;
+            break;
+        }
+    }
+    return isNear;
+}
+
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     using ostk::core::type::String;
