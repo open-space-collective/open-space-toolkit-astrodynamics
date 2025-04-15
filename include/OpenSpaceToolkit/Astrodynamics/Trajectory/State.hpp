@@ -239,6 +239,13 @@ class State
     /// @return The transformed State
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
+    /// @brief Check if the State is within a given tolerance per subset of another State.
+    ///
+    /// @param aState The State to compare to
+    /// @param aToleranceMap The tolerance map for each coordinate subset
+    /// @return True if the States are within the tolerance, false otherwise
+    bool isNear(const State& aState, const std::unordered_map<CoordinateSubset, Real>& aToleranceMap) const;
+
     /// @brief Print the State to an output stream.
     ///
     /// @param anOutputStream The output stream to print to
