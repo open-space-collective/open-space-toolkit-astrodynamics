@@ -699,7 +699,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
         const State trajectoryState = trajectory.getStateAt(instant);
         const State orbitState = orbit.getStateAt(instant);
 
-        // check that the trahectory state is the same as the geodetic nadir coordinate of the orbit
+        // check that the trajectory state is the same as the geodetic nadir coordinate of the orbit
 
         const Vector3d orbitLLACoordinates =
             Position::FromLLA(

@@ -235,7 +235,7 @@ class Trajectory
         const Celestial& aCelestial = Earth::WGS84()
     );
 
-    /// @brief Constructs a trajectory for the given orbit, with a geodetic nadir pointing attitude law
+    /// @brief Constructs a trajectory representing a ground strip that follows the geodetic nadir of the provided orbit
     ///
     /// @code{.cpp}
     ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
