@@ -258,13 +258,17 @@ class Trajectory
 
     Trajectory();
 
-    /// @brief Compute velocities using finite difference from positions and instants
+    /// @brief Compute states using the provided position generator, and finite differenced velocities, at the provided
+    /// instants
     ///
-    /// @param aPositionArray An array of positions
+    /// @param aPositionGenerator A position generator
     /// @param anInstantArray An array of instants
-    /// @return Array of velocities
-    static Array<Velocity> computeVelocities(
-        const Array<physics::coordinate::Position>& aPositionArray, const Array<Instant>& anInstantArray
+    /// @param aStepSize A step size
+    /// @return Array of states
+    static Array<State> computeStates(
+        const std::function<physics::coordinate::Position(const Instant&)>& aPositionGenerator,
+        const Array<Instant>& anInstantArray,
+        const Duration& aStepSize = Duration::Seconds(1e-6)
     );
 };
 
