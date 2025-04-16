@@ -2,6 +2,9 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -9,11 +12,16 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 namespace ostk
 {
 namespace astrodynamics
 {
+
+using ostk::core::type::Shared;
+
+using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Velocity;
@@ -21,6 +29,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::trajectory::model::Tabulated;
+using ostk::astrodynamics::trajectory::Orbit;
 
 Trajectory::Trajectory(const Model& aModel)
     : modelUPtr_(aModel.clone())
@@ -209,11 +218,11 @@ Trajectory Trajectory::GroundStrip(
         throw ostk::core::error::RuntimeError("LLA altitude must be zero.");
     }
 
-    const Velocity velocity = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, aCelestial.accessFrame());
-
-    Array<State> states = Array<State>::Empty();
-
     const Duration duration = anInstantArray.accessLast() - anInstantArray.accessFirst();
+
+    const Shared<Celestial> celestialSPtr = std::make_shared<Celestial>(aCelestial);
+
+    Array<physics::coordinate::Position> positions = Array<physics::coordinate::Position>::Empty();
 
     for (const auto& instant : anInstantArray)
     {
@@ -223,14 +232,64 @@ Trajectory Trajectory::GroundStrip(
             anEndLLA, ratio, aCelestial.getEquatorialRadius(), aCelestial.getFlattening()
         );
 
-        const physics::coordinate::Position position = physics::coordinate::Position::Meters(
-            intermediateLLA.toCartesian(aCelestial.getEquatorialRadius(), aCelestial.getFlattening()),
-            aCelestial.accessFrame()
-        );
+        const physics::coordinate::Position position = physics::coordinate::Position::FromLLA(
+            intermediateLLA,
+            celestialSPtr
+        ).inFrame(Frame::GCRF(), instant);
 
-        const State state = State(instant, position, velocity);
+        positions.add(position);
+    }
 
-        states.add(state);
+    const Array<Velocity> velocities = computeVelocities(positions, anInstantArray);
+
+    Array<State> states = Array<State>::Empty();
+
+    for (size_t i = 0; i < anInstantArray.getSize(); i++)
+    {
+        states.add(State(anInstantArray.at(i), positions.at(i), velocities.at(i)));
+    }
+
+    return Trajectory(states);
+}
+
+Trajectory Trajectory::GroundStripGeodeticNadir(
+    const trajectory::Orbit& anOrbit, const Array<Instant>& anInstantArray, const Celestial& aCelestial
+)
+{
+    if (!anOrbit.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Orbit");
+    }
+
+    if (anInstantArray.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError("Atleast 2 instants must be provided.");
+    }
+
+    Array<physics::coordinate::Position> positions = Array<physics::coordinate::Position>::Empty();
+    positions.reserve(anInstantArray.getSize());
+
+    const Shared<Celestial> celestialSPtr = std::make_shared<Celestial>(aCelestial);
+
+    for (const auto& instant : anInstantArray)
+    {
+        const State state = anOrbit.getStateAt(instant);
+
+        const LLA lla = LLA::FromPosition(state.getPosition().inFrame(Frame::ITRF(), instant), celestialSPtr).onSurface();
+
+        const physics::coordinate::Position position =
+            physics::coordinate::Position::FromLLA(lla, celestialSPtr).inFrame(Frame::GCRF(), instant);
+
+        positions.add(position);
+    }
+
+    Array<Velocity> velocities = computeVelocities(positions, anInstantArray);
+
+    Array<State> states = Array<State>::Empty();
+
+    for (size_t i = 0; i < anInstantArray.getSize(); i++)
+    {
+        states.add(State(anInstantArray.at(i), positions.at(i), velocities.at(i)));
     }
 
     return Trajectory(states);
@@ -239,6 +298,57 @@ Trajectory Trajectory::GroundStrip(
 Trajectory::Trajectory()
     : modelUPtr_(nullptr)
 {
+}
+
+Array<Velocity> Trajectory::computeVelocities(
+    const Array<physics::coordinate::Position>& aPositionArray, const Array<Instant>& anInstantArray
+)
+{
+    Array<Velocity> velocities = Array<Velocity>::Empty();
+
+    for (size_t i = 0; i < anInstantArray.getSize(); i++)
+    {
+        Vector3d velocityCoordinates = Vector3d::Zero();
+
+        if (i == 0)
+        {
+            const physics::coordinate::Position currentPosition = aPositionArray.at(i);
+            const physics::coordinate::Position nextPosition = aPositionArray.at(i + 1);
+            const Instant currentInstant = anInstantArray.at(i);
+            const Instant nextInstant = anInstantArray.at(i + 1);
+
+            velocityCoordinates = (nextPosition.getCoordinates() - currentPosition.getCoordinates()) /
+                                  (nextInstant - currentInstant).inSeconds();
+        }
+
+        else if (i == aPositionArray.getSize() - 1)
+        {
+            const physics::coordinate::Position currentPosition = aPositionArray.at(i);
+            const physics::coordinate::Position previousPosition = aPositionArray.at(i - 1);
+            const Instant currentInstant = anInstantArray.at(i);
+            const Instant previousInstant = anInstantArray.at(i - 1);
+
+            velocityCoordinates = (currentPosition.getCoordinates() - previousPosition.getCoordinates()) /
+                                  (currentInstant - previousInstant).inSeconds();
+        }
+
+        else
+        {
+            const physics::coordinate::Position nextPosition = aPositionArray.at(i + 1);
+            const physics::coordinate::Position previousPosition = aPositionArray.at(i - 1);
+            const Instant nextInstant = anInstantArray.at(i + 1);
+            const Instant previousInstant = anInstantArray.at(i - 1);
+
+            velocityCoordinates = (nextPosition.getCoordinates() - previousPosition.getCoordinates()) /
+                                  (nextInstant - previousInstant).inSeconds();
+        }
+
+        const Velocity velocity = Velocity::MetersPerSecond(velocityCoordinates, aPositionArray.at(i).accessFrame());
+
+        velocities.add(velocity);
+    }
+
+    return velocities;
 }
 
 }  // namespace astrodynamics

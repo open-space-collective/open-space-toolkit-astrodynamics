@@ -201,6 +201,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             arg("instants"),
             arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()")
         )
+        .def_static(
+            "ground_strip_geodetic_nadir",
+            &Trajectory::GroundStripGeodeticNadir,
+            R"doc(
+                Create a `Trajectory` object representing a ground strip that follows the geodetic nadir of the provided orbit.
+
+                Args:
+                    orbit (Orbit): The orbit.
+                    instants (list[Instant]): The instants.
+                    celestial_object (Celestial): The celestial object. Defaults to Earth.WGS84().
+
+                Returns:
+                    Trajectory: The `Trajectory` object representing the ground strip.  
+            )doc",
+            arg("orbit"),
+            arg("instants"),
+            arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()")
+        )
 
         ;
 

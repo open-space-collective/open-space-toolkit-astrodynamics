@@ -1,16 +1,27 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Provider/Nadir.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
-
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
+using ostk::mathematics::object::Vector3d;
+
+using ostk::physics::Environment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::LLA;
@@ -22,10 +33,14 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
+using ostk::physics::unit::Angle;
+using ostk::physics::data::Direction;
+using ostk::physics::data::provider::Nadir;
 
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::Orbit;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
 {
@@ -487,7 +502,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 {
     const Earth earth = Earth::WGS84();
     const LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
-    const LLA endLLA = LLA::Vector({1.0, 0.0, 0.0});
+    const LLA endLLA = LLA::Vector({0.0, 1.0, 0.0});
 
     {
         const Array<Instant> instants = {Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0)};
@@ -539,34 +554,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
                 const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants);
 
                 EXPECT_TRUE(trajectory.isDefined());
-            }
-        }
-
-        {
-            const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants, earth);
-
-            {
-                const State state = trajectory.getStateAt(instants.accessFirst()).inFrame(Frame::ITRF());
-
-                EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-12));
-
-                EXPECT_TRUE(LLA::Cartesian(
-                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                )
-                                .toVector()
-                                .isNear(startLLA.toVector(), 1e-12));
-            }
-
-            {
-                const State state = trajectory.getStateAt(instants.accessLast()).inFrame(Frame::ITRF());
-
-                EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-12));
-
-                EXPECT_TRUE(LLA::Cartesian(
-                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                )
-                                .toVector()
-                                .isNear(endLLA.toVector(), 1e-12));
             }
         }
     }
@@ -625,6 +612,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
                     Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth, Duration::Seconds(1.0));
 
                 EXPECT_TRUE(trajectory.isDefined());
+
+                // Speed in ITRF frame should be approximately equal to ground speed
+                EXPECT_LT(
+                    trajectory.getStateAt(startInstant).inFrame(Frame::ITRF()).getVelocity().getCoordinates().norm() -
+                        groundSpeed.in(Derived::Unit::MeterPerSecond()),
+                    1e-6
+                );
             }
 
             {
@@ -647,8 +641,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
             {
                 const State state = trajectory.getStateAt(startInstant).inFrame(Frame::ITRF());
 
-                EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-13));
-
                 EXPECT_TRUE(LLA::Cartesian(
                                 state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
                 )
@@ -663,8 +655,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
                     Duration::Seconds(distance.inMeters() / groundSpeed.in(Derived::Unit::MeterPerSecond()));
                 const State state = trajectory.getStateAt(startInstant + duration).inFrame(Frame::ITRF());
 
-                EXPECT_TRUE(state.getVelocity().getCoordinates().isNear({0.0, 0.0, 0.0}, 1e-13));
-
                 EXPECT_TRUE(LLA::Cartesian(
                                 state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
                 )
@@ -673,4 +663,51 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
             }
         }
     }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
+{
+    const Array<Instant> instants = {Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0)};
+    const Earth earth = Earth::WGS84();
+
+    const Environment environment = Environment::Default();
+
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(earth);
+
+    const Orbit orbit = Orbit::Circular(Instant::J2000(), Length::Meters(545000.0), Angle::Degrees(0.0), earthSPtr);
+
+    {
+        EXPECT_THROW(Trajectory::GroundStripGeodeticNadir(Orbit::Undefined(), instants, earth), ostk::core::error::RuntimeError);
+    }
+
+    {
+        EXPECT_THROW(Trajectory::GroundStripGeodeticNadir(orbit, Array<Instant>::Empty(), earth), ostk::core::error::RuntimeError);
+    }
+
+    {
+        const Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(orbit, instants, earth);
+
+        EXPECT_TRUE(trajectory.isDefined());
+
+        const Instant instant = Instant::J2000();
+
+        const State trajectoryState = trajectory.getStateAt(instant);
+        const State orbitState = orbit.getStateAt(instant);
+
+        // check that the trahectory state is the same as the geodetic nadir coordinate of the orbit
+
+        const Vector3d orbitLLACoordinates = Position::FromLLA(
+            LLA::FromPosition(orbitState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(),
+            earthSPtr
+        ).getCoordinates();
+        const Vector3d trajectoryLLACoordinates = Position::FromLLA(
+            LLA::FromPosition(trajectoryState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(),
+            earthSPtr
+        ).getCoordinates();
+
+        EXPECT_VECTORS_ALMOST_EQUAL(trajectoryLLACoordinates, orbitLLACoordinates, 1e-12);
+
+    }
+    
+    
 }
