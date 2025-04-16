@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
@@ -26,6 +27,7 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -239,12 +241,23 @@ class State
     /// @return The transformed State
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
-    /// @brief Check if the State is within a given tolerance per subset of another State.
+    /// @brief Check if the State is within a given tolerance of another State per subset.
     ///
     /// @param aState The State to compare to
     /// @param aToleranceMap The tolerance map for each coordinate subset
-    /// @return True if the States are within the tolerance, false otherwise
-    bool isNear(const State& aState, const std::unordered_map<CoordinateSubset, Real>& aToleranceMap) const;
+    /// @return The map of coordinate subsets and whether or not the State is within the tolerance
+    std::unordered_map<Shared<const CoordinateSubset>, bool> isNear(
+        const State& aState, const std::unordered_map<Shared<const CoordinateSubset>, Real>& aToleranceMap
+    ) const;
+
+    /// @brief Check if the State is within a given tolerance of another State per coordinate of each subset.
+    ///
+    /// @param aState The State to compare to
+    /// @param aToleranceArrayMap The tolerance array map for each coordinate subset
+    /// @return The map of coordinate subsets and whether or not the State is within the tolerance
+    std::unordered_map<Shared<const CoordinateSubset>, Array<bool>> isNear(
+        const State& aState, const std::unordered_map<Shared<const CoordinateSubset>, VectorXd>& aToleranceArrayMap
+    ) const;
 
     /// @brief Print the State to an output stream.
     ///

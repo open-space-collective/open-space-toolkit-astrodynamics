@@ -279,7 +279,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 
         .def(
             "is_near",
-            &State::isNear,
+            overload_cast<const State&, const std::unordered_map<Shared<const CoordinateSubset>, Real>&>(
+                &State::isNear, const_
+            ),
             R"doc(
                 Check if the state is near another state.
 
@@ -288,12 +290,30 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                     tolerance_map (dict[CoordinateSubset, float]): The tolerance map for the comparison.
 
                 Returns:
-                    bool: True if the states are near, False otherwise.
+                    dict[CoordinateSubset, bool]: The map of coordinate subsets and whether or not the state is near the other state.
             )doc",
             arg("state"),
             arg("tolerance_map")
         )
 
+        .def(
+            "is_near",
+            overload_cast<const State&, const std::unordered_map<Shared<const CoordinateSubset>, VectorXd>&>(
+                &State::isNear, const_
+            ),
+            R"doc(
+                Check if the state is near another state.
+
+                Args:
+                    state (State): The state to compare to.
+                    tolerance_array_map (dict[CoordinateSubset, np.ndarray]): The tolerance array map for the comparison.
+
+                Returns:
+                    dict[CoordinateSubset, list[bool]]: The map of coordinate subsets and whether or not the state is near the other state.
+            )doc",
+            arg("state"),
+            arg("tolerance_array_map")
+        )
         .def_static(
             "undefined",
             &State::Undefined,
