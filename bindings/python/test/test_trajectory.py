@@ -16,6 +16,7 @@ from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 
+
 @pytest.fixture
 def start_lla() -> LLA:
     return LLA.vector([0.0, 0.0, 0.0])
@@ -62,9 +63,15 @@ def states(trajectory: Trajectory) -> list[State]:
         [Instant.J2000(), Instant.J2000() + Duration.seconds(10.0)]
     )
 
+
 @pytest.fixture
 def orbit() -> Orbit:
-    return Orbit.circular(epoch=Instant.J2000(), altitude=Length.meters(545000.0), inclination=Angle.degrees(0.0), celestial_object=Earth.WGS84(),)
+    return Orbit.circular(
+        epoch=Instant.J2000(),
+        altitude=Length.meters(545000.0),
+        inclination=Angle.degrees(0.0),
+        celestial_object=Earth.WGS84(),
+    )
 
 
 class TestTrajectory:
@@ -123,6 +130,16 @@ class TestTrajectory:
         assert Trajectory.ground_strip(start_lla, end_lla, instants, earth) is not None
         assert Trajectory.ground_strip(start_lla, end_lla, instants) is not None
 
-    def test_ground_strip_geodetic_nadir(self, orbit: Orbit, instants: list[Instant], earth: Earth):
-        assert Trajectory.ground_strip_geodetic_nadir(orbit=orbit, instants=instants, celestial_object=earth) is not None
-        assert Trajectory.ground_strip_geodetic_nadir(orbit=orbit, instants=instants) is not None
+    def test_ground_strip_geodetic_nadir(
+        self, orbit: Orbit, instants: list[Instant], earth: Earth
+    ):
+        assert (
+            Trajectory.ground_strip_geodetic_nadir(
+                orbit=orbit, instants=instants, celestial_object=earth
+            )
+            is not None
+        )
+        assert (
+            Trajectory.ground_strip_geodetic_nadir(orbit=orbit, instants=instants)
+            is not None
+        )

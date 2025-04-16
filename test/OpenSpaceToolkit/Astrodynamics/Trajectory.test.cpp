@@ -2,17 +2,18 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Provider/Nadir.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Provider/Nadir.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
+
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
@@ -21,26 +22,26 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
 
-using ostk::physics::Environment;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::data::Direction;
+using ostk::physics::data::provider::Nadir;
+using ostk::physics::Environment;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
-using ostk::physics::unit::Angle;
-using ostk::physics::data::Direction;
-using ostk::physics::data::provider::Nadir;
 
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::model::Tabulated;
-using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
 {
@@ -677,11 +678,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
     const Orbit orbit = Orbit::Circular(Instant::J2000(), Length::Meters(545000.0), Angle::Degrees(0.0), earthSPtr);
 
     {
-        EXPECT_THROW(Trajectory::GroundStripGeodeticNadir(Orbit::Undefined(), instants, earth), ostk::core::error::RuntimeError);
+        EXPECT_THROW(
+            Trajectory::GroundStripGeodeticNadir(Orbit::Undefined(), instants, earth), ostk::core::error::RuntimeError
+        );
     }
 
     {
-        EXPECT_THROW(Trajectory::GroundStripGeodeticNadir(orbit, Array<Instant>::Empty(), earth), ostk::core::error::RuntimeError);
+        EXPECT_THROW(
+            Trajectory::GroundStripGeodeticNadir(orbit, Array<Instant>::Empty(), earth), ostk::core::error::RuntimeError
+        );
     }
 
     {
@@ -696,18 +701,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
 
         // check that the trahectory state is the same as the geodetic nadir coordinate of the orbit
 
-        const Vector3d orbitLLACoordinates = Position::FromLLA(
-            LLA::FromPosition(orbitState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(),
-            earthSPtr
-        ).getCoordinates();
-        const Vector3d trajectoryLLACoordinates = Position::FromLLA(
-            LLA::FromPosition(trajectoryState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(),
-            earthSPtr
-        ).getCoordinates();
+        const Vector3d orbitLLACoordinates =
+            Position::FromLLA(
+                LLA::FromPosition(orbitState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(), earthSPtr
+            )
+                .getCoordinates();
+        const Vector3d trajectoryLLACoordinates =
+            Position::FromLLA(
+                LLA::FromPosition(trajectoryState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(),
+                earthSPtr
+            )
+                .getCoordinates();
 
         EXPECT_VECTORS_ALMOST_EQUAL(trajectoryLLACoordinates, orbitLLACoordinates, 1e-12);
-
     }
-    
-    
 }

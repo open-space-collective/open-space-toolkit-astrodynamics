@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utility.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -232,10 +232,8 @@ Trajectory Trajectory::GroundStrip(
             anEndLLA, ratio, aCelestial.getEquatorialRadius(), aCelestial.getFlattening()
         );
 
-        const physics::coordinate::Position position = physics::coordinate::Position::FromLLA(
-            intermediateLLA,
-            celestialSPtr
-        ).inFrame(Frame::GCRF(), instant);
+        const physics::coordinate::Position position =
+            physics::coordinate::Position::FromLLA(intermediateLLA, celestialSPtr).inFrame(Frame::GCRF(), instant);
 
         positions.add(position);
     }
@@ -275,7 +273,8 @@ Trajectory Trajectory::GroundStripGeodeticNadir(
     {
         const State state = anOrbit.getStateAt(instant);
 
-        const LLA lla = LLA::FromPosition(state.getPosition().inFrame(Frame::ITRF(), instant), celestialSPtr).onSurface();
+        const LLA lla =
+            LLA::FromPosition(state.getPosition().inFrame(Frame::ITRF(), instant), celestialSPtr).onSurface();
 
         const physics::coordinate::Position position =
             physics::coordinate::Position::FromLLA(lla, celestialSPtr).inFrame(Frame::GCRF(), instant);
