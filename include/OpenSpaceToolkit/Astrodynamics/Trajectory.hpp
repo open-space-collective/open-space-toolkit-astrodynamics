@@ -32,6 +32,7 @@ using ostk::core::type::String;
 using ostk::core::type::Unique;
 
 using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::Duration;
@@ -41,6 +42,11 @@ using ostk::physics::unit::Derived;
 
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
+
+namespace trajectory
+{
+class Orbit;
+}
 
 /// @brief Path followed by an object through space as a function of time
 ///
@@ -229,10 +235,41 @@ class Trajectory
         const Celestial& aCelestial = Earth::WGS84()
     );
 
+    /// @brief Constructs a trajectory representing a ground strip that follows the geodetic nadir of the provided orbit
+    ///
+    /// @code{.cpp}
+    ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
+    ///             Earth earth = Earth::WGS84();
+    ///             Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(anOrbit, anInstantArray, earth);
+    /// @endcode
+    ///
+    /// @param anOrbit An orbit
+    /// @param anInstantArray An array of instants
+    /// @param aCelestial Celestial body
+    /// @return Trajectory
+    static Trajectory GroundStripGeodeticNadir(
+        const trajectory::Orbit& anOrbit,
+        const Array<Instant>& anInstantArray,
+        const Celestial& aCelestial = Earth::WGS84()
+    );
+
    private:
     Unique<Model> modelUPtr_;
 
     Trajectory();
+
+    /// @brief Compute states using the provided position generator, and finite differenced velocities, at the provided
+    /// instants
+    ///
+    /// @param aPositionGenerator A position generator
+    /// @param anInstantArray An array of instants
+    /// @param aStepSize A step size
+    /// @return Array of states
+    static Array<State> computeStates(
+        const std::function<physics::coordinate::Position(const Instant&)>& aPositionGenerator,
+        const Array<Instant>& anInstantArray,
+        const Duration& aStepSize = Duration::Seconds(1e-6)
+    );
 };
 
 }  // namespace astrodynamics
