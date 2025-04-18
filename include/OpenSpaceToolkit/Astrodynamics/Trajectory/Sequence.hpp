@@ -125,25 +125,29 @@ class Sequence
     ///                  const Array<Shared<Dynamics>> dynamicsArray =
     ///                  {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
     ///                  const Duration maximumPropagationDuration = Duration::Days(7.0);
+    ///                  const Duration minimumManeuverDuration = Duration::Zero();
     ///                  const Size verbosity = 0;
     ///
     ///                  Sequence sequence = {segmentArray, numericalSolver, dynamicsArray,
-    ///                  maximumPropagationDuration, verbosity};
+    ///                  maximumPropagationDuration, minimumManeuverDuration, verbosity};
     ///
     /// @endcode
     ///
     /// @param aSegmentArray An array of segments. Defaults to empty.
-    /// @param aNumericalSolver A Numerical Solver. Defaults to Undefined.
+    /// @param aNumericalSolver A Numerical Solver. Defaults to NumericalSolver::DefaultConditional().
     /// @param aDynamicsArray An array of shared dynamics. Defaults to empty.
-    /// @param segmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
+    /// @param aSegmentPropagationDurationLimit Maximum duration for propagation. Defaults to 30.0
     /// days.
-    /// @param verbosity Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
+    /// @param aMinimumManeuverDuration Minimum duration for maneuver, maneuvers less than this duration
+    /// will be skipped. Defaults to Undefined.
+    /// @param aVerbosityLevel Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
-        const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
+        const NumericalSolver& aNumericalSolver = NumericalSolver::DefaultConditional(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const Duration& segmentPropagationDurationLimit = Duration::Days(7.0),
-        const Size& verbosity = 0
+        const Duration& aSegmentPropagationDurationLimit = Duration::Days(30.0),
+        const Duration& aMinimumManeuverDuration = Duration::Undefined(),
+        const Size& aVerbosityLevel = 0
     );
 
     /// @brief Output stream operator.
@@ -172,6 +176,11 @@ class Sequence
     ///
     /// @return Maximum propagation duration.
     Duration getMaximumPropagationDuration() const;
+
+    /// @brief Get minimum maneuver duration.
+    ///
+    /// @return Minimum maneuver duration.
+    Duration getMinimumManeuverDuration() const;
 
     /// @brief Add a trajectory segment.
     ///
@@ -224,6 +233,7 @@ class Sequence
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
     Duration segmentPropagationDurationLimit_;
+    Duration minimumManeuverDuration_;
 };
 
 }  // namespace trajectory

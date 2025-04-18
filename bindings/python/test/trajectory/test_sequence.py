@@ -156,17 +156,7 @@ def state(
 
     return State(
         instant,
-        [
-            717094.039086306,
-            -6872433.2241124,
-            46175.9696673281,
-            -970.650826004612,
-            -45.4598114773158,
-            7529.82424886455,
-            dry_mass.in_kilograms() + wet_mass.in_kilograms(),
-            cross_sectional_surface_area,
-            drag_coefficient,
-        ],
+        coordinates,
         frame,
         coordinate_broker,
     )
@@ -351,6 +341,28 @@ def sequence_solution(
     )
 
 
+@pytest.fixture
+def minimum_maneuver_duration():
+    return Duration.minutes(1.0)
+
+
+@pytest.fixture
+def sequence_with_minimum_maneuver_duration(
+    segments: list[Segment],
+    numerical_solver: NumericalSolver,
+    dynamics: list,
+    maximum_propagation_duration: Duration,
+    minimum_maneuver_duration: Duration,
+):
+    return Sequence(
+        segments=segments,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+        maximum_propagation_duration=maximum_propagation_duration,
+        minimum_maneuver_duration=minimum_maneuver_duration,
+    )
+
+
 class TestSequenceSolution:
     def test_properties(
         self,
@@ -420,6 +432,16 @@ class TestSequence:
         maximum_propagation_duration: Duration,
     ):
         assert sequence.get_maximum_propagation_duration() == maximum_propagation_duration
+
+    def test_get_minimum_maneuver_duration(
+        self,
+        sequence_with_minimum_maneuver_duration: Sequence,
+        minimum_maneuver_duration: Duration,
+    ):
+        assert (
+            sequence_with_minimum_maneuver_duration.get_minimum_maneuver_duration()
+            == minimum_maneuver_duration
+        )
 
     def test_add_segment(
         self,

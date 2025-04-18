@@ -209,16 +209,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     const NumericalSolver&,
                     const Array<Shared<Dynamics>>&,
                     const Duration&,
+                    const Duration&,
                     const Size&>(),
                 R"doc(
                     Construct a new `Sequence` object.
 
                     Args:
-                    segments (list[Segment], optional): The segments.
-                    numerical_solver (NumericalSolver, optional): The numerical solver.
-                    dynamics (list[Dynamics], optional): The dynamics.
-                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
-                    verbosity (int, optional): The verbosity level.
+                    segments (list[Segment], optional): The segments. Defaults to an empty list.
+                    numerical_solver (NumericalSolver, optional): The numerical solver. Defaults to the default conditional numerical solver.
+                    dynamics (list[Dynamics], optional): The dynamics. Defaults to an empty list.
+                    maximum_propagation_duration (Duration, optional): The maximum propagation duration. Defaults to 30 days.
+                    minimum_maneuver_duration (Duration, optional): The minimum maneuver duration. Defaults to Undefined. If defined, maneuvers less than this duration will be skipped.
+                    verbosity (int, optional): The verbosity level. Defaults to 1.
 
                     Returns:
                         Sequence: The new `Sequence` object.
@@ -229,7 +231,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     "numerical_solver", NumericalSolver::DefaultConditional(), "NumericalSolver.default_conditional()"
                 ),
                 arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
-                arg_v("maximum_propagation_duration", Duration::Days(30.0), "duration.days(30.0)"),
+                arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
+                arg_v("minimum_maneuver_duration", Duration::Undefined(), "Duration.undefined()"),
                 arg("verbosity") = 1
             )
 
@@ -277,6 +280,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                     Returns:
                         Duration: The maximum propagation duration.
+
+                )doc"
+            )
+            .def(
+                "get_minimum_maneuver_duration",
+                &Sequence::getMinimumManeuverDuration,
+                R"doc(
+                    Get the minimum maneuver duration.
+
+                    Returns:
+                        Duration: The minimum maneuver duration.
 
                 )doc"
             )
