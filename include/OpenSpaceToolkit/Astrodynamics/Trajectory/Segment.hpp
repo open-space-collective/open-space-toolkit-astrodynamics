@@ -68,14 +68,14 @@ class Segment
         ///
         /// @param aName Name of the segment
         /// @param aDynamicsArray Array of dynamics
-        /// @param aStates Array of states for the segment
+        /// @param aStateArray Array of states for the segment
         /// @param aConditionIsSatisfied True if the event condition is satisfied
         /// @param aSegmentType Type of segment
         /// @return An instance of Solution
         Solution(
             const String& aName,
             const Array<Shared<Dynamics>>& aDynamicsArray,
-            const Array<State>& aStates,
+            const Array<State>& aStateArray,
             const bool& aConditionIsSatisfied,
             const Segment::Type& aSegmentType
         );

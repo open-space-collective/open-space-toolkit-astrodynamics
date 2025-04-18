@@ -122,6 +122,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         Segment::Type::Coast,
     };
 
+    const Size defaultVerbosityLevel_ = 1;
+
+    const Duration defaultMinimumManeuverDuration_ = Duration::Minutes(1.0);
+
     const Size defaultRepetitionCount_ = 2;
     const Duration defaultMaximumPropagationDuration_ = Duration::Days(7.0);
     Sequence defaultSequence_ = {
@@ -129,6 +133,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         defaultNumericalSolver_,
         defaultDynamics_,
         defaultMaximumPropagationDuration_,
+        defaultVerbosityLevel_,
+        defaultMinimumManeuverDuration_,
     };
 };
 
@@ -398,6 +404,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetDynamics)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetMaximumPropagationDuration)
 {
     EXPECT_EQ(defaultMaximumPropagationDuration_, defaultSequence_.getMaximumPropagationDuration());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetMinimumManeuverDuration)
+{
+    EXPECT_EQ(defaultMinimumManeuverDuration_, defaultSequence_.getMinimumManeuverDuration());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
@@ -831,5 +842,154 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
         EXPECT_NO_THROW(sequence.print(std::cout, true));
         EXPECT_NO_THROW(sequence.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMinimumManeuverDuration)
+{
+    // Setup
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined)
+    ));
+
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+
+    const PropulsionSystem propulsionSystem = PropulsionSystem(1.0, 1500.0);
+
+    const SatelliteSystem satelliteSystem = {
+        Mass::Kilograms(100.0),
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        500.0,
+        2.1,
+        propulsionSystem,
+    };
+
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+    };
+
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+
+    VectorXd coordinates(7);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 105.0;
+    const State state = {
+        Instant::J2000(),
+        coordinates,
+        Frame::GCRF(),
+        coordinatesBrokerSPtr,
+    };
+
+    // Case 1: Maneuver segment with duration less than minimum - should be skipped
+    {
+        Sequence sequence = {
+            Array<Segment>::Empty(),
+            defaultNumericalSolver_,
+            dynamics,
+            defaultMaximumPropagationDuration_,
+            0,                       // Default verbosity
+            Duration::Seconds(60.0)  // Minimum maneuver duration
+        };
+
+        // Add a coast segment
+        sequence.addCoastSegment(std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+        ));
+
+        // Add a short maneuver segment (should be skipped)
+        sequence.addManeuverSegment(
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+            ),
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
+        );
+
+        const Sequence::Solution solution = sequence.solve(state, 1);
+
+        // Only the coast segment should be in the solution
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+        EXPECT_EQ(solution.segmentSolutions[0].segmentType, Segment::Type::Coast);
+    }
+
+    // Case 2: Maneuver segment with duration greater than minimum - should be included
+    {
+        Sequence sequence = {
+            Array<Segment>::Empty(),
+            defaultNumericalSolver_,
+            dynamics,
+            defaultMaximumPropagationDuration_,
+            0,                      // Default verbosity
+            Duration::Seconds(5.0)  // Minimum maneuver duration
+        };
+
+        // Add a coast segment
+        sequence.addCoastSegment(std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+        ));
+
+        // Add a maneuver segment with duration > minimum (should be included)
+        sequence.addManeuverSegment(
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+            ),
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
+        );
+
+        const Sequence::Solution solution = sequence.solve(state, 1);
+
+        // Both segments should be in the solution
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 2);
+        EXPECT_EQ(solution.segmentSolutions[0].segmentType, Segment::Type::Coast);
+        EXPECT_EQ(solution.segmentSolutions[1].segmentType, Segment::Type::Maneuver);
+    }
+
+    // Case 3: SolveToCondition with minimum maneuver duration
+    {
+        Sequence sequence = {
+            Array<Segment>::Empty(),
+            defaultNumericalSolver_,
+            dynamics,
+            defaultMaximumPropagationDuration_,
+            0,                       // Default verbosity
+            Duration::Seconds(60.0)  // Minimum maneuver duration
+        };
+
+        // Add a coast segment
+        sequence.addCoastSegment(std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+        ));
+
+        // Add a short maneuver segment (should be skipped)
+        sequence.addManeuverSegment(
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+            ),
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
+        );
+
+        // Target condition after 30 seconds
+        const RealCondition eventCondition =
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(30.0));
+
+        const Sequence::Solution solution = sequence.solveToCondition(state, eventCondition, Duration::Minutes(1.0));
+
+        // Only the coast segment should be in the solution, and we should repeat it 3 times to meet the condition
+        EXPECT_TRUE(solution.executionIsComplete);
+        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
+        for (const auto& segmentSolution : solution.segmentSolutions)
+        {
+            EXPECT_EQ(segmentSolution.segmentType, Segment::Type::Coast);
+        }
     }
 }

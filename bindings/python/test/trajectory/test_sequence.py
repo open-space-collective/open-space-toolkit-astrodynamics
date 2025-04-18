@@ -351,6 +351,28 @@ def sequence_solution(
     )
 
 
+@pytest.fixture
+def minimum_maneuver_duration():
+    return Duration.minutes(1.0)
+
+
+@pytest.fixture
+def sequence_with_minimum_maneuver_duration(
+    segments: list[Segment],
+    numerical_solver: NumericalSolver,
+    dynamics: list,
+    maximum_propagation_duration: Duration,
+    minimum_maneuver_duration: Duration,
+):
+    return Sequence(
+        segments=segments,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+        maximum_propagation_duration=maximum_propagation_duration,
+        minimum_maneuver_duration=minimum_maneuver_duration,
+    )
+
+
 class TestSequenceSolution:
     def test_properties(
         self,
@@ -420,6 +442,16 @@ class TestSequence:
         maximum_propagation_duration: Duration,
     ):
         assert sequence.get_maximum_propagation_duration() == maximum_propagation_duration
+
+    def test_get_minimum_maneuver_duration(
+        self,
+        sequence_with_minimum_maneuver_duration: Sequence,
+        minimum_maneuver_duration: Duration,
+    ):
+        assert (
+            sequence_with_minimum_maneuver_duration.get_minimum_maneuver_duration()
+            == minimum_maneuver_duration
+        )
 
     def test_add_segment(
         self,

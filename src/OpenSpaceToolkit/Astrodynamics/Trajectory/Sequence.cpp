@@ -183,35 +183,37 @@ Sequence::Sequence(
     const Array<Segment>& aSegmentArray,
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Duration& maximumPropagationDuration,
-    const Size& verbosity
+    const Duration& aMaximumPropagationDuration,
+    const Size& aVerbosityLevel,
+    const Duration& aMinimumManeuverDuration
 )
     : segments_(aSegmentArray),
       numericalSolver_(aNumericalSolver),
       dynamics_(aDynamicsArray),
-      segmentPropagationDurationLimit_(maximumPropagationDuration)
+      segmentPropagationDurationLimit_(aMaximumPropagationDuration),
+      minimumManeuverDuration_(aMinimumManeuverDuration)
 {
-    if (verbosity == 5)
+    if (aVerbosityLevel == 5)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::trace);
     }
-    else if (verbosity == 4)
+    else if (aVerbosityLevel == 4)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::debug);
     }
-    else if (verbosity == 3)
+    else if (aVerbosityLevel == 3)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::info);
     }
-    else if (verbosity == 2)
+    else if (aVerbosityLevel == 2)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::warning);
     }
-    else if (verbosity == 1)
+    else if (aVerbosityLevel == 1)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::error);
     }
-    else if (verbosity == 0)
+    else if (aVerbosityLevel == 0)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::fatal);
     }
@@ -246,6 +248,11 @@ Array<Shared<Dynamics>> Sequence::getDynamics() const
 Duration Sequence::getMaximumPropagationDuration() const
 {
     return segmentPropagationDurationLimit_;
+}
+
+Duration Sequence::getMinimumManeuverDuration() const
+{
+    return minimumManeuverDuration_;
 }
 
 void Sequence::addSegment(const Segment& aSegment)
@@ -294,6 +301,18 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
 
             BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
+
+            if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
+            {
+                if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)
+                {
+                    BOOST_LOG_TRIVIAL(debug)
+                        << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
+                        << std::endl;
+
+                    continue;
+                }
+            }
 
             segmentSolutions.add(segmentSolution);
 
@@ -345,6 +364,18 @@ Sequence::Solution Sequence::solveToCondition(
                 String::Format("{} - {}", segmentSolution.name, segment.getEventCondition()->getName());
 
             BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
+
+            if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
+            {
+                if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)
+                {
+                    BOOST_LOG_TRIVIAL(debug)
+                        << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
+                        << std::endl;
+
+                    continue;
+                }
+            }
 
             segmentSolutions.add(segmentSolution);
 
@@ -404,6 +435,9 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Maximum Propagation Duration:" << segmentPropagationDurationLimit_.toString();
+
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Minimum Maneuver Duration:" << minimumManeuverDuration_.toString();
 
     if (displayDecorator)
     {

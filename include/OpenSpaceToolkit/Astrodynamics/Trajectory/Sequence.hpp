@@ -135,15 +135,17 @@ class Sequence
     /// @param aSegmentArray An array of segments. Defaults to empty.
     /// @param aNumericalSolver A Numerical Solver. Defaults to Undefined.
     /// @param aDynamicsArray An array of shared dynamics. Defaults to empty.
-    /// @param segmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
+    /// @param aSegmentPropagationDurationLimit Maximum duration for propagation. Defaults to 7.0
     /// days.
-    /// @param verbosity Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
+    /// @param aVerbosityLevel Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
+    /// @param aMinimumManeuverDuration Minimum duration for maneuver. Defaults to Undefined.
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const Duration& segmentPropagationDurationLimit = Duration::Days(7.0),
-        const Size& verbosity = 0
+        const Duration& aSegmentPropagationDurationLimit = Duration::Days(7.0),
+        const Size& aVerbosityLevel = 0,
+        const Duration& aMinimumManeuverDuration = Duration::Undefined()
     );
 
     /// @brief Output stream operator.
@@ -172,6 +174,11 @@ class Sequence
     ///
     /// @return Maximum propagation duration.
     Duration getMaximumPropagationDuration() const;
+
+    /// @brief Get minimum maneuver duration.
+    ///
+    /// @return Minimum maneuver duration.
+    Duration getMinimumManeuverDuration() const;
 
     /// @brief Add a trajectory segment.
     ///
@@ -224,6 +231,7 @@ class Sequence
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
     Duration segmentPropagationDurationLimit_;
+    Duration minimumManeuverDuration_;
 };
 
 }  // namespace trajectory

@@ -35,13 +35,13 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 Segment::Solution::Solution(
     const String& aName,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Array<State>& aStates,
+    const Array<State>& aStateArray,
     const bool& aConditionIsSatisfied,
     const Segment::Type& aSegmentType
 )
     : name(aName),
       dynamics(aDynamicsArray),
-      states(aStates),
+      states(aStateArray),
       conditionIsSatisfied(aConditionIsSatisfied),
       segmentType(aSegmentType)
 {
@@ -505,10 +505,19 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
         aState, aState.accessInstant() + maximumPropagationDuration, *eventCondition_
     );
 
+    // Expand states based on input state
+    const StateBuilder stateBuilder = {aState};
+
+    Array<State> states = Array<State>::Empty();
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
     return {
         name_,
         dynamics_,
-        propagator.accessNumericalSolver().accessObservedStates(),
+        states,
         conditionSolution.conditionIsSatisfied,
         type_,
     };
