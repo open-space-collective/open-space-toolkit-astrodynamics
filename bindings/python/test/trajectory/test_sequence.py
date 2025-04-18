@@ -156,17 +156,7 @@ def state(
 
     return State(
         instant,
-        [
-            717094.039086306,
-            -6872433.2241124,
-            46175.9696673281,
-            -970.650826004612,
-            -45.4598114773158,
-            7529.82424886455,
-            dry_mass.in_kilograms() + wet_mass.in_kilograms(),
-            cross_sectional_surface_area,
-            drag_coefficient,
-        ],
+        coordinates,
         frame,
         coordinate_broker,
     )

@@ -184,8 +184,8 @@ Sequence::Sequence(
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Duration& aMaximumPropagationDuration,
-    const Size& aVerbosityLevel,
-    const Duration& aMinimumManeuverDuration
+    const Duration& aMinimumManeuverDuration,
+    const Size& aVerbosityLevel
 )
     : segments_(aSegmentArray),
       numericalSolver_(aNumericalSolver),
@@ -193,6 +193,16 @@ Sequence::Sequence(
       segmentPropagationDurationLimit_(aMaximumPropagationDuration),
       minimumManeuverDuration_(aMinimumManeuverDuration)
 {
+    if (aMaximumPropagationDuration <= Duration::Zero())
+    {
+        throw ostk::core::error::RuntimeError("Maximum propagation duration must be strictly positive.");
+    }
+
+    if (aMinimumManeuverDuration.isDefined() && aMinimumManeuverDuration <= Duration::Zero())
+    {
+        throw ostk::core::error::RuntimeError("Minimum maneuver duration must be strictly positive.");
+    }
+
     if (aVerbosityLevel == 5)
     {
         boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::trace);
@@ -365,6 +375,7 @@ Sequence::Solution Sequence::solveToCondition(
 
             BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
 
+            // Skip maneuver if it is less than the minimum maneuver duration
             if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
             {
                 if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)

@@ -509,6 +509,8 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
     const StateBuilder stateBuilder = {aState};
 
     Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+
     for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
     {
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
