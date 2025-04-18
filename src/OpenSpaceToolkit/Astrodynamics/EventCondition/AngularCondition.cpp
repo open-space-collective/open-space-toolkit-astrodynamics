@@ -203,6 +203,13 @@ AngularCondition::AngularCondition(
               const Real& currentValue, [[maybe_unused]] const Real& previousValue, [[maybe_unused]] const Real& aTarget
           ) -> bool
           {
+              // For ranges that wrap around 0/360 (when lowerBound > upperBound)
+              if (lowerBound > upperBound)
+              {
+                  return (currentValue >= lowerBound) || (currentValue <= upperBound);
+              }
+
+              // Normal range check
               return (currentValue >= lowerBound) && (currentValue <= upperBound);
           }
       ),
