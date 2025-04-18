@@ -316,11 +316,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfi
         {
             const Pair<Angle, Angle> targetRange = {Angle::Degrees(30.0), Angle::Degrees(60.0)};
 
-            AngularCondition condition = AngularCondition::WithinRange(
-                "RegularRange",
-                defaultEvaluator_,
-                targetRange
-            );
+            AngularCondition condition = AngularCondition::WithinRange("RegularRange", defaultEvaluator_, targetRange);
 
             // Inside range
             {
@@ -339,11 +335,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfi
         {
             const Pair<Angle, Angle> boundaryCrossingRange = {Angle::Degrees(-30.0), Angle::Degrees(30.0)};
 
-            AngularCondition condition = AngularCondition::WithinRange(
-                "BoundaryCrossingRange",
-                defaultEvaluator_,
-                boundaryCrossingRange
-            );
+            AngularCondition condition =
+                AngularCondition::WithinRange("BoundaryCrossingRange", defaultEvaluator_, boundaryCrossingRange);
 
             // Inside range (positive side)
             {
