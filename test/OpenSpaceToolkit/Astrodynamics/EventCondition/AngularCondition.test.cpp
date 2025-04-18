@@ -309,6 +309,69 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfi
             }
         }
     }
+
+    // Within Range
+    {
+        // Regular range (no boundary crossing)
+        {
+            const Pair<Angle, Angle> targetRange = {Angle::Degrees(30.0), Angle::Degrees(60.0)};
+
+            AngularCondition condition = AngularCondition::WithinRange(
+                "RegularRange",
+                defaultEvaluator_,
+                targetRange
+            );
+
+            // Inside range
+            {
+                const State state = generateState(Angle::Degrees(45.0).inRadians());
+                EXPECT_TRUE(condition.isSatisfied(state, state));
+            }
+
+            // Outside range
+            {
+                const State state = generateState(Angle::Degrees(20.0).inRadians());
+                EXPECT_FALSE(condition.isSatisfied(state, state));
+            }
+        }
+
+        // Boundary crossing range (-30 to 30 degrees, which normalizes to 330-30 degrees)
+        {
+            const Pair<Angle, Angle> boundaryCrossingRange = {Angle::Degrees(-30.0), Angle::Degrees(30.0)};
+
+            AngularCondition condition = AngularCondition::WithinRange(
+                "BoundaryCrossingRange",
+                defaultEvaluator_,
+                boundaryCrossingRange
+            );
+
+            // Inside range (positive side)
+            {
+                const State state = generateState(Angle::Degrees(15.0).inRadians());
+                EXPECT_TRUE(condition.isSatisfied(state, state));
+            }
+
+            // Inside range (negative side - will be normalized to 345 degrees)
+            {
+                const State state = generateState(Angle::Degrees(-15.0).inRadians());
+                EXPECT_TRUE(condition.isSatisfied(state, state));
+            }
+
+            // Inside range (exactly at boundary)
+            {
+                const State lowerState = generateState(Angle::Degrees(-30.0).inRadians());
+                const State upperState = generateState(Angle::Degrees(30.0).inRadians());
+                EXPECT_TRUE(condition.isSatisfied(lowerState, lowerState));
+                EXPECT_TRUE(condition.isSatisfied(upperState, upperState));
+            }
+
+            // Outside range
+            {
+                const State state = generateState(Angle::Degrees(45.0).inRadians());
+                EXPECT_FALSE(condition.isSatisfied(state, state));
+            }
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Clone)
