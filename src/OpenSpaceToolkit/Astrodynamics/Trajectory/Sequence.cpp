@@ -437,7 +437,8 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
         << "Maximum Propagation Duration:" << segmentPropagationDurationLimit_.toString();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Minimum Maneuver Duration:" << minimumManeuverDuration_.toString();
+        << "Minimum Maneuver Duration:"
+        << (minimumManeuverDuration_.isDefined() ? minimumManeuverDuration_.toString() : "Undefined");
 
     if (displayDecorator)
     {
