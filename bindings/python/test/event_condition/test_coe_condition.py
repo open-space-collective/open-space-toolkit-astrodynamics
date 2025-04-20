@@ -73,6 +73,11 @@ class TestCOECondition:
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
+            (
+                COECondition.argument_of_latitude,
+                EventCondition.Target(Angle.degrees(0.0)),
+                AngularCondition.Criterion.PositiveCrossing,
+            ),
         ),
     )
     def test_static_constructors(
@@ -111,6 +116,10 @@ class TestCOECondition:
             ),
             (
                 COECondition.eccentric_anomaly,
+                (Angle.degrees(0.0), Angle.degrees(90.0)),
+            ),
+            (
+                COECondition.argument_of_latitude,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
         ),

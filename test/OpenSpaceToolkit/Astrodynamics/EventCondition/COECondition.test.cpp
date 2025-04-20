@@ -72,9 +72,9 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
             COE(Length::Kilometers(549.0) + Earth::EGM2008.equatorialRadius_,
                 0.00019,
                 Angle::Degrees(15.0),
-                Angle::Degrees(359.0),
-                Angle::Degrees(359.0),
-                Angle::Degrees(359.0))
+                Angle::Degrees(358.0),
+                Angle::Degrees(358.0),
+                Angle::Degrees(358.0))
                 .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
 
         currentState_ = {defaultInstant_, currentPosition, currentVelocity};
@@ -379,6 +379,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnom
 
         AngularCondition condition =
             COECondition::EccentricAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
+
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, ArgumentOfLatitude)
+{
+    const Angle targetAngle = Angle::Degrees(0.0);
+
+    {
+        AngularCondition condition = COECondition::ArgumentOfLatitude(
+            AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
+        );
+
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
+
+    {
+        AngularCondition condition = COECondition::ArgumentOfLatitude(
+            AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
+        );
+
+        EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_FALSE(condition.isSatisfied(currentState_, previousState_));
+    }
+
+    {
+        AngularCondition condition = COECondition::ArgumentOfLatitude(
+            AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
+        );
+
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+    }
+
+    {
+        // Range that includes the current state's argument of latitude (approximately 1 deg) but not the previous
+        // state's
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+
+        AngularCondition condition =
+            COECondition::ArgumentOfLatitude(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));

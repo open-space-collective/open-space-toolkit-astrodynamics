@@ -73,6 +73,11 @@ class TestBrouwerLyddaneMeanLongCondition:
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
+            (
+                BrouwerLyddaneMeanLongCondition.argument_of_latitude,
+                EventCondition.Target(Angle.degrees(0.0)),
+                AngularCondition.Criterion.PositiveCrossing,
+            ),
         ),
     )
     def test_static_constructors(
@@ -111,6 +116,10 @@ class TestBrouwerLyddaneMeanLongCondition:
             ),
             (
                 BrouwerLyddaneMeanLongCondition.eccentric_anomaly,
+                (Angle.degrees(0.0), Angle.degrees(90.0)),
+            ),
+            (
+                BrouwerLyddaneMeanLongCondition.argument_of_latitude,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
         ),

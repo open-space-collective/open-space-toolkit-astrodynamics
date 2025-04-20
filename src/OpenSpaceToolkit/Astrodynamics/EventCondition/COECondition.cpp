@@ -49,12 +49,12 @@ AngularCondition COECondition::Inclination(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Inclination",
         aCriterion,
         GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition COECondition::Inclination(
@@ -75,12 +75,12 @@ AngularCondition COECondition::Aop(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Argument of Periapsis",
         aCriterion,
         GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition COECondition::Aop(
@@ -101,12 +101,12 @@ AngularCondition COECondition::Raan(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Right Ascension of Ascending Node",
         aCriterion,
         GenerateEvaluator(COE::Element::Raan, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition COECondition::Raan(
@@ -129,12 +129,12 @@ AngularCondition COECondition::TrueAnomaly(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "True Anomaly",
         aCriterion,
         GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition COECondition::TrueAnomaly(
@@ -155,12 +155,12 @@ AngularCondition COECondition::MeanAnomaly(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Mean Anomaly",
         aCriterion,
         GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition COECondition::MeanAnomaly(
@@ -181,12 +181,12 @@ AngularCondition COECondition::EccentricAnomaly(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Eccentric Anomaly",
         aCriterion,
         GenerateEvaluator(COE::Element::EccentricAnomaly, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition COECondition::EccentricAnomaly(
@@ -198,6 +198,34 @@ AngularCondition COECondition::EccentricAnomaly(
     return AngularCondition::WithinRange(
         "Eccentric Anomaly",
         GenerateEvaluator(COE::Element::EccentricAnomaly, aFrameSPtr, aGravitationalParameter),
+        aTargetRange
+    );
+}
+
+AngularCondition COECondition::ArgumentOfLatitude(
+    const AngularCondition::Criterion& aCriterion,
+    const Shared<const Frame>& aFrameSPtr,
+    const EventCondition::Target& aTarget,
+    const Derived& aGravitationalParameter
+)
+{
+    return {
+        "Argument of Latitude",
+        aCriterion,
+        GenerateEvaluator(COE::Element::ArgumentOfLatitude, aFrameSPtr, aGravitationalParameter),
+        aTarget
+    };
+}
+
+AngularCondition COECondition::ArgumentOfLatitude(
+    const Shared<const Frame>& aFrameSPtr,
+    const Pair<Angle, Angle>& aTargetRange,
+    const Derived& aGravitationalParameter
+)
+{
+    return AngularCondition::WithinRange(
+        "Argument of Latitude",
+        GenerateEvaluator(COE::Element::ArgumentOfLatitude, aFrameSPtr, aGravitationalParameter),
         aTargetRange
     );
 }
@@ -226,19 +254,19 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
                 case COE::Element::Eccentricity:
                     return coe.getEccentricity();
                 case COE::Element::Inclination:
-                    return coe.getInclination().inRadians();
+                    return coe.getInclination().inRadians(0.0, Real::TwoPi());
                 case COE::Element::Aop:
-                    return coe.getAop().inRadians();
+                    return coe.getAop().inRadians(0.0, Real::TwoPi());
                 case COE::Element::Raan:
-                    return coe.getRaan().inRadians();
+                    return coe.getRaan().inRadians(0.0, Real::TwoPi());
                 case COE::Element::TrueAnomaly:
-                    return coe.getTrueAnomaly().inRadians();
+                    return coe.getTrueAnomaly().inRadians(0.0, Real::TwoPi());
                 case COE::Element::MeanAnomaly:
-                    return coe.getMeanAnomaly().inRadians();
+                    return coe.getMeanAnomaly().inRadians(0.0, Real::TwoPi());
                 case COE::Element::EccentricAnomaly:
-                    return coe.getEccentricAnomaly().inRadians();
+                    return coe.getEccentricAnomaly().inRadians(0.0, Real::TwoPi());
                 case COE::Element::ArgumentOfLatitude:
-                    return coe.getArgumentOfLatitude().inRadians();
+                    return coe.getArgumentOfLatitude().inRadians(0.0, Real::TwoPi());
                 default:
                     throw ostk::core::error::runtime::Wrong("Element");
             }

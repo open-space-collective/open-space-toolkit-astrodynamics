@@ -49,12 +49,12 @@ AngularCondition BrouwerLyddaneMeanLongCondition::Inclination(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Inclination",
         aCriterion,
         GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition BrouwerLyddaneMeanLongCondition::Inclination(
@@ -75,12 +75,12 @@ AngularCondition BrouwerLyddaneMeanLongCondition::Aop(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Argument of Periapsis",
         aCriterion,
         GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition BrouwerLyddaneMeanLongCondition::Aop(
@@ -101,12 +101,12 @@ AngularCondition BrouwerLyddaneMeanLongCondition::Raan(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Right Ascension of Ascending Node",
         aCriterion,
         GenerateEvaluator(COE::Element::Raan, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition BrouwerLyddaneMeanLongCondition::Raan(
@@ -129,12 +129,12 @@ AngularCondition BrouwerLyddaneMeanLongCondition::TrueAnomaly(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "True Anomaly",
         aCriterion,
         GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition BrouwerLyddaneMeanLongCondition::TrueAnomaly(
@@ -155,12 +155,12 @@ AngularCondition BrouwerLyddaneMeanLongCondition::MeanAnomaly(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Mean Anomaly",
         aCriterion,
         GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition BrouwerLyddaneMeanLongCondition::MeanAnomaly(
@@ -181,12 +181,12 @@ AngularCondition BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
     const Derived& aGravitationalParameter
 )
 {
-    return AngularCondition(
+    return {
         "Eccentric Anomaly",
         aCriterion,
         GenerateEvaluator(COE::Element::EccentricAnomaly, aFrameSPtr, aGravitationalParameter),
         aTarget
-    );
+    };
 }
 
 AngularCondition BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
@@ -198,6 +198,34 @@ AngularCondition BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
     return AngularCondition::WithinRange(
         "Eccentric Anomaly",
         GenerateEvaluator(COE::Element::EccentricAnomaly, aFrameSPtr, aGravitationalParameter),
+        aTargetRange
+    );
+}
+
+AngularCondition BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
+    const AngularCondition::Criterion& aCriterion,
+    const Shared<const Frame>& aFrameSPtr,
+    const EventCondition::Target& aTarget,
+    const Derived& aGravitationalParameter
+)
+{
+    return {
+        "Argument of Latitude",
+        aCriterion,
+        GenerateEvaluator(COE::Element::ArgumentOfLatitude, aFrameSPtr, aGravitationalParameter),
+        aTarget
+    };
+}
+
+AngularCondition BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
+    const Shared<const Frame>& aFrameSPtr,
+    const Pair<Angle, Angle>& aTargetRange,
+    const Derived& aGravitationalParameter
+)
+{
+    return AngularCondition::WithinRange(
+        "Argument of Latitude",
+        GenerateEvaluator(COE::Element::ArgumentOfLatitude, aFrameSPtr, aGravitationalParameter),
         aTargetRange
     );
 }

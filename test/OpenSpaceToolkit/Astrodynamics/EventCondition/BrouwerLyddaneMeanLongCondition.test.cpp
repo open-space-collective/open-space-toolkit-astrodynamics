@@ -394,3 +394,47 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, ArgumentOfLatitude)
+{
+    const Angle targetAngle = Angle::Degrees(0.0);
+
+    {
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
+            AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
+        );
+
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
+
+    {
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
+            AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
+        );
+
+        EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_FALSE(condition.isSatisfied(currentState_, previousState_));
+    }
+
+    {
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
+            AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
+        );
+
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+    }
+
+    {
+        // Range that includes the current state's argument of latitude (approximately 1 deg) but not the previous
+        // state's
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(defaultFrame_, targetRange, gravitationalParameter_);
+
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
+}

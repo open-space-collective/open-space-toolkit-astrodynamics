@@ -343,6 +343,52 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 arg("gravitational_parameter")
             )
 
+            .def_static(
+                "argument_of_latitude",
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&COECondition::ArgumentOfLatitude),
+                R"doc(
+                    Create a COE condition based on the argument of latitude.
+
+                    Args:
+                        criterion (Criterion): The criterion.
+                        frame (Frame): The reference frame.
+                        argument_of_latitude (EventConditionTarget): The argument of latitude.
+                        gravitational_parameter (Derived): The gravitational parameter.
+
+                    Returns:
+                        COECondition: The COE condition.
+                )doc",
+                arg("criterion"),
+                arg("frame"),
+                arg("argument_of_latitude"),
+                arg("gravitational_parameter")
+            )
+
+            .def_static(
+                "argument_of_latitude",
+                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
+                    &COECondition::ArgumentOfLatitude
+                ),
+                R"doc(
+                    Create a COE condition based on the argument of latitude being within a range.
+
+                    Args:
+                        frame (Frame): The reference frame.
+                        target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
+                        gravitational_parameter (Derived): The gravitational parameter.
+
+                    Returns:
+                        COECondition: The COE condition.
+                )doc",
+                arg("frame"),
+                arg("target_range"),
+                arg("gravitational_parameter")
+            )
+
             ;
     }
 }
