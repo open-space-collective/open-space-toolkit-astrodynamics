@@ -57,6 +57,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         .value("TrueAnomaly", COE::Element::TrueAnomaly, "True Anomaly")
         .value("MeanAnomaly", COE::Element::MeanAnomaly, "Mean Anomaly")
         .value("EccentricAnomaly", COE::Element::EccentricAnomaly, "Eccentric Anomaly")
+        .value("ArgumentOfLatitude", COE::Element::ArgumentOfLatitude, "Argument of Latitude")
 
         ;
 

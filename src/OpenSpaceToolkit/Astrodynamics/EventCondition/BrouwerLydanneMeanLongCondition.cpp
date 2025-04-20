@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
 
 namespace ostk
 {
@@ -12,7 +12,9 @@ namespace astrodynamics
 namespace eventcondition
 {
 
-RealCondition COECondition::SemiMajorAxis(
+
+
+RealCondition BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -27,7 +29,7 @@ RealCondition COECondition::SemiMajorAxis(
     );
 }
 
-RealCondition COECondition::Eccentricity(
+RealCondition BrouwerLyddaneMeanLongCondition::Eccentricity(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -42,7 +44,7 @@ RealCondition COECondition::Eccentricity(
     );
 }
 
-AngularCondition COECondition::Inclination(
+AngularCondition BrouwerLyddaneMeanLongCondition::Inclination(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -57,7 +59,7 @@ AngularCondition COECondition::Inclination(
     );
 }
 
-AngularCondition COECondition::Inclination(
+AngularCondition BrouwerLyddaneMeanLongCondition::Inclination(
     const Shared<const Frame>& aFrameSPtr,
     const Pair<Angle, Angle>& aTargetRange,
     const Derived& aGravitationalParameter
@@ -70,7 +72,7 @@ AngularCondition COECondition::Inclination(
     );
 }
 
-AngularCondition COECondition::Aop(
+AngularCondition BrouwerLyddaneMeanLongCondition::Aop(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -85,7 +87,7 @@ AngularCondition COECondition::Aop(
     );
 }
 
-AngularCondition COECondition::Aop(
+AngularCondition BrouwerLyddaneMeanLongCondition::Aop(
     const Shared<const Frame>& aFrameSPtr,
     const Pair<Angle, Angle>& aTargetRange,
     const Derived& aGravitationalParameter
@@ -98,7 +100,7 @@ AngularCondition COECondition::Aop(
     );
 }
 
-AngularCondition COECondition::Raan(
+AngularCondition BrouwerLyddaneMeanLongCondition::Raan(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -113,7 +115,7 @@ AngularCondition COECondition::Raan(
     );
 }
 
-AngularCondition COECondition::Raan(
+AngularCondition BrouwerLyddaneMeanLongCondition::Raan(
     const Shared<const Frame>& aFrameSPtr,
     const Pair<Angle, Angle>& aTargetRange,
     const Derived& aGravitationalParameter
@@ -126,7 +128,7 @@ AngularCondition COECondition::Raan(
     );
 }
 
-AngularCondition COECondition::TrueAnomaly(
+AngularCondition BrouwerLyddaneMeanLongCondition::TrueAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -141,7 +143,7 @@ AngularCondition COECondition::TrueAnomaly(
     );
 }
 
-AngularCondition COECondition::TrueAnomaly(
+AngularCondition BrouwerLyddaneMeanLongCondition::TrueAnomaly(
     const Shared<const Frame>& aFrameSPtr,
     const Pair<Angle, Angle>& aTargetRange,
     const Derived& aGravitationalParameter
@@ -154,7 +156,7 @@ AngularCondition COECondition::TrueAnomaly(
     );
 }
 
-AngularCondition COECondition::MeanAnomaly(
+AngularCondition BrouwerLyddaneMeanLongCondition::MeanAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -169,7 +171,7 @@ AngularCondition COECondition::MeanAnomaly(
     );
 }
 
-AngularCondition COECondition::MeanAnomaly(
+AngularCondition BrouwerLyddaneMeanLongCondition::MeanAnomaly(
     const Shared<const Frame>& aFrameSPtr,
     const Pair<Angle, Angle>& aTargetRange,
     const Derived& aGravitationalParameter
@@ -182,7 +184,7 @@ AngularCondition COECondition::MeanAnomaly(
     );
 }
 
-AngularCondition COECondition::EccentricAnomaly(
+AngularCondition BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
     const AngularCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
     const EventCondition::Target& aTarget,
@@ -197,7 +199,7 @@ AngularCondition COECondition::EccentricAnomaly(
     );
 }
 
-AngularCondition COECondition::EccentricAnomaly(
+AngularCondition BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
     const Shared<const Frame>& aFrameSPtr,
     const Pair<Angle, Angle>& aTargetRange,
     const Derived& aGravitationalParameter
@@ -210,7 +212,7 @@ AngularCondition COECondition::EccentricAnomaly(
     );
 }
 
-std::function<Real(const State&)> COECondition::GenerateEvaluator(
+std::function<Real(const State&)> BrouwerLyddaneMeanLongCondition::GenerateEvaluator(
     const COE::Element& anElement, 
     const Shared<const Frame>& aFrameSPtr, 
     const Derived& aGravitationalParameter
@@ -224,36 +226,36 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
             const State stateInTargetFrame = aState.inFrame(aFrameSPtr);
 
             // Compute the COE set from the position and velocity
-            const COE coe = COE::Cartesian({stateInTargetFrame.getPosition(), stateInTargetFrame.getVelocity()}, aGravitationalParameter);
+            const BrouwerLyddaneMeanLong orbitalElements = BrouwerLyddaneMeanLong::Cartesian({stateInTargetFrame.getPosition(), stateInTargetFrame.getVelocity()}, aGravitationalParameter);
 
             // Return the requested element value
             switch (anElement)
             {
                 case COE::Element::SemiMajorAxis:
-                    return coe.getSemiMajorAxis().inMeters();
+                    return orbitalElements.getSemiMajorAxis().inMeters();
                 case COE::Element::Eccentricity:
-                    return coe.getEccentricity();
+                    return orbitalElements.getEccentricity();
                 case COE::Element::Inclination:
-                    return coe.getInclination().inRadians();
+                    return orbitalElements.getInclination().inRadians();
                 case COE::Element::Aop:
-                    return coe.getAop().inRadians();
+                    return orbitalElements.getAop().inRadians();
                 case COE::Element::Raan:
-                    return coe.getRaan().inRadians();
+                    return orbitalElements.getRaan().inRadians();
                 case COE::Element::TrueAnomaly:
-                    return coe.getTrueAnomaly().inRadians();
+                    return orbitalElements.getTrueAnomaly().inRadians();
                 case COE::Element::MeanAnomaly:
-                    return coe.getMeanAnomaly().inRadians();
+                    return orbitalElements.getMeanAnomaly().inRadians();
                 case COE::Element::EccentricAnomaly:
-                    return coe.getEccentricAnomaly().inRadians();
+                    return orbitalElements.getEccentricAnomaly().inRadians();
                 case COE::Element::ArgumentOfLatitude:
-                    return coe.getArgumentOfLatitude().inRadians();
+                    return orbitalElements.getArgumentOfLatitude().inRadians();
                 default:
                     throw ostk::core::error::runtime::Wrong("Element");
             }
         }
         catch (const std::exception& e)
         {
-            throw ostk::core::error::RuntimeError("Cannot evaluate COE: [{}].", e.what());
+            throw ostk::core::error::RuntimeError("Cannot evaluate Brouwer-Lyddane Mean Long: [{}].", e.what());
         }
     };
 }

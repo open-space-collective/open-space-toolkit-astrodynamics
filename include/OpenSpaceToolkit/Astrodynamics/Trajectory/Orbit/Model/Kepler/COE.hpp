@@ -67,7 +67,8 @@ class COE
         Aop,
         TrueAnomaly,
         MeanAnomaly,
-        EccentricAnomaly
+        EccentricAnomaly,
+        ArgumentOfLatitude
     };
 
     enum class AnomalyType

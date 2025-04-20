@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_EventConditions_COECondition__
-#define __OpenSpaceToolkit_Astrodynamics_EventConditions_COECondition__
+#ifndef __OpenSpaceToolkit_Astrodynamics_EventConditions_BrouwerLyddaneMeanLongCondition__
+#define __OpenSpaceToolkit_Astrodynamics_EventConditions_BLMCondition__
 
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -13,7 +13,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
 
 namespace ostk
 {
@@ -36,11 +37,12 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief A Classical Orbital Element based event condition
-class COECondition
+/// @brief A Brouwer-Lyddane Long Mean orbital elements based event condition
+class BrouwerLyddaneMeanLongCondition
 {
    public:
     /// @brief Semi-Major Axis based constructor
@@ -50,7 +52,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static RealCondition SemiMajorAxis(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -65,7 +67,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static RealCondition Eccentricity(
         const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -80,7 +82,7 @@ class COECondition
     /// @param aTarget A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition Inclination(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -94,7 +96,7 @@ class COECondition
     /// @param aTargetRange A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition Inclination(
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,
@@ -108,7 +110,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition Aop(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -122,7 +124,7 @@ class COECondition
     /// @param aTargetRange A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition Aop(
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,
@@ -136,7 +138,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition Raan(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -150,7 +152,7 @@ class COECondition
     /// @param aTargetRange A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition Raan(
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,
@@ -164,7 +166,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition TrueAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -178,7 +180,7 @@ class COECondition
     /// @param aTargetRange A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition TrueAnomaly(
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,
@@ -192,7 +194,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition MeanAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -206,7 +208,7 @@ class COECondition
     /// @param aTargetRange A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition MeanAnomaly(
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,
@@ -220,7 +222,7 @@ class COECondition
     /// @param aTarget A Target
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition EccentricAnomaly(
         const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
@@ -234,7 +236,7 @@ class COECondition
     /// @param aTargetRange A Target Range
     /// @param aGravitationalParameter A gravitational parameter
     ///
-    /// @return COECondition object
+    /// @return BrouwerLyddaneMeanLongCondition object
     static AngularCondition EccentricAnomaly(
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,

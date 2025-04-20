@@ -1101,6 +1101,8 @@ String COE::StringFromElement(const COE::Element& anElement)
             return "MeanAnomaly";
         case COE::Element::EccentricAnomaly:
             return "EccentricAnomaly";
+        case COE::Element::ArgumentOfLatitude:
+            return "ArgumentOfLatitude";
     }
 
     throw ostk::core::error::runtime::Wrong("Element");

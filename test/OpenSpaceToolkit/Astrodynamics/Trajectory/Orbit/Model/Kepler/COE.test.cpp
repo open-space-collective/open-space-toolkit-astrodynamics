@@ -1018,6 +1018,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, StringF
         {COE::Element::TrueAnomaly, "TrueAnomaly"},
         {COE::Element::MeanAnomaly, "MeanAnomaly"},
         {COE::Element::EccentricAnomaly, "EccentricAnomaly"},
+        {COE::Element::ArgumentOfLatitude, "ArgumentOfLatitude"},
     };
 
     for (const auto& testCase : testCases)

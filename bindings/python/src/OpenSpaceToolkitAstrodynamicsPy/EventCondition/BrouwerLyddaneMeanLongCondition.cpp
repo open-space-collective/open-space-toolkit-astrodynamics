@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
 
 using namespace pybind11;
 
@@ -11,27 +11,27 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 
-using ostk::astrodynamics::eventcondition::COECondition;
+using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::EventCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLongCondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition>(
+        class_<BrouwerLyddaneMeanLongCondition>(
             aModule,
-            "COECondition",
+            "BrouwerLyddaneMeanLongCondition",
             R"doc(
-                A COE Event Condition.
+                A Brouwer-Lyddane Mean Long Event Condition.
 
             )doc"
         )
 
             .def_static(
                 "semi_major_axis",
-                &COECondition::SemiMajorAxis,
+                &BrouwerLyddaneMeanLongCondition::SemiMajorAxis,
                 R"doc(
-                    Create a COE condition based on the semi-major axis.
+                    Create a Brouwer-Lyddane Mean Long based on the semi-major axis.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -40,7 +40,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -50,9 +50,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "eccentricity",
-                &COECondition::Eccentricity,
+                &BrouwerLyddaneMeanLongCondition::Eccentricity,
                 R"doc(
-                    Create a COE condition based on the eccentricity.
+                    Create a Brouwer-Lyddane Mean Long based on the eccentricity.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -61,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -72,10 +72,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "inclination",
                 overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &COECondition::Inclination
+                    &BrouwerLyddaneMeanLongCondition::Inclination
                 ),
                 R"doc(
-                    Create a COE condition based on the inclination.
+                    Create a Brouwer-Lyddane Mean Long based on the inclination.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -84,7 +84,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -95,10 +95,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "inclination",
                 overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::Inclination
+                    &BrouwerLyddaneMeanLongCondition::Inclination
                 ),
                 R"doc(
-                    Create a COE condition based on the inclination being within a range.
+                    Create a Brouwer-Lyddane Mean Long based on the inclination being within a range.
 
                     Args:
                         frame (Frame): The reference frame.
@@ -106,7 +106,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("frame"),
                 arg("target_range"),
@@ -116,10 +116,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "aop",
                 overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &COECondition::Aop
+                    &BrouwerLyddaneMeanLongCondition::Aop
                 ),
                 R"doc(
-                    Create a COE condition based on the argument of perigee.
+                    Create a Brouwer-Lyddane Mean Long based on the argument of perigee.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -128,7 +128,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -139,10 +139,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "aop",
                 overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::Aop
+                    &BrouwerLyddaneMeanLongCondition::Aop
                 ),
                 R"doc(
-                    Create a COE condition based on the argument of perigee being within a range.
+                    Create a Brouwer-Lyddane Mean Long based on the argument of perigee being within a range.
 
                     Args:
                         frame (Frame): The reference frame.
@@ -150,7 +150,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("frame"),
                 arg("target_range"),
@@ -160,10 +160,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "raan",
                 overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &COECondition::Raan
+                    &BrouwerLyddaneMeanLongCondition::Raan
                 ),
                 R"doc(
-                    Create a COE condition based on the right ascension of the ascending node.
+                    Create a Brouwer-Lyddane Mean Long based on the right ascension of the ascending node.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -172,7 +172,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -183,10 +183,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "raan",
                 overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::Raan
+                    &BrouwerLyddaneMeanLongCondition::Raan
                 ),
                 R"doc(
-                    Create a COE condition based on the right ascension of the ascending node being within a range.
+                    Create a Brouwer-Lyddane Mean Long based on the right ascension of the ascending node being within a range.
 
                     Args:
                         frame (Frame): The reference frame.
@@ -194,7 +194,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("frame"),
                 arg("target_range"),
@@ -204,10 +204,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "true_anomaly",
                 overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &COECondition::TrueAnomaly
+                    &BrouwerLyddaneMeanLongCondition::TrueAnomaly
                 ),
                 R"doc(
-                    Create a COE condition based on the true anomaly.
+                    Create a Brouwer-Lyddane Mean Long based on the true anomaly.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -216,7 +216,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -227,10 +227,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "true_anomaly",
                 overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::TrueAnomaly
+                    &BrouwerLyddaneMeanLongCondition::TrueAnomaly
                 ),
                 R"doc(
-                    Create a COE condition based on the true anomaly being within a range.
+                    Create a Brouwer-Lyddane Mean Long based on the true anomaly being within a range.
 
                     Args:
                         frame (Frame): The reference frame.
@@ -238,7 +238,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("frame"),
                 arg("target_range"),
@@ -248,10 +248,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "mean_anomaly",
                 overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &COECondition::MeanAnomaly
+                    &BrouwerLyddaneMeanLongCondition::MeanAnomaly
                 ),
                 R"doc(
-                    Create a COE condition based on the mean anomaly.
+                    Create a Brouwer-Lyddane Mean Long based on the mean anomaly.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -260,7 +260,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -271,10 +271,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "mean_anomaly",
                 overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::MeanAnomaly
+                    &BrouwerLyddaneMeanLongCondition::MeanAnomaly
                 ),
                 R"doc(
-                    Create a COE condition based on the mean anomaly being within a range.
+                    Create a Brouwer-Lyddane Mean Long based on the mean anomaly being within a range.
 
                     Args:
                         frame (Frame): The reference frame.
@@ -282,7 +282,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("frame"),
                 arg("target_range"),
@@ -291,9 +291,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "eccentric_anomaly",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(&COECondition::EccentricAnomaly),
+                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(&BrouwerLyddaneMeanLongCondition::EccentricAnomaly),
                 R"doc(
-                    Create a COE condition based on the eccentric anomaly.
+                    Create a Brouwer-Lyddane Mean Long based on the eccentric anomaly.
 
                     Args:
                         criterion (Criterion): The criterion.
@@ -302,7 +302,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("criterion"),
                 arg("frame"),
@@ -312,9 +312,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "eccentric_anomaly",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(&COECondition::EccentricAnomaly),
+                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(&BrouwerLyddaneMeanLongCondition::EccentricAnomaly),
                 R"doc(
-                    Create a COE condition based on the eccentric anomaly being within a range.
+                    Create a Brouwer-Lyddane Mean Long based on the eccentric anomaly being within a range.
 
                     Args:
                         frame (Frame): The reference frame.
@@ -322,7 +322,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        COECondition: The Brouwer-Lyddane Mean Long.
                 )doc",
                 arg("frame"),
                 arg("target_range"),
