@@ -22,11 +22,11 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
-using ostk::core::container::Pair;
 
 using ostk::mathematics::object::VectorXd;
 
@@ -164,20 +164,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
     }
 
     {
-    // Range that includes the current state's inclination (16 deg) but not the previous state's (15 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(15.5), Angle::Degrees(17.0)};
+        // Range that includes the current state's inclination (16 deg) but not the previous state's (15 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(15.5), Angle::Degrees(17.0)};
 
-    AngularCondition condition = COECondition::Inclination(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition = COECondition::Inclination(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
 {
@@ -211,20 +206,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
     }
 
     {
-    // Range that includes the current state's AoP (1 deg) but not the previous state's (359 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's AoP (1 deg) but not the previous state's (359 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = COECondition::Aop(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition = COECondition::Aop(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
 {
@@ -258,21 +248,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
     }
 
     {
-    // Range that includes the current state's RAAN (1 deg) but not the previous state's (359 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's RAAN (1 deg) but not the previous state's (359 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = COECondition::Raan(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition = COECondition::Raan(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
 {
@@ -306,20 +290,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
     }
 
     {
-    // Range that includes the current state's true anomaly (1 deg) but not the previous state's (359 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's true anomaly (1 deg) but not the previous state's (359 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = COECondition::TrueAnomaly(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition = COECondition::TrueAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
 {
@@ -353,21 +332,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
     }
 
     {
-    // Range that includes the current state's mean anomaly (approximately 1 deg) but not the previous state's
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's mean anomaly (approximately 1 deg) but not the previous state's
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = COECondition::MeanAnomaly(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition = COECondition::MeanAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnomaly)
 {
@@ -401,16 +374,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnom
     }
 
     {
-    // Range that includes the current state's eccentric anomaly (approximately 1 deg) but not the previous state's
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's eccentric anomaly (approximately 1 deg) but not the previous state's
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = COECondition::EccentricAnomaly(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            COECondition::EccentricAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
-}
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }

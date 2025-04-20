@@ -85,32 +85,32 @@ class TestCOECondition:
     ):
         condition = static_constructor(criterion, frame, target, gravitational_parameter)
         assert condition is not None
-    
+
     @pytest.mark.parametrize(
         "static_constructor,target_range",
         (
             (
-                COECondition.inclination_within_range,
+                COECondition.inclination,
                 (Angle.degrees(10.0), Angle.degrees(20.0)),
             ),
             (
-                COECondition.aop_within_range,
+                COECondition.aop,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.raan_within_range,
+                COECondition.raan,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.true_anomaly_within_range,
+                COECondition.true_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.mean_anomaly_within_range,
+                COECondition.mean_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.eccentric_anomaly_within_range,
+                COECondition.eccentric_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
         ),

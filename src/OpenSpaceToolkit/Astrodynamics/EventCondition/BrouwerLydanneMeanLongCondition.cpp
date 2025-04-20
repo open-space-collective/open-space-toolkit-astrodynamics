@@ -12,8 +12,6 @@ namespace astrodynamics
 namespace eventcondition
 {
 
-
-
 RealCondition BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
     const RealCondition::Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
@@ -66,9 +64,7 @@ AngularCondition BrouwerLyddaneMeanLongCondition::Inclination(
 )
 {
     return AngularCondition::WithinRange(
-        "Inclination",
-        GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "Inclination", GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -94,9 +90,7 @@ AngularCondition BrouwerLyddaneMeanLongCondition::Aop(
 )
 {
     return AngularCondition::WithinRange(
-        "Argument of Periapsis",
-        GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "Argument of Periapsis", GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -150,9 +144,7 @@ AngularCondition BrouwerLyddaneMeanLongCondition::TrueAnomaly(
 )
 {
     return AngularCondition::WithinRange(
-        "True Anomaly",
-        GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "True Anomaly", GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -178,9 +170,7 @@ AngularCondition BrouwerLyddaneMeanLongCondition::MeanAnomaly(
 )
 {
     return AngularCondition::WithinRange(
-        "Mean Anomaly",
-        GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "Mean Anomaly", GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -213,9 +203,7 @@ AngularCondition BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
 }
 
 std::function<Real(const State&)> BrouwerLyddaneMeanLongCondition::GenerateEvaluator(
-    const COE::Element& anElement, 
-    const Shared<const Frame>& aFrameSPtr, 
-    const Derived& aGravitationalParameter
+    const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
 )
 {
     return [anElement, aFrameSPtr, aGravitationalParameter](const State& aState) -> Real
@@ -226,7 +214,9 @@ std::function<Real(const State&)> BrouwerLyddaneMeanLongCondition::GenerateEvalu
             const State stateInTargetFrame = aState.inFrame(aFrameSPtr);
 
             // Compute the COE set from the position and velocity
-            const BrouwerLyddaneMeanLong orbitalElements = BrouwerLyddaneMeanLong::Cartesian({stateInTargetFrame.getPosition(), stateInTargetFrame.getVelocity()}, aGravitationalParameter);
+            const BrouwerLyddaneMeanLong orbitalElements = BrouwerLyddaneMeanLong::Cartesian(
+                {stateInTargetFrame.getPosition(), stateInTargetFrame.getVelocity()}, aGravitationalParameter
+            );
 
             // Return the requested element value
             switch (anElement)
@@ -236,19 +226,19 @@ std::function<Real(const State&)> BrouwerLyddaneMeanLongCondition::GenerateEvalu
                 case COE::Element::Eccentricity:
                     return orbitalElements.getEccentricity();
                 case COE::Element::Inclination:
-                    return orbitalElements.getInclination().inRadians();
+                    return orbitalElements.getInclination().inRadians(0.0, Real::TwoPi());
                 case COE::Element::Aop:
-                    return orbitalElements.getAop().inRadians();
+                    return orbitalElements.getAop().inRadians(0.0, Real::TwoPi());
                 case COE::Element::Raan:
-                    return orbitalElements.getRaan().inRadians();
+                    return orbitalElements.getRaan().inRadians(0.0, Real::TwoPi());
                 case COE::Element::TrueAnomaly:
-                    return orbitalElements.getTrueAnomaly().inRadians();
+                    return orbitalElements.getTrueAnomaly().inRadians(0.0, Real::TwoPi());
                 case COE::Element::MeanAnomaly:
-                    return orbitalElements.getMeanAnomaly().inRadians();
+                    return orbitalElements.getMeanAnomaly().inRadians(0.0, Real::TwoPi());
                 case COE::Element::EccentricAnomaly:
-                    return orbitalElements.getEccentricAnomaly().inRadians();
+                    return orbitalElements.getEccentricAnomaly().inRadians(0.0, Real::TwoPi());
                 case COE::Element::ArgumentOfLatitude:
-                    return orbitalElements.getArgumentOfLatitude().inRadians();
+                    return orbitalElements.getArgumentOfLatitude().inRadians(0.0, Real::TwoPi());
                 default:
                     throw ostk::core::error::runtime::Wrong("Element");
             }

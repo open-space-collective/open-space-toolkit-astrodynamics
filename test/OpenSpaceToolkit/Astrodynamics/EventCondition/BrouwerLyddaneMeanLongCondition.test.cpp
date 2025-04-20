@@ -22,11 +22,11 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
-using ostk::core::container::Pair;
 
 using ostk::mathematics::object::VectorXd;
 
@@ -43,8 +43,8 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
-using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong; 
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
@@ -61,21 +61,25 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondit
         Velocity previousVelocity = Velocity::Undefined();
 
         std::tie(currentPosition, currentVelocity) =
-            BrouwerLyddaneMeanLong(Length::Kilometers(551.0) + Earth::EGM2008.equatorialRadius_,
+            BrouwerLyddaneMeanLong(
+                Length::Kilometers(551.0) + Earth::EGM2008.equatorialRadius_,
                 0.00021,
                 Angle::Degrees(16.0),
                 Angle::Degrees(1.0),
                 Angle::Degrees(1.0),
-                Angle::Degrees(1.0))
+                Angle::Degrees(1.0)
+            )
                 .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
 
         std::tie(previousPosition, previousVelocity) =
-            BrouwerLyddaneMeanLong(Length::Kilometers(549.0) + Earth::EGM2008.equatorialRadius_,
+            BrouwerLyddaneMeanLong(
+                Length::Kilometers(549.0) + Earth::EGM2008.equatorialRadius_,
                 0.00019,
                 Angle::Degrees(15.0),
                 Angle::Degrees(359.0),
                 Angle::Degrees(359.0),
-                Angle::Degrees(359.0))
+                Angle::Degrees(359.0)
+            )
                 .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
 
         currentState_ = {defaultInstant_, currentPosition, currentVelocity};
@@ -85,7 +89,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondit
    protected:
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
     const Instant defaultInstant_ = Instant::J2000();
-    const Shared<const Frame> defaultFrame_ = Frame::TEME();
+    const Shared<const Frame> defaultFrame_ = Frame::GCRF();
     State currentState_ = State::Undefined();
     State previousState_ = State::Undefined();
 };
@@ -165,20 +169,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
     }
 
     {
-    // Range that includes the current state's inclination (16 deg) but not the previous state's (15 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(15.5), Angle::Degrees(17.0)};
+        // Range that includes the current state's inclination (16 deg) but not the previous state's (15 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(15.5), Angle::Degrees(17.0)};
 
-    AngularCondition condition = BrouwerLyddaneMeanLongCondition::Inclination(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::Inclination(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, Aop)
 {
@@ -212,20 +212,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
     }
 
     {
-    // Range that includes the current state's AoP (1 deg) but not the previous state's (359 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's AoP (1 deg) but not the previous state's (359 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = BrouwerLyddaneMeanLongCondition::Aop(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::Aop(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, Raan)
 {
@@ -259,21 +255,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
     }
 
     {
-    // Range that includes the current state's RAAN (1 deg) but not the previous state's (359 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's RAAN (1 deg) but not the previous state's (359 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = BrouwerLyddaneMeanLongCondition::Raan(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::Raan(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, TrueAnomaly)
 {
@@ -307,20 +298,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
     }
 
     {
-    // Range that includes the current state's true anomaly (1 deg) but not the previous state's (359 deg)
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's true anomaly (1 deg) but not the previous state's (359 deg)
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = BrouwerLyddaneMeanLongCondition::TrueAnomaly(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::TrueAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, MeanAnomaly)
 {
@@ -354,21 +341,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
     }
 
     {
-    // Range that includes the current state's mean anomaly (approximately 1 deg) but not the previous state's
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's mean anomaly (approximately 1 deg) but not the previous state's
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = BrouwerLyddaneMeanLongCondition::MeanAnomaly(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::MeanAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }
-}
-
-
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, EccentricAnomaly)
 {
@@ -402,16 +384,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondi
     }
 
     {
-    // Range that includes the current state's eccentric anomaly (approximately 1 deg) but not the previous state's
-    const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
+        // Range that includes the current state's eccentric anomaly (approximately 1 deg) but not the previous state's
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-    AngularCondition condition = BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
-        defaultFrame_,
-        targetRange,
-        gravitationalParameter_
-    );
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::EccentricAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
-    EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
-    EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
-}
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+        EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
+    }
 }

@@ -4,16 +4,16 @@
 
 using namespace pybind11;
 
-using ostk::core::type::Shared;
 using ostk::core::container::Pair;
+using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 
-using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
-using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::AngularCondition;
+using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLongCondition(pybind11::module& aModule)
 {
@@ -71,9 +71,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "inclination",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &BrouwerLyddaneMeanLongCondition::Inclination
-                ),
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&BrouwerLyddaneMeanLongCondition::Inclination),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the inclination.
 
@@ -115,9 +117,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "aop",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &BrouwerLyddaneMeanLongCondition::Aop
-                ),
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&BrouwerLyddaneMeanLongCondition::Aop),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the argument of perigee.
 
@@ -159,9 +163,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "raan",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &BrouwerLyddaneMeanLongCondition::Raan
-                ),
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&BrouwerLyddaneMeanLongCondition::Raan),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the right ascension of the ascending node.
 
@@ -203,9 +209,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "true_anomaly",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &BrouwerLyddaneMeanLongCondition::TrueAnomaly
-                ),
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&BrouwerLyddaneMeanLongCondition::TrueAnomaly),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the true anomaly.
 
@@ -247,9 +255,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "mean_anomaly",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(
-                    &BrouwerLyddaneMeanLongCondition::MeanAnomaly
-                ),
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&BrouwerLyddaneMeanLongCondition::MeanAnomaly),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the mean anomaly.
 
@@ -291,7 +301,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "eccentric_anomaly",
-                overload_cast<const AngularCondition::Criterion&, const Shared<const Frame>&, const EventCondition::Target&, const Derived&>(&BrouwerLyddaneMeanLongCondition::EccentricAnomaly),
+                overload_cast<
+                    const AngularCondition::Criterion&,
+                    const Shared<const Frame>&,
+                    const EventCondition::Target&,
+                    const Derived&>(&BrouwerLyddaneMeanLongCondition::EccentricAnomaly),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the eccentric anomaly.
 
@@ -312,7 +326,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
 
             .def_static(
                 "eccentric_anomaly",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(&BrouwerLyddaneMeanLongCondition::EccentricAnomaly),
+                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
+                    &BrouwerLyddaneMeanLongCondition::EccentricAnomaly
+                ),
                 R"doc(
                     Create a Brouwer-Lyddane Mean Long based on the eccentric anomaly being within a range.
 

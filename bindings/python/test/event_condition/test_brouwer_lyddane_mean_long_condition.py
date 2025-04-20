@@ -85,32 +85,32 @@ class TestBrouwerLyddaneMeanLongCondition:
     ):
         condition = static_constructor(criterion, frame, target, gravitational_parameter)
         assert condition is not None
-    
+
     @pytest.mark.parametrize(
         "static_constructor,target_range",
         (
             (
-                BrouwerLyddaneMeanLongCondition.inclination_within_range,
+                BrouwerLyddaneMeanLongCondition.inclination,
                 (Angle.degrees(10.0), Angle.degrees(20.0)),
             ),
             (
-                BrouwerLyddaneMeanLongCondition.aop_within_range,
+                BrouwerLyddaneMeanLongCondition.aop,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                BrouwerLyddaneMeanLongCondition.raan_within_range,
+                BrouwerLyddaneMeanLongCondition.raan,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                BrouwerLyddaneMeanLongCondition.true_anomaly_within_range,
+                BrouwerLyddaneMeanLongCondition.true_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                BrouwerLyddaneMeanLongCondition.mean_anomaly_within_range,
+                BrouwerLyddaneMeanLongCondition.mean_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                BrouwerLyddaneMeanLongCondition.eccentric_anomaly_within_range,
+                BrouwerLyddaneMeanLongCondition.eccentric_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
         ),

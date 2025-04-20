@@ -64,9 +64,7 @@ AngularCondition COECondition::Inclination(
 )
 {
     return AngularCondition::WithinRange(
-        "Inclination",
-        GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "Inclination", GenerateEvaluator(COE::Element::Inclination, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -92,9 +90,7 @@ AngularCondition COECondition::Aop(
 )
 {
     return AngularCondition::WithinRange(
-        "Argument of Periapsis",
-        GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "Argument of Periapsis", GenerateEvaluator(COE::Element::Aop, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -148,9 +144,7 @@ AngularCondition COECondition::TrueAnomaly(
 )
 {
     return AngularCondition::WithinRange(
-        "True Anomaly",
-        GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "True Anomaly", GenerateEvaluator(COE::Element::TrueAnomaly, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -176,9 +170,7 @@ AngularCondition COECondition::MeanAnomaly(
 )
 {
     return AngularCondition::WithinRange(
-        "Mean Anomaly",
-        GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
+        "Mean Anomaly", GenerateEvaluator(COE::Element::MeanAnomaly, aFrameSPtr, aGravitationalParameter), aTargetRange
     );
 }
 
@@ -211,9 +203,7 @@ AngularCondition COECondition::EccentricAnomaly(
 }
 
 std::function<Real(const State&)> COECondition::GenerateEvaluator(
-    const COE::Element& anElement, 
-    const Shared<const Frame>& aFrameSPtr, 
-    const Derived& aGravitationalParameter
+    const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
 )
 {
     return [anElement, aFrameSPtr, aGravitationalParameter](const State& aState) -> Real
@@ -224,7 +214,9 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
             const State stateInTargetFrame = aState.inFrame(aFrameSPtr);
 
             // Compute the COE set from the position and velocity
-            const COE coe = COE::Cartesian({stateInTargetFrame.getPosition(), stateInTargetFrame.getVelocity()}, aGravitationalParameter);
+            const COE coe = COE::Cartesian(
+                {stateInTargetFrame.getPosition(), stateInTargetFrame.getVelocity()}, aGravitationalParameter
+            );
 
             // Return the requested element value
             switch (anElement)
