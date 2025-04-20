@@ -234,7 +234,6 @@ Sequence Parser::CreateSequence(
         numericalSolver,
         Array<Shared<Dynamics>>::Empty(),
         Duration::Seconds(aDictionary["data"]["sequence"]["max-duration"].accessReal()),
-        0,
     };
 }
 
